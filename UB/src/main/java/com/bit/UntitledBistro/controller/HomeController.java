@@ -36,4 +36,11 @@ public class HomeController {
 		return "home";
 	}
 	
+	@RequestMapping("/test.do")
+	public String test() {
+		logger.info("테스트중..........");
+		return "common/content";
+//		return "common/content";
+	}
+	
 }
