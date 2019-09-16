@@ -7,6 +7,6 @@
 <title>JSP</title>
 </head>
 <body>
-fffffffff
+<a href="./">눌러보세요</a>
 </body>
 </html>
