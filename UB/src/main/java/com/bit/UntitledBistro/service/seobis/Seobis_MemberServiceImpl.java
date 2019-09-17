@@ -25,11 +25,11 @@ public class Seobis_MemberServiceImpl implements Seobis_MemberService {
 
 	@Override
 	public void Seobis_MemberInsert(Seobis_MemberDTO Seobis_MemberDTO_dto) {
-//		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
-		System.out.println("마이바티스 시작");
-		SqlSession.insert("com.bit.UntitledBistro.model.seobis.Seobis_MemberDAO.Seobis_joinUs", Seobis_MemberDTO_dto);
-		System.out.println("마이바티스 끝");
-		//		seobis_MemberDAO.Seobis_MemberInsert(Seobis_MemberDTO_dto);
-		
+//		System.out.println("마이바티스 시작");
+//		SqlSession.insert("com.bit.UntitledBistro.model.seobis.Seobis_MemberDAO.Seobis_joinUs", Seobis_MemberDTO_dto);
+//		System.out.println("마이바티스 끝");
+		System.out.println("ddd");
+		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
+		seobis_MemberDAO.Seobis_MemberInsert(Seobis_MemberDTO_dto);
 	}
 }
