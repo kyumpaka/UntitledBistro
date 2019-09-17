@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.bit.UntitledBistro.model.seobis.Seobis_MemberDTO;
 import com.bit.UntitledBistro.service.seobis.Seobis_MemberService;
 
+
+
 @Controller
 public class Seobis_MemberCheckController {
 	
@@ -35,11 +37,12 @@ public class Seobis_MemberCheckController {
 	@RequestMapping(value="/createMember", method = RequestMethod.POST)  //회원 가입완료를 누르면 처리하는 메소드
 	public String joinUsSubmit (HttpSession session, Seobis_MemberDTO Seobis_MemberDTO_dto) {
 		String view = null;
+		
 		Seobis_memberService.Seobis_MemberInsert(Seobis_MemberDTO_dto);
 		
 		if(Seobis_MemberDTO_dto != null) {
 			session.setAttribute("USERNAME", Seobis_MemberDTO_dto.getMember_id());
-			view = "seobis/Seobis_succes";
+			view = "seobis/Seobis_success";
 		} else {
 			view = "seobis/Seobis_fail";
 		}
