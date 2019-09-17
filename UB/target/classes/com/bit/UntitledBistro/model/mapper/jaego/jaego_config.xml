@@ -2,3 +2,13 @@
 <!DOCTYPE configuration
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.bit.UntitledBistro.model.jaego.Item" alias="Item"/>
+	</typeAliases>
+	
+	<mappers>
+		<mapper class="com.bit.UntitledBistro.model.mapper.jaego.jaego_mapper.xml"/>
+	</mappers>
+</configuration>  
