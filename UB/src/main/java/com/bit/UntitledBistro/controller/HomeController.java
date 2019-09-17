@@ -15,7 +15,7 @@ public class HomeController {
 	@RequestMapping(value = "/b")
 	public String b() {
 		System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-		return "jaego/test";
+		return "seobis/Seobis_form";
 	}
 	
 }
