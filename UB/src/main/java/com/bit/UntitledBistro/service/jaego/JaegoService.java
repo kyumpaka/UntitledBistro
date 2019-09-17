@@ -1,5 +1,5 @@
 package com.bit.UntitledBistro.service.jaego;
 
-public class test {
-
+public interface JaegoService {
+	
 }
