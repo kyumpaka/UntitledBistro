@@ -6,4 +6,60 @@
   <select id="selectBlog" resultType="Blog">
     select * from Blog where id = #{id}
   </select>
+  
+  <insert id="insert_Balju_Plan1" parameterType="com.bit.UntitledBistro.model.balju.Balju_PlanDTO">
+  	Insert into ORPL_INPUT(ORPLIN_NUM, ORPLIN_DATE) 
+  	values ((select nvl(max(ORPLIN_NUM),0)+1 from ORPL_INPUT),SYSDATE);
+  </insert>
+  
+  <insert id="insert_Balju_Plan2" parameterType="com.bit.UntitledBistro.model.balju.Balju_PlanDTO">
+  	Insert into ORDER_PLAN(ORDPL_ORDLIN_NUM,ORDPL_ONUM,
+  	ORDPL_PRODUCT_CODE, ORDPL_QT,ORDPL_WR,ORDPL_STAT,ORDPL_END)
+  	
+  	values ((select nvl(max(ORDPL_ORDLIN_NUM),0)+1 from ORDER_PLAN),
+  	(select nvl(max(ORDPL_ONUM),0)+1 from ORDER_PLAN),#{ORDPL_PRODUCT_CODE},#{ORDPL_QT},#{ORDPL_WR},#{ORDPL_STAT},#{ORDPL_END});
+  </insert>
+  
+  <insert id="insert_Balju1" parameterType="com.bit.UntitledBistro.model.balju.Balju_DTO">
+  	Insert into ORDER_INPUT(ORDIN_NUM,ORDIN_DATE) 
+  	values ((select nvl(max(ORDIN_NUM),0)+1 from ORDER_INPUT),SYSDATE);
+  </insert>
+  
+  <insert id="insert_Balju2" parameterType="com.bit.UntitledBistro.model.balju.Balju_DTO">
+  	Insert into ORDERLIST(ORDER_ORDIN_NUM,ORDER_NUM,ORDER_PRODUCT_CODE,ORDER_QT,ORDER_PR_EA,ORDER_WR,ORDER_SUMMA,ORDER_STAT,ORDER_END)
+  	
+  	values((select nvl(max(ORDER_ORDIN_NUM),0)+1 from ORDERLIST),(select nvl(max(ORDER_NUM),0)+1 from ORDERLIST),ORDER_PRODUCT_CODE,
+  	ORDER_QT,ORDER_PR_EA,ORDER_WR,ORDER_SUMMA,ORDER_STAT,ORDER_END);
+  </insert>
+  
+  <insert id="insert_Balju_Save1" parameterType="com.bit.UntitledBistro.model.balju.Balju_SaveDTO">
+   Insert into ORDER_SAPL(ORSP_NUM,ORSP_DATE)
+   values ((select nvl(max(ORSP_NUM),0)+1 from ORDER_SAPL),SYSDATE);
+  </insert>
+  
+  <insert id="insert_Balju_Save2" parameterType="com.bit.UntitledBistro.model.balju.Balju_SaveDTO">
+   Insert into ORDER_SAVE(ORSA_ORSP_NUM,ORSA_NUM,ORSA_PRODUCT_CODE,ORSA_QT,ORSA_WR)
+   values ((select nvl(max(ORSA_ORSP_NUM),0)+1 from ORDER_SAVE),(select nvl(max(ORSA_NUM),0)+1 from ORDER_SAVE),ORSA_PRODUCT_CODE,
+   ORSA_QT,ORSA_WR);
+  </insert>
+  
+  <select id="Balju_list" parameterType="com.bit.UntitledBistro.model.balju.Balju_DTO" resultType="list">
+  	Select * from ORDER_INPUT inner join ORDERLIST on ORDER_INPUT.ORDIN_NUM = ORDERLIST.ORDER_ORDIN_NUM;
+  </select>
+  
+  <select id="Balju_Plan_list">
+  	Select * from ORPL_INPUT inner join ORDER_PLAN on ORPL_INPUT.ORPLIN_NUM = ORDER_PLAN.ORDPL_ORDLIN_NUM;
+  </select>
+  
+  <select id="Balju_Save_list">
+  	Select * from ORDER_SAPL inner join ORDER_SAVE on ORDER_SAPL.ORSP_NUM  = ORDER_SAVE.ORSA_ORSP_NUM;
+  </select>
+  
+  <delete id="Delete_Balju"></delete>
+  	Delete from 
+  <delete id="Delete_Balju_Plan"></delete>
+  
+  <delete id="Delete_Balju_Save"></delete>
+
+  
 </mapper>
