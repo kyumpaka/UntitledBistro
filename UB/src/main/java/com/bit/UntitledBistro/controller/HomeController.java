@@ -13,16 +13,16 @@ public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
 	public String home(Locale locale) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		return "baseLayout"; 
 	}
 	
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	@RequestMapping(value = "/test.do", method = RequestMethod.GET)
 	public String test() {
 		logger.info("테스트 컨트롤러입니다");
-		return "jaego/test";
+		return "baseLayout";
 	}
 	
 }
