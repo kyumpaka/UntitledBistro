@@ -1,6 +1,7 @@
 package com.bit.UntitledBistro.model.balju;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -8,21 +9,27 @@ import org.springframework.stereotype.Repository;
 public interface Balju_DAO {
 
 	
-	void Balju_Insert(Balju_DTO Bdto);
-	void Balju_Plan_Insert(Balju_PlanDTO BPdto);
-	void Balju_Save_Insert(Balju_SaveDTO BSdto);
+	void insert_Balju_Plan1(Balju_PlanDTO BPdto);
+	void insert_Balju_Plan2(Balju_PlanDTO BPdto);
+	void insert_Balju1(Balju_DTO Bdto);
+	void insert_Balju2(Balju_DTO Bdto);
+	void insert_Balju_Save1(Balju_SaveDTO BSdto);
+	void insert_Balju_Save2(Balju_SaveDTO BSdto);
+
+	List<Map<String,String>> balju_Plan_list(Balju_PlanDTO BPdto);
+	List<Map<String,String>> balju_List(Balju_DTO Bdto);
+	List<Map<String,String>> balju_Save_list(Balju_SaveDTO BSdto);
 	
-	List<Balju_DTO> Balju_list(String ORDIN_NUM, String ORDER_NUM);
-	List<Balju_PlanDTO> Balju_Plan_list(String ORPLIN_NUM, String ORDPL_ONUM);
-	List<Balju_SaveDTO> Balju_Save_list(String ORSP_NUM, String ORSA_NUM);
+	void balju_Plan_modi(Balju_PlanDTO BPdto);
+	void balju_Modi(Balju_DTO Bdto);
+	void balju_Save_modi(Balju_SaveDTO BSdto);
 	
-	void Balju_Modify(String ORDIN_NUM, String ORDER_NUM);
-	void Balju_Plan_Modify(String ORPLIN_NUM, String ORDPL_ONUM);
-	void Balju_Plan_Save_Modify(String ORSP_NUM, String ORSA_NUM);
-	
-	void Balju_Delete(String ORDIN_NUM, String ORDER_NUM);
-	void Balju_Plan_Delete(String ORPLIN_NUM, String ORDPL_ONUM);
-	void Balju_Plan_Save_Delete(String ORSP_NUM, String ORSA_NUM);
+	void Delete_Balju_Plan1(Balju_PlanDTO BPdto);
+	void Delete_Balju_Plan2(Balju_PlanDTO BPdto);
+	void Delete_Balju1(Balju_DTO Bdto);
+	void Delete_Balju2(Balju_DTO Bdto);
+	void Delete_Balju_Save1(Balju_SaveDTO BSdto);
+	void Delete_Balju_Save2(Balju_SaveDTO BSdto);
 	
 	
 }

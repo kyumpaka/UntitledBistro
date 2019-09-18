@@ -1,5 +1,7 @@
 package com.bit.UntitledBistro.controller;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,16 +12,20 @@ import com.bit.UntitledBistro.service.balju.Balju_Service;
 @Controller
 public class Balju_Controller {
 	
+	@Autowired
+	private Balju_Service balju_Service;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String a() {
 		System.out.println("메인페이지에 접속되었습니다.");
 		return "baseLayout";
+		
 	}
 	
 	@RequestMapping(value = "/balju/Balju_Plan", method = RequestMethod.GET)
 	public void b() {
 		System.out.println("발주계획에 접속되었습니다.");
+		
 	}
 	
 	@RequestMapping(value = "/balju/Balju_Plan_Result", method = RequestMethod.GET)
