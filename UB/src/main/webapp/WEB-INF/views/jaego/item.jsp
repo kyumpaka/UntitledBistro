@@ -45,7 +45,7 @@
 					width : 150
 				}, {
 					name : "item_product_code",
-					type : "number",
+					type : "text",
 					title: "품목코드",
 					width : 50
 				}, {
