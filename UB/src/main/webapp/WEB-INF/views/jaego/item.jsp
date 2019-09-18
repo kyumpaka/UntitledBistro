@@ -50,6 +50,7 @@
 			$("#jsGrid").jsGrid({
 				width : "100%",
 				height : "400px",
+				editing: true,
 				//데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
 				autoload : true,
 				//그리드 헤더 클릭시 sorting이 되게함
@@ -97,10 +98,11 @@
 			$.ajax({
 				url:"/UntitledBistro/jaego/gridInsert",
 				type:"post",
-				data : {"item_no":$("#item_no").val(),
+				/* data : {"item_no":$("#item_no").val(),
 					   "item_product_code":$("#item_product_code").val(),
 					   "item_qty":$("#item_qty").val(),
-				},
+				}, */
+				data : insert_item, 
 				success:function(data){
 					alert("grid 데이터 추가");
 					//jsGrid에 insert_item object 추가
