@@ -4,10 +4,11 @@ import java.util.Date;
 
 public class Balju_PlanDTO {
 
-	
+	//발주계획 넘버링 테이블
 	private String ORPLIN_NUM;
 	private Date ORPLIN_DATE;
 	
+	//발주계획상세내역 테이블
 	private String ORDPL_ORDLIN_NUM;
 	private String ORDPL_ONUM;
 	private String ORDPL_PRODUCT_CODE;

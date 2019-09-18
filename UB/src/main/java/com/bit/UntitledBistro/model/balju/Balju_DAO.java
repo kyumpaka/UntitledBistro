@@ -2,6 +2,9 @@ package com.bit.UntitledBistro.model.balju;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public interface Balju_DAO {
 
 	

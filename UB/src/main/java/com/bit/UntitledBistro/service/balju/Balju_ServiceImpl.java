@@ -2,16 +2,25 @@ package com.bit.UntitledBistro.service.balju;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.bit.UntitledBistro.model.balju.Balju_DAO;
 import com.bit.UntitledBistro.model.balju.Balju_DTO;
 import com.bit.UntitledBistro.model.balju.Balju_PlanDTO;
 import com.bit.UntitledBistro.model.balju.Balju_SaveDTO;
 
+@Service("Balju_Service")
 public class Balju_ServiceImpl implements Balju_Service {
 
+	@Autowired
+	private Balju_DAO balju_DAO;
+	
 	@Override
 	public void Balju_Insert(Balju_DTO Bdto) {
-		// TODO Auto-generated method stub
-		
+		balju_DAO.Balju_Insert(Bdto);
+		balju_DAO.
 	}
 
 	@Override

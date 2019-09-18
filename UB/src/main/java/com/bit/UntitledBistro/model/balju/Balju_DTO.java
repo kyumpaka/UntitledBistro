@@ -3,10 +3,12 @@ package com.bit.UntitledBistro.model.balju;
 import java.util.Date;
 
 public class Balju_DTO {
-
+	
+	//발주 넘버링 테이블
 	private String ORDIN_NUM;
 	private Date ORDIN_DATE;
 	
+	//발주 내역 상세 테이블
 	private String ORDER_ORDIN_NUM;
 	private String ORDER_NUM;
 	private String ORDER_PRODUCT_CODE;

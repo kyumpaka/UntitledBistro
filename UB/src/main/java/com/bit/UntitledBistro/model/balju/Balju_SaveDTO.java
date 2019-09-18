@@ -4,9 +4,11 @@ import java.util.Date;
 
 public class Balju_SaveDTO {
 
+	//발주 저장 넘버링 테이블
 	private String ORSP_NUM;
 	private Date ORSP_DATE;
 	
+	//발주 저장 내역 상세 테이블
 	private String ORSA_ORSP_NUM;
 	private String ORSA_NUM;
 	private String ORSA_PRODUCT_CODE;
