@@ -5,16 +5,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<!-- jsgrid 사용을 위한 jquery를 cdn 연결-->
+	<!-- jsgrid 사용을 위한 jquery를 cdn 연결-->
 	<script 
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	
+	<!-- jsgrid 사용을 위한 필요한 요소 cdn 연결-->
 	<link type="text/css" rel="stylesheet"
 		href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
 	<link type="text/css" rel="stylesheet"
 		href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
 	<script type="text/javascript"
 		src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
-	<!-- jsgrid 사용을 위한 필요한 요소 cdn 연결-->
 
 <title>JSP</title>
 </head>
