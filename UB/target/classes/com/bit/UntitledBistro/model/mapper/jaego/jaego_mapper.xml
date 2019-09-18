@@ -9,4 +9,10 @@
  			SELECT * FROM ITEM
  		]]>
  	</select>
+ 	
+ 	<insert id="item_insert">
+ 		<![CDATA[
+ 			INSERT INTO ITEM VALUES(#{item_no}, #{item_product_code}, #{item_qty})
+ 		]]>
+ 	</insert>
 </mapper>

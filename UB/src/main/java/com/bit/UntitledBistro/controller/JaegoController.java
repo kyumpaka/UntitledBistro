@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -55,5 +56,12 @@ public class JaegoController {
 	public @ResponseBody List<ItemDTO> grid() {
 		logger.info("여기는 그리드 컨트롤러 입니다.");
 		return dao.item_selectAll();
+	}
+	
+	@RequestMapping(value = "/gridInsert")
+	public @ResponseBody ItemDTO gridInsert(ItemDTO dto) {
+		logger.info("여기는 그리드 추가 컨트롤러 입니다.");
+		dao.item_insert(dto);
+		return dto;
 	}
 }

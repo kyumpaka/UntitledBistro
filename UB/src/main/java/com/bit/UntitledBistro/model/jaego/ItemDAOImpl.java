@@ -14,4 +14,8 @@ public class ItemDAOImpl {
 	public List<ItemDTO> item_selectAll(){
 		return mybatis.selectList("jaego.item_selectAll");
 	}
+	
+	public void item_insert(ItemDTO dto){
+		mybatis.insert("jaego.item_insert", dto);
+	}
 }
