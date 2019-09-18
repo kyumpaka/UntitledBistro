@@ -1,16 +1,17 @@
 package com.bit.UntitledBistro.model.jaego;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class MybatisTest {
+public class ItemDAOImpl {
 	@Autowired
 	private SqlSessionTemplate mybatis;
 	
-	public void test() {
-		mybatis.getConnection();
-		System.out.println("연결이 되는구나!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	public List<ItemDTO> item_selectAll(){
+		return mybatis.selectList("jaego.item_selectAll");
 	}
 }

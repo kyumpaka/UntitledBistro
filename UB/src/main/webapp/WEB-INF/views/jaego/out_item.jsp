@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>JSP</title>
 </head>
-<body onload="window.location.href='./main'">
-
+<body>
+출고내역 페이지입니다.
 </body>
 </html>

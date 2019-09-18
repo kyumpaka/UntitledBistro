@@ -4,11 +4,9 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
+	<!-- mapper에 사용할 클래스 별칭을 지정 -->
 	<typeAliases>
-		<typeAlias type="com.bit.UntitledBistro.model.jaego.Item" alias="Item"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jaego.ItemDTO" alias="item"/>
 	</typeAliases>
 	
-	<mappers>
-		<mapper class="com.bit.UntitledBistro.model.mapper.jaego.jaego_mapper.xml"/>
-	</mappers>
 </configuration>  

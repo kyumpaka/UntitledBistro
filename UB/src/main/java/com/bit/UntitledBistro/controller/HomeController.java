@@ -8,14 +8,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/")
 	public String test() {
-		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 		return "baseLayout";
-	}
-	
-	@RequestMapping(value = "/b")
-	public String b() {
-		System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-		return "jaego/test";
 	}
 	
 }
