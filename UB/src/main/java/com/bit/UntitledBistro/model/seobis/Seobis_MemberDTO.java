@@ -97,7 +97,15 @@ public class Seobis_MemberDTO {
 	public void setMember_reg(Date member_reg) {
 		this.member_reg = member_reg;
 	}
-
 	
+	@Override
+	public String toString() {
+		return "Seobis_MemberDTO [member_id=" + member_id + ", member_password=" + member_password + ", member_name="
+				+ member_name + ", member_gender=" + member_gender + ", member_birth=" + member_birth
+				+ ", member_email=" + member_email + ", member_phone1=" + member_phone1 + ", member_phone2="
+				+ member_phone2 + ", member_addr1=" + member_addr1 + ", member_addr2=" + member_addr2
+				+ ", member_grade=" + member_grade + ", member_point=" + member_point + ", member_reg=" + member_reg
+				+ "]";
+	}
 	
 }

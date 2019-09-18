@@ -7,8 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-<a href="Seobis_jUs">회원 추가</a>
-<a href="Seobis_point">포인트 확인</a>
-<a href="Seobis_mList">회원 목록</a>
+<a href="Seobis_jUs">회원 등록</a>
+<a href="Seobis_point">회원 수정</a>
+<a href="Seobis_mList">회원 삭제</a>
 </body>
 </html>

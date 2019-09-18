@@ -66,7 +66,7 @@
                       <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-area-chart"></i>서비스</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-map-o"></i><a href="maps-gmap.html">회원 목록</a></li>
+                            <li><i class="menu-icon fa fa-map-o"></i><a href="${path}/Seobis_mList">회원 목록</a></li>
                             <li><i class="menu-icon fa fa-street-view"></i><a href="${path}/Seobis_joinUs">회원 관리</a></li>
                             <li><i class="fa fa-id-card-o"></i><a href="ui-cards.html">포인트 현황</a></li>
                             <li><i class="fa fa-calendar-check-o"></i><a href="ui-cards.html">예약관리</a></li>

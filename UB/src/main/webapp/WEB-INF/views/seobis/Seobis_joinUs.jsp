@@ -16,7 +16,7 @@
 </style>
 </head>
 <body>
-	<form method="post"   action="createMember">
+	<form method="post"   action="Seobis_createMember">
 	<h1  class="text_center">회원 가입창</h1>
 	<table  align="center">
 	   <tr>

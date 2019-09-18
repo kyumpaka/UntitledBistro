@@ -1,6 +1,7 @@
 package com.bit.UntitledBistro.service.seobis;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,4 +33,11 @@ public class Seobis_MemberServiceImpl implements Seobis_MemberService {
 		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
 		seobis_MemberDAO.Seobis_MemberInsert(Seobis_MemberDTO_dto);
 	}
+
+	@Override
+	public List<Seobis_MemberDTO> Seobis_MemberList(HashMap<String, Object> map) {
+		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
+		return seobis_MemberDAO.Seobis_MemberList(map);
+	}
+	
 }

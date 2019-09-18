@@ -6,5 +6,9 @@
   <insert id="Seobis_MemberInsert" parameterType="com.bit.UntitledBistro.model.seobis.Seobis_MemberDTO">
  	INSERT INTO MEMBER(MEMBER_ID, MEMBER_PASSWORD, MEMBER_NAME, MEMBER_GENDER, MEMBER_EMAIL)
 	VALUES(#{member_id},#{member_password},#{member_name},#{member_gender},#{member_email})
- </insert> 
+ </insert>
+ 
+ <select id="" resultType="">
+ 
+ </select>
 </mapper>

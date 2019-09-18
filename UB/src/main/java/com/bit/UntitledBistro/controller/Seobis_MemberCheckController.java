@@ -1,6 +1,10 @@
 package com.bit.UntitledBistro.controller;
 
 
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bit.UntitledBistro.model.seobis.Seobis_MemberDTO;
 import com.bit.UntitledBistro.service.seobis.Seobis_MemberService;
+
+import kr.co.mycom.model.BoardDTO;
 
 
 
@@ -29,13 +35,18 @@ public class Seobis_MemberCheckController {
 		return "seobis/Seobis_form";
 	}
 	
-	@RequestMapping(value="/Seobis_jUs")  //회원 관리창에서 회원 추가로 보내는 맵핑
-	public String seobis_formList() {
+	@RequestMapping(value="/Seobis_jUs")  //회원 관리창에서 회원 등록으로 보내는 맵핑
+	public String seobis_formadd() {
 	return "seobis/Seobis_joinUs";
 	}
 	
-	@RequestMapping(value="/createMember", method = RequestMethod.POST)  //회원 가입완료를 누르면 처리하는 메소드
-	public String joinUsSubmit (HttpSession session, Seobis_MemberDTO Seobis_MemberDTO_dto) {
+	@RequestMapping(value="/Seobis_mList") //회원 목록을 누르면 목록 양식으로 보내는 맵핑
+	public String seobis_formlist() {
+	return "seobis/Seobis_memberList";
+	}
+	
+	@RequestMapping(value="/Seobis_createMember", method = RequestMethod.POST)  //회원 가입을 처리하는 메소드
+	public String seobis_joinUsSubmit (HttpSession session, Seobis_MemberDTO Seobis_MemberDTO_dto) {
 		String view = null;
 		
 		Seobis_memberService.Seobis_MemberInsert(Seobis_MemberDTO_dto);
@@ -49,25 +60,47 @@ public class Seobis_MemberCheckController {
 		return view;
 	}
 	
-	/*
-	 * @RequestMapping(value="/showList", method = RequestMethod.POST) public String
-	 * showList(HttpSession session, Seobis_MemberDTO cm) {
-	 * 
-	 * String view = null;
-	 * 
-	 * view = return view; }
-	 * 
-	 * public void list(HttpServletRequest request, HttpServletResponse response)
-	 * throws ServletException, IOException{ GuestDAO dao = new GuestDAO();
-	 * List<GuestDTO> list = dao.getList(); if(list != null){
-	 * request.setAttribute("list", list);
-	 * request.getRequestDispatcher("/list.jsp").forward(request, response); }else{
-	 * response.sendRedirect("error.jsp"); } }
-	 */
-	
-	
-	/*
-	 * @RequestMapping(value = "/b") public String b() { return
-	 * "seobis/Seobis_form"; }
-	 */
+	@RequestMapping(value="")
+	public String seobis_memberList(HttpServletRequest request) {
+		
+		int pg=1;
+		String strPg = request.getParameter("pg"); 
+		if(strPg!=null){
+			pg = Integer.parseInt(strPg);			
+		}
+		int rowSize = 10;
+		int start = (pg*rowSize)-(rowSize -1);
+		int end = pg*rowSize;
+		
+		int total = boardService.getBoardCount(); //총 게시물수
+		System.out.println("시작 : "+start +" 끝:"+end);
+		System.out.println("글의 수 : "+total);
+		
+		int allPage = (int) Math.ceil(total/(double)rowSize); //페이지수
+		//int totalPage = total/rowSize + (total%rowSize==0?0:1);
+		System.out.println("페이지수 : "+ allPage);
+		
+		int block = 10; //한페이지에 보여줄  범위 << [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] >>
+		int fromPage = ((pg-1)/block*block)+1;  //보여줄 페이지의 시작
+		//((1-1)/10*10)
+		int toPage = ((pg-1)/block*block)+block; //보여줄 페이지의 끝
+		if(toPage> allPage){ // 예) 20>17
+			toPage = allPage;
+		}
+		
+		HashMap map = new HashMap();
+		
+		map.put("start", start);
+		map.put("end", end);
+		
+		List<BoardDTO> list = boardService.getBoardList(map);
+		request.setAttribute("list", list);
+		request.setAttribute("pg",pg);
+		request.setAttribute("allPage",allPage);
+		request.setAttribute("block",block);
+		request.setAttribute("fromPage",fromPage);
+		request.setAttribute("toPage",toPage);	
+		
+		return "list"; //list.jsp
+	}
 }
