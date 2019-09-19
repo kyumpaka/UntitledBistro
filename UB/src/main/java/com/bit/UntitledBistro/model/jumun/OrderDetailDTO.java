@@ -1,6 +1,6 @@
 package com.bit.UntitledBistro.model.jumun;
 
-public class Jumun_OrderDetailDTO {
+public class OrderDetailDTO {
     
     private String Od_No;
     private String Od_Order_No;

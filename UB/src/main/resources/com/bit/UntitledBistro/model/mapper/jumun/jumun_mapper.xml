@@ -3,10 +3,9 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<mapper namespace="com.bit.UntitledBistro.model.jumun.JumunDAO">
 
-<mapper namespace="com.bit.UntitledBistro.model.jumun.Jumun_JumunDAO">
-
-	<select id="menuTypeSelect" parameterType="map" resultType="com.bit.UntitledBistro.model.jumun.Jumun_MenuTypeDTO" >
+	<select id="menuTypeSelect" parameterType="map" resultType="menuType" >
 	SELECT MT_CODE, MT_NAME FROM MENU_TYPE
 		<where>
 			<if test='mt_Code != "all"'>MT_CODE = #{mt_Code}</if>
@@ -26,7 +25,7 @@
 	UPDATE MENU_TYPE SET MT_NAME = #{mt_Name} WHERE MT_CODE = #{mt_Code}
 	</update>
 
-	<select id="menuSelect" parameterType="map" resultType="com.bit.UntitledBistro.model.jumun.Jumun_MenuDTO" >
+	<select id="menuSelect" parameterType="map" resultType="menu" >
 	SELECT MENU_CODE, MENU_MT_CODE, MENU_NAME, MENU_PRICE, MENU_IMAGE, MENU_STATE FROM MENU
 		<where>
 			<if test="menu_Mt_Code != null and menu_Mt_Code != ''">MENU_MT_CODE = #{menu_Mt_Code}</if>
@@ -51,12 +50,12 @@
 			MENU_CODE = #{menu_Code}
 			</if>
 			<if test="menu_Mt_Code != null">
-			MENU_CODE = #{menu_Mt_Code}
+			menu_Mt_Code = #{menu_Mt_Code}
 			</if>
 		</where>
 	</delete>
 	
-	<select id="ingreSelect" parameterType="map" resultType="com.bit.UntitledBistro.model.jumun.Jumun_IngredientDTO">
+	<select id="ingreSelect" parameterType="map" resultType="ingredient">
 		<if test="ingredient_Menu_Code == null">
 		SELECT INGREDIENT_PRODUCT_CODE, INGREDIENT_QTY FROM INGREDIENT WHERE INGREDIENT_MENU_CODE = null
 		</if>
@@ -66,7 +65,7 @@
 	</select>
 	
 	<update id="menuUpdate">
-	UPDATE MENU SET MENU_NAME = #{menu_Name}, MENU_PRICE = #{menu_Price}, MENU_IMAGE = #{menu_Image}, MENU_STATE = #{menu_State} WHERE MENU_CODE = #{menu_Code}
+	UPDATE MENU SET MENU_MT_CODE = #{menu_Mt_Code}, MENU_NAME = #{menu_Name}, MENU_PRICE = #{menu_Price}, MENU_IMAGE = #{menu_Image}, MENU_STATE = #{menu_State} WHERE MENU_CODE = #{menu_Code}
 	</update>
 	
 	<insert id="ingreInsert" >
@@ -85,11 +84,11 @@
 		</if>
 	</delete>
 	
-	<select id="orderSelect" parameterType="map" resultType="com.bit.UntitledBistro.model.jumun.Jumun_OrderDTO">
+	<select id="orderSelect" parameterType="map" resultType="order">
 	SELECT ORDER_TABLE, ORDER_FIRST, ORDER_FINAL FROM ORDER_DETAILS WHERE ORDER_NO = #{order_No}
 	</select>
 	
-	<select id="orderDetailSelect" parameterType="map" resultType="com.bit.UntitledBistro.model.jumun.Jumun_OrderDetailDTO">
+	<select id="orderDetailSelect" parameterType="map" resultType="orderDetail">
 	SELECT OD_NO, OD_MENU_CODE, OD_QTY FROM ORDER_DETAILS WHERE OD_ORDER_NO = #{od_Order_No}
 	</select>
 	

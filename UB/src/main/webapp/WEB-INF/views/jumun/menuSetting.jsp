@@ -7,23 +7,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>POS</title>
-<link rel="shortcut icon" type="image/x-icon"
-	href="${pageContext.request.contextPath}/resources/pos/assets/images/logos/squanchy.jpg">
-<link rel="apple-touch-icon" sizes="180x180"
-	href="${pageContext.request.contextPath}/resources/pos/assets/images/logos/squanchy.jpg">
-<link rel="icon" type="image/png" sizes="32x32"
-	href="${pageContext.request.contextPath}/resources/pos/assets/images/logos/squanchy.jpg">
+<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/pos/assets/images/logos/squanchy.jpg">
+<link rel="apple-touch-icon" sizes="180x180" href="${pageContext.request.contextPath}/resources/pos/assets/images/logos/squanchy.jpg">
+<link rel="icon" type="image/png" sizes="32x32" href="${pageContext.request.contextPath}/resources/pos/assets/images/logos/squanchy.jpg">
 <!-- jQuery -->
 <!-- Bootstrap4 files-->
-<link href="${pageContext.request.contextPath}/resources/pos/assets/css/bootstrap.css" rel="stylesheet"
-	type="text/css" />
-<link href="${pageContext.request.contextPath}/resources/pos/assets/css/ui.css" rel="stylesheet"
-	type="text/css" />
-<link
-	href="${pageContext.request.contextPath}/resources/pos/assets/fonts/fontawesome/css/fontawesome-all.min.css"
-	type="text/css" rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/pos/assets/css/OverlayScrollbars.css"
-	type="text/css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/resources/pos/assets/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="${pageContext.request.contextPath}/resources/pos/assets/css/ui.css" rel="stylesheet type="text/css" />
+<link href="${pageContext.request.contextPath}/resources/pos/assets/fonts/fontawesome/css/fontawesome-all.min.css" type="text/css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/pos/assets/css/OverlayScrollbars.css" type="text/css" rel="stylesheet" />
 <!-- Font awesome 5 -->
 <style>
 .avatar {
@@ -44,32 +36,9 @@
 <!-- custom style -->
 </head>
 <body>
-	<section class="header-main">
-		<div class="row align-items-center">
-			<div class="col-lg-3">
-				<div class="brand-wrap">
-					<h3 class="logo-text">UntitledBistro</h3>
-				</div>
-				<!-- brand-wrap.// -->
-			</div>
-			<div class="col-lg-6">
-				
-			</div>
-			<!-- col.// -->
-			<div class="col-lg-3 col-sm-6">
-				<div class="widgets-wrap d-flex justify-content-end">
-					<div class="widget-header">
-						<div class="col-lg-12" id="clock"></div>
-					</div>
-				</div>
-				<!-- widgets-wrap.// -->
-			</div>
-			<!-- col.// -->
-		</div>
-	</section>
 	<!-- ========================= SECTION CONTENT ========================= -->
 	<section class="section-content padding-y-sm bg-default ">
-	<form method="get" id="menuform">
+	<form method="post" id="menuform">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-10 card padding-y-sm card ">
@@ -84,11 +53,10 @@
 							<c:forEach items="${ menuList }" var="menuList">
 							<div class="col-md-3">
 								<figure class="card card-product">
-								<label onmouseenter="igdView('${ menuList.menu_Code }')">
+								<label id="${ menuList.menu_Code }" onmouseenter="igdView('${ menuList.menu_Code }')">
 								<input class="check" type="checkbox" value="${ menuList.menu_Code }" name="menu_Code" id="menu_Code${ menuList.menu_Code }">
 									<div class="img-wrap">
 										<img src="${pageContext.request.contextPath}/resources/images/jumun/${ menuList.menu_Image }">
-										<br>
 									</div>
 									<figcaption class="info-wrap">
 										<div class="action-wrap">
@@ -121,9 +89,9 @@
 						</div>
 						<br>
 						<div class="col-md-13">
-							<button value="menuTypeList" class="btn  btn-primary btn-lg btn-block"> 수정 및 삭제 </button>
+							<button value="menuTypeList" class="btn  btn-primary btn-lg btn-block"> 관리 </button>
 						</div>
-						<br><br><hr><br><br>
+						<br><hr><br>
 						<div class="col-md-13" style="text-align: center; font-size: 20px;">&lt; 메뉴 &gt;</div>
 						<br>
 						<div class="col-md-13">
@@ -148,33 +116,12 @@
 		</div>
 		<!-- container //  -->
 	</form>
-
-		<!-- Modal  추가 -->
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title" id="myModalLabel">결과</h4>
-					</div>
-					<div class="modal-body">처리가 완료되었습니다.</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					</div>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal-dialog -->
-		</div>
-		<!-- /.modal -->
-
 	</section>
 	<!-- ========================= SECTION CONTENT END// ========================= -->
-	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/jquery-2.0.0.min.js"
-		type="text/javascript"></script>
-	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/bootstrap.bundle.min.js"
-		type="text/javascript"></script>
-	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/OverlayScrollbars.js"
-		type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/jquery-2.0.0.min.js" type="text/javascript"></script>
+<%-- 	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/bootstrap.bundle.min.js" type="text/javascript"></script> --%>
+	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/OverlayScrollbars.js" type="text/javascript"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
 		$(function() {
 			$("#items").height(552);
@@ -205,18 +152,19 @@
 
 			// 결과 보이기
 			var result = '${result}';
+			console.log(result);
 			checkModal(result);
 
 			function checkModal(result) {
 				if(result === '' || history.state){
 					return;
+				} else {
+					swal({
+						  title: result + "개 삭제되었습니다.",
+						  icon: "success",
+						  button: "닫기",
+						});
 				}
-
-				if(parseInt(result) > 0){
-					$(".modal-body").html(parseInt(result) + "개 삭제 되었습니다.");
-				}
-
-				$("#myModal").modal("show");
 			}
 		});
 
@@ -233,86 +181,87 @@
 		});
 		
 		$('.btn').click(function(){
+			event.preventDefault();
 			var button = $(this).val();
 			
 			if(button == "menuTypeAddForm") {
-				window.open('menuTypeAddForm.do','window_name','width=430,height=500,location=no,status=no,scrollbars=yes');
+				var width = 400;
+				var height = 300;
+				var popupX = (window.screen.width / 2) - (width / 2);
+				var popupY = (window.screen.height / 2) - (height / 2);
+				window.open('menuTypeAddForm.do','메뉴타입추가','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
 			} else if(button == "menuTypeList") {
-				window.open('menuTypeList.do','window_name','width=430,height=500,location=no,status=no,scrollbars=yes');
+				var width = 400;
+				var height = 300;
+				var popupX = (window.screen.width / 2) - (width / 2);
+				var popupY = (window.screen.height / 2) - (height / 2);
+				window.open('menuTypeList.do','메뉴타입관리','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
 			} else if(button == "menuAddForm") {
-				window.open('menuAddForm.do','window_name','width=430,height=500,location=no,status=no,scrollbars=yes');
+				var width = 500;
+				var height = 300;
+				var popupX = (window.screen.width / 2) - (width / 2);
+				var popupY = (window.screen.height / 2) - (height / 2);
+				window.open('menuAddForm.do','메뉴추가','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
 			} else if(button == "menuModiForm") {
+				// 유효성 검사
 				if ($("input:checkbox[class='check']:checked").length == 1){
 					var menu_CodeCk = $("input:checkbox[class='check']:checked").val();
-					window.open('menuModiForm.do?menu_Code='+menu_CodeCk,'window_name','width=430,height=500,location=no,status=no,scrollbars=yes');
+					var width = 500;
+					var height = 400;
+					var popupX = (window.screen.width / 2) - (width / 2);
+					var popupY = (window.screen.height / 2) - (height / 2);
+					window.open('menuModiForm.do?menu_Code='+menu_CodeCk,'메뉴수정','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
 				} else {
-					alert("한개의 메뉴를 선택해주세요.");
+					swal({
+						  title: "한개의 메뉴를 선택해주세요.",
+						  icon: "warning",
+						});
+					event.preventDefault();
+					return;
 				}
 			} else if(button == "menuRemove") {
 				// 유효성 검사
 		        if($("input:checkbox[class='check']").is(":checked") == true){
-		        	if(confirm($("input:checkbox[class='check']:checked").length+'개 메뉴를 삭제하시겠습니까?')){
-						$("#menuform").attr("action", "menuRemove.do");
-		        	}
+		        	swal({
+		  			  title: "삭제하시겠습니까?",
+		  			  icon: "warning",
+		  			  buttons: ["아니요", "네"],
+		  			  dangerMode: true,
+		  			}).then((willDelete) => {
+		  				  if (willDelete) {
+		  					$("#menuform").attr("action", "menuRemove.do");
+		  					$("#menuform").submit();
+		  				  }
+		  			});
 		        } else {
-			        alert("메뉴를 한개 이상 선택해주세요.");
+		        	swal({
+						  title: "메뉴를 한개 이상 선택해주세요.",
+						  icon: "warning",
+						});
+					event.preventDefault();
+					return;
 		        }
 			} else if(button == "posMain") {
 				$("#menuform").attr("action", "posMain.do");
+				$("#menuform").submit();
 			}
-			$("#menuform").submit();
 		});
 		
-		// 시계
-		$(document).ready(function startTime() {
-		    var today = new Date();
-		    var now = new Date();
-		    
-		    var year = now.getFullYear(); //년
-		    var month = now.getMonth(); //월
-		    var date = now.getDate();  //일
-		    var day = now.getDay();  //요일
-		    var hour = now.getHours();  //시
-		    var min = now.getMinutes();  //분
-		    var sec = now.getSeconds();  //초
-		    
-		    month = checkTime(month);
-		    date = checkTime(date);
-		    hour = checkTime(hour);
-		    min = checkTime(min);		    
-		    sec = checkTime(sec);
-		    var week = ['일', '월', '화', '수', '목', '금', '토'];
-		    
-		    document.getElementById('clock').innerHTML = 
-		    	year + "년 " + month + "월 " + date + "일 [" + week[day] + "] " + hour + ":" + min + ":" + sec;
-	    	
-		    var t = setTimeout(startTime, 1000);
-		});
-		// 숫자가 10보다 작을 경우 앞에 0을 붙이기
-		function checkTime(i) {
-		    if (i < 10) {i = "0" + i};
-		    return i;
-		};
-		//1초마다 함수 갱신
-		function realtimeClock() {
-		  document.timeForm.timeInput.value = getTimeStamp();
-		  setTimeout("realtimeClock()", 1000);
-		}
-		// 메뉴보기
+		// 메뉴 재료보기
 		function igdView(num){
 			$.ajax({
 				  url: 'ingreSearchByMenuCode.do',
-				  type: 'get',
+				  type: 'post',
 				  data: { menu_Code:num },
 				  dataType: 'json',
 				  success : function(result) {
 					  var resLen = result.length;
 					  for(var i = 0; i < resLen; i++){
-// 				  	  	alert(result[i].ingredient_Product_Code + ' / ' + result[i].ingredient_Qty);
+// 				  	  	alert('재료 : ' + result[i].ingredient_Product_Code + ' / 수량 : ' + result[i].ingredient_Qty);
 					  }
 				  }
 			});
-		}
+		};
 	</script>
 </body>
 </html>

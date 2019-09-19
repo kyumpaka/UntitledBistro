@@ -15,40 +15,40 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.bit.UntitledBistro.model.jumun.Jumun_IngredientDTO;
-import com.bit.UntitledBistro.model.jumun.Jumun_JumunDAO;
-import com.bit.UntitledBistro.model.jumun.Jumun_MenuDTO;
-import com.bit.UntitledBistro.model.jumun.Jumun_MenuTypeDTO;
-import com.bit.UntitledBistro.model.jumun.Jumun_OrderDTO;
+import com.bit.UntitledBistro.model.jumun.IngredientDTO;
+import com.bit.UntitledBistro.model.jumun.JumunDAO;
+import com.bit.UntitledBistro.model.jumun.MenuDTO;
+import com.bit.UntitledBistro.model.jumun.MenuTypeDTO;
+import com.bit.UntitledBistro.model.jumun.OrderDTO;
 
 @Service
-public class Jumun_JumunServiceImpl implements Jumun_JumunService {
+public class JumunServiceImpl implements JumunService {
 	
 	@Autowired
 	SqlSessionTemplate sqlSession;
-	Jumun_JumunDAO dao;
+	JumunDAO dao;
 	Map<String, String> map;
 	
 	@Override
-	public ArrayList<Jumun_MenuTypeDTO> menuTypeSearch(String mt_Code) {
-		dao = sqlSession.getMapper(Jumun_JumunDAO.class);
+	public ArrayList<MenuTypeDTO> menuTypeSearch(String mt_Code) {
+		dao = sqlSession.getMapper(JumunDAO.class);
 		map = new HashMap<String, String>();
 		map.put("mt_Code", mt_Code);
-		ArrayList<Jumun_MenuTypeDTO> list = dao.menuTypeSelect(map);
+		ArrayList<MenuTypeDTO> list = dao.menuTypeSelect(map);
 
 		return list;
 	}
 	
 	@Override
-	public int menuTypeAdd(Jumun_MenuTypeDTO menuTypeDTO) {
-		dao = sqlSession.getMapper(Jumun_JumunDAO.class);
+	public int menuTypeAdd(MenuTypeDTO menuTypeDTO) {
+		dao = sqlSession.getMapper(JumunDAO.class);
 		
 		return dao.menuTypeInsert(menuTypeDTO);
 	}
 	
 	@Override
 	public int menuTypeRemove(String[] list) {
-		dao = sqlSession.getMapper(Jumun_JumunDAO.class);
+		dao = sqlSession.getMapper(JumunDAO.class);
 		int cnt = 0;
 		map = new HashMap<String, String>();
 		
@@ -65,37 +65,37 @@ public class Jumun_JumunServiceImpl implements Jumun_JumunService {
 	}
 	
 	@Override
-	public int menuTypeModi(Jumun_MenuTypeDTO menuTypeDTO) {
-		dao = sqlSession.getMapper(Jumun_JumunDAO.class);
+	public int menuTypeModi(MenuTypeDTO menuTypeDTO) {
+		dao = sqlSession.getMapper(JumunDAO.class);
 
 		return dao.menuTypeUpdate(menuTypeDTO);
 	}
 	
 	@Override
-	public ArrayList<Jumun_MenuDTO> menuSearch(String menu_Mt_Code) {
-		dao = sqlSession.getMapper(Jumun_JumunDAO.class);
+	public ArrayList<MenuDTO> menuSearch(String menu_Mt_Code) {
+		dao = sqlSession.getMapper(JumunDAO.class);
 		map = new HashMap<String, String>();
 		map.put("menu_Mt_Code", menu_Mt_Code);
-		ArrayList<Jumun_MenuDTO> list = dao.menuSelect(map);
+		ArrayList<MenuDTO> list = dao.menuSelect(map);
 		
 		return list;
 	}
 
 	@Override
-	public Jumun_MenuDTO menuSearchByMenuCode(String menu_Code) {
-		dao = sqlSession.getMapper(Jumun_JumunDAO.class);
+	public MenuDTO menuSearchByMenuCode(String menu_Code) {
+		dao = sqlSession.getMapper(JumunDAO.class);
 		map = new HashMap<String, String>();
 		map.put("menu_Code", menu_Code);
 		map.put("ingredient_Menu_Code", menu_Code);
-		ArrayList<Jumun_MenuDTO> menuDTO = dao.menuSelect(map);
+		ArrayList<MenuDTO> menuDTO = dao.menuSelect(map);
 		menuDTO.get(0).setJumun_IngredientDTO(dao.ingreSelect(map));
 		
 		return menuDTO.get(0);
 	}
 	
 	@Override
-	public int menuAdd(Jumun_MenuDTO menuDTO) {
-		dao = sqlSession.getMapper(Jumun_JumunDAO.class);
+	public int menuAdd(MenuDTO menuDTO) {
+		dao = sqlSession.getMapper(JumunDAO.class);
 		dao.menuInsert(menuDTO);
 		if(menuDTO.getJumun_IngredientDTO() != null) {
 			for(int i = 0; i < menuDTO.getJumun_IngredientDTO().size(); i++) {
@@ -116,13 +116,13 @@ public class Jumun_JumunServiceImpl implements Jumun_JumunService {
 		String saveFileName = null;
 		
 		try {
-
 			String uploadPath = mRequest.getSession().getServletContext().getRealPath("/") + "resources/images/jumun/";
 			
 			File dir = new File(uploadPath);
 
+			// 디렉토리 생성
 			if (!dir.isDirectory()) {
-				dir.mkdirs(); // 디렉토리 생성
+				dir.mkdirs();
 			}
 			
 			Iterator<String> iter = mRequest.getFileNames();
@@ -144,7 +144,6 @@ public class Jumun_JumunServiceImpl implements Jumun_JumunService {
 				fos.write(data);
 				fos.close();
 			}
-			
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -154,7 +153,7 @@ public class Jumun_JumunServiceImpl implements Jumun_JumunService {
 	
 	@Override
 	public int menuRemove(String[] mt_CodeList) {
-		dao = sqlSession.getMapper(Jumun_JumunDAO.class);
+		dao = sqlSession.getMapper(JumunDAO.class);
 		int cnt = 0;
 		for(String menu_Code : mt_CodeList) {
 			map = new HashMap<String, String>();
@@ -169,8 +168,8 @@ public class Jumun_JumunServiceImpl implements Jumun_JumunService {
 	}
 	
 	@Override
-	public int menuModi(Jumun_MenuDTO menuDTO) {
-		dao = sqlSession.getMapper(Jumun_JumunDAO.class);
+	public int menuModi(MenuDTO menuDTO) {
+		dao = sqlSession.getMapper(JumunDAO.class);
 		if(menuDTO.getMenu_Image() == null) menuDTO.setMenu_Image("없음.jpg");
 		dao.menuUpdate(menuDTO);
 		
@@ -191,8 +190,8 @@ public class Jumun_JumunServiceImpl implements Jumun_JumunService {
 	}
 	
 	@Override
-	public ArrayList<Jumun_IngredientDTO> ingreSearchByMenuCode(String menu_Code) {
-		dao = sqlSession.getMapper(Jumun_JumunDAO.class);
+	public ArrayList<IngredientDTO> ingreSearchByMenuCode(String menu_Code) {
+		dao = sqlSession.getMapper(JumunDAO.class);
 		map = new HashMap<String, String>();
 		map.put("ingredient_Menu_Code", menu_Code);
 		
@@ -200,12 +199,12 @@ public class Jumun_JumunServiceImpl implements Jumun_JumunService {
 	}
 
 	@Override
-	public Jumun_OrderDTO orderList(Jumun_OrderDTO orderDTO) {
-		dao = sqlSession.getMapper(Jumun_JumunDAO.class);
+	public OrderDTO orderList(OrderDTO orderDTO) {
+		dao = sqlSession.getMapper(JumunDAO.class);
 		map = new HashMap<String, String>();
 		map.put("order_No", orderDTO.getOrder_No());
 		map.put("od_Order_No", orderDTO.getOrder_No());
-		Jumun_OrderDTO dto = dao.orderSelect(map);
+		OrderDTO dto = dao.orderSelect(map);
 		
 		if(dto == null) {
 			dao.orderInsert(orderDTO);

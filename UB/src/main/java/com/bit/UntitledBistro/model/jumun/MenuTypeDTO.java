@@ -1,6 +1,6 @@
 package com.bit.UntitledBistro.model.jumun;
 
-public class Jumun_MenuTypeDTO {
+public class MenuTypeDTO {
 
 	private String mt_Code;
 	private String mt_Name;

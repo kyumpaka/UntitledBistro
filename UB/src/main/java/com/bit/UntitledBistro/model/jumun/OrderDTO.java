@@ -3,13 +3,13 @@ package com.bit.UntitledBistro.model.jumun;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Jumun_OrderDTO {
+public class OrderDTO {
 	
 	private String order_No;
 	private String order_Table;
 	private Date order_First;
 	private Date order_Final;
-	private ArrayList<Jumun_OrderDetailDTO> jumun_OrderDetailDTO;
+	private ArrayList<OrderDetailDTO> jumun_OrderDetailDTO;
 	
 	public String getOrder_No() {
 		return order_No;
@@ -35,10 +35,10 @@ public class Jumun_OrderDTO {
 	public void setOrder_Final(Date order_Final) {
 		this.order_Final = order_Final;
 	}
-	public ArrayList<Jumun_OrderDetailDTO> getJumun_OrderDetailDTO() {
+	public ArrayList<OrderDetailDTO> getJumun_OrderDetailDTO() {
 		return jumun_OrderDetailDTO;
 	}
-	public void setJumun_OrderDetailDTO(ArrayList<Jumun_OrderDetailDTO> jumun_OrderDetailDTO) {
+	public void setJumun_OrderDetailDTO(ArrayList<OrderDetailDTO> jumun_OrderDetailDTO) {
 		this.jumun_OrderDetailDTO = jumun_OrderDetailDTO;
 	}
 	
