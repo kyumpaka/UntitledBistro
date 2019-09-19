@@ -25,21 +25,19 @@
 	jsGrid 생성을 합니다.
 	<script>
 	$.ajax({
-	    url: "/balju_Plan_Result",
-	    type: "POST",
+		type:"POST",
+	    url:"${path}/balju_Plan_Result",
 	  })
 		.done(function(json){ 	
 			$("#jsGrid").jsGrid({
 			width : "100%",
 			height : "400px",
-
 			autoload : true,
 			//데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
 			sorting : true,
 			//그리드 헤더 클릭시 sorting이 되게함
 			data : json,
 			//clients를 생성된 배열를 연결함.
-
 			fields : [ {
 				name : "ORDPL_ORDLIN_NUM",
 				type : "text",
@@ -83,7 +81,7 @@
 			}
 			 ]});
 		//grid에 표현될 필드 요소
-		 })
+		 });
 	</script>
 	<script>
 		//버튼 클릭시 grid에 데이터를 추가

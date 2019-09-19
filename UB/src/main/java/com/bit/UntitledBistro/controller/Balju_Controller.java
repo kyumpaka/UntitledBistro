@@ -1,8 +1,5 @@
 package com.bit.UntitledBistro.controller;
 
-
-
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +57,7 @@ public class Balju_Controller {
 		return "/balju/Balju_Plan";
 	}
 	
-	@RequestMapping(value ="/balju_Plan_Result", method = RequestMethod.GET)
+	@RequestMapping(value ="/balju_Plan_Result", method = RequestMethod.POST)
 	@ResponseBody
 	public List Balju_Plan_Result(Balju_PlanDTO BPdto) throws Exception{
 		System.out.println("발주계획현황에 접속되었습니다.");
@@ -70,5 +67,11 @@ public class Balju_Controller {
 		
 		return list;
 	}
-
+	
+	@RequestMapping("/test")
+	@ResponseBody
+	public void test() {
+		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+	}
+	
 }
