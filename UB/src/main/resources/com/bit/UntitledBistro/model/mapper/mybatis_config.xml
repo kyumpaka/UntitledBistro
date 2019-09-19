@@ -12,6 +12,7 @@
 		<typeAlias type="com.bit.UntitledBistro.model.jumun.MenuTypeDTO" alias="menuType"/>
 		<typeAlias type="com.bit.UntitledBistro.model.jumun.OrderDetailDTO" alias="orderDetail"/>
 		<typeAlias type="com.bit.UntitledBistro.model.jumun.OrderDTO" alias="order"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jumun.TableSaveDTO" alias="tableSave"/>
 	</typeAliases>
 	
 </configuration>  

@@ -75,9 +75,13 @@
 	};
 
 	function mt_Modiend(code) {
+		event.preventDefault();
 		var name = $("#input"+code).val().trim();
 		if(name == "") {
-			alert('메뉴 구문명을 입력해주세요.');
+			swal({
+				  title: "메뉴 구문명을 입력해주세요.",
+				  icon: "warning",
+				});
 			$("#input"+code).focus();
 			$("#input"+code).val("");
 			event.preventDefault();
@@ -92,12 +96,13 @@
 				  contentType: 'application/json',
 				  success : function(result) {
 					  swal({
-						  title: result + "개 등록되었습니다.",
+						  title: result + "개 수정되었습니다.",
 						  icon: "success",
 						  button: "닫기",
-						});
-					  $("#preinput"+code).html(name);
-					  $("#mt_Modistart"+code).html('<button onclick="mt_Modistart(\'' + code + '\', \'' + name + '\')">수정</button>');
+						}).then((value) => {
+							  $("#preinput"+code).html(name);
+							  $("#mt_Modistart"+code).html('<button onclick="mt_Modistart(\'' + code + '\', \'' + name + '\')" class="btn btn-primary btn-sm">수정</button>');
+						  });
 				  }
 			});
 		}

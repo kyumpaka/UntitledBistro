@@ -96,4 +96,16 @@
 	INSERT INTO ORDER(ORDER_NO, ORDER_TABLESAVE_CODE, ORDER_FIRST, ORDER_FINAL) VALUES(#{order_No}, #{order_Tablesave_Code}, #{order_First}, #{order_Fianl})
 	</insert>
 	
+	<select id="tableSelect" resultType="tableSave">
+	SELECT TABLESAVE_CODE, TABLESAVE_X, TABLESAVE_Y FROM TABLESAVE
+	</select>
+	
+	<insert id="tableInsert">
+	INSERT INTO TABLESAVE(TABLESAVE_CODE, TABLESAVE_X, TABLESAVE_Y) VALUES(#{tableSave_Code}, #{tableSave_X}, #{tableSave_Y})
+	</insert>
+	
+	<delete id="tableDelete">
+	DELETE FROM TABLESAVE
+	</delete>
+	
 </mapper>

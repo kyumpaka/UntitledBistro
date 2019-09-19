@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -20,6 +21,7 @@ import com.bit.UntitledBistro.model.jumun.JumunDAO;
 import com.bit.UntitledBistro.model.jumun.MenuDTO;
 import com.bit.UntitledBistro.model.jumun.MenuTypeDTO;
 import com.bit.UntitledBistro.model.jumun.OrderDTO;
+import com.bit.UntitledBistro.model.jumun.TableSaveDTO;
 
 @Service
 public class JumunServiceImpl implements JumunService {
@@ -34,9 +36,8 @@ public class JumunServiceImpl implements JumunService {
 		dao = sqlSession.getMapper(JumunDAO.class);
 		map = new HashMap<String, String>();
 		map.put("mt_Code", mt_Code);
-		ArrayList<MenuTypeDTO> list = dao.menuTypeSelect(map);
 
-		return list;
+		return dao.menuTypeSelect(map);
 	}
 	
 	@Override
@@ -214,6 +215,27 @@ public class JumunServiceImpl implements JumunService {
 		}
 		
 		return dto;
+	}
+	
+	@Override
+	public ArrayList<TableSaveDTO> tableSearch() {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		
+		return dao.tableSelect();
+	}
+
+	@Override
+	public int tableAdd(List<TableSaveDTO> list) {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		
+		dao.tableDelete();
+		int cnt = 0;
+		for(int i = 0; i < list.size(); i++) {
+			dao.tableInsert(list.get(i));
+			cnt++;
+		}
+		
+		return cnt;
 	}
 
 }

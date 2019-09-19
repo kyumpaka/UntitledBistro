@@ -1,14 +1,15 @@
 package com.bit.UntitledBistro.service.jumun;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bit.UntitledBistro.model.jumun.IngredientDTO;
 import com.bit.UntitledBistro.model.jumun.MenuDTO;
 import com.bit.UntitledBistro.model.jumun.MenuTypeDTO;
 import com.bit.UntitledBistro.model.jumun.OrderDTO;
+import com.bit.UntitledBistro.model.jumun.TableSaveDTO;
 
 public interface JumunService {
 
@@ -39,5 +40,10 @@ public interface JumunService {
 	
 	// 주문목록
 	public OrderDTO orderList(OrderDTO orderDTO);
+	
+	// 테이블
+	public ArrayList<TableSaveDTO> tableSearch();
+	
+	public int tableAdd(List<TableSaveDTO> list);
 	
 }

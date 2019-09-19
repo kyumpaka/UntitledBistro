@@ -198,7 +198,7 @@
 				window.open('menuTypeList.do','메뉴타입관리','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
 			} else if(button == "menuAddForm") {
 				var width = 500;
-				var height = 300;
+				var height = 500;
 				var popupX = (window.screen.width / 2) - (width / 2);
 				var popupY = (window.screen.height / 2) - (height / 2);
 				window.open('menuAddForm.do','메뉴추가','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
@@ -207,7 +207,7 @@
 				if ($("input:checkbox[class='check']:checked").length == 1){
 					var menu_CodeCk = $("input:checkbox[class='check']:checked").val();
 					var width = 500;
-					var height = 400;
+					var height = 500;
 					var popupX = (window.screen.width / 2) - (width / 2);
 					var popupY = (window.screen.height / 2) - (height / 2);
 					window.open('menuModiForm.do?menu_Code='+menu_CodeCk,'메뉴수정','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);

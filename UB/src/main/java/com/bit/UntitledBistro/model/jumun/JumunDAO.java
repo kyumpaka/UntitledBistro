@@ -39,4 +39,11 @@ public interface JumunDAO {
 	
 	public int orderInsert(OrderDTO orderDTO);
 	
+	// 테이블
+	public ArrayList<TableSaveDTO> tableSelect();
+	
+	public int tableInsert(TableSaveDTO tableSaveDTO);
+	
+	public int tableDelete();
+	
 }

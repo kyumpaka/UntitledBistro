@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -33,274 +33,198 @@
 	color: #ef5f5f;
 }
 </style>
-<!-- custom style -->
 </head>
 <body>
-	<section class="header-main">
-		<div class="row align-items-center">
-			<div class="col-lg-3">
-				<div class="brand-wrap">
-					<h3 class="logo-text">UntitledBistro</h3>
-				</div>
-				<!-- brand-wrap.// -->
-			</div>
-			<div class="col-lg-6">
-				
-			</div>
-			<!-- col.// -->
-			<div class="col-lg-3 col-sm-6">
-				<div class="widgets-wrap d-flex justify-content-end">
-					<div class="widget-header">
-						<div class="col-lg-12" id="clock"></div>
-					</div>
-				</div>
-				<!-- widgets-wrap.// -->
-			</div>
-			<!-- col.// -->
-		</div>
-	</section>
-	<!-- ========================= SECTION CONTENT ========================= -->
 	<section class="section-content padding-y-sm bg-default ">
-	<form method="get" id="menuform">
 		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-10 card padding-y-sm card ">
-					<ul class="nav bg radius nav-pills nav-fill mb-3 bg" role="tablist">
-						<li class="nav-link" id="tab" onclick="location.href='menuSetting.do'" ><a class="nav-link" data-toggle="pill" href="#nav-tab-paypal"> ALL </a></li>
-						<c:forEach items="${ menuTypeList }" var="menuTypeList" >
-							<li class="nav-link" id="tab${ menuTypeList.mt_Code }" onclick="location.href='menuSetting.do?mt_Code=${ menuTypeList.mt_Code }'" ><a class="nav-link" data-toggle="pill" href="#nav-tab-card"> ${ menuTypeList.mt_Name } </a></li>
-						</c:forEach>
-					</ul>
-					<span id="items">
-						<div class="row">
-							<c:forEach items="${ menuList }" var="menuList">
-							<div class="col-md-3">
-								<figure class="card card-product">
-								<label onmouseenter="igdView('${ menuList.menu_Code }')">
-								<input class="check" type="checkbox" value="${ menuList.menu_Code }" name="menu_Code" id="menu_Code${ menuList.menu_Code }">
-									<div class="img-wrap">
-										<img src="${pageContext.request.contextPath}/resources/images/jumun/${ menuList.menu_Image }">
-									</div>
-									<figcaption class="info-wrap">
-										<div class="action-wrap">
-											<div class="price-wrap h5">
-												<img src="${pageContext.request.contextPath}/resources/images/jumun/체크.jpg" class="checkImg" id="menuimg${ menuList.menu_Code }">
-												<span class="title">${ menuList.menu_Name }</span>
-												<span class="price-new">/&nbsp;<fmt:formatNumber pattern="#,###" value="${ menuList.menu_Price }" />원</span>
-											</div>
-											<!-- price-wrap.// -->
-										</div>
-										<!-- action-wrap -->
-									</figcaption>
-								</label>
-								</figure>
-								<!-- card // -->
+				<div class="row">
+					<div id="tableArea" class="col-md-10 card" style="height: 750px;"></div>
+					<div class="col-md-2">
+						<div class="box">
+							<div class="col-md-13" style="text-align: center; font-size: 20px;">&lt; 테이블 관리 &gt;</div>
+							<br>
+							<div class="col-md-13">
+								<button onclick="tableAdd()" class="btn  btn-primary btn-lg btn-block">추가</button>
 							</div>
-							</c:forEach>
-							<!-- col // -->
-						</div>
-						<!-- row.// -->
-					</span>
-				</div>
-				<div class="col-md-2">
-					<!-- card.// -->
-					<div class="box">
-						<div class="col-md-13" style="text-align: center; font-size: 20px;">&lt; 항목 &gt;</div>
-						<br>
-						<div class="col-md-13">
-							<button value="menuTypeAddForm" class="btn  btn-primary btn-lg btn-block"> 등록 </button>
-						</div>
-						<br>
-						<div class="col-md-13">
-							<button value="menuTypeList" class="btn  btn-primary btn-lg btn-block"> 수정 및 삭제 </button>
-						</div>
-						<br><br><hr><br><br>
-						<div class="col-md-13" style="text-align: center; font-size: 20px;">&lt; 메뉴 &gt;</div>
-						<br>
-						<div class="col-md-13">
-							<button value="menuAddForm" class="btn  btn-primary btn-lg btn-block"> 등록 </button>
-						</div>
-						<br>
-						<div class="col-md-13">
-							<button value="menuModiForm" class="btn  btn-primary btn-lg btn-block"> 수정 </button>
-						</div>
-						<br>
-						<div class="col-md-13">
-							<button value="menuRemove" class="btn  btn-primary btn-lg btn-block"> 삭제 </button>
-						</div>
-						<br><hr><br>
-						<div class="col-md-13">
-							<button value="posMain" class="btn  btn-primary btn-lg btn-block"> 완료 </button>
+							<br>
+							<div class="col-md-13">
+								<button onclick="tableRemove()" class="btn  btn-primary btn-lg btn-block">삭제</button>
+							</div>
+							<br>
+							<div class="col-md-13">
+								<button onclick="tableSave()" class="btn  btn-primary btn-lg btn-block">저장</button>
+							</div>
 						</div>
 					</div>
-					<!-- box.// -->
 				</div>
 			</div>
-		</div>
-		<!-- container //  -->
-	</form>
-
-		<!-- Modal  추가 -->
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title" id="myModalLabel">결과</h4>
-					</div>
-					<div class="modal-body">처리가 완료되었습니다.</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					</div>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal-dialog -->
-		</div>
-		<!-- /.modal -->
-
 	</section>
-	<!-- ========================= SECTION CONTENT END// ========================= -->
 	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/jquery-2.0.0.min.js" type="text/javascript"></script>
 <%-- 	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/bootstrap.bundle.min.js" type="text/javascript"></script> --%>
 	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/OverlayScrollbars.js" type="text/javascript"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
-		$(function() {
-			$("#items").height(552);
-			$("#items").overlayScrollbars({
-				overflowBehavior : {
-					x : "hidden",
-					y : "scroll"
-				}
+			$(function() {
+				$("#items").height(552);
+				$("#items").overlayScrollbars({
+					overflowBehavior : {
+						x : "hidden",
+						y : "scroll"
+					}
+				});
+				$("#cart").height(445);
+				$("#cart").overlayScrollbars({});
 			});
-			$("#cart").height(445);
-			$("#cart").overlayScrollbars({});
-		});
+	    
+		   // 전역 변수 설정
+		   var img_L = 0;
+		   var img_T = 0;
+		   var targetObj;
+
+		   // div, 이미지 움직이기
+		   function moveDrag(e) {
+			    var e_obj = window.event? window.event : e;
+			    var targetid = targetObj.id
+			    
+			    var dmvx = parseInt(e_obj.clientX + img_L);
+			    var dmvy = parseInt(e_obj.clientY + img_T);
+
+			    var areasizeWidth = $('#tableArea').width();
+			    var areasizeHeight = $('#tableArea').height();
+
+			    //parseInt = 형변환
+			    var divsizeWidth = parseInt(document.getElementById(targetid).style.width.replace("px",""));
+			    var divsizeHeight = parseInt(document.getElementById(targetid).style.height.replace("px",""));
+	
+			    var rightposition = dmvx + divsizeWidth;
+			    var bottomposition = dmvy + divsizeHeight;
+	
+		   		//창크기 이상 움직이지 못하게
+			    if((dmvx > 0 && dmvy > 0) && (( rightposition < areasizeWidth) && (bottomposition < areasizeHeight))) {
+				     targetObj.style.left = dmvx + "px";
+				     targetObj.style.top = dmvy + "px";
 		
-		// 메뉴구분 탭 활성화
-		$(document).ready(function() {
-			if('' == '${ mt_Code }'){
-				$("#tab").attr('class','nav-link active show');
-			}
-			<c:forEach items="${ menuTypeList }" var="menuTypeList" >
-			 else if('${ menuTypeList.mt_Code }' == '${ mt_Code }'){
-				$("#tab${ mt_Code }").attr('class','nav-link active show');
-			}
-			</c:forEach>
+				     return false;
+			    }
+		   }
 
-			// 체크박스 및 체크이미지 숨기기
-			$("input[class='check']").css("display","none");
-			$(".checkImg").css("display","none");
+		   // 드래그 시작
+		   function startDrag(e, obj) {
+			    targetObj = obj;
+			    var e_obj = window.event? window.event : e;
+			    img_L = parseInt(obj.style.left.replace('px', '')) - e_obj.clientX;
+			    img_T = parseInt(obj.style.top.replace('px', '')) - e_obj.clientY;
+			    
+			    // 움직이기
+			    document.onmousemove = moveDrag;
+			    document.onmouseup = stopDrag;
+			    if(e_obj.preventDefault){e_obj.preventDefault();}
+		   }
 
-			// 결과 보이기
-			var result = '${result}';
-			checkModal(result);
+		   // 드래그 멈추기
+		   function stopDrag() {
+			    document.onmousemove = null;
+			    document.onmouseup = null;
+		   }
 
-			function checkModal(result) {
-				if(result === '' || history.state){
-					return;
-				}
+		   var tablecnt = 1;
+		   var table_left = 0;
+		   var table_top = 0;
+		   
+		   // 테이블 생성
+		   function tableAdd() {
+			    event.preventDefault();
+				var frmTag = "<div id='drag_div"+tablecnt+"' style='display: block; border: 1px solid grey; width: 100px; height: 100px; position: absolute; left: "+table_left+"px; top: "+table_top+"px; cursor: pointer; cursor: hand' onmousedown='startDrag(event, this)'>";
+				frmTag += "<div align='center'>테이블"+tablecnt+"</div></div>";
+				$("#tableArea").append(frmTag);
+				tablecnt++;
+		   }
 
-				if(parseInt(result) > 0){
-					$(".modal-body").html(parseInt(result) + "개 삭제 되었습니다.");
-				}
-
-				$("#myModal").modal("show");
-			}
-		});
-
-		// 체크된 메뉴 및 이미지 조절
-		$('.check').click(function(){
-			var num = $(this).val();
-			
-			if($("input:checkbox[id='menu_Code"+num+"']").is(":checked") == false) {
-				$("#menuimg"+num).css("display","none");
-			} else {
-				$("#menuimg"+num).css("display","block");
-				$("#menuimg"+num).css("float","left");
-			}
-		});
-		
-		$('.btn').click(function(){
-			var button = $(this).val();
-			
-			if(button == "menuTypeAddForm") {
-				window.open('menuTypeAddForm.do','window_name','width=430,height=500,location=no,status=no,scrollbars=yes');
-			} else if(button == "menuTypeList") {
-				window.open('menuTypeList.do','window_name','width=430,height=500,location=no,status=no,scrollbars=yes');
-			} else if(button == "menuAddForm") {
-				window.open('menuAddForm.do','window_name','width=430,height=500,location=no,status=no,scrollbars=yes');
-			} else if(button == "menuModiForm") {
-				if ($("input:checkbox[class='check']:checked").length == 1){
-					var menu_CodeCk = $("input:checkbox[class='check']:checked").val();
-					window.open('menuModiForm.do?menu_Code='+menu_CodeCk,'window_name','width=430,height=500,location=no,status=no,scrollbars=yes');
-				} else {
-					alert("한개의 메뉴를 선택해주세요.");
-				}
-			} else if(button == "menuRemove") {
-				// 유효성 검사
-		        if($("input:checkbox[class='check']").is(":checked") == true){
-		        	if(confirm($("input:checkbox[class='check']:checked").length+'개 메뉴를 삭제하시겠습니까?')){
-						$("#menuform").attr("action", "menuRemove.do");
-		        	}
-		        } else {
-			        alert("메뉴를 한개 이상 선택해주세요.");
-		        }
-			} else if(button == "posMain") {
-				$("#menuform").attr("action", "posMain.do");
-			}
-			$("#menuform").submit();
-		});
-		
-		// 시계
-		$(document).ready(function startTime() {
-		    var today = new Date();
-		    var now = new Date();
-		    
-		    var year = now.getFullYear(); //년
-		    var month = now.getMonth(); //월
-		    var date = now.getDate();  //일
-		    var day = now.getDay();  //요일
-		    var hour = now.getHours();  //시
-		    var min = now.getMinutes();  //분
-		    var sec = now.getSeconds();  //초
-		    
-		    month = checkTime(month);
-		    date = checkTime(date);
-		    hour = checkTime(hour);
-		    min = checkTime(min);		    
-		    sec = checkTime(sec);
-		    var week = ['일', '월', '화', '수', '목', '금', '토'];
-		    
-		    document.getElementById('clock').innerHTML = 
-		    	year + "년 " + month + "월 " + date + "일 [" + week[day] + "] " + hour + ":" + min + ":" + sec;
-	    	
-		    var t = setTimeout(startTime, 1000);
-		});
-		// 숫자가 10보다 작을 경우 앞에 0을 붙이기
-		function checkTime(i) {
-		    if (i < 10) {i = "0" + i};
-		    return i;
-		};
-		//1초마다 함수 갱신
-		function realtimeClock() {
-		  document.timeForm.timeInput.value = getTimeStamp();
-		  setTimeout("realtimeClock()", 1000);
-		}
-		// 메뉴보기
-		function igdView(num){
-			$.ajax({
-				  url: 'ingreSearchByMenuCode.do',
-				  type: 'get',
-				  data: { menu_Code:num },
-				  dataType: 'json',
-				  success : function(result) {
-					  var resLen = result.length;
-					  for(var i = 0; i < resLen; i++){
-// 				  	  	alert(result[i].ingredient_Product_Code + ' / ' + result[i].ingredient_Qty);
-					  }
-				  }
+		   $(document).ready(function() {
+			    <c:forEach items="${tableList}" var="tableList" >
+					table_left = parseInt(${tableList.tableSave_X});
+					table_top = parseInt(${tableList.tableSave_Y});
+					tableAdd();
+				</c:forEach>
+				table_left = 0;
+				table_top = 0;
 			});
-		}
+
+		   // 테이블 삭제
+		   function tableRemove() {
+			   event.preventDefault();
+			   if(tablecnt != 1){
+				   tablecnt--;
+				   $("#drag_div"+tablecnt).remove();
+			   } else {
+				   swal({
+						  title: "테이블이 없습니다.",
+						  icon: "warning",
+						  button: "닫기",
+						});
+			   }
+		   }
+
+		   // 테이블 저장(위치 중복 확인)
+		   function tableSave() {
+			   event.preventDefault();
+			   var templeftarr = new Array();
+			   var temptoparr = new Array();
+			   var div;
+			   var tableflag = true;
+			   for(var i = 1; i < tablecnt; i++){
+				   	div = $("#drag_div"+i);
+				   	templeftarr[i-1] = div.position().left;
+				   	temptoparr[i-1] = div.position().top;
+			   }
+			   
+			   for(var i = 0; i < templeftarr.length; i++){
+				   for(var j = i; j < templeftarr.length; j++){
+					   if(i != j){
+						   var leftflag = ((templeftarr[i] <= templeftarr[j]) && ((templeftarr[i]+div.width()) >= templeftarr[j]));
+						   var topflag = ((temptoparr[i] <= temptoparr[j]) && ((temptoparr[i]+div.width()) >= temptoparr[j]));
+						   if(leftflag && topflag){
+							    swal({
+									  title: "테이블 위치가 겹쳤습니다.",
+									  icon: "warning",
+									});
+							    tableflag = false;
+								return;
+						   }
+					   }
+				   }
+			   }
+			   
+			   if(tableflag){
+				   var tableArray = new Array();
+				   for(var i = 1; i <= templeftarr.length; i++){
+			   		    var tablePosition = new Object();
+					    
+				   		tablePosition.tableSave_Code = i;
+				   		tablePosition.tableSave_X = templeftarr[i-1];
+				   		tablePosition.tableSave_Y = temptoparr[i-1];
+					    
+					    tableArray.push(tablePosition);
+				   }
+
+				   $.ajax({
+						  url: 'tableSave.do',
+						  type: 'post',
+						  data: JSON.stringify(tableArray),
+						  dataType: 'json',
+						  contentType: 'application/json',
+						  success : function(result) {
+							  swal({
+								  title: result + "개 등록되었습니다.",
+								  icon: "success",
+								  button: "닫기",
+								}).then(() => {
+									  location.href='${pageContext.request.contextPath}'
+								  });
+						  }
+					});
+			   }
+		   }
 	</script>
 </body>
 </html>

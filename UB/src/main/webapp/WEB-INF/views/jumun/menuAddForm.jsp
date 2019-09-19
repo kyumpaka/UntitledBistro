@@ -17,7 +17,7 @@
 			<form action="menuAdd.do" method="post" enctype="multipart/form-data" id="multiform" class="form-horizontal">
 				<div class="row form-group">
 					<div class="col col-md-3">
-						<label for="select" class=" form-control-label">menu_Mt_Code</label>
+						<label for="select" class=" form-control-label">메뉴 구분 이름</label>
 					</div>
 					<div class="col-12 col-md-9">
 						<select id="select" class="form-control" name="menu_Mt_Code">
@@ -30,7 +30,7 @@
 				
 				<div class="row form-group">
 					<div class="col col-md-3">
-						<label for="text-input" class=" form-control-label">menu_Name</label>
+						<label for="text-input" class=" form-control-label">메뉴 이름</label>
 					</div>
 					<div class="col-12 col-md-9">
 						<input type="text" id="text-input" class="form-control" name="menu_Name">
@@ -39,7 +39,7 @@
 				
 				<div class="row form-group">
 					<div class="col col-md-3">
-						<label for="text-input" class=" form-control-label">menu_Price</label>
+						<label for="text-input" class=" form-control-label">가격</label>
 					</div>
 					<div class="col-12 col-md-9">
 						<input type="number" id="text-input" class="form-control" name="menu_Price">
@@ -48,7 +48,7 @@
 				
 				<div class="row form-group">
 					<div class="col col-md-3">
-						<label for="file-input" class=" form-control-label">File input</label>
+						<label for="file-input" class=" form-control-label">사진</label>
 					</div>
 					<div class="col-12 col-md-9">
 						<input type="file" id="file-input" name="file" class="form-control-file">
@@ -57,7 +57,7 @@
 				
 				<div class="row form-group">
 					<div class="col col-md-3">
-						<label for="select" class=" form-control-label">menu_State</label>
+						<label for="select" class=" form-control-label">상태</label>
 					</div>
 					<div class="col-12 col-md-9">
 						<select id="select" class="form-control" name="menu_State">
@@ -81,32 +81,32 @@
 <script src="${pageContext.request.contextPath}/resources/pos/assets/js/jquery-2.0.0.min.js" type="text/javascript" ></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
-		var cnt = 0;
-		var cntend = cnt;
+		var igdcnt = 0;
+		var cntend = igdcnt;
 		function ingAdd() {
 			  event.preventDefault();
-			  var frmTag = '<div id="addIgd'+cnt+'"><div class="row form-group"> <div class="col col-md-3"> <label for="text-input" class=" form-control-label">ingredient_Product_Code</label> </div>';
-				  frmTag += '<div class="col-12 col-md-9"> <input type="text" id="text-input" class="form-control" name="jumun_IngredientDTO['+cnt+'].ingredient_Product_Code"> </div> </div>';
-				  frmTag += '<div class="row form-group"> <div class="col col-md-3"> <label for="text-input" class=" form-control-label">ingredient_Qty</label> </div>';
-				  frmTag += '<div class="col-12 col-md-9"> <input type="number" id="text-input" class="form-control" name="jumun_IngredientDTO['+cnt+'].ingredient_Qty"> </div>';
-				  frmTag += '</div> <button onclick="igdRemove(\''+cnt+'\')" class="btn btn-primary btn-sm" >재료 삭제</button><hr> </div>';
+			  var frmTag = '<div id="addIgd'+igdcnt+'"><div class="row form-group"> <div class="col col-md-3"> <label for="text-input" class=" form-control-label">재료 이름</label> </div>';
+				  frmTag += '<div class="col-12 col-md-9"> <input type="text" id="text-input" class="form-control" name="jumun_IngredientDTO['+igdcnt+'].ingredient_Product_Code"> </div> </div>';
+				  frmTag += '<div class="row form-group"> <div class="col col-md-3"> <label for="text-input" class=" form-control-label">개수</label> </div>';
+				  frmTag += '<div class="col-12 col-md-9"> <input type="number" id="text-input" class="form-control" name="jumun_IngredientDTO['+igdcnt+'].ingredient_Qty"> </div>';
+				  frmTag += '</div> <button onclick="igdRemove(\''+igdcnt+'\')" class="btn btn-primary btn-sm" >재료 삭제</button><hr> </div>';
 			  $("#addIgd").append(frmTag);
-			  if(cntend == cnt) {
-				  cnt++;
-				  cntend = cnt;
+			  if(cntend == igdcnt) {
+				  igdcnt++;
+				  cntend = igdcnt;
 			  } else {
-				  cnt = cntend;
+				  igdcnt = cntend;
 			  }
 		};
 		
 		function igdRemove(num) {
 			event.preventDefault();
 			$("#addIgd"+num).remove();
-			if(eval(cnt-1) == num) {
-				cnt--;
-				cntend = cnt;
+			if(eval(igdcnt-1) == num) {
+				igdcnt--;
+				cntend = igdcnt;
 			} else {
-				cnt = num;
+				igdcnt = num;
 			}
 		};
 
@@ -115,45 +115,83 @@
 		};
 
 		$("#uploadbutton").click(function() {
-			for(var i = 0; i < cnt; i++){
+			if(igdcheck()){
+				if(menucheck()){
+					var form = $('#multiform')[0];
+					var formData = new FormData(form);
+					$.ajax({
+			            type: "POST",
+			            enctype: 'multipart/form-data',
+			            url: "menuAdd.do",
+			            data: formData,
+			            processData: false,
+			            contentType: false,
+			            cache: false,
+			            success: function (result) {
+			            	swal({
+								  title: result + "개 등록되었습니다.",
+								  icon: "success",
+								  button: "닫기",
+								})
+							  .then(() => {
+								  opener.document.location.reload();
+								  window.close();
+							  });
+			            },
+			        });
+				}
+			}
+		});
+
+		function menucheck(){
+			var menu_Name = $("input[name='menu_Name']").val().trim();
+			var menu_Price = $("input[name='menu_Price']").val().trim();
+			
+			if(menu_Name == "" || menu_Name == null) {
+				swal({
+					  title: "메뉴명을 입력해주세요.",
+					  icon: "warning",
+					});
+				$("input[name='menu_Name']").focus();
+				$("input[name='menu_Name']").val("");
+				return false;
+			}
+			if(menu_Price == "" || menu_Price == 0) {
+				swal({
+					  title: "가격을 입력해주세요.",
+					  icon: "warning",
+					});
+				$("input[name='menu_Price']").focus();
+				$("input[name='menu_Price']").val("");
+				return false;
+			}
+			return true;
+		}
+		
+		function igdcheck(){
+			for(var i = 0; i < igdcnt; i++){
 				var code = $("input[name='jumun_IngredientDTO["+i+"].ingredient_Product_Code']").val().trim();
 				var qty = $("input[name='jumun_IngredientDTO["+i+"].ingredient_Qty']").val().trim();
 				if(code == "" || code == null) {
-					alert('재료명을 입력해주세요.');
+					swal({
+						  title: "재료명을 입력해주세요.",
+						  icon: "warning",
+						});
 					$("input[name='jumun_IngredientDTO["+i+"].ingredient_Product_Code']").focus();
 					$("input[name='jumun_IngredientDTO["+i+"].ingredient_Product_Code']").val("");
-					return;
+					return false;
 				}
 				if(qty == "" || qty == 0) {
-					alert('수량을 입력해주세요.');
+					swal({
+						  title: "수량을 입력해주세요.",
+						  icon: "warning",
+						});
 					$("jumun_IngredientDTO["+i+"].ingredient_Qty").focus();
 					$("jumun_IngredientDTO["+i+"].ingredient_Qty").val("");
-					return;
+					return false;
 				}
 			}
-			
-			var form = $('#multiform')[0];
-			var formData = new FormData(form);
-			$.ajax({
-	            type: "POST",
-	            enctype: 'multipart/form-data',
-	            url: "menuAdd.do",
-	            data: formData,
-	            processData: false,
-	            contentType: false,
-	            cache: false,
-	            success: function (result) {
-	            	swal({
-						  title: result + "개 등록되었습니다.",
-						  icon: "success",
-						  button: "닫기",
-						})
-					  .then(() => {
-						  opener.document.location.reload();
-						  window.close();
-					  });
-	            },
-	        });
-		});
+			return true;
+		};
 </script>
 </html>

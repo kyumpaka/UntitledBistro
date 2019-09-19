@@ -16,7 +16,7 @@
 			<form class="form-horizontal">
 				<div class="row form-group">
 					<div class="col col-md-3">
-						<label for="text-input" class=" form-control-label">메뉴 구분명</label>
+						<label for="text-input" class=" form-control-label">메뉴 구분 이름</label>
 					</div>
 					<div class="col-12 col-md-9">
 						<input type="text" id="text-input" name="mt_Name"
@@ -42,7 +42,7 @@
 				  title: "메뉴 구분명을 입력해주세요.",
 				  icon: "warning",
 				  button: "닫기",
-			})
+			});
 			$("input[name='mt_Name']").focus();
 			$("input[name='mt_Name']").val("");
 			return;
@@ -60,8 +60,7 @@
 					  title: result + "개 등록되었습니다.",
 					  icon: "success",
 					  button: "닫기",
-					})
-				  .then(() => {
+					}).then(() => {
 					  opener.document.location.reload();
 					  window.close();
 				  });
