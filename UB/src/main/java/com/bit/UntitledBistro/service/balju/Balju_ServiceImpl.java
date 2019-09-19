@@ -3,6 +3,7 @@ package com.bit.UntitledBistro.service.balju;
 import java.util.List;
 import java.util.Map;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -13,24 +14,23 @@ import com.bit.UntitledBistro.model.balju.Balju_DTO;
 import com.bit.UntitledBistro.model.balju.Balju_PlanDTO;
 import com.bit.UntitledBistro.model.balju.Balju_SaveDTO;
 
-@Service("Balju_Service")
 @Transactional
+@Service
 public class Balju_ServiceImpl implements Balju_Service {
-
+	
 	@Autowired
 	private Balju_DAO balju_DAO;
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void insert_Balju_Plan(Balju_PlanDTO BPdto) {
+	public void insert_Balju_Plan1(Balju_PlanDTO BPdto) {
 		this.balju_DAO.insert_Balju_Plan1(BPdto);
 		this.balju_DAO.insert_Balju_Plan2(BPdto);
-		
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void insert_Balju(Balju_DTO Bdto) {
+	public void insert_Balju1(Balju_DTO Bdto) {
 		this.balju_DAO.insert_Balju1(Bdto);
 		this.balju_DAO.insert_Balju2(Bdto);
 		
@@ -38,7 +38,7 @@ public class Balju_ServiceImpl implements Balju_Service {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void insert_Balju_Save(Balju_SaveDTO BSdto) {
+	public void insert_Balju_Save1(Balju_SaveDTO BSdto) {
 		this.balju_DAO.insert_Balju_Save1(BSdto);
 		this.balju_DAO.insert_Balju_Save2(BSdto);
 		
@@ -64,38 +64,35 @@ public class Balju_ServiceImpl implements Balju_Service {
 
 	@Override
 	public void balju_Plan_modi(Balju_PlanDTO BPdto) {
-		// TODO Auto-generated method stub
-		
+		this.balju_DAO.balju_Plan_modi(BPdto);
 	}
 
 	@Override
 	public void balju_Modi(Balju_DTO Bdto) {
-		// TODO Auto-generated method stub
-		
+		this.balju_DAO.balju_Modi(Bdto);
 	}
 
 	@Override
 	public void balju_Save_modi(Balju_SaveDTO BSdto) {
-		// TODO Auto-generated method stub
-		
+		this.balju_DAO.balju_Save_modi(BSdto);
 	}
 
 	@Override
-	public void Delete_Balju_Plan(Balju_PlanDTO BPdto) {
-		// TODO Auto-generated method stub
-		
+	public void Delete_Balju_Plan1(Balju_PlanDTO BPdto) {
+		this.balju_DAO.Delete_Balju_Plan1(BPdto);
+		this.balju_DAO.Delete_Balju_Plan2(BPdto);
 	}
 
 	@Override
-	public void Delete_Balju(Balju_DTO Bdto) {
-		// TODO Auto-generated method stub
-		
+	public void Delete_Balju1(Balju_DTO Bdto) {
+		this.balju_DAO.Delete_Balju1(Bdto);
+		this.balju_DAO.Delete_Balju2(Bdto);
 	}
 
 	@Override
-	public void Delete_Balju_Save(Balju_SaveDTO BSdto) {
-		// TODO Auto-generated method stub
-		
+	public void Delete_Balju_Save1(Balju_SaveDTO BSdto) {
+		this.balju_DAO.Delete_Balju_Save1(BSdto);
+		this.balju_DAO.Delete_Balju_Save2(BSdto);
 	}
 	
 	

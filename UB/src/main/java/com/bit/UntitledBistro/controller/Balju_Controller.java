@@ -2,11 +2,16 @@ package com.bit.UntitledBistro.controller;
 
 
 
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bit.UntitledBistro.model.balju.Balju_PlanDTO;
 import com.bit.UntitledBistro.service.balju.Balju_Service;
 
 @Controller
@@ -48,10 +53,22 @@ public class Balju_Controller {
 		System.out.println("발주조회에 접속되었습니다.");
 	}
 	
-	@RequestMapping(value = "/Balju_Plan_Input", method = RequestMethod.POST)
-	public String Balju_Input() {
+	@RequestMapping(value = "/balju_Plan_Input", method = RequestMethod.POST)
+	public String Balju_Input(Balju_PlanDTO BPdto) throws Exception{
 		System.out.println("발주계획 입력 진행중 접속되었습니다.");
-		return null;
+		this.balju_Service.insert_Balju_Plan1(BPdto);
+		return "/balju/Balju_Plan";
+	}
+	
+	@RequestMapping(value ="/balju_Plan_Result", method = RequestMethod.GET)
+	@ResponseBody
+	public List Balju_Plan_Result(Balju_PlanDTO BPdto) throws Exception{
+		System.out.println("발주계획현황에 접속되었습니다.");
+		System.out.println("발주계획현황에 접속되었습니다.");
+		System.out.println("발주계획현황에 접속되었습니다.");
+		List list = this.balju_Service.balju_Plan_list(BPdto);
+		
+		return list;
 	}
 
 }
