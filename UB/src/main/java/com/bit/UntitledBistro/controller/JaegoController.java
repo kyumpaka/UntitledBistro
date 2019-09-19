@@ -26,6 +26,14 @@ public class JaegoController {
 	public void item(Model model) {
 		logger.info("여기는 재고현황 컨트롤러 입니다.");
 	}
+	@RequestMapping(value = "/itemInsert")
+	public void itemInsert(Model model) {
+		logger.info("여기는 재고현황 컨트롤러 입니다.");
+	}
+	@RequestMapping(value = "/itemUpdate")
+	public void itemUpdate(Model model) {
+		logger.info("여기는 재고현황 컨트롤러 입니다.");
+	}
 	
 	@RequestMapping(value = "/in_item")
 	public void in_item() {
@@ -59,9 +67,14 @@ public class JaegoController {
 	}
 	
 	@RequestMapping(value = "/gridInsert")
-	public @ResponseBody ItemDTO gridInsert(ItemDTO dto) {
+	public @ResponseBody void gridInsert(ItemDTO dto) {
 		logger.info("여기는 그리드 추가 컨트롤러 입니다.");
 		dao.item_insert(dto);
-		return dto;
+	}
+	
+	@RequestMapping(value = "/gridUpdate")
+	public @ResponseBody void gridUpdate(ItemDTO dto) {
+		logger.info("여기는 그리드 수정 컨트롤러 입니다.");
+		dao.item_update(dto);
 	}
 }

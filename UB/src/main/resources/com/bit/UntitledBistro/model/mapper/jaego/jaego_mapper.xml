@@ -5,14 +5,16 @@
   
 <mapper namespace="jaego">
  	<select id="item_selectAll" resultType="item">
- 		<![CDATA[
- 			SELECT * FROM ITEM
- 		]]>
+		SELECT * FROM ITEM
  	</select>
  	
  	<insert id="item_insert">
- 		<![CDATA[
- 			INSERT INTO ITEM VALUES(#{item_no}, #{item_product_code}, #{item_qty})
- 		]]>
+		INSERT INTO ITEM VALUES(#{item_no}, #{item_product_code}, #{item_qty})
  	</insert>
+ 	
+ 	<update id="item_update" parameterType="item">
+		UPDATE ITEM 
+		SET ITEM_PRODUCT_CODE=#{item_product_code}, ITEM_QTY=#{item_qty}
+		WHERE ITEM_NO=#{item_no}
+ 	</update>
 </mapper>

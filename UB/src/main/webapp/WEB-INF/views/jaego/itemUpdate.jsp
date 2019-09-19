@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-<c:set var="path" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,31 +20,16 @@
 <title>JSP</title>
 </head>
 <body>
-	<h1>grid 추가 테스트공간</h1>
-	<h4>입고내역</h4>
+	<h1>grid 업데이트 테스트공간</h1>
 
-	<label>item_no : </label>
-	<input id="item_no" type="text" placeholder="item_no"
-		style="font-size: 14px;" tabindex="1">
-	<br>
-
-	<label>item_product_code : </label>
-	<input id="item_product_code" type="text" placeholder="item_product_code" style="font-size: 14px;"
-		tabindex="2">
-	<br>
-
-	<label>item_qty : </label>
-	<input id="item_qty" type="text" placeholder="item_qty"
-		style="font-size: 14px;" tabindex="3">
-	<br>
-
-	<button id="add">jsgrid 데이터 추가</button>
-	<!-- 데이터 추가를 위해서 input 4개를 생성합니다.-->
-
+	<button id="update">jsgrid 데이터 업데이트</button>
 
 <!-- jsGrid 생성을 합니다.-->
    	<div id="jsGrid"></div>
 	<script>
+		var update_item = {};
+		//수정할 데이터의 값을 임시적으로 갖고 있을 jsonobj
+	
 		$.ajax({
 			type:"get",
 			url:"${path}/jaego/grid",
@@ -54,7 +38,7 @@
 			$("#jsGrid").jsGrid({
 				width : "70%",
 				height : "auto",
-				editing: true,
+				editing : true,
 				//데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
 				autoload : true,
 				//그리드 헤더 클릭시 sorting이 되게함
@@ -81,41 +65,26 @@
 					type : "text",
 					title: "재고수량",
 					width : 200
-				}, ]
-			
-			});
-		});
+				}, ],
+				
+				onItemUpdated: function (args) {
+	                $.ajax({
+	                	url : "${path}/jaego/gridUpdate",
+	                	type : "post",
+	                	data : args.item,
+	                	success : function() {
+	                		alert("수정 성공");
+	                	}
+	                });
+	            }
+			}); // 그리드 끝
+		}); // ajax 끝
 		
+		//버튼 클릭시 grid에 데이터를 업데이트
+		$("#update").click(function() {
+			$("#jsGrid").jsGrid("updateItem");
+		});
 	</script>
 	
-	<script>
-		//버튼 클릭시 grid에 데이터를 추가
-		$("#add").click(function() {
-			//데이터를 추가를 위해서 json object 생성
-			var insert_item = {};
-			
-			//grid에 넣을 데이터를 object의 만들기
-			insert_item.item_no = $("#item_no").val();
-			insert_item.item_product_code = $("#item_product_code").val();
-			insert_item.item_qty = $("#item_qty").val();
-			
-			$.ajax({
-				url:"/UntitledBistro/jaego/gridInsert",
-				type:"post",
-				/* data : {"item_no":$("#item_no").val(),
-					   "item_product_code":$("#item_product_code").val(),
-					   "item_qty":$("#item_qty").val(),
-				}, */
-				data : insert_item, 
-				success:function(data){
-					alert("grid 데이터 추가");
-					//jsGrid에 insert_item object 추가
-					$("#jsGrid").jsGrid("insertItem", insert_item);
-				}
-				
-			});
-			
-		});
-	</script>
 </body>
 </html>
