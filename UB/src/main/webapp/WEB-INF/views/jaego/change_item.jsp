@@ -23,15 +23,11 @@
 <body>
 	<h1>grid 삭제 테스트공간</h1>
 	<h4>재고변동표</h4>
-	<button id="delete">jsgrid 데이터 업데이트</button>
-	<button id="cancel">취소</button>
+	<button id="delete">jsgrid 데이터 삭제</button>
 
 <!-- jsGrid 생성을 합니다.-->
    	<div id="jsGrid"></div>
 	<script>
-		var update_item = {};
-		//수정할 데이터의 값을 임시적으로 갖고 있을 jsonobj
-	
 		$.ajax({
 			type:"get",
 			url:"${path}/jaego/gridSelectAll",
@@ -96,9 +92,6 @@
 			$("#jsGrid").jsGrid("deleteItem", item);
 		});
 		
-		$("#cancel").click(function() {
-			$("#jsGrid").jsGrid("cancelEdit");
-		});
 	</script>
 	
 </body>

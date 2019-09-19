@@ -62,7 +62,7 @@ public class JaegoController {
 	}
 	
 	@RequestMapping(value = "/gridSelectAll")
-	public @ResponseBody List<ItemDTO> grid() {
+	public @ResponseBody List<ItemDTO> gridSelectAll() {
 		logger.info("여기는 그리드 전체 조회 컨트롤러 입니다.");
 		return dao.itemSelectAll();
 	}
@@ -84,4 +84,12 @@ public class JaegoController {
 		logger.info("여기는 그리드 삭제 컨트롤러 입니다.");
 		dao.itemDelete(dto);
 	}
+	
+	@RequestMapping(value = "/gridSelect")
+	public @ResponseBody List<ItemDTO> gridSelect(ItemDTO dto) {
+		logger.info("여기는 그리드 검색 컨트롤러 입니다.");
+		logger.info("결과 : " + dto.getItem_no() + " / " + dto.getItem_product_code() + " / " + dto.getItem_qty());
+		return dao.itemSelect(dto);
+	}
+	
 }

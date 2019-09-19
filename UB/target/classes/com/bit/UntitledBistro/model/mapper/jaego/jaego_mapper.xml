@@ -8,6 +8,21 @@
 		SELECT * FROM ITEM
  	</select>
  	
+ 	<select id="itemSelect" parameterType="item" resultType="item">
+ 		SELECT * FROM ITEM 
+ 		<where>
+ 			<if test="item_no != null">
+ 				ITEM_NO=#{item_no}
+ 			</if>
+ 			<if test="item_product_code != null">
+ 				AND ITEM_PRODUCT_CODE=#{item_product_code}
+ 			</if>
+ 			<if test="item_qty != 0">
+ 				AND ITEM_QTY=#{item_qty}
+ 			</if>
+ 		</where>
+ 	</select>
+ 	
  	<insert id="itemInsert">
 		INSERT INTO ITEM 
 		VALUES(#{item_no}, #{item_product_code}, #{item_qty})
