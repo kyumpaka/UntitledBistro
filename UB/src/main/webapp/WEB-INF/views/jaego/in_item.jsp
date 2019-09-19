@@ -25,6 +25,7 @@
 	<h4>입고내역</h4>
 
 	<button id="add">jsgrid 데이터 추가</button>
+	<button id="cancel">취소</button>
 	<!-- 데이터 추가를 위해서 input 4개를 생성합니다.-->
 
 
@@ -86,6 +87,9 @@
 		//버튼 클릭시 grid에 데이터를 추가
 		$("#add").click(function() {
 			$("#jsGrid").jsGrid("insertItem");
+		});
+		$("#cancel").click(function() {
+			$("#jsGrid").jsGrid("clearInsert");
 		});
 		
 	</script>

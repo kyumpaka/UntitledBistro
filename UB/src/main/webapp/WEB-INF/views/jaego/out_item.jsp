@@ -24,6 +24,7 @@
 	<h1>grid 업데이트 테스트공간</h1>
 	<h4>출고내역</h4>
 	<button id="update">jsgrid 데이터 업데이트</button>
+	<button id="cancel">취소</button>
 
 <!-- jsGrid 생성을 합니다.-->
    	<div id="jsGrid"></div>
@@ -85,6 +86,9 @@
 		//버튼 클릭시 grid에 데이터를 업데이트
 		$("#update").click(function() {
 			$("#jsGrid").jsGrid("updateItem");
+		});
+		$("#cancel").click(function() {
+			$("#jsGrid").jsGrid("cancelEdit");
 		});
 	</script>
 	
