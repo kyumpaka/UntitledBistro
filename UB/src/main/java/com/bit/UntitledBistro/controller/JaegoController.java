@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.UntitledBistro.model.jaego.ItemDAOImpl;
@@ -59,21 +61,27 @@ public class JaegoController {
 		logger.info("여기는 특별재고 컨트롤러 입니다.");
 	}
 	
-	@RequestMapping(value = "/grid")
+	@RequestMapping(value = "/gridSelectAll")
 	public @ResponseBody List<ItemDTO> grid() {
-		logger.info("여기는 그리드 컨트롤러 입니다.");
-		return dao.item_selectAll();
+		logger.info("여기는 그리드 전체 조회 컨트롤러 입니다.");
+		return dao.itemSelectAll();
 	}
 	
 	@RequestMapping(value = "/gridInsert")
 	public @ResponseBody void gridInsert(ItemDTO dto) {
 		logger.info("여기는 그리드 추가 컨트롤러 입니다.");
-		dao.item_insert(dto);
+		dao.itemInsert(dto);
 	}
 	
 	@RequestMapping(value = "/gridUpdate")
 	public @ResponseBody void gridUpdate(ItemDTO dto) {
 		logger.info("여기는 그리드 수정 컨트롤러 입니다.");
-		dao.item_update(dto);
+		dao.itemUpdate(dto);
+	}
+	
+	@RequestMapping(value = "/gridDelete")
+	public @ResponseBody void gridDelete(ItemDTO dto) {
+		logger.info("여기는 그리드 삭제 컨트롤러 입니다.");
+		dao.itemDelete(dto);
 	}
 }

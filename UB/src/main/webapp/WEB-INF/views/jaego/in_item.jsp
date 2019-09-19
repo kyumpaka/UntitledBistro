@@ -34,7 +34,7 @@
 	<script>
 		$.ajax({
 			type:"get",
-			url:"${path}/jaego/grid",
+			url:"${path}/jaego/gridSelectAll",
 		})
 		.done(function(json) {
 			$("#jsGrid").jsGrid({

@@ -11,16 +11,20 @@ public class ItemDAOImpl {
 	@Autowired
 	private SqlSessionTemplate mybatis;
 	
-	public List<ItemDTO> item_selectAll(){
-		return mybatis.selectList("jaego.item_selectAll");
+	public List<ItemDTO> itemSelectAll(){
+		return mybatis.selectList("jaego.itemSelectAll");
 	}
 	
-	public int item_insert(ItemDTO dto){
-		return mybatis.insert("jaego.item_insert", dto);
+	public int itemInsert(ItemDTO dto){
+		return mybatis.insert("jaego.itemInsert", dto);
 	}
 	
-	public int item_update(ItemDTO dto){
-		return mybatis.update("jaego.item_update", dto);
+	public int itemUpdate(ItemDTO dto){
+		return mybatis.update("jaego.itemUpdate", dto);
+	}
+	
+	public int itemDelete(ItemDTO dto){
+		return mybatis.update("jaego.itemDelete", dto);
 	}
 	
 }

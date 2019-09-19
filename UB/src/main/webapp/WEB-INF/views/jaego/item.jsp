@@ -25,7 +25,7 @@
 	<script>
 		$.ajax({
 			type:"get",
-			url:"/UntitledBistro/jaego/grid",
+			url:"/UntitledBistro/jaego/gridSelectAll",
 		})
 		.done(function(json) {
 			$("#jsGrid").jsGrid({
