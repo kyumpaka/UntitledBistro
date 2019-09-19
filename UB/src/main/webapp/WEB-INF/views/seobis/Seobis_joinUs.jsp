@@ -17,16 +17,12 @@
 </head>
 <body>
 	<form method="post"   action="Seobis_createMember">
-	<h1  class="text_center">회원 가입창</h1>
+	<h1  class="text_center">회원 추가</h1>
 	<table  align="center">
 	   <tr>
 	      <td width="200"><p align="right">아이디</td>
 	      <td width="400"><input type="text" name="member_id"></td>
 	   </tr>
-	   <tr>
-	      <td width="200"><p align="right">비밀번호</td>
-	      <td width="400"><input type="password" name="member_password"></td>
-	    </tr>
 	    <tr>
 	       <td width="200"><p align="right">이름</td>
 	       <td width="400"><p><input type="text" name="member_name"></td>
@@ -42,6 +38,10 @@
 	    <tr>
 	       <td width="200"><p align="right">이메일</td>
 	       <td width="400"><p><input type="text" name="member_email"></td>
+	    </tr>
+	    <tr>
+	       <td width="200"><p align="right">전화 번호</td>
+	       <td width="400"><p><input type="text" name="member_phone1"></td>
 	    </tr>
 	    <tr>
 	       <td width="200"><p>&nbsp;</p></td>

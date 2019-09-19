@@ -5,16 +5,24 @@
 <mapper namespace="com.bit.UntitledBistro.model.seobis.Seobis_MemberDAO">
   
   <insert id="Seobis_MemberInsert" parameterType="com.bit.UntitledBistro.model.seobis.Seobis_MemberDTO">
- 	INSERT INTO MEMBER(MEMBER_ID, MEMBER_PASSWORD, MEMBER_NAME, MEMBER_GENDER, MEMBER_EMAIL)
-	VALUES(#{member_id},#{member_password},#{member_name},#{member_gender},#{member_email})
+ 	INSERT INTO MEMBER(MEMBER_ID, MEMBER_NAME, MEMBER_GENDER, MEMBER_EMAIL, MEMBER_PHONE1)
+	VALUES(#{member_id},#{member_name},#{member_gender},#{member_email}, #{member_phone1})
  </insert>
  
  <select id="Seobis_MemberList"  parameterType="map"  resultType="com.bit.UntitledBistro.model.seobis.Seobis_MemberDTO">
-  SELECT MEMBER_ID, MEMBER_NAME, MEMBER_GRADE, MEMBER_POINT, MEMBER_PHONE1 , MEMBER_REG FROM MEMBER
+ 	SELECT MEMBER_ID, MEMBER_NAME, MEMBER_GRADE, MEMBER_POINT, MEMBER_PHONE1 , MEMBER_REG FROM MEMBER
  </select>
  
   <select id="Seobis_MemberListCount" resultType="Integer">
- 	select count(*) from member
+ 	SELECT COUNT(*) FROM MEMBER
  </select>
 
+ <delete id="Seobis_MemberDelete" parameterType="com.bit.UntitledBistro.model.seobis.Seobis_MemberDTO">
+	DELETE FROM MEMBER WHERE MEMBER_ID = #{member_id}
+ </delete>
+
+ <update id="Seobis_MemberUpdate" parameterType="com.bit.UntitledBistro.model.seobis.Seobis_MemberDTO">
+	UPDATE MEMBER SET MEMBER_ID = #{member_id}, MEMBER_NAME = #{member_name}, MEMBER_GENDER = #{member_gender},
+	MEMBER_EMAIL = #{member_email}, MEMBER_PHONE1 = #{member_phone1} WHERE MEMBER_ID = ${member_id}
+ </update>
 </mapper>

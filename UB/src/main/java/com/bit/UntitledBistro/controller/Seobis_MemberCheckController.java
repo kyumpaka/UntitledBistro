@@ -34,15 +34,19 @@ public class Seobis_MemberCheckController {
 		return "seobis/Seobis_form";
 	}
 	
-	@RequestMapping(value="/Seobis_jUs")  //회원 관리창에서 회원 등록으로 보내는 맵핑
+	@RequestMapping(value="/Seobis_jUs")  // 회원 등록으로 보내는 맵핑
 	public String seobis_formadd() {
 	return "seobis/Seobis_joinUs";
 	}
 	
-	@RequestMapping(value="/Seobis_del")
-	public String seobis_formdelete() {
-		return "seobis/Seobis_delete";
+	@RequestMapping(value="/Seobis_up")
+	public String seobis_formupdate() {
+	return "seobis/Seobis_update";
 	}
+//	@RequestMapping(value="/Seobis_del") //회원 관리창에서 회원 삭제로 보내는 맵핑
+//	public String seobis_formdelete() {
+//		return "seobis/Seobis_delete";
+//	}
 	
 	@RequestMapping(value="/Seobis_createMember", method = RequestMethod.POST)  //회원 가입을 처리하는 맵핑
 	public String seobis_joinUsSubmit (HttpSession session, Seobis_MemberDTO seobis_MemberDTO_dto) {
@@ -100,14 +104,15 @@ public class Seobis_MemberCheckController {
 		return "seobis/Seobis_memberList"; //.jsp
 	}
 	
-	@RequestMapping(value="")
-	public String Seobis_memberdelete(Seobis_MemberDTO seobis_MemberDTO_dto, int pg) {
-		int result = Seobis_memberService.Seobis_MemberDelete(seobis_MemberDTO_dto);
-		String res = "seobis/Seobis_memberList?pg="+pg;
-		if(result == 0) {
-			res = "seobis/Seobis_fail";
-		}
-		return res;
+	@RequestMapping(value="/Seobis_delete")  //회원 삭제 맵핑
+	public String Seobis_memberDelete(Seobis_MemberDTO seobis_MemberDTO_dto) {
+		Seobis_memberService.Seobis_MemberDelete(seobis_MemberDTO_dto);
+		return "redirect:Seobis_mList";
 	}
 	
+	@RequestMapping(value="/Seobis_update") //회원 수정 맵핑
+	public String Seobis_memberUpdate(Seobis_MemberDTO seobis_MemberDTO_dto) {
+		Seobis_memberService.Seobis_MemberUpdate(seobis_MemberDTO_dto);
+		return "redirect:Seobis_mList";
+	}
 }

@@ -15,20 +15,9 @@ public class Seobis_MemberServiceImpl implements Seobis_MemberService {
 	
 	@Autowired
 	private SqlSession SqlSession;
-	
-	/*
-	 * @Override public Seobis_MemberDTO Seobis_MemberList(HashMap<String, Object>
-	 * map) { //회원 리스트 Seobis_MemberDAO seobis_MemberDAO =
-	 * SqlSession.getMapper(Seobis_MemberDAO.class);
-	 * 
-	 * return seobis_MemberDAO.Seobis_MemberList(map); }
-	 */
 
 	@Override
 	public void Seobis_MemberInsert(Seobis_MemberDTO seobis_MemberDTO_dto) {  //멤버 추가
-//		System.out.println("마이바티스 시작");
-//		SqlSession.insert("com.bit.UntitledBistro.model.seobis.Seobis_MemberDAO.Seobis_joinUs", Seobis_MemberDTO_dto);
-//		System.out.println("마이바티스 끝");
 		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
 		seobis_MemberDAO.Seobis_MemberInsert(seobis_MemberDTO_dto);
 	}
@@ -46,8 +35,14 @@ public class Seobis_MemberServiceImpl implements Seobis_MemberService {
 	}
 	
 	@Override
-	public int Seobis_MemberDelete(Seobis_MemberDTO seobis_MemberDTO_dto) {  //멤버 삭제
+	public void Seobis_MemberDelete(Seobis_MemberDTO seobis_MemberDTO_dto) {  //멤버 삭제
 		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
-		return seobis_MemberDAO.Seobis_MemberDelete(seobis_MemberDTO_dto);
+		seobis_MemberDAO.Seobis_MemberDelete(seobis_MemberDTO_dto);
+	}
+
+	@Override
+	public void Seobis_MemberUpdate(Seobis_MemberDTO seobis_MemberDTO_dto) {	//멤버 수정
+		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
+		seobis_MemberDAO.Seobis_MemberUpdate(seobis_MemberDTO_dto);
 	}
 }

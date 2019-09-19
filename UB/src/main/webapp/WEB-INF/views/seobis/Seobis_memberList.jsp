@@ -2,26 +2,33 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <title>리스트</title>
 <style type="text/css">
 	th{background: orange};
 </style>
+
 </head>
 <body>
+
 <h1>회원 목록</h1>
 
-<table width="600" cellpadding="3">
+<table width="1000" cellpadding="3">
 	<tr>
-		<th width="100">회원 아이디</th>
-		<th width="100">회원 이름</th>
+		<th width="150">회원 아이디</th>
+		<th width="150">회원 이름</th>
 		<th width="100">회원 등급</th>
-		<th width="100">회원 포인트</th>
-		<th width="100">전화번호</th>
-		<th width="100">가입일</th>
+		<th width="150">회원 포인트</th>
+		<th width="150">전화번호</th>
+		<th width="200">가입일</th>
+		<th width="150">상세 정보</th>
 		<th width="100">삭제</th>
 	</tr>	
 
@@ -33,7 +40,8 @@
 		<td>${b.member_point}</td>
 		<td>${b.member_phone1}</td>
 		<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${b.member_reg}" /></td>
-		<td><a href="Seobis_del">회원 삭제</a></td>
+		<td><button onclick='location.href="${path}/Seobis_update?member_id=${b.member_id}"'>상세 정보</button></td>
+		<td><button class="Seobis_MemberDelete" >삭제</button></td>
 	
 		
 		<%-- <td><a href="read.htm?num=${b.num}&pg=${pg}">${b.subject}</a></td>
@@ -44,9 +52,8 @@
 </c:forEach>
 
 </table>
-<div style="width:600px;text-align:right"><a href="Seobis_jUs">회원 등록</a></div>
-<div style="width:600px;text-align:right"><a href="Seobis_del">회원 삭제</a></div>
-<table width="600">
+<div style="width:1000px;text-align:right"><a href="Seobis_jUs">회원 등록</a></div>
+<table width="1000">
 <tr>
 	<td align="center">
 		<!-- 처음 이전 링크 -->
@@ -83,4 +90,16 @@
 </tr>
 </table>
 </body>
+
+<script type="text/javascript">
+
+
+$(".Seobis_MemberDelete").on("click", function(){
+    var member_id = $(this).parent().parent().children().eq(0).text();
+    if(confirm("회원 ID : "+member_id+"을 삭제하시겠습니까?")){
+        $(location).attr("href", "${path}/Seobis_delete?member_id=" + member_id);
+    }
+});
+
+</script>
 </html>
