@@ -17,6 +17,11 @@
 	<script type="text/javascript"
 		src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
 
+	<style type="text/css">
+		.jsgrid-header-scrollbar {overflow:hidden;}
+		.jsgrid-grid-body {overflow:hidden;}
+	</style>
+
 <title>JSP</title>
 </head>
 <body>
