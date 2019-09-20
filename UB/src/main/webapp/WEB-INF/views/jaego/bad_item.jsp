@@ -28,11 +28,13 @@
 <!-- jsGrid 생성을 합니다.-->
    	<div id="jsGrid"></div>
 	<script>
+		var original = null;
 		$.ajax({
 			type:"get",
 			url:"${path}/jaego/gridSelectAll",
 		})
 		.done(function(json) {
+			original = json;
 			$("#jsGrid").jsGrid({
 				width : "70%",
 				height : "auto",
@@ -64,24 +66,26 @@
 					type : "text",
 					title: "재고수량",
 					width : 200
-				}],
+				}, {
+					type : "control", 
+					editButton: false,                               // show edit button
+                    deleteButton: false,                             // show delete button
+                    clearFilterButton: true                        // show clear filter button
+				}], 
 			    
 				controller : {
 					loadData: function(filter) {
-						if(filter.item_no != "" || filter.item_product_code != "" || filter.item_qty != "") {	
-							if(filter.item_no == null) filter.item_no = null;
-							if(filter.item_product_code == null) filter.item_product_code = null;
+						if(filter.item_no !== "" || filter.item_product_code !== "" || filter.item_qty != 0) {
 							if(filter.item_qty == 0) filter.item_qty = 0;
-							$.ajax({
+							return $.ajax({
 								url : "${path}/jaego/gridSelect",
 								type : "post",
 								dataType: "JSON",
 								data : filter,
-								success : function() {
-									alert("검색성공");
-								}
 							}); 
 							
+						} else {
+							return original;
 						}
 					}
 			
@@ -90,7 +94,6 @@
 				
 				confirmDeleting: true,
 			    deleteConfirm: "Are you sure?",
-				
 				
 			}); // 그리드 끝
 		}); // ajax 끝

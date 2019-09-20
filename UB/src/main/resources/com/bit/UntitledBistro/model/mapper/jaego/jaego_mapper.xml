@@ -11,14 +11,14 @@
  	<select id="itemSelect" parameterType="item" resultType="item">
  		SELECT * FROM ITEM 
  		<where>
- 			<if test="item_no != null">
- 				ITEM_NO=#{item_no}
+ 			<if test="item_no != ''">
+ 				ITEM_NO LIKE '%'||#{item_no}||'%'
  			</if>
- 			<if test="item_product_code != null">
- 				AND ITEM_PRODUCT_CODE=#{item_product_code}
+ 			<if test="item_product_code != ''">
+ 				AND ITEM_PRODUCT_CODE LIKE '%'||#{item_product_code}||'%'
  			</if>
  			<if test="item_qty != 0">
- 				AND ITEM_QTY=#{item_qty}
+ 				AND ITEM_QTY LIKE '%'||#{item_qty}||'%'
  			</if>
  		</where>
  	</select>

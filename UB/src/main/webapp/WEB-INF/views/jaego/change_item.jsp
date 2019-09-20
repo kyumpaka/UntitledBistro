@@ -65,9 +65,9 @@
 					type : "text",
 					title: "재고수량",
 					width : 200
-				}, {
-					type: "control", deleteButton: true
-				}],
+				},  
+					{ type : 'control' , editButton : false}
+				],
 			    
 			    onItemDeleted: function (args) {
 	                $.ajax({
