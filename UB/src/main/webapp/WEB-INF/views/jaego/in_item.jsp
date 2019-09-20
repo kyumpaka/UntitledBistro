@@ -19,7 +19,7 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
 
 <title>JSP</title>
-</head>
+</head>   
 <body>
 	<h1>grid 추가 테스트공간</h1>
 	<h4>입고내역</h4>
