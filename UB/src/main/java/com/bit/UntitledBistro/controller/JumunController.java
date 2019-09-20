@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -139,14 +140,14 @@ public class JumunController {
 	@RequestMapping(value = "/posMain.do")
 	public String posMain(Model model) {
 		model.addAttribute("tableList", jumunService.tableSearch());
+		// 주문내역 보내주기 추가해야함
 		
 		return "views/jumun/posMain";
 	}
 	
-	@RequestMapping(value = "/orderList.do")
-	public String orderList(OrderDTO orderDTO, Model model, HttpServletRequest request) {
-//		model.addAttribute("orderList", MenuSettingService.orderList(orderDTO));
-		String mt_Code = request.getParameter("mt_Code");
+	@RequestMapping(value = "/orderList.do", method = RequestMethod.POST)
+	public String orderList(@ModelAttribute("order_Table") String order_Table, Model model, @ModelAttribute("mt_Code") String mt_Code) {
+//		model.addAttribute("orderList", MenuSettingService.orderList(orderDTO)); 주문내역
 		model.addAttribute("menuTypeList", jumunService.menuTypeSearch("all"));
 		model.addAttribute("menuList", jumunService.menuSearch(mt_Code));
 		

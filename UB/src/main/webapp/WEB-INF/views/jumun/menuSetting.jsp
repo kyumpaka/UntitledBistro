@@ -7,16 +7,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>POS</title>
-<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/pos/assets/images/logos/squanchy.jpg">
-<link rel="apple-touch-icon" sizes="180x180" href="${pageContext.request.contextPath}/resources/pos/assets/images/logos/squanchy.jpg">
-<link rel="icon" type="image/png" sizes="32x32" href="${pageContext.request.contextPath}/resources/pos/assets/images/logos/squanchy.jpg">
-<!-- jQuery -->
-<!-- Bootstrap4 files-->
 <link href="${pageContext.request.contextPath}/resources/pos/assets/css/bootstrap.css" rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath}/resources/pos/assets/css/ui.css" rel="stylesheet type="text/css" />
 <link href="${pageContext.request.contextPath}/resources/pos/assets/fonts/fontawesome/css/fontawesome-all.min.css" type="text/css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/pos/assets/css/OverlayScrollbars.css" type="text/css" rel="stylesheet" />
-<!-- Font awesome 5 -->
 <style>
 .avatar {
 	vertical-align: middle;
@@ -33,10 +27,8 @@
 	color: #ef5f5f;
 }
 </style>
-<!-- custom style -->
 </head>
 <body>
-	<!-- ========================= SECTION CONTENT ========================= -->
 	<section class="section-content padding-y-sm bg-default ">
 	<form method="post" id="menuform">
 		<div class="container-fluid">
@@ -65,22 +57,16 @@
 												<span class="title">${ menuList.menu_Name }</span>
 												<span class="price-new">/&nbsp;<fmt:formatNumber pattern="#,###" value="${ menuList.menu_Price }" />원</span>
 											</div>
-											<!-- price-wrap.// -->
 										</div>
-										<!-- action-wrap -->
 									</figcaption>
 								</label>
 								</figure>
-								<!-- card // -->
 							</div>
 							</c:forEach>
-							<!-- col // -->
 						</div>
-						<!-- row.// -->
 					</span>
 				</div>
 				<div class="col-md-2">
-					<!-- card.// -->
 					<div class="box">
 						<div class="col-md-13" style="text-align: center; font-size: 20px;">&lt; 항목 &gt;</div>
 						<br>
@@ -110,16 +96,12 @@
 							<button value="posMain" class="btn  btn-primary btn-lg btn-block"> 완료 </button>
 						</div>
 					</div>
-					<!-- box.// -->
 				</div>
 			</div>
 		</div>
-		<!-- container //  -->
 	</form>
 	</section>
-	<!-- ========================= SECTION CONTENT END// ========================= -->
 	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/jquery-2.0.0.min.js" type="text/javascript"></script>
-<%-- 	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/bootstrap.bundle.min.js" type="text/javascript"></script> --%>
 	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/OverlayScrollbars.js" type="text/javascript"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
@@ -152,7 +134,7 @@
 
 			// 결과 보이기
 			var result = '${result}';
-			console.log(result);
+			
 			checkModal(result);
 
 			function checkModal(result) {

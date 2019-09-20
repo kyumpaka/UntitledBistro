@@ -7,16 +7,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>POS</title>
-<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/pos/assets/images/logos/squanchy.jpg">
-<link rel="apple-touch-icon" sizes="180x180" href="${pageContext.request.contextPath}/resources/pos/assets/images/logos/squanchy.jpg">
-<link rel="icon" type="image/png" sizes="32x32" href="${pageContext.request.contextPath}/resources/pos/assets/images/logos/squanchy.jpg">
-<!-- jQuery -->
-<!-- Bootstrap4 files-->
 <link href="${pageContext.request.contextPath}/resources/pos/assets/css/bootstrap.css" rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath}/resources/pos/assets/css/ui.css" rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath}/resources/pos/assets/fonts/fontawesome/css/fontawesome-all.min.css" type="text/css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/pos/assets/css/OverlayScrollbars.css" type="text/css" rel="stylesheet" />
-<!-- Font awesome 5 -->
 <style>
 .avatar {
 	vertical-align: middle;
@@ -33,7 +27,6 @@
 	color: #ef5f5f;
 }
 </style>
-<!-- custom style -->
 </head>
 <body>
 	<section class="header-main">
@@ -42,26 +35,21 @@
 				<div class="brand-wrap">
 					<h3 class="logo-text">UntitledBistro</h3>
 				</div>
-				<!-- brand-wrap.// -->
 			</div>
 			<div class="col-lg-6">
 				
 			</div>
-			<!-- col.// -->
 			<div class="col-lg-3 col-sm-6">
 				<div class="widgets-wrap d-flex justify-content-end">
 					<div class="widget-header">
 						<div class="col-lg-12" id="clock"></div>
 					</div>
 				</div>
-				<!-- widgets-wrap.// -->
 			</div>
-			<!-- col.// -->
 		</div>
 	</section>
-	<!-- ========================= SECTION CONTENT ========================= -->
 	<section class="section-content padding-y-sm bg-default ">
-	<form method="get" id="menuform">
+	<form method="post" id="posMenuForm">
 		<div class="container-fluid">
 			<div class="row">
 				<div id="tableArea" class="col-md-10 card" style="height: 750px;"></div>
@@ -69,35 +57,35 @@
 					<!-- card.// -->
 					<div class="box">
 						<div class="col-md-13">
-							<button value="menuTypeAddForm" class="btn  btn-primary btn-lg btn-block"> 이동 </button>
+							<button value="#" class="btn  btn-primary btn-lg btn-block"> 이동 </button>
 						</div>
 						<hr>
 						<div class="col-md-13">
-							<button value="menuTypeAddForm" class="btn  btn-primary btn-lg btn-block"> 합석 </button>
+							<button value="#" class="btn  btn-primary btn-lg btn-block"> 합석 </button>
 						</div>
 						<hr>
 						<div class="col-md-13">
-							<button value="menuTypeList" class="btn  btn-primary btn-lg btn-block"> 분할 </button>
+							<button value="#" class="btn  btn-primary btn-lg btn-block"> 분할 </button>
 						</div>
 						<hr>
 						<div class="col-md-13">
-							<button value="menuAddForm" class="btn  btn-primary btn-lg btn-block"> 예약관리 </button>
+							<button value="#" class="btn  btn-primary btn-lg btn-block"> 예약관리 </button>
 						</div>
 						<hr>
 						<div class="col-md-13">
-							<button value="menuModiForm" class="btn  btn-primary btn-lg btn-block"> 영수증관리 </button>
+							<button value="#" class="btn  btn-primary btn-lg btn-block"> 영수증관리 </button>
 						</div>
 						<hr>
 						<div class="col-md-13">
-							<button value="menuModiForm" class="btn  btn-primary btn-lg btn-block"> 판매내역 </button>
+							<button value="#" class="btn  btn-primary btn-lg btn-block"> 판매내역 </button>
 						</div>
 						<hr>
 						<div class="col-md-13">
-							<button value="menuRemove" class="btn  btn-primary btn-lg btn-block"> 출근 </button>
+							<button value="#" class="btn  btn-primary btn-lg btn-block"> 출퇴관리 </button>
 						</div>
 						<hr>
 						<div class="col-md-13">
-							<button value="posMain" class="btn  btn-primary btn-lg btn-block"> 설정 </button>
+							<button value="${pageContext.request.contextPath}" class="btn  btn-primary btn-lg btn-block"> 설정 </button>
 						</div>
 					</div>
 				</div>
@@ -110,35 +98,23 @@
 <script src="${pageContext.request.contextPath}/resources/pos/assets/js/OverlayScrollbars.js" type="text/javascript"></script>
 	<script>
 		$('.btn').click(function(){
+			event.preventDefault();
 			var button = $(this).val();
-			
+
 			if(button == "menuTypeAddForm") {
 				window.open('menuTypeAddForm.do','window_name','width=430,height=500,location=no,status=no,scrollbars=yes');
-			} else if(button == "menuTypeList") {
-				window.open('menuTypeList.do','window_name','width=430,height=500,location=no,status=no,scrollbars=yes');
-			} else if(button == "menuAddForm") {
-				window.open('menuAddForm.do','window_name','width=430,height=500,location=no,status=no,scrollbars=yes');
-			} else if(button == "menuModiForm") {
-				if ($("input:checkbox[class='check']:checked").length == 1){
-					var menu_CodeCk = $("input:checkbox[class='check']:checked").val();
-					window.open('menuModiForm.do?menu_Code='+menu_CodeCk,'window_name','width=430,height=500,location=no,status=no,scrollbars=yes');
-				} else {
-					alert("한개의 메뉴를 선택해주세요.");
-				}
-			} else if(button == "menuRemove") {
-				// 유효성 검사
-		        if($("input:checkbox[class='check']").is(":checked") == true){
-		        	if(confirm($("input:checkbox[class='check']:checked").length+'개 메뉴를 삭제하시겠습니까?')){
-						$("#menuform").attr("action", "menuRemove.do");
-		        	}
-		        } else {
-			        alert("메뉴를 한개 이상 선택해주세요.");
-		        }
-			} else if(button == "posMain") {
-				$("#menuform").attr("action", "posMain.do");
+			} else if(button == "${pageContext.request.contextPath}") {
+				$("#posMenuForm").attr("action", "${pageContext.request.contextPath}");
 			}
-			$("#menuform").submit();
+			
+			$("#posMenuForm").submit();
 		});
+
+		function goOrderList(tableNum) {
+			$("#order_TableNum").append("<input type='hidden' name='order_Table' value='"+tableNum+"'>");
+			$("#posMenuForm").attr("action", "orderList.do");
+			$("#posMenuForm").submit();
+		};
 
 		var tablecnt = 1;
 	   	var table_left = 0;
@@ -147,8 +123,8 @@
 	   // 테이블 생성
 	   function tableAdd() {
 		    event.preventDefault();
-			var frmTag = "<div id='drag_div"+tablecnt+"' style='display: block; border: 1px solid grey; width: 100px; height: 100px; position: absolute; left: "+table_left+"px; top: "+table_top+"px; cursor: pointer; cursor: hand'>";
-			frmTag += "<div align='center'>테이블"+tablecnt+"</div></div>";
+			var frmTag = "<div id='drag_div"+tablecnt+"' style='display: block; border: 1px solid grey; width: 100px; height: 100px; position: absolute; left: "+table_left+"px; top: "+table_top+"px; cursor: pointer; cursor: hand' class='btn' onclick='goOrderList("+tablecnt+")'>";
+			frmTag += "<div align='center'>테이블"+tablecnt+"</div><div id='order_TableNum'></div></div>";
 			$("#tableArea").append(frmTag);
 			tablecnt++;
 	   }
@@ -161,10 +137,11 @@
 			</c:forEach>
 			table_left = 0;
 			table_top = 0;
+			startTime();
 		});
 		
 		// 시계
-		$(document).ready(function startTime() {
+		function startTime() {
 		    var today = new Date();
 		    var now = new Date();
 		    
@@ -187,7 +164,7 @@
 		    	year + "년 " + month + "월 " + date + "일 [" + week[day] + "] " + hour + ":" + min + ":" + sec;
 	    	
 		    var t = setTimeout(startTime, 1000);
-		});
+		};
 		// 숫자가 10보다 작을 경우 앞에 0을 붙이기
 		function checkTime(i) {
 		    if (i < 10) {i = "0" + i};

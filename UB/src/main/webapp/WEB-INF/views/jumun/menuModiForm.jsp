@@ -15,7 +15,7 @@
 			<strong>메뉴 수정</strong>
 		</div>
 		<div class="card-body card-block">
-			<div class="col col-md-3">
+			<div class="col col-md-3" align="center">
 				<img alt="사진 등록 안됨" src="${pageContext.request.contextPath}/resources/images/jumun/${ menuDTO.menu_Image }" height="200" width="400">
 			</div>
 			<form action="menuAdd.do" method="post" enctype="multipart/form-data" id="multiform" class="form-horizontal">
