@@ -23,7 +23,6 @@
 <body>
 	<h1>grid 삭제 테스트공간</h1>
 	<h4>재고변동표</h4>
-	<button id="delete">jsgrid 데이터 삭제</button>
 
 <!-- jsGrid 생성을 합니다.-->
    	<div id="jsGrid"></div>
@@ -86,11 +85,6 @@
 				
 			}); // 그리드 끝
 		}); // ajax 끝
-		
-		//버튼 클릭시 grid에 데이터를 업데이트
-		$("#delete").click(function() {
-			$("#jsGrid").jsGrid("deleteItem", item);
-		});
 		
 	</script>
 	

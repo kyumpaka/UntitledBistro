@@ -23,7 +23,6 @@
 <body>
 	<h1>grid 검색 테스트공간</h1>
 	<h4>불량처리</h4>
-	<button id="search">jsgrid 데이터 검색</button>
 
 <!-- jsGrid 생성을 합니다.-->
    	<div id="jsGrid"></div>
@@ -97,11 +96,6 @@
 				
 			}); // 그리드 끝
 		}); // ajax 끝
-		
-		//버튼 클릭시 grid에 데이터를 업데이트
-		$("#search").click(function() {
-			$("#jsGrid").jsGrid("search"); 
-		});
 		
 	</script>
 	

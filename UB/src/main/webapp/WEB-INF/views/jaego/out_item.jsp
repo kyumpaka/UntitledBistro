@@ -23,14 +23,10 @@
 <body>
 	<h1>grid 업데이트 테스트공간</h1>
 	<h4>출고내역</h4>
-	<button id="update">jsgrid 데이터 업데이트</button>
-	<button id="cancel">취소</button>
 
 <!-- jsGrid 생성을 합니다.-->
    	<div id="jsGrid"></div>
 	<script>
-		var update_item = {};
-		//수정할 데이터의 값을 임시적으로 갖고 있을 jsonobj
 	
 		$.ajax({
 			type:"get",
@@ -88,13 +84,6 @@
 			}); // 그리드 끝
 		}); // ajax 끝
 		
-		//버튼 클릭시 grid에 데이터를 업데이트
-		$("#update").click(function() {
-			$("#jsGrid").jsGrid("updateItem");
-		});
-		$("#cancel").click(function() {
-			$("#jsGrid").jsGrid("cancelEdit");
-		});
 	</script>
 	
 </body>
