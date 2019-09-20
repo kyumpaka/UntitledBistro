@@ -66,7 +66,12 @@
 					type : "text",
 					title: "재고수량",
 					width : 200
-				}, ],
+				}, {
+					type : "control", 
+					editButton: false,                               // show edit button
+                    deleteButton: false,                             // show delete button
+                    clearFilterButton: true                        // show clear filter button
+				}],
 				
 				onItemInserted: function(args) {
 			       $.ajax({
