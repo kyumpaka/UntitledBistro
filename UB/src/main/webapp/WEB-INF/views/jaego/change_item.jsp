@@ -49,6 +49,23 @@
 				data : json, 
 				//grid에 표현될 필드 요소
 				fields : [ {
+                    headerTemplate: function() {
+                        return $("<button>").attr("type", "button").text("Delete")
+                                .on("click", function () {
+                                	console.log("11111");
+                                    deleteSelectedItems();
+                                });
+                    },
+                    itemTemplate: function(_, item) {
+                        return $("<input>").attr("type", "checkbox")
+                                .prop("checked", $.inArray(item, selectedItems) > -1)
+                                .on("change", function () {
+                                    $(this).is(":checked") ? selectItem(item) : unselectItem(item);
+                                });
+                    },
+                    align: "center",
+                    width: 50
+                }, {
 					name : "item_no",
 					type : "text",
 					title: "재고코드",
