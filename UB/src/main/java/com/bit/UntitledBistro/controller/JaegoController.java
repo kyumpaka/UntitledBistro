@@ -85,11 +85,4 @@ public class JaegoController {
 		dao.itemDelete(dto);
 	}
 	
-	@RequestMapping(value = "/gridSelect")
-	public @ResponseBody List<ItemDTO> gridSelect(ItemDTO dto) {
-		logger.info("여기는 그리드 검색 컨트롤러 입니다.");
-		logger.info("결과 : " + dto.getItem_no() + " / " + dto.getItem_product_code() + " / " + dto.getItem_qty());
-		return dao.itemSelect(dto);
-	}
-	
 }

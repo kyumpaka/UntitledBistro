@@ -18,9 +18,6 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
 
 	<style type="text/css">
-		.jsgrid-header-scrollbar {overflow:hidden;}
-		.jsgrid-grid-body {overflow:hidden;}
-		
 		.external-pager {
             margin: 10px 0;
         }
@@ -58,7 +55,7 @@
 		.done(function(json) {
 			$("#jsGrid").jsGrid({
 				width : "70%",
-				height : "auto",
+				height : "400px",
 				//데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
 				autoload : true,
 				//그리드 헤더 클릭시 sorting이 되게함
@@ -97,7 +94,7 @@
 					type : "text",
 					title: "재고수량",
 					width : 100
-				}, ]
+				} ]
 			
 			});
 		});

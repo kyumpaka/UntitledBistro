@@ -74,28 +74,30 @@
 			    
 				controller : {
 					loadData: function(filter) {
-						if(filter.item_no !== "" || filter.item_product_code !== "" || filter.item_qty != 0) {
-							if(filter.item_qty == 0) filter.item_qty = 0;
-							return $.ajax({
-								url : "${path}/jaego/gridSelect",
-								type : "post",
-								dataType: "JSON",
-								data : filter,
-							}); 
-							
-						} else {
+						if(filter.item_no === "" && filter.item_product_code === "" && filter.item_qty === "") {
 							return original;
 						}
+						
+						var dd = original;
+						if(filter.item_no !== "") dd = valueTest(dd,"item_no",filter);
+						if(filter.item_product_code !== "") dd = valueTest(dd,"item_product_code",filter);
+						if(filter.item_qty !== "") dd = valueTest(dd,"item_qty",filter);
+						
+						return dd;
 					}
 			
-			
-				},
-				
-				confirmDeleting: true,
-			    deleteConfirm: "Are you sure?",
+				}
 				
 			}); // 그리드 끝
 		}); // ajax 끝
+		
+		function valueTest(arr,condition,filter) {
+			return $.grep(arr, function(i) {
+				if(condition == "item_no") return i.item_no.indexOf(filter.item_no) != -1;
+				if(condition == "item_product_code") return i.item_product_code.indexOf(filter.item_product_code) != -1;
+				if(condition == "item_qty") return String(i.item_qty).indexOf(filter.item_qty) != -1;
+			});
+		}
 		
 	</script>
 	
