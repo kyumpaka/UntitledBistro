@@ -8,5 +8,6 @@ public interface Seobis_MemberDAO {
 	public void Seobis_MemberInsert(Seobis_MemberDTO seobis_MemberDTO_dto);   //회원 추가
 	public int Seobis_MemberListCount(); // 글 갯수
 	public void Seobis_MemberDelete(Seobis_MemberDTO seobis_MemberDTO_dto); //회원 삭제
-	public void Seobis_MemberUpdate(Seobis_MemberDTO seobis_MemberDTO_dto); //회원 수정
+	public int Seobis_MemberUpdate(Seobis_MemberDTO seobis_MemberDTO_dto); //회원 수정
+	public Seobis_MemberDTO Seobis_MemberSelect(String member_id); // 회원 읽기
 }

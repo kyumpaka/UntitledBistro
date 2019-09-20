@@ -9,13 +9,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bit.UntitledBistro.model.seobis.Seobis_MemberDTO;
 import com.bit.UntitledBistro.service.seobis.Seobis_MemberService;
-
-
 
 
 @Controller
@@ -38,15 +37,6 @@ public class Seobis_MemberCheckController {
 	public String seobis_formadd() {
 	return "seobis/Seobis_joinUs";
 	}
-	
-	@RequestMapping(value="/Seobis_up")
-	public String seobis_formupdate() {
-	return "seobis/Seobis_update";
-	}
-//	@RequestMapping(value="/Seobis_del") //회원 관리창에서 회원 삭제로 보내는 맵핑
-//	public String seobis_formdelete() {
-//		return "seobis/Seobis_delete";
-//	}
 	
 	@RequestMapping(value="/Seobis_createMember", method = RequestMethod.POST)  //회원 가입을 처리하는 맵핑
 	public String seobis_joinUsSubmit (HttpSession session, Seobis_MemberDTO seobis_MemberDTO_dto) {
@@ -105,14 +95,24 @@ public class Seobis_MemberCheckController {
 	}
 	
 	@RequestMapping(value="/Seobis_delete")  //회원 삭제 맵핑
-	public String Seobis_memberDelete(Seobis_MemberDTO seobis_MemberDTO_dto) {
+	public String seobis_memberDelete(Seobis_MemberDTO seobis_MemberDTO_dto) {
 		Seobis_memberService.Seobis_MemberDelete(seobis_MemberDTO_dto);
 		return "redirect:Seobis_mList";
 	}
 	
-	@RequestMapping(value="/Seobis_update") //회원 수정 맵핑
-	public String Seobis_memberUpdate(Seobis_MemberDTO seobis_MemberDTO_dto) {
+	@RequestMapping(value="/Seobis_update") //회원 수정 맵핑 
+	public String seobis_memberUpdate(Seobis_MemberDTO seobis_MemberDTO_dto) {
+		System.out.println("없데이트 인가요????????????????????????????????????????");
+		System.out.println("인자값 : " + seobis_MemberDTO_dto);
 		Seobis_memberService.Seobis_MemberUpdate(seobis_MemberDTO_dto);
+		System.out.println("성공인가요???????????????????????????????????????????");
 		return "redirect:Seobis_mList";
+	}
+	
+	@RequestMapping(value="/Seobis_select") //회원 읽기 맵핑
+	public String seobis_memberSelect(String member_id, Model model) {
+		model.addAttribute("Seobis_memberSelect", Seobis_memberService.Seobis_MemberSelect(member_id));
+		 
+		return "seobis/Seobis_update";
 	}
 }

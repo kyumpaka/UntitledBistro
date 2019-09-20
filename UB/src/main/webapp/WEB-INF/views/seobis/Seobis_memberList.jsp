@@ -40,7 +40,7 @@
 		<td>${b.member_point}</td>
 		<td>${b.member_phone1}</td>
 		<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${b.member_reg}" /></td>
-		<td><button onclick='location.href="${path}/Seobis_update?member_id=${b.member_id}"'>상세 정보</button></td>
+		<td><button onclick='location.href="${path}/Seobis_select?member_id=${b.member_id}"'>상세 정보</button></td>
 		<td><button class="Seobis_MemberDelete" >삭제</button></td>
 	
 		
@@ -83,7 +83,6 @@
 		<c:if test="${toPage>=allPage}"> <!-- 21>=21 :true -->
 				[<span style="color:gray">▶</span>]
 				[<span style="color:gray">▶▶</span>]
-		
 		</c:if>			
 		
 	</td>
