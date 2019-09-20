@@ -20,26 +20,35 @@
 	<style type="text/css">
 		.jsgrid-header-scrollbar {overflow:hidden;}
 		.jsgrid-grid-body {overflow:hidden;}
+		
+		.external-pager {
+            margin: 10px 0;
+        }
+        .external-pager .jsgrid-pager-current-page {
+            background: #c4e2ff;
+            color: #fff;
+        }
 	</style>
 
 <title>JSP</title>
 </head>
 <body>
 	<h1>grid 선택 테스트공간</h1>
-	<h4>특별재고</h4>
+	<h4>특별관리</h4>
 	
 	<h1>Custom View</h1>
     <div class="config-panel">
         <label><input id="heading" type="checkbox" checked /> Heading</label>
-        <label><input id="filtering" type="checkbox" checked /> Filtering</label>
+        <label><input id="filtering" type="checkbox" /> Filtering</label>
         <label><input id="inserting" type="checkbox" /> Inserting</label>
-        <label><input id="editing" type="checkbox" checked /> Editing</label>
+        <label><input id="editing" type="checkbox" /> Editing</label>
         <label><input id="paging" type="checkbox" checked /> Paging</label>
         <label><input id="sorting" type="checkbox" checked /> Sorting</label>
-        <label><input id="selecting" type="checkbox" checked /> Selecting</label>
+        <label><input id="selecting" type="checkbox" /> Selecting</label>
     </div>
 	
 <!-- jsGrid 생성을 합니다.-->
+	<div id="externalPager" class="external-pager"></div>
    	<div id="jsGrid"></div>
 	<script>
 		$.ajax({
@@ -52,13 +61,23 @@
 				height : "auto",
 				//데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
 				autoload : true,
-				editing: true,
 				//그리드 헤더 클릭시 sorting이 되게함
 				sorting : true,
 				// 페이징 처리
 				paging:true,
 				pageSize : 5,
 				pageButtonCount : 5,
+				
+				pagerContainer: "#externalPager",
+                pagerFormat: "current page: {pageIndex} &nbsp;&nbsp; {first} {prev} {pages} {next} {last} &nbsp;&nbsp; total pages: {pageCount} total items: {itemCount}",
+                pagePrevText: "<",
+                pageNextText: ">",
+                pageFirstText: "<<",
+                pageLastText: ">>",
+               /*  pageNavigatorNextText: "&#8230;",
+                pageNavigatorPrevText: "&#8230;", */
+				
+				
 				//json 배열을 데이터에 연결함.
 				data : json, 
 				//grid에 표현될 필드 요소
