@@ -36,7 +36,7 @@
 		})
 		.done(function(json) {
 			$("#jsGrid").jsGrid({
-				width : "70%",
+				width : "100%",
 				height : "auto",
 				editing : true,
 				//데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
@@ -50,52 +50,16 @@
 				//json 배열을 데이터에 연결함.
 				data : json, 
 				//grid에 표현될 필드 요소
-				fields : [ {
-					name : "ordpl_ordlin_num",
-					type : "text",
-					title: "발주계획번호",
-					readOnly: true,
-					width : 150
-				}, {
-					name : "orplin_date",
-					type : "text",
-					title: "날짜",
-					width : 50
-				}, {
-					name : "ordpl_onum",
-					type : "text",
-					title: "발주물품번호",
-					width : 200
-				}, {
-					name : "ordpl_product_code",
-					type : "text",
-					title: "제품번호",
-					width : 200
-				},{
-					name : "ordpl_qt",
-					type : "text",
-					title: "수량",
-					width : 200
-				},{
-					name : "ordpl_wr",
-					type : "text",
-					title: "작성자",
-					width : 200
-				},{
-					name : "ordpl_stat",
-					type : "text",
-					title: "발주상태",
-					width : 200
-				},{
-					name : "ordpl_end",
-					type : "text",
-					title: "완료여부",
-					width : 200
-				},
-
-					{
-					type: "control", deleteButton: true
-				}]
+				fields : [ { name : "ORDPL_ORDLIN_NUM", type : "text", title: "발주계획번호", 
+								readOnly: true,width : 150}, 
+							{name : "ORPLIN_DATE", type : "text", title: "날짜", width : 200}, 
+							{name : "ORDPL_ONUM", type : "text", title: "발주물품번호", width : 200}, 
+							{name : "ORDPL_PRODUCT_CODE", type : "text", title: "제품번호", width : 200},
+							{name : "ORDPL_QT", type : "text", title: "수량", width : 200},
+							{name : "ORDPL_WR", type : "text", title: "작성자", width : 200},
+							{name : "ORDPL_STAT", type : "text", title: "발주상태", width : 200},
+							{name : "ORDPL_END", type : "text", title: "완료여부", width : 200},
+							{type: "control", deleteButton: true}]
 			}); // 그리드 끝
 		}); // ajax 끝
 		
