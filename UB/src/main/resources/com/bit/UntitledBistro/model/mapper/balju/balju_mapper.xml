@@ -6,14 +6,14 @@
   
   <insert id="insert_Balju_Plan1" parameterType="hashmap"><!-- com.bit.UntitledBistro.model.balju.Balju_PlanDTO -->
   	<![CDATA[
-  		Insert into ORPL_INPUT
+  		INSERT INTO ORPL_INPUT
   		(
   			ORPLIN_NUM, 
   			ORPLIN_DATE
   		) 
-  		values 
+  		VALUES 
   		(
-  			(select nvl(max(ORPLIN_NUM),0)+1 from ORPL_INPUT),
+  			(SELECT NVL(MAX(ORPLIN_NUM),0)+1 FROM ORPL_INPUT),
   			SYSDATE
   		)
   	]]>
@@ -21,7 +21,7 @@
   
   <insert id="insert_Balju_Plan2" parameterType="hashmap">
   	<![CDATA[
-  		Insert into ORDER_PLAN
+  		INSERT INTO ORDER_PLAN
   		(
   			ORDPL_ORDLIN_NUM,
   			ORDPL_ONUM,
@@ -31,10 +31,10 @@
   			ORDPL_STAT,
   			ORDPL_END
   		)
-  		values
+  		VALUES
   		(
-  			(select nvl(max(ORDPL_ORDLIN_NUM),0)+1 from ORDER_PLAN),
-  			(select nvl(max(ORDPL_ONUM),0)+1 from ORDER_PLAN),
+  			(SELECT NVL(MAX(ORDPL_ORDLIN_NUM),0)+1 FROM ORDER_PLAN),
+  			(SELECT NVL(MAX(ORDPL_ONUM),0)+1 FROM ORDER_PLAN),
   			#{ORDPL_PRODUCT_CODE},
   			#{ORDPL_QT},
   			#{ORDPL_WR},
@@ -46,14 +46,14 @@
   
   <insert id="insert_Balju1" parameterType="hashmap">
   	<![CDATA[
-  		Insert into ORDER_INPUT
+  		INSERT INTO ORDER_INPUT
   		(
   			ORDIN_NUM,
   			ORDIN_DATE
   		) 
-  		values
+  		VALUES
   		(
-  			(select nvl(max(ORDIN_NUM),0)+1 from ORDER_INPUT),
+  			(SELECT NVL(MAX(ORDIN_NUM),0)+1 FROM ORDER_INPUT),
   			SYSDATE
   		)
   	]]>
@@ -61,7 +61,7 @@
   
   <insert id="insert_Balju2" parameterType="hashmap">
   	<![CDATA[
-  		Insert into ORDERLIST
+  		INSERT INTO ORDERLIST
   		(
   			ORDER_ORDIN_NUM,
   			ORDER_NUM,
@@ -73,10 +73,10 @@
   			ORDER_STAT,
   			ORDER_END
   		)
-  		values
+  		VALUES
   		(
-  			(select nvl(max(ORDER_ORDIN_NUM),0)+1 from ORDERLIST),
-  			(select nvl(max(ORDER_NUM),0)+1 from ORDERLIST),
+  			(SELECT NVL(MAX(ORDER_ORDIN_NUM),0)+1 FROM ORDERLIST),
+  			(SELECT NVL(MAX(ORDER_NUM),0)+1 FROM ORDERLIST),
   			#{ORDER_PRODUCT_CODE},
   			#{ORDER_QT},
   			#{ORDER_PR_EA},
@@ -90,14 +90,14 @@
   
   <insert id="insert_Balju_Save1" parameterType="hashmap">
    <![CDATA[
-   		Insert into ORDER_SAPL
+   		INSERT INTO ORDER_SAPL
    		(
    			ORSP_NUM,
    			ORSP_DATE
    		)
-   		values 
+   		VALUES 
    		(
-   			(select nvl(max(ORSP_NUM),0)+1 from ORDER_SAPL),
+   			(SELECT NVL(MAX(ORSP_NUM),0)+1 FROM ORDER_SAPL),
    			SYSDATE
    		)
    	]]>
@@ -105,7 +105,7 @@
   
   <insert id="insert_Balju_Save2" parameterType="hashmap">
    <![CDATA[
-   		Insert into ORDER_SAVE
+   		INSERT INTO ORDER_SAVE
    		(
    			ORSA_ORSP_NUM,
    			ORSA_NUM,
@@ -113,10 +113,10 @@
    			ORSA_QT,
    			ORSA_WR
    		)
-   		values
+   		VALUES
    		(
-   			(select nvl(max(ORSA_ORSP_NUM),0)+1 from ORDER_SAVE),
-   			(select nvl(max(ORSA_NUM),0)+1 from ORDER_SAVE),
+   			(SELECT NVL(MAX(ORSA_ORSP_NUM),0)+1 FROM ORDER_SAVE),
+   			(SELECT NVL(MAX(ORSA_NUM),0)+1 FROM ORDER_SAVE),
    			ORSA_PRODUCT_CODE,
    			ORSA_QT,
    			ORSA_WR
@@ -126,7 +126,7 @@
   
   <select id="balju_List" parameterType="hashmap" resultType="hashmap">
   	<![CDATA[
-  		Select 
+  		SELECT 
   			ORDER_ORDIN_NUM,
   			ORDIN_DATE,
   			ORDER_NUM,
@@ -137,11 +137,11 @@
   			ORDER_SUMMA,
   			ORDER_STAT,
   			ORDER_END
-  		from 
+  		FROM 
   			ORDER_INPUT
-  		inner join 
+  		INNER JOIN 
   			ORDERLIST 
-  		on 
+  		ON 
   			ORDER_INPUT.ORDIN_NUM 
   			= 
   			ORDERLIST.ORDER_ORDIN_NUM
@@ -150,20 +150,20 @@
   
   <select id="balju_Plan_list" parameterType="hashmap" resultType="hashmap">
   	<![CDATA[
-  		Select 
+  		SELECT  
   			ORDPL_ORDLIN_NUM,
-  			ORPLIN_DATE,
+  			TO_CHAR(ORPLIN_DATE,'YYYY-MM-DD'),
   			ORDPL_ONUM,
   			ORDPL_PRODUCT_CODE,
   			ORDPL_QT,
   			ORDPL_WR,
   			ORDPL_STAT,
   			ORDPL_END
-  		from 
+  		FROM 
   			ORPL_INPUT 
-  		inner join
+  		INNER JOIN
   			ORDER_PLAN
-  		on 
+  		ON 
   			ORPL_INPUT.ORPLIN_NUM 
   			= 
   			ORDER_PLAN.ORDPL_ORDLIN_NUM
@@ -172,18 +172,18 @@
   
   <select id="balju_Save_list" parameterType="hashmap" resultType="hashmap">
   	<![CDATA[
-  		Select
+  		SELECT
   			ORSA_ORSP_NUM,
   			ORSP_DATE,
   			ORSA_NUM,
   			ORSA_PRODUCT_CODE,
   			ORSA_QT,
   			ORSA_WR
-  		from 
+  		FROM 
   			ORDER_SAPL 
-  		inner join
+  		INNER JOIN
   			ORDER_SAVE
-  		on 
+  		ON 
   			ORDER_SAPL.ORSP_NUM
   			= 
   			ORDER_SAVE.ORSA_ORSP_NUM

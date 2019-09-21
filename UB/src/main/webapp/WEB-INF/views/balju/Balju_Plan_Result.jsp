@@ -23,15 +23,18 @@
 <body>
 	<!-- <button id="delete">jsgrid 데이터 업데이트</button>
 	<button id="cancel">취소</button> -->
-
+1245155
 <!-- jsGrid 생성을 합니다.-->
    	<div id="jsGrid"></div>
 	<script>
 		var update_item = {};
 		//수정할 데이터의 값을 임시적으로 갖고 있을 jsonobj
+
+	
+	//데이트 피커 부분
 	
 		$.ajax({
-			type:"post",
+			type:"get",
 			url:"${path}/balju_Plan_Result",
 		})
 		.done(function(json) {
@@ -52,7 +55,7 @@
 				//grid에 표현될 필드 요소
 				fields : [ { name : "ORDPL_ORDLIN_NUM", type : "text", title: "발주계획번호", 
 								readOnly: true,width : 150}, 
-							{name : "ORPLIN_DATE", type : "text", title: "날짜", width : 200}, 
+							{name : "TO_CHAR(ORPLIN_DATE,'YYYY-MM-DD')", type : "text", title: "날짜", width : 200}, 
 							{name : "ORDPL_ONUM", type : "text", title: "발주물품번호", width : 200}, 
 							{name : "ORDPL_PRODUCT_CODE", type : "text", title: "제품번호", width : 200},
 							{name : "ORDPL_QT", type : "text", title: "수량", width : 200},

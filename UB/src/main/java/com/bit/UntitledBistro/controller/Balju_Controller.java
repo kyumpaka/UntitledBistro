@@ -57,7 +57,7 @@ public class Balju_Controller {
 		return "/balju/Balju_Plan";
 	}
 	
-	@RequestMapping(value ="/balju_Plan_Result", method = RequestMethod.POST)
+	@RequestMapping(value ="/balju_Plan_Result", method = RequestMethod.GET)
 	@ResponseBody
 	public List Balju_Plan_Result(Balju_PlanDTO BPdto) throws Exception{
 		System.out.println("발주계획현황에 접속되었습니다.");
