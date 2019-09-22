@@ -4,6 +4,16 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
+<!-- result에서는  1항목씩 전체적인 부분을 그리드를 통해서 inner join insert하며
+		그리드의 update 기능을 이용하여 item을 ajax update 처리 한다 
+		update와 delete 기능을 ajax로 처리할수 있도록 한다.
+		
+	발주계획현황은 전체, 진행중, 완료 3개의 탭으로 구분하며 보여주며
+	수량조정은 그리드상에서 적용하며 [신규]는 blaju_plan.jsp로 이동한다
+	[종결]이나 [선택삭제]또한 체크박스를 통해서 일괄적으로 처리할수 있도록 버튼을 지원한다
+	
+	>>> 발주진행(혹은 발주서버튼) <<< 을 통해서 체크한 값을 발주로 balju table에 insert 해줄수 있어야한다. -->
+
 <head>
 <meta charset="UTF-8">
 	<!-- jsgrid 사용을 위한 jquery를 cdn 연결-->
