@@ -19,8 +19,7 @@
 						<label for="text-input" class=" form-control-label">메뉴 구분 이름</label>
 					</div>
 					<div class="col-12 col-md-9">
-						<input type="text" id="text-input" name="mt_Name"
-							placeholder="입력해주세요." class="form-control">
+						<input type="text" id="text-input" name="mt_Name" placeholder="입력해주세요." class="form-control">
 					</div>
 				</div>
 			</form>

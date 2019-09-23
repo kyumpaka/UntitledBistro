@@ -85,7 +85,6 @@
 			    var areasizeWidth = $('#tableArea').width();
 			    var areasizeHeight = $('#tableArea').height();
 
-			    //parseInt = 형변환
 			    var divsizeWidth = parseInt(document.getElementById(targetid).style.width.replace("px",""));
 			    var divsizeHeight = parseInt(document.getElementById(targetid).style.height.replace("px",""));
 	
@@ -127,7 +126,7 @@
 		   // 테이블 생성
 		   function tableAdd() {
 			    event.preventDefault();
-				var frmTag = "<div id='drag_div"+tablecnt+"' style='display: block; border: 1px solid grey; width: 100px; height: 100px; position: absolute; left: "+table_left+"px; top: "+table_top+"px; cursor: pointer; cursor: hand' onmousedown='startDrag(event, this)'>";
+				var frmTag = "<div id='drag_div"+tablecnt+"' style='display: block; border: 1px solid grey; width: 100px; height: 150px; position: absolute; left: "+table_left+"px; top: "+table_top+"px; cursor: pointer; cursor: hand' onmousedown='startDrag(event, this)'>";
 				frmTag += "<div align='center'>테이블"+tablecnt+"</div></div>";
 				$("#tableArea").append(frmTag);
 				tablecnt++;
@@ -174,17 +173,18 @@
 			   for(var i = 0; i < templeftarr.length; i++){
 				   for(var j = i; j < templeftarr.length; j++){
 					   if(i != j){
-						   var leftflag = ((templeftarr[i] <= templeftarr[j]) && ((templeftarr[i]+div.width()) >= templeftarr[j]));
-						   var topflag = ((temptoparr[i] <= temptoparr[j]) && ((temptoparr[i]+div.width()) >= temptoparr[j]));
+						   var leftflag = ((templeftarr[i] <= templeftarr[j]) && (templeftarr[j]) <= (templeftarr[i]+div.width()+2));
+						   var topflag = ((temptoparr[i] <= temptoparr[j]) && (temptoparr[j]) <= (temptoparr[i]+div.height()+2));
 						   if(leftflag && topflag){
-							    swal({
+							   swal({
 									  title: "테이블 위치가 겹쳤습니다.",
 									  icon: "warning",
 									});
-							    tableflag = false;
-								return;
+								    tableflag = false;
+									return;
 						   }
 					   }
+					   
 				   }
 			   }
 			   

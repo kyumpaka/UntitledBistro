@@ -84,18 +84,6 @@
 		</if>
 	</delete>
 	
-	<select id="orderSelect" parameterType="map" resultType="order">
-	SELECT ORDER_TABLE, ORDER_FIRST, ORDER_FINAL FROM ORDER_DETAILS WHERE ORDER_NO = #{order_No}
-	</select>
-	
-	<select id="orderDetailSelect" parameterType="map" resultType="orderDetail">
-	SELECT OD_NO, OD_MENU_CODE, OD_QTY FROM ORDER_DETAILS WHERE OD_ORDER_NO = #{od_Order_No}
-	</select>
-	
-	<insert id="orderInsert">
-	INSERT INTO ORDER(ORDER_NO, ORDER_TABLESAVE_CODE, ORDER_FIRST, ORDER_FINAL) VALUES(#{order_No}, #{order_Tablesave_Code}, #{order_First}, #{order_Fianl})
-	</insert>
-	
 	<select id="tableSelect" resultType="tableSave">
 	SELECT TABLESAVE_CODE, TABLESAVE_X, TABLESAVE_Y FROM TABLESAVE
 	</select>
@@ -107,5 +95,55 @@
 	<delete id="tableDelete">
 	DELETE FROM TABLESAVE
 	</delete>
+	
+	<select id="ordersSelectAll" resultType="mainPos">
+	SELECT OD_ORDERS_NO, MENU_NAME, OD_QTY FROM ORDERS_DETAILS 
+	LEFT OUTER JOIN MENU ON MENU.MENU_CODE = ORDERS_DETAILS.OD_MENU_CODE ORDER BY ORDERS_DETAILS.OD_ORDERS_NO
+	</select>
+	
+	<select id="ordersSelect" parameterType="map" resultType="orders">
+	SELECT ORDERS_NO, ORDERS_TABLESAVE_CODE,  ORDERS_FIRST, ORDERS_FINAL FROM ORDERS WHERE ORDERS_NO = #{orders_No}
+	</select>
+	
+	<insert id="ordersInsert">
+	INSERT INTO ORDERS(ORDERS_NO, ORDERS_TABLESAVE_CODE) VALUES(#{orders_No}, #{orders_TableSave_Code})
+	</insert>
+	
+	<update id="ordersUpdate" parameterType="map">
+	UPDATE ORDERS SET ORDERS_FINAL = SYSDATE WHERE ORDERS_NO = #{orders_No}
+	</update>
+	
+	<delete id="ordersDelete" parameterType="map">
+	DELETE FROM ORDERS WHERE ORDERS_NO = #{orders_No}
+	</delete>
+	
+	<select id="ordersDetailSelect" parameterType="map" resultType="ordersList">
+	SELECT OD_NO, OD_ORDERS_NO, OD_MENU_CODE, MENU_NAME, MENU_PRICE, OD_QTY FROM ORDERS_DETAILS 
+	LEFT OUTER JOIN MENU ON MENU.MENU_CODE=ORDERS_DETAILS.OD_MENU_CODE WHERE OD_ORDERS_NO = #{od_Orders_No}
+	</select>
+	
+	<select id="odAllPrice" parameterType="map" resultType="java.lang.Integer">
+	SELECT NVL(SUM(MENU_PRICE * OD_QTY), 0) FROM ORDERS_DETAILS LEFT OUTER JOIN MENU ON MENU.MENU_CODE = ORDERS_DETAILS.OD_MENU_CODE WHERE OD_ORDERS_NO = #{od_Orders_No}
+	</select>
+	
+	<select id="ordersDetailsSelectCount" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM ORDERS_DETAILS WHERE OD_MENU_CODE = #{od_Menu_Code} AND OD_ORDERS_NO = #{od_Orders_No}
+	</select>
+	
+	<insert id="ordersDetailsInsert">
+	INSERT INTO ORDERS_DETAILS(OD_NO, OD_ORDERS_NO, OD_MENU_CODE, OD_QTY) VALUES((SELECT NVL(MAX(OD_NO),0)+1 FROM ORDERS_DETAILS), #{od_Orders_No}, #{od_Menu_Code}, #{od_Qty})
+	</insert>
+
+	<delete id="ordersDetailsDelete">
+	DELETE FROM ORDERS_DETAILS WHERE OD_ORDERS_NO = #{od_Orders_No} AND OD_MENU_CODE = #{od_Menu_Code}
+	</delete>
+	
+	<update id="ordersDetailsPlus">
+	UPDATE ORDERS_DETAILS SET OD_QTY = OD_QTY + 1 WHERE OD_ORDERS_NO = #{od_Orders_No} AND OD_MENU_CODE = #{od_Menu_Code}
+	</update>
+	
+	<update id="ordersDetailsMinus">
+	UPDATE ORDERS_DETAILS SET OD_QTY = OD_QTY - 1 WHERE OD_ORDERS_NO = #{od_Orders_No} AND OD_MENU_CODE = #{od_Menu_Code}
+	</update>
 	
 </mapper>

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -54,7 +53,6 @@
 			<div class="row">
 				<div id="tableArea" class="col-md-10 card" style="height: 750px;"></div>
 				<div class="col-md-2">
-					<!-- card.// -->
 					<div class="box">
 						<div class="col-md-13">
 							<button value="#" class="btn  btn-primary btn-lg btn-block"> 이동 </button>
@@ -85,7 +83,7 @@
 						</div>
 						<hr>
 						<div class="col-md-13">
-							<button value="${pageContext.request.contextPath}" class="btn  btn-primary btn-lg btn-block"> 설정 </button>
+							<button onclick="goSetting()" class="btn  btn-primary btn-lg btn-block"> 설정 </button>
 						</div>
 					</div>
 				</div>
@@ -97,22 +95,14 @@
 <script src="${pageContext.request.contextPath}/resources/pos/assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/resources/pos/assets/js/OverlayScrollbars.js" type="text/javascript"></script>
 	<script>
-		$('.btn').click(function(){
+		function goSetting(){
 			event.preventDefault();
-			var button = $(this).val();
-
-			if(button == "menuTypeAddForm") {
-				window.open('menuTypeAddForm.do','window_name','width=430,height=500,location=no,status=no,scrollbars=yes');
-			} else if(button == "${pageContext.request.contextPath}") {
-				$("#posMenuForm").attr("action", "${pageContext.request.contextPath}");
-			}
-			
-			$("#posMenuForm").submit();
-		});
+			location.href="${pageContext.request.contextPath}";
+		};
 
 		function goOrderList(tableNum) {
-			$("#order_TableNum").append("<input type='hidden' name='order_Table' value='"+tableNum+"'>");
-			$("#posMenuForm").attr("action", "orderList.do");
+			$("#order_TableNum").append("<input type='hidden' name='orders_No' value='"+tableNum+"'>");
+			$("#posMenuForm").attr("action", "ordersList.do");
 			$("#posMenuForm").submit();
 		};
 
@@ -123,12 +113,19 @@
 	   // 테이블 생성
 	   function tableAdd() {
 		    event.preventDefault();
-			var frmTag = "<div id='drag_div"+tablecnt+"' style='display: block; border: 1px solid grey; width: 100px; height: 100px; position: absolute; left: "+table_left+"px; top: "+table_top+"px; cursor: pointer; cursor: hand' class='btn' onclick='goOrderList("+tablecnt+")'>";
-			frmTag += "<div align='center'>테이블"+tablecnt+"</div><div id='order_TableNum'></div></div>";
+			var frmTag = "<div id='drag_div"+tablecnt+"' style='display: block; border: 1px solid grey; width: 100px; height: 150px; position: absolute; left: "+table_left+"px; top: "+table_top+"px; cursor: pointer; cursor: hand' class='btn' onclick='goOrderList("+tablecnt+")'>";
+			frmTag += "<div align='center'>테이블"+tablecnt+"</div>";
+			<c:forEach items="${ posMainList }" var="posMainList" >
+			   if('${ posMainList.od_Orders_No }' == tablecnt){
+				   frmTag += "${ posMainList.menu_Name }&nbsp;";
+				   frmTag += "${ posMainList.od_Qty }<br>";
+			   }
+			</c:forEach>
+			frmTag += "<div id='order_TableNum'></div></div>"
 			$("#tableArea").append(frmTag);
 			tablecnt++;
 	   }
-
+	   
 	   $(document).ready(function() {
 		    <c:forEach items="${tableList}" var="tableList" >
 				table_left = parseInt(${tableList.tableSave_X});
@@ -137,6 +134,7 @@
 			</c:forEach>
 			table_left = 0;
 			table_top = 0;
+			
 			startTime();
 		});
 		

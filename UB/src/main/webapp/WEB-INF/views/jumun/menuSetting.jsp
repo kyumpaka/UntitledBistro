@@ -30,14 +30,15 @@
 </head>
 <body>
 	<section class="section-content padding-y-sm bg-default ">
-	<form method="post" id="menuform">
+	<form method="post" id="menuSettingForm">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-10 card padding-y-sm card ">
 					<ul class="nav bg radius nav-pills nav-fill mb-3 bg" role="tablist">
-						<li class="nav-link" id="tab" onclick="location.href='menuSetting.do'" ><a class="nav-link" data-toggle="pill" href="#nav-tab-paypal"> ALL </a></li>
+						<li class="nav-link" id="tab" onclick="mtSettingView()" ><a class="nav-link" data-toggle="pill" href="#nav-tab-paypal"> ALL </a></li>
 						<c:forEach items="${ menuTypeList }" var="menuTypeList" >
-							<li class="nav-link" id="tab${ menuTypeList.mt_Code }" onclick="location.href='menuSetting.do?mt_Code=${ menuTypeList.mt_Code }'" ><a class="nav-link" data-toggle="pill" href="#nav-tab-card"> ${ menuTypeList.mt_Name } </a></li>
+							<li class="nav-link" id="tab${ menuTypeList.mt_Code }" onclick="mtSettingView('${ menuTypeList.mt_Code }')" ><a class="nav-link" data-toggle="pill" href="#nav-tab-card"> ${ menuTypeList.mt_Name } </a></li>
+							<div id="tabMt_Code"></div>
 						</c:forEach>
 					</ul>
 					<span id="items">
@@ -46,7 +47,7 @@
 							<div class="col-md-3">
 								<figure class="card card-product">
 								<label id="${ menuList.menu_Code }" onmouseenter="igdView('${ menuList.menu_Code }')">
-								<input class="check" type="checkbox" value="${ menuList.menu_Code }" name="menu_Code" id="menu_Code${ menuList.menu_Code }">
+								<input type="checkbox" value="${ menuList.menu_Code }" name="menu_Code" id="menu_Code${ menuList.menu_Code }">
 									<div class="img-wrap">
 										<img src="${pageContext.request.contextPath}/resources/images/jumun/${ menuList.menu_Image }">
 									</div>
@@ -129,7 +130,7 @@
 			</c:forEach>
 
 			// 체크박스 및 체크이미지 숨기기
-			$("input[class='check']").css("display","none");
+			$("input[name='menu_Code']").css("display","none");
 			$(".checkImg").css("display","none");
 
 			// 결과 보이기
@@ -151,7 +152,7 @@
 		});
 
 		// 체크된 메뉴 및 이미지 조절
-		$('.check').click(function(){
+		$("input[name='menu_Code']").click(function(){
 			var num = $(this).val();
 			
 			if($("input:checkbox[id='menu_Code"+num+"']").is(":checked") == false) {
@@ -161,6 +162,14 @@
 				$("#menuimg"+num).css("float","left");
 			}
 		});
+
+		function mtSettingView(code) {
+			if(code != undefined){
+				$("#tabMt_Code").append('<input type="hidden" name="mt_Code" value="'+code+'">');
+			}
+			$("#menuSettingForm").attr("action", "menuSetting.do");
+			$("#menuSettingForm").submit();
+		};
 		
 		$('.btn').click(function(){
 			event.preventDefault();
@@ -211,8 +220,8 @@
 		  			  dangerMode: true,
 		  			}).then((willDelete) => {
 		  				  if (willDelete) {
-		  					$("#menuform").attr("action", "menuRemove.do");
-		  					$("#menuform").submit();
+		  					$("#menuSettingForm").attr("action", "menuRemove.do");
+		  					$("#menuSettingForm").submit();
 		  				  }
 		  			});
 		        } else {
@@ -224,8 +233,8 @@
 					return;
 		        }
 			} else if(button == "posMain") {
-				$("#menuform").attr("action", "posMain.do");
-				$("#menuform").submit();
+				event.preventDefault();
+				location.href = "posMain.do";
 			}
 		});
 		

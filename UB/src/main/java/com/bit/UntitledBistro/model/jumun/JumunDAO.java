@@ -32,13 +32,6 @@ public interface JumunDAO {
 
 	public int ingreDelete(Map<String, String> map);
 	
-	// 주문내역
-	public OrderDTO orderSelect(Map<String, String> map);
-	
-	public ArrayList<OrderDetailDTO> orderDetailSelect(Map<String, String> map);
-	
-	public int orderInsert(OrderDTO orderDTO);
-	
 	// 테이블
 	public ArrayList<TableSaveDTO> tableSelect();
 	
@@ -46,4 +39,28 @@ public interface JumunDAO {
 	
 	public int tableDelete();
 	
+	// 주문내역
+	public ArrayList<MainPosDTO> ordersSelectAll();
+	
+	public OrdersDTO ordersSelect(Map<String, String> map);
+	
+	public int ordersInsert(OrdersDTO ordersDTO);
+	
+	public int ordersUpdate(Map<String, String> map);
+	
+	public int ordersDelete(Map<String, String> map);
+	
+	public ArrayList<OrdersListDTO> ordersDetailSelect(Map<String, String> map);
+	
+	public int odAllPrice(Map<String, String> map);
+	
+	public int ordersDetailsSelectCount(OrdersDetailDTO ordersDetailDTO);
+	
+	public int ordersDetailsInsert(OrdersDetailDTO ordersDetailDTO);
+	
+	public int ordersDetailsDelete(OrdersDetailDTO ordersDetailDTO);
+	
+	public int ordersDetailsPlus(OrdersDetailDTO ordersDetailDTO);
+	
+	public int ordersDetailsMinus(OrdersDetailDTO ordersDetailDTO);
 }

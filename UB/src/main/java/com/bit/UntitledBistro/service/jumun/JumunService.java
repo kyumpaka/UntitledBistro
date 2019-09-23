@@ -6,9 +6,11 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bit.UntitledBistro.model.jumun.IngredientDTO;
+import com.bit.UntitledBistro.model.jumun.MainPosDTO;
 import com.bit.UntitledBistro.model.jumun.MenuDTO;
 import com.bit.UntitledBistro.model.jumun.MenuTypeDTO;
-import com.bit.UntitledBistro.model.jumun.OrderDTO;
+import com.bit.UntitledBistro.model.jumun.OrdersDTO;
+import com.bit.UntitledBistro.model.jumun.OrdersDetailDTO;
 import com.bit.UntitledBistro.model.jumun.TableSaveDTO;
 
 public interface JumunService {
@@ -38,12 +40,21 @@ public interface JumunService {
 	// 재료
 	public ArrayList<IngredientDTO> ingreSearchByMenuCode(String menu_Code);
 	
-	// 주문목록
-	public OrderDTO orderList(OrderDTO orderDTO);
-	
 	// 테이블
 	public ArrayList<TableSaveDTO> tableSearch();
 	
 	public int tableAdd(List<TableSaveDTO> list);
 	
+	// 주문목록
+	public ArrayList<MainPosDTO> orderListAll();
+	
+	public OrdersDTO ordersList(String orders_No);
+	
+	public int odAllPrice(String orders_No);
+	
+	public int ordersRemove(OrdersDetailDTO ordersDetailDTO);
+	
+	public int ordersPlus(OrdersDetailDTO ordersDetailDTO);
+	
+	public int ordersMinus(OrdersDetailDTO ordersDetailDTO);
 }

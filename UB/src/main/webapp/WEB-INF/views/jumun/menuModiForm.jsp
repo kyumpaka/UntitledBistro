@@ -83,8 +83,7 @@
 					</div>
 				</div>
 				<div id="addIgd">
-					<c:forEach items="${ menuDTO.jumun_IngredientDTO }"
-						var="IngredientDTO" varStatus="stauts">
+					<c:forEach items="${ menuDTO.jumun_IngredientDTO }" var="IngredientDTO" varStatus="stauts">
 						<div id="addIgd${ stauts.index }">
 							<div class="row form-group">
 								<div class="col col-md-3">
@@ -118,7 +117,7 @@
 		</div>
 		<div class="card-footer">
 			<button onclick="igdAdd()" class="btn btn-primary btn-sm">재료 추가</button>
-			<button class="btn btn-primary btn-sm" id="uploadbutton"> <i class="fa fa-dot-circle-o"></i> 완료 </button>
+			<button class="btn btn-primary btn-sm" onclick="upload()"> <i class="fa fa-dot-circle-o"></i> 완료 </button>
 			<button onclick="windowClose()" class="btn btn-primary btn-sm"><i class="fa fa-dot-circle-o"></i> 취소</button>
 		</div>
 	</div>
@@ -159,7 +158,7 @@
 			window.close();
 		};
 
-		$("#uploadbutton").click(function() {
+		function upload() {
 			if(igdcheck()){
 				if(menucheck()){
 					var form = $('#multiform')[0];
@@ -185,7 +184,7 @@
 			        });
 				}
 			}
-		});
+		};
 
 		function menucheck(){
 			var menu_Name = $("input[name='menu_Name']").val().trim();

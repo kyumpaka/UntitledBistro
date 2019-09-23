@@ -18,9 +18,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bit.UntitledBistro.model.jumun.IngredientDTO;
 import com.bit.UntitledBistro.model.jumun.JumunDAO;
+import com.bit.UntitledBistro.model.jumun.MainPosDTO;
 import com.bit.UntitledBistro.model.jumun.MenuDTO;
 import com.bit.UntitledBistro.model.jumun.MenuTypeDTO;
-import com.bit.UntitledBistro.model.jumun.OrderDTO;
+import com.bit.UntitledBistro.model.jumun.OrdersDTO;
+import com.bit.UntitledBistro.model.jumun.OrdersDetailDTO;
 import com.bit.UntitledBistro.model.jumun.TableSaveDTO;
 
 @Service
@@ -77,9 +79,8 @@ public class JumunServiceImpl implements JumunService {
 		dao = sqlSession.getMapper(JumunDAO.class);
 		map = new HashMap<String, String>();
 		map.put("menu_Mt_Code", menu_Mt_Code);
-		ArrayList<MenuDTO> list = dao.menuSelect(map);
 		
-		return list;
+		return dao.menuSelect(map);
 	}
 
 	@Override
@@ -198,24 +199,6 @@ public class JumunServiceImpl implements JumunService {
 		
 		return dao.ingreSelect(map);
 	}
-
-	@Override
-	public OrderDTO orderList(OrderDTO orderDTO) {
-		dao = sqlSession.getMapper(JumunDAO.class);
-		map = new HashMap<String, String>();
-		map.put("order_No", orderDTO.getOrder_No());
-		map.put("od_Order_No", orderDTO.getOrder_No());
-		OrderDTO dto = dao.orderSelect(map);
-		
-		if(dto == null) {
-			dao.orderInsert(orderDTO);
-			return orderDTO;
-		} else {
-			dto.setJumun_OrderDetailDTO(dao.orderDetailSelect(map));
-		}
-		
-		return dto;
-	}
 	
 	@Override
 	public ArrayList<TableSaveDTO> tableSearch() {
@@ -237,5 +220,70 @@ public class JumunServiceImpl implements JumunService {
 		
 		return cnt;
 	}
-
+	
+	@Override
+	public ArrayList<MainPosDTO> orderListAll() {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		return dao.ordersSelectAll();
+	}
+	
+	@Override
+	public OrdersDTO ordersList(String orders_No) {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		map = new HashMap<String, String>();
+		map.put("orders_No", orders_No);
+		
+		// 미사용 테이블이면 생성
+		if(dao.ordersSelect(map) == null) {
+			OrdersDTO ordersDTO = new OrdersDTO();
+			ordersDTO.setOrders_No(orders_No);
+			ordersDTO.setOrders_TableSave_Code(orders_No);
+			dao.ordersInsert(ordersDTO);
+		} 
+		
+		OrdersDTO ordersDTO = dao.ordersSelect(map);
+		map.put("od_Orders_No", orders_No);
+		ordersDTO.setOrdersListDTO(dao.ordersDetailSelect(map));
+		
+		return ordersDTO;
+	}
+	
+	@Override
+	public int odAllPrice(String orders_No) {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		map = new HashMap<String, String>();
+		map.put("od_Orders_No", orders_No);
+		return dao.odAllPrice(map);
+	}
+	
+	@Override
+	public int ordersRemove(OrdersDetailDTO ordersDetailDTO) {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		return dao.ordersDetailsDelete(ordersDetailDTO);
+	}
+	
+	@Override
+	public int ordersPlus(OrdersDetailDTO ordersDetailDTO) {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		map = new HashMap<String, String>();
+		map.put("orders_No", ordersDetailDTO.getOd_Orders_No());
+		dao.ordersUpdate(map);
+		
+		if(dao.ordersDetailsSelectCount(ordersDetailDTO) == 0) {
+			return dao.ordersDetailsInsert(ordersDetailDTO);			
+		} else {
+			return dao.ordersDetailsPlus(ordersDetailDTO);
+		}
+	}
+	
+	@Override
+	public int ordersMinus(OrdersDetailDTO ordersDetailDTO) {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		map = new HashMap<String, String>();
+		map.put("orders_No", ordersDetailDTO.getOd_Orders_No());
+		dao.ordersUpdate(map);
+		
+		return dao.ordersDetailsMinus(ordersDetailDTO);
+	}
+	
 }

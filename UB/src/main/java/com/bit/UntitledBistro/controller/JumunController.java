@@ -22,7 +22,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.bit.UntitledBistro.model.jumun.IngredientDTO;
 import com.bit.UntitledBistro.model.jumun.MenuDTO;
 import com.bit.UntitledBistro.model.jumun.MenuTypeDTO;
-import com.bit.UntitledBistro.model.jumun.OrderDTO;
+import com.bit.UntitledBistro.model.jumun.OrdersDTO;
+import com.bit.UntitledBistro.model.jumun.OrdersDetailDTO;
 import com.bit.UntitledBistro.model.jumun.TableSaveDTO;
 import com.bit.UntitledBistro.service.jumun.JumunService;
 
@@ -140,18 +141,37 @@ public class JumunController {
 	@RequestMapping(value = "/posMain.do")
 	public String posMain(Model model) {
 		model.addAttribute("tableList", jumunService.tableSearch());
-		// 주문내역 보내주기 추가해야함
+		model.addAttribute("posMainList", jumunService.orderListAll());
 		
 		return "views/jumun/posMain";
 	}
 	
-	@RequestMapping(value = "/orderList.do", method = RequestMethod.POST)
-	public String orderList(@ModelAttribute("order_Table") String order_Table, Model model, @ModelAttribute("mt_Code") String mt_Code) {
-//		model.addAttribute("orderList", MenuSettingService.orderList(orderDTO)); 주문내역
+	@RequestMapping(value = "/ordersList.do", method = RequestMethod.POST)
+	public String orderList(@ModelAttribute("orders_No") String orders_No, Model model, @ModelAttribute("mt_Code") String mt_Code) {
+		model.addAttribute("ordersList", jumunService.ordersList(orders_No));
+		model.addAttribute("allPrice", jumunService.odAllPrice(orders_No));
 		model.addAttribute("menuTypeList", jumunService.menuTypeSearch("all"));
 		model.addAttribute("menuList", jumunService.menuSearch(mt_Code));
 		
-		return "views/jumun/orderList";
+		return "views/jumun/ordersList";
+	}
+
+	@RequestMapping(value = "/ordersRemove.do", method = RequestMethod.POST)
+	@ResponseBody
+	public int ordersRemove(@RequestBody OrdersDetailDTO ordersDetailDTO) {
+		return jumunService.ordersRemove(ordersDetailDTO);
+	}
+	
+	@RequestMapping(value = "/ordersPlus.do", method = RequestMethod.POST)
+	@ResponseBody
+	public int ordersPlus(@RequestBody OrdersDetailDTO ordersDetailDTO) {
+		return jumunService.ordersPlus(ordersDetailDTO);
+	}
+
+	@RequestMapping(value = "/ordersMinus.do", method = RequestMethod.POST)
+	@ResponseBody
+	public int ordersMinus(@RequestBody OrdersDetailDTO ordersDetailDTO) {
+		return jumunService.ordersMinus(ordersDetailDTO);
 	}
 	
 }
