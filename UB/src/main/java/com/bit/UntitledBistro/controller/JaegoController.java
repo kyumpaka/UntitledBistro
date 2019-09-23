@@ -7,9 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.UntitledBistro.model.jaego.ItemDAOImpl;
@@ -62,9 +60,11 @@ public class JaegoController {
 	}
 	
 	@RequestMapping(value = "/gridSelectAll")
-	public @ResponseBody List<ItemDTO> gridSelectAll() {
+	public @ResponseBody List<ItemDTO> gridSelectAll(ItemDTO dto) {
 		logger.info("여기는 그리드 전체 조회 컨트롤러 입니다.");
-		return dao.itemSelectAll();
+		logger.info("시작날짜 : " + dto.getStartDate());
+		logger.info("마지막날짜 : " + dto.getEndDate());
+		return dao.itemSelectAll(dto);
 	}
 	
 	@RequestMapping(value = "/gridInsert")

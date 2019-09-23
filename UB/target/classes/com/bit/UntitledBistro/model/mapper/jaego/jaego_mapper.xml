@@ -4,8 +4,41 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="jaego">
- 	<select id="itemSelectAll" resultType="item">
-		SELECT * FROM ITEM
+ 	<select id="itemSelectAll" parameterType="item" resultType="item">
+		SELECT 
+			 ITEM_PRODUCT_CODE								
+			,PRODUCT_NAME									
+			,SUM(ITEM_QTY)								AS ITEM_QTY
+		FROM 
+			(
+			SELECT 
+		    	 /*+ INDEX_DESC(ITEM PK_ITEM_NO) */ 
+		    	 I.ITEM_PRODUCT_CODE					AS ITEM_PRODUCT_CODE
+		    	,I.ITEM_QTY								AS ITEM_QTY
+		    	,I.ITEM_REGDATE							AS ITEM_REGDATE
+		    	,P.PRODUCT_NAME           				AS PRODUCT_NAME
+		    FROM 
+		    	ITEM I
+		    INNER JOIN
+		        PRODUCT P
+		    ON
+		    	I.ITEM_PRODUCT_CODE = P.PRODUCT_CODE 
+		    <where>
+		    <if test="product_name != '' and product_name != null">
+		    <![CDATA[
+		    	PRODUCT_NAME = #{product_name}
+		    ]]>
+		    </if>
+		    <if test="startDate != '' and startDate != null">
+		    <![CDATA[
+		    	AND ITEM_REGDATE <= TO_DATE(#{startDate},'YYYY/MM/DD')
+		    ]]>
+		    </if>
+		    </where> 
+		    )           
+		GROUP BY
+			 ITEM_PRODUCT_CODE
+        	,PRODUCT_NAME 
  	</select>
  	
  	<insert id="itemInsert">

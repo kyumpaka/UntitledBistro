@@ -11,8 +11,8 @@ public class ItemDAOImpl {
 	@Autowired
 	private SqlSessionTemplate mybatis;
 	
-	public List<ItemDTO> itemSelectAll(){
-		return mybatis.selectList("jaego.itemSelectAll");
+	public List<ItemDTO> itemSelectAll(ItemDTO dto){
+		return mybatis.selectList("jaego.itemSelectAll", dto);
 	}
 	
 	public int itemInsert(ItemDTO dto){
