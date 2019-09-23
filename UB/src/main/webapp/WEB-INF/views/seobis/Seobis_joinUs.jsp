@@ -8,6 +8,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="css/seobis/bootstrap.css">
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="js/seobis/bootstrap.js"></script>
 <title>회원 가입창</title>
 <style>
    .text_center{
@@ -16,9 +20,11 @@
 </style>
 </head>
 <body>
+	<header>
+		<h1 class="text_center">회원 추가</h1>
+	</header>
 	<form method="post"   action="Seobis_createMember">
-	<h1  class="text_center">회원 추가</h1>
-	<table  align="center">
+	<table  class="table table-hover">
 	   <tr>
 	      <td width="200"><p align="right">아이디</td>
 	      <td width="400"><input type="text" name="member_id"></td>
@@ -50,3 +56,9 @@
 	</table>
 	</form>
 </body>
+
+
+
+
+
+

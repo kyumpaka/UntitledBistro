@@ -18,7 +18,7 @@
 </head>
 <body>
 
-<h1>회원 목록</h1>
+<h1>회원 관리</h1>
 
 <table width="1000" cellpadding="3">
 	<tr>
@@ -44,7 +44,7 @@
 		<td><button class="Seobis_MemberDelete" >삭제</button></td>
 	
 		
-		<%-- <td><a href="read.htm?num=${b.num}&pg=${pg}">${b.subject}</a></td>
+<%-- 		<td><a href="read.htm?num=${b.num}&pg=${pg}">${b.subject}</a></td>
 		<td>${b.name}</td>
 		<td><fmt:formatDate value="${b.regdate}" pattern="yyyy-MM-dd"/></td>
 		<td>${b.hit}</td> --%>

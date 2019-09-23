@@ -46,7 +46,7 @@ public class Seobis_MemberServiceImpl implements Seobis_MemberService {
 		seobis_MemberDAO.Seobis_MemberUpdate(seobis_MemberDTO_dto);
 	}
 	@Override
-	public Seobis_MemberDTO Seobis_MemberSelect(String member_id) {
+	public Seobis_MemberDTO Seobis_MemberSelect(String member_id) {    //멤버 읽기
 		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
 		return seobis_MemberDAO.Seobis_MemberSelect(member_id);
 	}

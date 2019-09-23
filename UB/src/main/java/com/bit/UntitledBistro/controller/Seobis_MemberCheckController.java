@@ -33,6 +33,11 @@ public class Seobis_MemberCheckController {
 		return "seobis/Seobis_form";
 	}
 	
+	@RequestMapping(value="/Seobis_pInt") //포인트 관리를 누르면 이동하는 맵핑
+	public String seobis_formaddon() {
+		return "seobis/Seobis_point";
+	}
+	
 	@RequestMapping(value="/Seobis_jUs")  // 회원 등록으로 보내는 맵핑
 	public String seobis_formadd() {
 	return "seobis/Seobis_joinUs";
@@ -102,17 +107,13 @@ public class Seobis_MemberCheckController {
 	
 	@RequestMapping(value="/Seobis_update") //회원 수정 맵핑 
 	public String seobis_memberUpdate(Seobis_MemberDTO seobis_MemberDTO_dto) {
-		System.out.println("없데이트 인가요????????????????????????????????????????");
-		System.out.println("인자값 : " + seobis_MemberDTO_dto);
 		Seobis_memberService.Seobis_MemberUpdate(seobis_MemberDTO_dto);
-		System.out.println("성공인가요???????????????????????????????????????????");
 		return "redirect:Seobis_mList";
 	}
 	
 	@RequestMapping(value="/Seobis_select") //회원 읽기 맵핑
 	public String seobis_memberSelect(String member_id, Model model) {
-		model.addAttribute("Seobis_memberSelect", Seobis_memberService.Seobis_MemberSelect(member_id));
-		 
+		model.addAttribute("Seobis_memberSelect", Seobis_memberService.Seobis_MemberSelect(member_id));	 
 		return "seobis/Seobis_update";
 	}
 }
