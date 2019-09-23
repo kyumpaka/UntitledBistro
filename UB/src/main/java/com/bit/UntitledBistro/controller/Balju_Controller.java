@@ -1,14 +1,23 @@
 package com.bit.UntitledBistro.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.UntitledBistro.model.balju.Balju_PlanDTO;
+import com.bit.UntitledBistro.model.balju.Item_DTO;
 import com.bit.UntitledBistro.service.balju.Balju_Service;
 
 @Controller
@@ -17,6 +26,8 @@ public class Balju_Controller {
 	@Autowired
 	private Balju_Service balju_Service;
 	
+	private static final Logger logger = LoggerFactory.getLogger(Balju_Controller.class);
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String a() {
 		System.out.println("메인페이지에 접속되었습니다.");
@@ -24,10 +35,30 @@ public class Balju_Controller {
 		
 	}
 	
+	@RequestMapping(value = "/Item_list", method = RequestMethod.GET)
+	public void item_list(Item_DTO Idto, Model model) {
+		System.out.println("품목 새창  띄우기 기능이 실행되었습니다.");
+		List<Map<String,String>> list = this.balju_Service.item_list(Idto);
+		model.addAttribute("item_list", list);
+	}
+	
+	
+	@RequestMapping(value = "/balju_Plan_Grid", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Map<String,String>> Balju_Plan_Grid(Balju_PlanDTO BPdto) {
+		logger.info("발주계획 그리드폼이 시작합니다");
+		List<Map<String,String>> list = this.balju_Service.balju_Dummy(BPdto);
+		return list;
+	}
+	
+	
 	@RequestMapping(value = "/balju/Balju_Plan", method = RequestMethod.GET)
-	public void b() {
-		System.out.println("발주계획에 접속되었습니다.");
+	public void Balju_Plan(Locale locale, Model model) {
+		logger.info("발주계획에 접속되었습니다.");
 		
+		SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
+		String date = SDF.format(new Date());
+		model.addAttribute("balju_date", date);
 	}
 	
 	@RequestMapping(value = "/balju/Balju_Plan_Result", method = RequestMethod.GET)

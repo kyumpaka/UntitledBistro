@@ -22,6 +22,11 @@ public interface Balju_DAO {
 	List<Map<String,String>> balju_Plan_list(Balju_PlanDTO BPdto);
 	List<Map<String,String>> balju_List(Balju_DTO Bdto);
 	List<Map<String,String>> balju_Save_list(Balju_SaveDTO BSdto);
+	List<Map<String,String>> balju_Dummy(Balju_PlanDTO BPdto);
+	
+	//공통 품목 새창전용
+	List<Map<String,String>> item_list(Item_DTO Idto);
+	
 	
 	void balju_Plan_modi(Balju_PlanDTO BPdto);
 	void balju_Modi(Balju_DTO Bdto);

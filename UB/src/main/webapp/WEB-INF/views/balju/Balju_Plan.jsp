@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>    
-    <c:set var="path" value="${pageContext.request.contextPath}"/>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="path" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <!-- 이 jsp 파일에서는 데이터입력 처리를 한다
@@ -26,112 +26,172 @@
 	 	
 	 	2단의 수량과 공급가액 하단에는 총수량 및 총 발주액을 표기해준다.
 	 -->
-	 
-	 
+
+
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- 템플릿 link rel -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="apple-touch-icon" href="https://i.imgur.com/QRAUqs9.png">
+<link rel="shortcut icon" href="https://i.imgur.com/QRAUqs9.png">
+
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
+<!-- 적용 안되는중 -->
+<link rel="stylesheet"
+	href="../src/main/webapp/resources/Admin/assets/css/cs-skin-elastic.css">
+<link rel="stylesheet"
+	href="../src/main/webapp/resources/Admin/assets/css/style.css">
+<!-- 적용 안되는중 -->
+
+<link
+	href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800'
+	rel='stylesheet' type='text/css'>
+<!-- 템플릿 link rel -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- jsgrid 사용을 위한 jquery를 cdn 연결-->
-<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
-<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+<link type="text/css" rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+<link type="text/css" rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
 <!-- jsgrid 사용을 위한 필요한 요소 cdn 연결-->
 <meta charset="UTF-8">
-<script>
-    //추가 버튼
-    $(document).on("click","button[name=addStaff]",function(){
-        var addStaffText =  '<tr name="trStaff">'+
-            '   <td class="active col-md-1"><strong>정산담당자</strong></td>'+
-            '   <td style="width:800px">'+
-            '       <input type="text" class="form-control" name="staff_name" placeholder="성명">'+
-            '       <input type="text" class="form-control" name="staff_contact" placeholder="연락처1">'+
-            '       <input type="text" class="form-control" name="staff_contact2" placeholder="연락처2">'+
-            '       <input type="text" class="form-control" name="staff_email" placeholder="이메일">'+
-            '       <select class="form-control statusYn" name="staff_use_yn">'+
-            '           <option value="Y">사용</option>'+
-            '           <option value="N">미사용</option>'+
-            '       </select>'+
-            '       <button class="btn btn-default" name="delStaff">삭제</button>'+
-            '   </td>'+
-            '</tr>';
-             
-        var trHtml = $( "tr[name=trStaff]:last" ); //last를 사용하여 trStaff라는 명을 가진 마지막 태그 호출
-         
-        trHtml.after(addStaffText); //마지막 trStaff명 뒤에 붙인다.
-         
-    });
-     
-    //삭제 버튼
-    $(document).on("click","button[name=delStaff]",function(){
-         
-        var trHtml = $(this).parent().parent();
-         
-        trHtml.remove(); //tr 테그 삭제
-         
-    });
-</script>
 <title>발주 계획 작성</title>
 </head>
 <body>
+	<!-- header -->
+	<div class="breadcrumbs">
+		<div class="breadcrumbs-inner">
+			<div class="row m-0">
+				<div class="col-sm-4">
+					<div class="page-header float-left">
+						<div class="page-title">
+							<h1>발주계획등록</h1>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-8">
+					<div class="page-header float-right">
+						<div class="page-title">
+							<ol class="breadcrumb text-right">
+								<li><a href="#"> 발주 </a></li>
+								<!-- <li class="active">Basic</li> -->
+							</ol>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- header -->
+	<div class="content">
+		<div class="animated fadeIn">
+			<!-- <h5 class="heading-title mb-1 mt-4 text-secondary"> 발주 정보 </h5><br> -->
+			<div class="row">
+				<div class="col-lg-3">
+					<h6>발주자</h6>
+					<section class="card">
+						<div class="card-body text-secondary">아이디로 이름을 불러옴</div>
+					</section>
+				</div>
+				<div class="col-lg-3">
+					<h6>발주일</h6>
+					<section class="card">
+						<div class="card-body text-secondary">${balju_date}</div>
+					</section>
+				</div>
+			</div>
 
-1231231231
-	<form action="${path}/balju_Plan_Input" method="post">
-	<label>품목코드 : </label>
-		<input id="ORDPL_PRODUCT_CODE" name="ORDPL_PRODUCT_CODE" type="text" >
-	<br>
 
-	<label>품목수량 : </label>
-		<input type="text" id="ORDPL_QT" name="ORDPL_QT">
-	<br>
-
-	<label>작성자 : </label>
-		<input type="text" id="ORDPL_WR" name="ORDPL_WR">
-	<br>
-
-	<label>진행상태 : </label>
-		<input type="text" id="ORDPL_STAT" name="ORDPL_STAT">
-	<br>
-	
-	<label>완료여부 : </label>
-		<input type="text" id="ORDPL_END" name="ORDPL_END">
-	<br>
-
-	<input type="submit" value="전송">
-	</form>
-	    <button name="addStaff">정산담당자 추가</button>
-    <br>
-    <br>
-    <table border="1" style="width:950px">
-        <tbody>
-            <tr name="trStaff">
-                <td style="width:150px"><strong>정산담당자</strong></td>
-                <td style="width:800px">
-                    <input type="text" name="staff_name" placeholder="성명">
-                    <input type="text" name="staff_contact" placeholder="연락처1">
-                    <input type="text" name="staff_contact2" placeholder="연락처2">
-                    <input type="text" name="staff_email" placeholder="이메일">
-                    <select name="staff_use_yn">
-                        <option value="Y">사용</option>
-                        <option value="N">미사용</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td><strong>메모</strong></td>
-                <td>
-                    <textarea style="width:800px" name="memo" rows="3" placeholder="메모를 남겨주세요."></textarea>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-  
-
-	<%-- <form action="${path}/balju_Plan_Input" method="post">
-		품목코드 : <input type="text" id="ORDPL_PRODUCT_CODE" name="ORDPL_PRODUCT_CODE">
-		품목수량 : <input type="text" id="ORDPL_QT" name="ORDPL_QT">
-		작성자 : <input type="text" id="ORDPL_WR" name="ORDPL_WR">
-		진행상태 : <input type="text" id="ORDPL_STAT" name="ORDPL_STAT">
-		완료여부 : <input type="text" id="ORDPL_END" name="ORDPL_END">
-	<input type="submit" value="전송">
-	</form> --%>
+			<div class="row">
+				<!-- body -->
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-header">
+							발주물품 정보<small><code> 이 부분은 잠시대기 </code></small>
+						</div>
+						<div id="jsGrid"></div>
+						<script>
+							var clients = [ {"ORDPL_ONUM" : "입력을 시작하세요."}, ];
+							$("#jsGrid").jsGrid({
+								width : "100%",
+								height : "auto",
+								inserting : true,
+								editing : true,
+								//데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
+								autoload : true,
+								//그리드 헤더 클릭시 sorting이 되게함
+								sorting : true,
+								//json 배열을 데이터에 연결함.
+								data : clients,
+								//grid에 표현될 필드 요소
+								fields : [ {
+									name : "ORDPL_ONUM",
+									type : "text",
+									title : "품목코드",
+									width : 200
+								}, {
+									name : "ORDPL_PRODUCT_CODE",
+									type : "text",
+									title : "품목명",
+									width : 200
+								}, {
+									name : "ORDPL_QT",
+									type : "text",
+									title : "규격",
+									width : 200
+								}, {
+									name : "ORDPL_WR",
+									type : "text",
+									title : "수량",
+									width : 200
+								}, {
+									name : "ORDPL_STAT",
+									type : "text",
+									title : "공급가액",
+									width : 200
+								}, {
+									name : "ORDPL_END",
+									type : "text",
+									title : "적요",
+									width : 200
+								}, {
+									type : "control",
+									deleteButton : true
+								} ]
+							}); // 그리드 끝
+						</script>
+						<div class="card-footer">
+							<button id="grid_Data" class="btn btn-primary btn-lg pull-right">등록</button>
+						</div>
+						<script>
+							//버튼 클릭시 grid에 있는 값 가져오기
+							$("#grid_Data").click(function(){
+								var items = $("#jsGrid").jsGrid("option", "data");
+								console.log(items);
+								});
+						</script>
+					</div>
+				</div>
+품목코드 품목수량 진행상태 완료여부
+			</div>
+		</div>
+		<!-- .animated -->
+	</div>
+	<!-- .content -->
+	<div class="clearfix"></div>
 </body>
 </html>

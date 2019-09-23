@@ -13,6 +13,7 @@ import com.bit.UntitledBistro.model.balju.Balju_DAO;
 import com.bit.UntitledBistro.model.balju.Balju_DTO;
 import com.bit.UntitledBistro.model.balju.Balju_PlanDTO;
 import com.bit.UntitledBistro.model.balju.Balju_SaveDTO;
+import com.bit.UntitledBistro.model.balju.Item_DTO;
 
 @Transactional
 @Service
@@ -43,7 +44,22 @@ public class Balju_ServiceImpl implements Balju_Service {
 		this.balju_DAO.insert_Balju_Save2(BSdto);
 		
 	}
-
+	
+	//공통품목 리스트 불러오기용
+	@Override
+	public List<Map<String, String>> item_list(Item_DTO Idto) {
+		List<Map<String, String>> item_list = this.balju_DAO.item_list(Idto);
+		return item_list;
+	}
+	
+	
+	@Override
+	public List<Map<String, String>> balju_Dummy(Balju_PlanDTO BPdto){
+		List<Map<String, String>> balju_Dummy  = this.balju_DAO.balju_Dummy(BPdto);
+		return balju_Dummy;
+		
+	}
+	
 	@Override
 	public List<Map<String, String>> balju_Plan_list(Balju_PlanDTO BPdto) {
 		List<Map<String, String>> balju_Plan_list = this.balju_DAO.balju_Plan_list(BPdto);
@@ -94,6 +110,8 @@ public class Balju_ServiceImpl implements Balju_Service {
 		this.balju_DAO.Delete_Balju_Save1(BSdto);
 		this.balju_DAO.Delete_Balju_Save2(BSdto);
 	}
+
+	
 	
 	
 	

@@ -124,6 +124,28 @@
    	]]>
   </insert>
   
+  <select id="item_list" parameterType="hashmap" resultType="hashmap">
+  	<![CDATA[
+  		SELECT 
+  			PRODUCT_CODE,
+  			PRODUCT_NAME,
+  			PRODUCT_PRICE,
+  			PRODUCT_EXPDATE
+  		FROM 
+  			PRODUCT
+  	]]>	
+  </select>
+  
+  
+  <select id="balju_Dummy" parameterType="hashmap" resultType="hashmap">
+  	<![CDATA[
+  		SELECT 
+  			ORDPL_ONUM
+  		FROM 
+  			BP_DUMMY
+  	]]>	
+  </select>
+  
   <select id="balju_List" parameterType="hashmap" resultType="hashmap">
   	<![CDATA[
   		SELECT 

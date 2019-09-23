@@ -49,6 +49,17 @@ public class Balju_DAOimpl implements Balju_DAO {
 		sqlSession.insert("balju.insert_Balju_Save2", BSdto);
 
 	}
+	
+	//품목 새창 리스트 불러오기용
+	@Override
+	public List<Map<String, String>> item_list(Item_DTO Idto) {
+		return sqlSession.selectList("item_list", Idto);
+	}
+	
+	@Override
+	public List<Map<String, String>> balju_Dummy(Balju_PlanDTO BPdto) {
+		return sqlSession.selectList("balju_Dummy", BPdto);
+	}
 
 	@Override
 	public List<Map<String, String>> balju_Plan_list(Balju_PlanDTO BPdto) {
