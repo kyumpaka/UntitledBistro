@@ -75,10 +75,11 @@ public class JumunServiceImpl implements JumunService {
 	}
 	
 	@Override
-	public ArrayList<MenuDTO> menuSearch(String menu_Mt_Code) {
+	public ArrayList<MenuDTO> menuSearch(String menu_Mt_Code, String menu_State) {
 		dao = sqlSession.getMapper(JumunDAO.class);
 		map = new HashMap<String, String>();
 		map.put("menu_Mt_Code", menu_Mt_Code);
+		map.put("menu_State", menu_State);
 		
 		return dao.menuSelect(map);
 	}
@@ -138,7 +139,7 @@ public class JumunServiceImpl implements JumunService {
 				if(originalFileName != "") {
 					saveFileName = uuid + "_" + originalFileName;
 				} else {
-					saveFileName = "없음.jpg";
+					saveFileName = "noImage.jpg";
 				}
 				
 				byte[] data = mFile.getBytes();
@@ -222,7 +223,7 @@ public class JumunServiceImpl implements JumunService {
 	}
 	
 	@Override
-	public ArrayList<MainPosDTO> orderListAll() {
+	public ArrayList<HashMap<String, Object>> orderListAll() {
 		dao = sqlSession.getMapper(JumunDAO.class);
 		return dao.ordersSelectAll();
 	}
@@ -239,7 +240,7 @@ public class JumunServiceImpl implements JumunService {
 			ordersDTO.setOrders_No(orders_No);
 			ordersDTO.setOrders_TableSave_Code(orders_No);
 			dao.ordersInsert(ordersDTO);
-		} 
+		}
 		
 		OrdersDTO ordersDTO = dao.ordersSelect(map);
 		map.put("od_Orders_No", orders_No);
@@ -284,6 +285,25 @@ public class JumunServiceImpl implements JumunService {
 		dao.ordersUpdate(map);
 		
 		return dao.ordersDetailsMinus(ordersDetailDTO);
+	}
+
+	@Override
+	public ArrayList<Integer> tableInfo() {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		return dao.tableInfo();
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> tableControl() {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		return dao.tableControl();
+	}
+
+	@Override
+	public int tableControl(Map<String, Object> table) {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		dao.od_tableControl(table);
+		return dao.order_tableControl(table);
 	}
 	
 }

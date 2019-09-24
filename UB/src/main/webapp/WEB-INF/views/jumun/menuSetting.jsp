@@ -94,7 +94,7 @@
 						</div>
 						<br><hr><br>
 						<div class="col-md-13">
-							<button value="posMain" class="btn  btn-primary btn-lg btn-block"> 완료 </button>
+							<a href="posMain.do" class="btn  btn-primary btn-lg btn-block"> 완료 </a>
 						</div>
 					</div>
 				</div>
@@ -177,28 +177,28 @@
 			
 			if(button == "menuTypeAddForm") {
 				var width = 400;
-				var height = 300;
+				var height = 230;
 				var popupX = (window.screen.width / 2) - (width / 2);
 				var popupY = (window.screen.height / 2) - (height / 2);
 				window.open('menuTypeAddForm.do','메뉴타입추가','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
 			} else if(button == "menuTypeList") {
 				var width = 400;
-				var height = 300;
+				var height = 400;
 				var popupX = (window.screen.width / 2) - (width / 2);
 				var popupY = (window.screen.height / 2) - (height / 2);
 				window.open('menuTypeList.do','메뉴타입관리','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
 			} else if(button == "menuAddForm") {
 				var width = 500;
-				var height = 500;
+				var height = 600;
 				var popupX = (window.screen.width / 2) - (width / 2);
 				var popupY = (window.screen.height / 2) - (height / 2);
 				window.open('menuAddForm.do','메뉴추가','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
 			} else if(button == "menuModiForm") {
 				// 유효성 검사
-				if ($("input:checkbox[class='check']:checked").length == 1){
-					var menu_CodeCk = $("input:checkbox[class='check']:checked").val();
+				if ($("input:checkbox[name='menu_Code']:checked").length == 1){
+					var menu_CodeCk = $("input:checkbox[name='menu_Code']:checked").val();
 					var width = 500;
-					var height = 500;
+					var height = 600;
 					var popupX = (window.screen.width / 2) - (width / 2);
 					var popupY = (window.screen.height / 2) - (height / 2);
 					window.open('menuModiForm.do?menu_Code='+menu_CodeCk,'메뉴수정','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
@@ -212,7 +212,7 @@
 				}
 			} else if(button == "menuRemove") {
 				// 유효성 검사
-		        if($("input:checkbox[class='check']").is(":checked") == true){
+		        if($("input:checkbox[name='menu_Code']").is(":checked") == true){
 		        	swal({
 		  			  title: "삭제하시겠습니까?",
 		  			  icon: "warning",
@@ -232,9 +232,6 @@
 					event.preventDefault();
 					return;
 		        }
-			} else if(button == "posMain") {
-				event.preventDefault();
-				location.href = "posMain.do";
 			}
 		});
 		

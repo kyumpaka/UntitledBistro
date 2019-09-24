@@ -27,10 +27,11 @@
 
 	<select id="menuSelect" parameterType="map" resultType="menu" >
 	SELECT MENU_CODE, MENU_MT_CODE, MENU_NAME, MENU_PRICE, MENU_IMAGE, MENU_STATE FROM MENU
-		<where>
+		<trim prefix="WHERE" prefixOverrides="AND">
 			<if test="menu_Mt_Code != null and menu_Mt_Code != ''">MENU_MT_CODE = #{menu_Mt_Code}</if>
-			<if test="menu_Code != null">MENU_CODE = #{menu_Code}</if>
-		</where>
+			<if test="menu_Code != null">AND MENU_CODE = #{menu_Code}</if>
+			<if test="menu_State == '판매'">AND MENU_STATE = #{menu_State}</if>
+		</trim>
 	ORDER BY MENU_CODE
 	</select>
 	
@@ -96,7 +97,7 @@
 	DELETE FROM TABLESAVE
 	</delete>
 	
-	<select id="ordersSelectAll" resultType="mainPos">
+	<select id="ordersSelectAll" resultType="HashMap">
 	SELECT OD_ORDERS_NO, MENU_NAME, OD_QTY FROM ORDERS_DETAILS 
 	LEFT OUTER JOIN MENU ON MENU.MENU_CODE = ORDERS_DETAILS.OD_MENU_CODE ORDER BY ORDERS_DETAILS.OD_ORDERS_NO
 	</select>
@@ -117,7 +118,7 @@
 	DELETE FROM ORDERS WHERE ORDERS_NO = #{orders_No}
 	</delete>
 	
-	<select id="ordersDetailSelect" parameterType="map" resultType="ordersList">
+	<select id="ordersDetailSelect" parameterType="map" resultType="HashMap">
 	SELECT OD_NO, OD_ORDERS_NO, OD_MENU_CODE, MENU_NAME, MENU_PRICE, OD_QTY FROM ORDERS_DETAILS 
 	LEFT OUTER JOIN MENU ON MENU.MENU_CODE=ORDERS_DETAILS.OD_MENU_CODE WHERE OD_ORDERS_NO = #{od_Orders_No}
 	</select>
@@ -144,6 +145,22 @@
 	
 	<update id="ordersDetailsMinus">
 	UPDATE ORDERS_DETAILS SET OD_QTY = OD_QTY - 1 WHERE OD_ORDERS_NO = #{od_Orders_No} AND OD_MENU_CODE = #{od_Menu_Code}
+	</update>
+	
+	<select id="tableInfo" resultType="java.lang.Integer">
+	SELECT COUNT(*) AS COUNT FROM ORDERS UNION ALL SELECT COUNT(*) FROM TABLESAVE
+	</select>
+	
+	<select id="tableControl" resultType="HashMap">
+	SELECT TABLESAVE_CODE, ORDERS_TABLESAVE_CODE  FROM TABLESAVE LEFT OUTER JOIN ORDERS ON ORDERS.ORDERS_TABLESAVE_CODE = TABLESAVE.TABLESAVE_CODE
+	</select>
+	
+	<update id="order_tableControl" parameterType="HashMap">
+	UPDATE ORDERS SET ORDERS_NO = #{newTable}, ORDERS_TABLESAVE_CODE = #{newTable} WHERE ORDERS_TABLESAVE_CODE = #{oldTable}
+	</update>
+
+	<update id="od_tableControl" parameterType="HashMap">
+	UPDATE ORDERS_DETAILS SET OD_ORDERS_NO = #{newTable} WHERE OD_ORDERS_NO = #{oldTable}
 	</update>
 	
 </mapper>

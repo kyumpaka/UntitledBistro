@@ -1,7 +1,9 @@
 package com.bit.UntitledBistro.service.jumun;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -25,7 +27,7 @@ public interface JumunService {
 	public int menuTypeModi(MenuTypeDTO dto);
 	
 	// 메뉴
-	public ArrayList<MenuDTO> menuSearch(String menu_Mt_Code);
+	public ArrayList<MenuDTO> menuSearch(String menu_Mt_Code, String menu_State);
 
 	public MenuDTO menuSearchByMenuCode(String menu_Code);
 
@@ -46,7 +48,7 @@ public interface JumunService {
 	public int tableAdd(List<TableSaveDTO> list);
 	
 	// 주문목록
-	public ArrayList<MainPosDTO> orderListAll();
+	public ArrayList<HashMap<String, Object>> orderListAll();
 	
 	public OrdersDTO ordersList(String orders_No);
 	
@@ -57,4 +59,11 @@ public interface JumunService {
 	public int ordersPlus(OrdersDetailDTO ordersDetailDTO);
 	
 	public int ordersMinus(OrdersDetailDTO ordersDetailDTO);
+	
+	public ArrayList<Integer> tableInfo();
+	
+	public ArrayList<HashMap<String, Object>> tableControl();
+	
+	public int tableControl(Map<String, Object> table);
+	
 }

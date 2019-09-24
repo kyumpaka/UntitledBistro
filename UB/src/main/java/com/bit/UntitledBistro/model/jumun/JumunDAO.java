@@ -1,6 +1,7 @@
 package com.bit.UntitledBistro.model.jumun;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public interface JumunDAO {
@@ -40,7 +41,7 @@ public interface JumunDAO {
 	public int tableDelete();
 	
 	// 주문내역
-	public ArrayList<MainPosDTO> ordersSelectAll();
+	public ArrayList<HashMap<String, Object>> ordersSelectAll();
 	
 	public OrdersDTO ordersSelect(Map<String, String> map);
 	
@@ -50,7 +51,7 @@ public interface JumunDAO {
 	
 	public int ordersDelete(Map<String, String> map);
 	
-	public ArrayList<OrdersListDTO> ordersDetailSelect(Map<String, String> map);
+	public ArrayList<HashMap<String, Object>> ordersDetailSelect(Map<String, String> map);
 	
 	public int odAllPrice(Map<String, String> map);
 	
@@ -63,4 +64,13 @@ public interface JumunDAO {
 	public int ordersDetailsPlus(OrdersDetailDTO ordersDetailDTO);
 	
 	public int ordersDetailsMinus(OrdersDetailDTO ordersDetailDTO);
+	
+	public ArrayList<Integer> tableInfo();
+	
+	public ArrayList<HashMap<String, Object>> tableControl();
+	
+	public int order_tableControl(Map<String, Object> map);
+
+	public int od_tableControl(Map<String, Object> map);
+	
 }

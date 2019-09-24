@@ -33,12 +33,15 @@
 		<div class="row align-items-center">
 			<div class="col-lg-3">
 				<div class="brand-wrap">
-					<h3 class="logo-text">UntitledBistro</h3>
+					<a href="posMain.do"><h3 class="logo-text">UntitledBistro</h3></a>
 				</div>
 			</div>
-			<div class="col-lg-3">최초 주문 : <fmt:formatDate value="${ ordersList.orders_First }" pattern="yyyy-MM-dd HH 시 MM분 ss초"/></div>
-			<div class="col-lg-3">마지막 주문 : <fmt:formatDate value="${ ordersList.orders_Final }" pattern="yyyy-MM-dd HH시 MM분 ss초"/></div>
-			<div class="col-lg-3 col-sm-6">
+			<div class="col-lg-1"></div>
+			<div class="col-lg-4">
+			최초 주문 : <fmt:formatDate value="${ ordersList.orders_First }" pattern="yyyy-MM-dd HH시 MM분 ss초"/>&nbsp;/&nbsp;
+			마지막 주문 : <fmt:formatDate value="${ ordersList.orders_Final }" pattern="yyyy-MM-dd HH시 MM분 ss초"/>
+			</div>
+			<div class="col-lg-4 col-sm-6">
 				<div class="widgets-wrap d-flex justify-content-end">
 					<div class="widget-header">
 						<div class="col-lg-12" id="clock"></div>
@@ -100,33 +103,33 @@
 									</thead>
 									<tbody id="orderCart">
 										<c:forEach items="${ ordersList.ordersListDTO }" var="ordersListDTO">
-											<tr id="tr${ ordersListDTO.od_Menu_Code }">
+											<tr id="tr${ ordersListDTO.OD_MENU_CODE }">
 												<td>
 													<figure class="media">
 														<figcaption class="media-body" align="center">
-															<h6 class="title text-truncate" id="orderMenuName${ ordersListDTO.od_Menu_Code }">${ ordersListDTO.menu_Name }</h6>
+															<h6 class="title text-truncate" id="orderMenuName${ ordersListDTO.OD_MENU_CODE }">${ ordersListDTO.MENU_NAME }</h6>
 														</figcaption>
-														<input type="hidden" id="test${ ordersListDTO.od_Menu_Code }" value="0">
+														<input type="hidden" id="test${ ordersListDTO.OD_MENU_CODE }" value="0">
 													</figure>
 												</td>
 												<td class="text-center">
 													<div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="...">
-														<button type="button" class="m-btn btn btn-default" onclick="minusOrder('${ ordersListDTO.od_Menu_Code }', '${ ordersListDTO.menu_Price }')">
+														<button type="button" class="m-btn btn btn-default" onclick="minusOrder('${ ordersListDTO.OD_MENU_CODE }', '${ ordersListDTO.MENU_PRICE }')">
 															<i class="fa fa-minus"></i>
 														</button>
-														<button type="button" class="m-btn btn btn-default" disabled id="orderMenuCode${ ordersListDTO.od_Menu_Code }">${ ordersListDTO.od_Qty }</button>
-														<button type="button" class="m-btn btn btn-default" onclick="plusOrder('${ ordersListDTO.od_Menu_Code }', '${ ordersListDTO.menu_Name }', '${ ordersListDTO.menu_Price }')">
+														<button type="button" class="m-btn btn btn-default" disabled id="orderMenuCode${ ordersListDTO.OD_MENU_CODE }">${ ordersListDTO.OD_QTY }</button>
+														<button type="button" class="m-btn btn btn-default" onclick="plusOrder('${ ordersListDTO.OD_MENU_CODE }', '${ ordersListDTO.MENU_NAME }', '${ ordersListDTO.MENU_PRICE }')">
 															<i class="fa fa-plus"></i>
 														</button>
 													</div>
 												</td>
 												<td>
 													<div class="price-wrap" align="center">
-														<var class="price" id="orderMenuPrice${ ordersListDTO.od_Menu_Code }">${ ordersListDTO.menu_Price }</var>
+														<var class="price" id="orderMenuPrice${ ordersListDTO.OD_MENU_CODE }">${ ordersListDTO.MENU_PRICE }</var>
 													</div>
 												</td>
 												<td class="text-right" align="center">
-													<button onclick="removeOrder('${ ordersListDTO.od_Menu_Code }', '${ ordersListDTO.menu_Price }')" class="btn btn-outline-danger">
+													<button onclick="removeOrder('${ ordersListDTO.OD_MENU_CODE }', '${ ordersListDTO.MENU_PRICE }')" class="btn btn-outline-danger">
 														<i class="fa fa-trash"></i>
 													</button>
 												</td>
@@ -293,9 +296,9 @@
 			</c:forEach>
 			<c:forEach items="${menuList}" var="menuList">
 				<c:forEach items="${ ordersList.ordersListDTO }" var="ordersListDTO">
-					<c:if test="${menuList.menu_Code eq ordersListDTO.od_Menu_Code}">
+					<c:if test="${menuList.menu_Code eq ordersListDTO.OD_MENU_CODE}">
 						oderCntMap.delete('${menuList.menu_Code}');
-						oderCntMap.set('${menuList.menu_Code}', ${ ordersListDTO.od_Qty });
+						oderCntMap.set('${menuList.menu_Code}', ${ ordersListDTO.OD_QTY });
 					</c:if>
 				</c:forEach>
 			</c:forEach>

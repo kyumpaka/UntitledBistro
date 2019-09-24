@@ -2,6 +2,7 @@ package com.bit.UntitledBistro.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -22,7 +22,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.bit.UntitledBistro.model.jumun.IngredientDTO;
 import com.bit.UntitledBistro.model.jumun.MenuDTO;
 import com.bit.UntitledBistro.model.jumun.MenuTypeDTO;
-import com.bit.UntitledBistro.model.jumun.OrdersDTO;
 import com.bit.UntitledBistro.model.jumun.OrdersDetailDTO;
 import com.bit.UntitledBistro.model.jumun.TableSaveDTO;
 import com.bit.UntitledBistro.service.jumun.JumunService;
@@ -38,7 +37,7 @@ public class JumunController {
 	@RequestMapping(value = "/menuSetting.do")
 	public String menuSettingSearch(@ModelAttribute("mt_Code") String mt_Code, Model model) {
 		model.addAttribute("menuTypeList", jumunService.menuTypeSearch("all"));
-		model.addAttribute("menuList", jumunService.menuSearch(mt_Code));		
+		model.addAttribute("menuList", jumunService.menuSearch(mt_Code, "미판매"));		
 
 		return "jumun/menuSetting";
 	}
@@ -142,6 +141,7 @@ public class JumunController {
 	public String posMain(Model model) {
 		model.addAttribute("tableList", jumunService.tableSearch());
 		model.addAttribute("posMainList", jumunService.orderListAll());
+		model.addAttribute("tableUseList", jumunService.tableInfo());
 		
 		return "views/jumun/posMain";
 	}
@@ -151,7 +151,7 @@ public class JumunController {
 		model.addAttribute("ordersList", jumunService.ordersList(orders_No));
 		model.addAttribute("allPrice", jumunService.odAllPrice(orders_No));
 		model.addAttribute("menuTypeList", jumunService.menuTypeSearch("all"));
-		model.addAttribute("menuList", jumunService.menuSearch(mt_Code));
+		model.addAttribute("menuList", jumunService.menuSearch(mt_Code, "판매"));
 		
 		return "views/jumun/ordersList";
 	}
@@ -172,6 +172,18 @@ public class JumunController {
 	@ResponseBody
 	public int ordersMinus(@RequestBody OrdersDetailDTO ordersDetailDTO) {
 		return jumunService.ordersMinus(ordersDetailDTO);
+	}
+	
+	@RequestMapping(value = "/tableControl.do")
+	public String tableControl(Model model) {
+		model.addAttribute("tableList", jumunService.tableControl());
+		return "views/jumun/tableControl";
+	}
+	
+	@RequestMapping(value = "/tableControl.do", method = RequestMethod.POST)
+	@ResponseBody
+	public int tableControl(@RequestBody Map<String, Object> table) {
+		return jumunService.tableControl(table);
 	}
 	
 }

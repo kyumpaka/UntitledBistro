@@ -9,31 +9,41 @@
 <title>POS</title>
 </head>
 <body>
-	<div class="card">
-		<div class="card-header">
-			<strong>메뉴타입 관리</strong>
-		</div>
-		<div class="card-body card-block">
-			<c:forEach items="${ menuTypeList }" var="menuTypeList">
-				<form class="form-horizontal">
-					<div id="div${ menuTypeList.mt_Code }" class="row form-group">
-						<span>
-							<span>
-								<button onclick="mt_Del('${ menuTypeList.mt_Name }', '${ menuTypeList.mt_Code }')" class="btn btn-primary btn-sm">삭제</button> 
-								<span id="mt_Modistart${ menuTypeList.mt_Code }">
-									<button onclick="mt_Modistart('${ menuTypeList.mt_Code }', '${ menuTypeList.mt_Name }')" class="btn btn-primary btn-sm">수정</button>
-								</span>
-							</span>
-						</span>
-						&nbsp;<div id="preinput${ menuTypeList.mt_Code }">${ menuTypeList.mt_Name }</div>
-					</div>
-				</form>
-			</c:forEach>
-		</div>
-		<div class="card-footer">
-			<button onclick="mt_menuSetting()" class="btn btn-primary btn-sm">
-				<i class="fa fa-dot-circle-o"></i> 완료
-			</button>
+	<div class="col-lg-6">
+		<div class="card">
+			<div class="card-header">
+				<strong class="card-title">메뉴타입 관리</strong>
+			</div>
+			<div class="table-stats order-table ov-h">
+				<table class="table ">
+					<thead>
+						<tr>
+							<th class="serial">#</th>
+							<th>메뉴 구분</th>
+							<th>관리</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${ menuTypeList }" var="menuTypeList" varStatus="status">
+							<tr id="tr${ menuTypeList.mt_Code }">
+								<td class="serial">${ status.count }</td>
+								<td><span class="name"><div id="preinput${ menuTypeList.mt_Code }">${ menuTypeList.mt_Name }</div></span></td>
+								<td>
+									<button onclick="mt_Del('${ menuTypeList.mt_Name }', '${ menuTypeList.mt_Code }')" class="btn btn-primary btn-sm">삭제</button>
+									<span id="mt_Modistart${ menuTypeList.mt_Code }">
+										<button onclick="mt_Modistart('${ menuTypeList.mt_Code }', '${ menuTypeList.mt_Name }')" class="btn btn-primary btn-sm">수정</button>
+									</span>
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+			<div class="card-footer" align="right">
+				<button onclick="goCloseMTList()" class="btn btn-primary btn-sm">
+					<i class="fa fa-dot-circle-o"></i> 완료
+				</button>
+			</div>
 		</div>
 	</div>
 </body>
@@ -62,7 +72,7 @@
 								  icon: "success",
 								  button: "닫기",
 								});
-							  $("#div"+code).remove();
+							  $("#tr"+code).remove();
 						  }
 					  });
 				  }
@@ -108,7 +118,7 @@
 		}
 	};
 
-	function mt_menuSetting(){
+	function goCloseMTList() {
 		  opener.document.location.reload();
 		  window.close();
 	};
