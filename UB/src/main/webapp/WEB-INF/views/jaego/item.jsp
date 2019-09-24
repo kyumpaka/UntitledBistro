@@ -47,15 +47,14 @@
    	<div id="jsGrid"></div>
 	<script>
 		$("#btn").click(function(){
-			alert()
 			var startDate = $("#startDate").val();
-			var startDate = $("#product_name").val();
+			var product_name = $("#product_name").val();
 			if(startDate.length > 0) $("#dateResult").text(startDate);
 			
 			$.ajax({
 				type : "get", 
 				url : "/UntitledBistro/jaego/gridSelectAll",
-				data : {"startDate" : startDate},
+				data : {"startDate" : startDate, "keyword" : product_name},
 				success : function(select) {
 					$("#jsGrid").jsGrid({data:select});
 					$("#jsGrid").jsGrid("loadData");
@@ -81,10 +80,6 @@
 				autoload : true,
 				//그리드 헤더 클릭시 sorting이 되게함
 				sorting : true,
-				// 페이징 처리
-				paging:true,
-				pageSize : 5,
-				pageButtonCount : 5,
 				//json 배열을 데이터에 연결함.
 				data : json, 
 				//grid에 표현될 필드 요소
@@ -115,8 +110,8 @@
             format: "yyyy/mm/dd",
             language: "kr"
         });
-	<!--
-		(function($){
+	
+		
 			$.fn.datepicker.dates['kr'] = {
 				days: ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"],
 				daysShort: ["일", "월", "화", "수", "목", "금", "토", "일"],
@@ -124,8 +119,8 @@
 				months: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
 				monthsShort: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
 			};
-		}(jQuery));
-	//-->
+		
+	
 	</script>
 </body>
 </html>

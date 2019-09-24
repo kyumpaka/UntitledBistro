@@ -10,9 +10,12 @@ import org.springframework.stereotype.Repository;
 public class ItemDAOImpl {
 	@Autowired
 	private SqlSessionTemplate mybatis;
+	public int itemTotal() {
+		return mybatis.selectOne("jaego.itemTotal");
+	}
 	
-	public List<ItemDTO> itemSelectAll(ItemDTO dto){
-		return mybatis.selectList("jaego.itemSelectAll", dto);
+	public List<ItemDTO> itemSelectAll(Condition condition){
+		return mybatis.selectList("jaego.itemSelectAll", condition);
 	}
 	
 	public int itemInsert(ItemDTO dto){

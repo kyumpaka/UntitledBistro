@@ -3,11 +3,9 @@ package com.bit.UntitledBistro.model.jaego;
 public class ItemDTO {
 	private int item_no; // 재고번호(PK)
 	private String item_product_code; // 발주물품코드(FK)
-	private String product_name; // 품목명
+	private String product_name; // 품목명(PRODUCT)
 	private int item_qty; // 재고수량
-	private String regdate; // 등록일자
-	private String startDate; // 시작일자
-	private String endDate; // 마지막일자
+	private String item_regdate; // 등록일자
 	
 	public int getItem_no() {
 		return item_no;
@@ -33,23 +31,11 @@ public class ItemDTO {
 	public void setItem_qty(int item_qty) {
 		this.item_qty = item_qty;
 	}
-	public String getRegdate() {
-		return regdate;
+	public String getItem_regdate() {
+		return item_regdate;
 	}
-	public void setRegdate(String regdate) {
-		this.regdate = regdate;
-	}
-	public String getStartDate() {
-		return startDate;
-	}
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
-	}
-	public String getEndDate() {
-		return endDate;
-	}
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
+	public void setItem_regdate(String item_regdate) {
+		this.item_regdate = item_regdate;
 	}
 	
 }

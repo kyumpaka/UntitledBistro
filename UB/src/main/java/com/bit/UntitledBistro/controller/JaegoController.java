@@ -10,8 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bit.UntitledBistro.model.jaego.Condition;
 import com.bit.UntitledBistro.model.jaego.ItemDAOImpl;
 import com.bit.UntitledBistro.model.jaego.ItemDTO;
+import com.bit.UntitledBistro.model.jaego.PageMaker;
 
 @Controller
 @RequestMapping(value = "/jaego")
@@ -60,11 +62,18 @@ public class JaegoController {
 	}
 	
 	@RequestMapping(value = "/gridSelectAll")
-	public @ResponseBody List<ItemDTO> gridSelectAll(ItemDTO dto) {
+	public @ResponseBody List<ItemDTO> gridSelectAll(Condition condition, PageMaker pageMaker) {
 		logger.info("여기는 그리드 전체 조회 컨트롤러 입니다.");
-		logger.info("시작날짜 : " + dto.getStartDate());
-		logger.info("마지막날짜 : " + dto.getEndDate());
-		return dao.itemSelectAll(dto);
+		pageMaker.calc(dao.itemTotal());
+		condition.setStartPage(pageMaker.getStartPage());
+		condition.setEndPage(pageMaker.getEndPage());
+		logger.info("===============================================");
+		logger.info("getStartPage : " + pageMaker.getStartPage());
+		logger.info("getEndPage : " + pageMaker.getEndPage());
+		logger.info("getStartPage : " + condition.getStartPage());
+		logger.info("getEndPage : " + condition.getEndPage());
+		logger.info("===============================================");
+		return dao.itemSelectAll(condition);
 	}
 	
 	@RequestMapping(value = "/gridInsert")
