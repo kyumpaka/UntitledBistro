@@ -21,6 +21,7 @@
 <h1>회원 관리</h1>
 
 <table width="1000" cellpadding="3">
+	
 	<tr>
 		<th width="150">회원 아이디</th>
 		<th width="150">회원 이름</th>
@@ -42,12 +43,6 @@
 		<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${b.member_reg}" /></td>
 		<td><button onclick='location.href="${path}/Seobis_select?member_id=${b.member_id}"'>상세 정보</button></td>
 		<td><button class="Seobis_MemberDelete" >삭제</button></td>
-	
-		
-<%-- 		<td><a href="read.htm?num=${b.num}&pg=${pg}">${b.subject}</a></td>
-		<td>${b.name}</td>
-		<td><fmt:formatDate value="${b.regdate}" pattern="yyyy-MM-dd"/></td>
-		<td>${b.hit}</td> --%>
 	</tr>
 </c:forEach>
 

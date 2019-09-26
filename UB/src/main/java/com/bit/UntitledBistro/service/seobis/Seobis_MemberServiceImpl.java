@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.bit.UntitledBistro.model.seobis.Seobis_MemberDAO;
 import com.bit.UntitledBistro.model.seobis.Seobis_MemberDTO;
+import com.bit.UntitledBistro.model.seobis.Seobis_ReserveDTO;
 
 @Component
 public class Seobis_MemberServiceImpl implements Seobis_MemberService {
@@ -45,9 +46,16 @@ public class Seobis_MemberServiceImpl implements Seobis_MemberService {
 		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
 		seobis_MemberDAO.Seobis_MemberUpdate(seobis_MemberDTO_dto);
 	}
+	
 	@Override
 	public Seobis_MemberDTO Seobis_MemberSelect(String member_id) {    //멤버 읽기
 		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
 		return seobis_MemberDAO.Seobis_MemberSelect(member_id);
+	}
+
+	@Override
+	public Seobis_ReserveDTO Seobis_ReserveCalendar(String member_id) {   // 캘린더 예약
+		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
+		return seobis_MemberDAO.Seobis_ReserveCalendar(member_id);
 	}
 }

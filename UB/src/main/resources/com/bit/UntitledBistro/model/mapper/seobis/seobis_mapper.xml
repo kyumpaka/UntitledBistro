@@ -11,14 +11,22 @@
  	MEMBER_ID, 
  	MEMBER_NAME, 
  	MEMBER_GENDER, 
- 	MEMBER_EMAIL, 
- 	MEMBER_PHONE1)
+ 	MEMBER_EMAIL,
+ 	MEMBER_BIRTH, 
+ 	MEMBER_PHONE1,
+ 	MEMBER_PHONE2,
+ 	MEMBER_ADDR1,
+ 	MEMBER_ADDR2)
 	VALUES(
 	#{member_id},
 	#{member_name},
 	#{member_gender},
 	#{member_email},
-	#{member_phone1})
+	TO_DATE(#{member_birth},'YYYYMMDD'),
+	#{member_phone1},
+	#{member_phone2},
+	#{member_addr1},
+	#{member_addr2})
  	]]>
  </insert>
  

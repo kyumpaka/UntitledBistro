@@ -1,6 +1,9 @@
 package com.bit.UntitledBistro.controller;
 
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bit.UntitledBistro.model.seobis.Seobis_MemberDTO;
+import com.bit.UntitledBistro.model.seobis.Seobis_ReserveDTO;
 import com.bit.UntitledBistro.service.seobis.Seobis_MemberService;
 
 
@@ -33,14 +37,14 @@ public class Seobis_MemberCheckController {
 		return "seobis/Seobis_form";
 	}
 	
-	@RequestMapping(value="/Seobis_pInt") //포인트 관리를 누르면 이동하는 맵핑
-	public String seobis_formaddon() {
-		return "seobis/Seobis_point";
-	}
-	
 	@RequestMapping(value="/Seobis_jUs")  // 회원 등록으로 보내는 맵핑
 	public String seobis_formadd() {
 	return "seobis/Seobis_joinUs";
+	}
+	
+	@RequestMapping(value="/Seobis_cal") //메뉴를 누르면 예약 캘린더로 보내는 맵핑
+	public String seobis_formcalendar() {
+	return "seobis/Seobis_calendar";
 	}
 	
 	@RequestMapping(value="/Seobis_createMember", method = RequestMethod.POST)  //회원 가입을 처리하는 맵핑
@@ -96,24 +100,30 @@ public class Seobis_MemberCheckController {
 		request.setAttribute("fromPage",fromPage);
 		request.setAttribute("toPage",toPage);	
 		
-		return "seobis/Seobis_memberList"; //.jsp
+		return "seobis/Seobis_ex"; //.jsp
 	}
 	
 	@RequestMapping(value="/Seobis_delete")  //회원 삭제 맵핑
 	public String seobis_memberDelete(Seobis_MemberDTO seobis_MemberDTO_dto) {
 		Seobis_memberService.Seobis_MemberDelete(seobis_MemberDTO_dto);
-		return "redirect:Seobis_mList";
+		return "seobis/Seobis_ex";
 	}
 	
 	@RequestMapping(value="/Seobis_update") //회원 수정 맵핑 
 	public String seobis_memberUpdate(Seobis_MemberDTO seobis_MemberDTO_dto) {
 		Seobis_memberService.Seobis_MemberUpdate(seobis_MemberDTO_dto);
-		return "redirect:Seobis_mList";
+		return "seobis/Seobis_ex";
 	}
 	
 	@RequestMapping(value="/Seobis_select") //회원 읽기 맵핑
 	public String seobis_memberSelect(String member_id, Model model) {
 		model.addAttribute("Seobis_memberSelect", Seobis_memberService.Seobis_MemberSelect(member_id));	 
+		return "seobis/Seobis_update";
+	}
+	
+	@RequestMapping(value="/") //캘린더 예약
+	public String seobis_memberCalendar(Model model, String member_id) {
+		model.addAttribute("Seobis_memberCalendar", Seobis_memberService.Seobis_ReserveCalendar(member_id));
 		return "seobis/Seobis_update";
 	}
 }
