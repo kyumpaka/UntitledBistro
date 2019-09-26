@@ -2,18 +2,22 @@ package com.bit.UntitledBistro.controller;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bit.UntitledBistro.model.jaego.ChangeItemDTO;
 import com.bit.UntitledBistro.model.jaego.Condition;
 import com.bit.UntitledBistro.model.jaego.ItemDAOImpl;
 import com.bit.UntitledBistro.model.jaego.ItemDTO;
-import com.bit.UntitledBistro.model.jaego.PageMaker;
+import com.bit.UntitledBistro.model.jaego.OutItemDTO;
+import com.bit.UntitledBistro.model.jaego.Page;
 
 @Controller
 @RequestMapping(value = "/jaego")
@@ -62,19 +66,40 @@ public class JaegoController {
 	}
 	
 	@RequestMapping(value = "/gridSelectAll")
-	public @ResponseBody List<ItemDTO> gridSelectAll(Condition condition, PageMaker pageMaker) {
-		logger.info("여기는 그리드 전체 조회 컨트롤러 입니다.");
-		pageMaker.calc(dao.itemTotal());
-		condition.setStartPage(pageMaker.getStartPage());
-		condition.setEndPage(pageMaker.getEndPage());
+	public @ResponseBody List gridSelectAll(Condition condition, Page page) {
+		logger.info("여기는 그리드 재고현황 조회 컨트롤러 입니다.");
+		int total = dao.itemTotal();
+		page.paging(total, 10, 5);
+		condition.setStartPage(page.getStartRow());
+		condition.setEndPage(page.getEndRow());
 		logger.info("===============================================");
-		logger.info("getStartPage : " + pageMaker.getStartPage());
-		logger.info("getEndPage : " + pageMaker.getEndPage());
+		logger.info("keyword : " + condition.getKeyword());
 		logger.info("getStartPage : " + condition.getStartPage());
 		logger.info("getEndPage : " + condition.getEndPage());
 		logger.info("===============================================");
-		return dao.itemSelectAll(condition);
+		List list = dao.itemSelectAll(condition);
+		list.add(page.getSb());
+		return list;
 	}
+	
+	@RequestMapping(value = "/gridInItemSelectAll")
+	public @ResponseBody List<ItemDTO> gridInItemSelectAll(Condition condition) {
+		logger.info("여기는 그리드 입고 조회 컨트롤러 입니다.");
+		return dao.inItemSelectAll(condition);
+	}
+	
+	@RequestMapping(value = "/gridOutItemSelectAll")
+	public @ResponseBody List<OutItemDTO> gridOutItemSelectAll(Condition condition) {
+		logger.info("여기는 그리드 출고 조회 컨트롤러 입니다.");
+		return dao.outItemSelectAll(condition);
+	}
+	
+	@RequestMapping(value = "/gridChangeItemSelectAll")
+	public @ResponseBody List<ChangeItemDTO> gridChangeItemSelectAll(Condition condition) {
+		logger.info("여기는 그리드 재고변동 조회 컨트롤러 입니다.");
+		return dao.changeItemSelectAll(condition);
+	}
+	
 	
 	@RequestMapping(value = "/gridInsert")
 	public @ResponseBody void gridInsert(ItemDTO dto) {

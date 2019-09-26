@@ -17,91 +17,113 @@
 		href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
 	<script type="text/javascript"
 		src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+	<style type="text/css">
+		#jsGrid {margin: auto;}
+		.jsgrid-header-scrollbar {overflow: hidden;}
+		.jsgrid-grid-body {overflow: hidden;}
+	</style>
 
 <title>JSP</title>
 </head>
 <body>
-	<h1>grid 삭제 테스트공간</h1>
-	<h4>재고변동표</h4>
+	<h1>재고변동표</h1>
 
 <!-- jsGrid 생성을 합니다.-->
    	<div id="jsGrid"></div>
 	<script>
+		var original = null;
 		$.ajax({
 			type:"get",
-			url:"${path}/jaego/gridSelectAll",
+			url:"${path}/jaego/gridChangeItemSelectAll",
 		})
 		.done(function(json) {
+			original = json;
 			$("#jsGrid").jsGrid({
 				width : "70%",
 				height : "auto",
-				editing : true,
+				filtering : true,
 				//데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
 				autoload : true,
 				//그리드 헤더 클릭시 sorting이 되게함
 				sorting : true,
 				// 페이징 처리
 				paging:true,
-				pageSize : 5,
+				pageSize : 10,
 				pageButtonCount : 5,
 				
 				//json 배열을 데이터에 연결함.
 				data : json, 
 				//grid에 표현될 필드 요소
 				fields : [ {
-                    headerTemplate: function() {
-                        return $("<button>").attr("type", "button").text("Delete")
-                                .on("click", function () {
-                                	console.log("11111");
-                                    deleteSelectedItems();
-                                });
-                    },
-                    itemTemplate: function(_, item) {
-                        return $("<input>").attr("type", "checkbox")
-                                .prop("checked", $.inArray(item, selectedItems) > -1)
-                                .on("change", function () {
-                                    $(this).is(":checked") ? selectItem(item) : unselectItem(item);
-                                });
-                    },
-                    align: "center",
-                    width: 50
-                }, {
-					name : "item_no",
-					type : "text",
-					title: "재고코드",
-					readOnly: true,
-					width : 150
-				}, {
-					name : "item_product_code",
+					name : "product_code",
 					type : "text",
 					title: "품목코드",
-					width : 50
+					width : 100
 				}, {
-					name : "item_qty",
+					name : "product_name",
+					type : "text",
+					title: "품목명",
+					width : 100
+				}, {
+					name : "before_qty",
+					type : "text",
+					title: "전일재고",
+					width : 100
+				}, {
+					name : "in_qty",
+					type : "text",
+					title: "입고수량",
+					width : 100
+				}, {
+					name : "out_qty",
+					type : "text",
+					title: "출고수량",
+					width : 100
+				}, {
+					name : "total_qty",
 					type : "text",
 					title: "재고수량",
-					width : 200
-				},  
-					{ type : 'control' , editButton : false}
-				],
+					width : 100
+				},{
+					type : "control", 
+					editButton: false,                               // show edit button
+                    deleteButton: false,                             // show delete button
+                    clearFilterButton: true                        // show clear filter button
+				}], 
 			    
-			    onItemDeleted: function (args) {
-	                $.ajax({
-	                	url : "${path}/jaego/gridDelete",
-	                	type : "get",
-	                	data : args.item,
-	                	success : function() {
-	                		alert("삭제 성공");
-	                	}
-	                });
-	            },
-				
-				confirmDeleting: true,
-			    deleteConfirm: "Are you sure?",
-				
+				controller : {
+					loadData: function(filter) {
+						if(filter.product_code === "" && filter.product_name === "" && filter.before_qty === "" 
+								&& filter.in_qty === "" && filter.out_qty === "" && filter.total_qty === "") {
+							return original;
+						}
+						
+						var dd = original;
+						if(filter.product_code !== "") dd = valueTest(dd,"product_code",filter);
+						if(filter.product_name !== "") dd = valueTest(dd,"product_name",filter);
+						if(filter.before_qty !== "") dd = valueTest(dd,"before_qty",filter);
+						if(filter.in_qty !== "") dd = valueTest(dd,"in_qty",filter);
+						if(filter.out_qty !== "") dd = valueTest(dd,"out_qty",filter);
+						if(filter.total_qty !== "") dd = valueTest(dd,"total_qty",filter);
+						
+						return dd;
+					}
+			
+				}
 				
 			}); // 그리드 끝
 		}); // ajax 끝
+		
+		function valueTest(arr,condition,filter) {
+			return $.grep(arr, function(i) {
+				if(condition == "product_code") return i.product_code.indexOf(filter.product_code) != -1;
+				if(condition == "product_name") return i.product_name.indexOf(filter.product_name) != -1;
+				if(condition == "before_qty") return String(i.before_qty).indexOf(filter.before_qty) != -1;
+				if(condition == "in_qty") return String(i.in_qty).indexOf(filter.in_qty) != -1;
+				if(condition == "out_qty") return String(i.out_qty).indexOf(filter.out_qty) != -1;
+				if(condition == "total_qty") return String(i.total_qty).indexOf(filter.total_qty) != -1;
+			});
+		}
 		
 	</script>
 	

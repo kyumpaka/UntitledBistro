@@ -30,4 +30,16 @@ public class ItemDAOImpl {
 		return mybatis.update("jaego.itemDelete", dto);
 	}
 	
+	public List<ItemDTO> inItemSelectAll(Condition condition) {
+		return mybatis.selectList("jaego.inItemSelectAll", condition);
+	}
+	
+	public List<OutItemDTO> outItemSelectAll(Condition condition) {
+		return mybatis.selectList("jaego.outItemSelectAll", condition);
+	}
+	
+	public List<ChangeItemDTO> changeItemSelectAll(Condition condition) {
+		return mybatis.selectList("jaego.changeItemSelectAll", condition);
+	}
+	
 }

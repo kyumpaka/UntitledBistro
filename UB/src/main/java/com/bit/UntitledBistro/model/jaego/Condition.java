@@ -39,4 +39,5 @@ public class Condition {
 	public void setEndPage(int endPage) {
 		this.endPage = endPage;
 	}
+	
 }
