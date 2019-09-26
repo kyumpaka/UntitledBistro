@@ -41,6 +41,14 @@ public class InsaServiceImpl implements InsaService{
 		return insaDAO.getEmpCount();
 	}
 
+	@Override
+	public Insa_EmpRegisterDTO EmpRegisterRead(String empregister_empnum) {
+		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
+		
+		
+		return insaDAO.EmpRegisterRead(empregister_empnum);
+	}
+
 
 	
 	

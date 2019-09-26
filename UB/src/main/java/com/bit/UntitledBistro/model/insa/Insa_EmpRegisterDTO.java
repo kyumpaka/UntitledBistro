@@ -12,6 +12,9 @@ public class Insa_EmpRegisterDTO {
 	private String empregister_jumin2; //주민2
 	private String empregister_gender;//성별
 	private String empregister_addr; //주소
+	private String empregister_addr2; //주소
+	private String empregister_addr3; //주소
+	private String empregister_addr4; //주소
 	private String empregister_grade; //직급
 	private String empregister_banknum; //통장번호
 	private String empregister_bankname; //은행명
@@ -88,6 +91,29 @@ public class Insa_EmpRegisterDTO {
 		this.empregister_addr = empregister_addr;
 	}
 
+	public String getEmpregister_addr2() {
+		return empregister_addr2;
+	}
+	
+	public void setEmpregister_addr2(String empregister_addr2) {
+		this.empregister_addr2 = empregister_addr2;
+	}
+	
+	public String getEmpregister_addr3() {
+		return empregister_addr3;
+	}
+	
+	public void setEmpregister_addr3(String empregister_addr3) {
+		this.empregister_addr3 = empregister_addr3;
+	}
+	
+	public String getEmpregister_addr4() {
+		return empregister_addr4;
+	}
+	
+	public void setEmpregister_addr4(String empregister_addr4) {
+		this.empregister_addr4 = empregister_addr4;
+	}
 	public String getEmpregister_grade() {
 		return empregister_grade;
 	}
