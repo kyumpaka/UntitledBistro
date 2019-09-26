@@ -71,7 +71,7 @@
 								<figure class="card card-product">
 								<label id="${ menuList.menu_Code }" onclick="plusOrder('${ menuList.menu_Code }', '${ menuList.menu_Name }', '${ menuList.menu_Price }')">
 									<div class="img-wrap">
-										<img src="${pageContext.request.contextPath}/resources/images/jumun/${ menuList.menu_Image }">
+										<img src="${pageContext.request.contextPath}/resources/images/jaego/${ menuList.menu_Image }">
 									</div>
 									<figcaption class="info-wrap">
 										<div class="action-wrap">
@@ -148,27 +148,23 @@
 							</dl>
 							<dl class="dlist-align">
 								<dt>할인금액</dt>
-								<dd class="text-right h4 b">0</dd>
+								<dd class="text-right h4 b">
+									<div id="discountPrice">0</div>
+								</dd>
 							</dl>
 							<dl class="dlist-align">
-								<dt>받을 금액</dt>
-								<dd class="text-right h4 b">0</dd>
-							</dl>
-							<dl class="dlist-align">
-								<dt>받은금액</dt>
-								<dd class="text-right h4 b">0</dd>
-							</dl>
-							<dl class="dlist-align">
-								<dt>거스름돈</dt>
-								<dd class="text-right h4 b">0</dd>
+								<dt>받을금액</dt>
+								<dd class="text-right h4 b">
+									<div id="resultPrice">${ allPrice }</div>
+								</dd>
 							</dl>
 							<br>
 							<div class="row">
 								<div class="col-md-4">
-									<a href="#" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 결제 </a>
+									<div onclick="goPay()" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 결제 </div>
 								</div>
 								<div class="col-md-4">
-									<a href="#" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 서비스 </a>
+									<div onclick="goDiscount()" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 서비스 </div>
 								</div>
 								<div class="col-md-4">
 									<div onclick="removeOrderAll()" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 전체취소 </div>
@@ -177,10 +173,10 @@
 							<br>
 							<div class="row">
 								<div class="col-md-4">
-									<a href="#" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 주문 </a>
+									<div class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 주문 </div>
 								</div>
 								<div class="col-md-4">
-									<a href="#" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 출력 </a>
+									<div class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 출력 </div>
 								</div>
 								<div class="col-md-4">
 									<a href="posMain.do" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 메인 </a>
@@ -283,13 +279,35 @@
 		  setTimeout("realtimeClock()", 1000);
 		}
 
+		// 결제
+		function goPay() {
+			var width = 800;
+			var height = 600;
+			var popupX = (window.screen.width / 2) - (width / 2);
+			var popupY = (window.screen.height / 2) - (height / 2);
+			var allPrice = $("#allPrice").html();
+			var discountPrice = $("#discountPrice").html();
+			var resultPrice = $("#resultPrice").html();
+			var price = '&allPrice=' + allPrice + '&discountPrice=' + discountPrice + '&resultPrice=' + resultPrice;
+			var openWin = window.open('paymentStart.do?orders_No='+${orders_No}+price,'결제','width='+width+',height='+height+',status=no,scrollbars=no, left='+ popupX + ', top='+ popupY);
+		};
+
+		// 서비스
+		function goDiscount() {
+			var width = 800;
+			var height = 450;
+			var popupX = (window.screen.width / 2) - (width / 2);
+			var popupY = (window.screen.height / 2) - (height / 2);
+			window.open('orderDiscount.do?allPrice='+$("#allPrice").html(),'서비스','width='+width+',height='+height+',status=no,scrollbars=no, left='+ popupX + ', top='+ popupY);
+		};
+		
 		// 각 메뉴 주문 개수
 		var oderCntMap;
-		
+
+		// 주문하기
 		function plusOrder(code, name, price) {
 			var count = oderCntMap.get(code) + 1;
 			
-			// 주문한 메뉴 객체
    		    var ordersDetailDTO = new Object();
    				ordersDetailDTO.od_Menu_Code = code;
    				ordersDetailDTO.od_Qty = count;
@@ -319,9 +337,10 @@
 			});
 		};
 
+		// 모든주문취소
 		function removeOrderAll() {
 			event.preventDefault();
-
+			
 			var ordersDetailDTO = new Object();
    		 	ordersDetailDTO.od_Orders_No = ${orders_No};
    		 	
@@ -345,9 +364,10 @@
 			});
 		};
 
+		// 한개 제품 모든 주문취소
 		function removeOrder(code, price) {
 			event.preventDefault();
-			// 주문한 메뉴 객체
+			
    		    var ordersDetailDTO = new Object();
    			ordersDetailDTO.od_Menu_Code = code;
    		 	ordersDetailDTO.od_Orders_No = ${orders_No};
@@ -372,6 +392,7 @@
 			});
 		};
 
+		// 한개 주문취소
 		function minusOrder(code, price) {
 			var count = oderCntMap.get(code) - 1;
 			

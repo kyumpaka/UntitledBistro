@@ -49,8 +49,6 @@ public interface JumunDAO {
 	
 	public int ordersUpdate(Map<String, String> map);
 	
-	public int ordersDelete(Map<String, String> map);
-	
 	public ArrayList<HashMap<String, Object>> ordersDetailsSelect(Map<String, String> map);
 	
 	public int odAllPrice(Map<String, String> map);
@@ -59,9 +57,7 @@ public interface JumunDAO {
 	
 	public int ordersDetailsInsert(OrdersDetailsDTO ordersDetailDTO);
 	
-	public int ordersDetailsDelete(OrdersDetailsDTO ordersDetailDTO);
-
-	public int ordersDetailsDeleteAll(OrdersDetailsDTO ordersDetailDTO);
+	public int ordersDetailsDelete(Map<String, String> map);
 	
 	public int ordersDetailsPlus(OrdersDetailsDTO ordersDetailDTO);
 	
@@ -78,4 +74,20 @@ public interface JumunDAO {
 	public ArrayList<PaymentDTO> paymentSelect();
 	
 	public ArrayList<SalesDetailsDTO> salesDetailesSelect(SalesDTO salesDTO);
+	
+	// 결제
+	public int salesInsert();
+
+	public int salesSelectMax();
+	
+	public ArrayList<SalesDetailsDTO> salesInputSelect(Map<String, String> map);
+	
+	public int salesTableSelect(Map<String, String> map);
+	
+	public int salesDetailsInsert(SalesDetailsDTO salesDetailsDTO);
+	
+	public int ordersDelete(Map<String, String> map);
+	
+	public int paymentInsert(PaymentDTO paymentDTO);
+	
 }

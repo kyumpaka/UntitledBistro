@@ -3,6 +3,8 @@ package com.bit.UntitledBistro.service.jumun;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,12 +14,22 @@ import java.util.UUID;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bit.UntitledBistro.model.jumun.IngredientDTO;
 import com.bit.UntitledBistro.model.jumun.JumunDAO;
+import com.bit.UntitledBistro.model.jumun.KakaoPayApprovalDTO;
+import com.bit.UntitledBistro.model.jumun.KakaoPayReadyDTO;
 import com.bit.UntitledBistro.model.jumun.MenuDTO;
 import com.bit.UntitledBistro.model.jumun.MenuTypeDTO;
 import com.bit.UntitledBistro.model.jumun.OrdersDTO;
@@ -28,6 +40,7 @@ import com.bit.UntitledBistro.model.jumun.SalesDetailsDTO;
 import com.bit.UntitledBistro.model.jumun.TableSaveDTO;
 
 @Service
+@Transactional(rollbackFor = {Exception.class})
 public class JumunServiceImpl implements JumunService {
 	
 	@Autowired
@@ -257,13 +270,18 @@ public class JumunServiceImpl implements JumunService {
 	@Override
 	public int ordersRemove(OrdersDetailsDTO ordersDetailDTO) {
 		dao = sqlSession.getMapper(JumunDAO.class);
-		return dao.ordersDetailsDelete(ordersDetailDTO);
+		map = new HashMap<String, String>();
+		map.put("od_Orders_No", ordersDetailDTO.getOd_Orders_No());
+		map.put("od_Menu_Code", ordersDetailDTO.getOd_Menu_Code());
+		return dao.ordersDetailsDelete(map);
 	}
 	
 	@Override
 	public int ordersRemoveAll(OrdersDetailsDTO ordersDetailDTO) {
 		dao = sqlSession.getMapper(JumunDAO.class);
-		return dao.ordersDetailsDeleteAll(ordersDetailDTO);
+		map = new HashMap<String, String>();
+		map.put("od_Orders_No", ordersDetailDTO.getOd_Orders_No());
+		return dao.ordersDetailsDelete(map);
 	}
 	
 	@Override
@@ -328,4 +346,108 @@ public class JumunServiceImpl implements JumunService {
 		dao = sqlSession.getMapper(JumunDAO.class);
 		return dao.salesDetailesSelect(salesDTO);
 	}
+	
+	private static final String HOST = "https://kapi.kakao.com";
+    private KakaoPayReadyDTO kakaoPayReadyDTO;
+    private KakaoPayApprovalDTO kakaoPayApprovalDTO;
+    
+	@Override
+	public String kakaoPayReady(String orders_No, PaymentDTO paymentDTO) {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		dao.salesInsert(); // 판매내역번호 생성
+		int sales_no = dao.salesSelectMax(); // 판매내역번호 가져오기
+		
+		map = new HashMap<String, String>();
+		map.put("orders_No", orders_No);
+		ArrayList<SalesDetailsDTO> sdList = dao.salesInputSelect(map); // 주문내역 가져오기
+		
+		int tableNum = dao.salesTableSelect(map);
+		
+		for(int i = 0; i < sdList.size(); i++) {
+			sdList.get(i).setSd_Sales_No(Integer.toString(sales_no)); // 판매내역번호 설정
+			dao.salesDetailsInsert(sdList.get(i)); // 판매내역 입력
+		}
+		
+		paymentDTO.setPayment_Sales_No(Integer.toString(sales_no)); // 판매내역번호 설정
+		paymentDTO.setPayment_Table(Integer.toString(tableNum)); // 테이블번호 설정
+		dao.paymentInsert(paymentDTO); // 결제내역 입력
+		
+		map.put("od_Orders_No", orders_No);
+		dao.ordersDelete(map); // 주문 삭제
+		dao.ordersDetailsDelete(map); // 주문내역 삭제
+		
+		
+		
+		
+		RestTemplate restTemplate = new RestTemplate();
+		 
+        // 서버로 요청할 Header
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "KakaoAK " + "f75c66eebd8bf507d001dbc7bf11d9f6");
+        headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
+        headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
+        
+        // 서버로 요청할 Body
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        params.add("cid", "TC0ONETIME");
+        params.add("partner_order_id", "1001");
+        params.add("partner_user_id", "gorany");
+        params.add("item_name", "갤럭시S9");
+        params.add("quantity", "1");
+        params.add("total_amount", "2100");
+        params.add("tax_free_amount", "100");
+        params.add("approval_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccess.do");
+        params.add("cancel_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPayCancel.do");
+        params.add("fail_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccessFail.do");
+ 
+         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+ 
+        try {
+            kakaoPayReadyDTO = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoPayReadyDTO.class);
+            
+            return kakaoPayReadyDTO.getNext_redirect_pc_url();
+ 
+        } catch (RestClientException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        
+        return "paymentStart.do";
+	}
+	
+	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token) {
+        
+        RestTemplate restTemplate = new RestTemplate();
+ 
+        // 서버로 요청할 Header
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "KakaoAK " + "f75c66eebd8bf507d001dbc7bf11d9f6");
+        headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
+        headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
+ 
+        // 서버로 요청할 Body
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        params.add("cid", "TC0ONETIME");
+        params.add("tid", kakaoPayReadyDTO.getTid());
+        params.add("partner_order_id", "1001");
+        params.add("partner_user_id", "gorany");
+        params.add("pg_token", pg_token);
+        params.add("total_amount", "2100");
+        
+        HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+        
+        try {
+        	kakaoPayApprovalDTO = restTemplate.postForObject(new URI(HOST + "/v1/payment/approve"), body, KakaoPayApprovalDTO.class);
+          
+            return kakaoPayApprovalDTO;
+        
+        } catch (RestClientException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
 }

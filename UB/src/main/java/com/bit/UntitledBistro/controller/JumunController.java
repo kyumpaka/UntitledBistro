@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -23,6 +24,7 @@ import com.bit.UntitledBistro.model.jumun.IngredientDTO;
 import com.bit.UntitledBistro.model.jumun.MenuDTO;
 import com.bit.UntitledBistro.model.jumun.MenuTypeDTO;
 import com.bit.UntitledBistro.model.jumun.OrdersDetailsDTO;
+import com.bit.UntitledBistro.model.jumun.PaymentDTO;
 import com.bit.UntitledBistro.model.jumun.SalesDTO;
 import com.bit.UntitledBistro.model.jumun.SalesDetailsDTO;
 import com.bit.UntitledBistro.model.jumun.TableSaveDTO;
@@ -194,6 +196,36 @@ public class JumunController {
 	public int ordersRemoveAll(@RequestBody OrdersDetailsDTO ordersDetailDTO) {
 		return jumunService.ordersRemoveAll(ordersDetailDTO);
 	}
+	
+	@RequestMapping(value = "/orderDiscount.do")
+	public String orderDiscount(@ModelAttribute("allPrice") String allPrice) {
+		return "views/jumun/orderDiscount";
+	}
+	
+	@RequestMapping(value = "/paymentStart.do")
+	public String paymentStart(@ModelAttribute("orders_No") String orders_No, @ModelAttribute("allPrice") String allPrice
+			, @ModelAttribute("discountPrice") String discountPrice, @ModelAttribute("resultPrice") String resultPrice) {
+		return "views/jumun/paymentStart";
+	}
+	
+	@RequestMapping(value = "/kakaoPay.do", method = RequestMethod.POST)
+	public String kakaoPay(@RequestParam String orders_No, PaymentDTO paymentDTO) {
+		
+		return "redirect:" + jumunService.kakaoPayReady(orders_No, paymentDTO);
+	}
+	
+	@RequestMapping(value = "/kakaoPaySuccess.do")
+    public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model) {
+        model.addAttribute("info", jumunService.kakaoPayInfo(pg_token));
+        
+        return "views/jumun/kakaoPaySuccess";
+    }
+	
+	
+	
+	
+	
+	
 	
 	
 	

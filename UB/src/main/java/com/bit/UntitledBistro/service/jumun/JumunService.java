@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bit.UntitledBistro.model.jumun.IngredientDTO;
+import com.bit.UntitledBistro.model.jumun.KakaoPayApprovalDTO;
 import com.bit.UntitledBistro.model.jumun.MenuDTO;
 import com.bit.UntitledBistro.model.jumun.MenuTypeDTO;
 import com.bit.UntitledBistro.model.jumun.OrdersDTO;
@@ -73,4 +74,9 @@ public interface JumunService {
 	public ArrayList<PaymentDTO> paymentSearch();
 	
 	public ArrayList<SalesDetailsDTO> salesDetailsSearch(SalesDTO salesDTO);
+	
+	public String kakaoPayReady(String orders_No, PaymentDTO paymentDTO);
+	
+	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token);
+	
 }

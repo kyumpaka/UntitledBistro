@@ -49,7 +49,7 @@
 								<label id="${ menuList.menu_Code }" onmouseenter="igdView('${ menuList.menu_Code }')" onmouseleave="igdViewEnd('${ menuList.menu_Code }')">
 								<input type="checkbox" value="${ menuList.menu_Code }" name="menu_Code" id="menu_Code${ menuList.menu_Code }">
 									<div class="img-wrap">
-										<img src="${pageContext.request.contextPath}/resources/images/jumun/${ menuList.menu_Image }">
+										<img src="${pageContext.request.contextPath}/resources/images/jaego/${ menuList.menu_Image }">
 									</div>
 									<figcaption class="info-wrap">
 										<div class="action-wrap">

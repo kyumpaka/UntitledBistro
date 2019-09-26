@@ -114,10 +114,6 @@
 	UPDATE ORDERS SET ORDERS_FINAL = SYSDATE WHERE ORDERS_NO = #{orders_No}
 	</update>
 	
-	<delete id="ordersDelete" parameterType="map">
-	DELETE FROM ORDERS WHERE ORDERS_NO = #{orders_No}
-	</delete>
-	
 	<select id="ordersDetailsSelect" parameterType="map" resultType="HashMap">
 	SELECT OD_NO, OD_ORDERS_NO, OD_MENU_CODE, MENU_NAME, MENU_PRICE, OD_QTY FROM ORDERS_DETAILS 
 	LEFT OUTER JOIN MENU ON MENU.MENU_CODE=ORDERS_DETAILS.OD_MENU_CODE WHERE OD_ORDERS_NO = #{od_Orders_No}
@@ -135,12 +131,12 @@
 	INSERT INTO ORDERS_DETAILS(OD_NO, OD_ORDERS_NO, OD_MENU_CODE, OD_QTY) VALUES((SELECT NVL(MAX(OD_NO),0)+1 FROM ORDERS_DETAILS), #{od_Orders_No}, #{od_Menu_Code}, #{od_Qty})
 	</insert>
 
-	<delete id="ordersDetailsDelete">
-	DELETE FROM ORDERS_DETAILS WHERE OD_ORDERS_NO = #{od_Orders_No} AND OD_MENU_CODE = #{od_Menu_Code}
-	</delete>
-	
-	<delete id="ordersDetailsDeleteAll">
-	DELETE FROM ORDERS_DETAILS WHERE OD_ORDERS_NO = #{od_Orders_No}
+	<delete id="ordersDetailsDelete" parameterType="map">
+	DELETE FROM ORDERS_DETAILS
+	<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="od_Orders_No != null">OD_ORDERS_NO = #{od_Orders_No}</if>
+			<if test="od_Menu_Code != null">AND OD_MENU_CODE = #{od_Menu_Code}</if>
+	</trim>
 	</delete>
 	
 	<update id="ordersDetailsPlus">
@@ -175,6 +171,33 @@
 	SELECT SD_NO, SD_SALES_NO, SD_MENU_CODE AS MENU_NAME, SD_QTY, SD_PRICE FROM SALES_DETAILS LEFT OUTER JOIN MENU ON MENU.MENU_CODE=SALES_DETAILS.SD_MENU_CODE WHERE SD_SALES_NO = #{sales_No}
 	</select>
 	
+	<insert id="salesInsert">
+	INSERT INTO SALES(SALES_NO) VALUES(NVL((SELECT COUNT(*) FROM SALES), 1))
+	</insert>
 	
+	<select id="salesSelectMax" resultType="java.lang.Integer">
+	SELECT MAX(SALES_NO) FROM SALES;
+	</select>
+	
+	<select id="salesInputSelect" parameterType="HashMap">
+	SELECT OD_MENU_CODE AS SD_MENU_CODE, OD_QTY AS SD_QTY, MENU_PRICE AS SD_PRICE FROM ORDERS_DETAILS LEFT OUTER JOIN MENU ON MENU.MENU_CODE = #{orders_No}
+	</select>
+	
+	<select id="salesTableSelect" parameterType="HashMap">
+	SELECT ORDERS_TABLESAVE_CODE FROM ORDERS WHERE ORDERS_NO = #{orders_No}
+	</select>
+	
+	<insert id="salesDetailsInsert" parameterType="salesDetails">
+	INSERT INTO SALES_DETAILS(SD_NO, SD_SALES_NO, SD_MENU_CODE, SD_QTY, SD_PRICE) VALUES(NVL((SELECT COUNT(*) FROM SALES_DETAILS), 1), #{sd_Sales_No}, #{sd_Menu_Code} , #{sd_Qty}, {sd_Price})
+	</insert>
+		
+	<delete id="ordersDelete" parameterType="map">
+	DELETE FROM ORDERS WHERE ORDERS_NO = #{orders_No}
+	</delete>
+	
+	<insert id="paymentInsert">
+	INSERT INTO PAYMENT(PAYMENT_NO, PAYMENT_SALES_NO, PAYMENT_MEMBER_ID, PAYMENT_TABLE, PAYMENT_STATE, PAYMENT_POINT, PAYMENT_DISCOUNT, PAYMENT_CASH, PAYMENT_CARD) 
+	VALUES(NVL((SELECT COUNT(*) FROM PAYMENT), 1), #{payment_Sales_No}, #{payment_Member_Id}, #{payment_Table}, '성공', #{payment_Point}, #{payment_Discount}, #{payment_Cash}, #{payment_Card})
+	</insert>
 	
 </mapper>
