@@ -59,7 +59,7 @@
 				<div class="col-md-2">
 					<div class="box">
 						<div class="col-md-13">
-							<button onclick="gotableControl()" class="btn  btn-primary btn-lg btn-block"> 좌석관리 </button>
+							<button onclick="goTableControl()" class="btn  btn-primary btn-lg btn-block"> 좌석관리 </button>
 						</div>
 						<hr>
 						<div class="col-md-13">
@@ -67,11 +67,7 @@
 						</div>
 						<hr>
 						<div class="col-md-13">
-							<button value="#" class="btn  btn-primary btn-lg btn-block"> 영수증관리 </button>
-						</div>
-						<hr>
-						<div class="col-md-13">
-							<button value="#" class="btn  btn-primary btn-lg btn-block"> 판매내역 </button>
+							<button onclick="goSalesList()" class="btn  btn-primary btn-lg btn-block"> 판매내역 </button>
 						</div>
 						<hr>
 						<div class="col-md-13">
@@ -91,7 +87,12 @@
 <script src="${pageContext.request.contextPath}/resources/pos/assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/resources/pos/assets/js/OverlayScrollbars.js" type="text/javascript"></script>
 	<script>
-		function gotableControl() {
+		function goSalesList() {
+			event.preventDefault();
+			location.href="salesList.do";
+		};
+	
+		function goTableControl() {
 			var width = 400;
 			var height = 400;
 			var popupX = (window.screen.width / 2) - (width / 2);

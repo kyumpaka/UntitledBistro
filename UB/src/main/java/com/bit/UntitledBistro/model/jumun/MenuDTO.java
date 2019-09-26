@@ -10,7 +10,7 @@ public class MenuDTO {
 	int menu_Price;
 	String menu_Image;
 	String menu_State;
-	ArrayList<IngredientDTO> jumun_IngredientDTO;
+	ArrayList<IngredientDTO> IngredientDTO;
 	
 	public String getMenu_Code() {
 		return menu_Code;
@@ -48,11 +48,11 @@ public class MenuDTO {
 	public void setMenu_State(String menu_State) {
 		this.menu_State = menu_State;
 	}
-	public ArrayList<IngredientDTO> getJumun_IngredientDTO() {
-		return jumun_IngredientDTO;
+	public ArrayList<IngredientDTO> getIngredientDTO() {
+		return IngredientDTO;
 	}
-	public void setJumun_IngredientDTO(ArrayList<IngredientDTO> jumun_IngredientDTO) {
-		this.jumun_IngredientDTO = jumun_IngredientDTO;
+	public void setIngredientDTO(ArrayList<IngredientDTO> ingredientDTO) {
+		IngredientDTO = ingredientDTO;
 	}
 	
 }

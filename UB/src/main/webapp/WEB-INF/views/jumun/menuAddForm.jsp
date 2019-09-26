@@ -86,9 +86,9 @@
 		function ingAdd() {
 			  event.preventDefault();
 			  var frmTag = '<div id="addIgd'+igdcnt+'"><div class="row form-group"> <div class="col col-md-3"> <label for="text-input" class=" form-control-label">재료 이름</label> </div>';
-				  frmTag += '<div class="col-12 col-md-9"> <input type="text" id="text-input" class="form-control" name="jumun_IngredientDTO['+igdcnt+'].ingredient_Product_Code"> </div> </div>';
+				  frmTag += '<div class="col-12 col-md-9"> <input type="text" id="text-input" class="form-control" name="ingredientDTO['+igdcnt+'].ingredient_Product_Code"> </div> </div>';
 				  frmTag += '<div class="row form-group"> <div class="col col-md-3"> <label for="text-input" class=" form-control-label">개수</label> </div>';
-				  frmTag += '<div class="col-12 col-md-9"> <input type="number" id="text-input" class="form-control" name="jumun_IngredientDTO['+igdcnt+'].ingredient_Qty"> </div>';
+				  frmTag += '<div class="col-12 col-md-9"> <input type="number" id="text-input" class="form-control" name="ingredientDTO['+igdcnt+'].ingredient_Qty"> </div>';
 				  frmTag += '</div> <button onclick="igdRemove(\''+igdcnt+'\')" class="btn btn-primary btn-sm" >재료 삭제</button><hr> </div>';
 			  $("#addIgd").append(frmTag);
 			  if(cntend == igdcnt) {
@@ -170,15 +170,15 @@
 		
 		function igdcheck(){
 			for(var i = 0; i < igdcnt; i++){
-				var code = $("input[name='jumun_IngredientDTO["+i+"].ingredient_Product_Code']").val().trim();
-				var qty = $("input[name='jumun_IngredientDTO["+i+"].ingredient_Qty']").val().trim();
+				var code = $("input[name='ingredientDTO["+i+"].ingredient_Product_Code']").val().trim();
+				var qty = $("input[name='ingredientDTO["+i+"].ingredient_Qty']").val().trim();
 				if(code == "" || code == null) {
 					swal({
 						  title: "재료명을 입력해주세요.",
 						  icon: "warning",
 						});
-					$("input[name='jumun_IngredientDTO["+i+"].ingredient_Product_Code']").focus();
-					$("input[name='jumun_IngredientDTO["+i+"].ingredient_Product_Code']").val("");
+					$("input[name='ingredientDTO["+i+"].ingredient_Product_Code']").focus();
+					$("input[name='ingredientDTO["+i+"].ingredient_Product_Code']").val("");
 					return false;
 				}
 				if(qty == "" || qty == 0) {
@@ -186,8 +186,8 @@
 						  title: "수량을 입력해주세요.",
 						  icon: "warning",
 						});
-					$("jumun_IngredientDTO["+i+"].ingredient_Qty").focus();
-					$("jumun_IngredientDTO["+i+"].ingredient_Qty").val("");
+					$("ingredientDTO["+i+"].ingredient_Qty").focus();
+					$("ingredientDTO["+i+"].ingredient_Qty").val("");
 					return false;
 				}
 			}

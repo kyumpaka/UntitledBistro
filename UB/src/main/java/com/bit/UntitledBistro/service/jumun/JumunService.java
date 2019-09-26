@@ -8,11 +8,13 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bit.UntitledBistro.model.jumun.IngredientDTO;
-import com.bit.UntitledBistro.model.jumun.MainPosDTO;
 import com.bit.UntitledBistro.model.jumun.MenuDTO;
 import com.bit.UntitledBistro.model.jumun.MenuTypeDTO;
 import com.bit.UntitledBistro.model.jumun.OrdersDTO;
-import com.bit.UntitledBistro.model.jumun.OrdersDetailDTO;
+import com.bit.UntitledBistro.model.jumun.OrdersDetailsDTO;
+import com.bit.UntitledBistro.model.jumun.PaymentDTO;
+import com.bit.UntitledBistro.model.jumun.SalesDTO;
+import com.bit.UntitledBistro.model.jumun.SalesDetailsDTO;
 import com.bit.UntitledBistro.model.jumun.TableSaveDTO;
 
 public interface JumunService {
@@ -54,11 +56,13 @@ public interface JumunService {
 	
 	public int odAllPrice(String orders_No);
 	
-	public int ordersRemove(OrdersDetailDTO ordersDetailDTO);
+	public int ordersRemove(OrdersDetailsDTO ordersDetailDTO);
 	
-	public int ordersPlus(OrdersDetailDTO ordersDetailDTO);
+	public int ordersRemoveAll(OrdersDetailsDTO ordersDetailDTO);
 	
-	public int ordersMinus(OrdersDetailDTO ordersDetailDTO);
+	public int ordersPlus(OrdersDetailsDTO ordersDetailDTO);
+	
+	public int ordersMinus(OrdersDetailsDTO ordersDetailDTO);
 	
 	public ArrayList<Integer> tableInfo();
 	
@@ -66,4 +70,7 @@ public interface JumunService {
 	
 	public int tableControl(Map<String, Object> table);
 	
+	public ArrayList<PaymentDTO> paymentSearch();
+	
+	public ArrayList<SalesDetailsDTO> salesDetailsSearch(SalesDTO salesDTO);
 }

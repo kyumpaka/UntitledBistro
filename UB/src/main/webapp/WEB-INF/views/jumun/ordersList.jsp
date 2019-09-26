@@ -51,7 +51,7 @@
 		</div>
 	</section>
 	
-	<section class="section-content padding-y-sm bg-default ">
+	<section class="section-content padding-y-sm bg-default">
 	<form method="post" id="orderListForm">
 		<input type="hidden" name="order_Table" value="${ order_Table }">
 		<div class="container-fluid">
@@ -162,103 +162,39 @@
 								<dt>거스름돈</dt>
 								<dd class="text-right h4 b">0</dd>
 							</dl>
-							<div align="center">
-							<span>
-							<input type="text" id="posInput" style="margin: 5px; width: 95%; height: 30px;">
-							</span>
+							<br>
 							<div class="row">
-								<div class="col-md-3">
-									<a href="#" class="btn  btn-primary btn-lg btn-block"> 7 </a>
+								<div class="col-md-4">
+									<a href="#" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 결제 </a>
 								</div>
-								<div class="col-md-3">
-									<a href="#" class="btn  btn-primary btn-lg btn-block"> 8 </a>
+								<div class="col-md-4">
+									<a href="#" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 서비스 </a>
 								</div>
-								<div class="col-md-3">
-									<a href="#" class="btn  btn-primary btn-lg btn-block"> 9 </a>
-								</div>
-								<div class="col-md-3">
-									<a href="#" class="btn  btn-primary btn-lg btn-block"> &lt; </a>
+								<div class="col-md-4">
+									<div onclick="removeOrderAll()" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 전체취소 </div>
 								</div>
 							</div>
+							<br>
 							<div class="row">
-								<div class="col-md-3">
-									<a href="#" class="btn  btn-primary btn-lg btn-block"> 4 </a>
+								<div class="col-md-4">
+									<a href="#" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 주문 </a>
 								</div>
-								<div class="col-md-3">
-									<a href="#" class="btn  btn-primary btn-lg btn-block"> 5 </a>
+								<div class="col-md-4">
+									<a href="#" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 출력 </a>
 								</div>
-								<div class="col-md-3">
-									<a href="#" class="btn  btn-primary btn-lg btn-block"> 6 </a>
+								<div class="col-md-4">
+									<a href="posMain.do" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 메인 </a>
 								</div>
-								<div class="col-md-3">
-									<a href="#" class="btn  btn-primary btn-lg btn-block"> 할인 </a>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-3">
-									<a href="#" class="btn  btn-primary btn-lg btn-block"> 1 </a>
-								</div>
-								<div class="col-md-3">
-									<a href="#" class="btn  btn-primary btn-lg btn-block"> 2 </a>
-								</div>
-								<div class="col-md-3">
-									<a href="#" class="btn  btn-primary btn-lg btn-block"> 3 </a>
-								</div>
-								<div class="col-md-3">
-									<a href="#" class="btn  btn-primary btn-lg btn-block"> Clear </a>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-3">
-									<a href="#" class="btn  btn-primary btn-lg btn-block"> 0 </a>
-								</div>
-								<div class="col-md-3">
-									<a href="#" class="btn  btn-primary btn-lg btn-block"> 천원 </a>
-								</div>
-								<div class="col-md-3">
-									<a href="#" class="btn  btn-primary btn-lg btn-block"> 만원 </a>
-								</div>
-								<div class="col-md-3">
-									<a href="#" class="btn  btn-primary btn-lg btn-block"> Enter </a>
-								</div>
-							</div>
 							</div>
 						</div>
 					</div>
 				</div>
-	</form>
-		<div class="box">
-			<div class="row">
-				<div class="col-md-2">
-					<div onclick="#" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 주문 </div>
-				</div>
-				<div class="col-md-2">
-					<a href="#" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 주문서출력 </a>
-				</div>
-				<div class="col-md-2">
-					<a href="#" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 현금결제 </a>
-				</div>
-				<div class="col-md-2">
-					<a href="#" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 카드결제 </a>
-				</div>
-				<div class="col-md-2">
-					<a href="#" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 복합결제 </a>
-				</div>
-				<div class="col-md-2">
-					<a href="posMain.do" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 메인 </a>
-				</div>
 			</div>
-		</div>
+		</form>
 	</section>
-	<script
-		src="${pageContext.request.contextPath}/resources/pos/assets/js/jquery-2.0.0.min.js"
-		type="text/javascript"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/pos/assets/js/bootstrap.bundle.min.js"
-		type="text/javascript"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/pos/assets/js/OverlayScrollbars.js"
-		type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/jquery-2.0.0.min.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/OverlayScrollbars.js" type="text/javascript"></script>
 	<script>
 		$(function() {
 			$("#items").height(552);
@@ -272,8 +208,8 @@
 			$("#cart").overlayScrollbars({});
 		});
 		
-		// 메뉴구분 탭 활성화
 		$(document).ready(function() {
+			// 메뉴구분 탭 활성화
 			if('' == '${ mt_Code }'){
 				$("#tab").attr('class','nav-link active show');
 			}
@@ -282,10 +218,7 @@
 				$("#tab${ mt_Code }").attr('class','nav-link active show');
 			}
 			</c:forEach>
-
-			// 체크박스 및 체크이미지 숨기기
-			$("input[class='check']").css("display","none");
-
+			
 			// 시계 시작
 			startTime();
 
@@ -381,6 +314,32 @@
 							
 							var allPrice = $("#allPrice").html();
 							$("#allPrice").html(Number(allPrice) + Number(price));
+					  }
+				  }
+			});
+		};
+
+		function removeOrderAll() {
+			event.preventDefault();
+
+			var ordersDetailDTO = new Object();
+   		 	ordersDetailDTO.od_Orders_No = ${orders_No};
+   		 	
+			$.ajax({
+				  url: 'ordersRemoveAll.do',
+				  type: 'post',
+				  data: JSON.stringify(ordersDetailDTO),
+				  dataType: 'json',
+				  contentType: 'application/json',
+				  success : function(result) {
+					  if(result > 0){
+						  $("#allPrice").html(0);
+
+						  for(var i = 1; i <= oderCntMap.size; i++) {
+							  $("#trMN"+i).remove();
+							  oderCntMap.delete("MN"+i);
+							  oderCntMap.set("MN"+i, 0);
+						  }
 					  }
 				  }
 			});

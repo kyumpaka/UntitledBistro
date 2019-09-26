@@ -22,7 +22,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.bit.UntitledBistro.model.jumun.IngredientDTO;
 import com.bit.UntitledBistro.model.jumun.MenuDTO;
 import com.bit.UntitledBistro.model.jumun.MenuTypeDTO;
-import com.bit.UntitledBistro.model.jumun.OrdersDetailDTO;
+import com.bit.UntitledBistro.model.jumun.OrdersDetailsDTO;
+import com.bit.UntitledBistro.model.jumun.SalesDTO;
+import com.bit.UntitledBistro.model.jumun.SalesDetailsDTO;
 import com.bit.UntitledBistro.model.jumun.TableSaveDTO;
 import com.bit.UntitledBistro.service.jumun.JumunService;
 
@@ -37,7 +39,7 @@ public class JumunController {
 	@RequestMapping(value = "/menuSetting.do")
 	public String menuSettingSearch(@ModelAttribute("mt_Code") String mt_Code, Model model) {
 		model.addAttribute("menuTypeList", jumunService.menuTypeSearch("all"));
-		model.addAttribute("menuList", jumunService.menuSearch(mt_Code, "미판매"));		
+		model.addAttribute("menuList", jumunService.menuSearch(mt_Code, "미판매"));
 
 		return "jumun/menuSetting";
 	}
@@ -158,25 +160,26 @@ public class JumunController {
 
 	@RequestMapping(value = "/ordersRemove.do", method = RequestMethod.POST)
 	@ResponseBody
-	public int ordersRemove(@RequestBody OrdersDetailDTO ordersDetailDTO) {
+	public int ordersRemove(@RequestBody OrdersDetailsDTO ordersDetailDTO) {
 		return jumunService.ordersRemove(ordersDetailDTO);
 	}
 	
 	@RequestMapping(value = "/ordersPlus.do", method = RequestMethod.POST)
 	@ResponseBody
-	public int ordersPlus(@RequestBody OrdersDetailDTO ordersDetailDTO) {
+	public int ordersPlus(@RequestBody OrdersDetailsDTO ordersDetailDTO) {
 		return jumunService.ordersPlus(ordersDetailDTO);
 	}
 
 	@RequestMapping(value = "/ordersMinus.do", method = RequestMethod.POST)
 	@ResponseBody
-	public int ordersMinus(@RequestBody OrdersDetailDTO ordersDetailDTO) {
+	public int ordersMinus(@RequestBody OrdersDetailsDTO ordersDetailDTO) {
 		return jumunService.ordersMinus(ordersDetailDTO);
 	}
 	
 	@RequestMapping(value = "/tableControl.do")
 	public String tableControl(Model model) {
 		model.addAttribute("tableList", jumunService.tableControl());
+		
 		return "views/jumun/tableControl";
 	}
 	
@@ -186,4 +189,28 @@ public class JumunController {
 		return jumunService.tableControl(table);
 	}
 	
+	@RequestMapping(value = "/ordersRemoveAll.do", method = RequestMethod.POST)
+	@ResponseBody
+	public int ordersRemoveAll(@RequestBody OrdersDetailsDTO ordersDetailDTO) {
+		return jumunService.ordersRemoveAll(ordersDetailDTO);
+	}
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/salesList.do")
+	public String salesList(Model model) {
+		model.addAttribute("salesList", jumunService.paymentSearch());
+		
+		return "views/jumun/salesList";
+	}
+	
+	@RequestMapping(value = "/salesDetailsByNo.do", method = RequestMethod.POST)
+	@ResponseBody
+	public ArrayList<SalesDetailsDTO> salesDetailsByNo(@RequestBody SalesDTO salesDTO) {
+		return jumunService.salesDetailsSearch(salesDTO);
+	}
 }

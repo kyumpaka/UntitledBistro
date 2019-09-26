@@ -41,9 +41,9 @@ public interface JumunDAO {
 	public int tableDelete();
 	
 	// 주문내역
-	public ArrayList<HashMap<String, Object>> ordersSelectAll();
+	public ArrayList<HashMap<String, Object>> ordersSelect();
 	
-	public OrdersDTO ordersSelect(Map<String, String> map);
+	public OrdersDTO ordersSelectByNo(Map<String, String> map);
 	
 	public int ordersInsert(OrdersDTO ordersDTO);
 	
@@ -51,19 +51,21 @@ public interface JumunDAO {
 	
 	public int ordersDelete(Map<String, String> map);
 	
-	public ArrayList<HashMap<String, Object>> ordersDetailSelect(Map<String, String> map);
+	public ArrayList<HashMap<String, Object>> ordersDetailsSelect(Map<String, String> map);
 	
 	public int odAllPrice(Map<String, String> map);
 	
-	public int ordersDetailsSelectCount(OrdersDetailDTO ordersDetailDTO);
+	public int ordersDetailsSelectCount(OrdersDetailsDTO ordersDetailDTO);
 	
-	public int ordersDetailsInsert(OrdersDetailDTO ordersDetailDTO);
+	public int ordersDetailsInsert(OrdersDetailsDTO ordersDetailDTO);
 	
-	public int ordersDetailsDelete(OrdersDetailDTO ordersDetailDTO);
+	public int ordersDetailsDelete(OrdersDetailsDTO ordersDetailDTO);
+
+	public int ordersDetailsDeleteAll(OrdersDetailsDTO ordersDetailDTO);
 	
-	public int ordersDetailsPlus(OrdersDetailDTO ordersDetailDTO);
+	public int ordersDetailsPlus(OrdersDetailsDTO ordersDetailDTO);
 	
-	public int ordersDetailsMinus(OrdersDetailDTO ordersDetailDTO);
+	public int ordersDetailsMinus(OrdersDetailsDTO ordersDetailDTO);
 	
 	public ArrayList<Integer> tableInfo();
 	
@@ -73,4 +75,7 @@ public interface JumunDAO {
 
 	public int od_tableControl(Map<String, Object> map);
 	
+	public ArrayList<PaymentDTO> paymentSelect();
+	
+	public ArrayList<SalesDetailsDTO> salesDetailesSelect(SalesDTO salesDTO);
 }

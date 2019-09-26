@@ -46,7 +46,7 @@
 							<c:forEach items="${ menuList }" var="menuList">
 							<div class="col-md-3">
 								<figure class="card card-product">
-								<label id="${ menuList.menu_Code }" onmouseenter="igdView('${ menuList.menu_Code }')">
+								<label id="${ menuList.menu_Code }" onmouseenter="igdView('${ menuList.menu_Code }')" onmouseleave="igdViewEnd('${ menuList.menu_Code }')">
 								<input type="checkbox" value="${ menuList.menu_Code }" name="menu_Code" id="menu_Code${ menuList.menu_Code }">
 									<div class="img-wrap">
 										<img src="${pageContext.request.contextPath}/resources/images/jumun/${ menuList.menu_Image }">
@@ -54,12 +54,14 @@
 									<figcaption class="info-wrap">
 										<div class="action-wrap">
 											<div class="price-wrap h5">
-												<img src="${pageContext.request.contextPath}/resources/images/jumun/체크.jpg" class="checkImg" id="menuimg${ menuList.menu_Code }">
+												<img src="${pageContext.request.contextPath}/resources/images/jumun/check.jpg" class="checkImg" id="menuimg${ menuList.menu_Code }">
 												<span class="title">${ menuList.menu_Name }</span>
 												<span class="price-new">/&nbsp;<fmt:formatNumber pattern="#,###" value="${ menuList.menu_Price }" />원</span>
+												
 											</div>
 										</div>
 									</figcaption>
+									<div id="igd${ menuList.menu_Code }"></div>
 								</label>
 								</figure>
 							</div>
@@ -93,15 +95,13 @@
 							<button value="menuRemove" class="btn  btn-primary btn-lg btn-block"> 삭제 </button>
 						</div>
 						<br><hr><br>
-						<div class="col-md-13">
-							<a href="posMain.do" class="btn  btn-primary btn-lg btn-block"> 완료 </a>
-						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</form>
 	</section>
+	
 	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/jquery-2.0.0.min.js" type="text/javascript"></script>
 	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/OverlayScrollbars.js" type="text/javascript"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -236,19 +236,25 @@
 		});
 		
 		// 메뉴 재료보기
-		function igdView(num){
+		function igdView(num) {
 			$.ajax({
 				  url: 'ingreSearchByMenuCode.do',
 				  type: 'post',
 				  data: { menu_Code:num },
 				  dataType: 'json',
 				  success : function(result) {
+					  var igd = "";
 					  var resLen = result.length;
 					  for(var i = 0; i < resLen; i++){
-// 				  	  	alert('재료 : ' + result[i].ingredient_Product_Code + ' / 수량 : ' + result[i].ingredient_Qty);
+							igd += "재료명 : " + result[i].ingredient_Product_Code + " / 수량 : " + result[i].ingredient_Qty + "<br>";
 					  }
+					  $("#igd"+num).append("<div style=\"position: absolute; background-color: white; border: 1px solid black; left: 70px; top: 30px; padding: 20px; \">"+igd+"</div>");
 				  }
 			});
+		};
+
+		function igdViewEnd(num) {
+			$("#igd"+num).html("");
 		};
 	</script>
 </body>

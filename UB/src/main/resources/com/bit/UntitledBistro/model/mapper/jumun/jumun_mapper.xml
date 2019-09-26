@@ -97,12 +97,12 @@
 	DELETE FROM TABLESAVE
 	</delete>
 	
-	<select id="ordersSelectAll" resultType="HashMap">
+	<select id="ordersSelect" resultType="HashMap">
 	SELECT OD_ORDERS_NO, MENU_NAME, OD_QTY FROM ORDERS_DETAILS 
 	LEFT OUTER JOIN MENU ON MENU.MENU_CODE = ORDERS_DETAILS.OD_MENU_CODE ORDER BY ORDERS_DETAILS.OD_ORDERS_NO
 	</select>
 	
-	<select id="ordersSelect" parameterType="map" resultType="orders">
+	<select id="ordersSelectByNo" parameterType="map" resultType="orders">
 	SELECT ORDERS_NO, ORDERS_TABLESAVE_CODE,  ORDERS_FIRST, ORDERS_FINAL FROM ORDERS WHERE ORDERS_NO = #{orders_No}
 	</select>
 	
@@ -118,7 +118,7 @@
 	DELETE FROM ORDERS WHERE ORDERS_NO = #{orders_No}
 	</delete>
 	
-	<select id="ordersDetailSelect" parameterType="map" resultType="HashMap">
+	<select id="ordersDetailsSelect" parameterType="map" resultType="HashMap">
 	SELECT OD_NO, OD_ORDERS_NO, OD_MENU_CODE, MENU_NAME, MENU_PRICE, OD_QTY FROM ORDERS_DETAILS 
 	LEFT OUTER JOIN MENU ON MENU.MENU_CODE=ORDERS_DETAILS.OD_MENU_CODE WHERE OD_ORDERS_NO = #{od_Orders_No}
 	</select>
@@ -137,6 +137,10 @@
 
 	<delete id="ordersDetailsDelete">
 	DELETE FROM ORDERS_DETAILS WHERE OD_ORDERS_NO = #{od_Orders_No} AND OD_MENU_CODE = #{od_Menu_Code}
+	</delete>
+	
+	<delete id="ordersDetailsDeleteAll">
+	DELETE FROM ORDERS_DETAILS WHERE OD_ORDERS_NO = #{od_Orders_No}
 	</delete>
 	
 	<update id="ordersDetailsPlus">
@@ -162,5 +166,15 @@
 	<update id="od_tableControl" parameterType="HashMap">
 	UPDATE ORDERS_DETAILS SET OD_ORDERS_NO = #{newTable} WHERE OD_ORDERS_NO = #{oldTable}
 	</update>
+	
+	<select id="paymentSelect" resultType="payment">
+	SELECT PAYMENT_NO, PAYMENT_SALES_NO, PAYMENT_MEMBER_ID, PAYMENT_TABLE, PAYMENT_STATE, PAYMENT_DATE, PAYMENT_POINT, PAYMENT_DISCOUNT, PAYMENT_CASH, PAYMENT_CARD FROM PAYMENT
+	</select>
+	
+	<select id="salesDetailesSelect" parameterType="sales" resultType="salesDetails">
+	SELECT SD_NO, SD_SALES_NO, SD_MENU_CODE AS MENU_NAME, SD_QTY, SD_PRICE FROM SALES_DETAILS LEFT OUTER JOIN MENU ON MENU.MENU_CODE=SALES_DETAILS.SD_MENU_CODE WHERE SD_SALES_NO = #{sales_No}
+	</select>
+	
+	
 	
 </mapper>
