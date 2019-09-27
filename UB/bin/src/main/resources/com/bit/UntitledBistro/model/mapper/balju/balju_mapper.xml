@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="balju">
+  
+  <insert id="insert_Balju_Plan1" parameterType="hashmap"><!-- com.bit.UntitledBistro.model.balju.Balju_PlanDTO -->
+  	<![CDATA[
+  		INSERT INTO ORPL_INPUT
+  		(
+  			ORPLIN_NUM, 
+  			ORPLIN_DATE
+  		) 
+  		VALUES 
+  		(
+  			(SELECT NVL(MAX(ORPLIN_NUM),0)+1 FROM ORPL_INPUT),
+  			SYSDATE
+  		)
+  	]]>
+  </insert>
+  
+  <insert id="insert_Balju_Plan2" parameterType="hashmap">
+  	<![CDATA[
+  		INSERT INTO ORDER_PLAN
+  		(
+  			ORDPL_ORDLIN_NUM,
+  			ORDPL_ONUM,
+  			ORDPL_PRODUCT_CODE,
+  			ORDPL_QT,
+  			ORDPL_WR,
+  			ORDPL_STAT,
+  			ORDPL_END
+  		)
+  		VALUES
+  		(
+  			(SELECT NVL(MAX(ORDPL_ORDLIN_NUM),0)+1 FROM ORDER_PLAN),
+  			(SELECT NVL(MAX(ORDPL_ONUM),0)+1 FROM ORDER_PLAN),
+  			#{ORDPL_PRODUCT_CODE},
+  			#{ORDPL_QT},
+  			#{ORDPL_WR},
+  			#{ORDPL_STAT},
+  			#{ORDPL_END}
+  		)
+  	]]>
+  </insert>
+  
+  <insert id="insert_Balju1" parameterType="hashmap">
+  	<![CDATA[
+  		INSERT INTO ORDER_INPUT
+  		(
+  			ORDIN_NUM,
+  			ORDIN_DATE
+  		) 
+  		VALUES
+  		(
+  			(SELECT NVL(MAX(ORDIN_NUM),0)+1 FROM ORDER_INPUT),
+  			SYSDATE
+  		)
+  	]]>
+  </insert>
+  
+  <insert id="insert_Balju2" parameterType="hashmap">
+  	<![CDATA[
+  		INSERT INTO ORDERLIST
+  		(
+  			ORDER_ORDIN_NUM,
+  			ORDER_NUM,
+  			ORDER_PRODUCT_CODE,
+  			ORDER_QT,
+  			ORDER_PR_EA,
+  			ORDER_WR,
+  			ORDER_SUMMA,
+  			ORDER_STAT,
+  			ORDER_END
+  		)
+  		VALUES
+  		(
+  			(SELECT NVL(MAX(ORDER_ORDIN_NUM),0)+1 FROM ORDERLIST),
+  			(SELECT NVL(MAX(ORDER_NUM),0)+1 FROM ORDERLIST),
+  			#{ORDER_PRODUCT_CODE},
+  			#{ORDER_QT},
+  			#{ORDER_PR_EA},
+  			#{ORDER_WR},
+  			#{ORDER_SUMMA},
+  			#{ORDER_STAT},
+  			#{ORDER_END}
+  		)
+  	]]>
+  </insert>
+  
+  <insert id="insert_Balju_Save1" parameterType="hashmap">
+   <![CDATA[
+   		INSERT INTO ORDER_SAPL
+   		(
+   			ORSP_NUM,
+   			ORSP_DATE
+   		)
+   		VALUES 
+   		(
+   			(SELECT NVL(MAX(ORSP_NUM),0)+1 FROM ORDER_SAPL),
+   			SYSDATE
+   		)
+   	]]>
+  </insert>
+  
+  <insert id="insert_Balju_Save2" parameterType="hashmap">
+   <![CDATA[
+   		INSERT INTO ORDER_SAVE
+   		(
+   			ORSA_ORSP_NUM,
+   			ORSA_NUM,
+   			ORSA_PRODUCT_CODE,
+   			ORSA_QT,
+   			ORSA_WR
+   		)
+   		VALUES
+   		(
+   			(SELECT NVL(MAX(ORSA_ORSP_NUM),0)+1 FROM ORDER_SAVE),
+   			(SELECT NVL(MAX(ORSA_NUM),0)+1 FROM ORDER_SAVE),
+   			ORSA_PRODUCT_CODE,
+   			ORSA_QT,
+   			ORSA_WR
+   		)
+   	]]>
+  </insert>
+  
+  <select id="item_list" parameterType="hashmap" resultType="hashmap">
+  	<![CDATA[
+  		SELECT 
+  			PRODUCT_CODE,
+  			PRODUCT_NAME,
+  			PRODUCT_STNDR,
+  			PRODUCT_PRICE
+  		FROM 
+  			PRODUCT
+  	]]>	
+  </select>
+  
+  
+  <select id="balju_Dummy" parameterType="hashmap" resultType="hashmap">
+  	<![CDATA[
+  		SELECT 
+  			ORDPL_ONUM
+  		FROM 
+  			BP_DUMMY
+  	]]>	
+  </select>
+  
+  <select id="balju_List" parameterType="hashmap" resultType="hashmap">
+  	<![CDATA[
+  		SELECT 
+  			ORDER_ORDIN_NUM,
+  			ORDIN_DATE,
+  			ORDER_NUM,
+  			ORDER_PRODUCT_CODE,
+  			ORDER_QT,
+  			ORDER_PR_EA,
+  			ORDER_WR, 
+  			ORDER_SUMMA,
+  			ORDER_STAT,
+  			ORDER_END
+  		FROM 
+  			ORDER_INPUT
+  		INNER JOIN 
+  			ORDERLIST 
+  		ON 
+  			ORDER_INPUT.ORDIN_NUM 
+  			= 
+  			ORDERLIST.ORDER_ORDIN_NUM
+  	]]>	
+  </select>
+  
+  <select id="balju_Plan_list" parameterType="hashmap" resultType="hashmap">
+  	<![CDATA[
+  		SELECT  
+  			ORDPL_ORDLIN_NUM,
+  			TO_CHAR(ORPLIN_DATE,'YYYY-MM-DD'),
+  			ORDPL_ONUM,
+  			ORDPL_PRODUCT_CODE,
+  			ORDPL_QT,
+  			ORDPL_WR,
+  			ORDPL_STAT,
+  			ORDPL_END
+  		FROM 
+  			ORPL_INPUT 
+  		INNER JOIN
+  			ORDER_PLAN
+  		ON 
+  			ORPL_INPUT.ORPLIN_NUM 
+  			= 
+  			ORDER_PLAN.ORDPL_ORDLIN_NUM
+  	]]>
+  </select>
+  
+  <select id="balju_Save_list" parameterType="hashmap" resultType="hashmap">
+  	<![CDATA[
+  		SELECT
+  			ORSA_ORSP_NUM,
+  			ORSP_DATE,
+  			ORSA_NUM,
+  			ORSA_PRODUCT_CODE,
+  			ORSA_QT,
+  			ORSA_WR
+  		FROM 
+  			ORDER_SAPL 
+  		INNER JOIN
+  			ORDER_SAVE
+  		ON 
+  			ORDER_SAPL.ORSP_NUM
+  			= 
+  			ORDER_SAVE.ORSA_ORSP_NUM
+  	]]>
+  </select>
+  
+  <update id="balju_Plan_modi" parameterType="hashmap">
+  	<![CDATA[
+  		UPDATE ORDER_PLAN
+  		SET
+  			ORDPL_ORDLIN_NUM = #{ORDPL_ORDLIN_NUM},
+  			ORDPL_ONUM = #{ORDPL_ONUM},
+  			ORDPL_PRODUCT_CODE = #{ORDPL_PRODUCT_CODE},
+        	ORDPL_QT = #{ORDPL_QT},
+        	ORDPL_WR = #{ORDPL_WR},
+        	ORDPL_STAT = #{ORDPL_STAT},
+        	ORDPL_END = #{ORDPL_END}
+        WHERE 
+        	ORDPL_ORDLIN_NUM = #{ORDPL_ORDLIN_NUM}
+  	]]>	
+  </update>
+  
+   <update id="balju_Modi" parameterType="hashmap">
+  	<![CDATA[
+  		UPDATE ORDERLIST
+  		SET
+  			ORDER_ORDIN_NUM = #{ORDER_ORDIN_NUM},
+  			ORDER_NUM = #{ORDER_NUM},
+  			ORDER_PRODUCT_CODE = #{ORDER_PRODUCT_CODE},
+  			ORDER_QT = #{ORDER_QT},
+  			ORDER_PR_EA = #{ORDER_PR_EA},
+  			ORDER_WR = #{ORDER_WR},
+  			ORDER_SUMMA = #{ORDER_SUMMA},
+  			ORDER_STAT = #{ORDER_STAT},
+  			ORDER_END = #{ORDER_END}
+  		WHERE
+  			ORDER_ORDIN_NUM = #{ORDER_ORDIN_NUM}
+  	]]>
+  </update>
+  
+   <update id="balju_Save_modi" parameterType="hashmap">
+  	<![CDATA[
+  		UPDATE ORDER_SAVE
+  		SET
+  			ORSA_ORSP_NUM = #{ORSA_ORSP_NUM},
+  			ORSA_NUM = #{ORSA_NUM},
+  			ORSA_PRODUCT_CODE = #{ORSA_PRODUCT_CODE},
+  			ORSA_QT = #{ORSA_QT},
+  			ORSA_WR = #{ORSA_WR}
+  			
+  		WHERE
+  			ORSA_ORSP_NUM = #{ORSA_ORSP_NUM}
+  	]]>
+  </update>
+  
+
+  
+  <delete id="Delete_Balju_Plan1">
+  	<![CDATA[
+  		DELETE
+  		FROM
+  			ORPL_INPUT
+  		WHERE
+  			ORPLIN_NUM = #{ORPLIN_NUM}
+  	]]>
+  </delete>
+  
+  <delete id="Delete_Balju_Plan2">
+  	<![CDATA[
+  		DELETE
+  		FROM
+  			ORDER_PLAN
+  		WHERE
+  			ORDPL_ONUM = #{ORDPL_ONUM}
+  	]]>
+  </delete>
+  
+    
+  <delete id="Delete_Balju1" >
+  	<![CDATA[
+  		DELETE
+  		FROM
+  			ORDER_INPUT
+  		WHERE
+  			ORDIN_NUM = #{ORDIN_NUM}
+  	]]>
+  </delete>
+  
+  <delete id="Delete_Balju2" >
+  	<![CDATA[
+  		DELETE
+  		FROM
+  			ORDERLIST
+  		WHERE
+  			ORDER_NUM = #{ORDER_NUM}
+  	]]>
+  </delete>
+  
+  <delete id="Delete_Balju_Save1">
+  	<![CDATA[
+  		DELETE
+  		FROM
+  			ORDER_SAPL
+  		WHERE
+  			ORSP_NUM = #{ORSP_NUM}
+  	]]>
+  </delete>
+  
+  <delete id="Delete_Balju_Save2">
+  	  <![CDATA[
+  		DELETE
+  		FROM
+  			ORDER_SAVE
+  		WHERE
+  			ORSA_NUM = #{ORSA_NUM}
+  	]]>
+  </delete>
+
+  
+</mapper>
