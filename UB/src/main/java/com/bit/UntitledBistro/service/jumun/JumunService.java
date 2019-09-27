@@ -1,9 +1,12 @@
 package com.bit.UntitledBistro.service.jumun;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -77,6 +80,12 @@ public interface JumunService {
 	
 	public String kakaoPayReady(String orders_No, PaymentDTO paymentDTO);
 	
-	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token, String orders_No, String payment_Card);
+	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token, String sales_no, String payment_Card);
+	
+	public Date paymentTime(String sales_No);
+	
+	public String createPdf(String orders_No, HttpServletRequest request);
+	
+	public int memberPointSearchById(String member_Id);
 	
 }

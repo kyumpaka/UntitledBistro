@@ -176,19 +176,19 @@
 	</insert>
 	
 	<select id="salesSelectMax" resultType="java.lang.Integer">
-	SELECT MAX(SALES_NO) FROM SALES;
+	SELECT MAX(SALES_NO) FROM SALES
 	</select>
 	
-	<select id="salesInputSelect" parameterType="HashMap">
+	<select id="salesInputSelect" parameterType="HashMap" resultType="salesDetails">
 	SELECT OD_MENU_CODE AS SD_MENU_CODE, OD_QTY AS SD_QTY, MENU_PRICE AS SD_PRICE FROM ORDERS_DETAILS LEFT OUTER JOIN MENU ON MENU.MENU_CODE = #{orders_No}
 	</select>
 	
-	<select id="salesTableSelect" parameterType="HashMap">
+	<select id="salesTableSelect" parameterType="HashMap" resultType="java.lang.Integer">
 	SELECT ORDERS_TABLESAVE_CODE FROM ORDERS WHERE ORDERS_NO = #{orders_No}
 	</select>
 	
 	<insert id="salesDetailsInsert" parameterType="salesDetails">
-	INSERT INTO SALES_DETAILS(SD_NO, SD_SALES_NO, SD_MENU_CODE, SD_QTY, SD_PRICE) VALUES(NVL((SELECT COUNT(*) FROM SALES_DETAILS), 1), #{sd_Sales_No}, #{sd_Menu_Code} , #{sd_Qty}, {sd_Price})
+	INSERT INTO SALES_DETAILS(SD_NO, SD_SALES_NO, SD_MENU_CODE, SD_QTY, SD_PRICE) VALUES((SELECT NVL(COUNT(*), 1) FROM SALES_DETAILS), #{sd_Sales_No}, #{sd_Menu_Code} , #{sd_Qty}, #{sd_Price})
 	</insert>
 		
 	<delete id="ordersDelete" parameterType="map">
@@ -199,5 +199,13 @@
 	INSERT INTO PAYMENT(PAYMENT_NO, PAYMENT_SALES_NO, PAYMENT_MEMBER_ID, PAYMENT_TABLE, PAYMENT_STATE, PAYMENT_POINT, PAYMENT_DISCOUNT, PAYMENT_CASH, PAYMENT_CARD) 
 	VALUES(NVL((SELECT COUNT(*) FROM PAYMENT), 1), #{payment_Sales_No}, #{payment_Member_Id}, #{payment_Table}, '성공', #{payment_Point}, #{payment_Discount}, #{payment_Cash}, #{payment_Card})
 	</insert>
+	
+	<select id="paymentDateSelect" parameterType="map" resultType="java.util.Date">
+	SELECT PAYMENT_DATE FROM PAYMENT WHERE PAYMENT_SALES_NO = #{payment_Sales_No}
+	</select>
+	
+	<select id="memberPointSelectById" parameterType="map" resultType="java.lang.Integer">
+	SELECT MEMBER_POINT FROM MEMBER WHERE member_id = #{member_Id}
+	</select>
 	
 </mapper>

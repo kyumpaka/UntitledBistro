@@ -20,7 +20,7 @@
 						<label for="text-input" class="form-control-label">총 금 액</label>
 					</div>
 					<div class="col col-md-3">
-						<label for="text-input" class="form-control-label" id="allPrice">${ allPrice }</label>
+						<input type="number" id="allPrice" class="form-control" name="allPrice" value="${ allPrice }" readonly="readonly">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -28,7 +28,7 @@
 						<label for="text-input" class="form-control-label">할인금액</label>
 					</div>
 					<div class="col-12 col-md-9">
-						<label for="text-input" class="form-control-label" id="discountPrice">${ discountPrice }</label>
+						<input type="number" id="discountPrice" class="form-control" name="discountPrice" value="${ discountPrice }" readonly="readonly">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -36,7 +36,7 @@
 						<label for="text-input" class="form-control-label">결제금액</label>
 					</div>
 					<div class="col col-md-3">
-						<label for="text-input" class="form-control-label" id="resultPrice">${ resultPrice }</label>
+						<input type="number" id="resultPrice" class="form-control" name="resultPrice" value="${ resultPrice }" readonly="readonly">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -52,7 +52,7 @@
 						<label for="text-input" class="form-control-label">카드금액</label>
 					</div>
 					<div class="col-12 col-md-9">
-						<label for="text-input" class="form-control-label" id="payment_Card">0</label>
+						<input type="number" id="payment_Card" class="form-control" name="payment_Card" value="0" readonly="readonly">
 					</div>
 				</div>
 				<div class="row form-group">
@@ -83,9 +83,9 @@ function windowClose() {
 function payCheck() {
 	event.preventDefault();
 	
-	var resultPrice = $("#resultPrice").html();
+	var resultPrice = $("#resultPrice").val();
 	var payment_Cash = $("#payment_Cash").val();
-	var payment_Card = $("#payment_Card").html();
+	var payment_Card = $("#payment_Card").val();
 	var payment_Point = $("#payment_Point").val();
 	var sumPrice;
 	if(typeof payment_Point == 'undefined' || payment_Point == '') sumPrice = Number(payment_Cash) + Number(payment_Card);
@@ -117,6 +117,7 @@ function payCheck() {
 };
 
 function goPayment() {
+	event.preventDefault();
 	$("#kakaoPayForm").submit();
 };
 
@@ -133,17 +134,42 @@ function memCheck() {
 		var memberId = $("#payment_Member_Id").val().trim();
 
 		// 포인트 확인하기
+		$.ajax({
+			  url: 'memberPointSearchById.do',
+			  type: 'post',
+			  data: { member_Id:memberId },
+			  dataType: 'json',
+			  success : function(result) {
+				  swal({
+					  title: "포인트는 " + result + "입니다. 사용하시겠습니까?",
+					  icon: "success",
+					  buttons: ["아니요", "네"],
+					  dangerMode: true,
+					}).then((willDelete) => {
+							if(willDelete) {
+								if(result > 100) {
+									var pointForm = "";
+										pointForm += '<div class="row form-group"> <div class="col col-md-3">  <label for="text-input" class="form-control-label">포인트</label> </div>'; 
+										pointForm += '<div class="col-12 col-md-9"> <input type="number" id="payment_Point" class="form-control" name="payment_Point" value='+result+'> </div> </div>';
+							
+									$("#pointArea").html(pointForm);							
+								} else {
+									  swal({
+										  title: "포인트가 부족합니다.",
+										  icon: "warning",
+										  button: "닫기",
+										});
+								}
+							}
+					});
+			  	}
+		});
 		
-		var pointForm = "";
-			pointForm += '<div class="row form-group"> <div class="col col-md-3">  <label for="text-input" class="form-control-label">포인트</label> </div>'; 
-			pointForm += '<div class="col-12 col-md-9"> <input type="number" id="payment_Point" class="form-control" name="payment_Point"> </div> </div>';
-
-		$("#pointArea").html(pointForm);
 	}
 };
 
 function inputCash(){
-	$("#payment_Card").html(eval(${ resultPrice } - $("#payment_Cash").val()));
+	$("#payment_Card").val(eval(${ resultPrice } - $("#payment_Cash").val()));
 };
 </script>
 </html>

@@ -215,16 +215,45 @@ public class JumunController {
 	}
 	
 	@RequestMapping(value = "/kakaoPaySuccess.do")
-    public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model, HttpServletRequest request) {
-		String orders_No = request.getParameter("orders_No");
+    public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model, HttpServletRequest request,
+    		@ModelAttribute("payment_Cash") String payment_Cash, @ModelAttribute("payment_Point") String payment_Point) {
+		String sales_no = request.getParameter("sales_no");
 		String payment_Card = request.getParameter("payment_Card");
 		
-		model.addAttribute("info", jumunService.kakaoPayInfo(pg_token, orders_No, payment_Card));
+		model.addAttribute("info", jumunService.kakaoPayInfo(pg_token, sales_no, payment_Card));
         
         return "views/jumun/kakaoPaySuccess";
     }
 	
+	@RequestMapping(value = "/paySuccess.do")
+	public String paySuccess(@ModelAttribute("payment_Cash") String payment_Cash, @ModelAttribute("sales_No") String sales_No, Model model) {
+		model.addAttribute("payment_Time", jumunService.paymentTime(sales_No));
+		return "views/jumun/paySuccess";
+	}
 	
+	@RequestMapping(value = "/kakaoPaySuccessFail.do")
+	public String kakaoPaySuccessFail() {
+		return "views/jumun/kakaoPaySuccessFail";
+	}
+
+	@RequestMapping(value = "/kakaoPayCancel.do")
+	public String kakaoPayCancel() {
+		return "views/jumun/kakaoPayCancel";
+	}
+	
+	@RequestMapping(value = "/pdf.do")
+	public String pdf(@ModelAttribute("orders_No") String orders_No, Model model, HttpServletRequest request) {
+		model.addAttribute("result", jumunService.createPdf(orders_No, request));
+		return "views/jumun/pdf";
+	}
+	
+	@RequestMapping(value = "/memberPointSearchById.do", method = RequestMethod.POST)
+	@ResponseBody
+	public int memberPointSearchById(HttpServletRequest request) {
+		String member_Id = request.getParameter("member_Id");
+		
+		return jumunService.memberPointSearchById(member_Id);
+	}
 	
 	
 	

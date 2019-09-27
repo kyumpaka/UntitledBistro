@@ -1,6 +1,7 @@
 package com.bit.UntitledBistro.model.jumun;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -89,5 +90,9 @@ public interface JumunDAO {
 	public int ordersDelete(Map<String, String> map);
 	
 	public int paymentInsert(PaymentDTO paymentDTO);
+	
+	public Date paymentDateSelect(Map<String, String> map);
+	
+	public int memberPointSelectById(Map<String, String> map);
 	
 }

@@ -6,11 +6,14 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,16 @@ import com.bit.UntitledBistro.model.jumun.PaymentDTO;
 import com.bit.UntitledBistro.model.jumun.SalesDTO;
 import com.bit.UntitledBistro.model.jumun.SalesDetailsDTO;
 import com.bit.UntitledBistro.model.jumun.TableSaveDTO;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 @Service
 @Transactional(rollbackFor = {Exception.class})
@@ -353,9 +366,10 @@ public class JumunServiceImpl implements JumunService {
     
 	@Override
 	public String kakaoPayReady(String orders_No, PaymentDTO paymentDTO) {
+		
 		dao = sqlSession.getMapper(JumunDAO.class);
 		dao.salesInsert(); // 판매내역번호 생성
-		int sales_no = dao.salesSelectMax(); // 판매내역번호 가져오기
+		int sales_No = dao.salesSelectMax(); // 판매내역번호 가져오기
 		
 		map = new HashMap<String, String>();
 		map.put("orders_No", orders_No);
@@ -364,11 +378,11 @@ public class JumunServiceImpl implements JumunService {
 		int tableNum = dao.salesTableSelect(map);
 		
 		for(int i = 0; i < sdList.size(); i++) {
-			sdList.get(i).setSd_Sales_No(Integer.toString(sales_no)); // 판매내역번호 설정
+			sdList.get(i).setSd_Sales_No(Integer.toString(sales_No)); // 판매내역번호 설정
 			dao.salesDetailsInsert(sdList.get(i)); // 판매내역 입력
 		}
 		
-		paymentDTO.setPayment_Sales_No(Integer.toString(sales_no)); // 판매내역번호 설정
+		paymentDTO.setPayment_Sales_No(Integer.toString(sales_No)); // 판매내역번호 설정
 		paymentDTO.setPayment_Table(Integer.toString(tableNum)); // 테이블번호 설정
 		dao.paymentInsert(paymentDTO); // 결제내역 입력
 		
@@ -376,47 +390,51 @@ public class JumunServiceImpl implements JumunService {
 		dao.ordersDelete(map); // 주문 삭제
 		dao.ordersDetailsDelete(map); // 주문내역 삭제
 		
-		int payment_Card = paymentDTO.getPayment_Card(); // 카드결제 요금
+		int payment_Card = paymentDTO.getPayment_Card();
+		int payment_Cash = paymentDTO.getPayment_Cash();
+		int payment_Point = paymentDTO.getPayment_Point();
 		
-		
-		RestTemplate restTemplate = new RestTemplate();
-		 
-        // 서버로 요청할 Header
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "KakaoAK " + "f75c66eebd8bf507d001dbc7bf11d9f6");
-        headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
-        headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
-        
-        // 서버로 요청할 Body
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-        params.add("cid", "TC0ONETIME");
-        params.add("partner_order_id", orders_No);
-        params.add("partner_user_id", "UntitledBistro");
-        params.add("item_name", "UntitledBistro");
-        params.add("quantity", "1");
-        params.add("total_amount", Integer.toString(payment_Card));
-        params.add("tax_free_amount", "0");
-        params.add("approval_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccess.do");
-        params.add("cancel_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPayCancel.do");
-        params.add("fail_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccessFail.do");
- 
-         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
- 
-        try {
-            kakaoPayReadyDTO = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoPayReadyDTO.class);
-            
-            return kakaoPayReadyDTO.getNext_redirect_pc_url() + "?orders_No=" + orders_No + "&payment_Card=" + payment_Card;
- 
-        } catch (RestClientException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        
-        return "paymentStart.do";
+		if(payment_Card > 0) {
+			RestTemplate restTemplate = new RestTemplate();
+			
+	        // 서버로 요청할 Header
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.add("Authorization", "KakaoAK " + "f75c66eebd8bf507d001dbc7bf11d9f6");
+	        headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
+	        headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
+	        
+	        // 서버로 요청할 Body
+	        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+	        params.add("cid", "TC0ONETIME");
+	        params.add("partner_order_id", orders_No);
+	        params.add("partner_user_id", "UntitledBistro");
+	        params.add("item_name", "UntitledBistro");
+	        params.add("quantity", "1");
+	        params.add("total_amount", Integer.toString(payment_Card));
+	        params.add("tax_free_amount", "0");
+	        params.add("approval_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccess.do?sales_no="+sales_No+"&payment_Card="+payment_Card+"&payment_Cash="+payment_Cash+"&payment_Point="+payment_Point);
+	        params.add("cancel_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPayCancel.do");
+	        params.add("fail_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccessFail.do");
+	 
+	        HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+	 
+	        try {
+	            kakaoPayReadyDTO = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoPayReadyDTO.class);
+	            
+	            return kakaoPayReadyDTO.getNext_redirect_pc_url();
+	 
+	        } catch (RestClientException e) {
+	            e.printStackTrace();
+	        } catch (URISyntaxException e) {
+	            e.printStackTrace();
+	        }
+		} else if(payment_Card == 0) {
+			return "paySuccess.do?payment_Cash=" + payment_Cash + "&sales_No=" + sales_No;
+		}
+        return "kakaoPaySuccessFail.do";
 	}
-	// 주문번호orders_No, 금액payment_Card
-	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token, String orders_No, String payment_Card) {
+	
+	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token, String sales_no, String payment_Card) {
         
         RestTemplate restTemplate = new RestTemplate();
  
@@ -430,7 +448,7 @@ public class JumunServiceImpl implements JumunService {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("cid", "TC0ONETIME");
         params.add("tid", kakaoPayReadyDTO.getTid());
-        params.add("partner_order_id", orders_No);
+        params.add("partner_order_id", sales_no);
         params.add("partner_user_id", "UntitledBistro");
         params.add("pg_token", pg_token);
         params.add("total_amount", payment_Card);
@@ -450,4 +468,115 @@ public class JumunServiceImpl implements JumunService {
         
         return null;
     }
+	
+	@Override
+	public Date paymentTime(String sales_No) {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		map = new HashMap<String, String>();
+		map.put("payment_Sales_No", sales_No);
+		
+		return dao.paymentDateSelect(map);
+	}
+	
+	@Override
+    public String createPdf(String orders_No, HttpServletRequest request) {
+        String result = ""; // 초기값이 null이 들어가면 오류가 발생될수 있기 때문에 공백을 지정
+ 
+        try {
+            Document document = new Document(); // pdf문서를 처리하는 객체
+            String path = request.getSession().getServletContext().getRealPath("/") + "resources/images/jumun/";
+            
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path));
+            // pdf파일의 저장경로를 d드라이브의 sample.pdf로 한다는 뜻
+ 
+            document.open(); // 웹페이지에 접근하는 객체를 연다
+ 
+            BaseFont baseFont = BaseFont.createFont("c:/windows/fonts/맑은고딕.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            // pdf가 기본적으로 한글처리가 안되기 때문에 한글폰트 처리를 따로 해주어야 한다.
+            // createFont메소드에 사용할 폰트의 경로 (malgun.ttf)파일의 경로를 지정해준다.
+            // 만약에 이 경로에 없을 경우엔 java파일로 만들어서 집어넣어야 한다.
+ 
+            Font font = new Font(baseFont, 12); // 폰트의 사이즈를 12픽셀로 한다.
+ 
+            PdfPTable table = new PdfPTable(4); // 4개의 셀을 가진 테이블 객체를 생성 (pdf파일에 나타날 테이블)
+            Chunk chunk = new Chunk("주문내역서", font); // 타이틀 객체를 생성 (타이틀의 이름을 장바구니로 하고 위에 있는 font를 사용)
+            Paragraph ph = new Paragraph(chunk);
+            ph.setAlignment(Element.ALIGN_CENTER);
+            document.add(ph); // 문단을 만들어서 가운데 정렬 (타이틀의 이름을 가운데 정렬한다는 뜻)
+ 
+            document.add(Chunk.NEWLINE);
+            document.add(Chunk.NEWLINE); // 줄바꿈 (왜냐하면 타이틀에서 두줄을 내린후에 셀(테이블)이 나오기 때문)
+
+            dao = sqlSession.getMapper(JumunDAO.class);
+    		map = new HashMap<String, String>();
+    		map.put("orders_No", orders_No);
+    		OrdersDTO ordersDTO = dao.ordersSelectByNo(map);
+
+    		map.put("od_Orders_No", orders_No);
+    		ArrayList<HashMap<String, Object>> list = dao.ordersDetailsSelect(map);
+    		
+//    		PdfPCell tableNum = new PdfPCell(new Phrase("" + ordersDTO.getOrders_TableSave_Code(), font)); 
+//    		PdfPCell firstTime = new PdfPCell(new Phrase("" + ordersDTO.getOrders_First(), font)); 
+//    		PdfPCell finalTime = new PdfPCell(new Phrase("" + ordersDTO.getOrders_Final(), font)); 
+//    		
+//    		table.addCell(tableNum);
+//    		table.addCell(firstTime);
+//    		table.addCell(finalTime);
+
+            PdfPCell cell1 = new PdfPCell(new Phrase("번호", font));
+            cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            
+            PdfPCell cell2 = new PdfPCell(new Phrase("상품명", font)); // 셀의 이름과 폰트를 지정해서 셀을 생성한다.
+            cell1.setHorizontalAlignment(Element.ALIGN_CENTER); // 셀의 정렬방식을 지정한다. (가운데정렬)
+ 
+            PdfPCell cell3 = new PdfPCell(new Phrase("단가", font));
+            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+ 
+            PdfPCell cell4 = new PdfPCell(new Phrase("수량", font));
+            cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+ 
+            table.addCell(cell1); // 그리고 테이블에 위에서 생성시킨 셀을 넣는다.
+            table.addCell(cell2);
+            table.addCell(cell3);
+            table.addCell(cell4);
+    		
+            // 서비스로부터 id값을 매개값으로 주어서 장바구니목록을 가져온다.
+            for (int i = 0; i < list.size(); i++) {
+            	HashMap<String, Object> map = list.get(i); // 레코드에 값들을 꺼내서 dto에 저장
+                PdfPCell od_No = new PdfPCell(new Phrase("" + map.get("OD_NO"), font)); 
+                // 반복문을 사용해서 상품정보를 하나씩 출력해서 셀에 넣고 테이블에 저장한다.
+ 
+                PdfPCell menu_Name = new PdfPCell(new Phrase("" + map.get("MENU_NAME"), font));
+                // Phrase타입은 숫자형(int형 같은타입)으로 하면 에러가 발생되기 때문에 dto앞에 공백("")주어서 String타입으로 변경한다.
+ 
+                PdfPCell menu_Price = new PdfPCell(new Phrase("" + map.get("MENU_PRICE"), font));
+                // Phrase타입은 숫자형(int형 같은타입)으로 하면 에러가 발생되기 때문에 dto앞에 공백("")주어서 String타입으로 변경한다.
+ 
+                PdfPCell od_Qty = new PdfPCell(new Phrase("" + map.get("OD_QTY"), font));
+                // Phrase타입은 숫자형(int형 같은타입)으로 하면 에러가 발생되기 때문에 dto앞에 공백("")주어서 String타입으로 변경한다.
+ 
+                table.addCell(od_No); // 셀의 데이터를 테이블에 저장한다. (장바구니안에 들어있는 갯수만큼 테이블이 만들어진다)
+                table.addCell(menu_Name);
+                table.addCell(menu_Price);
+                table.addCell(od_Qty);
+            }
+            
+            document.add(table); // 웹접근 객체에 table를 저장한다.
+            document.close(); // 저장이 끝났으면 document객체를 닫는다.
+            result = "pdf 파일이 생성되었습니다.";
+ 
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = "pdf 파일 생성 실패...";
+        }
+        return result;
+    }
+	
+	public int memberPointSearchById(String member_Id) {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		map = new HashMap<String, String>();
+		map.put("member_Id", member_Id);
+		
+		return dao.memberPointSelectById(map);
+	}
 }

@@ -332,6 +332,7 @@
 							
 							var allPrice = $("#allPrice").html();
 							$("#allPrice").html(Number(allPrice) + Number(price));
+							$("#resultPrice").html(Number(allPrice) + Number(price));
 					  }
 				  }
 			});
@@ -353,7 +354,7 @@
 				  success : function(result) {
 					  if(result > 0){
 						  $("#allPrice").html(0);
-
+						  $("#resultPrice").html(0);
 						  for(var i = 1; i <= oderCntMap.size; i++) {
 							  $("#trMN"+i).remove();
 							  oderCntMap.delete("MN"+i);
@@ -385,6 +386,7 @@
 							var count = oderCntMap.get(code);
 							
 							$("#allPrice").html(Number(allPrice) - (Number(price) * Number(count)));
+							$("#resultPrice").html(Number(allPrice) - (Number(price) * Number(count)));
 							oderCntMap.delete(code);
 							oderCntMap.set(code, 0);
 					  }
