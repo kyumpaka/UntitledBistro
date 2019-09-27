@@ -1,0 +1,44 @@
+create table EmpRegister ( -- 직원등록 테이블
+        EmpRegister_name VARCHAR2 (50) NOT NULL, -- 이름
+        EmpRegister_Photo VARCHAR2 (300), -- 사원 사진 
+        EmpRegister_empnum VARCHAR2(20),  -- 사번(PK)
+        EmpRegister_age NUMBER, -- 나이
+        EmpRegister_tel VARCHAR2 (50), -- 전화번호 
+        EmpRegister_jumin VARCHAR2 (50), -- 주민1 
+        EmpRegister_jumin2 VARCHAR2 (50),  -- 주민2
+        EmpRegister_gender VARCHAR2 (50), -- 성별
+        EmpRegister_addr VARCHAR2 (100), -- 거주지
+        EmpRegister_addr2 VARCHAR2 (100), -- 거주지
+        EmpRegister_addr3 VARCHAR2 (100), -- 거주지
+        EmpRegister_addr4 VARCHAR2 (100), -- 거주지
+        EmpRegister_grade VARCHAR2 (50),  -- 직급 
+        EmpRegister_banknum VARCHAR2 (100), -- 통장번호 
+        EmpRegister_bankname VARCHAR2 (50), -- 은행명 
+        EmpRegister_AccountHolder VARCHAR2(50), -- 예금주  
+        EmpRegister_entryDay DATE DEFAULT SYSDATE, -- 입사날짜 
+        EmpRegister_payClassfiy VARCHAR2(20), -- 급여구분
+        EmpRegister_pay NUMBER, -- 급여 얼마인지
+        EmpRegister_workPlan NUMBER, -- 근무예정시간
+        EmpRegister_leavecompany VARCHAR2(20) -- 퇴사여부 
+        
+);
+ALTER TABLE EmpRegister ADD CONSTRAINT PK_EmpRegister_empnum PRIMARY KEY(EmpRegister_empnum);
+
+select * from empregister;
+
+insert into EmpRegister(empregister_name,empregister_photo, empregister_jumin, empregister_jumin2, 
+empregister_empnum, empregister_gender, empregister_tel, empregister_age, empregister_addr,empregister_addr2,empregister_addr3,empregister_addr4, 
+empregister_grade, empregister_bankname, empregister_accountholder, empregister_banknum, empregister_payclassfiy, 
+empregister_entryday, empregister_leavecompany, empregister_pay,empregister_workplan) Values('테스트','달력.JPG', 
+'7778445', '444784', 'A0004', '남', '7478', 13, '90','44','서울 동작구 대방동 408-6','49-22', '사원', 
+'국민은행', '배재준', '777', '시급', sysdate, 'on', 12, 13 ) ;
+
+insert into EmpRegister(empregister_name, empregister_jumin, empregister_jumin2, empregister_empnum, 
+empregister_gender, empregister_tel, empregister_age, empregister_addr, empregister_grade, 
+empregister_bankname, empregister_accountholder, empregister_banknum, empregister_payclassfiy, 
+empregister_entryday, empregister_leavecompany, empregister_pay,empregister_workplan) Values('테스트3', 
+'910878', '2117811', '77708', '여', '111-111-1111', 8, '91,90,22', '사원', '국민은행', '테스트3', '777', 
+'0', sysdate, 'on', 700, 77 ) ;
+
+
+commit;
