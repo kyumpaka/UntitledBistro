@@ -19,7 +19,6 @@
 		href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
 	<script type="text/javascript"
 		src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
-	
 
 	<style type="text/css">
 		#jsGrid {margin: auto;}
@@ -88,7 +87,7 @@
 	    <input class="form-control" type="search" placeholder="검색할 품목명 입력" id="product_name">
 	  </div>
 	</div>
-	<button type="button" id="btn" class="btn btn-primary btn-sm">검색</button>
+	<button type="button" id="searchBtn" class="btn btn-primary btn-sm">검색</button>
 	<button type="button" id="cancle" class="btn btn-default btn-sm">취소</button>
 </div>
 <!-- ///////////////////////////////////////////////////////////////////////// -->
@@ -108,7 +107,7 @@
 	<script>
 	var regDate;
 	var product_name;
-		$("#btn").click(function(){
+		$("#searchBtn").click(function(){
 			regDate = $("#date").val();
 			product_name = $("#product_name").val();
 			if(regDate.length > 0) $("#dateResult").text(regDate);
@@ -164,7 +163,7 @@
 			$.ajax({
 				type : "get", 
 				url : "/UntitledBistro/jaego/gridSelectAll",
-				data : {"pageNum" : page, "startDate" : regDate, "keyword" : product_name},
+				data : {"pageNum" : page, "endDate" : regDate, "keyword" : product_name},
 				success : function(json) {
 					$(".pagination").html(json[json.length-1]);
 					$("#jsGrid").jsGrid({data:json});
