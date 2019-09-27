@@ -37,16 +37,19 @@
 	    }
 	    #sejong {
 			margin: auto;
-			width: 810px;
+			width: 600px;
 			margin-bottom: 15px;
 			padding: 10px;
 			background-color: #f3f0f0;
 		}
 		#dateResult	{
-			width: 810px;
 			text-align: right;
-			margin: auto;
 			font-weight: bold;
+			padding-right: 1px;
+		}
+		#jsGridBackground {
+			margin: auto;
+			width: 600px;
 		}
 	</style>
 
@@ -91,8 +94,10 @@
 <!-- ///////////////////////////////////////////////////////////////////////// -->
 
 <!-- jsGrid 생성을 합니다.-->
-<div id="dateResult"></div>
-<div id="jsGrid"></div>
+<div id="jsGridBackground">
+	<div id="dateResult"></div>
+	<div id="jsGrid"></div>
+</div>
    	
 <!-- Paging 처리, Bootstrap -->
 <nav aria-label="..." style="text-align: center;">
@@ -122,32 +127,33 @@
 			url : "/UntitledBistro/jaego/gridSelectAll"
 		})
 		.done(function(json) {
+			var realData = json.shift();
 			$("#jsGrid").jsGrid({
-				width : "70%",
+				width : "auto",
 				height : "auto",
 				//데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
 				autoload : true,
 				//그리드 헤더 클릭시 sorting이 되게함
 				sorting : true,
 				//json 배열을 데이터에 연결함.
-				data : json, 
+				data : [realData], 
 				//grid에 표현될 필드 요소
 				
 				fields : [ {
 					name : "item_product_code",
 					type : "text",
 					title: "품목코드",
-					width : 100
+					width : 200
 				}, {
 					name : "product_name",
 					type : "text",
 					title : "품목명",
-					width : 100
+					width : 200
 				}, {
 					name : "item_qty",
 					type : "text",
 					title: "재고수량",
-					width : 100,
+					width : 200,
 				}]
 			
 			});
