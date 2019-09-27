@@ -376,7 +376,7 @@ public class JumunServiceImpl implements JumunService {
 		dao.ordersDelete(map); // 주문 삭제
 		dao.ordersDetailsDelete(map); // 주문내역 삭제
 		
-		
+		int payment_Card = paymentDTO.getPayment_Card(); // 카드결제 요금
 		
 		
 		RestTemplate restTemplate = new RestTemplate();
@@ -390,12 +390,12 @@ public class JumunServiceImpl implements JumunService {
         // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("cid", "TC0ONETIME");
-        params.add("partner_order_id", "1001");
-        params.add("partner_user_id", "gorany");
-        params.add("item_name", "갤럭시S9");
+        params.add("partner_order_id", orders_No);
+        params.add("partner_user_id", "UntitledBistro");
+        params.add("item_name", "UntitledBistro");
         params.add("quantity", "1");
-        params.add("total_amount", "2100");
-        params.add("tax_free_amount", "100");
+        params.add("total_amount", Integer.toString(payment_Card));
+        params.add("tax_free_amount", "0");
         params.add("approval_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccess.do");
         params.add("cancel_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPayCancel.do");
         params.add("fail_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccessFail.do");
@@ -405,7 +405,7 @@ public class JumunServiceImpl implements JumunService {
         try {
             kakaoPayReadyDTO = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoPayReadyDTO.class);
             
-            return kakaoPayReadyDTO.getNext_redirect_pc_url();
+            return kakaoPayReadyDTO.getNext_redirect_pc_url() + "?orders_No=" + orders_No + "&payment_Card=" + payment_Card;
  
         } catch (RestClientException e) {
             e.printStackTrace();
@@ -415,8 +415,8 @@ public class JumunServiceImpl implements JumunService {
         
         return "paymentStart.do";
 	}
-	
-	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token) {
+	// 주문번호orders_No, 금액payment_Card
+	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token, String orders_No, String payment_Card) {
         
         RestTemplate restTemplate = new RestTemplate();
  
@@ -430,10 +430,10 @@ public class JumunServiceImpl implements JumunService {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("cid", "TC0ONETIME");
         params.add("tid", kakaoPayReadyDTO.getTid());
-        params.add("partner_order_id", "1001");
-        params.add("partner_user_id", "gorany");
+        params.add("partner_order_id", orders_No);
+        params.add("partner_user_id", "UntitledBistro");
         params.add("pg_token", pg_token);
-        params.add("total_amount", "2100");
+        params.add("total_amount", payment_Card);
         
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
         
