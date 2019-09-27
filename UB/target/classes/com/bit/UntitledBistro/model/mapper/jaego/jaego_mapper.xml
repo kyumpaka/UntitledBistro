@@ -37,7 +37,6 @@
 		            IN_ITEM 
 		        <where>
 		        <if test="startDate != '' and startDate != null"> 
-				AND 
 <![CDATA[			II_DATE <= TO_DATE(#{startDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
 			    </if>
 		        </where> 
@@ -53,7 +52,6 @@
 		            OUT_ITEM
 		        <where>
 		        <if test="startDate != '' and startDate != null"> 
-				AND 
 <![CDATA[			OI_DATE <= TO_DATE(#{startDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
 			    </if>
 		        </where>     
@@ -68,7 +66,7 @@
 		        P.PRODUCT_CODE = II.II_PRODUCT_CODE
 		    <where>
 		    <if test="keyword != '' and keyword != null">
-		        P.PRODUCT_NAME LIKE '%'|{#keyword}|'%'
+		        P.PRODUCT_NAME LIKE '%'||#{keyword}||'%'
 		    </if>
 		    </where> 
 		)
