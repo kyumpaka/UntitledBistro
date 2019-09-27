@@ -18,7 +18,7 @@
                             <li><i class="fa fa-id-badge"></i><a href="${path}/balju/Balju_Plan">계획 등록</a></li>
                             <li><i class="fa fa-bars"></i><a href="${path}/balju/Balju_Plan_Result">계획 현황</a></li>
                             <li><i class="fa fa-id-card-o"></i><a href="${path}/balju/Balju">발주 등록</a></li>
-                            <li><i class="fa fa-exclamation-triangle"></i><a href="${path}/balju/Balju_Search">발주 조회</a></li>
+                            <li><i class="fa fa-exclamation-triangle"></i><a href="${path}/balju/Balju_Mng">발주 관리</a></li>
                             <li><i class="fa fa-spinner"></i><a href="${path}/balju/Balju_Result">발주 현황</a></li>
                         </ul>
                     </li>

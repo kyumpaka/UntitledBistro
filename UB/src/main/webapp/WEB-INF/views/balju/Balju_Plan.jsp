@@ -29,6 +29,11 @@
 
 
 <head>
+	<style>
+		.btn_space{
+			margin-right: 5px;
+		}
+	</style>
 <!-- 템플릿 link rel -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -49,9 +54,9 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
 <!-- 적용 안되는중 -->
 <link rel="stylesheet"
-	href="../src/main/webapp/resources/Admin/assets/css/cs-skin-elastic.css">
+	href="${path}/src/main/webapp/resources/Admin/assets/css/cs-skin-elastic.css">
 <link rel="stylesheet"
-	href="../src/main/webapp/resources/Admin/assets/css/style.css">
+	href="${path}/src/main/webapp/resources/Admin/assets/css/style.css">
 <!-- 적용 안되는중 -->
 
 <link
@@ -59,7 +64,7 @@
 	rel='stylesheet' type='text/css'>
 <!-- 템플릿 link rel -->
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- jsgrid 사용을 위한 jquery를 cdn 연결-->
 <link type="text/css" rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
@@ -70,6 +75,19 @@
 <!-- jsgrid 사용을 위한 필요한 요소 cdn 연결-->
 <meta charset="UTF-8">
 <title>발주 계획 작성</title>
+<script type="text/javascript">
+
+	var openItemWin;
+
+	function openItemList(){
+
+		//부모창
+		window.name = "Balju_Plan";
+		//자식창셋팅
+		openItemWin = window.open("${path}/balju/popup/Item_list",'itemInfo',"width=500, height=600, toolbars=no");
+		
+		}
+</script>
 </head>
 <body>
 	<!-- header -->
@@ -114,8 +132,46 @@
 					</section>
 				</div>
 			</div>
-
-
+				
+					
+				
+			<div class="row">
+				<div class="col-lg-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="row"></div>
+						<div class="col-lg-8">
+							<button type="button" class="btn btn-dark btn-sm" 
+								style="margin-right:5px;" onclick="openItemList()">제품정보</button>
+							<button type="button" class="btn btn-dark btn-sm" style="margin-right:5px;">즐겨찾기</button>
+							<button type="button" class="btn btn-dark btn-sm">재고현황</button>
+						</div>
+					</div>
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th>품목코드</th>
+							<th>품목명</th>
+							<th>규격</th>
+							<th>수량</th>
+							<th>단가</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type="text" id="code"></td>
+							<td><input type="text" id="name"></td>
+							<td><input type="text" id="stndr"></td>
+							<td><input type="text" id="qt"></td>
+							<td><input type="text" id="price"></td>
+							<td><button class="btn btn-dark" id="addData">등록</button>
+						</tr>            
+  					</tbody>
+ 				</table>
+ 				</div>
+			</div>
+			</div>
 			<div class="row">
 				<!-- body -->
 				<div class="col-lg-12">
@@ -125,68 +181,70 @@
 						</div>
 						<div id="jsGrid"></div>
 						<script>
-							var clients = [ {"ORDPL_ONUM" : "입력을 시작하세요."}, ];
+							var Data = [{}];
 							$("#jsGrid").jsGrid({
-								width : "100%",
-								height : "auto",
-								inserting : true,
-								editing : true,
-								//데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
-								autoload : true,
-								//그리드 헤더 클릭시 sorting이 되게함
+								width:"100%",
+								height : "400px",
+								autoload: true,
+								filtering: true,
 								sorting : true,
-								//json 배열을 데이터에 연결함.
-								data : clients,
-								//grid에 표현될 필드 요소
-								fields : [ {
-									name : "ORDPL_ONUM",
-									type : "text",
-									title : "품목코드",
-									width : 200
-								}, {
-									name : "ORDPL_PRODUCT_CODE",
-									type : "text",
-									title : "품목명",
-									width : 200
-								}, {
-									name : "ORDPL_QT",
-									type : "text",
-									title : "규격",
-									width : 200
-								}, {
-									name : "ORDPL_WR",
-									type : "text",
-									title : "수량",
-									width : 200
-								}, {
-									name : "ORDPL_STAT",
-									type : "text",
-									title : "공급가액",
-									width : 200
-								}, {
-									name : "ORDPL_END",
-									type : "text",
-									title : "적요",
-									width : 200
-								}, {
-									type : "control",
-									deleteButton : true
-								} ]
-							}); // 그리드 끝
-						</script>
-						<div class="card-footer">
-							<button id="grid_Data" class="btn btn-primary btn-lg pull-right">등록</button>
-						</div>
-						<script>
-							//버튼 클릭시 grid에 있는 값 가져오기
-							$("#grid_Data").click(function(){
-								var items = $("#jsGrid").jsGrid("option", "data");
-								console.log(items);
+								editing : true,
+								data : Data,
+								 deleteConfirm: function(item){
+												return item.name +" 상품을 삭제하시겠습니까?";},
+
+								fields : [
+									{name:"code", type:"text", width:150, title:"품목코드"},
+									{name:"name", type:"text", width:150, title:"품목명"},
+									{name:"stndr", type:"text", width:150, title:"규격"},
+									{name:"qt", type:"text", width:150, title:"수량"},
+									{name:"price", type:"text", width:150, title:"단가"},
+									{ type : 'control'}
+									]
+								
 								});
 						</script>
+						
+						<script>
+							$("#addData").click(function(){
+								alert("발주품이 추가되었습니다")
+								var insertItem={};
+								insertItem.code = $("#code").val();
+								insertItem.name = $("#name").val();
+								insertItem.stndr = $("#stndr").val();
+								insertItem.qt = $("#qt").val();
+								insertItem.price = $("#price").val();
+
+								console.log(insertItem);
+								$("#jsGrid").jsGrid("insertItem", insertItem);
+								});
+						</script>
+						<script>
+							function test(){
+								console.log("fuck jquery");
+								var items = $("#jsGrid").jsGrid("option", "data");
+								console.log(items);
+							$.ajax({
+									url:"",
+									type:"post",
+									dataType:"json",
+									data : items,
+									success:function(json){
+										alert("성공적으로 등록되었습니다");
+										},
+									error:function(jqXHR, textStatus, errorThrown){
+											alert("에러가 발생하였습니다" + textStatus + " : " + errorThrown);
+										}
+								//에이젝스 종료
+								});
+							//클릭이벤트 종료
+							};	
+						</script>
+						<div class="card-footer">
+							<button id="grid_Data" class="btn btn-primary btn-lg pull-right" onclick="test()">등록</button>
+						</div>
 					</div>
 				</div>
-품목코드 품목수량 진행상태 완료여부
 			</div>
 		</div>
 		<!-- .animated -->

@@ -1,6 +1,5 @@
 package com.bit.UntitledBistro.controller;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.UntitledBistro.model.balju.Balju_PlanDTO;
 import com.bit.UntitledBistro.model.balju.Item_DTO;
@@ -34,14 +34,6 @@ public class Balju_Controller {
 		return "baseLayout";
 		
 	}
-	
-	@RequestMapping(value = "/Item_list", method = RequestMethod.GET)
-	public void item_list(Item_DTO Idto, Model model) {
-		System.out.println("품목 새창  띄우기 기능이 실행되었습니다.");
-		List<Map<String,String>> list = this.balju_Service.item_list(Idto);
-		model.addAttribute("item_list", list);
-	}
-	
 	
 	@RequestMapping(value = "/balju_Plan_Grid", method = RequestMethod.GET)
 	@ResponseBody
@@ -67,7 +59,7 @@ public class Balju_Controller {
 	}
 	
 	@RequestMapping(value = "/balju/Balju", method = RequestMethod.GET)
-	public void d() {
+	public void Balju_Plan() {
 		System.out.println("발주입력에 접속되었습니다.");
 	}
 	
@@ -76,13 +68,13 @@ public class Balju_Controller {
 		System.out.println("발주현황에 접속되었습니다.");
 	}
 	
-	@RequestMapping(value = "/balju/Balju_Search", method = RequestMethod.GET)
+	@RequestMapping(value = "/balju/Balju_Mng", method = RequestMethod.GET)
 	public void f() {
-		System.out.println("발주조회에 접속되었습니다.");
+		System.out.println("발주관리에 접속되었습니다.");
 	}
 	
 	@RequestMapping(value = "/balju_Plan_Input", method = RequestMethod.POST)
-	public String Balju_Input(Balju_PlanDTO BPdto) throws Exception{
+	public String balju_Plan_Input(Balju_PlanDTO BPdto) throws Exception{
 		System.out.println("발주계획 입력 진행중 접속되었습니다.");
 		this.balju_Service.insert_Balju_Plan1(BPdto);
 		return "/balju/Balju_Plan";
@@ -103,6 +95,17 @@ public class Balju_Controller {
 	@ResponseBody
 	public void test() {
 		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+	}
+	
+	//팝업창 영역
+	
+	//발주계획팝업창버튼 [제품정보]
+	@RequestMapping(value = "/balju/popup/Item_list", method = RequestMethod.GET)
+	public String item_list(Item_DTO Idto, Model model) {
+		System.out.println("품목 새창  띄우기 기능이 실행되었습니다.");
+		List<Map<String,String>> list = this.balju_Service.item_list(Idto);
+		model.addAttribute("item_list", list);
+		return "balju/popup/Item_List";
 	}
 	
 }
