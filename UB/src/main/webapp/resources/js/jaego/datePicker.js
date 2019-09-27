@@ -11,6 +11,8 @@ $(document).ready(function() {
 	$("#month").val(date[1]);
 	$("#day").val(date[2]);
 });
+
+/* 년(기본설정) */
 function yearBasic(year) {
 	$("#year option").remove();
 	var todayYear = new Date().getFullYear();
@@ -23,21 +25,17 @@ function yearBasic(year) {
 	$("#year").append("<option value='directInput'>직접입력");
 }
 
+/* 달력 클릭했을때 */
 $("#date").on("change",function(){
 	var date = $("#date").val().split("/");
 	$("#year").val(date[0]);
 	$("#month").val(date[1]);
 	$("#day").val(date[2]);
-	console.log("======01=======")
-	console.log($("#date").val());
-	console.log("===============")
 });
 
+/* 년도 직접입력 */
 function year() {
 	var yearInput = $("#yearInput");
-	console.log(yearInput.val());
-	console.log(yearInput.val() + ">= 1900");
-	console.log(yearInput.val() >= 1900);
 	if(yearInput.val() >= 1900 && yearInput.val() <= new Date().getFullYear()+1) {
 		yearBasic(yearInput.val());
 		yearInput.hide();
@@ -47,6 +45,7 @@ function year() {
 	$("#yy-mm-dd").css("border","1px solid red");
 }
 
+/* 년,월,일 변경할때(달력그림x) */
 $("#yy-mm-dd input, #yy-mm-dd select").on("change", function() {
 	if(this.id == "yearInput") {
 		console.log("=*=*= yearInput =*=*=");
@@ -81,6 +80,7 @@ $("#yy-mm-dd input, #yy-mm-dd select").on("change", function() {
 	console.log("===============")
 });
 
+/* 날짜형식 바꾸기 */
 function dateFormat(format) {
     var year = format.getFullYear();
     
@@ -94,6 +94,7 @@ function dateFormat(format) {
 
 }
 
+/* 달력기능 환경설정 */
 $(function(){
 
     $('.input-group.date').datepicker({
@@ -108,6 +109,7 @@ $(function(){
 
 });
 
+/* 달력 한글로 변경 */
 ;(function($){
 	$.fn.datepicker.dates['kr'] = {
 		days: ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"],
