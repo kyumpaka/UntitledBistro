@@ -23,39 +23,7 @@ td {
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
- $(function() {
-		$('#btn-upload').click(function(e) {
-			e.preventDefault();
-			$('#file').click();
-		});
-	});
-	function preview(id, input, target) {
-		var idok = id;
-		if (input.files && input.files[0]) {
-			var fileName = input.files[0].name;
-			var ext = fileName.substr(fileName.length - 3, fileName.length);
-			var isCheck = false;
-			if (ext.toLowerCase() == 'jpg' || ext.toLowerCase() == 'gif'
-					|| ext.toLowerCase() == 'png') {
-				isCheck = true;
-			}
-			if (isCheck == false) {
-				alert("이미지 파일 아님");
-				jQuery(input).val("");
-				return;
-			}
-			var reader = new FileReader();
-			reader.readAsDataURL(input.files[0]);
-			reader.onload = function(e) {
-				jQuery(target).attr('src', e.target.result);
-				if (idok == "file") {
-					document.getElementById('btn-upload').style.visibility = 'hidden';
-					document.getElementById('select-del').style.visibility = 'visible';
-				}
-
-			}
-		}
-	}
+ 
 	</script>
 </head>
 
@@ -65,9 +33,9 @@ td {
 			align='center'>
 			<tr>
 				<td colspan='3' rowspan='3' width='120' class='ti'>
-					<div>
-					${b.empregister_photo }
-					</div>
+					<div class="img-wrap">
+				<img src="${pageContext.request.contextPath}/resources/images/insa/${ b.empregister_photo }">
+				</div>
 				</td>
 				<td rowspan='2' class='ti' width='100'>성명</td>
 				<td rowspan='2' class='ti'>${b.empregister_name}</td>

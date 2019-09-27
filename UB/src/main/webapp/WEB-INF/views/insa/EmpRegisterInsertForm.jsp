@@ -51,12 +51,19 @@ td {
 	}  */
 
 	function EmpregisterInsert() {
-	/* 	$("#insert").submit; */
+	/* $("#insert").submit; */
+	insert.submit();
+    opener.window.location.reload(); 
+	opener.window.location = "EmpRegisterList";
+	window.close();
 	
-		insert.submit();
-		opener.location.href = "EmpRegisterList";
-		window.opener.location.reload(); 
-		window.close();
+		
+/*     opener.document.location.reload();
+	opener.location.reload();
+ 	opener.location.href = "EmpRegisterList";  
+	window.close(); */
+ 
+
 
 	}
 
@@ -166,25 +173,12 @@ td {
 </head>
 <body>
 	<form name="EmpRegisterInsertForm" id="insert"
-		action="EmpRegisterInsert" method="post">
+		action="EmpRegisterInsert" method="post"  enctype="multipart/form-data">
 		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000'
 			align='center'>
 			<tr>
 				<td colspan='3' rowspan='3' width='120' class='ti'>
-					<!-- 	<div>
-						<input class="i-btn" type="file" id="file" name="empregister_photo"
-							onchange="preview(this.id,this, $('#image1'));" />
-						<button class="i-btn" type="button" id="btn-upload" name="empregister_photo">Image</button>
-					</div>
-					<div class="selectable">
-						<div class="selectable-content">
-							<img src="" style="width: 108px; height: 81px;" id="image1">
-						</div>
-						<div class="selectable-layer">
-							<button id="select-del" class="selectable-del" type="button"
-								onclick="del()" style="visibility: hidden">X</button>
-						</div>
-					</div> --> <input type='file' name='empregister_photo'>
+				<input type="file" id="file-input" name="empregister_photo" class="form-control-file">
 				</td>
 
 
@@ -306,7 +300,7 @@ td {
 
 				</select> --%></td>
 				<td>
-					<button type="Submit" onclick="EmpregisterInsert()">사원 등록</button> <!-- 	<input type="button" value="쓰기" onclick="document.getElementById('insert').submit();" /> -->
+					<button onclick="EmpregisterInsert()">사원 등록</button> <!-- 	<input type="button" value="쓰기" onclick="document.getElementById('insert').submit();" /> -->
 					<input type="reset" value="취소" />
 				</td>
 			</tr>

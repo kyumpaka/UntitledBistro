@@ -1,8 +1,13 @@
 package com.bit.UntitledBistro.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Parameter;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bit.UntitledBistro.model.insa.InsaDAO;
 import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
@@ -29,11 +36,13 @@ public class InsaController {
 
 	@RequestMapping("/EmpRegisterInsert")
 	@ResponseBody
-	public String insert(Insa_EmpRegisterDTO dto) {
+	public String insert(Insa_EmpRegisterDTO dto , MultipartHttpServletRequest mRequest) {
 		insaService.EmpRegisterInsert(dto);
-		System.out.println(dto);
-		System.out.println("인서트");
-		return "redirect:/insa/EmpRegisterList";
+		String fileName = insaService.imgUpload(mRequest);
+		
+		
+		
+		return "insaService.EmpRegisterInsert(Insa_EmpRegisterDTO dto)";
 	}
 	
 	
@@ -92,5 +101,6 @@ public class InsaController {
 		return "insa/EmpRegisterList"; // list.jsp
 
 	}
+	
 
 }
