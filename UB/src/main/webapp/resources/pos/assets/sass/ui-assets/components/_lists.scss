@@ -40,7 +40,7 @@ ul.row, ul.row-sm{ list-style:none; padding:0; margin-bottom:0; }
 }
 
 .list-bullet{list-style: none;  padding: 0;}
-.list-bullet li{margin-bottom:7px; position:relative; padding-left:15px;}
+.list-bullet li{margin-bottom:0px; position:relative; padding-left:0px;}
 .list-bullet li::before { 
     content: " ";
     position:absolute;  top:45%;  left:0;

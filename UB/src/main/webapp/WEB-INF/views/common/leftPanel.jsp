@@ -9,7 +9,7 @@
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active">
-                        <a href="./"><i class="menu-icon fa fa-laptop"></i>현황판</a>
+                        <a href="${path}"><i class="menu-icon fa fa-laptop"></i>현황판</a>
                     </li>
                     <li class="menu-title">재고관리</li><!-- /.menu-title -->
                     <li class="menu-item-has-children dropdown">
@@ -39,8 +39,8 @@
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>주문</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-fort-awesome"></i><a href="font-fontawesome.html">메뉴 관리</a></li>
-                            <li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">테이블 관리</a></li>
+                            <li><i class="menu-icon fa fa-fort-awesome"></i><a href="${path}/jumun/menuSetting.do">메뉴 관리</a></li>
+                            <li><i class="menu-icon ti-themify-logo"></i><a href="${path}/jumun/tableSetting.do">테이블 관리</a></li>
                         </ul>
                     </li>
                    

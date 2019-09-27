@@ -1598,17 +1598,17 @@ article:after,
 
 /* ================== header main ==================  */
 .header-main {
-  padding-top: 1rem;
-  padding-bottom: 1rem; }
+  padding-top: 0rem;
+  padding-bottom: 0rem; }
 
 .brand-wrap .logo, .navbar-brand .logo {
   margin-right: 7px;
   max-height: 42px;
   display: inline-block; }
 .brand-wrap .logo-text, .navbar-brand .logo-text {
-  margin: 0;
   display: inline-block;
   font-size: 22px;
+  margin-left: 1em;
   vertical-align: middle; }
 
 .header-main {
@@ -1914,7 +1914,7 @@ ul.row, ul.row-sm {
     border-radius: 0.2rem 0.2rem 0 0;
     overflow: hidden;
     position: relative;
-    height: 220px;
+    height: 100px;
     text-align: center; }
     .card-product .img-wrap img {
       max-height: 100%;
@@ -1925,8 +1925,8 @@ ul.row, ul.row-sm {
          object-fit: cover; }
   .card-product .info-wrap {
     overflow: hidden;
-    padding: 15px;
-    border-top: 1px solid #eee; }
+    border-top: 1px solid #eee; 
+    text-align: center; }
   .card-product .action-wrap {
     padding-top: 4px;
     margin-top: 4px; }
@@ -2041,8 +2041,12 @@ ul.row, ul.row-sm {
   .icontext small, .icontext .title {
     display: block; }
 
+.price-new, .title {
+  margin-right: 5px; 
+   }
 .price-new, .price {
-  margin-right: 5px; }
+  font-size: 15px;
+   }
 
 .price-old {
   color: #999; }
