@@ -47,8 +47,8 @@
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>결산</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-line-chart"></i><a href="charts-chartjs.html">결산 현황</a></li>
-                            <li><i class="menu-icon fa fa-pie-chart"></i><a href="charts-peity.html">결산 마감</a></li>
+                            <li><i class="menu-icon fa fa-line-chart"></i><a href="JungsanForm.html">결산 현황</a></li>
+                            <li><i class="menu-icon fa fa-pie-chart"></i><a href="deadlineForm.html">결산 마감</a></li>
                         </ul>
                     </li>
 
