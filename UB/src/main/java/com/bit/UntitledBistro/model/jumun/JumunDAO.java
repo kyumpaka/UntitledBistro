@@ -93,6 +93,12 @@ public interface JumunDAO {
 	
 	public Date paymentDateSelect(Map<String, String> map);
 	
+	public int payFail();
+	
 	public int memberPointSelectById(Map<String, String> map);
+	
+	public int memberPointUpdateById(Map<String, String> map);
+
+	public int memberPointDowndateById(Map<String, String> map);
 	
 }

@@ -363,13 +363,66 @@ public class JumunServiceImpl implements JumunService {
 	private static final String HOST = "https://kapi.kakao.com";
     private KakaoPayReadyDTO kakaoPayReadyDTO;
     private KakaoPayApprovalDTO kakaoPayApprovalDTO;
+    private String orders_No;
+    private PaymentDTO paymentDTO;
+    private int sales_No;
     
 	@Override
 	public String kakaoPayReady(String orders_No, PaymentDTO paymentDTO) {
+		this.orders_No = orders_No;
+		this.paymentDTO = paymentDTO;
 		
 		dao = sqlSession.getMapper(JumunDAO.class);
 		dao.salesInsert(); // 판매내역번호 생성
-		int sales_No = dao.salesSelectMax(); // 판매내역번호 가져오기
+		sales_No = dao.salesSelectMax(); // 판매내역번호 가져오기
+		
+		int payment_Card = paymentDTO.getPayment_Card();
+		int payment_Cash = paymentDTO.getPayment_Cash();
+		int payment_Point = paymentDTO.getPayment_Point();
+		
+		if(payment_Card > 0) {
+			RestTemplate restTemplate = new RestTemplate();
+			
+	        // 서버로 요청할 Header
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.add("Authorization", "KakaoAK " + "f75c66eebd8bf507d001dbc7bf11d9f6");
+	        headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
+	        headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
+	        
+	        // 서버로 요청할 Body
+	        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+	        params.add("cid", "TC0ONETIME");
+	        params.add("partner_order_id", Integer.toString(sales_No));
+	        params.add("partner_user_id", "UntitledBistro");
+	        params.add("item_name", "UntitledBistro");
+	        params.add("quantity", "1");
+	        params.add("total_amount", Integer.toString(payment_Card));
+	        params.add("tax_free_amount", "0");
+	        params.add("approval_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccess.do?payment_Card="+payment_Card+"&payment_Cash="+payment_Cash+"&payment_Point="+payment_Point);
+	        params.add("cancel_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPayCancel.do");
+	        params.add("fail_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccessFail.do");
+	 
+	        HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+	 
+	        try {
+	            kakaoPayReadyDTO = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoPayReadyDTO.class);
+	            
+	            return kakaoPayReadyDTO.getNext_redirect_pc_url();
+	 
+	        } catch (RestClientException e) {
+	            e.printStackTrace();
+	        } catch (URISyntaxException e) {
+	            e.printStackTrace();
+	        }
+		} else if(payment_Card == 0) {
+			return "paySuccess.do?payment_Cash=" + payment_Cash + "&sales_No=" + sales_No + "&payment_Point=" + payment_Point;
+		}
+        return "kakaoPaySuccessFail.do";
+	}
+	
+	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token) {
+        
+		dao = sqlSession.getMapper(JumunDAO.class);
 		
 		map = new HashMap<String, String>();
 		map.put("orders_No", orders_No);
@@ -389,53 +442,24 @@ public class JumunServiceImpl implements JumunService {
 		map.put("od_Orders_No", orders_No);
 		dao.ordersDelete(map); // 주문 삭제
 		dao.ordersDetailsDelete(map); // 주문내역 삭제
-		
+
 		int payment_Card = paymentDTO.getPayment_Card();
 		int payment_Cash = paymentDTO.getPayment_Cash();
 		int payment_Point = paymentDTO.getPayment_Point();
 		
-		if(payment_Card > 0) {
-			RestTemplate restTemplate = new RestTemplate();
-			
-	        // 서버로 요청할 Header
-	        HttpHeaders headers = new HttpHeaders();
-	        headers.add("Authorization", "KakaoAK " + "f75c66eebd8bf507d001dbc7bf11d9f6");
-	        headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
-	        headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
-	        
-	        // 서버로 요청할 Body
-	        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
-	        params.add("cid", "TC0ONETIME");
-	        params.add("partner_order_id", orders_No);
-	        params.add("partner_user_id", "UntitledBistro");
-	        params.add("item_name", "UntitledBistro");
-	        params.add("quantity", "1");
-	        params.add("total_amount", Integer.toString(payment_Card));
-	        params.add("tax_free_amount", "0");
-	        params.add("approval_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccess.do?sales_no="+sales_No+"&payment_Card="+payment_Card+"&payment_Cash="+payment_Cash+"&payment_Point="+payment_Point);
-	        params.add("cancel_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPayCancel.do");
-	        params.add("fail_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccessFail.do");
-	 
-	        HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
-	 
-	        try {
-	            kakaoPayReadyDTO = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoPayReadyDTO.class);
-	            
-	            return kakaoPayReadyDTO.getNext_redirect_pc_url();
-	 
-	        } catch (RestClientException e) {
-	            e.printStackTrace();
-	        } catch (URISyntaxException e) {
-	            e.printStackTrace();
-	        }
-		} else if(payment_Card == 0) {
-			return "paySuccess.do?payment_Cash=" + payment_Cash + "&sales_No=" + sales_No;
+		String member_Id = paymentDTO.getPayment_Member_Id();
+		String sumPrice = Integer.toString((int) ((payment_Card + payment_Cash + payment_Point) * 0.1));
+
+		if(member_Id != null) {
+			map.put("upPoint", sumPrice);
+			map.put("member_Id", member_Id);
+			dao.memberPointUpdateById(map); // 결제한 금액 포인트 증가
+			if(payment_Point != 0) {
+				map.put("downPoint", Integer.toString(payment_Point));  // 사용한 포인트 감소
+				dao.memberPointDowndateById(map);
+			}
 		}
-        return "kakaoPaySuccessFail.do";
-	}
-	
-	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token, String sales_no, String payment_Card) {
-        
+		
         RestTemplate restTemplate = new RestTemplate();
  
         // 서버로 요청할 Header
@@ -448,10 +472,10 @@ public class JumunServiceImpl implements JumunService {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("cid", "TC0ONETIME");
         params.add("tid", kakaoPayReadyDTO.getTid());
-        params.add("partner_order_id", sales_no);
+        params.add("partner_order_id", Integer.toString(sales_No));
         params.add("partner_user_id", "UntitledBistro");
         params.add("pg_token", pg_token);
-        params.add("total_amount", payment_Card);
+        params.add("total_amount", Integer.toString(payment_Card));
         
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
         
@@ -470,12 +494,28 @@ public class JumunServiceImpl implements JumunService {
     }
 	
 	@Override
+	public int payFail() {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		
+		return dao.payFail();
+	}
+	
+	@Override
 	public Date paymentTime(String sales_No) {
 		dao = sqlSession.getMapper(JumunDAO.class);
 		map = new HashMap<String, String>();
 		map.put("payment_Sales_No", sales_No);
 		
 		return dao.paymentDateSelect(map);
+	}
+	
+	@Override
+	public int memberPointSearchById(String member_Id) {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		map = new HashMap<String, String>();
+		map.put("member_Id", member_Id);
+		
+		return dao.memberPointSelectById(map);
 	}
 	
 	@Override
@@ -571,12 +611,4 @@ public class JumunServiceImpl implements JumunService {
         }
         return result;
     }
-	
-	public int memberPointSearchById(String member_Id) {
-		dao = sqlSession.getMapper(JumunDAO.class);
-		map = new HashMap<String, String>();
-		map.put("member_Id", member_Id);
-		
-		return dao.memberPointSelectById(map);
-	}
 }

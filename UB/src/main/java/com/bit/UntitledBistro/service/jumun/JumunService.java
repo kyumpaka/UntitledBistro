@@ -80,12 +80,14 @@ public interface JumunService {
 	
 	public String kakaoPayReady(String orders_No, PaymentDTO paymentDTO);
 	
-	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token, String sales_no, String payment_Card);
+	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token);
+	
+	public int payFail();
 	
 	public Date paymentTime(String sales_No);
 	
-	public String createPdf(String orders_No, HttpServletRequest request);
-	
 	public int memberPointSearchById(String member_Id);
+	
+	public String createPdf(String orders_No, HttpServletRequest request);
 	
 }

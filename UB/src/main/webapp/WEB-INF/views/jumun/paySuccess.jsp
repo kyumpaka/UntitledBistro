@@ -22,6 +22,7 @@
 				<p class="card-text"><strong>매장명</strong> &nbsp; UntitledBistro</p>
 				<p class="card-text"><strong>결제금액</strong> &nbsp; ${payment_Cash}</p>
 				<p class="card-text"><strong>결제방법</strong> &nbsp; 현금</p>
+				<p class="card-text"><strong>포 인 트</strong> &nbsp; ${payment_Point}</p>
 			</div>
 		<button class="btn btn-primary btn-sm" onclick="windowClose()"> 닫기 </button>
 		</div>

@@ -147,7 +147,7 @@ function memCheck() {
 					  dangerMode: true,
 					}).then((willDelete) => {
 							if(willDelete) {
-								if(result > 100) {
+								if(result >= 1000) {
 									var pointForm = "";
 										pointForm += '<div class="row form-group"> <div class="col col-md-3">  <label for="text-input" class="form-control-label">포인트</label> </div>'; 
 										pointForm += '<div class="col-12 col-md-9"> <input type="number" id="payment_Point" class="form-control" name="payment_Point" value='+result+'> </div> </div>';

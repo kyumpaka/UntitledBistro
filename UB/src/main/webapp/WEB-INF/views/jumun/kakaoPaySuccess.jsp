@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,15 +18,13 @@
 				<strong class="card-title">카드 결제 내역</strong>
 			</div>
 			<div class="card-body" align="left">
-				<p class="card-text"><strong>결제일시</strong> &nbsp; ${info.approved_at}</p>
+				<p class="card-text"><strong>결제일시</strong> &nbsp; <fmt:formatDate value="${info.approved_at}" pattern="yyyy-MM-dd HH시 MM분 ss초"/></p>
 				<p class="card-text"><strong>결제번호</strong> &nbsp; ${info.partner_order_id}</p>
 				<p class="card-text"><strong>매장명</strong> &nbsp; ${info.item_name}</p>
 				<p class="card-text"><strong>결제금액</strong> &nbsp; ${info.amount.total}</p>
 				<p class="card-text"><strong>결제방법</strong> &nbsp; ${info.payment_method_type}</p>
-				<p class="card-text"><strong>현    금</strong> &nbsp; <c:if test="${payment_Cash} != 0">${payment_Cash}</c:if>
-																	  <c:if test="${payment_Cash} == 0">0</c:if></p>
-				<p class="card-text"><strong>포 인 트</strong> &nbsp; <c:if test="${payment_Point} != 0">${payment_Point}</c:if>
-																	  <c:if test="${payment_Point} == 0">0</c:if></p>
+				<p class="card-text"><strong>현    금</strong> &nbsp; ${payment_Cash}
+				<p class="card-text"><strong>포 인 트</strong> &nbsp; ${payment_Point}</p>
 			</div>
 		<button class="btn btn-primary btn-sm" onclick="windowClose()"> 닫기 </button>
 		</div>
