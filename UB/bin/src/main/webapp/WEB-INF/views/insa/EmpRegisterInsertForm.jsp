@@ -166,7 +166,7 @@ td {
 </head>
 <body>
 	<form name="EmpRegisterInsertForm" id="insert"
-		action="EmpRegisterInsert" method="post">
+		action="EmpRegisterInsert" method="post" >
 		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000'
 			align='center'>
 			<tr>

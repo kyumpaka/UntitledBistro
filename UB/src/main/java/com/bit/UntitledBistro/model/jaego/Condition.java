@@ -3,6 +3,7 @@ package com.bit.UntitledBistro.model.jaego;
 public class Condition {
 
 	private String keyword;
+	private String keyword2;
 	private String startDate;
 	private String endDate;
 	
@@ -14,6 +15,12 @@ public class Condition {
 	}
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
+	}
+	public String getKeyword2() {
+		return keyword2;
+	}
+	public void setKeyword2(String keyword2) {
+		this.keyword2 = keyword2;
 	}
 	public String getStartDate() {
 		return startDate;
