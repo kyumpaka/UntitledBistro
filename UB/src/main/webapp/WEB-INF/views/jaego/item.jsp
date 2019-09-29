@@ -194,7 +194,6 @@
 		})
 		.done(function(json) {
 			json.pop(); // 배열 마지막 요소 제거
-			console.log(json);
 			$("#jsGrid").jsGrid({
 				width : "100%",
 				height : "auto",
