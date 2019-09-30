@@ -139,6 +139,10 @@
 	</trim>
 	</delete>
 	
+	<update id="ordersDetailsUpdate">
+	UPDATE ORDERS_DETAILS SET OD_QTY = OD_QTY + #{od_Qty} WHERE OD_ORDERS_NO = #{od_Orders_No} AND OD_MENU_CODE = #{od_Menu_Code}
+	</update>
+	
 	<update id="ordersDetailsPlus">
 	UPDATE ORDERS_DETAILS SET OD_QTY = OD_QTY + 1 WHERE OD_ORDERS_NO = #{od_Orders_No} AND OD_MENU_CODE = #{od_Menu_Code}
 	</update>
@@ -152,17 +156,9 @@
 	</select>
 	
 	<select id="tableControl" resultType="HashMap">
-	SELECT TABLESAVE_CODE, ORDERS_TABLESAVE_CODE  FROM TABLESAVE LEFT OUTER JOIN ORDERS ON ORDERS.ORDERS_TABLESAVE_CODE = TABLESAVE.TABLESAVE_CODE
+	SELECT TABLESAVE_CODE, ORDERS_TABLESAVE_CODE  FROM TABLESAVE LEFT OUTER JOIN ORDERS ON ORDERS.ORDERS_TABLESAVE_CODE = TABLESAVE.TABLESAVE_CODE ORDER BY TABLESAVE_CODE
 	</select>
-	
-	<update id="order_tableControl" parameterType="HashMap">
-	UPDATE ORDERS SET ORDERS_NO = #{newTable}, ORDERS_TABLESAVE_CODE = #{newTable} WHERE ORDERS_TABLESAVE_CODE = #{oldTable}
-	</update>
 
-	<update id="od_tableControl" parameterType="HashMap">
-	UPDATE ORDERS_DETAILS SET OD_ORDERS_NO = #{newTable} WHERE OD_ORDERS_NO = #{oldTable}
-	</update>
-	
 	<select id="paymentSelect" resultType="payment">
 	SELECT PAYMENT_NO, PAYMENT_SALES_NO, PAYMENT_MEMBER_ID, PAYMENT_TABLE, PAYMENT_STATE, PAYMENT_DATE, PAYMENT_POINT, PAYMENT_DISCOUNT, PAYMENT_CASH, PAYMENT_CARD FROM PAYMENT
 	</select>
@@ -205,14 +201,26 @@
 	</delete>
 	
 	<select id="memberPointSelectById" parameterType="map" resultType="java.lang.Integer">
-	SELECT MEMBER_POINT FROM MEMBER WHERE member_id = #{member_Id}
+	SELECT MEMBER_POINT FROM MEMBER WHERE MEMBER_ID = #{member_Id}
 	</select>
 	
-	<update id="memberPointUpdateById">
-	UPDATE MEMBER SET MEMBER_POINT = MEMBER_POINT + #{upPoint} WHERE MEMBER_ID = #{member_Id}
+	<select id="memberPaySelectById" parameterType="map" resultType="java.lang.Integer">
+	SELECT MEMBER_PAY FROM MEMBER WHERE MEMBER_ID = #{member_Id}
+	</select>
+	
+	<select id="memberGradeSelectById" parameterType="map" resultType="java.lang.String">
+	SELECT MEMBER_GRADE FROM MEMBER WHERE MEMBER_ID = #{member_Id}
+	</select>
+	
+	<update id="memberGradeUpdateById" parameterType="map">
+	UPDATE MEMBER SET MEMBER_GRADE = #{member_Grade} WHERE MEMBER_ID = #{member_Id}
 	</update>
 	
-	<update id="memberPointDowndateById">
+	<update id="memberPointUpdateById" parameterType="map">
+	UPDATE MEMBER SET MEMBER_POINT = MEMBER_POINT + #{upPoint}, MEMBER_PAY = MEMBER_PAY + #{upPay} WHERE MEMBER_ID = #{member_Id}
+	</update>
+	
+	<update id="memberPointDowndateById" parameterType="map">
 	UPDATE MEMBER SET MEMBER_POINT = MEMBER_POINT - #{downPoint} WHERE MEMBER_ID = #{member_Id}
 	</update>
 	

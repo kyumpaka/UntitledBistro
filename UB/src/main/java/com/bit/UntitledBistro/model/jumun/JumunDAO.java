@@ -60,6 +60,8 @@ public interface JumunDAO {
 	
 	public int ordersDetailsDelete(Map<String, String> map);
 	
+	public int ordersDetailsUpdate(OrdersDetailsDTO ordersDetailsDTO);
+	
 	public int ordersDetailsPlus(OrdersDetailsDTO ordersDetailDTO);
 	
 	public int ordersDetailsMinus(OrdersDetailsDTO ordersDetailDTO);
@@ -67,10 +69,6 @@ public interface JumunDAO {
 	public ArrayList<Integer> tableInfo();
 	
 	public ArrayList<HashMap<String, Object>> tableControl();
-	
-	public int order_tableControl(Map<String, Object> map);
-
-	public int od_tableControl(Map<String, Object> map);
 	
 	public ArrayList<PaymentDTO> paymentSelect();
 	
@@ -94,7 +92,13 @@ public interface JumunDAO {
 	public int payFail();
 	
 	public int memberPointSelectById(Map<String, String> map);
+
+	public int memberPaySelectById(Map<String, String> map);
 	
+	public String memberGradeSelectById(Map<String, String> map);
+	
+	public int memberGradeUpdateById(Map<String, String> map);
+
 	public int memberPointUpdateById(Map<String, String> map);
 
 	public int memberPointDowndateById(Map<String, String> map);

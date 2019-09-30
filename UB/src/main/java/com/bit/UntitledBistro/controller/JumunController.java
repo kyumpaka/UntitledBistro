@@ -190,7 +190,7 @@ public class JumunController {
 	
 	@RequestMapping(value = "/tableControl.do", method = RequestMethod.POST)
 	@ResponseBody
-	public int tableControl(@RequestBody Map<String, Object> table) {
+	public int tableControl(@RequestBody Map<String, String> table) {
 		
 		return jumunService.tableControl(table);
 	}

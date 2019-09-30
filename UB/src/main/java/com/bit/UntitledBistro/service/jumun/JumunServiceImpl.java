@@ -343,10 +343,48 @@ public class JumunServiceImpl implements JumunService {
 	}
 
 	@Override
-	public int tableControl(Map<String, Object> table) {
+	public int tableControl(Map<String, String> table) {
 		dao = sqlSession.getMapper(JumunDAO.class);
-		dao.od_tableControl(table);
-		return dao.order_tableControl(table);
+		map = new HashMap<String, String>();
+		map.put("orders_No", table.get("oldTable"));
+		dao.ordersDelete(map); // 이동할 테이블 주문 삭제
+		map.put("od_Orders_No", table.get("oldTable"));
+		ArrayList<HashMap<String, Object>> oldList =  dao.ordersDetailsSelect(map);
+		// 원래 테이블 주문내역 삭제하기
+		dao.ordersDetailsDelete(map);
+		map.remove("od_Orders_No");
+		map.put("od_Orders_No", table.get("newTable"));
+		ArrayList<HashMap<String, Object>> newList =  dao.ordersDetailsSelect(map);
+		
+		// 새로운 테이블 주문과 원래 테이블 주문 가져와서 메뉴코드가 일치하면 삭제하고 남은것만 넣기
+		for (int i = 0; i < oldList.size(); i++) {
+			for (int j = 0; j < newList.size(); j++) {
+				if(oldList.get(i).get("OD_MENU_CODE").equals(newList.get(j).get("OD_MENU_CODE"))) {
+					// 수량 업데이트 및 리스트에서 삭제
+					OrdersDetailsDTO dto = new OrdersDetailsDTO();
+					int qty = Integer.parseInt(String.valueOf(oldList.get(i).get("OD_QTY")));
+					dto.setOd_Qty(qty);
+					dto.setOd_Menu_Code((String)oldList.get(i).get("OD_MENU_CODE"));
+					dto.setOd_Orders_No(table.get("newTable"));
+					
+					dao.ordersDetailsUpdate(dto);
+					oldList.remove(i);
+				}
+			}
+		}
+		
+		for (int i = 0; i < oldList.size(); i++) {
+			// 메뉴 추가
+			OrdersDetailsDTO dto = new OrdersDetailsDTO();
+			int qty = Integer.parseInt(String.valueOf(oldList.get(i).get("OD_QTY")));
+			dto.setOd_Qty(qty);
+			dto.setOd_Menu_Code((String)oldList.get(i).get("OD_MENU_CODE"));
+			dto.setOd_Orders_No(table.get("newTable"));
+			
+			dao.ordersDetailsInsert(dto);
+		}
+		
+		return 0;
 	}
 
 	@Override
@@ -480,16 +518,39 @@ public class JumunServiceImpl implements JumunService {
 		int payment_Cash = paymentDTO.getPayment_Cash();
 		int payment_Point = paymentDTO.getPayment_Point();
 		
-		String member_Id = paymentDTO.getPayment_Member_Id();
-		String sumPrice = Integer.toString((int) ((payment_Card + payment_Cash + payment_Point) * 0.1));
-
-		if(member_Id != null) {
-			map.put("upPoint", sumPrice);
+		String member_Id = paymentDTO.getPayment_Member_Id().trim();
+		int sumPrice = payment_Card + payment_Cash + payment_Point;
+		
+		// 포인트 관련
+		String grade = "";
+		if(!member_Id.equals("")) {
 			map.put("member_Id", member_Id);
-			dao.memberPointUpdateById(map); // 결제한 금액 포인트 증가
+			grade = dao.memberGradeSelectById(map);
+		
+			// 등급확인하고 포인트비율 다르게
+			int sumPoint = (int) (sumPrice * 0.01);
+			if(grade.equals("silver")) {
+				sumPoint = (int) (sumPrice * 0.05);
+			} else if(grade.equals("gold")) {
+				sumPoint = (int) (sumPrice * 0.1);
+			}
+			
+			map.put("upPoint", Integer.toString(sumPoint));
+			map.put("upPay", Integer.toString(sumPrice));
+			dao.memberPointUpdateById(map); // 결제한 금액 포인트, 총 결제금액 증가
 			if(payment_Point != 0) {
 				map.put("downPoint", Integer.toString(payment_Point));  // 사용한 포인트 감소
 				dao.memberPointDowndateById(map);
+			}
+			
+			// 누적 총결제 금액 확인 
+			int price = dao.memberPaySelectById(map);
+			if(price > 50000) {
+				map.put("member_Grade", "silver");
+				dao.memberGradeUpdateById(map);
+			} else if(price > 200000) {
+				map.put("member_Grade", "gold");
+				dao.memberGradeUpdateById(map);
 			}
 		}
 		
@@ -634,7 +695,7 @@ public class JumunServiceImpl implements JumunService {
 		
 		return dao.ordersCheck(map);
 	}
-
+	
 	@Override
 	public void ordersDeleteCheck(String orders_No) {
 		dao = sqlSession.getMapper(JumunDAO.class);

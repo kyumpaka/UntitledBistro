@@ -72,7 +72,7 @@ public interface JumunService {
 	
 	public ArrayList<HashMap<String, Object>> tableControl();
 	
-	public int tableControl(Map<String, Object> table);
+	public int tableControl(Map<String, String> table);
 	
 	public ArrayList<PaymentDTO> paymentSearch();
 	

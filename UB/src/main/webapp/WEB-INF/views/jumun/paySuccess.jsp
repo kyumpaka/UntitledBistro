@@ -11,7 +11,7 @@
 <body>
 <br>
 <div align="center">
-	<div class="col-md-4">
+	<div class="col-md-6">
 		<div class="card border border-primary">
 			<div class="card-header" align="center">
 				<strong class="card-title">현금 내역</strong>
