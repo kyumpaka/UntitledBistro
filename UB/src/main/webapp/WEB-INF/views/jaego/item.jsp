@@ -6,22 +6,26 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- sweetAlert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <!-- datePicker -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<link rel="stylesheet" href="/css/jquery-ui.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
-<script type='text/javascript'
-	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
+<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
 
 <!-- jsgrid 사용을 위한 필요한 요소 cdn 연결-->
-<link type="text/css" rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
-<link type="text/css" rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
-<script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
 <style type="text/css">
 #jsGrid {
@@ -107,6 +111,7 @@
 #search, #search2 {
 	display: inline-flex;
 }
+
 </style>
 
 <title>JSP</title>
@@ -114,6 +119,36 @@
 <body>
 <div class="page-header">
     <h1><a href="">재고현황(ITEM)</a></h1>
+</div>
+
+
+<!-- modal -->
+<div class="container">
+  <h2>Modal Example</h2>
+  <!-- Trigger the modal with a button -->
+  <button id="open" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
 </div>
 
 	<!-- /////////////////////////////////////////////////////////////////////////////////////// -->
@@ -141,12 +176,14 @@
 			
 				</select>
 			<input type="text" id="day" class="form-control" maxlength="2">
-		    <span class="input-group date">
-		        <input type="hidden" id="date">
-		        <span class="input-group-addon">
-		        	<i class="glyphicon glyphicon-calendar"></i>
-		        </span>
-		    </span>
+		    <div class="container">
+		        <div class="input-group date">
+		            <input type="hidden" class="form-control" id="date">
+		            <span class="input-group-addon">
+		            	<i class="glyphicon glyphicon-calendar"></i>
+		            </span>
+		        </div>
+		    </div>
 		</div>
 	  
 	<div id="search" class="form-group">
@@ -165,9 +202,7 @@
 	</div>
 	<button type="button" id="searchBtn" class="btn btn-primary btn-sm">검색</button>
 	<button type="button" id="cancle" class="btn btn-default btn-sm">취소</button>
-	<!-- //////////////////////////////////////////////////////////////////////// -->
-	
-	
+	<!-- //////////////////////////////////////////////////////////////////////// -->	
 </div>
 <!-- ///////////////////////////////////////////////////////////////////////// -->
 <!-- <nav>
@@ -208,7 +243,8 @@
   </ul>
 </nav> -->
 	<script>
-
+	
+	
 	var ogEndDate;
 	$(document).ready(function() {
 		var now = new Date();

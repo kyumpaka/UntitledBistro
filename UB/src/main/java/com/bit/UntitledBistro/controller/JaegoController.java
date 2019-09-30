@@ -18,6 +18,7 @@ import com.bit.UntitledBistro.model.jaego.ItemDAOImpl;
 import com.bit.UntitledBistro.model.jaego.ItemDTO;
 import com.bit.UntitledBistro.model.jaego.OutItemDTO;
 import com.bit.UntitledBistro.model.jaego.Page;
+import com.bit.UntitledBistro.model.jaego.ProductDTO;
 
 @Controller
 @RequestMapping(value = "/jaego")
@@ -119,4 +120,9 @@ public class JaegoController {
 		dao.itemDelete(dto);
 	}
 	
+	@RequestMapping(value = "/gridProductSelectAll")
+	public @ResponseBody List<ProductDTO> gridProductSelectAll(Condition condition) {
+		logger.info("여기는 품목 조회 컨트롤러 입니다.");
+		return dao.productSelectAll(condition);
+	}
 }

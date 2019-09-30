@@ -142,8 +142,6 @@
 		    </span>
 		    
 		</div>
-	  
-	  
 	<div id="search" class="form-group">
 		  <label for="product_code" class="col-2 col-form-label">품목코드</label>
 		  <div class="col-10">
@@ -164,6 +162,7 @@
 	
 </div>
 <!-- ///////////////////////////////////////////////////////////////////////// -->
+
 
 
 <!-- jsGrid 생성을 합니다.-->

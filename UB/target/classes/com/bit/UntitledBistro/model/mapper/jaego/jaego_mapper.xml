@@ -15,6 +15,23 @@
 			ITEM_PRODUCT_CODE
 		]]>
 	</select>
+	<select id="productSelectAll" parameterType="condition" resultType="product">
+		SELECT 
+			 PRODUCT_CODE
+			,PRODUCT_NAME
+		FROM
+			PRODUCT
+		<where>
+		<if test="keyword != '' and keyword != null">
+			PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test="keyword2 != '' and keyword2 != null">
+		AND
+			PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
+		</if>
+		</where>
+	
+	</select>
 
  	<select id="itemSelectAll" parameterType="condition" resultType="item">
 	    SELECT 

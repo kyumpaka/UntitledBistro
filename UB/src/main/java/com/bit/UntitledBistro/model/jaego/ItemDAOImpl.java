@@ -42,4 +42,7 @@ public class ItemDAOImpl {
 		return mybatis.selectList("jaego.changeItemSelectAll", condition);
 	}
 	
+	public List<ProductDTO> productSelectAll(Condition condition) {
+		return mybatis.selectList("jaego.productSelectAll", condition);
+	}
 }
