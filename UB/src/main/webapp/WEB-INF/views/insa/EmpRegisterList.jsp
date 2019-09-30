@@ -15,6 +15,11 @@ function EmpRegisterRead(empnum){
 /*   window.open('/UntitledBistro/EmpRegisterRead?EmpRegister_empnum='+empnum , '_blank', 'width=1000,height=1500,location=no,status=no,scrollbars=yes' ); 
  */
 }
+
+function list(){
+	window.location.href=window.location.href
+}
+
 </script>
 <meta charset="UTF-8">
 <title>리스트</title>
@@ -89,8 +94,7 @@ ${fn:substring(b.empregister_jumin2,1,fn:length(b.empregister_jumin2)-4)}******<
 		</c:if>
 
 			</td>
-			<td><button
-					onclick="window.open('EmpRegisterInsertForm','insert','width=1000,height=400,location=no,status=no,scrollbars=yes');">사원등록</button>
+			<td><button onclick="window.open('EmpRegisterInsertForm','insert','width=1000,height=400,location=no,status=no,scrollbars=yes');">사원등록</button>
 
 			</td>
 		</tr>

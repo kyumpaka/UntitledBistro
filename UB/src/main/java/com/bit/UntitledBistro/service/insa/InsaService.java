@@ -9,7 +9,7 @@ import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
 
 public interface InsaService {
 
-	public void EmpRegisterInsert(Insa_EmpRegisterDTO dto);
+	public int EmpRegisterInsert(Insa_EmpRegisterDTO dto);
 
 	public List<Insa_EmpRegisterDTO> EmpRegisterList(HashMap map);
 	

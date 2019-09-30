@@ -26,11 +26,12 @@ public class InsaServiceImpl implements InsaService{
 	private SqlSession sqlsession;
 	
 	@Override
-	public void EmpRegisterInsert(Insa_EmpRegisterDTO dto) {
+	public int EmpRegisterInsert(Insa_EmpRegisterDTO dto) {
 		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
 		insaDAO.EmpRegisterInsert(dto);
 		
 		
+		return 1;
 	}
 
 	@Override
@@ -58,6 +59,7 @@ public class InsaServiceImpl implements InsaService{
 
 	@Override
 	public String imgUpload(MultipartHttpServletRequest mRequest) {
+		
 		String saveFileName = null;
 		
 		try {
@@ -93,8 +95,6 @@ public class InsaServiceImpl implements InsaService{
 		
 		return saveFileName;
 	}
-
-
 	
 	
 }

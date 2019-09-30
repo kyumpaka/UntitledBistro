@@ -36,13 +36,15 @@ public class InsaController {
 
 	@RequestMapping("/EmpRegisterInsert")
 	@ResponseBody
-	public String insert(Insa_EmpRegisterDTO dto , MultipartHttpServletRequest mRequest) {
-		insaService.EmpRegisterInsert(dto);
+	public int insert(Insa_EmpRegisterDTO dto , MultipartHttpServletRequest mRequest) {
+//		insaService.EmpRegisterInsert(dto);
 		String fileName = insaService.imgUpload(mRequest);
+		dto.setEmpregister_photo(fileName);
 		
 		
-		
-		return "insaService.EmpRegisterInsert(Insa_EmpRegisterDTO dto)";
+		//return "insaService.EmpRegisterInsert(dto)";
+		return insaService.EmpRegisterInsert(dto);
+
 	}
 	
 	

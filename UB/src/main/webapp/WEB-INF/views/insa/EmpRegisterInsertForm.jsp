@@ -51,62 +51,11 @@ td {
 	}  */
 
 	function EmpregisterInsert() {
-	/* $("#insert").submit; */
-	insert.submit();
-    opener.window.location.reload(); 
-	opener.window.location = "EmpRegisterList";
-	window.close();
-	
-		
-/*     opener.document.location.reload();
-	opener.location.reload();
- 	opener.location.href = "EmpRegisterList";  
-	window.close(); */
- 
-
-
+		$("#insert").submit;
+		opener.parent.list();
 	}
-
-	$(function() {
-		$('#btn-upload').click(function(e) {
-			e.preventDefault();
-			$('#file').click();
-		});
-	});
-	function preview(id, input, target) {
-		var idok = id;
-		if (input.files && input.files[0]) {
-			var fileName = input.files[0].name;
-			var ext = fileName.substr(fileName.length - 3, fileName.length);
-			var isCheck = false;
-			if (ext.toLowerCase() == 'jpg' || ext.toLowerCase() == 'gif'
-					|| ext.toLowerCase() == 'png') {
-				isCheck = true;
-			}
-			if (isCheck == false) {
-				alert("이미지 파일 아님");
-				jQuery(input).val("");
-				return;
-			}
-			var reader = new FileReader();
-			reader.readAsDataURL(input.files[0]);
-			reader.onload = function(e) {
-				jQuery(target).attr('src', e.target.result);
-				if (idok == "file") {
-					document.getElementById('btn-upload').style.visibility = 'hidden';
-					document.getElementById('select-del').style.visibility = 'visible';
-				}
-
-			}
-		}
-	}
-
-	function check() {
-		alert("등록 완료");
-		return true;
-	}
-
 	//주소정보
+	
 	function sample4_execDaumPostcode() {
 		new daum.Postcode(
 				{
@@ -169,18 +118,26 @@ td {
 					}
 				}).open();
 	}
+	
+
 </script>
 </head>
 <body>
 	<form name="EmpRegisterInsertForm" id="insert"
-		action="EmpRegisterInsert" method="post"  enctype="multipart/form-data">
+		action="EmpRegisterInsert" method="post" enctype="multipart/form-data">
 		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000'
 			align='center'>
 			<tr>
 				<td colspan='3' rowspan='3' width='120' class='ti'>
-				<input type="file" id="file-input" name="empregister_photo" class="form-control-file">
+					<div class="row form-group">
+					<div class="col col-md-3">
+						<label for="file-input" class=" form-control-label">사진</label>
+					</div>
+					<div class="col-12 col-md-9">
+						<input type="file" id="file-input" name="file" class="form-control-file">
+					</div>
+				</div>
 				</td>
-
 
 				<td rowspan='2' class='ti' width='100'>성명</td>
 				<td rowspan='2' width='150'><input type="text"
@@ -300,7 +257,7 @@ td {
 
 				</select> --%></td>
 				<td>
-					<button onclick="EmpregisterInsert()">사원 등록</button> <!-- 	<input type="button" value="쓰기" onclick="document.getElementById('insert').submit();" /> -->
+					<button onclick="EmpregisterInsert()" id="insertform">사원 등록</button> <!-- 	<input type="button" value="쓰기" onclick="document.getElementById('insert').submit();" /> -->
 					<input type="reset" value="취소" />
 				</td>
 			</tr>

@@ -32,9 +32,9 @@ td {
 		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000'
 			align='center'>
 			<tr>
-				<td colspan='3' rowspan='3' width='120' class='ti'>
-					<div class="img-wrap">
-				<img src="${pageContext.request.contextPath}/resources/images/insa/${ b.empregister_photo }">
+				<td colspan='3' rowspan='3' class='ti' >
+					<div class="img-wrap" >
+				<img src="${pageContext.request.contextPath}/resources/images/insa/${ b.empregister_photo }" width="120" height="120">
 				</div>
 				</td>
 				<td rowspan='2' class='ti' width='100'>성명</td>

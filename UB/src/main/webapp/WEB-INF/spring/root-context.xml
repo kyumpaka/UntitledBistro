@@ -37,4 +37,18 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
+	
+	<bean id="multipartResolver" 
+
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+	<!-- maximum file size in bytes 50MB -->
+
+	<property name="maxUploadSize" value="52428800" />
+
+</bean>
+
+
+
+	
 </beans>
