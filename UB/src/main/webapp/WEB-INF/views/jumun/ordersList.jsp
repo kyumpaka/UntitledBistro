@@ -71,7 +71,7 @@
 								<figure class="card card-product">
 								<label id="${ menuList.menu_Code }" onclick="plusOrder('${ menuList.menu_Code }', '${ menuList.menu_Name }', '${ menuList.menu_Price }')">
 									<div class="img-wrap">
-										<img src="${pageContext.request.contextPath}/resources/images/jaego/${ menuList.menu_Image }">
+										<img src="${pageContext.request.contextPath}/resources/images/jumun/${ menuList.menu_Image }">
 									</div>
 									<figcaption class="info-wrap">
 										<div class="action-wrap">

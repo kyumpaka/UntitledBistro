@@ -223,8 +223,8 @@ public class JumunController {
     }
 	
 	@RequestMapping(value = "/paySuccess.do")
-	public String paySuccess(@ModelAttribute("payment_Cash") String payment_Cash, @ModelAttribute("sales_No") String sales_No, 
-			@ModelAttribute("payment_Point") String payment_Point, Model model) {
+	public String paySuccess(@ModelAttribute("payment_Cash") String payment_Cash
+			, @ModelAttribute("sales_No") String sales_No, Model model) {
 		model.addAttribute("payment_Time", jumunService.paymentTime(sales_No));
 		
 		return "views/jumun/paySuccess";

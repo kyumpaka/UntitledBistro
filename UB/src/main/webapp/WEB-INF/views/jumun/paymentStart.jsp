@@ -63,7 +63,8 @@
 						<input type="text" id="payment_Member_Id" class="form-control" name="payment_Member_Id">
 					</div>
 				</div>
-				<button class="btn btn-primary btn-sm" onclick="memCheck()"> 회원확인 </button><br>
+				<button class="btn btn-primary btn-sm" onclick="memCheck()"> 회원확인 </button>
+				<button class="btn btn-primary btn-sm" onclick=""> 회원가입 </button><br>
 				<div id="pointArea"></div>
 			</form>
 		</div>
@@ -80,6 +81,24 @@ function windowClose() {
 	window.close();
 };
 
+function pointCheck() {
+	var point = $("#payment_Point").val();
+	if(typeof point != 'undefined') {
+		if(point.trim() == ""){
+			swal({
+				  title: "포인트를 입력해주세요.",
+				  icon: "warning",
+				});
+			$("#payment_Point").focus();
+			return false;
+		} else {
+			return true;
+		}
+	} else {
+		return true;
+	}
+}
+
 function payCheck() {
 	event.preventDefault();
 	
@@ -88,37 +107,58 @@ function payCheck() {
 	var payment_Card = $("#payment_Card").val();
 	var payment_Point = $("#payment_Point").val();
 	var sumPrice;
-	if(typeof payment_Point == 'undefined' || payment_Point == '') sumPrice = Number(payment_Cash) + Number(payment_Card);
+	if(typeof payment_Point == 'undefined') sumPrice = Number(payment_Cash) + Number(payment_Card);
 	else sumPrice = Number(payment_Cash) + Number(payment_Card) + Number(payment_Point);
-	
-	if($("#payment_Member_Id").val().trim() == "") {
-		swal({
-			  title: "회원 없이 결제하시겠습니까?",
-			  icon: "warning",
-			  buttons: ["아니요", "네"],
-			  dangerMode: true,
-			}).then((willDelete) => {
-				  if (willDelete) {
-					  if(resultPrice == sumPrice) {
-					  		goPayment();
-					  }
-				  }
-			});
-	} else {
-		if(resultPrice == sumPrice) {
-			goPayment();
-		} else {
+
+	if(pointCheck()) {
+		if($("#payment_Member_Id").val().trim() == "") {
 			swal({
-				  title: "금액을 확인해주세요.",
+				  title: "회원 없이 결제하시겠습니까?",
 				  icon: "warning",
+				  buttons: ["아니요", "네"],
+				  dangerMode: true,
+				}).then((willDelete) => {
+					  if (willDelete) {
+						  if(resultPrice == sumPrice) {
+						  		goPayment();
+						  }
+					  }
 				});
+		} else {
+			if(resultPrice == sumPrice) {
+				goPayment();
+			} else {
+				swal({
+					  title: "금액을 확인해주세요.",
+					  icon: "warning",
+					});
+			}
 		}
 	}
 };
 
 function goPayment() {
 	event.preventDefault();
-	$("#kakaoPayForm").submit();
+	var memberId = $("#payment_Member_Id").val().trim();
+
+	// 회원여부 확인
+	$.ajax({
+		  url: 'memberPointSearchById.do',
+		  type: 'post',
+		  data: { member_Id:memberId },
+		  dataType: 'json',
+		  success : function(result) {
+			 	$("#kakaoPayForm").submit();
+		  },
+		  error : function(request,status,error) {
+			  swal({
+				  title: "가입되지 않은 아이디입니다.",
+				  icon: "warning",
+			  });
+		  }
+	});
+
+	
 };
 
 function memCheck() {
@@ -141,7 +181,7 @@ function memCheck() {
 			  dataType: 'json',
 			  success : function(result) {
 				  swal({
-					  title: "포인트는 " + result + "입니다. 사용하시겠습니까?",
+					  title: memberId + "님의 포인트는 " + result + "입니다. 포인트를 사용하시겠습니까?",
 					  icon: "success",
 					  buttons: ["아니요", "네"],
 					  dangerMode: true,
@@ -150,7 +190,7 @@ function memCheck() {
 								if(result >= 1000) {
 									var pointForm = "";
 										pointForm += '<div class="row form-group"> <div class="col col-md-3">  <label for="text-input" class="form-control-label">포인트</label> </div>'; 
-										pointForm += '<div class="col-12 col-md-9"> <input type="number" id="payment_Point" class="form-control" name="payment_Point" value='+result+'> </div> </div>';
+										pointForm += '<div class="col-12 col-md-9"> <input type="number" id="payment_Point" class="form-control" name="payment_Point" value='+result+' oninput="inputPoint()"> </div> </div>';
 							
 									$("#pointArea").html(pointForm);							
 								} else {
@@ -162,14 +202,25 @@ function memCheck() {
 								}
 							}
 					});
-			  	}
+			  },
+			  error : function(request,status,error) {
+				  swal({
+					  title: "가입되지 않은 아이디입니다.",
+					  icon: "warning",
+				  });
+			  }
 		});
-		
 	}
 };
 
 function inputCash(){
-	$("#payment_Card").val(eval(${ resultPrice } - $("#payment_Cash").val()));
+	var payment_Point = $("#payment_Point").val();
+	if(typeof payment_Point == 'undefined' || payment_Point == '') $("#payment_Card").val(eval(${ resultPrice } - $("#payment_Cash").val()));
+	else $("#payment_Card").val(eval(${ resultPrice } - $("#payment_Cash").val() - $("#payment_Point").val()));
+};
+
+function inputPoint(){
+	$("#payment_Card").val(eval(${ resultPrice } - $("#payment_Cash").val() - $("#payment_Point").val()));
 };
 </script>
 </html>

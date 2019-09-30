@@ -398,7 +398,8 @@ public class JumunServiceImpl implements JumunService {
 	        params.add("quantity", "1");
 	        params.add("total_amount", Integer.toString(payment_Card));
 	        params.add("tax_free_amount", "0");
-	        params.add("approval_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccess.do?payment_Card="+payment_Card+"&payment_Cash="+payment_Cash+"&payment_Point="+payment_Point);
+	        params.add("point_amount", Integer.toString(payment_Point));
+	        params.add("approval_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccess.do?payment_Cash="+payment_Cash);
 	        params.add("cancel_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPayCancel.do");
 	        params.add("fail_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccessFail.do");
 	 
