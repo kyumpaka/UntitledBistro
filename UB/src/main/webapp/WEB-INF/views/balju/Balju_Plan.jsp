@@ -52,26 +52,21 @@
 	href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
-<!-- 적용 안되는중 -->
-<link rel="stylesheet"
-	href="${path}/src/main/webapp/resources/Admin/assets/css/cs-skin-elastic.css">
-<link rel="stylesheet"
-	href="${path}/src/main/webapp/resources/Admin/assets/css/style.css">
-<!-- 적용 안되는중 -->
+
 
 <link
 	href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800'
 	rel='stylesheet' type='text/css'>
 <!-- 템플릿 link rel -->
-<script
-	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<!-- ↑ 이것은 스윗얼럿 cdn -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- jsgrid 사용을 위한 jquery를 cdn 연결-->
-<link type="text/css" rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
-<link type="text/css" rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
-<script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+<!-- jsgrid 사용을 위한 필요한 요소 cdn 연결-->
+
 <!-- jsgrid 사용을 위한 필요한 요소 cdn 연결-->
 <meta charset="UTF-8">
 <title>발주 계획 작성</title>
@@ -181,7 +176,7 @@
 						</div>
 						<div id="jsGrid"></div>
 						<script>
-							var Data = [{}];
+							var Data = [{ "ORDPL_PRODUCT_NAME":"하이하이"}];
 							$("#jsGrid").jsGrid({
 								width:"100%",
 								height : "400px",
@@ -194,54 +189,19 @@
 												return item.name +" 상품을 삭제하시겠습니까?";},
 
 								fields : [
-									{name:"code", type:"text", width:150, title:"품목코드"},
-									{name:"name", type:"text", width:150, title:"품목명"},
-									{name:"stndr", type:"text", width:150, title:"규격"},
-									{name:"qt", type:"text", width:150, title:"수량"},
-									{name:"price", type:"text", width:150, title:"단가"},
+									{name:"ORDPL_PRODUCT_CODE", type:"text", width:150, title:"품목코드"},
+									{name:"ORDPL_PRODUCT_NAME", type:"text", width:150, title:"품목명"},
+									{name:"ORDPL_PRODUCT_STNDR", type:"text", width:150, title:"규격"},
+									{name:"ORDPL_QT", type:"text", width:150, title:"수량"},
+									{name:"ORDPL_PR_EA", type:"text", width:150, title:"단가"},
+									{name:"ORDPL_WR", type:"text", width:150, title:"작성자"},
 									{ type : 'control'}
 									]
 								
 								});
 						</script>
-						
-						<script>
-							$("#addData").click(function(){
-								alert("발주품이 추가되었습니다")
-								var insertItem={};
-								insertItem.code = $("#code").val();
-								insertItem.name = $("#name").val();
-								insertItem.stndr = $("#stndr").val();
-								insertItem.qt = $("#qt").val();
-								insertItem.price = $("#price").val();
-
-								console.log(insertItem);
-								$("#jsGrid").jsGrid("insertItem", insertItem);
-								});
-						</script>
-						<script>
-							function test(){
-								console.log("fuck jquery");
-								var items = $("#jsGrid").jsGrid("option", "data");
-								console.log(items);
-							$.ajax({
-									url:"",
-									type:"post",
-									dataType:"json",
-									data : items,
-									success:function(json){
-										alert("성공적으로 등록되었습니다");
-										},
-									error:function(jqXHR, textStatus, errorThrown){
-											alert("에러가 발생하였습니다" + textStatus + " : " + errorThrown);
-										}
-								//에이젝스 종료
-								});
-							//클릭이벤트 종료
-							};	
-						</script>
 						<div class="card-footer">
-							<button id="grid_Data" class="btn btn-primary btn-lg pull-right" onclick="test()">등록</button>
+							<button id="fuck_js" class="btn btn-primary btn-lg pull-right" onclick="test1()">등록123</button>
 						</div>
 					</div>
 				</div>
@@ -252,4 +212,45 @@
 	<!-- .content -->
 	<div class="clearfix"></div>
 </body>
+<script>
+		$("#addData").click(function(){
+		alert("발주품이 추가되었습니다")
+		var insertItem={};
+		insertItem.ORDPL_PRODUCT_CODE = $("#code").val();
+		insertItem.ORDPL_PRODUCT_NAME = $("#name").val();
+		insertItem.ORDPL_PRODUCT_STNDR = $("#stndr").val();
+		insertItem.ORDPL_QT = $("#qt").val();
+		insertItem.ORDPL_PR_EA = $("#price").val();
+		insertItem.ORDPL_WR = "직접작성";
+								
+		console.log(insertItem);
+		$("#jsGrid").jsGrid("insertItem", insertItem);
+		});
+</script>
+<script>
+		function test1(){
+		var items = $("#jsGrid").jsGrid("option", "data");
+		console.log(JSON.stringify(items));
+			$.ajax({
+				method: "post",
+				dataType:"json",
+				contentType: "application/json",
+				data: JSON.stringify(items),
+				url: "${path}/balju_Plan_Input",
+				success:function(result){
+						var jsonResult = JSON.parse(JSON.stringify(result));
+
+						if(jsonResult.result == "success"){
+							alert(jsonResult.resultMsg);
+						} else if (jsonResult.result == "failure"){
+							alert(jsonResult.resultMsg);
+								return false;
+							}
+					//success end
+					},
+					error : Ajax error
+				//ajax end
+				});
+		};	
+</script>
 </html>
