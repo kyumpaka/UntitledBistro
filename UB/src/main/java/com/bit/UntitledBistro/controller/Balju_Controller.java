@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.UntitledBistro.model.balju.Balju_PlanDTO;
 import com.bit.UntitledBistro.model.balju.Item_DTO;
@@ -78,7 +79,7 @@ public class Balju_Controller {
 	///이
 	@RequestMapping(value = "/balju_Plan_Input", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> balju_Plan_Input(@RequestBody List<Map<String, String>> list, Balju_PlanDTO BPdto) throws Exception{
+	public Object balju_Plan_Input(@RequestBody List<Map<String, String>> list, Balju_PlanDTO BPdto) throws Exception{
 		System.out.println("발주계획 입력 진행중 접속되었습니다.");
 		System.out.println(list);
 		
@@ -108,6 +109,7 @@ public class Balju_Controller {
 	}
 		resultMap.put("result", result);
 		resultMap.put("resultMsg", resultMsg);	
+		
 		return resultMap;
 	}
 	

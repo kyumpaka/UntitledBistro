@@ -241,14 +241,24 @@
 						var jsonResult = JSON.parse(JSON.stringify(result));
 
 						if(jsonResult.result == "success"){
-							alert(jsonResult.resultMsg);
+								alert(jsonResult.resultMsg);
+								
+							/* sweetAlert은 일반 alert과는 다르게 location.href을 후속으로 두어서 연계할수 없고 바로 실행시킴 
+							swal({
+								  title: jsonResult.resultMsg,
+								  text: "확인을 눌러주세요",
+								  icon: jsonResult.result,
+								  button: "확인",
+								});  */
+							location.href="${path}/balju/Balju_Plan"
+							//window.location.reload(true);
+							
 						} else if (jsonResult.result == "failure"){
-							alert(jsonResult.resultMsg);
+								aleart(jsonResult.resultMsg);
 								return false;
 							}
 					//success end
-					},
-					error : Ajax error
+					}
 				//ajax end
 				});
 		};	
