@@ -170,7 +170,7 @@
 	
 </div>
 <!-- ///////////////////////////////////////////////////////////////////////// -->
-<nav>
+<!-- <nav>
   <ul class="pagination">
     <li>
       <a href="#" aria-label="Previous">
@@ -188,7 +188,7 @@
       </a>
     </li>
   </ul>
-</nav>
+</nav> -->
 
 <!-- jsGrid 생성을 합니다.-->
 <div id="jsGridBackground">
