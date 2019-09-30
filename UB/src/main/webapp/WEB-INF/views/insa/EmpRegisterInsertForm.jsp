@@ -276,7 +276,7 @@ td {
 
 				<td class='ti' colspan='3'>입사 날짜</td>
 				<td class='ti' colspan='2' name="empregister_entryday"></td>
-				<td class='ti' colspan='1'>퇴사여부</td>
+				<td class='ti' colspan='1'>재직여부</td>
 				<td><input type="checkbox" name="empregister_leavecompany"></td>
 			</tr>
 			<tr>

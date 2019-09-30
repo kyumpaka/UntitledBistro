@@ -66,20 +66,14 @@ public class JaegoController {
 	}
 	
 	@RequestMapping(value = "/gridSelectAll")
-	public @ResponseBody List gridSelectAll(Condition condition, Page page) {
+	public @ResponseBody List<ItemDTO> gridSelectAll(Condition condition) {
 		logger.info("여기는 그리드 재고현황 조회 컨트롤러 입니다.");
-		int total = dao.itemTotal();
-		page.paging(total, 10, 5);
-		condition.setStartPage(page.getStartRow());
-		condition.setEndPage(page.getEndRow());
 		logger.info("===============================================");
 		logger.info("keyword : " + condition.getKeyword());
 		logger.info("getStartPage : " + condition.getStartPage());
 		logger.info("getEndPage : " + condition.getEndPage());
 		logger.info("===============================================");
-		List list = dao.itemSelectAll(condition);
-		list.add(page.getSb());
-		return list;
+		return dao.itemSelectAll(condition);
 	}
 	
 	@RequestMapping(value = "/gridInItemSelectAll")

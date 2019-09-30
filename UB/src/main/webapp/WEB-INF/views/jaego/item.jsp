@@ -84,6 +84,7 @@
 #sejong {
 	margin: auto;
 	width: 600px;
+	margin-top: 15px;
 	margin-bottom: 15px;
 	padding: 10px;
 	background-color: #f3f0f0;
@@ -169,19 +170,43 @@
 	
 </div>
 <!-- ///////////////////////////////////////////////////////////////////////// -->
+<nav>
+  <ul class="pagination">
+    <li>
+      <a href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li>
+      <a href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
 
 <!-- jsGrid 생성을 합니다.-->
 <div id="jsGridBackground">
 	<div id="dateResult"></div>
 	<div id="jsGrid"></div>
+	<nav>
+	<ul class="pagination" id="page2">
+		
+	</ul>
+	</nav>	
 </div>
    	
 <!-- Paging 처리, Bootstrap -->
-<nav aria-label="..." style="text-align: center;">
+<!-- <nav aria-label="..." style="text-align: center;">
   <ul class="pagination">
     
   </ul>
-</nav>
+</nav> -->
 	<script>
 
 	var ogEndDate;
@@ -195,7 +220,7 @@
 			data : {"endDate" : ogEndDate}
 		})
 		.done(function(json) {
-			json.pop(); // 배열 마지막 요소 제거
+			/* json.pop(); */ // 배열 마지막 요소 제거
 			$("#jsGrid").jsGrid({
 				width : "100%",
 				height : "auto",
@@ -207,6 +232,13 @@
 				paging:true,
 				pageSize : 10,
 				pageButtonCount : 5,
+				
+				pagerContainer: "#page2",
+                pagerFormat: "{first} {prev} {pages} {next} {last}",
+                pagePrevText: "<",
+                pageNextText: ">",
+                pageFirstText: "<<",
+                pageLastText: ">>",
 				
 				//json 배열을 데이터에 연결함.
 				data : json, 
@@ -238,7 +270,8 @@
 			url : "/UntitledBistro/jaego/gridSelectAll",
 			data : {"pageNum" : page, "endDate" : endDate, "keyword" : product_code, "keyword2" : product_name},
 			success : function(json) {
-				$(".pagination").html(json[json.length-1]);
+				/* json.pop();
+				$(".pagination").html(json[json.length-1]); */
 				console.log(json);
 				$("#jsGrid").jsGrid({data:json});
 				$("#jsGrid").jsGrid("loadData");
@@ -246,6 +279,7 @@
 		})
 	}
 	$("#searchBtn").click(function(){
+		console.log($("#year").css("display") == "none");
 		if($("#yy-mm-dd").css("border") == "1px solid rgb(255, 0, 0)") {
 			alert("올바른 검색조건으로 입력하세요.");
 			return;

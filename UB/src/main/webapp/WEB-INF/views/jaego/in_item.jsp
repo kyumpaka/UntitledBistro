@@ -81,6 +81,7 @@
 #sejong {
 	margin: auto;
 	width: 600px;
+	margin-top: 15px;
 	margin-bottom: 15px;
 	padding: 10px;
 	background-color: #f3f0f0;

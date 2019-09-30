@@ -60,6 +60,7 @@
 	    #sejong {
 			margin: auto;
 			width: 600px;
+			margin-top: 15px;
 			margin-bottom: 15px;
 			padding: 10px;
 			background-color: #f3f0f0;
@@ -74,9 +75,6 @@
 			width: 600px;
 		}
 		
-		#centher {
-			width: 50px;
-		}
 	</style>
 
 <title>JSP</title>

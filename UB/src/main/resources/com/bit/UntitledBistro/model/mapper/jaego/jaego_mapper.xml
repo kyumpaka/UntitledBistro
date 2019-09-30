@@ -17,65 +17,57 @@
 	</select>
 
  	<select id="itemSelectAll" parameterType="condition" resultType="item">
-		SELECT
-		     ITEM_PRODUCT_CODE
-		    ,PRODUCT_NAME
-		    ,ITEM_QTY
-		FROM
-		(
-		    SELECT 
-		         II.II_PRODUCT_CODE  		AS ITEM_PRODUCT_CODE
-		        ,P.PRODUCT_NAME     		AS PRODUCT_NAME
-		        ,II.II_QTY - OI.OI_QTY  	AS ITEM_QTY
-		        ,ROWNUM AS RNUM
-		    FROM
-		    (
-		        SELECT 
-		             II_PRODUCT_CODE
-		            ,SUM(II_QTY) 			AS II_QTY
-		        FROM 
-		            IN_ITEM 
-		        <where>
-		        <if test="endDate != '' and endDate != null"> 
-<![CDATA[			II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
-			    </if>
-		        </where> 
-		        GROUP BY 
-		            II_PRODUCT_CODE
+	    SELECT 
+	         II.II_PRODUCT_CODE  					AS ITEM_PRODUCT_CODE
+	        ,P.PRODUCT_NAME     					AS PRODUCT_NAME
+	        ,NVL(II.II_QTY,0) - NVL(OI.OI_QTY,0)  	AS ITEM_QTY
+	        ,ROWNUM AS RNUM
+	    FROM
+	    	(
+	        SELECT 
+	             II_PRODUCT_CODE
+	            ,SUM(II_QTY) 			AS II_QTY
+	        FROM 
+	            IN_ITEM 
+	        <where>
+	        <if test="endDate != '' and endDate != null"> 
+<![CDATA[		II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
+		    </if>
+	        </where> 
+	        GROUP BY 
+	            II_PRODUCT_CODE
 		    ) II
-		    INNER JOIN
+	    FULL OUTER JOIN
 		    (
-		        SELECT 
-		             OI_PRODUCT_CODE
-		            ,SUM(OI_QTY) 			AS OI_QTY
-		        FROM 
-		            OUT_ITEM
-		        <where>
-		        <if test="endDate != '' and endDate != null"> 
-<![CDATA[			OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
-			    </if>
-		        </where>     
-		        GROUP BY 
-		            OI_PRODUCT_CODE
-		    ) OI
-		    ON
-		        II.II_PRODUCT_CODE = OI.OI_PRODUCT_CODE
-		    INNER JOIN
-		        PRODUCT P
-		    ON  
-		        P.PRODUCT_CODE = II.II_PRODUCT_CODE
-		    <where>
-		    <if test="keyword != '' and keyword != null">
-		        P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+	        SELECT 
+	             OI_PRODUCT_CODE
+	            ,SUM(OI_QTY) 			AS OI_QTY
+	        FROM 
+	            OUT_ITEM
+	        <where>
+	        <if test="endDate != '' and endDate != null"> 
+<![CDATA[		OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
 		    </if>
-		    <if test="keyword2 != '' and keyword2 != null">
-		    AND
-		        P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
-		    </if>
-		    </where> 
-		)
-		WHERE 
-			RNUM BETWEEN #{startPage} and #{endPage} 
+	        </where>     
+	        GROUP BY 
+	            OI_PRODUCT_CODE
+	    	) OI
+	    ON
+	        II.II_PRODUCT_CODE = OI.OI_PRODUCT_CODE
+	    INNER JOIN
+	        PRODUCT P
+	    ON  
+	        P.PRODUCT_CODE = II.II_PRODUCT_CODE
+	    <where>
+	    <if test="keyword != '' and keyword != null">
+	        P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+	    </if>
+	    <if test="keyword2 != '' and keyword2 != null">
+	    AND
+	        P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
+	    </if>
+	    </where> 
+	    ORDER BY ITEM_PRODUCT_CODE
 		
  	</select>
  	
@@ -105,6 +97,7 @@
 <![CDATA[	II.II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
 	    </if>
 		</where> 
+		ORDER BY II_DATE DESC
  	</select>
  	
  	<select id="outItemSelectAll" parameterType="condition" resultType="outItem">
@@ -133,10 +126,7 @@
 <![CDATA[	OI.OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
 	    </if>
 		</where>
- 	</select>
- 	
- 	<select id="DSFSDF">
- 	SDFSDFSF
+		ORDER BY OI_DATE DESC
  	</select>
 	
 	<!-- 
@@ -155,9 +145,9 @@
 		FROM
 		    (  
 		    SELECT 
-		         II.II_PRODUCT_CODE     	AS PRODUCT_CODE
-		        ,P.PRODUCT_NAME         	AS PRODUCT_NAME
-		        ,II.II_QTY - OI.OI_QTY  	AS TOTAL_QTY
+		         II.II_PRODUCT_CODE     				AS PRODUCT_CODE
+		        ,P.PRODUCT_NAME         				AS PRODUCT_NAME
+		        ,NVL(II.II_QTY,0) - NVL(OI.OI_QTY,0)  	AS TOTAL_QTY
 		        
 		    FROM
 		    	(
@@ -174,7 +164,7 @@
 		        GROUP BY 
 		            II_PRODUCT_CODE
 		    	) II
-		    INNER JOIN
+		    FULL OUTER JOIN
 		   		(
 		        SELECT 
 		             OI_PRODUCT_CODE
@@ -208,8 +198,8 @@
 		FULL OUTER JOIN
 		    (
 		    SELECT 
-		         II.II_PRODUCT_CODE      AS PRODUCT_CODE
-		        ,II.II_QTY - OI.OI_QTY   AS BEFORE_QTY
+		         II.II_PRODUCT_CODE      			   AS PRODUCT_CODE
+		        ,NVL(II.II_QTY,0) - NVL(OI.OI_QTY,0)   AS BEFORE_QTY
 		    FROM
 		    	(
 		        SELECT 
@@ -262,7 +252,7 @@
 		    (
 		    SELECT 
 		         I.II_PRODUCT_CODE 		AS PRODUCT_CODE
-		        ,SUM(II_QTY)    		AS IN_QTY
+		        ,NVL(SUM(II_QTY),0)    		AS IN_QTY
 		    FROM 
 		        IN_ITEM I
 		    INNER JOIN
@@ -294,7 +284,7 @@
 		    (
 		    SELECT 
 		         O.OI_PRODUCT_CODE 		AS PRODUCT_CODE
-		        ,SUM(O.OI_QTY)    		AS OUT_QTY
+		        ,NVL(SUM(O.OI_QTY),0)    		AS OUT_QTY
 		    FROM 
 		        OUT_ITEM O
 		    INNER JOIN
@@ -322,6 +312,7 @@
 		    ) O
 		ON 
 		    T.PRODUCT_CODE = O.PRODUCT_CODE
+		ORDER BY PRODUCT_CODE
  	</select>
 
  	
