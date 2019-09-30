@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.bit.UntitledBistro.model.jungsan.JungsanDAO">
+	<select id="getjungsanList" resultType="com.bit.UntitledBistro.model.jungsan.JungsanDTO">
+    select * from GU_payment
+  </select>
+
+	<select id="befor_cash" resultType="int">
+		select sum(cash) from GU_payment where timedate like to_date('2019-09-09','YYYY-MM-DD')
+	</select>
+	
+	<select id="befor_card" resultType="int">
+		select sum(card) from GU_payment where timedate like to_date('2019-09-09','YYYY-MM-DD')
+	</select>
+	
+	<select id="today_cash" resultType="int">
+		select sum(cash) from GU_payment where timedate like to_date('2019-09-27','YYYY-MM-DD')
+	</select>
+	
+	<select id="today_card" resultType="int">
+		select sum(card) from GU_payment where timedate like to_date('2019-09-27','YYYY-MM-DD')
+	</select>
+	
+	<select id="total_cash" resultType="int">
+		select sum(cash) from GU_payment
+	</select>
+	
+	<select id="total_card" resultType="int">
+		select sum(card) from GU_payment
+	</select>
+	
+	<select id="timeto_jungsan" resultType="int">
+		select sum(card+cash-orderdan*orsa) "일매출" from JUN_orsa inner join JUN_order on JUN_orsa.cod = JUN_order.cod 
+		inner join GU_payment on jun_orsa.code_2=GU_payment.code_2
+	</select>
+	
+</mapper>
