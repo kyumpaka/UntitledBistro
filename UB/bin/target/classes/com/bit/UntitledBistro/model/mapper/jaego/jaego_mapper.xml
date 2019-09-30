@@ -36,8 +36,8 @@
 		        FROM 
 		            IN_ITEM 
 		        <where>
-		        <if test="startDate != '' and startDate != null"> 
-<![CDATA[			II_DATE <= TO_DATE(#{startDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
+		        <if test="endDate != '' and endDate != null"> 
+<![CDATA[			II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
 			    </if>
 		        </where> 
 		        GROUP BY 
@@ -51,8 +51,8 @@
 		        FROM 
 		            OUT_ITEM
 		        <where>
-		        <if test="startDate != '' and startDate != null"> 
-<![CDATA[			OI_DATE <= TO_DATE(#{startDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
+		        <if test="endDate != '' and endDate != null"> 
+<![CDATA[			OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
 			    </if>
 		        </where>     
 		        GROUP BY 
@@ -92,9 +92,9 @@
 		<if test="keyword != '' and keyword != null">       
 	        P.PRODUCT_NAME LIKE '%'||#{keyword}||'%'
 	    </if> 
-	    <if test="startDate != '' and startDate != null"> 
+	    <if test="endDate != '' and endDate != null"> 
 		AND 
-<![CDATA[	II.II_DATE <= TO_DATE(#{startDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
+<![CDATA[	II.II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
 	    </if>
 		</where> 
  	</select>
@@ -116,9 +116,9 @@
 		<if test="keyword != '' and keyword != null">       
 	        P.PRODUCT_NAME LIKE '%'||#{keyword}||'%'
 	    </if> 
-	    <if test="startDate != '' and startDate != null"> 
+	    <if test="endDate != '' and endDate != null"> 
 		AND 
-<![CDATA[	OI.OI_DATE <= TO_DATE(#{startDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
+<![CDATA[	OI.OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
 	    </if>
 		</where>
  	</select>

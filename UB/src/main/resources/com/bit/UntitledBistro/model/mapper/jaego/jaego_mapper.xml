@@ -66,7 +66,11 @@
 		        P.PRODUCT_CODE = II.II_PRODUCT_CODE
 		    <where>
 		    <if test="keyword != '' and keyword != null">
-		        P.PRODUCT_NAME LIKE '%'||#{keyword}||'%'
+		        P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+		    </if>
+		    <if test="keyword2 != '' and keyword2 != null">
+		    AND
+		        P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
 		    </if>
 		    </where> 
 		)
@@ -90,7 +94,11 @@
 		    II.II_PRODUCT_CODE = P.PRODUCT_CODE   
 		<where>		
 		<if test="keyword != '' and keyword != null">       
-	        P.PRODUCT_NAME LIKE '%'||#{keyword}||'%'
+	        P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+	    </if> 
+		<if test="keyword2!= '' and keyword2 != null">  
+		AND     
+	        P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
 	    </if> 
 	    <if test="endDate != '' and endDate != null"> 
 		AND 
@@ -114,7 +122,11 @@
 		    OI.OI_PRODUCT_CODE = P.PRODUCT_CODE   
 		<where>		
 		<if test="keyword != '' and keyword != null">       
-	        P.PRODUCT_NAME LIKE '%'||#{keyword}||'%'
+	        P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+	    </if> 
+		<if test="keyword2 != '' and keyword2 != null">  
+		AND     
+	        P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
 	    </if> 
 	    <if test="endDate != '' and endDate != null"> 
 		AND 
@@ -134,12 +146,12 @@
 	 -->
  	<select id="changeItemSelectAll" parameterType="condition" resultType="changeItem">	  
 		SELECT 
-		        T.PRODUCT_CODE		AS PRODUCT_CODE 
-		       ,T.PRODUCT_NAME		AS PRODUCT_NAME 
-		       ,T.TOTAL_QTY			AS TOTAL_QTY	
-		       ,B.BEFORE_QTY		AS BEFORE_QTY	
-		       ,I.IN_QTY			AS IN_QTY		
-		       ,O.OUT_QTY			AS OUT_QTY		
+		        T.PRODUCT_CODE			AS PRODUCT_CODE 
+		       ,T.PRODUCT_NAME			AS PRODUCT_NAME 
+		       ,NVL(T.TOTAL_QTY,0)		AS TOTAL_QTY	
+		       ,NVL(B.BEFORE_QTY,0)		AS BEFORE_QTY	
+		       ,NVL(I.IN_QTY,0)			AS IN_QTY		
+		       ,NVL(O.OUT_QTY,0)		AS OUT_QTY		
 		FROM
 		    (  
 		    SELECT 
@@ -185,11 +197,15 @@
 		        P.PRODUCT_CODE = II.II_PRODUCT_CODE
 		    <where>
 		    <if test="keyword != '' and keyword != null">
-		        P.PRODUCT_NAME LIKE '%'||#{keyword}||'%'    
+		        P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'    
+		    </if>
+		    <if test="keyword2 != '' and keyword2 != null">
+		     AND
+		        P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'    
 		    </if>
 		    </where> 
 		    ) T
-		INNER JOIN
+		FULL OUTER JOIN
 		    (
 		    SELECT 
 		         II.II_PRODUCT_CODE      AS PRODUCT_CODE
@@ -202,8 +218,8 @@
 		        FROM 
 		            IN_ITEM
 		        <where> 
-		        	<if test="endDate !='' and endDate != null">
-<![CDATA[		    II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
+		        	<if test="startDate !='' and startDate != null">
+<![CDATA[		    II_DATE <= TO_DATE(#{startDate}||' 0:0:0','YYYY/MM/DD HH24:MI:SS') ]]>
 		        	</if>
 		        </where> 
 		        GROUP BY 
@@ -217,8 +233,8 @@
 		        FROM 
 		            OUT_ITEM
 		        <where> 
-		        	<if test="endDate !='' and endDate != null">
-<![CDATA[		    OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
+		        	<if test="startDate !='' and startDate != null">
+<![CDATA[		    OI_DATE <= TO_DATE(#{startDate}||' 0:0:0','YYYY/MM/DD HH24:MI:SS') ]]>
 		        	</if>
 		        </where> 
 		        GROUP BY 
@@ -232,13 +248,17 @@
 		        P.PRODUCT_CODE = II.II_PRODUCT_CODE
 		    <where>
 		    <if test="keyword != '' and keyword != null">
-		        P.PRODUCT_NAME LIKE '%'||#{keyword}||'%'
+		        P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+		    </if>
+		    <if test="keyword2 != '' and keyword2 != null">
+		    AND
+		        P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
 		    </if>
 		    </where> 
 		    ) B
 		ON 
 		    T.PRODUCT_CODE = B.PRODUCT_CODE
-		INNER JOIN
+		FULL OUTER JOIN
 		    (
 		    SELECT 
 		         I.II_PRODUCT_CODE 		AS PRODUCT_CODE
@@ -251,7 +271,11 @@
 		        I.II_PRODUCT_CODE = P.PRODUCT_CODE
 		    <where>
 		    <if test="keyword != '' and keyword != null">
-		        P.PRODUCT_NAME LIKE '%'||#{keyword}||'%'
+		        P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+		    </if>
+		    <if test="keyword2 != '' and keyword2 != null">
+		    AND
+		        P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
 		    </if>
         	<if test="endDate !='' and endDate != null">
         	AND
@@ -266,7 +290,7 @@
 		    ) I
 		ON
 		    T.PRODUCT_CODE = I.PRODUCT_CODE
-		INNER JOIN
+		FULL OUTER JOIN
 		    (
 		    SELECT 
 		         O.OI_PRODUCT_CODE 		AS PRODUCT_CODE
@@ -279,7 +303,11 @@
 		        O.OI_PRODUCT_CODE = P.PRODUCT_CODE
 		    <where>
 		    <if test="keyword != '' and keyword != null">
-		        P.PRODUCT_NAME LIKE '%'||#{keyword}||'%'
+		        P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+		    </if>
+		    <if test="keyword2 != '' and keyword2 != null">
+		    AND
+		        P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
 		    </if>
         	<if test="endDate !='' and endDate != null">
         	AND

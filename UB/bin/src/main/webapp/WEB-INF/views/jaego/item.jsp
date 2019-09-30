@@ -19,7 +19,6 @@
 		href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
 	<script type="text/javascript"
 		src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
-	
 
 	<style type="text/css">
 		#jsGrid {margin: auto;}
@@ -37,16 +36,19 @@
 	    }
 	    #sejong {
 			margin: auto;
-			width: 810px;
+			width: 600px;
 			margin-bottom: 15px;
 			padding: 10px;
 			background-color: #f3f0f0;
 		}
 		#dateResult	{
-			width: 810px;
 			text-align: right;
-			margin: auto;
 			font-weight: bold;
+			padding-right: 1px;
+		}
+		#jsGridBackground {
+			margin: auto;
+			width: 600px;
 		}
 	</style>
 
@@ -85,14 +87,16 @@
 	    <input class="form-control" type="search" placeholder="검색할 품목명 입력" id="product_name">
 	  </div>
 	</div>
-	<button type="button" id="btn" class="btn btn-primary btn-sm">검색</button>
+	<button type="button" id="searchBtn" class="btn btn-primary btn-sm">검색</button>
 	<button type="button" id="cancle" class="btn btn-default btn-sm">취소</button>
 </div>
 <!-- ///////////////////////////////////////////////////////////////////////// -->
 
 <!-- jsGrid 생성을 합니다.-->
-<div id="dateResult"></div>
-<div id="jsGrid"></div>
+<div id="jsGridBackground">
+	<div id="dateResult"></div>
+	<div id="jsGrid"></div>
+</div>
    	
 <!-- Paging 처리, Bootstrap -->
 <nav aria-label="..." style="text-align: center;">
@@ -103,7 +107,7 @@
 	<script>
 	var regDate;
 	var product_name;
-		$("#btn").click(function(){
+		$("#searchBtn").click(function(){
 			regDate = $("#date").val();
 			product_name = $("#product_name").val();
 			if(regDate.length > 0) $("#dateResult").text(regDate);
@@ -122,32 +126,33 @@
 			url : "/UntitledBistro/jaego/gridSelectAll"
 		})
 		.done(function(json) {
+			var realData = json.shift();
 			$("#jsGrid").jsGrid({
-				width : "70%",
+				width : "auto",
 				height : "auto",
 				//데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
 				autoload : true,
 				//그리드 헤더 클릭시 sorting이 되게함
 				sorting : true,
 				//json 배열을 데이터에 연결함.
-				data : json, 
+				data : [realData], 
 				//grid에 표현될 필드 요소
 				
 				fields : [ {
 					name : "item_product_code",
 					type : "text",
 					title: "품목코드",
-					width : 100
+					width : 200
 				}, {
 					name : "product_name",
 					type : "text",
 					title : "품목명",
-					width : 100
+					width : 200
 				}, {
 					name : "item_qty",
 					type : "text",
 					title: "재고수량",
-					width : 100,
+					width : 200,
 				}]
 			
 			});
@@ -158,7 +163,7 @@
 			$.ajax({
 				type : "get", 
 				url : "/UntitledBistro/jaego/gridSelectAll",
-				data : {"pageNum" : page, "startDate" : regDate, "keyword" : product_name},
+				data : {"pageNum" : page, "endDate" : regDate, "keyword" : product_name},
 				success : function(json) {
 					$(".pagination").html(json[json.length-1]);
 					$("#jsGrid").jsGrid({data:json});

@@ -4,6 +4,7 @@
 
 $(document).ready(function() {
 	$("#yearInput").hide();
+	$("#yearInput2").hide();
 	yearBasic();
 	var today = dateFormat(new Date());
 	var date = today.split("/");

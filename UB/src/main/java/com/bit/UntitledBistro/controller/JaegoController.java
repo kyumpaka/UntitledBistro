@@ -97,6 +97,12 @@ public class JaegoController {
 	@RequestMapping(value = "/gridChangeItemSelectAll")
 	public @ResponseBody List<ChangeItemDTO> gridChangeItemSelectAll(Condition condition) {
 		logger.info("여기는 그리드 재고변동 조회 컨트롤러 입니다.");
+		logger.info("==================================");
+		logger.info("keyword : " + condition.getKeyword());
+		logger.info("keyword2 : " + condition.getKeyword2());
+		logger.info("startDate : " + condition.getStartDate());
+		logger.info("endDate : " + condition.getEndDate());
+		logger.info("==================================");
 		return dao.changeItemSelectAll(condition);
 	}
 	
