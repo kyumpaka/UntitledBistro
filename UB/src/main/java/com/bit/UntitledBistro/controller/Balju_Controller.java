@@ -3,6 +3,7 @@ package com.bit.UntitledBistro.controller;
 
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +33,7 @@ public class Balju_Controller {
 	
 	private static final Logger logger = LoggerFactory.getLogger(Balju_Controller.class);
 	
+	////////// 일반 페이지 영역 //////////
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String a() {
 		System.out.println("메인페이지에 접속되었습니다.");
@@ -76,7 +78,11 @@ public class Balju_Controller {
 	public void f() {
 		System.out.println("발주관리에 접속되었습니다.");
 	}
-	///이
+	//////////일반 페이지 영역 //////////
+	
+	
+	////////// 기능 구현 영역 //////////
+	//발주계획입력
 	@RequestMapping(value = "/balju_Plan_Input", method = RequestMethod.POST)
 	@ResponseBody
 	public Object balju_Plan_Input(@RequestBody List<Map<String, String>> list, Balju_PlanDTO BPdto) throws Exception{
@@ -89,8 +95,10 @@ public class Balju_Controller {
 		
 		this.balju_Service.insert_Balju_Plan1();
 	try {
+		int index = 1;
 		for (Map<String, String> data : list) {
 			  System.out.println("들어갈 칼럼명과 데이터 : " + data.toString());
+			  BPdto.setORDPL_ONUM(index++);
 			  BPdto.setORDPL_PRODUCT_CODE(data.get("ORDPL_PRODUCT_CODE"));
 			  BPdto.setORDPL_PRODUCT_NAME(data.get("ORDPL_PRODUCT_NAME"));
 			  BPdto.setORDPL_PRODUCT_STNDR(data.get("ORDPL_PRODUCT_STNDR"));
@@ -113,16 +121,82 @@ public class Balju_Controller {
 		return resultMap;
 	}
 	
+	//발주계획현황 그리드 데이터 로딩
 	@RequestMapping(value ="/balju_Plan_Result", method = RequestMethod.GET)
 	@ResponseBody
-	public List Balju_Plan_Result(Balju_PlanDTO BPdto) throws Exception{
-		System.out.println("발주계획현황에 접속되었습니다.");
-		System.out.println("발주계획현황에 접속되었습니다.");
-		System.out.println("발주계획현황에 접속되었습니다.");
-		List list = this.balju_Service.balju_Plan_list(BPdto);
+	public List<?> Balju_Plan_Result(Balju_PlanDTO BPdto) throws Exception{
 		
+		logger.info("발주계획현황에 접속되었습니다.");
+		List<?> list = this.balju_Service.balju_Plan_list(BPdto);
 		return list;
+		
 	}
+	
+	@RequestMapping(value = "/balju_Plan_Update", method = RequestMethod.POST)
+	@ResponseBody
+	public Object Balju_Plan_Modi(@RequestBody ArrayList<String> list, Balju_PlanDTO BPdto) {
+		
+		Map<String, String> resultMap = new HashMap<String, String>();
+		
+		String result = null;
+		String resultMsg = null;
+		
+		logger.info("첫번째 리스트 값 : " + list.get(0).toString());
+		logger.info("두번째 리스트 값 : " + list.get(1).toString());
+		logger.info("세번째 리스트 값 : " + list.get(2).toString());
+		
+		try {
+			BPdto.setORDPL_ORDLIN_NUM(Integer.parseInt(list.get(0)));
+			BPdto.setORDPL_ONUM(Integer.parseInt(list.get(1)));
+			BPdto.setORDPL_QT(Integer.parseInt(list.get(2)));
+			
+			this.balju_Service.balju_Plan_modi(BPdto);
+			
+			result = "success";
+			resultMsg = "수정 성공";
+		} catch (Exception e) {
+			result = "failure";
+			resultMsg = "수정 실패";
+		}
+		resultMap.put("result", result);
+		resultMap.put("resultMsg", resultMsg);
+		
+		return resultMap;
+		
+	}
+	
+	@RequestMapping(value = "/balju_Plan_Delete", method = RequestMethod.POST)
+	@ResponseBody
+	public Object balju_Plan_Delete(@RequestBody ArrayList<String> list, Balju_PlanDTO BPdto) {
+		
+		Map<String, String> resultMap = new HashMap<String, String>();
+		
+		String result = null;
+		String resultMsg = null;
+		
+		logger.info("첫번째 리스트 값 : " + list.get(0).toString());
+		logger.info("두번째 리스트 값 : " + list.get(1).toString());
+		
+		try {
+			BPdto.setORDPL_ORDLIN_NUM(Integer.parseInt(list.get(0)));
+			BPdto.setORDPL_ONUM(Integer.parseInt(list.get(1)));
+			
+			this.balju_Service.Delete_Balju_Plan1(BPdto);
+			
+			result = "success";
+			resultMsg = "삭제 성공";
+		} catch (Exception e) {
+			result = "failure";
+			resultMsg = "삭제 실패";
+		}
+		resultMap.put("result", result);
+		resultMap.put("resultMsg", resultMsg);
+		
+		return resultMap;
+		
+	}
+	//////////기능 구현 영역 //////////
+	
 	
 	//팝업창 영역
 	

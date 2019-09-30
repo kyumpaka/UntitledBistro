@@ -176,7 +176,7 @@
 						</div>
 						<div id="jsGrid"></div>
 						<script>
-							var Data = [{ "ORDPL_PRODUCT_NAME":"하이하이"}];
+							var Data = [];
 							$("#jsGrid").jsGrid({
 								width:"100%",
 								height : "400px",
@@ -239,7 +239,6 @@
 				url: "${path}/balju_Plan_Input",
 				success:function(result){
 						var jsonResult = JSON.parse(JSON.stringify(result));
-
 						if(jsonResult.result == "success"){
 								alert(jsonResult.resultMsg);
 								

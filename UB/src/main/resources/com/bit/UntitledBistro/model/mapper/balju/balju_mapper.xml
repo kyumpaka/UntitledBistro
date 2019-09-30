@@ -35,7 +35,7 @@
   		VALUES
   		(	
   			(SELECT MAX(ORPLIN_NUM) FROM ORPL_INPUT),
-  			(SELECT NVL(MAX(ORDPL_ONUM),0)+1 FROM ORDER_PLAN),
+  			#{ORDPL_ONUM},
   			#{ORDPL_PRODUCT_CODE},
   			#{ORDPL_PRODUCT_NAME},
   			#{ORDPL_PRODUCT_STNDR},
@@ -176,6 +176,7 @@
   	<![CDATA[
   		SELECT  
   			ORDPL_ORDLIN_NUM,
+  			ORDPL_ONUM,
   			TO_CHAR(ORPLIN_DATE,'YYYY-MM-DD'),
   			ORDPL_PRODUCT_CODE,
   			ORDPL_PRODUCT_NAME,
@@ -218,15 +219,13 @@
   	<![CDATA[
   		UPDATE ORDER_PLAN
   		SET
-  			ORDPL_ORDLIN_NUM = #{ORDPL_ORDLIN_NUM},
-  			ORDPL_ONUM = #{ORDPL_ONUM},
-  			ORDPL_PRODUCT_CODE = #{ORDPL_PRODUCT_CODE},
-        	ORDPL_QT = #{ORDPL_QT},
-        	ORDPL_WR = #{ORDPL_WR},
-        	ORDPL_STAT = #{ORDPL_STAT},
-        	ORDPL_END = #{ORDPL_END}
+  			
+        	ORDPL_QT = #{ORDPL_QT}
+        	
         WHERE 
         	ORDPL_ORDLIN_NUM = #{ORDPL_ORDLIN_NUM}
+        AND
+        	ORDPL_ONUM = #{ORDPL_ONUM}
   	]]>	
   </update>
   

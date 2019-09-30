@@ -7,12 +7,12 @@
 	public class Balju_PlanDTO {
 
 		//발주계획 넘버링 테이블
-		private String ORPLIN_NUM;
+		private int ORPLIN_NUM;
 		private Date ORPLIN_DATE;
 		
 		//발주계획상세내역 테이블
-		private String ORDPL_ORDLIN_NUM;
-		private String ORDPL_ONUM;
+		private int ORDPL_ORDLIN_NUM;
+		private int ORDPL_ONUM;
 		private String ORDPL_PRODUCT_CODE;
 		private String ORDPL_PRODUCT_NAME;
 		private String ORDPL_PRODUCT_STNDR;
@@ -31,10 +31,10 @@
 					+ ", ORDPL_END=" + ORDPL_END + "]";
 		}
 		
-		public String getORPLIN_NUM() {
+		public int getORPLIN_NUM() {
 			return ORPLIN_NUM;
 		}
-		public void setORPLIN_NUM(String oRPLIN_NUM) {
+		public void setORPLIN_NUM(int oRPLIN_NUM) {
 			ORPLIN_NUM = oRPLIN_NUM;
 		}
 		public Date getORPLIN_DATE() {
@@ -43,16 +43,16 @@
 		public void setORPLIN_DATE(Date oRPLIN_DATE) {
 			ORPLIN_DATE = oRPLIN_DATE;
 		}
-		public String getORDPL_ORDLIN_NUM() {
+		public int getORDPL_ORDLIN_NUM() {
 			return ORDPL_ORDLIN_NUM;
 		}
-		public void setORDPL_ORDLIN_NUM(String oRDPL_ORDLIN_NUM) {
+		public void setORDPL_ORDLIN_NUM(int oRDPL_ORDLIN_NUM) {
 			ORDPL_ORDLIN_NUM = oRDPL_ORDLIN_NUM;
 		}
-		public String getORDPL_ONUM() {
+		public int getORDPL_ONUM() {
 			return ORDPL_ONUM;
 		}
-		public void setORDPL_ONUM(String oRDPL_ONUM) {
+		public void setORDPL_ONUM(int oRDPL_ONUM) {
 			ORDPL_ONUM = oRDPL_ONUM;
 		}
 		public String getORDPL_PRODUCT_CODE() {
