@@ -21,123 +21,173 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
 		
 	<style type="text/css">
-		#jsGrid {margin: auto;}
-		.jsgrid-header-scrollbar {overflow: hidden;}
-		.jsgrid-grid-body {overflow: hidden;}
-		.container {width: 165px; display: inline-block;}
-		.input-group-addon {
-	    	width: 39px;
-			height: 34px;
-	    }
-	    #yy-mm-dd {
-	    	width: 81px;
-	    	display: -webkit-box;
-	    	margin-left: 0px;
-	    }
-	    #sejong {
-			margin: auto;
-			width: 600px;
-			margin-bottom: 15px;
-			padding: 10px;
-			background-color: #f3f0f0;
-		}
-		#dateResult	{
-			text-align: right;
-			font-weight: bold;
-			padding-right: 1px;
-		}
-		#jsGridBackground {
-			margin: auto;
-			width: 600px;
-		}
+		#jsGrid {
+	margin: auto;
+}
+.form-inline {
+	display: grid;
+}
+.jsgrid-header-scrollbar {
+	overflow: hidden;
+}
+
+.jsgrid-grid-body {
+	overflow: hidden;
+}
+
+/* .container {
+	width: 165px;
+	display: inline-block;
+} */
+
+.input-group-addon {
+	width: 39px;
+	height: 34px;
+}
+
+.input-group {
+	width: 25px;
+}
+
+.form-group {
+	display: flex;
+	padding-bottom: 5px;
+	padding-top: 5px;
+}
+
+.input-group date {
+	margin-left: -4px;
+}
+
+#yearInput, #yearInput2 {
+	width: 79px;
+	margin-right: 5px;
+}
+
+#year, #year2 {
+	width: 79px;
+	margin-right: 5px;
+}
+
+#month, #month2 {
+	width: 75px;
+	margin-right: 5px;
+}
+
+#day, #day2 {
+	width: 42px;
+}
+
+#sejong {
+	margin: auto;
+	width: 600px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	padding: 10px;
+	background-color: #f3f0f0;
+}
+
+#dateResult {
+	text-align: right;
+	font-weight: bold;
+	padding-right: 1px;
+}
+
+#jsGridBackground {
+	margin: auto;
+	width: 600px;
+}
+
+#centher {
+	width: 50px;
+}
+#search, #search2 {
+	display: inline-flex;
+}
 	</style>
 
 <title>JSP</title>
 </head>
 <body>
-	<h1>출고현황</h1>
+<div class="page-header">
+    <h1><a href="">출고현황(OUT_ITEM)</a></h1>
+</div>
 
 <!-- /////////////////////////////////////////////////////////////////////////////////////// -->
 <div id="sejong">
-	<div class="form-group row" id="yy-mm-dd">
-		<input type="text" id="yearInput" class="form-control">
-		<select id="year" class="form-control"></select>
-		<select id="month" class="form-control">
-			<option value="01">1월
-			<option value="02">2월
-			<option value="03">3월
-			<option value="04">4월
-			<option value="05">5월
-			<option value="06">6월
-			<option value="07">7월
-			<option value="08">8월
-			<option value="09">9월
-			<option value="10">10월
-			<option value="11">11월
-			<option value="12">12월
-		</select>
-		<input type="text" id="day" class="form-control" maxlength="2">
-	    <span class="input-group date">
-	        <input type="hidden" id="date" >
-	        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-	    </span>
+
+		<!-- //////////////////////////////////////////////////////////////////////// -->
+		<div class="form-inline">
+			<div class="form-group" id="yy-mm-dd">
+				<!-- //////////////////////////////////////////////////////////////////////// -->
+				<input type="text" id="yearInput" class="form-control"> 
+				<select id="year" class="form-control"></select> 
+				<select id="month" class="form-control">
+					<option value="01">1월
+					<option value="02">2월
+					<option value="03">3월
+					<option value="04">4월
+					<option value="05">5월
+					<option value="06">6월
+					<option value="07">7월
+					<option value="08">8월
+					<option value="09">9월
+					<option value="10">10월
+					<option value="11">11월
+					<option value="12">12월
+			
+				</select>
+			<input type="text" id="day" class="form-control" maxlength="2">
+		    <span class="input-group date">
+		        <input type="hidden" id="date">
+		        <span class="input-group-addon">
+		        	<i class="glyphicon glyphicon-calendar"></i>
+		        </span>
+		    </span>
+		</div>
+	  
+	<div id="search" class="form-group">
+		  <label for="product_code" class="col-2 col-form-label">품목코드</label>
+		  <div class="col-10">
+		  	<input class="form-control" type="search" placeholder="검색할 품목코드 입력" id="product_code">
+		  </div>
 	</div>
-	<div class="form-group row">
-	  <label for="product_name" class="col-2 col-form-label">품목명</label>
-	  <div class="col-10">
-	    <input class="form-control" type="search" placeholder="검색할 품목명 입력" id="product_name">
-	  </div>
+	<div id="search2" class="form-group">
+		  <label for="product_name" class="col-2 col-form-label">품목명</label>
+		  <div class="col-10">
+		  	<input class="form-control" type="search" placeholder="검색할 품목명 입력" id="product_name">
+		  </div>
+	</div>
+		
 	</div>
 	<button type="button" id="searchBtn" class="btn btn-primary btn-sm">검색</button>
 	<button type="button" id="cancle" class="btn btn-default btn-sm">취소</button>
+	<!-- //////////////////////////////////////////////////////////////////////// -->
 </div>
-<!-- ///////////////////////////////////////////////////////////////////////// -->
-
 <!-- jsGrid 생성을 합니다.-->
-<div id="jsGrid"></div>
+<div id="jsGridBackground">
+	<div id="dateResult"></div>
+	<div id="jsGrid"></div>
+</div>
 	
 </body>
 	<script>
-	var regDate;
-	var product_name;
-		function dataLoad(page, regDate, product_name) {
-			$.ajax({
-				type : "get", 
-				url : "/UntitledBistro/jaego/gridOutItemSelectAll",
-				data : {"pageNum" : page, "endDate" : regDate, "keyword" : product_name},
-				success : function(json) {
-					/* $(".pagination").html(json[json.length-1]); */
-					console.log(json);
-					$("#jsGrid").jsGrid({data:json});
-					$("#jsGrid").jsGrid("loadData");
-				}
-			})
-		}
-		$("#searchBtn").click(function(){
-			regDate = $("#date").val();
-			product_name = $("#product_name").val();
-			if(regDate.length > 0) $("#dateResult").text(regDate);
-			
-			dataLoad(1, regDate, product_name)
-			
-		});
-		$(document).on("click","#cancle",function(){
-			$("#date").val("");
-			$("#dateResult").text("");
-			$("#product_name").text("");
-		});
-		
-		var original = null;
+	var ogStartDate;
+	var ogEndDate;
+	$(document).ready(function() {
+		var now = new Date();
+		ogEndDate = dateFormat(now);
+
 		$.ajax({
 			type:"get",
 			url:"${path}/jaego/gridOutItemSelectAll",
+			data : {"endDate" : ogEndDate}
 		})
 		.done(function(json) {
 			original = json;
 			$("#jsGrid").jsGrid({
-				width : "70%",
+				width : "100%",
 				height : "auto",
-				/* filtering : true, */
 				//데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
 				autoload : true,
 				//그리드 헤더 클릭시 sorting이 되게함
@@ -163,48 +213,61 @@
 				}, {
 					name : "oi_qty",
 					type : "text",
-					title: "재고수량",
+					title: "출고수량",
 					width : 100
 				}, {
 					name : "oi_date",
 					type : "text",
 					title: "등록일자",
 					width : 100
-				}/* ,{
-					type : "control", 
-					editButton: false,                               // show edit button
-                    deleteButton: false,                             // show delete button
-                    clearFilterButton: true                        // show clear filter button
-				} */], 
-				 /*
-				 controller : {
-					loadData: function(filter) {
-						if(filter.oi_product_code === "" && filter.product_name === "" && filter.oi_qty === "" && filter.oi_date === "") {
-							return original;
-						}
-						
-						var dd = original;
-						if(filter.oi_product_code !== "") dd = valueTest(dd,"oi_product_code",filter);
-						if(filter.product_name !== "") dd = valueTest(dd,"product_name",filter);
-						if(filter.oi_qty !== "") dd = valueTest(dd,"oi_qty",filter);
-						if(filter.oi_date !== "") dd = valueTest(dd,"oi_date",filter);
-						
-						return dd;
-					}
-					
-				}
-				 */
+				}]
 			}); // 그리드 끝
 		}); // ajax 끝
+	});
+
+	function dataLoad(page, endDate, product_code, product_name) {
 		
-		function valueTest(arr,condition,filter) {
-			return $.grep(arr, function(i) {
-				if(condition == "oi_product_code") return i.oi_product_code.indexOf(filter.oi_product_code) != -1;
-				if(condition == "product_name") return i.product_name.indexOf(filter.product_name) != -1;
-				if(condition == "oi_qty") return String(i.oi_qty).indexOf(filter.oi_qty) != -1;
-				if(condition == "oi_date") return i.oi_date.indexOf(filter.oi_date) != -1;
-			});
+		$.ajax({
+			type : "get", 
+			url : "/UntitledBistro/jaego/gridOutItemSelectAll",
+			data : {"pageNum" : page, "endDate" : endDate, "keyword" : product_code, "keyword2" : product_name},
+			success : function(json) {
+				$(".pagination").html(json[json.length-1]);
+				console.log(json);
+				$("#jsGrid").jsGrid({data:json});
+				$("#jsGrid").jsGrid("loadData");
+			}
+		})
+	}
+	$("#searchBtn").click(function(){
+		console.log("검색테스트...");
+		if($("#yy-mm-dd").css("border") == "1px solid rgb(255, 0, 0)") {
+		console.log("검색테스트2...");
+			alert("올바른 검색조건으로 입력하세요.");
+			return;
 		}
+		
+		var endDate = $("#date").val();
+		if(endDate == "") {
+			endDate = ogEndDate
+		}
+		
+		var product_code = $("#product_code").val();
+		var product_name = $("#product_name").val();
+		console.log("aaaaaaaaaaaaaaaaaaa");
+		console.log(product_code);
+		console.log(product_name);
+		console.log("bbbbbbbbbbbbbbbbbbb");
+		$("#dateResult").text(endDate);			
+		dataLoad(1, endDate, product_code, product_name);
+		
+	});
+	$(document).on("click","#cancle",function(){
+		$("#date").val("");
+		$("#dateResult").text("");
+		$("#product_code").text("");
+		$("#product_name").text("");
+	});
 		
 	</script>
 	<script type="text/javascript" src="${path}/resources/js/jaego/datePicker.js"></script>

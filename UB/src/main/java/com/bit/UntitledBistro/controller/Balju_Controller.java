@@ -132,7 +132,7 @@ public class Balju_Controller {
 		System.out.println("품목 새창  띄우기 기능이 실행되었습니다.");
 		List<Map<String,String>> list = this.balju_Service.item_list(Idto);
 		model.addAttribute("item_list", list);
-		return "balju/popup/Item_List";
+		return "views/balju/popup/Item_List";
 	}
 	
 }

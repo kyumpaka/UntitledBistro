@@ -195,7 +195,7 @@
 	<div id="dateResult"></div>
 	<div id="jsGrid"></div>
 	<nav>
-	<ul class="pagination" id="page2">
+	<ul class="pagination" id="page">
 		
 	</ul>
 	</nav>	
@@ -233,7 +233,7 @@
 				pageSize : 10,
 				pageButtonCount : 5,
 				
-				pagerContainer: "#page2",
+				pagerContainer: "#page",
                 pagerFormat: "{first} {prev} {pages} {next} {last}",
                 pagePrevText: "<",
                 pageNextText: ">",
@@ -284,7 +284,6 @@
 			alert("올바른 검색조건으로 입력하세요.");
 			return;
 		}
-		
 		var endDate = $("#date").val();
 		if(endDate == "") {
 			endDate = ogEndDate
@@ -306,7 +305,7 @@
 		$("#product_code").text("");
 		$("#product_name").text("");
 	});
-		
+
 	</script>
 	
 </body>

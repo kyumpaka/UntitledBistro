@@ -277,7 +277,10 @@
 			if(endDate == "") {
 				endDate = ogEndDate
 			}
-			
+			if(startDate > endDate) {
+				alert("시작날짜가 종료날짜보다 클 수는 없습니다.");
+				return;
+			}
 			var product_code = $("#product_code").val();
 			var product_name = $("#product_name").val();
 			console.log("aaaaaaaaaaaaaaaaaaa");

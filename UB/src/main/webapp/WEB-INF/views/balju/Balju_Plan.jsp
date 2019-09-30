@@ -176,7 +176,8 @@
 						</div>
 						<div id="jsGrid"></div>
 						<script>
-							var Data = [{ "ORDPL_PRODUCT_NAME":"하이하이"}];
+							/* var Data = [{ "ORDPL_PRODUCT_NAME":"더미값"}]; */
+							var Data = [];
 							$("#jsGrid").jsGrid({
 								width:"100%",
 								height : "400px",
@@ -195,8 +196,7 @@
 									{name:"ORDPL_QT", type:"text", width:150, title:"수량"},
 									{name:"ORDPL_PR_EA", type:"text", width:150, title:"단가"},
 									{name:"ORDPL_WR", type:"text", width:150, title:"작성자"},
-									{ type : 'control'}
-									]
+									{ type : 'control'}]
 								
 								});
 						</script>
