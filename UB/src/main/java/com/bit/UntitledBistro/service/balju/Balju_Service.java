@@ -10,7 +10,8 @@ import com.bit.UntitledBistro.model.balju.Item_DTO;
 
 public interface Balju_Service {
 
-	void insert_Balju_Plan1(Balju_PlanDTO BPdto);
+	void insert_Balju_Plan1();
+	void insert_Balju_Plan2(Balju_PlanDTO BPdto);
 	void insert_Balju1(Balju_DTO Bdto);
 	void insert_Balju_Save1(Balju_SaveDTO BSdto);
 

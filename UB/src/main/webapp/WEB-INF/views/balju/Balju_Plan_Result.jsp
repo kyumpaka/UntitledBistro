@@ -68,90 +68,53 @@
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-header">
-							발주물품 정보<small><code> 이 부분은 잠시대기 </code></small>
+							발주물품 정보<small><code> 수량만 수정가능합니다 </code></small>
 						</div>
 			<div id="jsGrid"></div>
-			<script>
-				var update_item = {};
-				//수정할 데이터의 값을 임시적으로 갖고 있을 jsonobj
+	<script>
+	var update_item = {};
+	//수정할 데이터의 값을 임시적으로 갖고 있을 jsonobj
 
-				//데이트 피커 부분
+	//데이트 피커 부분
 
-				$.ajax({
-					type : "get",
-					url : "${path}/balju_Plan_Result",
-				}).done(function(json) {
-					$("#jsGrid").jsGrid({
-						width : "100%",
-						height : "auto",
-						editing : true,
-						//데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
-						autoload : true,
-						//그리드 헤더 클릭시 sorting이 되게함
-						sorting : true,
-						// 페이징 처리
-						paging : true,
-						pageSize : 10,
-						pageButtonCount : 5,
-						//json 배열을 데이터에 연결함.
-						data : json,
-						deleteConfirm: function(item){
-								return item.ORDPL_ONUM + "를 삭제하시겠습니까?"
-							},
-						//grid에 표현될 필드 요소
-						fields : [  
-							{
-							name : "ORDPL_ORDLIN_NUM",
-							type : "text",
-							title : "발주계획번호",
-							align: "center",
-							readOnly : true,
-							width : 120
-						}, {
-							name : "TO_CHAR(ORPLIN_DATE,'YYYY-MM-DD')",
-							type : "text",
-							title : "날짜",
-							width : 100
-						}, {
-							name : "ORDPL_ONUM",
-							type : "text",
-							title : "발주물품번호",
-							align: "center",
-							width : 120
-						}, {
-							name : "ORDPL_PRODUCT_CODE",
-							type : "text",
-							title : "제품번호",
-							align: "center",
-							width : 150
-						}, {
-							name : "ORDPL_QT",
-							type : "text",
-							title : "수량",
-							align: "center",
-							width : 120
-						}, {
-							name : "ORDPL_WR",
-							type : "text",
-							title : "작성자",
-							align: "center",
-							width : 100
-						}, {
-							name : "ORDPL_STAT",
-							type : "text",
-							title : "발주상태",
-							align: "center",
-							width : 100
-						}, {
-							name : "ORDPL_END",
-							type : "text",
-							title : "완료여부",
-							align: "center",
-							width : 100
-						}, {
-							type : "control",
-							deleteButton : true
-						} ]
+	$.ajax({
+		type : "get",
+		url : "${path}/balju_Plan_Result",
+		}).done(function(json) {
+			$("#jsGrid").jsGrid({
+				width : "100%",
+				height : "auto",
+				editing : true,
+				//데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
+				autoload : true,
+				//그리드 헤더 클릭시 sorting이 되게함
+				sorting : true,
+				// 페이징 처리
+				paging : true,
+				pageSize : 10,
+				pageButtonCount : 5,
+				//json 배열을 데이터에 연결함.
+				data : json,
+				deleteConfirm: function(item){
+						return item.ORDPL_PRODUCT_NAME + "를 삭제하시겠습니까?"
+					},
+				//grid에 표현될 필드 요소
+				fields : [ 
+					{name : "ORDPL_ORDLIN_NUM",  type : "text", title : "발주계획번호", align: "center",
+					 readOnly : true, width : 120}, 
+					{name : "TO_CHAR(ORPLIN_DATE,'YYYY-MM-DD')", type : "text", title : "날짜", align: "center",
+					 readOnly : true, width : 100}, 
+					{name : "ORDPL_PRODUCT_CODE",type : "text",title : "품목코드", align: "center",
+					 readOnly : true, width : 150}, 
+					{name : "ORDPL_PRODUCT_NAME",type : "text",title : "품목명", align: "center",
+					 readOnly : true, width : 150}, 
+					{name : "ORDPL_PRODUCT_STNDR",type : "text",title : "규격", align: "center",
+					 readOnly : true, width : 150}, 
+					{name : "ORDPL_QT", type : "text", title : "수량", align: "center", width : 120},
+					{name : "ORDPL_PR_EA", type : "text", title : "단가", align: "center", readOnly : true, width : 120}, 
+					{name : "ORDPL_WR", type : "text", title : "작성자", align: "center", readOnly : true, width : 100}, 
+					{type : "control", editButton: false, deleteButton : true} ]
+
 					}); // 그리드 끝
 				}); // ajax 끝
 
@@ -164,10 +127,11 @@
 					$("#jsGrid").jsGrid("cancelEdit");
 				}); */
 			</script>
+			<!-- 꾸미기용 card-footer -->
 			<div class="card-footer">
-							<button id="grid_Data" class="btn btn-primary btn-lg pull-right">등록</button>
+							<br>
 						</div>
-						
+			<!-- 꾸미기용 card-footer -->			
 					</div>
 				</div>
 			</div>

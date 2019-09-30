@@ -16,14 +16,13 @@ public class Balju_DAOimpl implements Balju_DAO {
 	// namespace = "매퍼경로"; 생략 후 직접 입력 balju.
 	
 	@Override
-	public void insert_Balju_Plan1(Balju_PlanDTO BPdto) {
-		sqlSession.insert("balju.insert_Balju_Plan1", BPdto);
+	public void insert_Balju_Plan1() {
+		sqlSession.insert("balju.insert_Balju_Plan1");
 	}
 
 	@Override
 	public void insert_Balju_Plan2(Balju_PlanDTO BPdto) {
 		sqlSession.insert("balju.insert_Balju_Plan2", BPdto);
-
 	}
 
 	@Override
