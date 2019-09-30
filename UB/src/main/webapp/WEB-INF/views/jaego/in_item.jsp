@@ -239,6 +239,11 @@ function dataLoad(page, endDate, product_code, product_name) {
 	})
 }
 $("#searchBtn").click(function(){
+	if($("#yy-mm-dd").css("border") == "1px solid rgb(255, 0, 0)") {
+		alert("올바른 검색조건으로 입력하세요.");
+		return;
+	}
+	
 	var endDate = $("#date").val();
 	if(endDate == "") {
 		endDate = ogEndDate

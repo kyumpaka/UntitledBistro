@@ -239,6 +239,13 @@
 		})
 	}
 	$("#searchBtn").click(function(){
+		console.log("검색테스트...");
+		if($("#yy-mm-dd").css("border") == "1px solid rgb(255, 0, 0)") {
+		console.log("검색테스트2...");
+			alert("올바른 검색조건으로 입력하세요.");
+			return;
+		}
+		
 		var endDate = $("#date").val();
 		if(endDate == "") {
 			endDate = ogEndDate
