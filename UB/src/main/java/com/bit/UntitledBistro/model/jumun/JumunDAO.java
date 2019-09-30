@@ -74,8 +74,6 @@ public interface JumunDAO {
 	
 	public ArrayList<PaymentDTO> paymentSelect();
 	
-	public ArrayList<SalesDetailsDTO> salesDetailesSelect(SalesDTO salesDTO);
-	
 	// 결제
 	public int salesInsert();
 
@@ -100,5 +98,8 @@ public interface JumunDAO {
 	public int memberPointUpdateById(Map<String, String> map);
 
 	public int memberPointDowndateById(Map<String, String> map);
+
+	public int ordersCheck(Map<String, String> map);
 	
+	public ArrayList<SalesDetailsDTO> salesDetailesSelect(SalesDTO salesDTO);
 }

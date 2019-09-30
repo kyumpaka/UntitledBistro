@@ -3,10 +3,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>PDF</title>
+<title>Insert title here</title>
 </head>
 <body>
-<h2>${message}</h2>
+취소
 </body>
 </html>
-http://localhost:8095/UntitledBistro/jumun/pdf.do?orders_No=1

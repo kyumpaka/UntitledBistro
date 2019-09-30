@@ -15,11 +15,11 @@
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>발주</a>
                         <ul class="sub-menu children dropdown-menu">     
-                            <li><i class="fa fa-id-badge"></i><a href="ui-badges.html">계획 등록</a></li>
-                            <li><i class="fa fa-bars"></i><a href="ui-tabs.html">계획 현황</a></li>
-                            <li><i class="fa fa-id-card-o"></i><a href="ui-cards.html">발주 등록</a></li>
-                            <li><i class="fa fa-exclamation-triangle"></i><a href="ui-alerts.html">발주 조회</a></li>
-                            <li><i class="fa fa-spinner"></i><a href="ui-progressbar.html">발주 현황</a></li>
+                            <li><i class="fa fa-id-badge"></i><a href="${path}/balju/Balju_Plan">계획 등록</a></li>
+                            <li><i class="fa fa-bars"></i><a href="${path}/balju/Balju_Plan_Result">계획 현황</a></li>
+                            <li><i class="fa fa-id-card-o"></i><a href="${path}/balju/Balju">발주 등록</a></li>
+                            <li><i class="fa fa-exclamation-triangle"></i><a href="${path}/balju/Balju_Mng">발주 관리</a></li>
+                            <li><i class="fa fa-spinner"></i><a href="${path}/balju/Balju_Result">발주 현황</a></li>
                         </ul>
                     </li>
                     <li class="menu-item-has-children dropdown">
@@ -47,8 +47,8 @@
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>결산</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-line-chart"></i><a href="charts-chartjs.html">결산 현황</a></li>
-                            <li><i class="menu-icon fa fa-pie-chart"></i><a href="charts-peity.html">결산 마감</a></li>
+                            <li><i class="menu-icon fa fa-line-chart"></i><a href="JungsanForm.html">결산 현황</a></li>
+                            <li><i class="menu-icon fa fa-pie-chart"></i><a href="deadlineForm.html">결산 마감</a></li>
                         </ul>
                     </li>
 
@@ -58,7 +58,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>사원관리</a>
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="menu-icon fa fa-sign-in"></i><a href="page-login.html">직원 등록</a></li>
-                            <li><i class="menu-icon fa fa-sign-in"></i><a href="page-register.html">직원 목록</a></li>
+                            <li><i class="menu-icon fa fa-sign-in"></i><a href="${path}/EmpRegisterList">직원 목록</a></li>
                             <li><i class="menu-icon fa fa-paper-plane"></i><a href="pages-forget.html">급여 확인</a></li>
                             <li><i class="fa fa-bars"></i><a href="ui-tabs.html">근무 스케줄</a></li>
                         </ul>
@@ -66,10 +66,9 @@
                       <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-area-chart"></i>서비스</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-map-o"></i><a href="maps-gmap.html">회원 목록</a></li>
-                            <li><i class="menu-icon fa fa-street-view"></i><a href="maps-vector.html">회원 관리</a></li>
-                            <li><i class="fa fa-id-card-o"></i><a href="ui-cards.html">포인트 현황</a></li>
-                            <li><i class="fa fa-calendar-check-o"></i><a href="ui-cards.html">예약관리</a></li>
+                            <li><i class="menu-icon fa fa-map-o"></i><a href="${path}/Seobis_mList">회원 관리</a></li>
+                            <li><i class="menu-icon fa fa-street-view"></i><a href="${path}/Seobis_jUs">회원 가입</a></li>
+                            <li><i class="fa fa-calendar-check-o"></i><a href="${path}/Seobis_cal">예약 관리</a></li>
                         </ul>
                     </li>
                 </ul>

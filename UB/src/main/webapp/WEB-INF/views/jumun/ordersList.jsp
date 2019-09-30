@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -173,13 +174,13 @@
 							<br>
 							<div class="row">
 								<div class="col-md-4">
-									<div class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 주문 </div>
+									<div class="btn  btn-primary btn-lg btn-block" onclick="orderStart('${orders_No}')"><i class="fa fa-shopping-bag"></i> 주문 </div>
 								</div>
 								<div class="col-md-4">
-									<div class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 출력 </div>
+									<div class="btn  btn-primary btn-lg btn-block" onclick="orderPrint('${orders_No}')"><i class="fa fa-shopping-bag"></i> 출력 </div>
 								</div>
 								<div class="col-md-4">
-									<a href="posMain.do" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 메인 </a>
+									<div class="btn  btn-primary btn-lg btn-block" onclick="goPosMain('${orders_No}')"><i class="fa fa-shopping-bag"></i> 메인 </div>
 								</div>
 							</div>
 						</div>
@@ -191,6 +192,7 @@
 	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/jquery-2.0.0.min.js" type="text/javascript"></script>
 	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/OverlayScrollbars.js" type="text/javascript"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
 		$(function() {
 			$("#items").height(552);
@@ -363,6 +365,8 @@
 					  }
 				  }
 			});
+
+			
 		};
 
 		// 한개 제품 모든 주문취소
@@ -424,6 +428,73 @@
 					  }
 				});
 			}
+		};
+
+		function orderStart(ordersNo) {
+			$.ajax({
+				  url: 'odersCheck.do',
+				  type: 'post',
+				  data: { orders_No:ordersNo },
+				  dataType: 'json',
+				  success : function(result) {
+	            		if(result > 0) {
+	            			swal({
+	        					title: "주방에 주문이 접수되었습니다.",
+	        					icon: "success",
+	        					button: "닫기",
+		        			}).then((value) => {
+		        					var width = 1000;
+		        					var height = 500;
+		        					var popupX = (window.screen.width / 2) - (width / 2);
+		        					var popupY = (window.screen.height / 2) - (height / 2);
+		        					window.open('ordersPDF.do?orders_No='+ordersNo,'주문하기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+		        				    location.href='posMain.do';
+		        			});
+		            	} else {
+		            		swal({
+	        					title: "주문내역이 없습니다.",
+	        					icon: "warning",
+	        					button: "닫기",
+		        			});
+			            }
+	            }
+	        });
+		};
+
+		function orderPrint(ordersNo) {
+			$.ajax({
+				  url: 'odersCheck.do',
+				  type: 'post',
+				  data: { orders_No:ordersNo },
+				  dataType: 'json',
+				  success : function(result) {
+	            		if(result > 0) {
+	        				var width = 1000;
+	        				var height = 500;
+	        				var popupX = (window.screen.width / 2) - (width / 2);
+	        				var popupY = (window.screen.height / 2) - (height / 2);
+	        				window.open('ordersPDF.do?orders_No='+ordersNo,'출력하기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+		            	} else {
+		            		swal({
+	        					title: "주문내역이 없습니다.",
+	        					icon: "warning",
+	        					button: "닫기",
+		        			});
+			            }
+	            }
+	        });
+		};
+
+		function goPosMain(ordersNo) {
+			$.ajax({
+				  url: 'ordersDeleteCheck.do',
+				  type: 'post',
+				  data: { orders_No:ordersNo },
+				  dataType: 'json',
+				  complete : function() {
+	            		location.href='posMain.do';
+	              }
+	        });
 		};
 	</script>
 </body>

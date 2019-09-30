@@ -126,7 +126,25 @@ function payCheck() {
 				});
 		} else {
 			if(resultPrice == sumPrice) {
-				goPayment();
+				var memberId = $("#payment_Member_Id").val().trim();
+
+				// 회원여부 확인
+				$.ajax({
+					  url: 'memberPointSearchById.do',
+					  type: 'post',
+					  data: { member_Id:memberId },
+					  dataType: 'json',
+					  success : function(result) {
+						  	goPayment();
+					  },
+					  error : function(request,status,error) {
+						  swal({
+							  title: "가입되지 않은 아이디입니다.",
+							  icon: "warning",
+						  });
+					  }
+				});
+				
 			} else {
 				swal({
 					  title: "금액을 확인해주세요.",
@@ -139,26 +157,7 @@ function payCheck() {
 
 function goPayment() {
 	event.preventDefault();
-	var memberId = $("#payment_Member_Id").val().trim();
-
-	// 회원여부 확인
-	$.ajax({
-		  url: 'memberPointSearchById.do',
-		  type: 'post',
-		  data: { member_Id:memberId },
-		  dataType: 'json',
-		  success : function(result) {
-			 	$("#kakaoPayForm").submit();
-		  },
-		  error : function(request,status,error) {
-			  swal({
-				  title: "가입되지 않은 아이디입니다.",
-				  icon: "warning",
-			  });
-		  }
-	});
-
-	
+	$("#kakaoPayForm").submit();
 };
 
 function memCheck() {

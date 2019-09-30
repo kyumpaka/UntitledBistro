@@ -180,7 +180,7 @@
 								  opener.document.location.reload();
 								  window.close();
 							  	});
-			            },
+			            }
 			        });
 				}
 			}

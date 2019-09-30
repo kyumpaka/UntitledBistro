@@ -243,12 +243,16 @@
 				  data: { menu_Code:num },
 				  dataType: 'json',
 				  success : function(result) {
-					  var igd = "";
-					  var resLen = result.length;
-					  for(var i = 0; i < resLen; i++){
-							igd += "재료명 : " + result[i].ingredient_Product_Code + " / 수량 : " + result[i].ingredient_Qty + "<br>";
+					  if(result.length > 0) {
+						  var igd = "";
+						  var resLen = result.length;
+						  for(var i = 0; i < resLen; i++){
+								igd += "재료명 : " + result[i].ingredient_Product_Code + " / 수량 : " + result[i].ingredient_Qty + "<br>";
+						  }
+						  $("#igd"+num).append("<div style=\"position: absolute; background-color: white; border: 1px solid black; left: 70px; top: 30px; padding: 20px; \">"+igd+"</div>");
+					  } else {
+						  $("#igd"+num).append("<div style=\"position: absolute; background-color: white; border: 1px solid black; left: 100px; top: 30px; padding: 20px; \"> 재료 없음 </div>");
 					  }
-					  $("#igd"+num).append("<div style=\"position: absolute; background-color: white; border: 1px solid black; left: 70px; top: 30px; padding: 20px; \">"+igd+"</div>");
 				  }
 			});
 		};

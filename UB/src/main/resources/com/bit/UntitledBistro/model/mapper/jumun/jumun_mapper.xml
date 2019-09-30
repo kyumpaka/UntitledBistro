@@ -167,10 +167,6 @@
 	SELECT PAYMENT_NO, PAYMENT_SALES_NO, PAYMENT_MEMBER_ID, PAYMENT_TABLE, PAYMENT_STATE, PAYMENT_DATE, PAYMENT_POINT, PAYMENT_DISCOUNT, PAYMENT_CASH, PAYMENT_CARD FROM PAYMENT
 	</select>
 	
-	<select id="salesDetailesSelect" parameterType="sales" resultType="salesDetails">
-	SELECT SD_NO, SD_SALES_NO, SD_MENU_CODE AS MENU_NAME, SD_QTY, SD_PRICE FROM SALES_DETAILS LEFT OUTER JOIN MENU ON MENU.MENU_CODE=SALES_DETAILS.SD_MENU_CODE WHERE SD_SALES_NO = #{sales_No}
-	</select>
-	
 	<insert id="salesInsert">
 	INSERT INTO SALES(SALES_NO) VALUES((SELECT COUNT(*) FROM SALES) + 1)
 	</insert>
@@ -219,5 +215,13 @@
 	<update id="memberPointDowndateById">
 	UPDATE MEMBER SET MEMBER_POINT = MEMBER_POINT - #{downPoint} WHERE MEMBER_ID = #{member_Id}
 	</update>
+	
+	<select id="ordersCheck" parameterType="map" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM ORDERS_DETAILS WHERE OD_ORDERS_NO = #{orders_No}
+	</select>
+	
+	<select id="salesDetailesSelect" parameterType="sales" resultType="salesDetails">
+	SELECT SD_NO, SD_SALES_NO, SD_MENU_CODE AS MENU_NAME, SD_QTY, SD_PRICE FROM SALES_DETAILS LEFT OUTER JOIN MENU ON MENU.MENU_CODE=SALES_DETAILS.SD_MENU_CODE WHERE SD_SALES_NO = #{sales_No}
+	</select>
 	
 </mapper>

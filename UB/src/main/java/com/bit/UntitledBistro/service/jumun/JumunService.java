@@ -76,11 +76,11 @@ public interface JumunService {
 	
 	public ArrayList<PaymentDTO> paymentSearch();
 	
-	public ArrayList<SalesDetailsDTO> salesDetailsSearch(SalesDTO salesDTO);
-	
 	public String kakaoPayReady(String orders_No, PaymentDTO paymentDTO);
 	
-	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token);
+	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token, String payment_Card, String orders_No);
+	
+	public int ordersToSales(String orders_No, PaymentDTO paymentDTO);
 	
 	public int payFail();
 	
@@ -88,6 +88,12 @@ public interface JumunService {
 	
 	public int memberPointSearchById(String member_Id);
 	
-	public String createPdf(String orders_No, HttpServletRequest request);
+	public int orderPDF(String orders_No, HttpServletRequest request);
 	
+	public int ordersCheck(String orders_No);
+	
+	public void ordersDeleteCheck(String orders_No);
+	
+	public ArrayList<SalesDetailsDTO> salesDetailsSearch(SalesDTO salesDTO);	
+
 }

@@ -1,0 +1,7 @@
+-- jaego.txt에 PRODUCT 테이블 생성을 기준으로 만들었습니다.
+
+insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA11', '토마토', '개',500); 
+insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA22', '우유1L', '개',3500);
+insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA33', '올리브오일1L', '개',5000);
+insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA44', '후추', '개',2000);
+commit;

@@ -1,8 +1,318 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
 <mapper namespace="jaego">
 
+	<select id="itemTotal" resultType="int">
+		<![CDATA[
+		SELECT 
+			COUNT(SUM(ITEM_QTY)) 
+		FROM 
+			ITEM 
+		GROUP BY 
+			ITEM_PRODUCT_CODE
+		]]>
+	</select>
+
+ 	<select id="itemSelectAll" parameterType="condition" resultType="item">
+		SELECT
+		     ITEM_PRODUCT_CODE
+		    ,PRODUCT_NAME
+		    ,ITEM_QTY
+		FROM
+		(
+		    SELECT 
+		         II.II_PRODUCT_CODE  		AS ITEM_PRODUCT_CODE
+		        ,P.PRODUCT_NAME     		AS PRODUCT_NAME
+		        ,II.II_QTY - OI.OI_QTY  	AS ITEM_QTY
+		        ,ROWNUM AS RNUM
+		    FROM
+		    (
+		        SELECT 
+		             II_PRODUCT_CODE
+		            ,SUM(II_QTY) 			AS II_QTY
+		        FROM 
+		            IN_ITEM 
+		        <where>
+		        <if test="startDate != '' and startDate != null"> 
+<![CDATA[			II_DATE <= TO_DATE(#{startDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
+			    </if>
+		        </where> 
+		        GROUP BY 
+		            II_PRODUCT_CODE
+		    ) II
+		    INNER JOIN
+		    (
+		        SELECT 
+		             OI_PRODUCT_CODE
+		            ,SUM(OI_QTY) 			AS OI_QTY
+		        FROM 
+		            OUT_ITEM
+		        <where>
+		        <if test="startDate != '' and startDate != null"> 
+<![CDATA[			OI_DATE <= TO_DATE(#{startDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
+			    </if>
+		        </where>     
+		        GROUP BY 
+		            OI_PRODUCT_CODE
+		    ) OI
+		    ON
+		        II.II_PRODUCT_CODE = OI.OI_PRODUCT_CODE
+		    INNER JOIN
+		        PRODUCT P
+		    ON  
+		        P.PRODUCT_CODE = II.II_PRODUCT_CODE
+		    <where>
+		    <if test="keyword != '' and keyword != null">
+		        P.PRODUCT_NAME LIKE '%'||#{keyword}||'%'
+		    </if>
+		    </where> 
+		)
+		WHERE 
+			RNUM BETWEEN #{startPage} and #{endPage} 
+		
+ 	</select>
+ 	
+ 	<select id="inItemSelectAll" parameterType="condition" resultType="inItem"> 	
+ 		SELECT 
+		     /*+ INDEX_DESC(II PK_II_INDEX) */
+		     II.II_PRODUCT_CODE			AS II_PRODUCT_CODE
+		    ,P.PRODUCT_NAME				AS PRODUCT_NAME
+		    ,II.II_QTY 					AS II_QTY 
+		    ,II.II_DATE					AS II_DATE
+		FROM 
+		    IN_ITEM II
+		INNER JOIN
+		    PRODUCT P
+		ON
+		    II.II_PRODUCT_CODE = P.PRODUCT_CODE   
+		<where>		
+		<if test="keyword != '' and keyword != null">       
+	        P.PRODUCT_NAME LIKE '%'||#{keyword}||'%'
+	    </if> 
+	    <if test="startDate != '' and startDate != null"> 
+		AND 
+<![CDATA[	II.II_DATE <= TO_DATE(#{startDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
+	    </if>
+		</where> 
+ 	</select>
+ 	
+ 	<select id="outItemSelectAll" parameterType="condition" resultType="outItem">
+ 		SELECT 
+		     /*+ INDEX_DESC(O PK_OI_INDEX) */
+		     OI.OI_PRODUCT_CODE			AS OI_PRODUCT_CODE
+		    ,P.PRODUCT_NAME				AS PRODUCT_NAME
+		    ,OI.OI_QTY 					AS OI_QTY
+		    ,OI.OI_DATE					AS OI_DATE
+		FROM 
+		    OUT_ITEM OI
+		INNER JOIN
+		    PRODUCT P
+		ON
+		    OI.OI_PRODUCT_CODE = P.PRODUCT_CODE   
+		<where>		
+		<if test="keyword != '' and keyword != null">       
+	        P.PRODUCT_NAME LIKE '%'||#{keyword}||'%'
+	    </if> 
+	    <if test="startDate != '' and startDate != null"> 
+		AND 
+<![CDATA[	OI.OI_DATE <= TO_DATE(#{startDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
+	    </if>
+		</where>
+ 	</select>
+ 	
+ 	<select id="DSFSDF">
+ 	SDFSDFSF
+ 	</select>
+	
+	<!-- 
+	==================================================================================
+	================================= 재고변동표 =====================================
+	==================================================================================
+	 -->
+ 	<select id="changeItemSelectAll" parameterType="condition" resultType="changeItem">	  
+		SELECT 
+		        T.PRODUCT_CODE		AS PRODUCT_CODE 
+		       ,T.PRODUCT_NAME		AS PRODUCT_NAME 
+		       ,T.TOTAL_QTY			AS TOTAL_QTY	
+		       ,B.BEFORE_QTY		AS BEFORE_QTY	
+		       ,I.IN_QTY			AS IN_QTY		
+		       ,O.OUT_QTY			AS OUT_QTY		
+		FROM
+		    (  
+		    SELECT 
+		         II.II_PRODUCT_CODE     	AS PRODUCT_CODE
+		        ,P.PRODUCT_NAME         	AS PRODUCT_NAME
+		        ,II.II_QTY - OI.OI_QTY  	AS TOTAL_QTY
+		        
+		    FROM
+		    	(
+		        SELECT 
+		             II_PRODUCT_CODE
+		            ,SUM(II_QTY)		AS II_QTY
+		        FROM 
+		            IN_ITEM 		            
+		        <where> 
+		        	<if test="endDate !='' and endDate != null">
+<![CDATA[		    II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
+		        	</if>
+		        </where>
+		        GROUP BY 
+		            II_PRODUCT_CODE
+		    	) II
+		    INNER JOIN
+		   		(
+		        SELECT 
+		             OI_PRODUCT_CODE
+		            ,SUM(OI_QTY)		AS OI_QTY
+		        FROM 
+		            OUT_ITEM 
+		        <where> 
+		        	<if test="endDate !='' and endDate != null">
+<![CDATA[		    OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
+		        	</if>
+		        </where>
+		        GROUP BY 
+		            OI_PRODUCT_CODE
+		    	) OI
+		    ON
+		        II.II_PRODUCT_CODE = OI.OI_PRODUCT_CODE
+		    INNER JOIN
+		        PRODUCT P
+		    ON  
+		        P.PRODUCT_CODE = II.II_PRODUCT_CODE
+		    <where>
+		    <if test="keyword != '' and keyword != null">
+		        P.PRODUCT_NAME LIKE '%'||#{keyword}||'%'    
+		    </if>
+		    </where> 
+		    ) T
+		INNER JOIN
+		    (
+		    SELECT 
+		         II.II_PRODUCT_CODE      AS PRODUCT_CODE
+		        ,II.II_QTY - OI.OI_QTY   AS BEFORE_QTY
+		    FROM
+		    	(
+		        SELECT 
+		             II_PRODUCT_CODE
+		            ,SUM(II_QTY)        AS II_QTY
+		        FROM 
+		            IN_ITEM
+		        <where> 
+		        	<if test="endDate !='' and endDate != null">
+<![CDATA[		    II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
+		        	</if>
+		        </where> 
+		        GROUP BY 
+		            II_PRODUCT_CODE
+		    	) II
+		    INNER JOIN
+		   		(
+		        SELECT 
+		             OI_PRODUCT_CODE
+		            ,SUM(OI_QTY) 		AS OI_QTY
+		        FROM 
+		            OUT_ITEM
+		        <where> 
+		        	<if test="endDate !='' and endDate != null">
+<![CDATA[		    OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
+		        	</if>
+		        </where> 
+		        GROUP BY 
+		            OI_PRODUCT_CODE
+		    	) OI
+		    ON
+		        II.II_PRODUCT_CODE = OI.OI_PRODUCT_CODE
+		    INNER JOIN
+		        PRODUCT P
+		    ON  
+		        P.PRODUCT_CODE = II.II_PRODUCT_CODE
+		    <where>
+		    <if test="keyword != '' and keyword != null">
+		        P.PRODUCT_NAME LIKE '%'||#{keyword}||'%'
+		    </if>
+		    </where> 
+		    ) B
+		ON 
+		    T.PRODUCT_CODE = B.PRODUCT_CODE
+		INNER JOIN
+		    (
+		    SELECT 
+		         I.II_PRODUCT_CODE 		AS PRODUCT_CODE
+		        ,SUM(II_QTY)    		AS IN_QTY
+		    FROM 
+		        IN_ITEM I
+		    INNER JOIN
+		        PRODUCT P
+		    ON 
+		        I.II_PRODUCT_CODE = P.PRODUCT_CODE
+		    <where>
+		    <if test="keyword != '' and keyword != null">
+		        P.PRODUCT_NAME LIKE '%'||#{keyword}||'%'
+		    </if>
+        	<if test="endDate !='' and endDate != null">
+        	AND
+<![CDATA[		I.II_DATE BETWEEN 
+							TO_DATE(#{startDate}||' 0:0:0','YYYY/MM/DD HH24:MI:SS') 
+						  AND 
+						  	TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
+        	</if>
+		    </where>
+		    GROUP BY 
+		        I.II_PRODUCT_CODE
+		    ) I
+		ON
+		    T.PRODUCT_CODE = I.PRODUCT_CODE
+		INNER JOIN
+		    (
+		    SELECT 
+		         O.OI_PRODUCT_CODE 		AS PRODUCT_CODE
+		        ,SUM(O.OI_QTY)    		AS OUT_QTY
+		    FROM 
+		        OUT_ITEM O
+		    INNER JOIN
+		        PRODUCT P
+		    ON
+		        O.OI_PRODUCT_CODE = P.PRODUCT_CODE
+		    <where>
+		    <if test="keyword != '' and keyword != null">
+		        P.PRODUCT_NAME LIKE '%'||#{keyword}||'%'
+		    </if>
+        	<if test="endDate !='' and endDate != null">
+        	AND
+<![CDATA[		O.OI_DATE BETWEEN 
+							TO_DATE(#{startDate}||' 0:0:0','YYYY/MM/DD HH24:MI:SS') 
+						  AND 
+						  	TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
+        	</if>
+		    </where>
+		    GROUP BY 
+		        O.OI_PRODUCT_CODE
+		    ) O
+		ON 
+		    T.PRODUCT_CODE = O.PRODUCT_CODE
+ 	</select>
+
+ 	
+ 	<!-- 그리드 공부 -->
+ 	
+ 	<insert id="itemInsert">
+		INSERT INTO ITEM 
+		VALUES(#{item_no}, #{item_product_code}, #{item_qty})
+ 	</insert>
+ 	
+ 	<update id="itemUpdate" parameterType="item">
+		UPDATE ITEM 
+		SET ITEM_PRODUCT_CODE=#{item_product_code}, ITEM_QTY=#{item_qty}
+		WHERE ITEM_NO=#{item_no}
+ 	</update>
+ 	
+ 	<delete id="itemDelete" parameterType="item">
+ 		DELETE ITEM
+ 		WHERE ITEM_NO=#{item_no}
+ 	</delete>
+ 
 </mapper>
