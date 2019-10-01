@@ -13,4 +13,6 @@ public interface InsaDAO {
 
 	public int getEmpCount();
 
+	public int EmpRegisterUpdate(Insa_EmpRegisterDTO dto);
+
 }

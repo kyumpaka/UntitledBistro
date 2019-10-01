@@ -19,6 +19,9 @@ public interface InsaService {
 		
 	public String imgUpload(MultipartHttpServletRequest mRequest);
 
+	public int EmpRegisterUpdate(Insa_EmpRegisterDTO dto);
+
+
 
 	
 }

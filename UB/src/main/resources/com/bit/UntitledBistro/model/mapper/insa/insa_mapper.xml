@@ -48,5 +48,11 @@
 		select count(*) from EmpRegister
 	</select>
 
-
+	<update id="EmpRegisterUpdate" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
+     update EmpRegister set empregister_tel=#{empregister_tel},empregister_age=#{empregister_age}, empregister_addr=#{empregister_addr},empregister_addr2=#{empregister_addr2},empregister_addr3=#{empregister_addr3},empregister_addr4=#{empregister_addr4},empregister_grade=#{empregister_grade},empregister_bankname=#{empregister_bankname}, 
+     empregister_accountholder=#{empregister_accountholder},empregister_banknum=#{empregister_banknum},empregister_payclassfiy=#{empregister_payclassfiy},empregister_leavecompany=#{empregister_leavecompany},
+     empregister_pay=#{empregister_pay}, empregister_workplan=#{empregister_workplan}
+     where empregister_empnum = empregister_empnum
+ </update>
+ 
 </mapper>

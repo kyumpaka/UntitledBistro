@@ -95,6 +95,14 @@ public class InsaServiceImpl implements InsaService{
 		
 		return saveFileName;
 	}
+
+	@Override
+	public int EmpRegisterUpdate(Insa_EmpRegisterDTO dto) {
+		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
+		return insaDAO.EmpRegisterUpdate(dto);
+		
+		
+	}
 	
 	
 }

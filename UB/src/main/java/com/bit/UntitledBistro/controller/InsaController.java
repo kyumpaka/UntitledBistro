@@ -61,6 +61,35 @@ public class InsaController {
 		
 		
 	}
+	
+	
+	@RequestMapping("/EmpRegisterUpdateForm")
+	public String updateform(String empregister_empnum, Model model ) {
+		Insa_EmpRegisterDTO dto = insaService.EmpRegisterRead(empregister_empnum);
+		model.addAttribute("b", dto);
+		/* model.addAttribute("pg",pg); */
+		
+		
+		
+		return "views/insa/EmpRegisterUpdateForm";
+		
+		}
+	
+	@RequestMapping("EmpRegisterUpdate")
+	public String update(Insa_EmpRegisterDTO dto) {
+		int result = insaService.EmpRegisterUpdate(dto);
+		System.out.println(result);
+		String res ="redirect:/insa/EmpRegisterList";
+		if(result == 0) {
+			res = "insa/EmpRegisterFail";
+			
+		}
+		
+		
+		return res;
+		
+		
+	}
 
 	@RequestMapping("/EmpRegisterList")
 	public String list(HttpServletRequest request) {

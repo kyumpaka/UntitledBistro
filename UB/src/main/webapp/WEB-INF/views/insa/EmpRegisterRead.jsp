@@ -23,12 +23,18 @@ td {
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
+ function EmpregisterUpdate(){
+	 location.href="EmpRegisterUpdateForm?empregister_empnum=${b.empregister_empnum}";
+
+	 
+ }
+ 
  
 	</script>
 </head>
 
 <body>
-	<form name="EmpRegisterRead"  method="post">
+	<form name="EmpRegisterRead"  id="read" Action="EmpRegisterRead" method="post">
 		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000'
 			align='center'>
 			<tr>
@@ -50,6 +56,12 @@ td {
 					<td class='ti'>${b.empregister_empnum }</td>
 					<td class='ti' colspan='1'>성별</td>
 					<td class='ti'>${b.empregister_gender }</td>
+			</tr>
+			<tr>
+				<td colspan='3' class='ti'>연락처</td>
+				<td colspan='2' class='ti'>${b.empregister_tel }</td>
+				<td colspan='1' class='ti'>나이</td>
+				<td>${b.empregister_age }</td>
 			</tr>
 			<tr>
 				<td class='ti' colspan='3' rowspan='2'>거주지</td>
@@ -90,8 +102,8 @@ td {
 				<td class='ti' colspan='3'>입사 날짜</td>
 				<td class='ti' colspan='1'><fmt:formatDate value="${b.empregister_entryday }"
 						pattern="yyyy-MM-dd" /></td>
-				<td class='ti' colspan='2'>퇴사여부</td>
-				<td class='ti'>${b.empregister_leavecompany }</td>
+				<td colspan='1' class='ti' >재직 여부</td>
+				<td colspan='2' class='ti'>${b.empregister_leavecompany}</td>
 			</tr>
 			<tr>
 				<td class='ti' colspan='3'>시급</td>
@@ -116,7 +128,7 @@ td {
 
 				</select> --%></td>
 				<td>
-			<input type="button" value="수정" onclick="board_update()"/>
+			<input type="button" value="수정" onclick="EmpregisterUpdate()" width="1300" height="800"/>
 				</td>
 			</tr>
 		</table>	

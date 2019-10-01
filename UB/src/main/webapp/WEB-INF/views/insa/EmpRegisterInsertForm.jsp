@@ -53,6 +53,8 @@ td {
 	function EmpregisterInsert() {
 		$("#insert").submit;
 		opener.parent.list();
+	
+	
 	}
 	//주소정보
 	
@@ -128,6 +130,7 @@ td {
 		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000'
 			align='center'>
 			<tr>
+			
 				<td colspan='3' rowspan='3' width='120' class='ti'>
 					<div class="row form-group">
 					<div class="col col-md-3">
@@ -227,7 +230,7 @@ td {
 
 				<td class='ti' colspan='3'>입사 날짜</td>
 				<td class='ti' colspan='2' name="empregister_entryday"></td>
-				<td class='ti' colspan='1'>퇴사여부</td>
+				<td class='ti' colspan='1'>재직 여부</td>
 				<td><input type="checkbox" name="empregister_leavecompany"></td>
 			</tr>
 			<tr>
@@ -261,7 +264,7 @@ td {
 					<input type="reset" value="취소" />
 				</td>
 			</tr>
-
+	
 			<tr>
 		</table>
 	</form>
