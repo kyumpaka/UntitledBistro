@@ -38,19 +38,19 @@
                                 <form action="Seobis_createMember" method="post"  class="form-horizontal">
                                                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">아이디</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="member_id" placeholder="아이디 입력" class="form-control"><small class="form-text text-muted">대소문자, 숫자 사용</small></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="member_id" placeholder="아이디 입력" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">이름</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="member_name" placeholder="이름 입력" class="form-control"><small class="form-text text-muted">8자 이내</small></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="member_name" placeholder="이름 입력" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="email-input" class=" form-control-label">이메일</label></div>
-                                        <div class="col-12 col-md-9"><input type="email" id="email-input" name="member_email" placeholder="이메일 입력!! 형식은 아이디@도메인 입니다." class="form-control" ><small class="help-block form-text"></small></div>
+                                        <div class="col-12 col-md-9"><input type="email" id="email-input" name="member_email" placeholder="이메일 입력" class="form-control" ><small class="help-block form-text">Please enter your email</small></div>
                                     </div>
                                        <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">생일</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="member_birth" placeholder="ex) 1995-12-21" class="form-control"><small class="form-text text-muted"></small></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="member_birth" placeholder="ex) 1995-12-21" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label class=" form-control-label">성별</label></div>
@@ -71,19 +71,19 @@
                                     </div>
                                         <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">이동전화</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="member_phone1" placeholder="ex) 010-1111-1111" class="form-control" ><small class="form-text text-muted">사용하는 번호를 입력하세요</small></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="member_phone1" placeholder="ex) 010-1111-1111" class="form-control" ><small class="form-text text-muted">This is a help text</small></div>
                                     </div>
                                          <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">집전화</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="member_phone2" placeholder="ex) 02-222-2222" class="form-control" ><small class="form-text text-muted" ></small></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="member_phone2" placeholder="ex) 02-222-2222" class="form-control" ><small class="form-text text-muted" >This is a help text</small></div>
                                     </div>
                                         <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">주소</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="member_addr1" placeholder="(선택 사항)" class="form-control"><small class="form-text text-muted"></small></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="member_addr1" placeholder="주소" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
                                     </div>
                                         <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">상세 주소</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="member_addr2" placeholder="(선택 사항)" class="form-control"><small class="form-text text-muted"></small></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="text-input" name="member_addr2" placeholder="상세주소" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
                                     </div>
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary btn-sm">

@@ -1,0 +1,24 @@
+create table MEMBER ( -- 회원 테이블
+        MEMBER_ID VARCHAR2(50) NOT NULL, -- 아이디(PK)
+        MEMBER_NAME VARCHAR2(50) NOT NULL, -- 이름
+        MEMBER_GENDER VARCHAR2(20), -- 성별
+        MEMBER_BIRTH DATE, -- 생일
+        MEMBER_EMAIL VARCHAR2(100), -- 이메일
+        MEMBER_PHONE1 VARCHAR2(50), -- 전화1
+        MEMBER_PHONE2 VARCHAR2(50), -- 전화2
+        MEMBER_ADDR1 VARCHAR2(200), -- 주소1
+        MEMBER_ADDR2 VARCHAR2(200), -- 주소2
+        MEMBER_GRADE VARCHAR2(20) DEFAULT 'bronze', -- 등급, 기본값 브론즈
+        MEMBER_POINT NUMBER DEFAULT 100, -- 포인트, 기본값 100점
+        MEMBER_REG DATE DEFAULT SYSDATE -- 가입날짜
+);
+			
+create table RESERVE ( -- 예약 테이블
+        RESERVE_NUM VARCHAR2(20), -- 번호(PK)
+        RESERVE_MEMBER_ID VARCHAR2(50),  -- 아이디(FK)
+        RESERVE_NAME VARCHAR2(50), -- 이름
+        RESERVE_PHONE1 VARCHAR2(50), -- 전화1
+        RESERVE_PHONE2 VARCHAR2(50), -- 전화2
+        RESERVE_FIRSTTIME DATE DEFAULT SYSDATE, -- 처음 예약한 날짜
+        RESERVE_DATE DATE DEFAULT SYSDATE -- 방문할 날짜
+);

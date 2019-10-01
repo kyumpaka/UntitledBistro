@@ -69,6 +69,7 @@
                             <li><i class="menu-icon fa fa-map-o"></i><a href="${path}/Seobis_mList">회원 관리</a></li>
                             <li><i class="menu-icon fa fa-street-view"></i><a href="${path}/Seobis_jUs">회원 가입</a></li>
                             <li><i class="fa fa-calendar-check-o"></i><a href="${path}/Seobis_cal">예약 관리</a></li>
+                            
                         </ul>
                     </li>
                 </ul>
