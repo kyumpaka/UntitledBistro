@@ -11,7 +11,7 @@
 <meta charset='utf-8' />
   <title>달력 연구중</title>
 
-<link href='/assets/demo-to-codepen.css' rel='stylesheet' />
+<!-- <link href='/assets/demo-to-codepen.css' rel='stylesheet' /> -->
 
   <style>
     html, body {
@@ -27,14 +27,13 @@
   </style>
 
 <!-- 소스 -->
-<!-- <link href='https://unpkg.com/@fullcalendar/core@4.3.1/main.min.css' rel='stylesheet' /> -->
-<!--   <link href='https://unpkg.com/@fullcalendar/daygrid@4.3.0/main.min.css' rel='stylesheet' /> -->
-<!--   <link href='https://unpkg.com/@fullcalendar/timegrid@4.3.0/main.min.css' rel='stylesheet' /> -->
-<!-- <script src='https://unpkg.com/@fullcalendar/core@4.3.1/main.min.js'></script> -->
-<!--   <script src='https://unpkg.com/@fullcalendar/interaction@4.3.0/main.min.js'></script> -->
-<!--   <script src='https://unpkg.com/@fullcalendar/daygrid@4.3.0/main.min.js'></script> -->
-<!--   <script src='https://unpkg.com/@fullcalendar/timegrid@4.3.0/main.min.js'></script> -->
-<script type="text/javascript"  src="${ path }/resources/js/seobis/calendar.js" ></script> 
+<link href='https://unpkg.com/@fullcalendar/core@4.3.1/main.min.css' rel='stylesheet' />
+  <link href='https://unpkg.com/@fullcalendar/daygrid@4.3.0/main.min.css' rel='stylesheet' />
+  <link href='https://unpkg.com/@fullcalendar/timegrid@4.3.0/main.min.css' rel='stylesheet' />
+<script src='https://unpkg.com/@fullcalendar/core@4.3.1/main.min.js'></script>
+  <script src='https://unpkg.com/@fullcalendar/interaction@4.3.0/main.min.js'></script>
+  <script src='https://unpkg.com/@fullcalendar/daygrid@4.3.0/main.min.js'></script>
+  <script src='https://unpkg.com/@fullcalendar/timegrid@4.3.0/main.min.js'></script>
   
   <script>
    document.addEventListener('DOMContentLoaded', function() {
