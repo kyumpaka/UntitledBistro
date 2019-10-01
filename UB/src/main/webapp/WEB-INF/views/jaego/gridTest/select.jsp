@@ -70,6 +70,11 @@
 					editButton: false,                               // show edit button
                     deleteButton: false,                             // show delete button
                     clearFilterButton: true                        // show clear filter button
+				}, {
+					type : "control", 
+					editButton: false,                               // show edit button
+                    deleteButton: false,                             // show delete button
+                    clearFilterButton: true                        // show clear filter button
 				}], 
 			    
 				controller : {
