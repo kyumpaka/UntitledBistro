@@ -18,8 +18,8 @@ public class ItemDAOImpl {
 		return mybatis.selectList("jaego.itemSelectAll", condition);
 	}
 	
-	public int itemInsert(ItemDTO dto){
-		return mybatis.insert("jaego.itemInsert", dto);
+	public int defectItemInsert(List<DefectItemDTO> list){
+		return mybatis.insert("jaego.defectItemInsert", list);
 	}
 	
 	public int itemUpdate(ItemDTO dto){
@@ -49,5 +49,6 @@ public class ItemDAOImpl {
 	public List<ProductDTO> defectItemSelectAll(Condition condition) {
 		return mybatis.selectList("jaego.defectItemSelectAll", condition);
 	}
+	
 	
 }

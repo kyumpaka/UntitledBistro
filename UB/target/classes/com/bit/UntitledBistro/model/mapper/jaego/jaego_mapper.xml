@@ -361,12 +361,35 @@
 		</where>
 	</select>
  	
+ 	<!-- ================================================================================== -->
+ 	<!-- ===============================다중 등록========================================== -->
+ 	<!-- ================================================================================== -->
+ 	<insert id="defectItemInsert" parameterType="list" flushCache="true">
+		<selectKey  keyProperty="di_no" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(DI_NO),0) +1 FROM DEFECT_ITEM
+		</selectKey>
+		<foreach item="item" collection="list" open="INSERT ALL"  close="SELECT * FROM DUAL" separator=" " index="index">
+		INTO DEFECT_ITEM
+			(
+			 DI_NO
+			,DI_PRODUCT_CODE
+			,DI_QTY
+			,DI_STATE
+			,DI_REASON
+			) 
+		VALUES 
+			(
+			 (#{di_no} + #{index})
+			,#{item.di_product_code}
+			,#{item.di_qty}
+			,#{item.di_state}
+			,#{item.di_reason}
+			)
+		</foreach>
+ 	</insert>
+ 	
  	<!-- 그리드 공부 -->
  	
- 	<insert id="itemInsert">
-		INSERT INTO ITEM 
-		VALUES(#{item_no}, #{item_product_code}, #{item_qty})
- 	</insert>
  	
  	<update id="itemUpdate" parameterType="item">
 		UPDATE ITEM 
