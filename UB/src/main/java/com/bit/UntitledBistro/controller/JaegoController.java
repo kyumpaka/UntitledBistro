@@ -2,13 +2,11 @@ package com.bit.UntitledBistro.controller;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -17,7 +15,6 @@ import com.bit.UntitledBistro.model.jaego.Condition;
 import com.bit.UntitledBistro.model.jaego.ItemDAOImpl;
 import com.bit.UntitledBistro.model.jaego.ItemDTO;
 import com.bit.UntitledBistro.model.jaego.OutItemDTO;
-import com.bit.UntitledBistro.model.jaego.Page;
 import com.bit.UntitledBistro.model.jaego.ProductDTO;
 
 @Controller
@@ -56,14 +53,14 @@ public class JaegoController {
 		logger.info("여기는 재고변동 컨트롤러 입니다.");
 	}
 	
-	@RequestMapping(value = "/bad_item")
-	public void bad_item() {
-		logger.info("여기는 불량처리 컨트롤러 입니다.");
+	@RequestMapping(value = "/defect_itemList")
+	public void bad_itemList() {
+		logger.info("여기는 불량 목록 컨트롤러 입니다.");
 	}
 	
-	@RequestMapping(value = "/special_item")
-	public void special_item() {
-		logger.info("여기는 특별재고 컨트롤러 입니다.");
+	@RequestMapping(value = "/defect_itemInsert")
+	public void bad_itemInsert() {
+		logger.info("여기는 불량 입력 컨트롤러 입니다.");
 	}
 	
 	@RequestMapping(value = "/gridSelectAll")
@@ -124,5 +121,14 @@ public class JaegoController {
 	public @ResponseBody List<ProductDTO> gridProductSelectAll(Condition condition) {
 		logger.info("여기는 품목 조회 컨트롤러 입니다.");
 		return dao.productSelectAll(condition);
+	}
+	
+	@RequestMapping(value = "/gridDefectItemSelectAll")
+	public @ResponseBody List<ProductDTO> gridDefectItemSelectAll(Condition condition) {
+		logger.info("여기는 품목 조회 컨트롤러 입니다.");
+		logger.info("product_code : " + condition.getKeyword());
+		logger.info("product_name : " + condition.getKeyword2());
+		logger.info("endDate : " + condition.getEndDate());
+		return dao.defectItemSelectAll(condition);
 	}
 }

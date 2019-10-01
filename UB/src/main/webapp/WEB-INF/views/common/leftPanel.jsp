@@ -29,8 +29,8 @@
                             <li><i class="fa fa-bars"></i><a href="${path}/jaego/in_item">입고 내역</a></li>
                             <li><i class="fa fa-id-card-o"></i><a href="${path}/jaego/out_item">출고 내역</a></li>
                             <li><i class="fa fa-exclamation-triangle"></i><a href="${path}/jaego/change_item">재고 변동표</a></li>
-                            <li><i class="fa fa-spinner"></i><a href="${path}/jaego/bad_item">불량 처리</a></li>
-                            <li><i class="fa fa-fire"></i><a href="${path}/jaego/special_item">특별 관리</a></li>
+                            <li><i class="fa fa-spinner"></i><a href="${path}/jaego/defect_itemList">불량 현황</a></li>
+                            <li><i class="fa fa-fire"></i><a href="${path}/jaego/defect_itemInsert">불량 입력</a></li>
                         </ul>
                     </li>
                     

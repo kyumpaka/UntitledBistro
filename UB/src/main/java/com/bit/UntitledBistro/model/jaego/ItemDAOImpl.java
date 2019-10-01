@@ -45,4 +45,9 @@ public class ItemDAOImpl {
 	public List<ProductDTO> productSelectAll(Condition condition) {
 		return mybatis.selectList("jaego.productSelectAll", condition);
 	}
+	
+	public List<ProductDTO> defectItemSelectAll(Condition condition) {
+		return mybatis.selectList("jaego.defectItemSelectAll", condition);
+	}
+	
 }

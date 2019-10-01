@@ -24,7 +24,7 @@
 
 <!-- Modal -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-		
+	
 <style type="text/css">
 #jsGrid {
 	margin: auto;
@@ -110,13 +110,14 @@
 	display: inline-flex;
 }
 	</style>
-
+	
 <title>JSP</title>
 </head>
 <body>
 	<div class="page-header">
-	    <h1><a href="">출고현황(OUT_ITEM)</a></h1>
+	    <h1><a href="">불량처리 현황(DEFECT_ITEM)</a></h1>
 	</div>
+
 
 	<!-- Modal -->
 	<div class="modal fade" id="myModal" role="dialog">
@@ -211,13 +212,11 @@
 		<div id="jsGridPage"></div> <!-- 그리드를 이용한 페이징 -->
 	</div>
 	
-	
 </body>
 
 <!-- 메인화면 기능 및 그리드 생성 -->
 <script type="text/javascript">
 	
-var ogStartDate;
 var ogEndDate;
 $(document).ready(function() {
 	var now = new Date();
@@ -225,11 +224,11 @@ $(document).ready(function() {
 
 	$.ajax({
 		type:"get",
-		url:"${path}/jaego/gridOutItemSelectAll",
+		url:"${path}/jaego/gridDefectItemSelectAll",
 		data : {"endDate" : ogEndDate}
 	})
 	.done(function(json) {
-		original = json;
+		
 		$("#jsGrid").jsGrid({
 			width : "100%",
 			height : "auto",
@@ -246,24 +245,34 @@ $(document).ready(function() {
 			data : json, 
 			//grid에 표현될 필드 요소
 			fields : [ {
-				name : "oi_product_code",
+				name : "di_product_code",
 				type : "text",
 				title: "품목코드",
-				width : 100
+				width : 80
 			}, {
 				name : "product_name",
 				type : "text",
 				title: "품목명",
 				width : 100
 			}, {
-				name : "oi_qty",
+				name : "di_qty",
 				type : "text",
-				title: "출고수량",
+				title: "입고수량",
+				width : 80
+			}, {
+				name : "di_state",
+				type : "text",
+				title: "불량상태",
 				width : 100
 			}, {
-				name : "oi_date",
+				name : "di_reason",
 				type : "text",
-				title: "등록일자",
+				title: "불량이유",
+				width : 120
+			}, {
+				name : "di_date",
+				type : "text",
+				title: "불량날짜",
 				width : 100
 			}]
 		}); // 그리드 끝
@@ -274,7 +283,7 @@ function dataLoad(page, endDate, product_code, product_name) {
 	
 	$.ajax({
 		type : "get", 
-		url : "/UntitledBistro/jaego/gridOutItemSelectAll",
+		url : "/UntitledBistro/jaego/gridDefectItemSelectAll",
 		data : {"pageNum" : page, "endDate" : endDate, "keyword" : product_code, "keyword2" : product_name},
 		success : function(json) {
 			$(".pagination").html(json[json.length-1]);
@@ -285,9 +294,7 @@ function dataLoad(page, endDate, product_code, product_name) {
 	})
 }
 $("#searchBtn").click(function(){
-	console.log("검색테스트...");
 	if($("#yy-mm-dd").css("border") == "1px solid rgb(255, 0, 0)") {
-	console.log("검색테스트2...");
 		alert("올바른 검색조건으로 입력하세요.");
 		return;
 	}
@@ -314,8 +321,8 @@ $(document).on("click","#cancle",function(){
 	$("#product_name").text("");
 });
 
-
 </script>
+
 
 
 <!-- 모달 검색창 및 그리드 생성 -->

@@ -332,6 +332,34 @@
 		ORDER BY PRODUCT_CODE
  	</select>
 
+	<select id="defectItemSelectAll" parameterType="condition" resultType="defectItem">
+		SELECT 
+		     DI_PRODUCT_CODE
+		    ,PRODUCT_NAME
+		    ,DI_QTY
+		    ,TO_CHAR(DI_DATE,'YYYY/MM/DD') 		AS DI_DATE
+		    ,DI_STATE
+		    ,DI_REASON
+		FROM 
+		    DEFECT_ITEM D
+		INNER JOIN
+		    PRODUCT P
+		ON
+		    D.DI_PRODUCT_CODE = P.PRODUCT_CODE
+		<where>
+		<if test="keyword != '' and keyword != null">
+		    P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test="keyword2 != '' and keyword2 != null">
+		AND
+		    P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
+		</if>
+		<if test="endDate != '' and endDate != null">
+		AND
+<![CDATA[	DI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
+		</if>
+		</where>
+	</select>
  	
  	<!-- 그리드 공부 -->
  	

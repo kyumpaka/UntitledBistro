@@ -31,7 +31,7 @@
 </head>
 <body>
 	<h1>grid 선택 테스트공간</h1>
-	<h4>특별관리</h4>
+	<h4>불량처리 입력</h4>
 	
 	<h1>Custom View</h1>
     <div class="config-panel">

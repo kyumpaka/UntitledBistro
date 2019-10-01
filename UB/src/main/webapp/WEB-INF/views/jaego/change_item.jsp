@@ -53,7 +53,7 @@
 	    	margin-right: 5px;
 	    }
 	    #month, #month2 {
-	    	width: 75px;
+	    	width: 76px;
 	    	margin-right: 5px;
 	    }
 	    #day, #day2 {
