@@ -10,22 +10,7 @@
 <link href="${pageContext.request.contextPath}/resources/pos/assets/css/ui.css" rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath}/resources/pos/assets/fonts/fontawesome/css/fontawesome-all.min.css" type="text/css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/pos/assets/css/OverlayScrollbars.css" type="text/css" rel="stylesheet" />
-<style>
-.avatar {
-	vertical-align: middle;
-	width: 35px;
-	height: 35px;
-	border-radius: 50%;
-}
-
-.bg-default, .btn-default {
-	background-color: #f2f3f8;
-}
-
-.btn-error {
-	color: #ef5f5f;
-}
-</style>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jumun/jumun.css">
 </head>
 <body>
 	<section class="header-main">
@@ -86,98 +71,102 @@
 <script src="${pageContext.request.contextPath}/resources/pos/assets/js/jquery-2.0.0.min.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/resources/pos/assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/resources/pos/assets/js/OverlayScrollbars.js" type="text/javascript"></script>
-	<script>
-		function goSalesList() {
-			event.preventDefault();
-			location.href="salesList.do";
-		};
-	
-		function goTableControl() {
-			var width = 400;
-			var height = 400;
-			var popupX = (window.screen.width / 2) - (width / 2);
-			var popupY = (window.screen.height / 2) - (height / 2);
-			window.open('tableControl.do','테이블 이동','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
-		};
+<script type="text/javascript">
+function goSalesList() {
+	event.preventDefault();
+	var width = 1000;
+	var height = 600;
+	var popupX = (window.screen.width / 2) - (width / 2);
+	var popupY = (window.screen.height / 2) - (height / 2);
+	window.open('salesForm.do','판매내역','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+};
 
-		function goSetting() {
-			event.preventDefault();
-			location.href="${pageContext.request.contextPath}";
-		};
+function goTableControl() {
+	var width = 400;
+	var height = 400;
+	var popupX = (window.screen.width / 2) - (width / 2);
+	var popupY = (window.screen.height / 2) - (height / 2);
+	window.open('tableControl.do','테이블 이동','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+};
 
-		function goOrderList(tableNum) {
-			$("#order_TableNum").append("<input type='hidden' name='orders_No' value='"+tableNum+"'>");
-			$("#posMenuForm").attr("action", "ordersList.do");
-			$("#posMenuForm").submit();
-		};
+function goSetting() {
+	event.preventDefault();
+	location.href="${pageContext.request.contextPath}";
+};
 
-		var tablecnt = 1;
-	   	var table_left = 0;
-	   	var table_top = 0;
-	   
-	   // 테이블 생성
-	   function tableAdd() {
-		    event.preventDefault();
-			var frmTag = "<div id='drag_div"+tablecnt+"' style='display: block; border: 1px solid grey; width: 100px; height: 150px; position: absolute; left: "+table_left+"px; top: "+table_top+"px; cursor: pointer; cursor: hand' class='btn' onclick='goOrderList("+tablecnt+")'>";
-			frmTag += "<div align='center'>테이블"+tablecnt+"</div>";
-			<c:forEach items="${ posMainList }" var="posMainList" >
-			   if('${ posMainList.OD_ORDERS_NO }' == tablecnt){
-				   frmTag += "${ posMainList.MENU_NAME }&nbsp;";
-				   frmTag += "${ posMainList.OD_QTY }<br>";
-			   }
-			</c:forEach>
-			frmTag += "<div id='order_TableNum'></div></div>"
-			$("#tableArea").append(frmTag);
-			tablecnt++;
+function goOrderList(tableNum) {
+	$("#order_TableNum").append("<input type='hidden' name='orders_No' value='"+tableNum+"'>");
+	$("#posMenuForm").attr("action", "ordersList.do");
+	$("#posMenuForm").submit();
+};
+
+var tablecnt = 1;
+  	var table_left = 0;
+  	var table_top = 0;
+  
+  // 테이블 생성
+  function tableAdd() {
+    event.preventDefault();
+	var frmTag = "<div id='drag_div"+tablecnt+"' style='display: block; border: 1px solid grey; width: 100px; height: 150px; position: absolute; left: "+table_left+"px; top: "+table_top+"px; cursor: pointer; cursor: hand' class='btn' onclick='goOrderList("+tablecnt+")'>";
+	frmTag += "<div align='center'>테이블"+tablecnt+"</div>";
+	<c:forEach items="${ posMainList }" var="posMainList" >
+	   if('${ posMainList.OD_ORDERS_NO }' == tablecnt){
+		   frmTag += "${ posMainList.MENU_NAME }&nbsp;";
+		   frmTag += "${ posMainList.OD_QTY }<br>";
 	   }
-	   
-	   $(document).ready(function() {
-		    <c:forEach items="${tableList}" var="tableList" >
-				table_left = parseInt(${tableList.tableSave_X});
-				table_top = parseInt(${tableList.tableSave_Y});
-				tableAdd();
-			</c:forEach>
-			table_left = 0;
-			table_top = 0;
-			
-			startTime();
-		});
-		
-		// 시계
-		function startTime() {
-		    var today = new Date();
-		    var now = new Date();
-		    
-		    var year = now.getFullYear(); //년
-		    var month = now.getMonth(); //월
-		    var date = now.getDate();  //일
-		    var day = now.getDay();  //요일
-		    var hour = now.getHours();  //시
-		    var min = now.getMinutes();  //분
-		    var sec = now.getSeconds();  //초
-		    
-		    month = checkTime(month);
-		    date = checkTime(date);
-		    hour = checkTime(hour);
-		    min = checkTime(min);		    
-		    sec = checkTime(sec);
-		    var week = ['일', '월', '화', '수', '목', '금', '토'];
-		    
-		    document.getElementById('clock').innerHTML = 
-		    	year + "년 " + month + "월 " + date + "일 [" + week[day] + "] " + hour + ":" + min + ":" + sec;
-	    	
-		    var t = setTimeout(startTime, 1000);
-		};
-		// 숫자가 10보다 작을 경우 앞에 0을 붙이기
-		function checkTime(i) {
-		    if (i < 10) {i = "0" + i};
-		    return i;
-		};
-		//1초마다 함수 갱신
-		function realtimeClock() {
-		  document.timeForm.timeInput.value = getTimeStamp();
-		  setTimeout("realtimeClock()", 1000);
-		}
-	</script>
+	</c:forEach>
+	frmTag += "<div id='order_TableNum'></div></div>"
+	$("#tableArea").append(frmTag);
+	tablecnt++;
+  }
+  
+  $(document).ready(function() {
+    <c:forEach items="${tableList}" var="tableList" >
+		table_left = parseInt(${tableList.tableSave_X});
+		table_top = parseInt(${tableList.tableSave_Y});
+		tableAdd();
+	</c:forEach>
+	table_left = 0;
+	table_top = 0;
+	
+	startTime();
+});
+
+// 시계
+function startTime() {
+    var today = new Date();
+    var now = new Date();
+    
+    var year = now.getFullYear(); //년
+    var month = now.getMonth(); //월
+    var date = now.getDate();  //일
+    var day = now.getDay();  //요일
+    var hour = now.getHours();  //시
+    var min = now.getMinutes();  //분
+    var sec = now.getSeconds();  //초
+    
+    month = checkTime(month);
+    date = checkTime(date);
+    hour = checkTime(hour);
+    min = checkTime(min);		    
+    sec = checkTime(sec);
+    var week = ['일', '월', '화', '수', '목', '금', '토'];
+    
+    document.getElementById('clock').innerHTML = 
+    	year + "년 " + month + "월 " + date + "일 [" + week[day] + "] " + hour + ":" + min + ":" + sec;
+   	
+    var t = setTimeout(startTime, 1000);
+};
+// 숫자가 10보다 작을 경우 앞에 0을 붙이기
+function checkTime(i) {
+    if (i < 10) {i = "0" + i};
+    return i;
+};
+//1초마다 함수 갱신
+function realtimeClock() {
+  document.timeForm.timeInput.value = getTimeStamp();
+  setTimeout("realtimeClock()", 1000);
+}
+</script>
 </body>
 </html>

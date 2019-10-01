@@ -158,10 +158,6 @@
 	<select id="tableControl" resultType="HashMap">
 	SELECT TABLESAVE_CODE, ORDERS_TABLESAVE_CODE  FROM TABLESAVE LEFT OUTER JOIN ORDERS ON ORDERS.ORDERS_TABLESAVE_CODE = TABLESAVE.TABLESAVE_CODE ORDER BY TABLESAVE_CODE
 	</select>
-
-	<select id="paymentSelect" resultType="payment">
-	SELECT PAYMENT_NO, PAYMENT_SALES_NO, PAYMENT_MEMBER_ID, PAYMENT_TABLE, PAYMENT_STATE, PAYMENT_DATE, PAYMENT_POINT, PAYMENT_DISCOUNT, PAYMENT_CASH, PAYMENT_CARD FROM PAYMENT
-	</select>
 	
 	<insert id="salesInsert">
 	INSERT INTO SALES(SALES_NO) VALUES((SELECT COUNT(*) FROM SALES) + 1)
@@ -227,9 +223,48 @@
 	<select id="ordersCheck" parameterType="map" resultType="java.lang.Integer">
 	SELECT COUNT(*) FROM ORDERS_DETAILS WHERE OD_ORDERS_NO = #{orders_No}
 	</select>
-	
-	<select id="salesDetailesSelect" parameterType="sales" resultType="salesDetails">
-	SELECT SD_NO, SD_SALES_NO, SD_MENU_CODE AS MENU_NAME, SD_QTY, SD_PRICE FROM SALES_DETAILS LEFT OUTER JOIN MENU ON MENU.MENU_CODE=SALES_DETAILS.SD_MENU_CODE WHERE SD_SALES_NO = #{sales_No}
+
+	<select id="paymentSelect" parameterType="map" resultType="payment">
+	SELECT PAYMENT_NO, PAYMENT_SALES_NO, PAYMENT_MEMBER_ID, PAYMENT_TABLE, PAYMENT_STATE, PAYMENT_DATE, PAYMENT_POINT, PAYMENT_DISCOUNT, PAYMENT_CASH, PAYMENT_CARD FROM PAYMENT
+	<where>
+		<choose>
+			<when test="'payment_Table' == searchType">
+			PAYMENT_TABLE = #{data} 
+			</when>
+			<when test="'payment_Member_Id' == searchType">
+			PAYMENT_MEMBER_ID = #{data} 
+			</when>
+			<when test="'payment_State' == searchType">
+			PAYMENT_STATE = #{data} 
+			</when>
+			<when test="'payment_Date' == searchType">
+				<choose>
+					<when test="predatepicker != null and postdatepicker != null">
+					<![CDATA[
+					payment_Date >= #{predatepicker} and payment_Date <= #{postdatepicker}
+					]]>
+					</when>
+					<when test="predatepicker != null and postdatepicker != null">
+					payment_Date >= #{predatepicker}
+					</when>
+					<when test="predatepicker != null and postdatepicker != null">
+					<![CDATA[
+					payment_Date <= #{postdatepicker}
+					]]>
+					</when>
+				</choose>
+			</when>
+		</choose>
+	</where>
+	ORDER BY PAYMENT_DATE DESC
 	</select>
+	
+	<select id="salesDetailesSelect" parameterType="map" resultType="salesDetails">
+	SELECT SD_NO, SD_SALES_NO, MENU_NAME AS SD_MENU_CODE, SD_QTY, SD_PRICE FROM SALES_DETAILS LEFT OUTER JOIN MENU ON MENU.MENU_CODE=SALES_DETAILS.SD_MENU_CODE WHERE SD_SALES_NO = #{sales_No}
+	</select>
+	
+	<update id="paymentCancle" parameterType="map">
+	UPDATE PAYMENT SET PAYMENT_STATE = '환불' WHERE PAYMENT_NO = #{payment_No}
+	</update>
 	
 </mapper>

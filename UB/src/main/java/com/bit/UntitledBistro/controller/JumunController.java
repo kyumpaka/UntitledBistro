@@ -277,24 +277,34 @@ public class JumunController {
 		jumunService.ordersDeleteCheck(orders_No);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
+	@RequestMapping(value = "/salesForm.do")
+	public String salesForm(Model model) {
+		
+		return "views/jumun/salesForm";
+	}
 	
 	@RequestMapping(value = "/salesList.do")
-	public String salesList(Model model) {
-		model.addAttribute("salesList", jumunService.paymentSearch());
+	@ResponseBody
+	public ArrayList<PaymentDTO> salesList(HttpServletRequest request) {
+		String data = request.getParameter("data");
+		String searchType = request.getParameter("searchType");
+		String predatepicker = request.getParameter("predatepicker");
+		String postdatepicker = request.getParameter("postdatepicker");
 		
-		return "views/jumun/salesList";
+		return jumunService.paymentSearch(data, searchType, predatepicker, postdatepicker);
 	}
 	
 	@RequestMapping(value = "/salesDetailsByNo.do", method = RequestMethod.POST)
 	@ResponseBody
-	public ArrayList<SalesDetailsDTO> salesDetailsByNo(@RequestBody SalesDTO salesDTO) {
-		return jumunService.salesDetailsSearch(salesDTO);
+	public ArrayList<SalesDetailsDTO> salesDetailsByNo(@RequestParam("sales_No") String sales_No) {
+
+		return jumunService.salesDetailsSearch(sales_No);
+	}
+	
+	@RequestMapping(value = "/paymentCancle.do")
+	@ResponseBody
+	public int paymentCancle(@RequestParam("payment_No") String payment_No) {
+		
+		return jumunService.paymentCancle(payment_No);
 	}
 }

@@ -31,11 +31,12 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
-		opener.location.href = "posMain.do";
-	});
-	function windowClose() {
-		window.close();
-	};
+$(document).ready(function() {
+	opener.location.href = "posMain.do";
+});
+
+function windowClose() {
+	window.close();
+};
 </script>
 </html>

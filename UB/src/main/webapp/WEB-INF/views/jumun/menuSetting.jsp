@@ -11,22 +11,7 @@
 <link href="${pageContext.request.contextPath}/resources/pos/assets/css/ui.css" rel="stylesheet type="text/css" />
 <link href="${pageContext.request.contextPath}/resources/pos/assets/fonts/fontawesome/css/fontawesome-all.min.css" type="text/css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/pos/assets/css/OverlayScrollbars.css" type="text/css" rel="stylesheet" />
-<style>
-.avatar {
-	vertical-align: middle;
-	width: 35px;
-	height: 35px;
-	border-radius: 50%;
-}
-
-.bg-default, .btn-default {
-	background-color: #f2f3f8;
-}
-
-.btn-error {
-	color: #ef5f5f;
-}
-</style>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jumun/jumun.css">
 </head>
 <body>
 	<section class="section-content padding-y-sm bg-default ">
@@ -101,165 +86,164 @@
 		</div>
 	</form>
 	</section>
-	
-	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/jquery-2.0.0.min.js" type="text/javascript"></script>
-	<script src="${pageContext.request.contextPath}/resources/pos/assets/js/OverlayScrollbars.js" type="text/javascript"></script>
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-	<script>
-		$(function() {
-			$("#items").height(552);
-			$("#items").overlayScrollbars({
-				overflowBehavior : {
-					x : "hidden",
-					y : "scroll"
-				}
-			});
-			$("#cart").height(445);
-			$("#cart").overlayScrollbars({});
-		});
-		
-		// 메뉴구분 탭 활성화
-		$(document).ready(function() {
-			if('' == '${ mt_Code }'){
-				$("#tab").attr('class','nav-link active show');
-			}
-			<c:forEach items="${ menuTypeList }" var="menuTypeList" >
-			 else if('${ menuTypeList.mt_Code }' == '${ mt_Code }'){
-				$("#tab${ mt_Code }").attr('class','nav-link active show');
-			}
-			</c:forEach>
-
-			// 체크박스 및 체크이미지 숨기기
-			$("input[name='menu_Code']").css("display","none");
-			$(".checkImg").css("display","none");
-
-			// 결과 보이기
-			var result = '${result}';
-			
-			checkModal(result);
-
-			function checkModal(result) {
-				if(result === '' || history.state){
-					return;
-				} else {
-					swal({
-						  title: result + "개 삭제되었습니다.",
-						  icon: "success",
-						  button: "닫기",
-						});
-				}
-			}
-		});
-
-		// 체크된 메뉴 및 이미지 조절
-		$("input[name='menu_Code']").click(function(){
-			var num = $(this).val();
-			
-			if($("input:checkbox[id='menu_Code"+num+"']").is(":checked") == false) {
-				$("#menuimg"+num).css("display","none");
-			} else {
-				$("#menuimg"+num).css("display","block");
-				$("#menuimg"+num).css("float","left");
-			}
-		});
-
-		function mtSettingView(code) {
-			if(code != undefined){
-				$("#tabMt_Code").append('<input type="hidden" name="mt_Code" value="'+code+'">');
-			}
-			$("#menuSettingForm").attr("action", "menuSetting.do");
-			$("#menuSettingForm").submit();
-		};
-		
-		$('.btn').click(function(){
-			event.preventDefault();
-			var button = $(this).val();
-			
-			if(button == "menuTypeAddForm") {
-				var width = 400;
-				var height = 230;
-				var popupX = (window.screen.width / 2) - (width / 2);
-				var popupY = (window.screen.height / 2) - (height / 2);
-				window.open('menuTypeAddForm.do','메뉴타입추가','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
-			} else if(button == "menuTypeList") {
-				var width = 400;
-				var height = 400;
-				var popupX = (window.screen.width / 2) - (width / 2);
-				var popupY = (window.screen.height / 2) - (height / 2);
-				window.open('menuTypeList.do','메뉴타입관리','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
-			} else if(button == "menuAddForm") {
-				var width = 500;
-				var height = 600;
-				var popupX = (window.screen.width / 2) - (width / 2);
-				var popupY = (window.screen.height / 2) - (height / 2);
-				window.open('menuAddForm.do','메뉴추가','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
-			} else if(button == "menuModiForm") {
-				// 유효성 검사
-				if ($("input:checkbox[name='menu_Code']:checked").length == 1){
-					var menu_CodeCk = $("input:checkbox[name='menu_Code']:checked").val();
-					var width = 500;
-					var height = 600;
-					var popupX = (window.screen.width / 2) - (width / 2);
-					var popupY = (window.screen.height / 2) - (height / 2);
-					window.open('menuModiForm.do?menu_Code='+menu_CodeCk,'메뉴수정','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
-				} else {
-					swal({
-						  title: "한개의 메뉴를 선택해주세요.",
-						  icon: "warning",
-						});
-					event.preventDefault();
-					return;
-				}
-			} else if(button == "menuRemove") {
-				// 유효성 검사
-		        if($("input:checkbox[name='menu_Code']").is(":checked") == true){
-		        	swal({
-		  			  title: "삭제하시겠습니까?",
-		  			  icon: "warning",
-		  			  buttons: ["아니요", "네"],
-		  			  dangerMode: true,
-		  			}).then((willDelete) => {
-		  				  if (willDelete) {
-		  					$("#menuSettingForm").attr("action", "menuRemove.do");
-		  					$("#menuSettingForm").submit();
-		  				  }
-		  			});
-		        } else {
-		        	swal({
-						  title: "메뉴를 한개 이상 선택해주세요.",
-						  icon: "warning",
-						});
-					event.preventDefault();
-					return;
-		        }
-			}
-		});
-		
-		// 메뉴 재료보기
-		function igdView(num) {
-			$.ajax({
-				  url: 'ingreSearchByMenuCode.do',
-				  type: 'post',
-				  data: { menu_Code:num },
-				  dataType: 'json',
-				  success : function(result) {
-					  if(result.length > 0) {
-						  var igd = "";
-						  var resLen = result.length;
-						  for(var i = 0; i < resLen; i++){
-								igd += "재료명 : " + result[i].ingredient_Product_Code + " / 수량 : " + result[i].ingredient_Qty + "<br>";
-						  }
-						  $("#igd"+num).append("<div style=\"position: absolute; background-color: white; border: 1px solid black; left: 70px; top: 30px; padding: 20px; \">"+igd+"</div>");
-					  } else {
-						  $("#igd"+num).append("<div style=\"position: absolute; background-color: white; border: 1px solid black; left: 100px; top: 30px; padding: 20px; \"> 재료 없음 </div>");
-					  }
-				  }
-			});
-		};
-
-		function igdViewEnd(num) {
-			$("#igd"+num).html("");
-		};
-	</script>
 </body>
+<script src="${pageContext.request.contextPath}/resources/pos/assets/js/jquery-2.0.0.min.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/resources/pos/assets/js/OverlayScrollbars.js" type="text/javascript"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	$("#items").height(552);
+	$("#items").overlayScrollbars({
+		overflowBehavior : {
+			x : "hidden",
+			y : "scroll"
+		}
+	});
+	$("#cart").height(445);
+	$("#cart").overlayScrollbars({});
+});
+
+// 메뉴구분 탭 활성화
+$(document).ready(function() {
+	if('' == '${ mt_Code }'){
+		$("#tab").attr('class','nav-link active show');
+	}
+	<c:forEach items="${ menuTypeList }" var="menuTypeList" >
+	 else if('${ menuTypeList.mt_Code }' == '${ mt_Code }'){
+		$("#tab${ mt_Code }").attr('class','nav-link active show');
+	}
+	</c:forEach>
+
+	// 체크박스 및 체크이미지 숨기기
+	$("input[name='menu_Code']").css("display","none");
+	$(".checkImg").css("display","none");
+
+	// 결과 보이기
+	var result = '${result}';
+	
+	checkModal(result);
+
+	function checkModal(result) {
+		if(result === '' || history.state){
+			return;
+		} else {
+			swal({
+				  title: result + "개 삭제되었습니다.",
+				  icon: "success",
+				  button: "닫기",
+				});
+		}
+	}
+});
+
+// 체크된 메뉴 및 이미지 조절
+$("input[name='menu_Code']").click(function(){
+	var num = $(this).val();
+	
+	if($("input:checkbox[id='menu_Code"+num+"']").is(":checked") == false) {
+		$("#menuimg"+num).css("display","none");
+	} else {
+		$("#menuimg"+num).css("display","block");
+		$("#menuimg"+num).css("float","left");
+	}
+});
+
+function mtSettingView(code) {
+	if(code != undefined){
+		$("#tabMt_Code").append('<input type="hidden" name="mt_Code" value="'+code+'">');
+	}
+	$("#menuSettingForm").attr("action", "menuSetting.do");
+	$("#menuSettingForm").submit();
+};
+
+$('.btn').click(function(){
+	event.preventDefault();
+	var button = $(this).val();
+	
+	if(button == "menuTypeAddForm") {
+		var width = 400;
+		var height = 230;
+		var popupX = (window.screen.width / 2) - (width / 2);
+		var popupY = (window.screen.height / 2) - (height / 2);
+		window.open('menuTypeAddForm.do','메뉴타입추가','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+	} else if(button == "menuTypeList") {
+		var width = 400;
+		var height = 400;
+		var popupX = (window.screen.width / 2) - (width / 2);
+		var popupY = (window.screen.height / 2) - (height / 2);
+		window.open('menuTypeList.do','메뉴타입관리','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+	} else if(button == "menuAddForm") {
+		var width = 500;
+		var height = 600;
+		var popupX = (window.screen.width / 2) - (width / 2);
+		var popupY = (window.screen.height / 2) - (height / 2);
+		window.open('menuAddForm.do','메뉴추가','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+	} else if(button == "menuModiForm") {
+		// 유효성 검사
+		if ($("input:checkbox[name='menu_Code']:checked").length == 1){
+			var menu_CodeCk = $("input:checkbox[name='menu_Code']:checked").val();
+			var width = 500;
+			var height = 600;
+			var popupX = (window.screen.width / 2) - (width / 2);
+			var popupY = (window.screen.height / 2) - (height / 2);
+			window.open('menuModiForm.do?menu_Code='+menu_CodeCk,'메뉴수정','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+		} else {
+			swal({
+				  title: "한개의 메뉴를 선택해주세요.",
+				  icon: "warning",
+				});
+			event.preventDefault();
+			return;
+		}
+	} else if(button == "menuRemove") {
+		// 유효성 검사
+        if($("input:checkbox[name='menu_Code']").is(":checked") == true){
+        	swal({
+  			  title: "삭제하시겠습니까?",
+  			  icon: "warning",
+  			  buttons: ["아니요", "네"],
+  			  dangerMode: true,
+  			}).then((willDelete) => {
+  				  if (willDelete) {
+  					$("#menuSettingForm").attr("action", "menuRemove.do");
+  					$("#menuSettingForm").submit();
+  				  }
+  			});
+        } else {
+        	swal({
+				  title: "메뉴를 한개 이상 선택해주세요.",
+				  icon: "warning",
+				});
+			event.preventDefault();
+			return;
+        }
+	}
+});
+
+// 메뉴 재료보기
+function igdView(num) {
+	$.ajax({
+		  url: 'ingreSearchByMenuCode.do',
+		  type: 'post',
+		  data: { menu_Code:num },
+		  dataType: 'json',
+		  success : function(result) {
+			  if(result.length > 0) {
+				  var igd = "";
+				  var resLen = result.length;
+				  for(var i = 0; i < resLen; i++){
+						igd += "재료명 : " + result[i].ingredient_Product_Code + " / 수량 : " + result[i].ingredient_Qty + "<br>";
+				  }
+				  $("#igd"+num).append("<div style=\"position: absolute; background-color: white; border: 1px solid black; left: 70px; top: 30px; padding: 20px; \">"+igd+"</div>");
+			  } else {
+				  $("#igd"+num).append("<div style=\"position: absolute; background-color: white; border: 1px solid black; left: 100px; top: 30px; padding: 20px; \"> 재료 없음 </div>");
+			  }
+		  }
+	});
+};
+
+function igdViewEnd(num) {
+	$("#igd"+num).html("");
+};
+</script>
 </html>

@@ -4,9 +4,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>POS</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-<title>POS</title>
 </head>
 <body>
 	<div class="card">
@@ -76,122 +76,121 @@
 			<button onclick="windowClose()" class="btn btn-primary btn-sm"><i class="fa fa-dot-circle-o"></i> 취소</button>
 		</div>
 	</div>
-
 </body>
 <script src="${pageContext.request.contextPath}/resources/pos/assets/js/jquery-2.0.0.min.js" type="text/javascript" ></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
-		var igdcnt = 0;
-		var cntend = igdcnt;
-		function ingAdd() {
-			  event.preventDefault();
-			  var frmTag = '<div id="addIgd'+igdcnt+'"><div class="row form-group"> <div class="col col-md-3"> <label for="text-input" class=" form-control-label">재료 이름</label> </div>';
-				  frmTag += '<div class="col-12 col-md-9"> <input type="text" id="text-input" class="form-control" name="ingredientDTO['+igdcnt+'].ingredient_Product_Code"> </div> </div>';
-				  frmTag += '<div class="row form-group"> <div class="col col-md-3"> <label for="text-input" class=" form-control-label">개수</label> </div>';
-				  frmTag += '<div class="col-12 col-md-9"> <input type="number" id="text-input" class="form-control" name="ingredientDTO['+igdcnt+'].ingredient_Qty"> </div>';
-				  frmTag += '</div> <button onclick="igdRemove(\''+igdcnt+'\')" class="btn btn-primary btn-sm" >재료 삭제</button><hr> </div>';
-			  $("#addIgd").append(frmTag);
-			  if(cntend == igdcnt) {
-				  igdcnt++;
-				  cntend = igdcnt;
-			  } else {
-				  igdcnt = cntend;
-			  }
-		};
-		
-		function igdRemove(num) {
-			event.preventDefault();
-			$("#addIgd"+num).remove();
-			if(eval(igdcnt-1) == num) {
-				igdcnt--;
-				cntend = igdcnt;
-			} else {
-				igdcnt = num;
-			}
-		};
+var igdcnt = 0;
+var cntend = igdcnt;
+function ingAdd() {
+	  event.preventDefault();
+	  var frmTag = '<div id="addIgd'+igdcnt+'"><div class="row form-group"> <div class="col col-md-3"> <label for="text-input" class=" form-control-label">재료 이름</label> </div>';
+		  frmTag += '<div class="col-12 col-md-9"> <input type="text" id="text-input" class="form-control" name="ingredientDTO['+igdcnt+'].ingredient_Product_Code"> </div> </div>';
+		  frmTag += '<div class="row form-group"> <div class="col col-md-3"> <label for="text-input" class=" form-control-label">개수</label> </div>';
+		  frmTag += '<div class="col-12 col-md-9"> <input type="number" id="text-input" class="form-control" name="ingredientDTO['+igdcnt+'].ingredient_Qty"> </div>';
+		  frmTag += '</div> <button onclick="igdRemove(\''+igdcnt+'\')" class="btn btn-primary btn-sm" >재료 삭제</button><hr> </div>';
+	  $("#addIgd").append(frmTag);
+	  if(cntend == igdcnt) {
+		  igdcnt++;
+		  cntend = igdcnt;
+	  } else {
+		  igdcnt = cntend;
+	  }
+};
 
-		function windowClose(){
-			window.close();
-		};
+function igdRemove(num) {
+	event.preventDefault();
+	$("#addIgd"+num).remove();
+	if(eval(igdcnt-1) == num) {
+		igdcnt--;
+		cntend = igdcnt;
+	} else {
+		igdcnt = num;
+	}
+};
 
-		function upload(){
-			if(igdcheck()){
-				if(menucheck()){
-					var form = $('#multiform')[0];
-					var formData = new FormData(form);
-					$.ajax({
-			            type: "POST",
-			            enctype: 'multipart/form-data',
-			            url: "menuAdd.do",
-			            data: formData,
-			            processData: false,
-			            contentType: false,
-			            cache: false,
-			            success: function (result) {
-			            	swal({
-								  title: result + "개 등록되었습니다.",
-								  icon: "success",
-								  button: "닫기",
-								})
-							  .then(() => {
-								  opener.document.location.reload();
-								  window.close();
-							  });
-			            },
-			        });
-				}
-			}
-		};
+function windowClose(){
+	window.close();
+};
 
-		function menucheck(){
-			var menu_Name = $("input[name='menu_Name']").val().trim();
-			var menu_Price = $("input[name='menu_Price']").val().trim();
-			
-			if(menu_Name == "" || menu_Name == null) {
-				swal({
-					  title: "메뉴명을 입력해주세요.",
-					  icon: "warning",
-					});
-				$("input[name='menu_Name']").focus();
-				$("input[name='menu_Name']").val("");
-				return false;
-			}
-			if(menu_Price == "" || menu_Price == 0) {
-				swal({
-					  title: "가격을 입력해주세요.",
-					  icon: "warning",
-					});
-				$("input[name='menu_Price']").focus();
-				$("input[name='menu_Price']").val("");
-				return false;
-			}
-			return true;
+function upload(){
+	if(igdcheck()){
+		if(menucheck()){
+			var form = $('#multiform')[0];
+			var formData = new FormData(form);
+			$.ajax({
+	            type: "POST",
+	            enctype: 'multipart/form-data',
+	            url: "menuAdd.do",
+	            data: formData,
+	            processData: false,
+	            contentType: false,
+	            cache: false,
+	            success: function (result) {
+	            	swal({
+						  title: result + "개 등록되었습니다.",
+						  icon: "success",
+						  button: "닫기",
+						})
+					  .then(() => {
+						  opener.document.location.reload();
+						  window.close();
+					  });
+	            },
+	        });
 		}
-		
-		function igdcheck(){
-			for(var i = 0; i < igdcnt; i++){
-				var code = $("input[name='ingredientDTO["+i+"].ingredient_Product_Code']").val().trim();
-				var qty = $("input[name='ingredientDTO["+i+"].ingredient_Qty']").val().trim();
-				if(code == "" || code == null) {
-					swal({
-						  title: "재료명을 입력해주세요.",
-						  icon: "warning",
-						});
-					$("input[name='ingredientDTO["+i+"].ingredient_Product_Code']").focus();
-					$("input[name='ingredientDTO["+i+"].ingredient_Product_Code']").val("");
-					return false;
-				}
-				if(qty == "" || qty == 0) {
-					swal({
-						  title: "수량을 입력해주세요.",
-						  icon: "warning",
-						});
-					$("ingredientDTO["+i+"].ingredient_Qty").focus();
-					$("ingredientDTO["+i+"].ingredient_Qty").val("");
-					return false;
-				}
-			}
-			return true;
-		};
+	}
+};
+
+function menucheck(){
+	var menu_Name = $("input[name='menu_Name']").val().trim();
+	var menu_Price = $("input[name='menu_Price']").val().trim();
+	
+	if(menu_Name == "" || menu_Name == null) {
+		swal({
+			  title: "메뉴명을 입력해주세요.",
+			  icon: "warning",
+			});
+		$("input[name='menu_Name']").focus();
+		$("input[name='menu_Name']").val("");
+		return false;
+	}
+	if(menu_Price == "" || menu_Price == 0) {
+		swal({
+			  title: "가격을 입력해주세요.",
+			  icon: "warning",
+			});
+		$("input[name='menu_Price']").focus();
+		$("input[name='menu_Price']").val("");
+		return false;
+	}
+	return true;
+}
+
+function igdcheck(){
+	for(var i = 0; i < igdcnt; i++){
+		var code = $("input[name='ingredientDTO["+i+"].ingredient_Product_Code']").val().trim();
+		var qty = $("input[name='ingredientDTO["+i+"].ingredient_Qty']").val().trim();
+		if(code == "" || code == null) {
+			swal({
+				  title: "재료명을 입력해주세요.",
+				  icon: "warning",
+				});
+			$("input[name='ingredientDTO["+i+"].ingredient_Product_Code']").focus();
+			$("input[name='ingredientDTO["+i+"].ingredient_Product_Code']").val("");
+			return false;
+		}
+		if(qty == "" || qty == 0) {
+			swal({
+				  title: "수량을 입력해주세요.",
+				  icon: "warning",
+				});
+			$("ingredientDTO["+i+"].ingredient_Qty").focus();
+			$("ingredientDTO["+i+"].ingredient_Qty").val("");
+			return false;
+		}
+	}
+	return true;
+};
 </script>
 </html>

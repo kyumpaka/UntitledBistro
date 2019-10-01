@@ -70,8 +70,6 @@ public interface JumunDAO {
 	
 	public ArrayList<HashMap<String, Object>> tableControl();
 	
-	public ArrayList<PaymentDTO> paymentSelect();
-	
 	// 결제
 	public int salesInsert();
 
@@ -105,5 +103,9 @@ public interface JumunDAO {
 
 	public int ordersCheck(Map<String, String> map);
 	
-	public ArrayList<SalesDetailsDTO> salesDetailesSelect(SalesDTO salesDTO);
+	public ArrayList<PaymentDTO> paymentSelect(Map<String, String> map);
+	
+	public ArrayList<SalesDetailsDTO> salesDetailesSelect(Map<String, String> map);
+	
+	public int paymentCancle(Map<String, String> map);
 }

@@ -74,8 +74,6 @@ public interface JumunService {
 	
 	public int tableControl(Map<String, String> table);
 	
-	public ArrayList<PaymentDTO> paymentSearch();
-	
 	public String kakaoPayReady(String orders_No, PaymentDTO paymentDTO);
 	
 	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token, String payment_Card, String orders_No);
@@ -94,6 +92,9 @@ public interface JumunService {
 	
 	public void ordersDeleteCheck(String orders_No);
 	
-	public ArrayList<SalesDetailsDTO> salesDetailsSearch(SalesDTO salesDTO);	
+	public ArrayList<PaymentDTO> paymentSearch(String data, String searchType, String predatepicker, String postdatepicker);
+	
+	public ArrayList<SalesDetailsDTO> salesDetailsSearch(String sales_No);	
 
+	public int paymentCancle(String payment_No);
 }

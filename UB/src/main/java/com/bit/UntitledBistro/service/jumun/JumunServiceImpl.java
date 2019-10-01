@@ -386,12 +386,6 @@ public class JumunServiceImpl implements JumunService {
 		
 		return 0;
 	}
-
-	@Override
-	public ArrayList<PaymentDTO> paymentSearch() {
-		dao = sqlSession.getMapper(JumunDAO.class);
-		return dao.paymentSelect();
-	}
 	
 	private static final String HOST = "https://kapi.kakao.com";
     private KakaoPayReadyDTO kakaoPayReadyDTO;
@@ -708,9 +702,41 @@ public class JumunServiceImpl implements JumunService {
 	}
 	
 	@Override
-	public ArrayList<SalesDetailsDTO> salesDetailsSearch(SalesDTO salesDTO) {
+	public ArrayList<PaymentDTO> paymentSearch(String data, String searchType, String predatepicker, String postdatepicker) {
 		dao = sqlSession.getMapper(JumunDAO.class);
+		map = new HashMap<String, String>();
+		if(data == null) data = "";
+		if(searchType == null) searchType = "";
+		if(predatepicker == null) predatepicker = "";
+		if(postdatepicker == null) postdatepicker = "";
 		
-		return dao.salesDetailesSelect(salesDTO);
+		if(predatepicker.equals(postdatepicker) && predatepicker != "") {
+			postdatepicker = Integer.toString(Integer.parseInt(postdatepicker) + 1);
+		}
+		
+		map.put("data", data);
+		map.put("searchType", searchType);
+		map.put("predatepicker", predatepicker);
+		map.put("postdatepicker", postdatepicker);
+		
+		return dao.paymentSelect(map);
+	}
+	
+	@Override
+	public ArrayList<SalesDetailsDTO> salesDetailsSearch(String sales_No) {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		map = new HashMap<String, String>();
+		map.put("sales_No", sales_No);
+		
+		return dao.salesDetailesSelect(map);
+	}
+	
+	@Override
+	public int paymentCancle(String payment_No) {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		map = new HashMap<String, String>();
+		map.put("payment_No", payment_No);
+		
+		return dao.paymentCancle(map);
 	}
 }

@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class PaymentDTO {
 
-	private String payment_No;
+	private int payment_No;
 	private String payment_Sales_No;
 	private String payment_Member_Id;
 	private String payment_Table;
@@ -15,10 +15,10 @@ public class PaymentDTO {
 	private int payment_Cash;
 	private int payment_Card;
 	
-	public String getPayment_No() {
+	public int getPayment_No() {
 		return payment_No;
 	}
-	public void setPayment_No(String payment_No) {
+	public void setPayment_No(int payment_No) {
 		this.payment_No = payment_No;
 	}
 	public String getPayment_Sales_No() {
