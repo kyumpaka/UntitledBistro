@@ -119,17 +119,6 @@
 					<input class="form-control" type="search" placeholder="검색할 품목코드 입력" id="product_code">
 				</div>
 			</div>
-			
-			<div id="search2" class="form-group">
-				<label for="product_name" class="col-2 col-form-label">품목명</label>
-				<div class="col-10">
-					<!-- 검색 모달창 열기버튼 -->
-					<button id="open2" type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">
-						<i class="glyphicon glyphicon-search"></i>
-					</button>
-					<input class="form-control" type="search" placeholder="검색할 품목명 입력" id="product_name">
-				</div>
-			</div>
 
 		</div>
 		
@@ -143,9 +132,9 @@
 	<div id="jsGridBackground">
 		<div id="jsGrid"></div> <!-- 그리드를 이용한 테이블 -->
 		<div id="jsGridPage"></div> <!-- 그리드를 이용한 페이징 -->
+	<button id="insertBtn" class="btn btn-primary btn-sm">적용</button>
 	</div>
 	
-	<button id="btn">버튼</button>
 	
 </body>
 
@@ -160,6 +149,7 @@ $(document).ready(function() {
 		width : "100%",
 		height : "auto",
 		inserting: true,
+		editing : true,
 		//데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
 		autoload : true,
 		//그리드 헤더 클릭시 sorting이 되게함
@@ -178,11 +168,6 @@ $(document).ready(function() {
 			title: "품목코드",
 			width : 80
 		}, {
-			name : "product_name",
-			type : "text",
-			title: "품목명",
-			width : 100
-		}, {
 			name : "di_qty",
 			type : "text",
 			title: "입고수량",
@@ -196,29 +181,24 @@ $(document).ready(function() {
 			name : "di_reason",
 			type : "text",
 			title: "불량이유",
-			width : 120
+			width : 150
 		}, {
 			type : "control", 
 			editButton: false,                               // show edit button
             deleteButton: false,                             // show delete button
             clearFilterButton: true                        // show clear filter button
-		}],
-		
-		onItemInserted: function(args) {
-			
-	    }
+		}]
 		
 	}); // 그리드 끝
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	$("#btn").on("click",function() {
-		var jsonData = JSON.stringify($("#jsGrid").jsGrid("option","data"));
+	$("#insertBtn").on("click",function() {
 		
 		$.ajax({
 			url : "${path}/jaego/gridDefectItemInsert",
 			type : "post",
 			contentType : "application/json",
-			data : JSON.stringify(testData),
+			data : JSON.stringify($("#jsGrid").jsGrid("option","data")),
 			success : function() {
 				alert("추가 성공");
 				$("#jsGrid").jsGrid("clearInsert");
@@ -323,14 +303,14 @@ $.ajax({
 			}],
 			
 			rowClick: function(args) {
-				console.log("rowClick()");
-				console.log("product_code : " + args.item.product_code);
-				console.log("product_name : " + args.item.product_name);
+				$('#myModal').modal('hide')
 				var product_code = args.item.product_code;
-				var product_name = args.item.product_name;
+				console.log("rowClick()");
+				$($("#jsGrid .jsgrid-insert-row input")[0]).val(product_code);
+				
+				console.log("product_code : " + product_code);
 				$("#product_code").val(product_code);
-				$("#product_name").val(product_name);
-				$("#myModal").trigger("click"); // 강제 클릭
+				//$("#myModal").trigger("click"); // 강제 클릭
 			},
 			
 			controller : {
@@ -360,8 +340,9 @@ function valueTest(arr,condition,filter) {
 }
 
 // 검색창을 새로 열때마다 품목데이터 초기화
-$("#open, #open2").on("click",function() {
-	$("#productJsGrid").jsGrid({data:original});
+$("#open").on("click",function() {
+	$('#myModal').modal('show');
+	$("#productJsGrid").jsGrid({data:productData});
 	$("#productJsGrid").jsGrid("loadData");
 });
 
