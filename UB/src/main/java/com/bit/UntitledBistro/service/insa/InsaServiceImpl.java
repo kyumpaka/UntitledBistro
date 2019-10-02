@@ -99,6 +99,9 @@ public class InsaServiceImpl implements InsaService{
 	@Override
 	public int EmpRegisterUpdate(Insa_EmpRegisterDTO dto) {
 		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
+		System.out.println("=======================================");
+		System.out.println(dto.toString());
+		System.out.println("=======================================");
 		return insaDAO.EmpRegisterUpdate(dto);
 		
 		

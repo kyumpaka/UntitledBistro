@@ -118,7 +118,7 @@ function EmpRegisterUpdate(empregister_empnum){
 			</tr>
 			<tr>
 				<td colspan='1' class='ti' width='100'>사번</td>
-					<td class='ti'>${b.empregister_empnum }</td>
+					<td class='ti'>${b.empregister_empnum }<input type="hidden" name="empregister_empnum" value="${b.empregister_empnum }"></td>
 					<td class='ti' colspan='1'>성별</td>
 					<td class='ti'>${b.empregister_gender }</td>
 			</tr>
@@ -169,10 +169,11 @@ function EmpRegisterUpdate(empregister_empnum){
 				<td colspan='3' class='ti'>계좌번호</td>
 				<td colspan='2'><input type="text" name="empregister_banknum" value="${b.empregister_banknum}"></td>
 				<td colspan='1' class='ti' >급여 구분</td>
-				<td><input type="radio" name="empregister_payclassfiy"
-					>시급<input type="radio" name="empregister_payclassfiy"
-					>일급
+				<td><input type="radio" name="empregister_payclassfiy" value="시급"
+					><input type="radio" name="empregister_payclassfiy" value="일급"
+					>
 				</td>
+
 
 			</tr>
 
