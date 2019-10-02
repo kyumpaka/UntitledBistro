@@ -183,9 +183,7 @@ $(document).ready(function() {
 			title: "불량이유",
 			width : 150
 		}, {
-			type : "control", 
-			editButton: false,                               // show edit button
-            clearFilterButton: true                        // show clear filter button
+			type: "control", editButton: true, modeSwitchButton: false   // show clear filter button
 		}]
 		
 	}); // 그리드 끝
@@ -302,7 +300,7 @@ $.ajax({
 			}],
 			
 			rowClick: function(args) {
-				//$('#myModal').modal('hide');
+				$('#myModal').modal('hide');
 				$(".modal-body").css("display","none");
 				var product_code = args.item.product_code;
 				console.log("rowClick()");
