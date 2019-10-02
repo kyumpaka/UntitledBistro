@@ -93,7 +93,6 @@ function sample4_execDaumPostcode() {
 function EmpRegisterUpdate(empregister_empnum){
 	$("#update").submit;
 /* 	window.close(); */
-	
 }
 
 
@@ -134,19 +133,19 @@ function EmpRegisterUpdate(empregister_empnum){
 				<td class='ti' colspan='3' rowspan='2'>거주지</td>
 				<td class='ti'><input type="button"
 					onclick="sample4_execDaumPostcode()" value="우편번호 찾기"></td>
-				<td class='ti'><input type="text" id="sample4_postcode" placeholder=${b.empregister_addr }
+				<td class='ti'><input type="text" id="sample4_postcode" value="${b.empregister_addr }"
 					name="empregister_addr"></td>
 				<td class='ti' rowspan='1'><input type="text"
 					id="sample4_roadAddress" name="empregister_addr2"
-					placeholder="${b.empregister_addr2 }"><br></td>
+					value="${b.empregister_addr2 }"><br></td>
 				<td rowspan='1' class='ti'><input type="text" id="sample4_jibunAddress"
-					name="empregister_addr3" placeholder="${b.empregister_addr3 }"></td>
+					name="empregister_addr3" value="${b.empregister_addr3 }"></td>
 
 			</tr>
 			<tr>
 				<td class='ti'>상세주소
 				<td class='ti'><input type="text" id="sample4_detailAddress"
-					name="empregister_addr4" placeholder="${b.empregister_addr4 }"></td>
+					name="empregister_addr4" value="${b.empregister_addr4 }"></td>
 
 				<td class='ti'>직급</td>
 				<td class='ti'><input type="text" name="empregister_grade"
@@ -170,9 +169,9 @@ function EmpRegisterUpdate(empregister_empnum){
 				<td colspan='3' class='ti'>계좌번호</td>
 				<td colspan='2'><input type="text" name="empregister_banknum" value="${b.empregister_banknum}"></td>
 				<td colspan='1' class='ti' >급여 구분</td>
-				<td>시급<input type="radio" name="empregister_payclassfiy"
-					value="시급"> 일급<input type="radio"
-					value="일급" >
+				<td><input type="radio" name="empregister_payclassfiy"
+					>시급<input type="radio" name="empregister_payclassfiy"
+					>일급
 				</td>
 
 			</tr>
@@ -183,9 +182,9 @@ function EmpRegisterUpdate(empregister_empnum){
 				<td class='ti' colspan='2'><fmt:formatDate value="${b.empregister_entryday }"
 						pattern="yyyy-MM-dd" /></td>
 				<td colspan='1' class='ti' >재직 여부</td>
-				<td clospan='2'>재직중<input type="radio" name="empregister_leavecompany"
-					value="재직중" checked="${b.empregister_leavecompany}"> 퇴직<input type="radio"
-					 value="퇴직" >
+				<td colspan='2'><input type="radio" name="empregister_leavecompany"
+					>재직중<input type="radio"
+					name="empregister_leavecompany">퇴직
 				</td>
 			</tr>
 			<tr>
@@ -213,7 +212,7 @@ function EmpRegisterUpdate(empregister_empnum){
 
 				</select> --%></td>
 				<td>
-			<button  onclick="EmpregisterUpdate()" id="updateform">등록</button>
+			<button  onclick="EmpregisterUpdate()" >등록</button>
 				</td>
 			</tr>
 		</table>	

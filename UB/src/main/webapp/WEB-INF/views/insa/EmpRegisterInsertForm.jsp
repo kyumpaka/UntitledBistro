@@ -230,8 +230,11 @@ td {
 
 				<td class='ti' colspan='3'>입사 날짜</td>
 				<td class='ti' colspan='2' name="empregister_entryday"></td>
-				<td class='ti' colspan='1'>재직 여부</td>
-				<td><input type="checkbox" name="empregister_leavecompany"></td>
+				<td colspan='1' class='ti' >재직 여부</td>
+				<td clospan='2'>재직중<input type="radio" name="empregister_leavecompany"
+				value="재직중"> 퇴직<input type="radio"
+				value="퇴직"  name="empregister_leavecompany" >
+				</td>
 			</tr>
 			<tr>
 				<td class='ti' colspan='3'>시급</td>

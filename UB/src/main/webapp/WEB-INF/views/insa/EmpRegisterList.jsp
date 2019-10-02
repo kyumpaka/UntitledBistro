@@ -20,6 +20,19 @@ function list(){
 	window.location.replace('EmpRegisterList'); 
 
 }
+<script type="text/javascript">
+
+function EmpRegisterRead(empnum){
+	//alert("삭제");
+	location.href="/UntitledBistro/EmpRegisterRead?empregister_empnum="+empnum; 
+}
+
+function list(){
+	alert("등록완료");
+	window.location.href=window.location.href;
+	window.location.replace('EmpRegisterList'); 
+
+}
 
 </script>
 <meta charset="UTF-8">
