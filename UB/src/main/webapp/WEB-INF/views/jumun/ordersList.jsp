@@ -418,7 +418,7 @@ function minusOrder(code, price) {
 
 function orderStart(ordersNo) {
 	$.ajax({
-		  url: 'odersCheck.do',
+		  url: 'ordersCheck.do',
 		  type: 'post',
 		  data: { orders_No:ordersNo },
 		  dataType: 'json',
@@ -449,7 +449,7 @@ function orderStart(ordersNo) {
 
 function orderPrint(ordersNo) {
 	$.ajax({
-		  url: 'odersCheck.do',
+		  url: 'ordersCheck.do',
 		  type: 'post',
 		  data: { orders_No:ordersNo },
 		  dataType: 'json',
