@@ -185,7 +185,6 @@ $(document).ready(function() {
 		}, {
 			type : "control", 
 			editButton: false,                               // show edit button
-            deleteButton: false,                             // show delete button
             clearFilterButton: true                        // show clear filter button
 		}]
 		
@@ -303,7 +302,8 @@ $.ajax({
 			}],
 			
 			rowClick: function(args) {
-				$('#myModal').modal('hide')
+				//$('#myModal').modal('hide');
+				$(".modal-body").css("display","none");
 				var product_code = args.item.product_code;
 				console.log("rowClick()");
 				$($("#jsGrid .jsgrid-insert-row input")[0]).val(product_code);
@@ -341,7 +341,7 @@ function valueTest(arr,condition,filter) {
 
 // 검색창을 새로 열때마다 품목데이터 초기화
 $("#open").on("click",function() {
-	$('#myModal').modal('show');
+	$(".modal-body").css("display","block");
 	$("#productJsGrid").jsGrid({data:productData});
 	$("#productJsGrid").jsGrid("loadData");
 });
