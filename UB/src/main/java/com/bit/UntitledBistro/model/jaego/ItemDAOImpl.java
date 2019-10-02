@@ -50,5 +50,12 @@ public class ItemDAOImpl {
 		return mybatis.selectList("jaego.defectItemSelectAll", condition);
 	}
 	
+	public List<SafeItemDTO> safeItemSelectAll() {
+		return mybatis.selectList("jaego.safeItemSelectAll");
+	}
+	
+	public List<SafeItemDTO> realTimeSafeItem(List<SafeItemDTO> list) {
+		return mybatis.selectList("jaego.realTimeSafeItem", list);
+	}
 	
 }

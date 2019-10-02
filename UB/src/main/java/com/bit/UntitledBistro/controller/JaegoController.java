@@ -20,6 +20,7 @@ import com.bit.UntitledBistro.model.jaego.ItemDAOImpl;
 import com.bit.UntitledBistro.model.jaego.ItemDTO;
 import com.bit.UntitledBistro.model.jaego.OutItemDTO;
 import com.bit.UntitledBistro.model.jaego.ProductDTO;
+import com.bit.UntitledBistro.model.jaego.SafeItemDTO;
 
 @Controller
 @RequestMapping(value = "/jaego")
@@ -152,6 +153,15 @@ public class JaegoController {
 	@GetMapping(value = "/webSocketTest")
 	public void webSocketTest() {
 		logger.info("여기는 웹소켓 컨트롤러 입니다.");
+	}
+	
+	@GetMapping(value = "/realTimeSafeItem")
+	public void realTimeSafeItem(Model model) {
+		logger.info("여기는 실시간 안전재고 컨트롤러 입니다.");
+		List<SafeItemDTO> safeItemList = dao.safeItemSelectAll();
+		List<SafeItemDTO> list = dao.realTimeSafeItem(safeItemList);
+		model.addAttribute("count", list.size());
+		
 	}
 	
 	@GetMapping(value = "/webSocket")
