@@ -219,9 +219,9 @@ td {
 					style="border: none; background: transparent; text-align: center"
 					name="empregister_banknum"></td>
 				<td colspan='1' class='ti'>급여 구분</td>
-				<td>시급<input type="radio" name="empregister_payclassfiy"
-					value="시급"> 일급<input type="radio"
-					name="empregister_payclassfiy" value="일급">
+				<td>시급<input type="radio" name="empregister_payclassfiy" value="시급"> 
+					일급<input type="radio" name="empregister_payclassfiy" value="일급">
+				
 				</td>
 
 			</tr>

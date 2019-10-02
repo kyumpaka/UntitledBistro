@@ -95,6 +95,15 @@ function EmpRegisterUpdate(empregister_empnum){
 /* 	window.close(); */
 }
 
+function payclassfiy(){
+	$("input:radio[name='empregister_payclassfiy']").is(":checked");
+	
+}
+
+
+
+	
+	
 
 </script>
 </head>
@@ -168,10 +177,9 @@ function EmpRegisterUpdate(empregister_empnum){
 			<tr>
 				<td colspan='3' class='ti'>계좌번호</td>
 				<td colspan='2'><input type="text" name="empregister_banknum" value="${b.empregister_banknum}"></td>
-				<td colspan='1' class='ti' >급여 구분</td>
-				<td><input type="radio" name="empregister_payclassfiy" value="시급"
-					><input type="radio" name="empregister_payclassfiy" value="일급"
-					>
+				<td colspan='1' class='ti' id="payclassfiy ">급여 구분</td>
+				<td>시급<input type="radio" id="payclassfiy1" name="empregister_payclassfiy" value="시급">
+				일급<input type="radio" id="payclassfiy2"name="empregister_payclassfiy" value="일급">
 				</td>
 
 
@@ -183,9 +191,8 @@ function EmpRegisterUpdate(empregister_empnum){
 				<td class='ti' colspan='2'><fmt:formatDate value="${b.empregister_entryday }"
 						pattern="yyyy-MM-dd" /></td>
 				<td colspan='1' class='ti' >재직 여부</td>
-				<td colspan='2'><input type="radio" name="empregister_leavecompany"
-					>재직중<input type="radio"
-					name="empregister_leavecompany">퇴직
+				<td colspan='2'><input type="radio" name="empregister_leavecompany" value="재직중">재직중
+				<input type="radio" name="empregister_leavecompany" value="퇴직">퇴직
 				</td>
 			</tr>
 			<tr>
@@ -218,6 +225,7 @@ function EmpRegisterUpdate(empregister_empnum){
 			</tr>
 		</table>	
 	</form>
+
 
 </body>
 </html>
