@@ -31,6 +31,7 @@
                             <li><i class="fa fa-exclamation-triangle"></i><a href="${path}/jaego/change_item">재고 변동표</a></li>
                             <li><i class="fa fa-spinner"></i><a href="${path}/jaego/defect_itemList">불량 현황</a></li>
                             <li><i class="fa fa-fire"></i><a href="${path}/jaego/defect_itemInsert">불량 입력</a></li>
+                            <li><i class="fa fa-fire"></i><a href="${path}/jaego/webSocketTest">웹소켓 테스트</a></li>
                         </ul>
                     </li>
                     

@@ -3,12 +3,12 @@ package com.bit.UntitledBistro.controller;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -147,5 +147,23 @@ public class JaegoController {
 		logger.info("product_name : " + condition.getKeyword2());
 		logger.info("endDate : " + condition.getEndDate());
 		return dao.defectItemSelectAll(condition);
+	}
+	
+	@GetMapping(value = "/webSocketTest")
+	public void webSocketTest() {
+		logger.info("여기는 웹소켓 컨트롤러 입니다.");
+	}
+	
+	@GetMapping(value = "/webSocket")
+	public void webSocket() {
+		logger.info("여기는 웹소켓 테스트 컨트롤러 입니다.");
+	}
+	@GetMapping(value = "/webSocket2")
+	public void webSocket2() {
+		logger.info("여기는 웹소켓 멀티채팅 컨트롤러 입니다.");
+	}
+	@GetMapping(value = "/webSocket3")
+	public void webSocket3() {
+		logger.info("여기는 웹소켓 기본 컨트롤러 입니다.");
 	}
 }
