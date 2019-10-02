@@ -18,7 +18,7 @@ import com.bit.UntitledBistro.service.seobis.Seobis_MemberService;
 
 
 @Controller
-public class Seobis_MemberCheckController {
+public class SeobisController {
 	
 	@Autowired
 	private Seobis_MemberService Seobis_memberService;
@@ -27,23 +27,18 @@ public class Seobis_MemberCheckController {
 	public String seobis_formstart() {
 		return "seobis/Seobis_form";
 	}
-	
 	@RequestMapping(value="/Seobis_jUs")  // 회원 등록으로 보내는 맵핑
 	public String seobis_formadd() {
-	return "seobis/Seobis_joinUs";
+		return "seobis/Seobis_joinUs";
 	}
-	
-	/*
 	@RequestMapping(value="/Seobis_cal") //메뉴를 누르면 예약 캘린더로 보내는 맵핑
 	public String seobis_formcalendar() {
-	return "seobis/Seobis_calendar";
+		return "seobis/Seobis_calendar";
 	}
-	//*/
-	@RequestMapping(value="/Seobis_cal") //메뉴를 누르면 예약 캘린더로 보내는 맵핑
-	public String seobis_formcalendar() {
-	return "seobis/Seobis_calendar";
+	@RequestMapping(value="/Seobis_pList")  // 회원 등록으로 보내는 맵핑
+	public String seobis_formpointlist() {
+		return "seobis/Seobis_pointList";
 	}
-	
 	
 	@RequestMapping(value="/Seobis_createMember", method = RequestMethod.POST)  //회원 가입을 처리하는 맵핑
 	public String seobis_joinUsSubmit (HttpSession session, Seobis_MemberDTO seobis_MemberDTO_dto) {
@@ -64,19 +59,22 @@ public class Seobis_MemberCheckController {
 	public String seobis_memberList(HttpServletRequest request, HashMap<String, Object> map) {
 		List<Seobis_MemberDTO> Seobis_memberList = Seobis_memberService.Seobis_MemberList(map);
 		request.setAttribute("Seobis_memberList", Seobis_memberList);
-		return "seobis/Seobis_ex"; //.jsp
+		System.out.println("================================아아아아아아아");
+		System.out.println(Seobis_memberList);
+		System.out.println("================================아아아아아아아");
+		return "seobis/Seobis_memberList"; //.jsp
 	}
 	
 	@RequestMapping(value="/Seobis_delete")  //회원 삭제 맵핑
 	public String seobis_memberDelete(Seobis_MemberDTO seobis_MemberDTO_dto) {
 		Seobis_memberService.Seobis_MemberDelete(seobis_MemberDTO_dto);
-		return "seobis/Seobis_ex";
+		return "redirect:Seobis_mList";
 	}
 	
 	@RequestMapping(value="/Seobis_update") //회원 수정 맵핑 
 	public String seobis_memberUpdate(Seobis_MemberDTO seobis_MemberDTO_dto) {
 		Seobis_memberService.Seobis_MemberUpdate(seobis_MemberDTO_dto);
-		return "seobis/Seobis_ex";
+		return "redirect:Seobis_mList";
 	}
 	
 	@RequestMapping(value="/Seobis_select") //회원 읽기 맵핑

@@ -15,6 +15,10 @@
 		if("${Seobis_memberSelect.member_gender}" == "girl"){
 			$("#girl").attr("checked", true);
 			/* $("#girl").prop("checked",true); */
+		}
+		if("${Seobis_memberSelect.member_gender}" == "man"){
+			$("#man").attr("checked", true);
+			/* $("#girl").prop("checked",true); */
 		} 
 	});
 
@@ -30,8 +34,8 @@
     
 
 </script>
-<form method="post"   action="${pageContext.request.contextPath}/Seobis_update" onsubmit=" return sub()">
-	<h1  class="text_center">회원 정보 상세222</h1>
+<form method="post"   action="${pageContext.request.contextPath}/Seobis_update" onsubmit="return sub()">
+	<h1  class="text_center">회원 정보 수정</h1>
 		<table  align="center">
 	   <tr>
 	      <td width="200"><p align="right">아이디</td>
@@ -49,10 +53,15 @@
 	    	<c:if test="${Seobis_memberSelect.member_gender != 'man' }">
 		    	<td width="400"><p><input type="radio" name="member_gender" value="man" ></td>
 	    	</c:if>
-	     </tr>
+	    </tr>
 	    <tr>
 	    	<td width="200"><p align="right">여자</td>
-	    	<td width="400"><p><input type="radio" name="member_gender" value="girl"  id="girl"></td>
+	    	<c:if test="${Seobis_memberSelect.member_gender == 'girl' }">
+	    	<td width="400"><p><input type="radio" name="member_gender" value="girl"  checked="checked"></td>
+	    	</c:if>
+	    	<c:if test="${Seobis_memberSelect.member_gender != 'girl' }">
+	    	<td width="400"><p><input type="radio" name="member_gender" value="girl" ></td>
+	    	</c:if>
 	     </tr>
 	    <tr>
 	       <td width="200"><p align="right">이메일</td>

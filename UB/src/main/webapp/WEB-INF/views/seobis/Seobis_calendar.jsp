@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset='utf-8' />
-  <title>달력 연구중</title>
+  <title>캘린더</title>
 
 <!-- <link href='/assets/demo-to-codepen.css' rel='stylesheet' /> -->
 
@@ -65,8 +65,8 @@
   });
 
 </script>
-
 </head>
+
 <body>
 	<div id='calendar'></div>
 </body>

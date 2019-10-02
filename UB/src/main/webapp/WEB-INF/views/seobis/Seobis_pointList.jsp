@@ -1,14 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
+
+<html class="no-js" lang="">
 
 <head>
     <meta charset="utf-8">
@@ -18,7 +15,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="${path}/resources/Admin/assets/css/lib/datatable/dataTables.bootstrap.min.css">
-
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
@@ -32,7 +28,7 @@
                     <div class="col-sm-4">
                         <div class="page-header float-left">
                             <div class="page-title">
-                                <h1>Dashboard</h1>
+                                <h1>Bistro</h1>
                             </div>
                         </div>
                     </div>
@@ -42,7 +38,7 @@
                                 <ol class="breadcrumb text-right">
                                     <li class="active"><a href="Seobis_jUs">회원 등록</a></li>
                                     <li><a href="#">예약 확인</a></li>
-                                    <li><a href="#">포인트 관리</a></li>
+                                    <li><a href="Seobis_pList">포인트 관리</a></li>
                                 </ol>
                             </div>
                         </div>
@@ -58,33 +54,31 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <strong class="card-title">회원 관리</strong>
+                                <strong class="card-title">포인트 관리</strong>
                             </div>
                             <div class="card-body">
                                 <table id="bootstrap-data-table" class="table table-striped table-bordered">
                                     <thead>
                                             <tr>
-                                            <th>ID</th>
-                                            <th>이름</th>
-                                            <th>등급</th>
-                                            <th>포인트</th>
-                                            <th>전화번호</th>
-                                            <th>가입일</th>
-                                            <th>상세 정보</th>
-                                            <th>삭제</th>
-                                        </tr>
+                                            	<th>ID</th>
+                                            	<th>이름</th>
+                                            	<th>등급</th>
+                                            	<th>포인트</th>
+                                            	<th>전화번호</th>
+                                            	<th>가입일</th>
+                                            	<th>포인트 수정</th>
+                                        	</tr>
                                     </thead>
                                     <tbody>
                                         <c:forEach var="b" items="${Seobis_memberList}">
-										<tr>
-											<td>${b.member_id}</td>
-											<td>${b.member_name}</td>
-											<td>${b.member_grade}</td>
-											<td>${b.member_point}</td>
-											<td>${b.member_phone1}</td>
-											<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${b.member_reg}" /></td>
-											<td><button onclick='location.href="${path}/Seobis_select?member_id=${b.member_id}"'>상세 정보</button></td>
-											<td><button class="Seobis_MemberDelete" >삭제</button></td>
+											<tr>
+												<td>${b.member_id}</td>
+												<td>${b.member_name}</td>
+												<td>${b.member_grade}</td>
+												<td>${b.member_point}</td>
+												<td>${b.member_phone1}</td>
+												<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${b.member_reg}" /></td>
+												<td><button onclick='location.href="${path}/Seobis_select?member_id=${b.member_id}"'>포인트 수정</button></td>
 											</tr>
 										</c:forEach>
                                     </tbody>
@@ -92,19 +86,14 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div><!-- .animated -->
         </div><!-- .content -->
-
-
+        
+        
         <div class="clearfix"></div>
-
-<!-- /#right-panel -->
-
-    <!-- Right Panel -->
-
+        
+        
     <!-- Scripts -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script> --> <!-- 이거 쓰면 메뉴 비활성화 됩니다 --> 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>

@@ -2,98 +2,135 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="path" value="${pageContext.request.contextPath}"/>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<html>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<title>리스트</title>
-<style type="text/css">
-	th{background: orange};
-</style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ela Admin - HTML5 Admin Template</title>
+    <meta name="description" content="Ela Admin - HTML5 Admin Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="${path}/resources/Admin/assets/css/lib/datatable/dataTables.bootstrap.min.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
 
 </head>
 <body>
+        <div class="breadcrumbs">
+            <div class="breadcrumbs-inner">
+                <div class="row m-0">
+                    <div class="col-sm-4">
+                        <div class="page-header float-left">
+                            <div class="page-title">
+                                <h1>Bistro</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="page-header float-right">
+                            <div class="page-title">
+                                <ol class="breadcrumb text-right">
+                                    <li class="active"><a href="Seobis_jUs">회원 등록</a></li>
+                                    <li><a href="#">예약 확인</a></li>
+                                    <li><a href="Seobis_pList">포인트 관리</a></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<h1>회원 관리</h1>
+        <div class="content">
+            <div class="animated fadeIn">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong class="card-title">회원 관리</strong>
+                            </div>
+                            <div class="card-body">
+                                <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                                    <thead>
+                                            <tr>
+                                            	<th>ID</th>
+                                            	<th>이름</th>
+                                            	<th>성별</th>
+                                            	<th>생일</th>
+                                            	<th>이메일</th>
+                                            	<th>전화번호</th>
+                                            	<th>주소</th>
+                                            	<th>가입일</th>
+                                            	<th>회원 수정</th>
+                                            	<th>삭제</th>
+                                            </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach var="b" items="${Seobis_memberList}">
+											<tr>
+												<td>${b.member_id}</td>
+												<td>${b.member_name}</td>
+												<td>${b.member_gender}</td>
+												<td>${b.member_birth}</td>
+												<td>${b.member_email}</td>
+												<td>${b.member_phone1}</td>
+												<td>${b.member_addr1}</td>
+												<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${b.member_reg}" /></td>
+												<td><button onclick='location.href="${path}/Seobis_select?member_id=${b.member_id}"'>회원 수정</button></td>
+												<td><button class="Seobis_MemberDelete" >삭제</button></td>
+											</tr>
+										</c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .animated -->
+        </div><!-- .content -->
+        
+        <div class="clearfix"></div>
 
-<table width="1000" cellpadding="3">
-	
-	<tr>
-		<th width="150">회원 아이디</th>
-		<th width="150">회원 이름</th>
-		<th width="100">회원 등급</th>
-		<th width="150">회원 포인트</th>
-		<th width="150">전화번호</th>
-		<th width="200">가입일</th>
-		<th width="150">상세 정보</th>
-		<th width="100">삭제</th>
-	</tr>	
+    <!-- Scripts -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script> --> <!-- 이거 쓰면 메뉴 비활성화 됩니다 --> 
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+    <script src="${path}/resources/Admin/assets/js/main.js"></script>
+    <script src="${path}/resources/Admin/assets/js/lib/data-table/datatables.min.js"></script>
+    <script src="${path}/resources/Admin/assets/js/lib/data-table/dataTables.bootstrap.min.js"></script>
+    <script src="${path}/resources/Admin/assets/js/lib/data-table/dataTables.buttons.min.js"></script>
+    <script src="${path}/resources/Admin/assets/js/lib/data-table/buttons.bootstrap.min.js"></script>
+    <script src="${path}/resources/Admin/assets/js/lib/data-table/jszip.min.js"></script>
+    <script src="${path}/resources/Admin/assets/js/lib/data-table/vfs_fonts.js"></script>
+    <script src="${path}/resources/Admin/assets/js/lib/data-table/buttons.html5.min.js"></script>
+    <script src="${path}/resources/Admin/assets/js/lib/data-table/buttons.print.min.js"></script>
+    <script src="${path}/resources/Admin/assets/js/lib/data-table/buttons.colVis.min.js"></script>
+    <script src="${path}/resources/Admin/assets/js/init/datatables-init.js"></script> 
 
-<c:forEach var="b" items="${Seobis_memberList}">
-	<tr>
-		<td>${b.member_id}</td>
-		<td>${b.member_name}</td>
-		<td>${b.member_grade}</td>
-		<td>${b.member_point}</td>
-		<td>${b.member_phone1}</td>
-		<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${b.member_reg}" /></td>
-		<td><button onclick='location.href="${path}/Seobis_select?member_id=${b.member_id}"'>상세 정보</button></td>
-		<td><button class="Seobis_MemberDelete" >삭제</button></td>
-	</tr>
-</c:forEach>
 
-</table>
-<div style="width:1000px;text-align:right"><a href="Seobis_jUs">회원 등록</a></div>
-<table width="1000">
-<tr>
-	<td align="center">
-		<!-- 처음 이전 링크 -->
-		<c:if test="${pg>block}">  <!-- 5>10 : false / 15>10 : true -->
-			[<a href="Seobis_memberList?pg=1">◀◀</a>]
-			[<a href="Seobis_memberList?pg=${fromPage-1}">◀</a>]		
-		</c:if>
-		<c:if test="${pg<=block}"> <!-- 5<=10 :true / 15<=10:false -->
-			[<span style="color:gray">◀◀</span>]	
-			[<span style="color:gray">◀</span>]
-		</c:if>
-		
-		<!-- 블록 범위 찍기 -->
-		<c:forEach begin="${fromPage}" end="${toPage}" var="i">
-			<c:if test="${i==pg}">[${i}]</c:if>
-			<c:if test="${i!=pg}">
-				[<a href="Seobis_memberList?pg=${i}">${i}</a>]
-			</c:if>
-		</c:forEach>
-		
-		<!-- 다음, 이후 -->
-		<c:if test="${toPage<allPage}"> <!-- 20<21 : true -->
-				[<a href="Seobis_memberList?pg=${toPage+1}">▶</a>]
-				[<a href="Seobis_memberList?pg=${allPage}">▶▶</a>]
-		
-		</c:if>	
-		<c:if test="${toPage>=allPage}"> <!-- 21>=21 :true -->
-				[<span style="color:gray">▶</span>]
-				[<span style="color:gray">▶▶</span>]
-		</c:if>			
-		
-	</td>
-</tr>
-</table>
+    <script type="text/javascript">
+        $(document).ready(function() {
+          $('#bootstrap-data-table-export').DataTable();
+      } );
+        
+        $(".Seobis_MemberDelete").on("click", function(){
+            var member_id = $(this).parent().parent().children().eq(0).text();
+            if(confirm("회원 ID : "+member_id+"을 삭제하시겠습니까?")){
+                $(location).attr("href", "${path}/Seobis_delete?member_id=" + member_id);
+            }
+        });
+  </script>
+
+
 </body>
-
-<script type="text/javascript">
-
-
-$(".Seobis_MemberDelete").on("click", function(){
-    var member_id = $(this).parent().parent().children().eq(0).text();
-    if(confirm("회원 ID : "+member_id+"을 삭제하시겠습니까?")){
-        $(location).attr("href", "${path}/Seobis_delete?member_id=" + member_id);
-    }
-});
-
-</script>
 </html>
