@@ -1,23 +1,26 @@
 package com.bit.UntitledBistro.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.UntitledBistro.model.jaego.ChangeItemDTO;
 import com.bit.UntitledBistro.model.jaego.Condition;
+import com.bit.UntitledBistro.model.jaego.DefectItemDTO;
 import com.bit.UntitledBistro.model.jaego.ItemDAOImpl;
 import com.bit.UntitledBistro.model.jaego.ItemDTO;
 import com.bit.UntitledBistro.model.jaego.OutItemDTO;
-import com.bit.UntitledBistro.model.jaego.Page;
+import com.bit.UntitledBistro.model.jaego.ProductDTO;
+import com.bit.UntitledBistro.model.jaego.SafeItemDTO;
 
 @Controller
 @RequestMapping(value = "/jaego")
@@ -55,31 +58,25 @@ public class JaegoController {
 		logger.info("여기는 재고변동 컨트롤러 입니다.");
 	}
 	
-	@RequestMapping(value = "/bad_item")
-	public void bad_item() {
-		logger.info("여기는 불량처리 컨트롤러 입니다.");
+	@RequestMapping(value = "/defect_itemList")
+	public void bad_itemList() {
+		logger.info("여기는 불량 목록 컨트롤러 입니다.");
 	}
 	
-	@RequestMapping(value = "/special_item")
-	public void special_item() {
-		logger.info("여기는 특별재고 컨트롤러 입니다.");
+	@RequestMapping(value = "/defect_itemInsert")
+	public void bad_itemInsert() {
+		logger.info("여기는 불량 입력 컨트롤러 입니다.");
 	}
 	
 	@RequestMapping(value = "/gridSelectAll")
-	public @ResponseBody List gridSelectAll(Condition condition, Page page) {
+	public @ResponseBody List<ItemDTO> gridSelectAll(Condition condition) {
 		logger.info("여기는 그리드 재고현황 조회 컨트롤러 입니다.");
-		int total = dao.itemTotal();
-		page.paging(total, 10, 5);
-		condition.setStartPage(page.getStartRow());
-		condition.setEndPage(page.getEndRow());
 		logger.info("===============================================");
 		logger.info("keyword : " + condition.getKeyword());
 		logger.info("getStartPage : " + condition.getStartPage());
 		logger.info("getEndPage : " + condition.getEndPage());
 		logger.info("===============================================");
-		List list = dao.itemSelectAll(condition);
-		list.add(page.getSb());
-		return list;
+		return dao.itemSelectAll(condition);
 	}
 	
 	@RequestMapping(value = "/gridInItemSelectAll")
@@ -107,10 +104,23 @@ public class JaegoController {
 	}
 	
 	
-	@RequestMapping(value = "/gridInsert")
-	public @ResponseBody void gridInsert(ItemDTO dto) {
-		logger.info("여기는 그리드 추가 컨트롤러 입니다.");
-		dao.itemInsert(dto);
+	@RequestMapping(value = "/gridDefectItemInsert")
+	public @ResponseBody void gridInsert(@RequestBody DefectItemDTO[] dtos) {
+		
+		logger.info("여기는 그리드 불량처리 추가 컨트롤러 입니다.");
+		logger.info("=======================================================");
+		for(DefectItemDTO dto : dtos) {
+			logger.info("getDi_product_code : " + dto.getDi_product_code());
+			logger.info("getProduct_name : " + dto.getProduct_name());
+			logger.info("getDi_qty : " + dto.getDi_qty());
+			logger.info("getDi_state : " + dto.getDi_state());
+			logger.info("getDi_reason : " + dto.getDi_reason());
+			logger.info("getDi_date : " + dto.getDi_date());
+		}
+		logger.info("=======================================================");
+		List<DefectItemDTO> list = Arrays.asList(dtos);
+		dao.defectItemInsert(list);
+		
 	}
 	
 	@RequestMapping(value = "/gridUpdate")
@@ -125,4 +135,45 @@ public class JaegoController {
 		dao.itemDelete(dto);
 	}
 	
+	@RequestMapping(value = "/gridProductSelectAll")
+	public @ResponseBody List<ProductDTO> gridProductSelectAll(Condition condition) {
+		logger.info("여기는 품목 조회 컨트롤러 입니다.");
+		return dao.productSelectAll(condition);
+	}
+	
+	@RequestMapping(value = "/gridDefectItemSelectAll")
+	public @ResponseBody List<ProductDTO> gridDefectItemSelectAll(Condition condition) {
+		logger.info("여기는 품목 조회 컨트롤러 입니다.");
+		logger.info("product_code : " + condition.getKeyword());
+		logger.info("product_name : " + condition.getKeyword2());
+		logger.info("endDate : " + condition.getEndDate());
+		return dao.defectItemSelectAll(condition);
+	}
+	
+	@GetMapping(value = "/webSocketTest")
+	public void webSocketTest() {
+		logger.info("여기는 웹소켓 컨트롤러 입니다.");
+	}
+	
+	@GetMapping(value = "/realTimeSafeItem")
+	public void realTimeSafeItem(Model model) {
+		logger.info("여기는 실시간 안전재고 컨트롤러 입니다.");
+		List<SafeItemDTO> safeItemList = dao.safeItemSelectAll();
+		List<SafeItemDTO> list = dao.realTimeSafeItem(safeItemList);
+		model.addAttribute("count", list.size());
+		
+	}
+	
+	@GetMapping(value = "/webSocket")
+	public void webSocket() {
+		logger.info("여기는 웹소켓 테스트 컨트롤러 입니다.");
+	}
+	@GetMapping(value = "/webSocket2")
+	public void webSocket2() {
+		logger.info("여기는 웹소켓 멀티채팅 컨트롤러 입니다.");
+	}
+	@GetMapping(value = "/webSocket3")
+	public void webSocket3() {
+		logger.info("여기는 웹소켓 기본 컨트롤러 입니다.");
+	}
 }

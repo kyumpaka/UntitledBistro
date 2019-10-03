@@ -122,14 +122,14 @@ td {
 				<td class='ti' colspan='3'>입사 날짜</td>
 				<td class='ti' colspan='1'><fmt:formatDate value="${b.empregister_entryday }"
 						pattern="yyyy-MM-dd" /></td>
-				<td class='ti' colspan='2'>퇴사여부</td>
+				<td class='ti' colspan='2'>재직여부</td>
 				<td class='ti'>${b.empregister_leavecompany }</td>
 			</tr>
 			<tr>
 				<td class='ti' colspan='3'>시급</td>
 				<td colspan='2'>${b.empregister_pay }천원</td>
 				<td class='ti' colspan='1'>일급</td>
-				<td>${b.empregister_pay }만원</td>
+			 	<td>만원</td>
 			</tr>
 			<tr>
 				<td colspan='3'>총근무시간</td>

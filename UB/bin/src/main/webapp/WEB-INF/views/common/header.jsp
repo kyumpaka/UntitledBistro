@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+
 <header id="header" class="header">
             <div class="top-left">
                 <div class="navbar-header">
@@ -24,7 +25,7 @@
                         <div class="dropdown for-notification">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-bell"></i>
-                                <span class="count bg-danger">3</span>
+                                <span class="count bg-danger" id="realTime">3</span>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="notification">
                                 <p class="red">You have 3 Notification</p>
@@ -105,3 +106,31 @@
                 </div>
             </div>
         </header>
+        
+<!-- WebSocket -->
+        
+<script type="text/javascript">
+
+var webSocket = new WebSocket("ws://localhost:8080/UntitledBistro/realTime-ws");
+webSocket.onopen = onOpen;
+webSocket.onmessage = onMessage;
+webSocket.onclose = onClose;
+
+function onOpen(e) {
+	console.log("웹소켓 연결");
+}
+
+function onMessage(e) {
+	console.log("서버로 부터 응답메시지 받음 : " + e.data);
+	var before = $("#realTime").text();
+	console.log("before : " + before);
+	var change = parseInt(before) + parseInt(e.data);
+	console.log("change : " + change);
+	$("#realTime").text(change);
+}
+
+function onClose(e) {
+	console.log("웹소컷 닫음");
+}
+
+</script>        

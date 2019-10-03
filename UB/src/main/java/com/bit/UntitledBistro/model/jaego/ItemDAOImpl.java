@@ -18,8 +18,8 @@ public class ItemDAOImpl {
 		return mybatis.selectList("jaego.itemSelectAll", condition);
 	}
 	
-	public int itemInsert(ItemDTO dto){
-		return mybatis.insert("jaego.itemInsert", dto);
+	public int defectItemInsert(List<DefectItemDTO> list){
+		return mybatis.insert("jaego.defectItemInsert", list);
 	}
 	
 	public int itemUpdate(ItemDTO dto){
@@ -40,6 +40,22 @@ public class ItemDAOImpl {
 	
 	public List<ChangeItemDTO> changeItemSelectAll(Condition condition) {
 		return mybatis.selectList("jaego.changeItemSelectAll", condition);
+	}
+	
+	public List<ProductDTO> productSelectAll(Condition condition) {
+		return mybatis.selectList("jaego.productSelectAll", condition);
+	}
+	
+	public List<ProductDTO> defectItemSelectAll(Condition condition) {
+		return mybatis.selectList("jaego.defectItemSelectAll", condition);
+	}
+	
+	public List<SafeItemDTO> safeItemSelectAll() {
+		return mybatis.selectList("jaego.safeItemSelectAll");
+	}
+	
+	public List<SafeItemDTO> realTimeSafeItem(List<SafeItemDTO> list) {
+		return mybatis.selectList("jaego.realTimeSafeItem", list);
 	}
 	
 }

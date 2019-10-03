@@ -15,67 +15,76 @@
 			ITEM_PRODUCT_CODE
 		]]>
 	</select>
+	<select id="productSelectAll" parameterType="condition" resultType="product">
+		SELECT 
+			 PRODUCT_CODE
+			,PRODUCT_NAME
+		FROM
+			PRODUCT
+		<where>
+		<if test="keyword != '' and keyword != null">
+			PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test="keyword2 != '' and keyword2 != null">
+		AND
+			PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
+		</if>
+		</where>
+	
+	</select>
 
  	<select id="itemSelectAll" parameterType="condition" resultType="item">
-		SELECT
-		     ITEM_PRODUCT_CODE
-		    ,PRODUCT_NAME
-		    ,ITEM_QTY
-		FROM
-		(
-		    SELECT 
-		         II.II_PRODUCT_CODE  		AS ITEM_PRODUCT_CODE
-		        ,P.PRODUCT_NAME     		AS PRODUCT_NAME
-		        ,II.II_QTY - OI.OI_QTY  	AS ITEM_QTY
-		        ,ROWNUM AS RNUM
-		    FROM
-		    (
-		        SELECT 
-		             II_PRODUCT_CODE
-		            ,SUM(II_QTY) 			AS II_QTY
-		        FROM 
-		            IN_ITEM 
-		        <where>
-		        <if test="endDate != '' and endDate != null"> 
-<![CDATA[			II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
-			    </if>
-		        </where> 
-		        GROUP BY 
-		            II_PRODUCT_CODE
+	    SELECT 
+	         II.II_PRODUCT_CODE  					AS ITEM_PRODUCT_CODE
+	        ,P.PRODUCT_NAME     					AS PRODUCT_NAME
+	        ,NVL(II.II_QTY,0) - NVL(OI.OI_QTY,0)  	AS ITEM_QTY
+	        ,ROWNUM AS RNUM
+	    FROM
+	    	(
+	        SELECT 
+	             II_PRODUCT_CODE
+	            ,SUM(II_QTY) 			AS II_QTY
+	        FROM 
+	            IN_ITEM 
+	        <where>
+	        <if test="endDate != '' and endDate != null"> 
+<![CDATA[		II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
+		    </if>
+	        </where> 
+	        GROUP BY 
+	            II_PRODUCT_CODE
 		    ) II
-		    INNER JOIN
+	    FULL OUTER JOIN
 		    (
-		        SELECT 
-		             OI_PRODUCT_CODE
-		            ,SUM(OI_QTY) 			AS OI_QTY
-		        FROM 
-		            OUT_ITEM
-		        <where>
-		        <if test="endDate != '' and endDate != null"> 
-<![CDATA[			OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
-			    </if>
-		        </where>     
-		        GROUP BY 
-		            OI_PRODUCT_CODE
-		    ) OI
-		    ON
-		        II.II_PRODUCT_CODE = OI.OI_PRODUCT_CODE
-		    INNER JOIN
-		        PRODUCT P
-		    ON  
-		        P.PRODUCT_CODE = II.II_PRODUCT_CODE
-		    <where>
-		    <if test="keyword != '' and keyword != null">
-		        P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+	        SELECT 
+	             OI_PRODUCT_CODE
+	            ,SUM(OI_QTY) 			AS OI_QTY
+	        FROM 
+	            OUT_ITEM
+	        <where>
+	        <if test="endDate != '' and endDate != null"> 
+<![CDATA[		OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
 		    </if>
-		    <if test="keyword2 != '' and keyword2 != null">
-		    AND
-		        P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
-		    </if>
-		    </where> 
-		)
-		WHERE 
-			RNUM BETWEEN #{startPage} and #{endPage} 
+	        </where>     
+	        GROUP BY 
+	            OI_PRODUCT_CODE
+	    	) OI
+	    ON
+	        II.II_PRODUCT_CODE = OI.OI_PRODUCT_CODE
+	    INNER JOIN
+	        PRODUCT P
+	    ON  
+	        P.PRODUCT_CODE = II.II_PRODUCT_CODE
+	    <where>
+	    <if test="keyword != '' and keyword != null">
+	        P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+	    </if>
+	    <if test="keyword2 != '' and keyword2 != null">
+	    AND
+	        P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
+	    </if>
+	    </where> 
+	    ORDER BY ITEM_PRODUCT_CODE
 		
  	</select>
  	
@@ -105,6 +114,7 @@
 <![CDATA[	II.II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
 	    </if>
 		</where> 
+		ORDER BY II_DATE DESC
  	</select>
  	
  	<select id="outItemSelectAll" parameterType="condition" resultType="outItem">
@@ -133,10 +143,7 @@
 <![CDATA[	OI.OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
 	    </if>
 		</where>
- 	</select>
- 	
- 	<select id="DSFSDF">
- 	SDFSDFSF
+		ORDER BY OI_DATE DESC
  	</select>
 	
 	<!-- 
@@ -155,9 +162,9 @@
 		FROM
 		    (  
 		    SELECT 
-		         II.II_PRODUCT_CODE     	AS PRODUCT_CODE
-		        ,P.PRODUCT_NAME         	AS PRODUCT_NAME
-		        ,II.II_QTY - OI.OI_QTY  	AS TOTAL_QTY
+		         II.II_PRODUCT_CODE     				AS PRODUCT_CODE
+		        ,P.PRODUCT_NAME         				AS PRODUCT_NAME
+		        ,NVL(II.II_QTY,0) - NVL(OI.OI_QTY,0)  	AS TOTAL_QTY
 		        
 		    FROM
 		    	(
@@ -174,7 +181,7 @@
 		        GROUP BY 
 		            II_PRODUCT_CODE
 		    	) II
-		    INNER JOIN
+		    FULL OUTER JOIN
 		   		(
 		        SELECT 
 		             OI_PRODUCT_CODE
@@ -208,8 +215,8 @@
 		FULL OUTER JOIN
 		    (
 		    SELECT 
-		         II.II_PRODUCT_CODE      AS PRODUCT_CODE
-		        ,II.II_QTY - OI.OI_QTY   AS BEFORE_QTY
+		         II.II_PRODUCT_CODE      			   AS PRODUCT_CODE
+		        ,NVL(II.II_QTY,0) - NVL(OI.OI_QTY,0)   AS BEFORE_QTY
 		    FROM
 		    	(
 		        SELECT 
@@ -262,7 +269,7 @@
 		    (
 		    SELECT 
 		         I.II_PRODUCT_CODE 		AS PRODUCT_CODE
-		        ,SUM(II_QTY)    		AS IN_QTY
+		        ,NVL(SUM(II_QTY),0)    		AS IN_QTY
 		    FROM 
 		        IN_ITEM I
 		    INNER JOIN
@@ -294,7 +301,7 @@
 		    (
 		    SELECT 
 		         O.OI_PRODUCT_CODE 		AS PRODUCT_CODE
-		        ,SUM(O.OI_QTY)    		AS OUT_QTY
+		        ,NVL(SUM(O.OI_QTY),0)    		AS OUT_QTY
 		    FROM 
 		        OUT_ITEM O
 		    INNER JOIN
@@ -322,25 +329,96 @@
 		    ) O
 		ON 
 		    T.PRODUCT_CODE = O.PRODUCT_CODE
+		ORDER BY PRODUCT_CODE
  	</select>
 
+	<select id="defectItemSelectAll" parameterType="condition" resultType="defectItem">
+		SELECT 
+		     DI_PRODUCT_CODE
+		    ,PRODUCT_NAME
+		    ,DI_QTY
+		    ,TO_CHAR(DI_DATE,'YYYY/MM/DD') 		AS DI_DATE
+		    ,DI_STATE
+		    ,DI_REASON
+		FROM 
+		    DEFECT_ITEM D
+		INNER JOIN
+		    PRODUCT P
+		ON
+		    D.DI_PRODUCT_CODE = P.PRODUCT_CODE
+		<where>
+		<if test="keyword != '' and keyword != null">
+		    P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test="keyword2 != '' and keyword2 != null">
+		AND
+		    P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
+		</if>
+		<if test="endDate != '' and endDate != null">
+		AND
+<![CDATA[	DI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
+		</if>
+		</where>
+	</select>
  	
- 	<!-- 그리드 공부 -->
- 	
- 	<insert id="itemInsert">
-		INSERT INTO ITEM 
-		VALUES(#{item_no}, #{item_product_code}, #{item_qty})
+ 	<!-- ================================================================================== -->
+ 	<!-- ===============================다중 등록========================================== -->
+ 	<!-- ================================================================================== -->
+ 	<insert id="defectItemInsert" parameterType="list" flushCache="true">
+		<selectKey  keyProperty="di_no" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(DI_NO),0) +1 FROM DEFECT_ITEM
+		</selectKey>
+		<foreach item="item" collection="list" open="INSERT ALL"  close="SELECT * FROM DUAL" separator=" " index="index">
+		INTO DEFECT_ITEM
+			(
+			 DI_NO
+			,DI_PRODUCT_CODE
+			,DI_QTY
+			,DI_STATE
+			,DI_REASON
+			) 
+		VALUES 
+			(
+			 (#{di_no} + #{index})
+			,#{item.di_product_code}
+			,#{item.di_qty}
+			,#{item.di_state}
+			,#{item.di_reason}
+			)
+		</foreach>
  	</insert>
  	
- 	<update id="itemUpdate" parameterType="item">
-		UPDATE ITEM 
-		SET ITEM_PRODUCT_CODE=#{item_product_code}, ITEM_QTY=#{item_qty}
-		WHERE ITEM_NO=#{item_no}
- 	</update>
+ 	<!-- 안전재고 조회 -->
+ 	<select id="safeItemSelectAll" resultType="safeItem">
+ 		SELECT
+ 			 SI_NO
+ 			,PRODUCT_CODE
+ 			,SI_QTY
+ 		FROM
+ 			SAFE_ITEM
+ 	</select>
  	
- 	<delete id="itemDelete" parameterType="item">
- 		DELETE ITEM
- 		WHERE ITEM_NO=#{item_no}
- 	</delete>
+ 	<!-- 재고현황과 안전재고 비교 -->
+ 	<select id="realTimeSafeItem" parameterType="list" resultType="safeItem">
+ 		SELECT
+ 			 S.SI_NO
+ 			,S.PRODUCT_CODE
+ 			,S.SI_QTY
+ 		FROM 
+		    ITEM I
+		INNER JOIN 
+		    SAFE_ITEM S
+		ON 
+		    I.PRODUCT_CODE = S.PRODUCT_CODE
+		<where>
+			1=1
+		<foreach collection="list" item="item" separator=" ">
+		OR	
+			I.PRODUCT_CODE = #{item.product_code} AND I.ITEM_QTY = #{item.si_qty}
+		</foreach>
+		</where> 
+ 	</select>
+ 	
+ 	
  
 </mapper>

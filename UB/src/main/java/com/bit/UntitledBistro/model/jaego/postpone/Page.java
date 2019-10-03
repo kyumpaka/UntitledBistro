@@ -1,4 +1,4 @@
-package com.bit.UntitledBistro.model.jaego;
+package com.bit.UntitledBistro.model.jaego.postpone;
 
 public class Page {
 	  private int startRow, endRow, pageNum;

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface Balju_DAO {
 
 	
-	void insert_Balju_Plan1(Balju_PlanDTO BPdto);
+	void insert_Balju_Plan1();
 	void insert_Balju_Plan2(Balju_PlanDTO BPdto);
 	void insert_Balju1(Balju_DTO Bdto);
 	void insert_Balju2(Balju_DTO Bdto);

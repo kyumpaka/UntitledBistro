@@ -11,6 +11,10 @@
 		<typeAlias type="com.bit.UntitledBistro.model.jaego.OutItemDTO" alias="outItem"/>
 		<typeAlias type="com.bit.UntitledBistro.model.jaego.ChangeItemDTO" alias="changeItem"/>
 		<typeAlias type="com.bit.UntitledBistro.model.jaego.Condition" alias="condition"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jaego.ProductDTO" alias="product"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jaego.DefectItemDTO" alias="defectItem"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jaego.SafeItemDTO" alias="safeItem"/>
+		
 		<typeAlias type="com.bit.UntitledBistro.model.jumun.IngredientDTO" alias="ingredient"/>
 		<typeAlias type="com.bit.UntitledBistro.model.jumun.MenuDTO" alias="menu"/>
 		<typeAlias type="com.bit.UntitledBistro.model.jumun.MenuTypeDTO" alias="menuType"/>

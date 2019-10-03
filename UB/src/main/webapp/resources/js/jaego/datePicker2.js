@@ -11,7 +11,7 @@ $(document).ready(function() {
 	var date = today.split("/");
 	var month = date[1] -1;
 	var year = date[0];
-	if(month < 9)  month = "0" + month;
+	if(month <= 9)  month = "0" + month;
 	if(month == 0) {
 		month = 12;
 		year = date[0] -1;
@@ -19,13 +19,12 @@ $(document).ready(function() {
 	$("#year").val(year);
 	$("#month").val(month);
 	$("#day").val(date[2]);
+	
 	$("#year2").val(date[0]);
 	$("#month2").val(date[1]);
 	$("#day2").val(date[2]);
 	
 	$("#dateResult").text(year + "/" + month + "/" + date[2] + " ~ " + today);
-	/*startDateVal = year + "/" + month + "/" + date[2];
-	endDateVal = today;*/
 });
 
 /* 년(기본설정) */
@@ -40,15 +39,6 @@ function yearBasic(year,yearInputVal) {
 	}
 	$("#" + year).append("<option value='directInput'>직접입력");
 }
-
-/* 달력 클릭했을때 */
-/*$("#date").on("change",function(){
-	console.log("달력 클릭");
-	var date = $("#date").val().split("/");
-	$("#year").val(date[0]);
-	$("#month").val(date[1]);
-	$("#day").val(date[2]);
-});*/
 
 /* 년도 직접입력 */
 function yearInput(yearInputId,yearId) {

@@ -1,7 +1,10 @@
 package com.bit.UntitledBistro.controller;
 
+
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -11,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -72,12 +76,41 @@ public class Balju_Controller {
 	public void f() {
 		System.out.println("발주관리에 접속되었습니다.");
 	}
-	
+	///이
 	@RequestMapping(value = "/balju_Plan_Input", method = RequestMethod.POST)
-	public String balju_Plan_Input(Balju_PlanDTO BPdto) throws Exception{
+	@ResponseBody
+	public Object balju_Plan_Input(@RequestBody List<Map<String, String>> list, Balju_PlanDTO BPdto) throws Exception{
 		System.out.println("발주계획 입력 진행중 접속되었습니다.");
-		this.balju_Service.insert_Balju_Plan1(BPdto);
-		return "/balju/Balju_Plan";
+		System.out.println(list);
+		
+		Map<String,String> resultMap = new HashMap<String, String>();
+		String result = null;
+		String resultMsg = null;
+		
+		this.balju_Service.insert_Balju_Plan1();
+	try {
+		for (Map<String, String> data : list) {
+			  System.out.println("들어갈 칼럼명과 데이터 : " + data.toString());
+			  BPdto.setORDPL_PRODUCT_CODE(data.get("ORDPL_PRODUCT_CODE"));
+			  BPdto.setORDPL_PRODUCT_NAME(data.get("ORDPL_PRODUCT_NAME"));
+			  BPdto.setORDPL_PRODUCT_STNDR(data.get("ORDPL_PRODUCT_STNDR"));
+			  BPdto.setORDPL_QT(Integer.parseInt(data.get("ORDPL_QT")));
+			  BPdto.setORDPL_PR_EA(Integer.parseInt(data.get("ORDPL_PR_EA")));
+			  BPdto.setORDPL_WR(data.get("ORDPL_WR"));
+			  
+			  this.balju_Service.insert_Balju_Plan2(BPdto);
+			}
+		
+		result = "success";
+		resultMsg = "성공";
+	} catch (Exception e) {
+		result = "failure";
+		resultMsg = "실패";
+	}
+		resultMap.put("result", result);
+		resultMap.put("resultMsg", resultMsg);	
+		
+		return resultMap;
 	}
 	
 	@RequestMapping(value ="/balju_Plan_Result", method = RequestMethod.GET)
@@ -91,12 +124,6 @@ public class Balju_Controller {
 		return list;
 	}
 	
-	@RequestMapping("/test")
-	@ResponseBody
-	public void test() {
-		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-	}
-	
 	//팝업창 영역
 	
 	//발주계획팝업창버튼 [제품정보]
@@ -105,7 +132,7 @@ public class Balju_Controller {
 		System.out.println("품목 새창  띄우기 기능이 실행되었습니다.");
 		List<Map<String,String>> list = this.balju_Service.item_list(Idto);
 		model.addAttribute("item_list", list);
-		return "balju/popup/Item_List";
+		return "views/balju/popup/Item_List";
 	}
 	
 }

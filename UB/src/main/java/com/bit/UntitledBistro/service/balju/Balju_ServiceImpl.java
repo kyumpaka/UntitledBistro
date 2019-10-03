@@ -1,9 +1,9 @@
 package com.bit.UntitledBistro.service.balju;
 
+
 import java.util.List;
 import java.util.Map;
 
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -24,11 +24,18 @@ public class Balju_ServiceImpl implements Balju_Service {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void insert_Balju_Plan1(Balju_PlanDTO BPdto) {
-		this.balju_DAO.insert_Balju_Plan1(BPdto);
-		this.balju_DAO.insert_Balju_Plan2(BPdto);
+	public void insert_Balju_Plan1() {
+		this.balju_DAO.insert_Balju_Plan1();
+		
+	
 	}
 
+	@Override
+	public void insert_Balju_Plan2(Balju_PlanDTO BPdto) {
+		this.balju_DAO.insert_Balju_Plan2(BPdto);
+		
+	}
+	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void insert_Balju1(Balju_DTO Bdto) {
@@ -110,6 +117,8 @@ public class Balju_ServiceImpl implements Balju_Service {
 		this.balju_DAO.Delete_Balju_Save1(BSdto);
 		this.balju_DAO.Delete_Balju_Save2(BSdto);
 	}
+
+
 
 	
 	

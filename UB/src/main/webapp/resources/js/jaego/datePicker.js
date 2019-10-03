@@ -142,6 +142,16 @@ $(function(){
 });
 
 /* 달력 한글로 변경 */
+$(function(){
+    $('.input-group.date').datepicker({
+        calendarWeeks: false,
+        todayHighlight: true,
+        autoclose: true,
+        format: "yyyy/mm/dd",
+        language: "kr"
+    });
+});
+
 ;(function($){
 	$.fn.datepicker.dates['kr'] = {
 		days: ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"],
