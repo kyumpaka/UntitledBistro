@@ -265,6 +265,9 @@
 			})
 		}
 		$("#searchBtn").click(function(){
+			if(!check) {
+				alert("올바르지 않는 검색조건입니다.");
+			}	
 			var startDate = $("#date").val();
 			if(startDate == "") {
 				startDate = ogStartDate
