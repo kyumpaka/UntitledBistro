@@ -32,12 +32,12 @@ public class Balju_Controller {
 	
 	private static final Logger logger = LoggerFactory.getLogger(Balju_Controller.class);
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String a() {
-		System.out.println("메인페이지에 접속되었습니다.");
-		return "baseLayout";
-		
-	}
+//	@RequestMapping(value = "/", method = RequestMethod.GET)
+//	public String a() {
+//		System.out.println("메인페이지에 접속되었습니다.");
+//		return "baseLayout";
+//		
+//	}
 	
 	@RequestMapping(value = "/balju_Plan_Grid", method = RequestMethod.GET)
 	@ResponseBody

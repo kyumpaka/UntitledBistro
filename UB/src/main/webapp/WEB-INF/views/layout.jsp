@@ -70,6 +70,19 @@
             height: 160px;
         }
 
+		.header-menu .dropdown {
+			line-height: 45px;
+		}
+		#realTimeSafeItem {
+			background-color: white;
+			border: 0px;
+		}
+		.fa {
+			color: #777;
+		}
+		#realTimeCount {
+			background-color: red;
+		}
     </style>
 </head>
 

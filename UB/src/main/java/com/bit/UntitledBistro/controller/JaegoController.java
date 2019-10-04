@@ -150,18 +150,28 @@ public class JaegoController {
 		return dao.defectItemSelectAll(condition);
 	}
 	
+	@GetMapping(value = "/realTimeSafeItemCount")
+	public @ResponseBody int safeItemCount() {
+		logger.info("여기는 현재 안전재고 결과 갯수 컨트롤러입니다.");
+		List<SafeItemDTO> safeItemList = dao.safeItemSelectAll();
+		return dao.realTimeSafeItemCount(safeItemList);
+	}
+	
+	@GetMapping(value = "/safeItemInsert")
+	public void safeItemInsert() {
+		logger.info("여기는 현재 안전재고 입력 컨트롤러입니다.");
+	}
+	
+	@GetMapping(value = "/realTimeSafeItemSelectAll")
+	public List<ItemDTO> realTimeSafeItemSelectAll() {
+		logger.info("여기는 현재 안전재고 결과목록 컨트롤러입니다.");
+		List<SafeItemDTO> list = dao.safeItemSelectAll();
+		return dao.realTimeSafeItemSelectAll(list);
+	}
+	
 	@GetMapping(value = "/webSocketTest")
 	public void webSocketTest() {
 		logger.info("여기는 웹소켓 컨트롤러 입니다.");
-	}
-	
-	@GetMapping(value = "/realTimeSafeItem")
-	public void realTimeSafeItem(Model model) {
-		logger.info("여기는 실시간 안전재고 컨트롤러 입니다.");
-		List<SafeItemDTO> safeItemList = dao.safeItemSelectAll();
-		List<SafeItemDTO> list = dao.realTimeSafeItem(safeItemList);
-		model.addAttribute("count", list.size());
-		
 	}
 	
 	@GetMapping(value = "/webSocket")

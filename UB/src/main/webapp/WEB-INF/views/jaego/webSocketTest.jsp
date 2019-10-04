@@ -33,7 +33,7 @@ function onClose(event) {
 }
  */
 $("#wsBtn").on("click",function() {
-	webSocket.send("1");
+	webSocket.send("5");
 });
 </script>
 

@@ -399,24 +399,41 @@
  	</select>
  	
  	<!-- 재고현황과 안전재고 비교 -->
- 	<select id="realTimeSafeItem" parameterType="list" resultType="safeItem">
+ 	<select id="realTimeSafeItemCount" parameterType="list" resultType="int">
  		SELECT
- 			 S.SI_NO
- 			,S.PRODUCT_CODE
- 			,S.SI_QTY
- 		FROM 
+		      COUNT(I.ITEM_NO)
+		FROM 
 		    ITEM I
 		INNER JOIN 
 		    SAFE_ITEM S
 		ON 
-		    I.PRODUCT_CODE = S.PRODUCT_CODE
+		    I.ITEM_PRODUCT_CODE = S.PRODUCT_CODE
 		<where>
-			1=1
 		<foreach collection="list" item="item" separator=" ">
 		OR	
-			I.PRODUCT_CODE = #{item.product_code} AND I.ITEM_QTY = #{item.si_qty}
+<![CDATA[	I.ITEM_PRODUCT_CODE = #{item.product_code} AND I.ITEM_QTY <= #{item.si_qty} ]]>
 		</foreach>
-		</where> 
+		</where>
+ 	</select>
+ 	
+ 	<!-- 재고현황과 안전재고 비교 -->
+ 	<select id="realTimeSafeItemSelectAll" parameterType="list" resultType="item">
+ 		SELECT
+		       I.ITEM_NO
+		      ,I.ITEM_PRODUCT_CODE
+		      ,I.ITEM_QTY
+		FROM 
+		    ITEM I
+		INNER JOIN 
+		    SAFE_ITEM S
+		ON 
+		    I.ITEM_PRODUCT_CODE = S.PRODUCT_CODE
+		<where>
+		<foreach collection="list" item="item" separator=" ">
+		OR	
+<![CDATA[	I.ITEM_PRODUCT_CODE = #{item.product_code} AND I.ITEM_QTY <= #{item.si_qty} ]]>
+		</foreach>
+		</where>
  	</select>
  	
  	
