@@ -410,6 +410,7 @@ function minusOrder(code, price) {
 						
 						var allPrice = $("#allPrice").html();
 						$("#allPrice").html(Number(allPrice) - Number(price));
+						$("#resultPrice").html(Number(allPrice) - Number(price));
 				  }
 			  }
 		});

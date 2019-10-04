@@ -125,7 +125,7 @@ function payCheck() {
 					  }
 				});
 		} else {
-			if(resultPrice == sumPrice) {
+			if(resultPrice == sumPrice && payment_Card >= 0) {
 				var memberId = $("#payment_Member_Id").val().trim();
 
 				// 회원여부 확인
