@@ -146,7 +146,7 @@ VALUES (5, 'PD11', 2, '반품', '유통기한 지남', SYSDATE);
 
 CREATE TABLE SAFE_ITEM (
     SI_NO NUMBER, -- 번호(PK)
-    PRODUCT_CODE VARCHAR2(20), -- 품목코드(FK)
+    SI_PRODUCT_CODE VARCHAR2(20), -- 품목코드(FK)
     SI_QTY NUMBER -- 안전수량
 );
 

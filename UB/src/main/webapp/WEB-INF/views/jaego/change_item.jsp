@@ -422,7 +422,7 @@ function valueTest(arr,condition,filter) {
 
 // 검색창을 새로 열때마다 품목데이터 초기화
 $("#open, #open2").on("click",function() {
-	$("#productJsGrid").jsGrid({data:original});
+	$("#productJsGrid").jsGrid({data:productData});
 	$("#productJsGrid").jsGrid("loadData");
 });
 

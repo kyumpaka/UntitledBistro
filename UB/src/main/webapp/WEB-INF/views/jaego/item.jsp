@@ -11,7 +11,7 @@
 
 <!-- datePicker -->
 <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" /> -->
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script> <!-- datePicker 용 jquery버전 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
@@ -399,7 +399,7 @@ function valueTest(arr,condition,filter) {
 
 // 검색창을 새로 열때마다 품목데이터 초기화
 $("#open, #open2").on("click",function() {
-	$("#productJsGrid").jsGrid({data:original});
+	$("#productJsGrid").jsGrid({data:productData});
 	$("#productJsGrid").jsGrid("loadData");
 });
 

@@ -210,6 +210,7 @@
 		<div id="dateResult"></div> <!-- 년월일 결과(작은글씨) -->
 		<div id="jsGrid"></div> <!-- 그리드를 이용한 테이블 -->
 		<div id="jsGridPage"></div> <!-- 그리드를 이용한 페이징 -->
+		<button type="button" id="newBtn" class="btn btn-primary btn-sm">신규</button>
 	</div>
 	
 </body>
@@ -321,6 +322,10 @@ $(document).on("click","#cancle",function(){
 	$("#product_name").text("");
 });
 
+$("#newBtn").on("click",function() {
+	window.location.href = "${path}/jaego/defect_itemInsert";
+});
+
 </script>
 
 
@@ -408,7 +413,7 @@ function valueTest(arr,condition,filter) {
 
 // 검색창을 새로 열때마다 품목데이터 초기화
 $("#open, #open2").on("click",function() {
-	$("#productJsGrid").jsGrid({data:original});
+	$("#productJsGrid").jsGrid({data:productData});
 	$("#productJsGrid").jsGrid("loadData");
 });
 

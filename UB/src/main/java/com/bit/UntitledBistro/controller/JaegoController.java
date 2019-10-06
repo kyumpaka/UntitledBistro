@@ -20,6 +20,7 @@ import com.bit.UntitledBistro.model.jaego.ItemDAOImpl;
 import com.bit.UntitledBistro.model.jaego.ItemDTO;
 import com.bit.UntitledBistro.model.jaego.OutItemDTO;
 import com.bit.UntitledBistro.model.jaego.ProductDTO;
+import com.bit.UntitledBistro.model.jaego.RiskItemDTO;
 import com.bit.UntitledBistro.model.jaego.SafeItemDTO;
 
 @Controller
@@ -58,7 +59,7 @@ public class JaegoController {
 		logger.info("여기는 재고변동 컨트롤러 입니다.");
 	}
 	
-	@RequestMapping(value = "/defect_itemList")
+	@RequestMapping(value = "/defect_item")
 	public void bad_itemList() {
 		logger.info("여기는 불량 목록 컨트롤러 입니다.");
 	}
@@ -150,30 +151,51 @@ public class JaegoController {
 		return dao.defectItemSelectAll(condition);
 	}
 	
-	@GetMapping(value = "/realTimeSafeItemCount")
-	public @ResponseBody int safeItemCount() {
+	@GetMapping(value = "/gridRiskItemCount")
+	public @ResponseBody int gridRiskItemCount() {
 		logger.info("여기는 현재 안전재고 결과 갯수 컨트롤러입니다.");
 		List<SafeItemDTO> safeItemList = dao.safeItemSelectAll();
-		return dao.realTimeSafeItemCount(safeItemList);
+		return dao.riskItemCount(safeItemList);
 	}
 	
-	@GetMapping(value = "/safeItemInsert")
-	public void safeItemInsert() {
-		logger.info("여기는 현재 안전재고 입력 컨트롤러입니다.");
+	@GetMapping(value = "/risk_item")
+	public void risk_item() {
+		logger.info("여기는 위험재고 조회 컨트롤러입니다.");
 	}
 	
-	@GetMapping(value = "/realTimeSafeItemSelectAll")
-	public List<ItemDTO> realTimeSafeItemSelectAll() {
-		logger.info("여기는 현재 안전재고 결과목록 컨트롤러입니다.");
+	@GetMapping(value = "/gridRiskItemSelectAll")
+	public @ResponseBody List<RiskItemDTO> gridRiskItemSelectAll() {
+		logger.info("여기는 그리드 안전재고 결과목록 컨트롤러입니다.");
 		List<SafeItemDTO> list = dao.safeItemSelectAll();
-		return dao.realTimeSafeItemSelectAll(list);
+		return dao.riskItemSelectAll(list);
 	}
 	
+	@GetMapping(value = "/safe_item")
+	public void safe_item() {
+		logger.info("여기는 안전재고 조회 컨트롤러입니다.");
+	}
+	@GetMapping(value = "/gridSafeItemSelectAll")
+	public @ResponseBody List<SafeItemDTO> gridSafeItemSelectAll() {
+		logger.info("여기는 그리드 안전재고 조회 컨트롤러입니다.");
+		return dao.safeItemSelectAll();
+	}
+	@GetMapping(value = "/safe_itemInsert")
+	public void safe_itemInsert() {
+		logger.info("여기는 안전재고 등록 컨트롤러입니다.");
+	}
+	
+	@GetMapping(value = "/gridSafeItemInsert")
+	public void safeItemInsert() {
+		logger.info("여기는 그리드 안전재고 등록 컨트롤러입니다.");
+	}
+	
+	//////////////////////////////////////////////////
+	// 웹소켓 공부
+	/////////////////////////////////////////////////
 	@GetMapping(value = "/webSocketTest")
 	public void webSocketTest() {
 		logger.info("여기는 웹소켓 컨트롤러 입니다.");
 	}
-	
 	@GetMapping(value = "/webSocket")
 	public void webSocket() {
 		logger.info("여기는 웹소켓 테스트 컨트롤러 입니다.");

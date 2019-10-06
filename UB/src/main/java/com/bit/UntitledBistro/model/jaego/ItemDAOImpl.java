@@ -54,12 +54,12 @@ public class ItemDAOImpl {
 		return mybatis.selectList("jaego.safeItemSelectAll");
 	}
 	
-	public int realTimeSafeItemCount(List<SafeItemDTO> list) {
-		return mybatis.selectOne("jaego.realTimeSafeItemCount", list);
+	public int riskItemCount(List<SafeItemDTO> list) {
+		return mybatis.selectOne("jaego.riskItemCount", list);
 	}
 	
-	public List<ItemDTO> realTimeSafeItemSelectAll(List<SafeItemDTO> list) {
-		return mybatis.selectList("jaego.realTimeSafeItemSelectAll", list);
+	public List<RiskItemDTO> riskItemSelectAll(List<SafeItemDTO> list) {
+		return mybatis.selectList("jaego.riskItemSelectAll", list);
 	}
 	
 }

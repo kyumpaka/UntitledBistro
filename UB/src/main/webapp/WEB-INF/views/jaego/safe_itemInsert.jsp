@@ -75,7 +75,7 @@
 </head>
 <body>
 	<div class="page-header">
-	    <h1><a href="">불량처리 입력(DEFECT_ITEM_INSERT)</a></h1>
+	    <h1><a href="">안전재고 입력(SAFE_ITEM_INSERT)</a></h1>
 	</div>
 
 
@@ -164,25 +164,15 @@ $(document).ready(function() {
 		data : [], 
 		//grid에 표현될 필드 요소
 		fields : [ {
-			name : "di_product_code",
+			name : "product_code",
 			type : "text",
 			title: "품목코드",
 			width : 80
 		}, {
-			name : "di_qty",
+			name : "si_qty",
 			type : "text",
 			title: "입고수량",
 			width : 80
-		}, {
-			name : "di_state",
-			type : "text",
-			title: "불량상태",
-			width : 80
-		}, {
-			name : "di_reason",
-			type : "text",
-			title: "불량이유",
-			width : 150
 		}, {
 			type: "control", editButton: true, modeSwitchButton: false   // show clear filter button
 		}]
