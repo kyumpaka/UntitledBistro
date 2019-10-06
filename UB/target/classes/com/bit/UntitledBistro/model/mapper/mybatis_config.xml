@@ -14,6 +14,7 @@
 		<typeAlias type="com.bit.UntitledBistro.model.jaego.ProductDTO" alias="product"/>
 		<typeAlias type="com.bit.UntitledBistro.model.jaego.DefectItemDTO" alias="defectItem"/>
 		<typeAlias type="com.bit.UntitledBistro.model.jaego.SafeItemDTO" alias="safeItem"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jaego.RiskItemDTO" alias="risk"/>
 		
 		<typeAlias type="com.bit.UntitledBistro.model.jumun.IngredientDTO" alias="ingredient"/>
 		<typeAlias type="com.bit.UntitledBistro.model.jumun.MenuDTO" alias="menu"/>

@@ -20,6 +20,7 @@ import com.bit.UntitledBistro.model.jaego.ItemDAOImpl;
 import com.bit.UntitledBistro.model.jaego.ItemDTO;
 import com.bit.UntitledBistro.model.jaego.OutItemDTO;
 import com.bit.UntitledBistro.model.jaego.ProductDTO;
+import com.bit.UntitledBistro.model.jaego.RiskItemDTO;
 import com.bit.UntitledBistro.model.jaego.SafeItemDTO;
 
 @Controller
@@ -58,7 +59,7 @@ public class JaegoController {
 		logger.info("여기는 재고변동 컨트롤러 입니다.");
 	}
 	
-	@RequestMapping(value = "/defect_itemList")
+	@RequestMapping(value = "/defect_item")
 	public void bad_itemList() {
 		logger.info("여기는 불량 목록 컨트롤러 입니다.");
 	}
@@ -68,8 +69,8 @@ public class JaegoController {
 		logger.info("여기는 불량 입력 컨트롤러 입니다.");
 	}
 	
-	@RequestMapping(value = "/gridSelectAll")
-	public @ResponseBody List<ItemDTO> gridSelectAll(Condition condition) {
+	@RequestMapping(value = "/gridItemSelectAll")
+	public @ResponseBody List<ItemDTO> gridItemSelectAll(Condition condition) {
 		logger.info("여기는 그리드 재고현황 조회 컨트롤러 입니다.");
 		logger.info("===============================================");
 		logger.info("keyword : " + condition.getKeyword());
@@ -150,30 +151,42 @@ public class JaegoController {
 		return dao.defectItemSelectAll(condition);
 	}
 	
-	@GetMapping(value = "/webSocketTest")
-	public void webSocketTest() {
-		logger.info("여기는 웹소켓 컨트롤러 입니다.");
-	}
-	
-	@GetMapping(value = "/realTimeSafeItem")
-	public void realTimeSafeItem(Model model) {
-		logger.info("여기는 실시간 안전재고 컨트롤러 입니다.");
+	@GetMapping(value = "/gridRiskItemCount")
+	public @ResponseBody int gridRiskItemCount() {
+		logger.info("여기는 현재 안전재고 결과 갯수 컨트롤러입니다.");
 		List<SafeItemDTO> safeItemList = dao.safeItemSelectAll();
-		List<SafeItemDTO> list = dao.realTimeSafeItem(safeItemList);
-		model.addAttribute("count", list.size());
-		
+		return dao.riskItemCount(safeItemList);
 	}
 	
-	@GetMapping(value = "/webSocket")
-	public void webSocket() {
-		logger.info("여기는 웹소켓 테스트 컨트롤러 입니다.");
+	@GetMapping(value = "/risk_item")
+	public void risk_item() {
+		logger.info("여기는 위험재고 조회 컨트롤러입니다.");
 	}
-	@GetMapping(value = "/webSocket2")
-	public void webSocket2() {
-		logger.info("여기는 웹소켓 멀티채팅 컨트롤러 입니다.");
+	
+	@GetMapping(value = "/gridRiskItemSelectAll")
+	public @ResponseBody List<RiskItemDTO> gridRiskItemSelectAll() {
+		logger.info("여기는 그리드 안전재고 결과목록 컨트롤러입니다.");
+		List<SafeItemDTO> list = dao.safeItemSelectAll();
+		return dao.riskItemSelectAll(list);
 	}
-	@GetMapping(value = "/webSocket3")
-	public void webSocket3() {
-		logger.info("여기는 웹소켓 기본 컨트롤러 입니다.");
+	
+	@GetMapping(value = "/safe_item")
+	public void safe_item() {
+		logger.info("여기는 안전재고 조회 컨트롤러입니다.");
 	}
+	@GetMapping(value = "/gridSafeItemSelectAll")
+	public @ResponseBody List<SafeItemDTO> gridSafeItemSelectAll() {
+		logger.info("여기는 그리드 안전재고 조회 컨트롤러입니다.");
+		return dao.safeItemSelectAll();
+	}
+	@GetMapping(value = "/safe_itemInsert")
+	public void safe_itemInsert() {
+		logger.info("여기는 안전재고 등록 컨트롤러입니다.");
+	}
+	
+	@GetMapping(value = "/gridSafeItemInsert")
+	public void safeItemInsert() {
+		logger.info("여기는 그리드 안전재고 등록 컨트롤러입니다.");
+	}
+	
 }

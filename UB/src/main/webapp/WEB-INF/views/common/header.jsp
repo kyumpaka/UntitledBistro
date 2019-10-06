@@ -23,68 +23,12 @@
                         </div>
 
                         <div class="dropdown for-notification">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-bell"></i>
-                                <span class="count bg-danger" id="realTime">3</span>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="notification">
-                                <p class="red">You have 3 Notification</p>
-                                <a class="dropdown-item media" href="#">
-                                    <i class="fa fa-check"></i>
-                                    <p>Server #1 overloaded.</p>
-                                </a>
-                                <a class="dropdown-item media" href="#">
-                                    <i class="fa fa-info"></i>
-                                    <p>Server #2 overloaded.</p>
-                                </a>
-                                <a class="dropdown-item media" href="#">
-                                    <i class="fa fa-warning"></i>
-                                    <p>Server #3 overloaded.</p>
-                                </a>
-                            </div>
+							<button id="realTimeSafeItem" onclick="riskItem()">
+	                            <i class="fa fa-bell"></i>
+	                            <span class="badge" id="riskItemCount">${riskItemCount}</span>
+							</button>                        
                         </div>
 
-                        <div class="dropdown for-message">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-envelope"></i>
-                                <span class="count bg-primary">4</span>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="message">
-                                <p class="red">You have 4 Mails</p>
-                                <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="${path}/resources/Admin/images/avatar/1.jpg"></span>
-                                    <div class="message media-body">
-                                        <span class="name float-left">Jonathan Smith</span>
-                                        <span class="time float-right">Just now</span>
-                                        <p>Hello, this is an example msg</p>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="${path}/resources/Admin/images/avatar/2.jpg"></span>
-                                    <div class="message media-body">
-                                        <span class="name float-left">Jack Sanders</span>
-                                        <span class="time float-right">5 minutes ago</span>
-                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="${path}/resources/Admin/images/avatar/3.jpg"></span>
-                                    <div class="message media-body">
-                                        <span class="name float-left">Cheryl Wheeler</span>
-                                        <span class="time float-right">10 minutes ago</span>
-                                        <p>Hello, this is an example msg</p>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="${path}/resources/Admin/images/avatar/4.jpg"></span>
-                                    <div class="message media-body">
-                                        <span class="name float-left">Rachel Santos</span>
-                                        <span class="time float-right">15 minutes ago</span>
-                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="user-area dropdown float-right">
@@ -108,7 +52,6 @@
         </header>
         
 <!-- WebSocket -->
-        
 <script type="text/javascript">
 
 var webSocket = new WebSocket("ws://localhost:8080/UntitledBistro/realTime-ws");
@@ -122,15 +65,15 @@ function onOpen(e) {
 
 function onMessage(e) {
 	console.log("서버로 부터 응답메시지 받음 : " + e.data);
-	var before = $("#realTime").text();
-	console.log("before : " + before);
-	var change = parseInt(before) + parseInt(e.data);
-	console.log("change : " + change);
-	$("#realTime").text(change);
+	$("#header #realTimeCount").html(e.data);
 }
 
 function onClose(e) {
 	console.log("웹소컷 닫음");
+}
+
+function riskItem() {
+	window.location.href="${path}/jaego/risk_item";
 }
 
 </script>        
