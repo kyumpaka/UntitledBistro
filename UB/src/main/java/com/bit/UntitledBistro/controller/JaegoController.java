@@ -69,8 +69,8 @@ public class JaegoController {
 		logger.info("여기는 불량 입력 컨트롤러 입니다.");
 	}
 	
-	@RequestMapping(value = "/gridSelectAll")
-	public @ResponseBody List<ItemDTO> gridSelectAll(Condition condition) {
+	@RequestMapping(value = "/gridItemSelectAll")
+	public @ResponseBody List<ItemDTO> gridItemSelectAll(Condition condition) {
 		logger.info("여기는 그리드 재고현황 조회 컨트롤러 입니다.");
 		logger.info("===============================================");
 		logger.info("keyword : " + condition.getKeyword());
@@ -189,23 +189,4 @@ public class JaegoController {
 		logger.info("여기는 그리드 안전재고 등록 컨트롤러입니다.");
 	}
 	
-	//////////////////////////////////////////////////
-	// 웹소켓 공부
-	/////////////////////////////////////////////////
-	@GetMapping(value = "/webSocketTest")
-	public void webSocketTest() {
-		logger.info("여기는 웹소켓 컨트롤러 입니다.");
-	}
-	@GetMapping(value = "/webSocket")
-	public void webSocket() {
-		logger.info("여기는 웹소켓 테스트 컨트롤러 입니다.");
-	}
-	@GetMapping(value = "/webSocket2")
-	public void webSocket2() {
-		logger.info("여기는 웹소켓 멀티채팅 컨트롤러 입니다.");
-	}
-	@GetMapping(value = "/webSocket3")
-	public void webSocket3() {
-		logger.info("여기는 웹소켓 기본 컨트롤러 입니다.");
-	}
 }
