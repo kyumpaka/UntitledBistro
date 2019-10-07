@@ -32,6 +32,7 @@
                             <li><i class="fa fa-spinner"></i><a href="${path}/jaego/defect_item">불량 현황</a></li>
                             <li><i class="fa fa-fire"></i><a href="${path}/jaego/risk_item">위험재고 현황</a></li>
                             <li><i class="fa fa-fire"></i><a href="${path}/jaego/safe_item">안전재고 현황</a></li>
+                            <li><i class="fa fa-fire"></i><a href="${path}/jaego/item_insert">재고 등록테스트</a></li>
                         </ul>
                     </li>
                     

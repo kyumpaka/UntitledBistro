@@ -125,18 +125,6 @@ public class JaegoController {
 		
 	}
 	
-	@RequestMapping(value = "/gridUpdate")
-	public @ResponseBody void gridUpdate(ItemDTO dto) {
-		logger.info("여기는 그리드 수정 컨트롤러 입니다.");
-		dao.itemUpdate(dto);
-	}
-	
-	@RequestMapping(value = "/gridDelete")
-	public @ResponseBody void gridDelete(ItemDTO dto) {
-		logger.info("여기는 그리드 삭제 컨트롤러 입니다.");
-		dao.itemDelete(dto);
-	}
-	
 	@RequestMapping(value = "/gridProductSelectAll")
 	public @ResponseBody List<ProductDTO> gridProductSelectAll(Condition condition) {
 		logger.info("여기는 품목 조회 컨트롤러 입니다.");
@@ -197,4 +185,27 @@ public class JaegoController {
 		return result;
 	}
 
+	@GetMapping(value = "/item_insert")
+	public void item_insert() {
+		logger.info("여기는 재고 등록 테스트 컨트롤러입니다.");
+	}
+	
+	
+	///////////////////////////////////////////////////
+	///////////  그리드 재고 등록 테스트   ////////////
+	///////////////////////////////////////////////////
+	
+	@PostMapping(value = "/gridItemInsert")
+	public @ResponseBody int gridItemInsert(ItemDTO dto) {
+		logger.info("여기는 그리드 재고 등록 테스트 컨트롤러입니다.");
+		logger.info("item_product_code : " + dto.getItem_product_code());
+		logger.info("item_qty : " + dto.getItem_qty());
+		int result = dao.itemValidate(dto);
+		if(result == 0) {
+			dao.itemInsert(dto);
+		} else {
+			dao.itemUpdate(dto);
+		}
+		return result;
+	}
 }

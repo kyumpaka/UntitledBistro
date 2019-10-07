@@ -88,6 +88,35 @@
 		
  	</select>
  	
+ 	<!-- 재고테이블 유효성 검사 -->
+ 	<select id="itemValidate" parameterType="item" resultType="int">
+ 		SELECT 
+		    COUNT(ITEM_NO) 
+		FROM 
+		    ITEM 
+		WHERE 
+		    ITEM_PRODUCT_CODE = #{item_product_code}
+ 	</select>
+ 	
+ 	<update id="itemUpdate" parameterType="item">
+ 		UPDATE 
+		    ITEM
+		SET 
+		    ITEM_QTY = #{item_qty}
+		WHERE 
+		    ITEM_PRODUCT_CODE = #{item_product_code}
+ 	</update>
+ 	
+ 	<sql id="maxItemNo">
+ 		SELECT NVL(MAX(ITEM_NO),0) +1 FROM ITEM
+ 	</sql>
+ 	<insert id="itemInsert" parameterType="item">
+ 		INSERT INTO 
+		    ITEM(ITEM_NO, ITEM_PRODUCT_CODE, ITEM_QTY) 
+		VALUES
+		    ((<include refid="maxItemNo"/>), #{item_product_code}, #{item_qty})
+ 	</insert>
+ 	
  	<select id="inItemSelectAll" parameterType="condition" resultType="inItem"> 	
  		SELECT 
 		     /*+ INDEX_DESC(II PK_II_INDEX) */
