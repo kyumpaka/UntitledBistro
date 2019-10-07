@@ -35,10 +35,14 @@
  		SELECT
  			 MEMBER_ID, 
  			 MEMBER_NAME, 
+ 			 MEMBER_GENDER,
+ 			 MEMBER_BIRTH,
+ 			 MEMBER_EMAIL,
  			 MEMBER_GRADE, 
+ 			 MEMBER_ADDR1,
  			 MEMBER_POINT, 
  			 MEMBER_PHONE1 , 
- 		 	MEMBER_REG 
+ 			 MEMBER_REG 
  		 FROM
  			 MEMBER
 	 ]]>

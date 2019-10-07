@@ -59,9 +59,7 @@ public class SeobisController {
 	public String seobis_memberList(HttpServletRequest request, HashMap<String, Object> map) {
 		List<Seobis_MemberDTO> Seobis_memberList = Seobis_memberService.Seobis_MemberList(map);
 		request.setAttribute("Seobis_memberList", Seobis_memberList);
-		System.out.println("================================아아아아아아아");
 		System.out.println(Seobis_memberList);
-		System.out.println("================================아아아아아아아");
 		return "seobis/Seobis_memberList"; //.jsp
 	}
 	

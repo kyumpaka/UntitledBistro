@@ -22,6 +22,29 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
+    
+     <style>
+        #updatebutton{
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            margin-right:-4px;
+        }
+        #deletebutton{
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;    
+            margin-left:-3px;
+        }
+        #btn_group button{
+            border: 1px solid skyblue;
+            background-color: skyblue;
+            color: white;
+            padding: 5px;
+        }
+        #btn_group button:hover{
+            color: skyblue;
+            background-color: white;
+        }
+    </style>
 
 </head>
 <body>
@@ -70,14 +93,13 @@
                                             	<th>전화번호</th>
                                             	<th>주소</th>
                                             	<th>가입일</th>
-                                            	<th>회원 수정</th>
                                             	<th>삭제</th>
                                             </tr>
                                     </thead>
                                     <tbody>
                                         <c:forEach var="b" items="${Seobis_memberList}">
 											<tr>
-												<td>${b.member_id}</td>
+												<td><div id="btn_group"><button id="updatebutton" onclick='location.href="${path}/Seobis_select?member_id=${b.member_id}"'>${b.member_id}</button></div></td>
 												<td>${b.member_name}</td>
 												<td>${b.member_gender}</td>
 												<td>${b.member_birth}</td>
@@ -85,8 +107,7 @@
 												<td>${b.member_phone1}</td>
 												<td>${b.member_addr1}</td>
 												<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${b.member_reg}" /></td>
-												<td><button onclick='location.href="${path}/Seobis_select?member_id=${b.member_id}"'>회원 수정</button></td>
-												<td><button class="Seobis_MemberDelete" >삭제</button></td>
+												<td><div id="btn_group"><button id="deletebutton" class="Seobis_MemberDelete" onclick="aa()">삭제</button></div></td>
 											</tr>
 										</c:forEach>
                                     </tbody>
@@ -122,13 +143,14 @@
         $(document).ready(function() {
           $('#bootstrap-data-table-export').DataTable();
       } );
-        
-        $(".Seobis_MemberDelete").on("click", function(){
-            var member_id = $(this).parent().parent().children().eq(0).text();
-            if(confirm("회원 ID : "+member_id+"을 삭제하시겠습니까?")){
-                $(location).attr("href", "${path}/Seobis_delete?member_id=" + member_id);
-            }
-        });
+        function aa() {
+        	$(".Seobis_MemberDelete").on("click", function(){
+                var member_id = $(this).parent().parent().parent().children().eq(0).text();
+                if(confirm("회원 ID : "+member_id+"을 삭제하시겠습니까?")){
+                    $(location).attr("href", "${path}/Seobis_delete?member_id=" + member_id);
+                }
+            });
+        }
   </script>
 
 
