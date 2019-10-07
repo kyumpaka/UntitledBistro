@@ -10,7 +10,7 @@
 <script type="text/javascript">
 
 function EmpRegisterRead(empnum){
-	//alert("삭제");
+	//alert("삭제")
 	location.href="/UntitledBistro/EmpRegisterRead?empregister_empnum="+empnum; 
 }
 

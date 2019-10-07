@@ -1,34 +1,32 @@
 package com.bit.UntitledBistro.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Parameter;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.bit.UntitledBistro.model.insa.InsaDAO;
 import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
+import com.bit.UntitledBistro.model.insa.Insa_ScheduleDTO;
+import com.bit.UntitledBistro.service.insa.GoogleCalendarService;
 import com.bit.UntitledBistro.service.insa.InsaService;
+import com.google.api.services.calendar.Calendar;
 
 @Controller
 public class InsaController {
-
 	@Resource(name = "test")
 	private InsaService insaService;
-
+	private Logger logger = LoggerFactory.getLogger(InsaController.class);
+	
 	@RequestMapping("/EmpRegisterInsertForm")
 	public String insertform() {
 		return "views/insa/EmpRegisterInsertForm";
@@ -133,5 +131,29 @@ public class InsaController {
 
 	}
 	
+	/*
+	 * @RequestMapping("/Schdule") public String schdule(Model model, String title)
+	 * { logger.info("Schdule"); model.addAttribute("title", title); return
+	 * "insa/Schdule"; }
+	 */
+	
+	 // 캘린더 생성 처리
+    @RequestMapping("/Schdule")
+    public String calendarAdd(Insa_ScheduleDTO scheduleDTO) {
+        logger.info("calendarAdd "+scheduleDTO.toString());
+        
+        try {
+            Calendar service = GoogleCalendarService.getCalendarService();
+            com.google.api.services.calendar.model.Calendar calendar = new com.google.api.services.calendar.model.Calendar();
+            calendar.setSummary(scheduleDTO.getSchedule_no());
+            calendar.setTimeZone("America/Los_Angeles");
+            service.calendars().insert(calendar).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "insa/Schdule";
+    }
+    
+    
 
 }
