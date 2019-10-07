@@ -211,9 +211,9 @@
 		})
 		.done(function(result) {
 			if(result == 0) {
-				alert("추가 성공");
+				swal("등록 성공!", "안전재고 등록을 완료했습니다.", "success");
 			} else {
-				alert("이미 등록한 품목코드가 있습니다.");
+				sweetAlert("등록 실패!", "이미 등록한 품목코드가 있습니다.", "error");
 				return;
 			}
 			$("#jsGrid").jsGrid("clearInsert");

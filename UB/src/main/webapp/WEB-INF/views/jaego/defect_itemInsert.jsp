@@ -225,7 +225,7 @@
 			data : JSON.stringify($("#jsGrid").jsGrid("option","data"))
 		})
 		.done(function() {
-			alert("추가 성공");
+			swal("등록 성공!", "불량재고 등록을 완료했습니다.", "success");
 			$("#jsGrid").jsGrid("clearInsert");
 			$("#jsGrid").jsGrid({data : []});
 			$("#jsGrid").jsGrid("loadData");
