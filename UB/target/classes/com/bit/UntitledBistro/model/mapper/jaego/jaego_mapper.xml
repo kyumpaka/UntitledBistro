@@ -364,7 +364,7 @@
  	<!-- ================================================================================== -->
  	<!-- ===============================다중 등록========================================== -->
  	<!-- ================================================================================== -->
- 	<insert id="defectItemInsert" parameterType="list" flushCache="true">
+ 	<insert id="defectItemInsert" parameterType="list">
 		<selectKey  keyProperty="di_no" resultType="int" order="BEFORE">
 			SELECT NVL(MAX(DI_NO),0) +1 FROM DEFECT_ITEM
 		</selectKey>
@@ -387,11 +387,30 @@
 			)
 		</foreach>
  	</insert>
+ 	<insert id="safeItemInsert" parameterType="list">
+		<selectKey  keyProperty="si_no" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(SI_NO),0) +1 FROM SAFE_ITEM
+		</selectKey>
+		<foreach item="item" collection="list" open="INSERT ALL"  close="SELECT * FROM DUAL" separator=" " index="index">
+		INTO SAFE_ITEM
+			(
+			 SI_NO
+			,SI_PRODUCT_CODE
+			,SI_QTY
+			) 
+		VALUES 
+			(
+			 ((SELECT NVL(MAX(SI_NO),0) +1 FROM SAFE_ITEM) + #{index})
+			,#{item.si_product_code}
+			,#{item.si_qty}
+			)
+		</foreach>
+ 	</insert>
  	
  	<!-- 안전재고 조회 -->
  	<select id="safeItemSelectAll" resultType="safeItem">
  		SELECT
-		     P.PRODUCT_CODE
+		     S.SI_PRODUCT_CODE
 		    ,P.PRODUCT_NAME
 		    ,S.SI_QTY
 		FROM
@@ -415,7 +434,7 @@
 		<where>
 		<foreach collection="list" item="item" separator=" ">
 		OR	
-<![CDATA[	I.ITEM_PRODUCT_CODE = #{item.product_code} AND I.ITEM_QTY <= #{item.si_qty} ]]>
+<![CDATA[	I.ITEM_PRODUCT_CODE = #{item.si_product_code} AND I.ITEM_QTY <= #{item.si_qty} ]]>
 		</foreach>
 		</where>
  	</select>
@@ -440,11 +459,23 @@
 		<where>
 		<foreach collection="list" item="item" separator=" ">
 		OR	
-<![CDATA[	I.ITEM_PRODUCT_CODE = #{item.product_code} AND I.ITEM_QTY <= #{item.si_qty} ]]>
+<![CDATA[	I.ITEM_PRODUCT_CODE = #{item.si_product_code} AND I.ITEM_QTY <= #{item.si_qty} ]]>
 		</foreach>
 		</where>
  	</select>
  	
- 	
+	
+<select id="safeItemValidate" parameterType="list" resultType="int">
+	SELECT 
+		COUNT(SI_NO) 
+	FROM 
+		SAFE_ITEM 
+	<where>
+	<foreach collection="list" item="item" separator=" ">
+	OR
+		SI_PRODUCT_CODE = #{item.si_product_code}
+	</foreach>
+	</where> 
+</select> 	
  
 </mapper>

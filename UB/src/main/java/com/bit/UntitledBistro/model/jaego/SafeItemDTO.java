@@ -2,7 +2,7 @@ package com.bit.UntitledBistro.model.jaego;
 
 public class SafeItemDTO {
 	private int si_no;
-	private String product_code;
+	private String si_product_code;
 	private String product_name;
 	private int si_qty;
 	
@@ -12,11 +12,11 @@ public class SafeItemDTO {
 	public void setSi_no(int si_no) {
 		this.si_no = si_no;
 	}
-	public String getProduct_code() {
-		return product_code;
+	public String getSi_product_code() {
+		return si_product_code;
 	}
-	public void setProduct_code(String product_code) {
-		this.product_code = product_code;
+	public void setSi_product_code(String si_product_code) {
+		this.si_product_code = si_product_code;
 	}
 	public String getProduct_name() {
 		return product_name;

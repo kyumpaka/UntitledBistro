@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -184,9 +185,16 @@ public class JaegoController {
 		logger.info("여기는 안전재고 등록 컨트롤러입니다.");
 	}
 	
-	@GetMapping(value = "/gridSafeItemInsert")
-	public void safeItemInsert() {
+	@PostMapping(value = "/gridSafeItemInsert")
+	public @ResponseBody int safeItemInsert(@RequestBody SafeItemDTO[] dtos) {
 		logger.info("여기는 그리드 안전재고 등록 컨트롤러입니다.");
+		List<SafeItemDTO> list = Arrays.asList(dtos);
+		int result = dao.safeItemValidate(list);
+		if(result == 0) {
+			dao.safeItemInsert(list);
+		}
+		
+		return result;
 	}
-	
+
 }
