@@ -142,6 +142,7 @@
 		<div id="jsGridPage"></div> <!-- 그리드를 이용한 페이징 -->
 		<button id="insertBtn" class="btn btn-primary btn-sm">적용</button>
 		<button type="button" id="listBtn" class="btn btn-primary btn-sm">목록</button>
+		<button type="button" id="testBtn" class="btn btn-primary btn-sm">테스트</button>
 	</div>
 	
 	
@@ -213,41 +214,29 @@
 				alert("추가 성공");
 			} else {
 				alert("이미 등록한 품목코드가 있습니다.");
+				return;
 			}
 			$("#jsGrid").jsGrid("clearInsert");
 			$("#jsGrid").jsGrid({data : []});
 			$("#jsGrid").jsGrid("loadData");
+			
+			// 실시간 위험재고 갯수 웹소켓을 통해서 전달하기
+			$.ajax({
+				url : "${path}/jaego/gridRiskItemCount",
+				type : "get"
+			})
+			.done(function(count) {
+				webSocket.send(count);
+			});
 		}); 
 	});
 	
-	/* $("#searchBtn").click(function() {
-		if ($("#yy-mm-dd").css("border") == "1px solid rgb(255, 0, 0)") {
-			alert("올바른 검색조건으로 입력하세요.");
-			return;
-		}
-
-		var endDate = $("#date").val();
-		if (endDate == "") {
-			endDate = ogEndDate
-		}
-
-		var product_code = $("#product_code").val();
-		var product_name = $("#product_name").val();
-		console.log("aaaaaaaaaaaaaaaaaaa");
-		console.log(product_code);
-		console.log(product_name);
-		console.log("bbbbbbbbbbbbbbbbbbb");
-		$("#dateResult").text(endDate);
-		dataLoad(1, endDate, product_code, product_name);
-
-	});
-	$(document).on("click", "#cancle", function() {
-		$("#product_code").val("");
-		$("#product_name").val("");
-	}); */
-
 	$("#listBtn").on("click",function() {
 		window.location.href = "${path}/jaego/defect_item";
+	});
+	
+	$("#testBtn").on("click",function() {
+		webSocket.send("10");
 	});
 </script>
 

@@ -293,6 +293,7 @@
 			// 특정 행을 클릭했을 경우
 			rowClick: function(args) {
 				var product_code = args.item.product_code;
+				
 				// 그리드 입력창 해당셀에 값 적용
 				$($("#jsGrid .jsgrid-insert-row input")[0]).val(product_code);
 				

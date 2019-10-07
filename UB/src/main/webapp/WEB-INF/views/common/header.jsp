@@ -50,7 +50,10 @@
                 </div>
             </div>
         </header>
-        
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>        
+
 <!-- WebSocket -->
 <script type="text/javascript">
 
@@ -61,11 +64,18 @@ webSocket.onclose = onClose;
 
 function onOpen(e) {
 	console.log("웹소켓 연결");
+	$.ajax({
+		url : "${path}/jaego/gridRiskItemCount",
+		type : "get"
+	})
+	.done(function(count) {
+		$("#riskItemCount").html(count);
+	});
 }
 
 function onMessage(e) {
 	console.log("서버로 부터 응답메시지 받음 : " + e.data);
-	$("#header #realTimeCount").html(e.data);
+	$("#riskItemCount").html(e.data);
 }
 
 function onClose(e) {
