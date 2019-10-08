@@ -20,7 +20,6 @@ function list(){
 	window.location.replace('EmpRegisterList'); 
 
 }
-<script type="text/javascript">
 
 function EmpRegisterRead(empnum){
 	//alert("삭제");

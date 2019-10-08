@@ -1,19 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>일정관리</title>
-<script src="./js/jquery-3.1.1.min.js"></script>
-<script src="./js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="./css/bootstrap.min.css">
-<link rel="stylesheet" href="./css/bootstrap-theme.min.css">
-<script type="text/javascript" src='./js/sweetalert.min.js?ver=1'></script>
-<link rel="stylesheet" type="text/css"
-    href='./css/sweetalert.css?ver=1.2'>
-<script type="text/javascript" src="./js/stringBuffer.js"></script>
-<script type="text/javascript" src="./js/calendar.js"></script>
-<script type="text/javascript" src="./js/calendarSchdule.js"></script>
+<script src="${path }/resources/js/insa/jquery-3.1.1.min.js"></script>
+<script src="${path }/resources/js/insa/bootstrap.min.js"></script> 
+<link rel="stylesheet" href="${path }/resources/css/insa/bootstrap.min.css">
+<%-- <link rel="stylesheet" href="${path }/resources/css/insa/bootstrap-theme.min.css"> --%>
+<script type="text/javascript" src='${path }/resources/js/insa/sweetalert.min.js?ver=1'></script>
+<link rel="stylesheet" type="text/css" href='${path }/resources/css/insa/sweetalert.css?ver=1.2'>
+<script type="text/javascript" src="	${path }/resources/js/insa/stringBuffer.js"></script>
+<script type="text/javascript" src="${path }/resources/js/insa/calendar.js"></script>
+<script type="text/javascript" src="${path }/resources/js/insa/calendarSchdule.js"></script>
 <style type="text/css">
 thead {
     text-align: center;
@@ -32,7 +34,6 @@ thead td {
 </head>
 <body>
     <input type="hidden" id="chk" value="0" />
-    <input type="hidden" id="calendarId" value="${calendarId}" />
     <table class="table table-bordered">
         <thead id='thead'>
             <tr>
@@ -47,13 +48,13 @@ thead td {
                         onclick="moveMonthNext()">›</button>  
                     <button type='button' class='btn btn-sm btn-warning'
                         id='moveFastNext' onclick="moveFastMonthNext()">»</button>
-                    <div style="text-align: right;">
+                	 <div style="text-align: right;">
                         <span>${title}</span> <input class='btn btn-sm btn-info'
                             type="button" value="주" onclick='tabWeek()' /> <input
                             class='btn btn-sm btn-info' type="button" value="월"
-                            onclick='tabMonth()' /> <input class='btn btn-sm btn-info'
-                            type="button" value="목록" onclick='location.href="./coding.do"' />
+                            onclick='tabMonth()' /> 
                     </div>
+                
                 </td>
             </tr>
             <tr>
@@ -85,25 +86,20 @@ thead td {
                                 placeholder="예: 오후 7시에 멕시코 음식점에서 저녁식사">
                         </div>
                         <div class='form-group'>
-                            <label>시작시간</label> <input class='form-control' type="time"
-                                id='startTime' name='startTime'>
+                            <label>출근시간</label> <input class='form-control' type="time"
+                                id='schedule_workingstarttime' name='schedule_workingstarttime'>
                         </div>
                         <div class='form-group'>
-                            <label>시작날짜</label> <input class='form-control startDate'
-                                type="date" id='startDate' name='startDate' readonly="readonly">
+                            <label>출근날짜</label> <input class='form-control startDate'
+                                type="date" id='schedule_workingstartday' name='schedule_workingstartday' readonly="readonly">
                         </div>
                         <div class='form-group'>
-                            <label>종료시간</label> <input class='form-control' type="time"
-                                id='endTime' name='endTime'>
+                            <label>퇴근시간</label> <input class='form-control' type="time"
+                                id='schedule_workingendtime' name='schedule_workingendtime'>
                         </div>
                         <div class='form-group'>
-                            <label>종료날짜</label> <input class='form-control startDate'
-                                type="date" id='endDate' name='endDate'>
-                        </div>
-                        <div class='form-group'>
-                            <label>내용</label>
-                            <textarea rows="7" class='form-control' id="description"
-                                name='description'></textarea>
+                            <label>퇴근날짜</label> <input class='form-control startDate'
+                                type="date" id='schedule_workingendday' name='endDate'>
                         </div>
                         <div class='modal-footer'>
                             <input type="button" class='btn btn-sm btn-warning' value="확인"

@@ -57,10 +57,10 @@
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>사원관리</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-sign-in"></i><a href="page-login.html">직원 등록</a></li>
+                            <li><i class="menu-icon fa fa-sign-in"></i><a href="${path }/Schedule">직원 등록</a></li>
                             <li><i class="menu-icon fa fa-sign-in"></i><a href="${path}/EmpRegisterList">직원 목록</a></li>
                             <li><i class="menu-icon fa fa-paper-plane"></i><a href="pages-forget.html">급여 확인</a></li>
-                            <li><i class="fa fa-bars"></i><a href="${path}/Schedule">근무 스케줄</a></li>
+                            <li><i class="fa fa-bars"></i><a href="${path }/Schedule">근무 스케줄</a></li>
                         </ul>
                     </li>
                       <li class="menu-item-has-children dropdown">
