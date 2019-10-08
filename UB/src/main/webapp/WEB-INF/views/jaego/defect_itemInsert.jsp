@@ -128,13 +128,11 @@
 						<i class="glyphicon glyphicon-search"></i>
 					</button>
 					<input class="form-control" type="search" placeholder="검색할 품목코드 입력" id="product_code">
+					<button id="applyBtn" class="btn btn-primary btn-sm">적용</button>
 				</div>
 			</div>
 
 		</div> <!-- form-inline end -->
-		
-		<button type="button" id="searchBtn" class="btn btn-primary btn-sm">검색</button>
-		<button type="button" id="cancle" class="btn btn-default btn-sm">취소</button>
 		
 	</div> <!-- searchBackground end -->
   
@@ -230,6 +228,12 @@
 			$("#jsGrid").jsGrid({data : []});
 			$("#jsGrid").jsGrid("loadData");
 		}); 
+	});
+	
+	// 적용 버튼 클릭했을 경우 입력창 적용하기
+	$("#applyBtn").on("click",function() {
+		var product_code = $("#product_code").val();
+		$($("#jsGrid .jsgrid-insert-row input")[0]).val(product_code);
 	});
 	
 	// 목록 버튼 클릭했을 경우 이동하기

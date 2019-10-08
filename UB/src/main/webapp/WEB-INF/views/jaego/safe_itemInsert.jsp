@@ -128,6 +128,7 @@
 						<i class="glyphicon glyphicon-search"></i>
 					</button>
 					<input class="form-control" type="search" placeholder="검색할 품목코드 입력" id="product_code">
+					<button id="applyBtn" class="btn btn-primary btn-sm">적용</button>
 				</div>
 			</div>
 
@@ -140,9 +141,9 @@
 	<div id="jsGridBackground">
 		<div id="jsGrid"></div> <!-- 그리드를 이용한 테이블 -->
 		<div id="jsGridPage"></div> <!-- 그리드를 이용한 페이징 -->
-		<button id="insertBtn" class="btn btn-primary btn-sm">적용</button>
-		<button type="button" id="listBtn" class="btn btn-primary btn-sm">목록</button>
-		<button type="button" id="testBtn" class="btn btn-primary btn-sm">테스트</button>
+		<button id="insertBtn" class="btn btn-primary btn-sm">등록</button>
+		<button id="listBtn" class="btn btn-primary btn-sm">목록</button>
+		<button id="testBtn" class="btn btn-primary btn-sm">테스트</button>
 	</div>
 	
 	
@@ -231,13 +232,17 @@
 		}); 
 	});
 	
+	// 적용 버튼 클릭했을 경우 입력창 적용하기
+	$("#applyBtn").on("click",function() {
+		var product_code = $("#product_code").val();
+		$($("#jsGrid .jsgrid-insert-row input")[0]).val(product_code);
+	});
+	
+	// 목록 버튼 클릭했을 경우 이동하기
 	$("#listBtn").on("click",function() {
 		window.location.href = "${path}/jaego/safe_item";
 	});
-	
-	$("#testBtn").on("click",function() {
-		webSocket.send("10");
-	});
+
 </script>
 
 
