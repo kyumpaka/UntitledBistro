@@ -232,7 +232,7 @@
 	});
 	
 	$("#listBtn").on("click",function() {
-		window.location.href = "${path}/jaego/defect_item";
+		window.location.href = "${path}/jaego/safe_item";
 	});
 	
 	$("#testBtn").on("click",function() {

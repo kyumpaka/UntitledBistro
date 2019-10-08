@@ -301,7 +301,7 @@
 		productData = json;
 		$("#productJsGrid").jsGrid({
 			width : "100%",
-			height : "auto",
+			height : "auto",	
 			// 데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
 			autoload : true,
 			
@@ -360,8 +360,8 @@
 
 					// 검색할 값이 있을 경우
 					var filterData;
-					if(product_code !== "") filterData = valueTest(productData,"product_code",filter.product_code);
-					if(product_name !== "") filterData = valueTest(productData,"product_name",filter.product_name);
+					if(filter.product_code !== "") filterData = valueTest(productData,"product_code",filter.product_code);
+					if(filter.product_name !== "") filterData = valueTest(productData,"product_name",filter.product_name);
 					return filterData;
 				}
 		
@@ -373,7 +373,7 @@
 	// 검색할 때 필터와 일치하는 데이터 제거하기
 	function valueTest(arr,condition,value) {
 		return $.grep(arr, function(i) {
-			if(condition == "product_code") return i.product_code.indexOf(value) != -1;
+			if(condition == "product_code") return i.si_product_code.indexOf(value) != -1;
 			if(condition == "product_name") return i.product_name.indexOf(value) != -1;
 		});
 	}
