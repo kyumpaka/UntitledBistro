@@ -275,6 +275,7 @@ public class JumunServiceImpl implements JumunService {
 		dao = sqlSession.getMapper(JumunDAO.class);
 		map = new HashMap<String, String>();
 		map.put("od_Orders_No", orders_No);
+		
 		return dao.odAllPrice(map); // 주문 전체 금액 조회
 	}
 	
@@ -284,6 +285,9 @@ public class JumunServiceImpl implements JumunService {
 		map = new HashMap<String, String>();
 		map.put("od_Orders_No", ordersDetailDTO.getOd_Orders_No());
 		map.put("od_Menu_Code", ordersDetailDTO.getOd_Menu_Code());
+		dao.storeAllPlus(map); // 재고 추가
+		dao.shippingHistoryOneDelete(map); // 출고내역 삭제
+		
 		return dao.ordersDetailsDelete(map); // 주문내역 메뉴 1개 삭제
 	}
 	
@@ -292,6 +296,9 @@ public class JumunServiceImpl implements JumunService {
 		dao = sqlSession.getMapper(JumunDAO.class);
 		map = new HashMap<String, String>();
 		map.put("od_Orders_No", ordersDetailDTO.getOd_Orders_No());
+		dao.storeAllPlus(map); // 재고 추가
+		dao.shippingHistoryAllDelete(map); // 출고내역 삭제
+		
 		return dao.ordersDetailsDelete(map); // 주문내역 전체 삭제
 	}
 	
@@ -310,6 +317,11 @@ public class JumunServiceImpl implements JumunService {
 			dao.ordersInsert(ordersDTO);
 		}
 		
+		map.put("od_Menu_Code", ordersDetailDTO.getOd_Menu_Code());
+		dao.storeMinus(map); // 재고 감소
+		dao.shippingHistoryInsert(map); // 출고내역 기록
+		dao.storeCheck(map); // 재고수량 확인
+		
 		// 기존에 시킨 메뉴인지 확인
 		if(dao.ordersDetailsSelectCount(ordersDetailDTO) == 0) {
 			return dao.ordersDetailsInsert(ordersDetailDTO);			
@@ -323,9 +335,13 @@ public class JumunServiceImpl implements JumunService {
 		dao = sqlSession.getMapper(JumunDAO.class);
 		map = new HashMap<String, String>();
 		map.put("orders_No", ordersDetailDTO.getOd_Orders_No());
-		dao.ordersUpdate(map);
+		dao.ordersUpdate(map); // 주문시간 갱신
+
+		map.put("od_Menu_Code", ordersDetailDTO.getOd_Menu_Code());
+		dao.storePlus(map); // 재고 증가
+		dao.shippingHistoryDelete(map);
 		
-		return dao.ordersDetailsMinus(ordersDetailDTO); // 감소시키기
+		return dao.ordersDetailsMinus(ordersDetailDTO); // 주문내역 감소시키기
 	}
 
 	@Override
@@ -548,6 +564,10 @@ public class JumunServiceImpl implements JumunService {
 			}
 		}
 		
+		// 주문내역
+		map.put("sales_No", Integer.toString(sales_No));
+		dao.shippingHistoryUpdate(map);
+		
 		return sales_No;
 	}
 	
@@ -739,4 +759,19 @@ public class JumunServiceImpl implements JumunService {
 		
 		return dao.paymentCancle(map); // 환불 처리
 	}
+	
+	@Override // 재고가 부족한 메뉴 이름
+	public ArrayList<String> storeCountCheck(){
+		dao = sqlSession.getMapper(JumunDAO.class);
+		
+		return dao.storeZeroSelect();
+	}
+	
+	@Override // 물품 조회
+	public ArrayList<HashMap<String, Object>> productSearch() {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		
+		return dao.productSelect();
+	}
+	
 }

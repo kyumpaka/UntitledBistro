@@ -97,4 +97,9 @@ public interface JumunService {
 	public ArrayList<SalesDetailsDTO> salesDetailsSearch(String sales_No);	
 
 	public int paymentCancle(String payment_No);
+	
+	public ArrayList<String> storeCountCheck();
+	
+	public ArrayList<HashMap<String, Object>> productSearch();
+	
 }

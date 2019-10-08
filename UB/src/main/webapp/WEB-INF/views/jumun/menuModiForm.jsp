@@ -73,11 +73,11 @@
 						<select id="select" class="form-control" name="menu_State">
 							<c:if test="${ menuDTO.menu_State eq '판매' }">
 								<option value="판매" selected="selected">판매</option>
-								<option value="미판매">미판매</option>
+								<option value="품절">미판품절매</option>
 							</c:if>
-							<c:if test="${ menuDTO.menu_State eq '미판매' }">
+							<c:if test="${ menuDTO.menu_State eq '품절' }">
 								<option value="판매">판매</option>
-								<option value="미판매" selected="selected">미판매</option>
+								<option value="품절" selected="selected">품절</option>
 							</c:if>
 						</select>
 					</div>
@@ -90,10 +90,16 @@
 									<label for="text-input" class=" form-control-label">재료 이름</label>
 								</div>
 								<div class="col-12 col-md-9">
-									<input type="text" id="text-input"
-										class="form-control"
-										name="ingredientDTO[${ stauts.index }].ingredient_Product_Code"
-										value="${ IngredientDTO.ingredient_Product_Code }">
+									<select class="form-control" name="ingredientDTO[${ stauts.index }].ingredient_Product_Code">
+									<c:forEach items="${ productList }" var="productList">
+									<c:if test="${ IngredientDTO.ingredient_Product_Code eq productList.PRODUCT_CODE }">
+									<option value="${ IngredientDTO.ingredient_Product_Code }" selected="selected">${ productList.PRODUCT_NAME }</option>
+									</c:if>
+									<c:if test="${ IngredientDTO.ingredient_Product_Code != productList.PRODUCT_CODE }">
+									<option value="${ IngredientDTO.ingredient_Product_Code }">${ productList.PRODUCT_NAME }</option>
+									</c:if>
+									</c:forEach>
+									</select>
 								</div>
 							</div>
 							<div class="row form-group">
@@ -130,7 +136,8 @@ var cntend = igdcnt;
 function igdAdd() {
 	  event.preventDefault();
 	  var frmTag = '<div id="addIgd'+igdcnt+'"><div class="row form-group"> <div class="col col-md-3"> <label for="text-input" class=" form-control-label">재료 이름</label> </div>';
-		  frmTag += '<div class="col-12 col-md-9"> <input type="text" id="text-input" class="form-control" name="ingredientDTO['+igdcnt+'].ingredient_Product_Code"> </div> </div>';
+		  frmTag += '<div class="col-12 col-md-9"> <select class="form-control" name="ingredientDTO['+igdcnt+'].ingredient_Product_Code">';
+		  frmTag += '<c:forEach items="${ productList }" var="productList"><option value="${ productList.PRODUCT_CODE }">${productList.PRODUCT_NAME}</option></c:forEach></select></div> </div>';
 		  frmTag += '<div class="row form-group"> <div class="col col-md-3"> <label for="text-input" class=" form-control-label">개수</label> </div>';
 		  frmTag += '<div class="col-12 col-md-9"> <input type="number" id="text-input" class="form-control" name="ingredientDTO['+igdcnt+'].ingredient_Qty"> </div>';
 		  frmTag += '</div> <button onclick="igdRemove(\''+igdcnt+'\')" class="btn btn-primary btn-sm" >재료 삭제</button><hr> </div>';

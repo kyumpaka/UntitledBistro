@@ -85,9 +85,11 @@ public class JumunController {
 		return jumunService.menuTypeModi(menuTypeDTO);
 	}
 	
+	// 메뉴 추가 형식
 	@RequestMapping(value = "/menuAddForm.do")
 	public String menuAddForm(Model model) {
 		model.addAttribute("menuTypeList", jumunService.menuTypeSearch("all"));
+		model.addAttribute("productList", jumunService.productSearch());
 		
 		return "views/jumun/menuAddForm";
 	}
@@ -115,6 +117,7 @@ public class JumunController {
 	public String menuModiForm(@RequestParam("menu_Code") String menu_Code, Model model) {
 		model.addAttribute("menuTypeList", jumunService.menuTypeSearch("all"));
 		model.addAttribute("menuDTO", jumunService.menuSearchByMenuCode(menu_Code));
+		model.addAttribute("productList", jumunService.productSearch());
 		
 		return "views/jumun/menuModiForm";
 	}
@@ -305,6 +308,7 @@ public class JumunController {
 	
 	// 주문내역 없으면 주문번호 없애기
 	@RequestMapping(value = "/ordersDeleteCheck.do", method = RequestMethod.POST)
+	@ResponseBody
 	public void ordersDeleteCheck(@RequestParam("orders_No") String orders_No) {
 		jumunService.ordersDeleteCheck(orders_No);
 	}
@@ -343,4 +347,13 @@ public class JumunController {
 		
 		return jumunService.paymentCancle(payment_No);
 	}
+	
+	// 재고 개수 확인
+	@RequestMapping(value = "/storeCountCheck.do")
+	@ResponseBody
+	public ArrayList<String> storeCountCheck() {
+		
+		return jumunService.storeCountCheck();
+	}
+	
 }

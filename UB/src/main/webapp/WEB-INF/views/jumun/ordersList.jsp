@@ -53,7 +53,7 @@
 					<span id="items">
 						<div class="row">
 							<c:forEach items="${ menuList }" var="menuList">
-							<div class="col-md-3">
+							<div class="col-md-3" id="del${ menuList.menu_Code }">
 								<figure class="card card-product">
 								<label id="${ menuList.menu_Code }" onclick="plusOrder('${ menuList.menu_Code }', '${ menuList.menu_Name }', '${ menuList.menu_Price }')">
 									<div class="img-wrap">
@@ -321,6 +321,17 @@ function plusOrder(code, name, price) {
 					var allPrice = $("#allPrice").html();
 					$("#allPrice").html(Number(allPrice) + Number(price));
 					$("#resultPrice").html(Number(allPrice) + Number(price));
+
+					$.ajax({
+						  url: 'storeCountCheck.do',
+						  type: 'post',
+						  success : function(result) {
+							  for(var i = 0; i < result.length; i++) {
+								  $("#del"+result[i]).remove();
+							  }
+						  }
+					});
+					
 			  }
 		  }
 	});

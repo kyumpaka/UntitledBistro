@@ -108,4 +108,27 @@ public interface JumunDAO {
 	public ArrayList<SalesDetailsDTO> salesDetailesSelect(Map<String, String> map);
 	
 	public int paymentCancle(Map<String, String> map);
+	
+	public int storeMinus(Map<String, String> map);
+	
+	public int shippingHistoryInsert(Map<String, String> map);
+	
+	public int storePlus(Map<String, String> map);
+	
+	public int shippingHistoryDelete(Map<String, String> map);
+	
+	public int storeAllPlus(Map<String, String> map);
+	
+	public int shippingHistoryOneDelete(Map<String, String> map);
+
+	public int shippingHistoryAllDelete(Map<String, String> map);
+	
+	public int storeCheck(Map<String, String> map);
+	
+	public int shippingHistoryUpdate(Map<String, String> map);
+	
+	public ArrayList<String> storeZeroSelect();
+	
+	public ArrayList<HashMap<String, Object>> productSelect();
+	
 }
