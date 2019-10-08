@@ -26,7 +26,7 @@ public class RealTimeWebSocketHandler extends TextWebSocketHandler{
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		logger.info("웹소켓 " + session.getId() + "로부터 " + message.getPayload() + "의 메시지 받음");
 		for(WebSocketSession ws : users.values()) {
-			logger.info("웹소켓 유저들 : " + ws.getId());
+			logger.info("웹소켓 유저들 : " + ws.getId()); 
 			ws.sendMessage(message);
 		}
 	}

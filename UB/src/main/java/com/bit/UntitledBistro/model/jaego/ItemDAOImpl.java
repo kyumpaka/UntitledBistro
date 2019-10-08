@@ -18,16 +18,12 @@ public class ItemDAOImpl {
 		return mybatis.selectList("jaego.itemSelectAll", condition);
 	}
 	
-	public int defectItemInsert(List<DefectItemDTO> list){
-		return mybatis.insert("jaego.defectItemInsert", list);
+	public int defectItemInsert(DefectItemDTO dto){
+		return mybatis.insert("jaego.defectItemInsert", dto);
 	}
 	
-	public int itemUpdate(ItemDTO dto){
-		return mybatis.update("jaego.itemUpdate", dto);
-	}
-	
-	public int itemDelete(ItemDTO dto){
-		return mybatis.update("jaego.itemDelete", dto);
+	public int outItemInsert(OutItemDTO dto){
+		return mybatis.insert("jaego.outItemInsert", dto);
 	}
 	
 	public List<ItemDTO> inItemSelectAll(Condition condition) {
@@ -60,6 +56,38 @@ public class ItemDAOImpl {
 	
 	public List<RiskItemDTO> riskItemSelectAll(List<SafeItemDTO> list) {
 		return mybatis.selectList("jaego.riskItemSelectAll", list);
+	}
+	
+	public int safeItemValidate(List<SafeItemDTO> list) {
+		return mybatis.selectOne("jaego.safeItemValidate", list);
+	}
+	
+	public List<RiskItemDTO> safeItemInsertList(List<SafeItemDTO> list) {
+		return mybatis.selectList("jaego.safeItemInsertList", list);
+	}
+	
+	public int inItemInsert(InItemDTO dto) {
+		return mybatis.insert("jaego.inItemInsert", dto);
+	}
+	
+	public int itemPlusUpdate(ItemDTO dto) {
+		return mybatis.update("jaego.itemPlusUpdate", dto);
+	}
+	
+	public int itemValidate(ItemDTO dto) {
+		return mybatis.selectOne("jaego.itemValidate", dto);
+	}
+	
+	public int itemMinusUpdate(ItemDTO dto) {
+		return mybatis.update("jaego.itemMinusUpdate", dto);
+	}
+	
+	public int itemInsert(ItemDTO dto) {
+		return mybatis.insert("jaego.itemInsert", dto);
+	}
+	
+	public int itemMinusUpdateValidate(ItemDTO dto) {
+		return mybatis.selectOne("jaego.itemMinusUpdateValidate", dto);
 	}
 	
 }

@@ -1,7 +1,9 @@
 package com.bit.UntitledBistro.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bit.UntitledBistro.model.jaego.ChangeItemDTO;
 import com.bit.UntitledBistro.model.jaego.Condition;
 import com.bit.UntitledBistro.model.jaego.DefectItemDTO;
+import com.bit.UntitledBistro.model.jaego.InItemDTO;
 import com.bit.UntitledBistro.model.jaego.ItemDAOImpl;
 import com.bit.UntitledBistro.model.jaego.ItemDTO;
 import com.bit.UntitledBistro.model.jaego.OutItemDTO;
@@ -109,31 +113,33 @@ public class JaegoController {
 	public @ResponseBody void gridInsert(@RequestBody DefectItemDTO[] dtos) {
 		
 		logger.info("여기는 그리드 불량처리 추가 컨트롤러 입니다.");
-		logger.info("=======================================================");
-		for(DefectItemDTO dto : dtos) {
-			logger.info("getDi_product_code : " + dto.getDi_product_code());
-			logger.info("getProduct_name : " + dto.getProduct_name());
-			logger.info("getDi_qty : " + dto.getDi_qty());
-			logger.info("getDi_state : " + dto.getDi_state());
-			logger.info("getDi_reason : " + dto.getDi_reason());
-			logger.info("getDi_date : " + dto.getDi_date());
+		for(DefectItemDTO defectItem : dtos) {
+			dao.defectItemInsert(defectItem);
+			OutItemDTO outItem = new OutItemDTO(defectItem.getDi_product_code(), defectItem.getDi_qty());
+			dao.outItemInsert(outItem);
+			
+			ItemDTO dto = new ItemDTO(defectItem.getDi_product_code(), defectItem.getDi_qty());
+			int result = dao.itemValidate(dto);
+			if(result == 0) {
+				dao.itemInsert(dto);
+			} else {
+				int result2 = dao.itemMinusUpdateValidate(dto);
+				logger.info("=======================================================");
+				logger.info("result2 : " + result2);
+				logger.info("test : " + (3>=0));
+				logger.info("test2 : " + (-3>=0));
+				
+				logger.info("=======================================================");
+				if(result2 >= 0) {
+					logger.info("=_=");
+					dao.itemMinusUpdate(dto);
+				} else {
+					logger.info("트랜잭션 발동!!");
+				}
+			}
 		}
 		logger.info("=======================================================");
-		List<DefectItemDTO> list = Arrays.asList(dtos);
-		dao.defectItemInsert(list);
 		
-	}
-	
-	@RequestMapping(value = "/gridUpdate")
-	public @ResponseBody void gridUpdate(ItemDTO dto) {
-		logger.info("여기는 그리드 수정 컨트롤러 입니다.");
-		dao.itemUpdate(dto);
-	}
-	
-	@RequestMapping(value = "/gridDelete")
-	public @ResponseBody void gridDelete(ItemDTO dto) {
-		logger.info("여기는 그리드 삭제 컨트롤러 입니다.");
-		dao.itemDelete(dto);
 	}
 	
 	@RequestMapping(value = "/gridProductSelectAll")
@@ -184,9 +190,76 @@ public class JaegoController {
 		logger.info("여기는 안전재고 등록 컨트롤러입니다.");
 	}
 	
-	@GetMapping(value = "/gridSafeItemInsert")
-	public void safeItemInsert() {
+	@PostMapping(value = "/gridSafeItemInsertList")
+	public @ResponseBody Map<String, Object> gridSafeItemInsertList(@RequestBody SafeItemDTO[] dtos) {
 		logger.info("여기는 그리드 안전재고 등록 컨트롤러입니다.");
+		List<SafeItemDTO> list = Arrays.asList(dtos);
+		int result = dao.safeItemValidate(list);
+		if(result == 0) {
+			dao.safeItemInsertList(list);
+		}
+		
+		List<SafeItemDTO> listAll = dao.safeItemSelectAll();
+		int count = dao.riskItemCount(listAll);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("result", result);
+		map.put("count", count);
+		logger.info("========================================");
+		logger.info("result : " + result);
+		logger.info("count : " + count);
+		logger.info("========================================");
+		return map;
+	}
+
+	@GetMapping(value = "/in_item_insert")
+	public void in_item_insert() {
+		logger.info("여기는 입고 등록 테스트 컨트롤러입니다.");
+	}
+	
+	@GetMapping(value = "/out_item_insert")
+	public void out_item_insert() {
+		logger.info("여기는 출고 등록 테스트 컨트롤러입니다.");
+	}
+	
+	
+	
+	///////////////////////////////////////////////////
+	///////////  그리드 입고 등록 테스트   ////////////
+	///////////////////////////////////////////////////
+	@PostMapping(value = "/gridInItemInsert")
+	public @ResponseBody int gridInItemInsert(@RequestBody InItemDTO inItem) {
+		logger.info("여기는 그리드 재고 등록 테스트 컨트롤러입니다.");
+		dao.inItemInsert(inItem);
+		ItemDTO dto = new ItemDTO(inItem.getIi_product_code(), inItem.getIi_qty());
+		int result = dao.itemValidate(dto);
+		if(result == 0) {
+			dao.itemInsert(dto);
+		} else {
+			dao.itemPlusUpdate(dto);
+		}
+		return result;
+	}
+	
+	
+	///////////////////////////////////////////////////
+	///////////  그리드 출고 등록 테스트   ////////////
+	///////////////////////////////////////////////////
+	@PostMapping(value = "/gridOutItemInsert")
+	public @ResponseBody int gridOutItemInsert(@RequestBody OutItemDTO outItem) {
+		dao.outItemInsert(outItem);
+		ItemDTO dto = new ItemDTO(outItem.getOi_product_code(), outItem.getOi_qty());
+		int result = dao.itemValidate(dto);
+		if(result == 0) {
+			dao.itemInsert(dto);
+		} else {
+			int result2 = dao.itemMinusUpdateValidate(dto);
+			if(result2 >= 0) {
+				dao.itemMinusUpdate(dto);
+			} else {
+				logger.info("트랜잭션 발동!!");
+			}
+		}
+		return result;
 	}
 	
 }
