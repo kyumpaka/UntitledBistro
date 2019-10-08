@@ -555,10 +555,10 @@ public class JumunServiceImpl implements JumunService {
 			
 			// 누적 총결제 금액 확인 
 			int price = dao.memberPaySelectById(map);
-			if(price > 50000) {
+			if(price > 500000) {
 				map.put("member_Grade", "silver");
 				dao.memberGradeUpdateById(map);
-			} else if(price > 200000) {
+			} else if(price > 2000000) {
 				map.put("member_Grade", "gold");
 				dao.memberGradeUpdateById(map);
 			}
