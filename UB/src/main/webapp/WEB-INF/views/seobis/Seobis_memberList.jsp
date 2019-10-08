@@ -102,7 +102,7 @@
 												<td><div id="btn_group"><button id="updatebutton" onclick='location.href="${path}/Seobis_select?member_id=${b.member_id}"'>${b.member_id}</button></div></td>
 												<td>${b.member_name}</td>
 												<td>${b.member_gender}</td>
-												<td>${b.member_birth}</td>
+												<td><fmt:formatDate pattern="yyyy-MM-dd" value="${b.member_birth}" /></td>
 												<td>${b.member_email}</td>
 												<td>${b.member_phone1}</td>
 												<td>${b.member_addr1}</td>
@@ -137,6 +137,7 @@
     <script src="${path}/resources/Admin/assets/js/lib/data-table/buttons.print.min.js"></script>
     <script src="${path}/resources/Admin/assets/js/lib/data-table/buttons.colVis.min.js"></script>
     <script src="${path}/resources/Admin/assets/js/init/datatables-init.js"></script> 
+    
 
 
     <script type="text/javascript">

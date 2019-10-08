@@ -65,7 +65,7 @@
 	     </tr>
 	     <tr>
 	       <td width="200"><p align="right">생일</td>
-	       <td width="400"><p><input type="text" name="member_phone1" value="${Seobis_memberSelect.member_birth}"></td>
+	       <td width="400"><p><input type="text" name="member_birth" value="${Seobis_memberSelect.member_birth}"></td>
 	    </tr>
 	    <tr>
 	       <td width="200"><p align="right">이메일</td>
@@ -77,15 +77,15 @@
 	    </tr>
 	    <tr>
 	       <td width="200"><p align="right">전화 번호2</td>
-	       <td width="400"><p><input type="text" name="member_addr1" value="${Seobis_memberSelect.member_phone2}"></td>
+	       <td width="400"><p><input type="text" name="member_phone2" value="${Seobis_memberSelect.member_phone2}"></td>
 	    </tr>
 	    <tr>
 	       <td width="200"><p align="right">주소</td>
-	       <td width="400"><p><input type="text" name="member_phone1" value="${Seobis_memberSelect.member_addr1}"></td>
+	       <td width="400"><p><input type="text" name="member_addr1" value="${Seobis_memberSelect.member_addr1}"></td>
 	    </tr>
 	    <tr>
 	       <td width="200"><p align="right">주소 2</td>
-	       <td width="400"><p><input type="text" name="member_phone1" value="${Seobis_memberSelect.member_addr2}"></td>
+	       <td width="400"><p><input type="text" name="member_addr2" value="${Seobis_memberSelect.member_addr2}"></td>
 	    </tr>
 	    <tr>
 	       <td width="200"><p>&nbsp;</p></td>

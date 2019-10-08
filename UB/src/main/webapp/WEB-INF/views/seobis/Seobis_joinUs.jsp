@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     isELIgnored="false" %>
-                    <!doctype html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<c:set var="path" value="${pageContext.request.contextPath}"/>
+
+<!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
@@ -14,7 +19,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="https://i.imgur.com/QRAUqs9.png">
     <link rel="shortcut icon" href="https://i.imgur.com/QRAUqs9.png">
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
@@ -53,7 +58,7 @@
                                         <div class="col-12 col-md-9"><input type="text" id="text-input" name="member_birth" placeholder="ex) 1995-12-21" class="form-control"><small class="form-text text-muted"></small></div>
                                     </div>
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label class=" form-control-label">성별</label></div>
+                                        <div class="col col-md-3"><label class="form-control-label">성별</label></div>
                                         <div class="col col-md-9">
                                             <div class="form-check">
                                                 <div class="radio">
@@ -86,7 +91,7 @@
                                         <div class="col-12 col-md-9"><input type="text" id="text-input" name="member_addr2" placeholder="(선택 사항)" class="form-control"><small class="form-text text-muted"></small></div>
                                     </div>
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary btn-sm">
+                                <button type="submit" class="btn btn-primary btn-sm" onclick="CheckNull();">
                                     <i class="fa fa-dot-circle-o"></i> 회원가입
                                 </button>
                                 <button type="reset" class="btn btn-danger btn-sm">
@@ -98,6 +103,51 @@
                         </div>
                         </div>
                                 
+<script type="text/javascript">
+function CheckNull() {
+	var member_id = ${"#member_id"}.val();
+	var member_name = ${"#member_name"}.val();
+	var member_email = ${"#member_email"}.val();
+	var member_gender = ${"#member_gender"}.val();
+	var member_phone1 = ${"#member_phone1"}.val();
+	var member_addr1 = ${"#member_addr1"}.val();
+	
+	if(member_id.length == 0){
+		alert("아이디를 입력해 주세요");
+		$("#member_id").focus();
+		return false;
+	}
+	
+	if(member_name.length == 0){
+		alert("이름을 입력해 주세요");
+		${"#member_name"}.focus();
+		return false;
+	}
+	
+	if(member_email.length == 0){
+		alert("이메일을 입력해 주세요");
+		${"#member_email"}.focus();
+		return false;
+	}
+	
+	if(member_phone1.length == 0){
+		alert("전화를 입력해 주세요")
+		${"#member_phone1"}.focus();
+		return false;
+	}
+	
+	if(member_addr1.length == 0){
+		alert("주소를 입력해 주세요")
+		${"#member_addr1"}.focus();
+		return false;
+	}
+	
+	if(confirm("회원 ID : " +member_id + "회원 등록을 하시겠습니까?")){
+		alert("회원 등록 성공했습니다");
+		return true;
+	}
+}
+</script>
                     </body>
                     
                     <!-- pattern="(010)-\d{3,4}-\d{4}" required -->

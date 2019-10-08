@@ -7,7 +7,7 @@ public class Seobis_MemberDTO {
 	private String member_id;
 	private String member_name;
 	private String member_gender;
-	private String member_birth;
+	private Date member_birth;
 	private String member_email;
 	private String member_phone1;
 	private String member_phone2;
@@ -36,10 +36,10 @@ public class Seobis_MemberDTO {
 	public void setMember_gender(String member_gender) {
 		this.member_gender = member_gender;
 	}
-	public String getMember_birth() {
+	public Date getMember_birth() {
 		return member_birth;
 	}
-	public void setMember_birth(String member_birth) {
+	public void setMember_birth(Date member_birth) {
 		this.member_birth = member_birth;
 	}
 	public String getMember_email() {

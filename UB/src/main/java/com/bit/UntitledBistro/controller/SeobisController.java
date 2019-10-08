@@ -58,6 +58,7 @@ public class SeobisController {
 	@RequestMapping(value="/Seobis_mList")  //회원 목록을 처리하는 맵핑
 	public String seobis_memberList(HttpServletRequest request, HashMap<String, Object> map) {
 		List<Seobis_MemberDTO> Seobis_memberList = Seobis_memberService.Seobis_MemberList(map);
+		System.out.println("dddddddddddddddddddddddddddddddddddddddddddddddddd"+Seobis_memberList.toString());
 		request.setAttribute("Seobis_memberList", Seobis_memberList);
 		System.out.println(Seobis_memberList);
 		return "seobis/Seobis_memberList"; //.jsp
