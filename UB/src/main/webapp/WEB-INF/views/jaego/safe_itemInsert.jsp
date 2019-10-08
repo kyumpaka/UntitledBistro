@@ -201,18 +201,19 @@
 		}); // 그리드 끝
 	}); // ready 끝
 	
-	// 적용 버튼 클릭했을 경우 DB에 적용하기
+	// 등록 버튼 클릭했을 경우 DB에 적용하기
 	$("#insertBtn").on("click",function() {
 		$.ajax({
-			url : "${path}/jaego/gridSafeItemInsert",
+			url : "${path}/jaego/gridSafeItemInsertList",
 			type : "post",
 			contentType : "application/json",
 			// 배열객체를 json형태의 문자열로 변환하여 전달하기
 			data : JSON.stringify($("#jsGrid").jsGrid("option","data"))
 		})
-		.done(function(result) {
-			if(result == 0) {
+		.done(function(json) {
+			if(json.result == 0) {
 				swal("등록 성공!", "안전재고 등록을 완료했습니다.", "success");
+				webSocket.send(json.count);
 			} else {
 				sweetAlert("등록 실패!", "이미 등록한 품목코드가 있습니다.", "error");
 				return;

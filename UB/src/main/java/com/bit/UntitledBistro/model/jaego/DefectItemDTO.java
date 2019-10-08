@@ -1,6 +1,7 @@
 package com.bit.UntitledBistro.model.jaego;
 
 public class DefectItemDTO {
+	private int di_no;
 	private String di_product_code;
 	private String product_name;
 	private int di_qty;
@@ -8,6 +9,12 @@ public class DefectItemDTO {
 	private String di_state;
 	private String di_reason;
 	
+	public int getDi_no() {
+		return di_no;
+	}
+	public void setDi_no(int di_no) {
+		this.di_no = di_no;
+	}
 	public String getDi_product_code() {
 		return di_product_code;
 	}

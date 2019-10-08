@@ -141,7 +141,7 @@
 	<div id="jsGridBackground">
 		<div id="jsGrid"></div> <!-- 그리드를 이용한 테이블 -->
 		<div id="jsGridPage"></div> <!-- 그리드를 이용한 페이징 -->
-		<button id="insertBtn" class="btn btn-primary btn-sm">적용</button>
+		<button id="insertBtn" class="btn btn-primary btn-sm">등록</button>
 		<button type="button" id="listBtn" class="btn btn-primary btn-sm">목록</button>
 	</div>
 
@@ -212,7 +212,7 @@
 		}); // 그리드 끝
 	}); // ready 끝
 	
-	// 적용 버튼 클릭했을 경우 DB에 적용하기
+	// 등록 버튼 클릭했을 경우 DB에 적용하기
 	$("#insertBtn").on("click",function() {
 		
 		$.ajax({

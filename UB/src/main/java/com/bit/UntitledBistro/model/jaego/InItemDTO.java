@@ -1,11 +1,18 @@
 package com.bit.UntitledBistro.model.jaego;
 
 public class InItemDTO {
+	private int ii_no;
     private String ii_product_code;
 	private String product_name;
 	private int ii_qty;
 	private String ii_date;
 	
+	public int getIi_no() {
+		return ii_no;
+	}
+	public void setIi_no(int ii_no) {
+		this.ii_no = ii_no;
+	}
 	public String getIi_product_code() {
 		return ii_product_code;
 	}

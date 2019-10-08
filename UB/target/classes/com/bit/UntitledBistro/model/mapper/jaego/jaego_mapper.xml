@@ -5,16 +5,6 @@
   
 <mapper namespace="jaego">
 
-	<select id="itemTotal" resultType="int">
-		<![CDATA[
-		SELECT 
-			COUNT(SUM(ITEM_QTY)) 
-		FROM 
-			ITEM 
-		GROUP BY 
-			ITEM_PRODUCT_CODE
-		]]>
-	</select>
 	<select id="productSelectAll" parameterType="condition" resultType="product">
 		SELECT 
 			 PRODUCT_CODE
@@ -97,15 +87,31 @@
 		WHERE 
 		    ITEM_PRODUCT_CODE = #{item_product_code}
  	</select>
- 	
- 	<update id="itemUpdate" parameterType="item">
+ 	<update id="itemPlusUpdate" parameterType="item">
  		UPDATE 
 		    ITEM
 		SET 
-		    ITEM_QTY = #{item_qty}
+		    ITEM_QTY = ITEM_QTY + #{item_qty}
 		WHERE 
 		    ITEM_PRODUCT_CODE = #{item_product_code}
  	</update>
+ 	<select id="itemMinusUpdateValidate" parameterType="item" resultType="int">
+ 		SELECT
+ 			ITEM_QTY - #{item_qty}
+ 		FROM
+ 			ITEM
+ 		WHERE
+ 			ITEM_PRODUCT_CODE = #{item_product_code}
+ 	</select>
+ 	<update id="itemMinusUpdate" parameterType="item">
+ 		UPDATE 
+		    ITEM
+		SET 
+		    ITEM_QTY = ITEM_QTY - #{item_qty}
+		WHERE 
+		    ITEM_PRODUCT_CODE = #{item_product_code}
+ 	</update>
+
  	
  	<sql id="maxItemNo">
  		SELECT NVL(MAX(ITEM_NO),0) +1 FROM ITEM
@@ -120,10 +126,10 @@
  	<select id="inItemSelectAll" parameterType="condition" resultType="inItem"> 	
  		SELECT 
 		     /*+ INDEX_DESC(II PK_II_INDEX) */
-		     II.II_PRODUCT_CODE			AS II_PRODUCT_CODE
-		    ,P.PRODUCT_NAME				AS PRODUCT_NAME
-		    ,II.II_QTY 					AS II_QTY 
-		    ,II.II_DATE					AS II_DATE
+		     II.II_PRODUCT_CODE					AS II_PRODUCT_CODE
+		    ,P.PRODUCT_NAME						AS PRODUCT_NAME
+		    ,II.II_QTY 							AS II_QTY 
+		    ,TO_CHAR(II.II_DATE, 'YYYY/MM/DD')	AS II_DATE
 		FROM 
 		    IN_ITEM II
 		INNER JOIN
@@ -145,14 +151,35 @@
 		</where> 
 		ORDER BY II_DATE DESC
  	</select>
+ 	<insert id="inItemInsert" parameterType="inItem">
+ 		<selectKey keyProperty="ii_no" resultType="int" order="BEFORE">
+ 			SELECT
+ 				NVL(MAX(II_NO),0) +1
+ 			FROM
+ 				IN_ITEM
+ 		</selectKey>
+ 		INSERT INTO 
+				IN_ITEM
+				(
+				 II_NO
+				,II_PRODUCT_CODE
+				,II_QTY
+				)
+		VALUES
+				(
+				 #{ii_no}
+				,#{ii_product_code}
+				,#{ii_qty}
+				)
+ 	</insert>
  	
  	<select id="outItemSelectAll" parameterType="condition" resultType="outItem">
  		SELECT 
 		     /*+ INDEX_DESC(O PK_OI_INDEX) */
-		     OI.OI_PRODUCT_CODE			AS OI_PRODUCT_CODE
-		    ,P.PRODUCT_NAME				AS PRODUCT_NAME
-		    ,OI.OI_QTY 					AS OI_QTY
-		    ,OI.OI_DATE					AS OI_DATE
+		     OI.OI_PRODUCT_CODE					AS OI_PRODUCT_CODE
+		    ,P.PRODUCT_NAME						AS PRODUCT_NAME
+		    ,OI.OI_QTY 							AS OI_QTY
+		    ,TO_CHAR(OI.OI_DATE, 'YYYY/MM/DD')	AS OI_DATE
 		FROM 
 		    OUT_ITEM OI
 		INNER JOIN
@@ -187,7 +214,8 @@
 		       ,NVL(T.TOTAL_QTY,0)		AS TOTAL_QTY	
 		       ,NVL(B.BEFORE_QTY,0)		AS BEFORE_QTY	
 		       ,NVL(I.IN_QTY,0)			AS IN_QTY		
-		       ,NVL(O.OUT_QTY,0)		AS OUT_QTY		
+		       ,NVL(O.OUT_QTY,0) 		AS OUT_QTY
+		       			
 		FROM
 		    (  
 		    SELECT 
@@ -329,7 +357,7 @@
 		FULL OUTER JOIN
 		    (
 		    SELECT 
-		         O.OI_PRODUCT_CODE 		AS PRODUCT_CODE
+		         O.OI_PRODUCT_CODE 				AS PRODUCT_CODE
 		        ,NVL(SUM(O.OI_QTY),0)    		AS OUT_QTY
 		    FROM 
 		        OUT_ITEM O
@@ -390,10 +418,32 @@
 		</where>
 	</select>
  	
+ 	<insert id="defectItemInsert" parameterType="defectItem">
+		<selectKey  keyProperty="di_no" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(DI_NO),0) +1 FROM DEFECT_ITEM
+		</selectKey>
+		INSERT INTO DEFECT_ITEM
+			(
+			 DI_NO
+			,DI_PRODUCT_CODE
+			,DI_QTY
+			,DI_STATE
+			,DI_REASON
+			) 
+		VALUES 
+			(
+			 #{di_no}
+			,#{di_product_code}
+			,#{di_qty}
+			,#{di_state}
+			,#{di_reason}
+			)
+ 	</insert>
+ 	
  	<!-- ================================================================================== -->
  	<!-- ===============================다중 등록========================================== -->
  	<!-- ================================================================================== -->
- 	<insert id="defectItemInsert" parameterType="list">
+ 	<insert id="itemInsertList" parameterType="list">
 		<selectKey  keyProperty="di_no" resultType="int" order="BEFORE">
 			SELECT NVL(MAX(DI_NO),0) +1 FROM DEFECT_ITEM
 		</selectKey>
@@ -416,10 +466,29 @@
 			)
 		</foreach>
  	</insert>
- 	<insert id="safeItemInsert" parameterType="list">
-		<selectKey  keyProperty="si_no" resultType="int" order="BEFORE">
-			SELECT NVL(MAX(SI_NO),0) +1 FROM SAFE_ITEM
+ 	
+	<insert id="outItemInsert" parameterType="outItem">
+		<selectKey keyProperty="oi_no" resultType="int" order="BEFORE">
+			SELECT 
+				NVL(MAX(OI_NO),0) +1 
+			FROM 
+				OUT_ITEM
 		</selectKey>
+		INSERT INTO OUT_ITEM
+			(
+			 OI_NO
+			,OI_PRODUCT_CODE
+			,OI_QTY
+			)
+		VALUES
+			(
+			 (#{oi_no})
+			,#{oi_product_code}
+			,#{oi_qty}
+			)
+	</insert>
+	
+ 	<insert id="safeItemInsertList" parameterType="list">
 		<foreach item="item" collection="list" open="INSERT ALL"  close="SELECT * FROM DUAL" separator=" " index="index">
 		INTO SAFE_ITEM
 			(

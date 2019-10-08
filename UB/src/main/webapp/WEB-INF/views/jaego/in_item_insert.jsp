@@ -26,7 +26,7 @@
 <!-- 페이지 제목 -->
 <div class="page-header">
     <h1>
-    	<a href="">재고 등록 테스트(ITEM_INSERT)</a>
+    	<a href="">입고 등록 테스트(ITEM_INSERT)</a>
     </h1>
 </div>
 
@@ -34,7 +34,6 @@
 <div id="jsGridBackground">
 	<div id="jsGrid"></div> <!-- 그리드를 이용한 테이블 -->
 	<div id="jsGridPage"></div> <!-- 그리드를 이용한 페이징 -->
-	<button id="insertBtn" class="btn btn-primary btn-sm">적용</button>
 </div>
 
 </body>
@@ -74,39 +73,38 @@
 			
 			// 그리드에 표현될 필드 요소
 			fields : [ {
-				name : "item_product_code",
+				name : "ii_product_code",
 				type : "text",
 				title: "품목코드",
 				width : 80
 			}, {
-				name : "item_qty",
+				name : "ii_qty",
 				type : "text",
 				title: "재고수량",
 				width : 80
 			}, {
 				type: "control", editButton: true, modeSwitchButton: false   // show clear filter button
-			}]
+			}],
+			
+			onItemInserted: function(args) {
+				$.ajax({
+					url : "${path}/jaego/gridInItemInsert",
+					type : "post",
+					contentType : "application/json",
+					data : JSON.stringify(args.item)
+				})
+				.done(function(result) {
+					if(result == 0) {
+						swal("등록 성공!", "안전재고 등록을 완료했습니다.", "success");
+					} else {
+						sweetAlert("업데이트 성공!", "이미 등록한 품목코드가 있습니다.", "success");
+					}
+				});
+			}
 			
 		}); // 그리드 끝
 	}); // ready 끝
 
-	$("#insertBtn").on("click",function() {
-		var data = $("#jsGrid").jsGrid("option","data");
-		
-		$.ajax({
-			url : "${path}/jaego/gridItemInsert",
-			type : "post",
-			data : data
-		})
-		.done(function(result) {
-			if(result == 0) {
-				swal("등록 성공!", "안전재고 등록을 완료했습니다.", "success");
-			} else {
-				sweetAlert("업데이트 성공!", "이미 등록한 품목코드가 있습니다.", "success");
-			}
-		});
-	});
-	
 </script>
 
 </html>
