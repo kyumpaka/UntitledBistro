@@ -71,21 +71,6 @@
 	.header-menu .dropdown {
 		line-height: 45px;
 	}
-	#realTimeSafeItem {
-		background-color: white;
-		border: 0px;
-	}
-	.fa {
-		color: #777;
-	}
-	#riskItemCount {
-		background-color: red;
-		border-radius: .4rem;
-		color: white;
-	}
-	#riskItemCount:hover {
-		cursor: pointer;
-	}
 </style>
 
 </head>

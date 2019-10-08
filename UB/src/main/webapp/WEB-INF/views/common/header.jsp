@@ -3,6 +3,26 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
+<style>
+<!--
+	.customBtn {
+		background-color: white;
+		border: 0px;
+	}
+	.fa {
+		color: #777;
+	}
+	#riskItemCount {
+		background-color: red;
+		border-radius: .4rem;
+		color: white;
+	}
+	#riskItemCount:hover, #posMain:hover {
+		cursor: pointer;
+	}
+-->
+</style>
+
 <header id="header" class="header">
             <div class="top-left">
                 <div class="navbar-header">
@@ -23,9 +43,15 @@
                         </div>
 
                         <div class="dropdown for-notification">
-							<button id="realTimeSafeItem" onclick="riskItem()">
+							<button id="realTimeSafeItem" class="customBtn" onclick="riskItem()">
 	                            <i class="fa fa-bell"></i>
 	                            <span class="badge" id="riskItemCount">${riskItemCount}</span>
+							</button>                        
+                        </div>
+                        
+                        <div class="dropdown for-notification">
+							<button id="posMain" class="customBtn" onclick="posMain()">
+	                            <i class="fa fa-paypal"></i>
 							</button>                        
                         </div>
 
@@ -84,6 +110,10 @@ function onClose(e) {
 
 function riskItem() {
 	window.location.href="${path}/jaego/risk_item";
+}
+
+function posMain() {
+	self.location="${path}/jumun/posMain.do";
 }
 
 </script>        
