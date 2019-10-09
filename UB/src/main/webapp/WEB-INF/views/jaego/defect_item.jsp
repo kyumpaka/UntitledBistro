@@ -225,7 +225,7 @@
 		
 		$.ajax({
 			type:"get",
-			url:"${path}/jaego/gridDefectItemSelectAll",
+			url:"${path}/jaego/gridDefectItemSelectList",
 		})
 		.done(function(json) {
 			$("#jsGrid").jsGrid({
@@ -298,7 +298,7 @@
 		
 		$.ajax({
 			type : "get", 
-			url : "/UntitledBistro/jaego/gridDefectItemSelectAll",
+			url : "/UntitledBistro/jaego/gridDefectItemSelectList",
 			data : {"endDate" : endDate, "keyword" : product_code, "keyword2" : product_name},
 		})
 		.done(function(json) {
@@ -348,7 +348,7 @@
 	var productData;
 	
 	$.ajax({
-		url : "${path}/jaego/gridProductSelectAll",
+		url : "${path}/jaego/gridProductSelectList",
 		type : "get",
 	})
 	.done(function(json) {

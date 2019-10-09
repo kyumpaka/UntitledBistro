@@ -192,7 +192,7 @@
 			}, {
 				name : "si_qty",
 				type : "text",
-				title: "입고수량",
+				title: "안전수량",
 				width : 80
 			}, {
 				type: "control", editButton: true, modeSwitchButton: false   // show clear filter button
@@ -204,16 +204,16 @@
 	// 등록 버튼 클릭했을 경우 DB에 적용하기
 	$("#insertBtn").on("click",function() {
 		$.ajax({
-			url : "${path}/jaego/gridSafeItemInsertList",
+			url : "${path}/jaego/gridSafeItemInserts",
 			type : "post",
 			contentType : "application/json",
 			// 배열객체를 json형태의 문자열로 변환하여 전달하기
 			data : JSON.stringify($("#jsGrid").jsGrid("option","data"))
 		})
-		.done(function(json) {
-			if(json.result == 0) {
+		.done(function(count) {
+			if(count != -1) {
 				swal("등록 성공!", "안전재고 등록을 완료했습니다.", "success");
-				webSocket.send(json.count);
+				webSocket.send(count);
 			} else {
 				sweetAlert("등록 실패!", "이미 등록한 품목코드가 있습니다.", "error");
 				return;
@@ -222,15 +222,7 @@
 			$("#jsGrid").jsGrid({data : []});
 			$("#jsGrid").jsGrid("loadData");
 			
-			// 실시간 위험재고 갯수 웹소켓을 통해서 전달하기
-			$.ajax({
-				url : "${path}/jaego/gridRiskItemCount",
-				type : "get"
-			})
-			.done(function(count) {
-				webSocket.send(count);
-			});
-		}); 
+		});
 	});
 	
 	// 적용 버튼 클릭했을 경우 입력창 적용하기
@@ -252,7 +244,7 @@
 	var productData;
 	
 	$.ajax({
-		url : "${path}/jaego/gridProductSelectAll",
+		url : "${path}/jaego/gridProductSelectList",
 		type : "get"
 	})
 	.done(function(json) {

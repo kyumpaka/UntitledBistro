@@ -225,7 +225,7 @@
 
 		$.ajax({
 			type:"get",
-			url:"${path}/jaego/gridChangeItemSelectAll",
+			url:"${path}/jaego/gridChangeItemSelectList",
 			data : {"startDate" : ogStartDate, "endDate" : ogEndDate}
 		})
 		.done(function(json) {
@@ -298,7 +298,7 @@
 		
 		$.ajax({
 			type : "get", 
-			url : "/UntitledBistro/jaego/gridChangeItemSelectAll",
+			url : "/UntitledBistro/jaego/gridChangeItemSelectList",
 			data : {"startDate" : startDate, "endDate" : endDate, "keyword" : product_code, "keyword2" : product_name},
 		})
 		.done(function(json) {
@@ -351,7 +351,7 @@
 	var productData;
 	
 	$.ajax({
-		url : "${path}/jaego/gridProductSelectAll",
+		url : "${path}/jaego/gridProductSelectList",
 		type : "get",
 	})
 	.done(function(json) {

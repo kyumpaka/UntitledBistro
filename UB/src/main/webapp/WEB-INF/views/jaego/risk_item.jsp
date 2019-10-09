@@ -166,7 +166,7 @@
 	$(document).ready(function() {
 		$.ajax({
 			type : "get",
-			url : "${path}/jaego/gridRiskItemSelectAll"
+			url : "${path}/jaego/gridRiskItemSelectList"
 		})
 		.done(function(json) {
 			ogData = json;
@@ -263,7 +263,7 @@
 	var productData;
 	
 	$.ajax({
-		url : "${path}/jaego/gridProductSelectAll",
+		url : "${path}/jaego/gridProductSelectList",
 		type : "get",
 	})
 	.done(function(json) {
