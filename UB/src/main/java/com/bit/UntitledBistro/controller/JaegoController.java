@@ -23,7 +23,7 @@ import com.bit.UntitledBistro.model.jaego.OutItemDTO;
 import com.bit.UntitledBistro.model.jaego.ProductDTO;
 import com.bit.UntitledBistro.model.jaego.RiskItemDTO;
 import com.bit.UntitledBistro.model.jaego.SafeItemDTO;
-import com.bit.UntitledBistro.service.jaego.JaegoServiceImpl;
+import com.bit.UntitledBistro.service.jaego.JaegoService;
 
 @Controller
 @RequestMapping(value = "/jaego")
@@ -31,7 +31,7 @@ public class JaegoController {
 	private static final Logger logger = LoggerFactory.getLogger(JaegoController.class);
 	
 	@Autowired
-	private JaegoServiceImpl service;
+	private JaegoService service;
 	
 	@RequestMapping(value = "/item")
 	public void item(Model model) {
@@ -100,7 +100,7 @@ public class JaegoController {
 	@RequestMapping(value = "/gridDefectItemInsert")
 	public @ResponseBody int gridDefectItemInsert(@RequestBody DefectItemDTO[] defectItemDTOs) {
 		logger.info("여기는 그리드 불량 테이블 추가 컨트롤러 입니다.");
-		return service.defectItemInsert(defectItemDTOs);
+		return service.defectItemInserts(defectItemDTOs);
 	}
 	
 	@RequestMapping(value = "/gridDefectItemSelectList")
