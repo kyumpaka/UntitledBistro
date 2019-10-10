@@ -524,7 +524,8 @@
  	<!-- 안전재고 조회 -->
  	<select id="safeItemSelectList" resultType="safeItem">
  		SELECT
-		     S.SI_PRODUCT_CODE
+ 			 S.SI_NO
+		    ,S.SI_PRODUCT_CODE
 		    ,P.PRODUCT_NAME
 		    ,S.SI_QTY
 		FROM
@@ -534,6 +535,27 @@
 		ON
 	    	S.SI_PRODUCT_CODE = P.PRODUCT_CODE
  	</select>
+ 	
+ 	<update id="safeItemUpdates" parameterType="list">
+ 		<foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
+ 		UPDATE 
+		    SAFE_ITEM
+		SET
+		     SI_PRODUCT_CODE = #{item.si_product_code}
+		    ,SI_QTY = #{item.si_qty}
+		WHERE 
+		    SI_NO = #{item.si_no}
+ 		</foreach>
+ 	</update>
+ 	
+ 	<delete id="safeItemDeletes" parameterType="list">
+ 		<foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
+ 		DELETE
+		    SAFE_ITEM
+		WHERE
+		    SI_NO = #{item.si_no}
+ 		</foreach>
+ 	</delete>
  	
  	<!-- 재고현황과 안전재고 비교 -->
  	<select id="riskItemCount" parameterType="list" resultType="int">

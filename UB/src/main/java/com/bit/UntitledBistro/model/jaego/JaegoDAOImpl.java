@@ -72,6 +72,16 @@ public class JaegoDAOImpl {
 		return mybatis.selectList("jaego.safeItemSelectList");
 	}
 	
+	// 안전 테이블 다중수정
+	public void safeItemUpdates(List<SafeItemDTO> safeItemList) {
+		mybatis.update("jaego.safeItemUpdates", safeItemList);
+	}
+	
+	// 안전 테이블 다중삭제
+	public void safeItemDeletes(List<SafeItemDTO> safeItemList) {
+		mybatis.delete("jaego.safeItemDeletes", safeItemList);
+	}
+	
 	// 위험재고 갯수조회
 	public int riskItemCount(List<SafeItemDTO> list) {
 		return mybatis.selectOne("jaego.riskItemCount", list);

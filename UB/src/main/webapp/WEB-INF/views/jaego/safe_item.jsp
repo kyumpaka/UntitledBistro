@@ -184,6 +184,9 @@
 		<div id="jsGrid"></div> <!-- 그리드를 이용한 테이블 -->
 		<div id="jsGridPage"></div> <!-- 그리드를 이용한 페이징 -->
 		<button type="button" id="newBtn" class="btn btn-primary btn-sm">신규</button>
+		<button type="button" id="editBtn" class="btn btn-primary btn-sm">수정</button>
+		<button type="button" id="updateCompleteBtn" class="btn btn-primary btn-sm">완료</button>
+		<button type="button" id="updateCancleBtn" class="btn btn-primary btn-sm">취소</button>
 	</div>
 	
 	
@@ -191,16 +194,38 @@
 
 <!-- 메인화면 기능 -->
 <script type="text/javascript">
+	var fieldsData = [ {
+		name : "si_product_code",
+		type : "text",
+		title: "품목코드",
+		width : 80
+	}, {
+		name : "product_name",
+		type : "text",
+		title: "품목명",
+		width : 80
+	}, {
+		name : "si_qty",
+		type : "text",
+		title: "안전수량",
+		width : 80
+	}];
 
-	var ogData;
+	var originalData;
+	var updateData = [];
+	var deleteData = [];
 	
 	$(document).ready(function() {
+		$("#updateCompleteBtn").hide();
+		$("#updateCancleBtn").hide();
+		
 		$.ajax({
 			url : "${path}/jaego/gridSafeItemSelectList",
 			type : "get"
 		})
 		.done(function(json) {
-			ogData = json;
+			originalData = json;
+			console.log(json);
 			
 			$("#jsGrid").jsGrid({
 				// 그리드 크기설정
@@ -230,23 +255,21 @@
 				data : json, 
 				
 				// 그리드에 표현될 필드 요소
-				fields : [ {
-					name : "si_product_code",
-					type : "text",
-					title: "품목코드",
-					width : 80
-				}, {
-					name : "product_name",
-					type : "text",
-					title: "품목명",
-					width : 80
-				}, {
-					name : "si_qty",
-					type : "text",
-					title: "안전수량",
-					width : 80
-				}]
-	            
+				fields : fieldsData,
+				
+				// 수정 아이콘 누르면 수정배열에 담기
+				onItemUpdated : function(args) {
+					updateData.push(args.item);
+				},
+				
+				// 삭제 아이콘 누르면 삭제배열에 담기
+				onItemDeleted : function(args) {
+					var item = args.item
+					deleteData.push(item);
+					
+					var index = updateData.indexOf(item);
+					if(index != -1) updateData.splice(index, 1);
+				}
 			}); // 그리드 끝
 		}); // ajax end
 	}); // ready 끝
@@ -260,12 +283,12 @@
 		
 		// 검색할 값이 없는 경우
 		if(product_code === "" && product_name === "") {
-			filterData = ogData;
+			filterData = originalData;
 		}
 
 		// 검색할 값이 있을 경우
-		if(product_code !== "") filterData = valueTest(ogData,"product_code",product_code);
-		if(product_name !== "") filterData = valueTest(ogData,"product_name",product_name);
+		if(product_code !== "") filterData = valueTest(originalData,"product_code",product_code);
+		if(product_name !== "") filterData = valueTest(originalData,"product_name",product_name);
 		
 		// 검색조건으로 그리드 다시 불러오기
 		$("#jsGrid").jsGrid({data : filterData, pageIndex: 1});
@@ -285,6 +308,92 @@
 		window.location.href = "${path}/jaego/safe_itemInsert";
 	});
 
+	// 수정 버튼 클릭했을 경우
+	$("#editBtn").on("click",function() {
+		
+		var filterFieldsData = fieldsData.slice();
+		filterFieldsData.push( {
+			type: "control", editButton: true, modeSwitchButton: false   
+		});
+		
+		$("#jsGrid").jsGrid({editing:true, fields:filterFieldsData});
+		$("#jsGrid").jsGrid("loadData");
+		
+		$("#updateCompleteBtn").show();
+		$("#updateCancleBtn").show();
+		$("#editBtn").hide();
+		
+	});
+	
+	var both = false;
+	var dummy = false;
+	
+	// 불량 테이블 수정함수
+	function completeUpdate() {
+		if(updateData != "" && updateData != null) {
+			$.ajax({
+				url : "${path}/jaego/gridSafeItemUpdates",
+				type : "post",
+				async : false,
+				contentType : "application/json",
+				data : JSON.stringify(updateData)
+			})
+			.done(function() {
+				swal("수정 성공!", "안전테이블 수정을 완료되었습니다.", "success")
+				.then((value) => {
+					completeDelete();
+				});
+				updateData = [];
+			});
+		}
+	}
+	
+	// 불량 테이블 삭제함수
+	function completeDelete() {
+		console.log(deleteData);
+		if(deleteData != "" && deleteData != null) {
+			$.ajax({
+				url : "${path}/jaego/gridSafeItemDeletes",
+				type : "post",
+				async : false,
+				contentType : "application/json",
+				data : JSON.stringify(deleteData)
+			})
+			.done(function() {
+				swal("삭제요청 성공!", "작업요청을 완료되었습니다.", "success");
+				deleteData = [];
+			});
+		}
+	}
+	
+	// 업데이트 완료 또는 취소 버튼 클릭했을 경우
+	$("#updateCompleteBtn, #updateCancleBtn").on("click",function() {
+		
+		// 완료 버튼
+		if(this.id == "updateCompleteBtn") {
+			$("#jsGrid").jsGrid({editing:false, fields:fieldsData});
+
+			if(deleteData != "" && updateData != "") {
+				both = true;
+				completeUpdate();
+			} else if(updateData != "") {
+				completeUpdate();
+			} else if(deleteData != "") {
+				completeDelete();
+			}
+			
+		// 삭제 버튼
+		} else if(this.id == "updateCancleBtn") {
+			$("#jsGrid").jsGrid({editing:false, fields:fieldsData, data:originalData});
+		}
+	
+		$("#jsGrid").jsGrid("loadData");
+		originalData = $("#jsGrid").jsGrid("option","data").slice();
+		
+		$("#updateCompleteBtn").hide();
+		$("#updateCancleBtn").hide();
+		$("#editBtn").show();
+	});
 </script>
 
 

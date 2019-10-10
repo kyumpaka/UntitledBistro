@@ -107,6 +107,18 @@ public class JaegoServiceImpl {
 		return dao.safeItemSelectList();
 	}
 	
+	// 안전 테이블 다중수정
+	public void safeItemUpdates(SafeItemDTO[] safeItemDTOs) {
+		List<SafeItemDTO> safeItemList = Arrays.asList(safeItemDTOs);
+		dao.safeItemUpdates(safeItemList);
+	}
+	
+	// 안전 테이블 다중삭제
+	public void safeItemDeletes(SafeItemDTO[] safeItemDTOs) {
+		List<SafeItemDTO> safeItemList = Arrays.asList(safeItemDTOs);
+		dao.safeItemDeletes(safeItemList);
+	}
+	
 	// 안전 테이블 다중등록
 	public int safeItemInserts(SafeItemDTO[] safeItemDTOs) {
 		List<SafeItemDTO> list = Arrays.asList(safeItemDTOs);
