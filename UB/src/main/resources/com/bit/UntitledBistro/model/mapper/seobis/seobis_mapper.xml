@@ -36,7 +36,7 @@
  			 MEMBER_ID, 
  			 MEMBER_NAME, 
  			 MEMBER_GENDER,
- 			 MEMBER_BIRTH,
+ 			 TO_CHAR(MEMBER_BIRTH, 'YYYY-MM-DD') AS MEMBER_BIRTH,
  			 MEMBER_EMAIL,
  			 MEMBER_GRADE, 
  			 MEMBER_ADDR1,
@@ -84,10 +84,10 @@
  <select id="Seobis_MemberSelect" parameterType="String"  resultType="com.bit.UntitledBistro.model.seobis.Seobis_MemberDTO">
  	<![CDATA[
  		SELECT 
-			MEMBER_ID,
- 			MEMBER_NAME,
- 			MEMBER_GENDER,
- 		 	MEMBER_BIRTH,
+		 	MEMBER_ID,
+ 		 	MEMBER_NAME,
+ 		 	MEMBER_GENDER,
+ 		 	TO_CHAR(MEMBER_BIRTH, 'YYYY-MM-DD') AS MEMBER_BIRTH,
  		 	MEMBER_EMAIL,
  		 	MEMBER_PHONE1,
  		 	MEMBER_PHONE2,

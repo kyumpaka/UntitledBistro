@@ -16,6 +16,7 @@
     <title>Ela Admin - HTML5 Admin Template</title>
     <meta name="description" content="Ela Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <link rel="stylesheet" href="${path}/resources/Admin/assets/css/lib/datatable/dataTables.bootstrap.min.css">
 
@@ -102,12 +103,12 @@
 												<td><div id="btn_group"><button id="updatebutton" onclick='location.href="${path}/Seobis_select?member_id=${b.member_id}"'>${b.member_id}</button></div></td>
 												<td>${b.member_name}</td>
 												<td>${b.member_gender}</td>
-												<td><fmt:formatDate pattern="yyyy-MM-dd" value="${b.member_birth}" /></td>
+												<td>${b.member_birth}</td>
 												<td>${b.member_email}</td>
 												<td>${b.member_phone1}</td>
 												<td>${b.member_addr1}</td>
 												<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${b.member_reg}" /></td>
-												<td><div id="btn_group"><button id="deletebutton" class="Seobis_MemberDelete" onclick="aa()">삭제</button></div></td>
+												<td><div id="btn_group"><button id="deletebutton" class="Seobis_MemberDelete" onclick="delet()">삭제</button></div></td>
 											</tr>
 										</c:forEach>
                                     </tbody>
@@ -144,14 +145,25 @@
         $(document).ready(function() {
           $('#bootstrap-data-table-export').DataTable();
       } );
-        function aa() {
-        	$(".Seobis_MemberDelete").on("click", function(){
+        	$(".Seobis_MemberDelete").on("click", function delet(){
                 var member_id = $(this).parent().parent().parent().children().eq(0).text();
-                if(confirm("회원 ID : "+member_id+"을 삭제하시겠습니까?")){
-                    $(location).attr("href", "${path}/Seobis_delete?member_id=" + member_id);
-                }
+                swal({
+                	  title: "회원 ID : "+member_id+"을 삭제하시겠습니까?",
+                	  icon: "warning",
+                	  buttons: true,
+                	  dangerMode: true,
+                	})
+                	.then((willDelete) => {
+                	  if (willDelete) {
+                	  $(location).attr("href", "${path}/Seobis_delete?member_id=" + member_id);
+                	    swal("성공적으로 삭제하였습니다.", {
+                	      icon: "success",
+                	    });
+                	  } else {
+                	    swal("취소 되었습니다.");
+                	  }
+                	});
             });
-        }
   </script>
 
 

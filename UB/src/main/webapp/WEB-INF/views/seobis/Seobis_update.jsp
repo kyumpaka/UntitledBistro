@@ -12,12 +12,12 @@
 <script type="text/javascript">
 
 	$(document).ready(function(){
-		if("${Seobis_memberSelect.member_gender}" == "girl"){
-			$("#girl").attr("checked", true);
+		if("${Seobis_memberSelect.member_gender}" == "여성"){
+			$("#여성").attr("checked", true);
 			/* $("#girl").prop("checked",true); */
 		}
-		if("${Seobis_memberSelect.member_gender}" == "man"){
-			$("#man").attr("checked", true);
+		if("${Seobis_memberSelect.member_gender}" == "남성"){
+			$("#남성").attr("checked", true);
 			/* $("#girl").prop("checked",true); */
 		} 
 	});
@@ -47,20 +47,20 @@
 	    </tr>
 	    <tr>
 	    	<td width="200"><p align="right">남자</td>
-	    	<c:if test="${Seobis_memberSelect.member_gender == 'man' }">
-		    	<td width="400"><p><input type="radio" name="member_gender" value="man"  checked="checked"></td>
+	    	<c:if test="${Seobis_memberSelect.member_gender == '남성' }">
+		    	<td width="400"><p><input type="radio" name="member_gender" value="남성"  checked="checked"></td>
 	    	</c:if>
-	    	<c:if test="${Seobis_memberSelect.member_gender != 'man' }">
-		    	<td width="400"><p><input type="radio" name="member_gender" value="man" ></td>
+	    	<c:if test="${Seobis_memberSelect.member_gender != '남성' }">
+		    	<td width="400"><p><input type="radio" name="member_gender" value="여성" ></td>
 	    	</c:if>
 	    </tr>
 	    <tr>
 	    	<td width="200"><p align="right">여자</td>
-	    	<c:if test="${Seobis_memberSelect.member_gender == 'girl' }">
-	    	<td width="400"><p><input type="radio" name="member_gender" value="girl"  checked="checked"></td>
+	    	<c:if test="${Seobis_memberSelect.member_gender == '여성' }">
+	    	<td width="400"><p><input type="radio" name="member_gender" value="여성"  checked="checked"></td>
 	    	</c:if>
-	    	<c:if test="${Seobis_memberSelect.member_gender != 'girl' }">
-	    	<td width="400"><p><input type="radio" name="member_gender" value="girl" ></td>
+	    	<c:if test="${Seobis_memberSelect.member_gender != '여성' }">
+	    	<td width="400"><p><input type="radio" name="member_gender" value="여성" ></td>
 	    	</c:if>
 	     </tr>
 	     <tr>

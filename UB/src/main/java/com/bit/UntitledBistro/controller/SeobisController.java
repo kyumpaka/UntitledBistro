@@ -60,6 +60,9 @@ public class SeobisController {
 		List<Seobis_MemberDTO> Seobis_memberList = Seobis_memberService.Seobis_MemberList(map);
 		System.out.println("dddddddddddddddddddddddddddddddddddddddddddddddddd"+Seobis_memberList.toString());
 		request.setAttribute("Seobis_memberList", Seobis_memberList);
+		for (int i = 0; i < Seobis_memberList.size(); i++) {
+			System.out.println(Seobis_memberList.get(i).getMember_birth()+"abcabc");
+		}
 		System.out.println(Seobis_memberList);
 		return "seobis/Seobis_memberList"; //.jsp
 	}
