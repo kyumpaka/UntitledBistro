@@ -23,7 +23,7 @@ import com.bit.UntitledBistro.model.jaego.OutItemDTO;
 import com.bit.UntitledBistro.model.jaego.ProductDTO;
 import com.bit.UntitledBistro.model.jaego.RiskItemDTO;
 import com.bit.UntitledBistro.model.jaego.SafeItemDTO;
-import com.bit.UntitledBistro.service.jaego.JaegoService;
+import com.bit.UntitledBistro.service.jaego.JaegoServiceImpl;
 
 @Controller
 @RequestMapping(value = "/jaego")
@@ -31,7 +31,7 @@ public class JaegoController {
 	private static final Logger logger = LoggerFactory.getLogger(JaegoController.class);
 	
 	@Autowired
-	private JaegoService service;
+	private JaegoServiceImpl service;
 	
 	@RequestMapping(value = "/item")
 	public void item(Model model) {
@@ -107,6 +107,18 @@ public class JaegoController {
 	public @ResponseBody List<DefectItemDTO> gridDefectItemSelectList(Condition condition) {
 		logger.info("여기는 그리드 불량 테이블 전체조회 컨트롤러 입니다.");
 		return service.defectItemSelectList(condition);
+	}
+	
+	@RequestMapping(value = "/gridDefectItemUpdate")
+	public @ResponseBody void gridDefectItemUpdate(@RequestBody DefectItemDTO[] defectItemDTOs) {
+		logger.info("여기는 그리드 불량 테이블 다중수정 컨트롤러 입니다.");
+		service.defectItemUpdates(defectItemDTOs);
+	}
+	
+	@RequestMapping(value = "/gridDefectItemDelete")
+	public @ResponseBody void gridDefectItemDelete(@RequestBody DefectItemDTO[] defectItemDTOs) {
+		logger.info("여기는 그리드 불량 테이블 다중삭제 컨트롤러 입니다.");
+		service.defectItemDeletes(defectItemDTOs);
 	}
 	
 	@RequestMapping(value = "/gridProductSelectList")

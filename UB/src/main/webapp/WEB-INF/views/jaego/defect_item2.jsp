@@ -304,16 +304,16 @@
                 
 				// 수정 아이콘 누르면 수정배열에 담기
 				onItemUpdated : function(args) {
+					console.log(args.item);
 					updateData.push(args.item);
+					console.log(updateData);
 				},
 				
 				// 삭제 아이콘 누르면 삭제배열에 담기
 				onItemDeleted : function(args) {
-					var item = args.item
-					deleteData.push(item);
-					
-					var index = updateData.indexOf(item);
-					if(index != -1) updateData.splice(index, 1);
+					console.log(args.item);
+					deleteData.push(args.item);
+					console.log(deleteData);
 				}
 			}); // 그리드 끝
 		}); // ajax 끝
@@ -386,69 +386,52 @@
 		
 	});
 	
-	var both = false;
-	var dummy = false;
-	
-	// 불량 테이블 수정함수
-	function completeUpdate() {
-		if(updateData != "" && updateData != null) {
-			$.ajax({
-				url : "${path}/jaego/gridDefectItemUpdate",
-				type : "post",
-				async : false,
-				contentType : "application/json",
-				data : JSON.stringify(updateData)
-			})
-			.done(function() {
-				if(both) {
-					swal("수정 성공!", "불량테이블 수정을 완료되었습니다.", "success")
-					.then((value) => {
-						completeDelete();
-					});
-				} else {
-					swal("수정 성공!", "불량테이블 수정을 완료되었습니다.", "success");
-				}
-				updateData = [];
-			});
-		}
+	function completeUpdate(){
+		swal("수정 성공!", "불량테이블 수정을 완료되었습니다.", "success");
+		return isUpdate;
+	}
+	function completeDelete(){
+		swal("삭제 성공!", "불량테이블 삭제가 완료되었습니다.", "success");
+		return isDelete;
 	}
 	
-	// 불량 테이블 삭제함수
-	function completeDelete() {
-		if(deleteData != "" && deleteData != null) {
-			$.ajax({
-				url : "${path}/jaego/gridDefectItemDelete",
-				type : "post",
-				async : false,
-				contentType : "application/json",
-				data : JSON.stringify(deleteData)
-			})
-			.done(function() {
-				swal("삭제요청 성공!", "작업요청을 완료되었습니다.", "success");
-				deleteData = [];
-			});
-		}
-	}
-	
+	var isUpdate=false;
+	var isDelete=false;
 	// 업데이트 완료 또는 취소 버튼 클릭했을 경우
 	$("#updateCompleteBtn, #updateCancleBtn").on("click",function() {
-		console.log(updateData);
-		console.log(deleteData);
-		
-		// 완료 버튼
 		if(this.id == "updateCompleteBtn") {
 			$("#jsGrid").jsGrid({editing:false, fields:fieldsData});
-
-			if(deleteData != "" && updateData != "") {
-				both = true;
-				completeUpdate();
-			} else if(updateData != "") {
-				completeUpdate();
-			} else if(deleteData != "") {
-				completeDelete();
+			if(updateData != "" && updateData != null) {
+				$.ajax({
+					url : "${path}/jaego/gridDefectItemUpdate",
+					type : "post",
+					contentType : "application/json",
+					data : JSON.stringify(updateData)
+				})
+				.done(function() {
+					isUpdate = true;
+					updateData = [];
+				});
 			}
+			if(deleteData != "" && deleteData != null) {
+				$.ajax({
+					url : "${path}/jaego/gridDefectItemDelete",
+					type : "post",
+					contentType : "application/json",
+					data : JSON.stringify(deleteData)
+				})
+				.done(function() {
+					isDelete = true;
+					deleteData = [];
+				});
+			}
+
+			if(completeUpdate()){}
+			if(completeDelete()){}
+				
 			
-		// 삭제 버튼
+			
+			
 		} else if(this.id == "updateCancleBtn") {
 			$("#jsGrid").jsGrid({editing:false, fields:fieldsData, data:beforeData});
 		}

@@ -382,8 +382,9 @@
  	</select>
 
 	<select id="defectItemSelectList" parameterType="condition" resultType="defectItem">
-		SELECT 
-		     DI_PRODUCT_CODE
+		SELECT
+			 DI_NO 
+		    ,DI_PRODUCT_CODE
 		    ,PRODUCT_NAME
 		    ,DI_QTY
 		    ,TO_CHAR(DI_DATE,'YYYY/MM/DD') 		AS DI_DATE
@@ -431,6 +432,29 @@
 			,#{di_reason}
 			)
  	</insert>
+ 	
+ 	<update id="defectItemUpdates" parameterType="list">
+ 		<foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
+ 		UPDATE 
+		    DEFECT_ITEM
+		SET
+		     DI_QTY = #{item.di_qty}
+		    ,DI_STATE = #{item.di_state}
+		    ,DI_REASON = #{item.di_reason}
+		    ,DI_DATE = SYSDATE
+		WHERE 
+		    DI_NO = #{item.di_no}
+ 		</foreach>
+ 	</update>
+ 	
+ 	<delete id="defectItemDeletes" parameterType="list">
+ 		<foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
+ 		DELETE
+		    DEFECT_ITEM
+		WHERE
+		    DI_NO = #{item.di_no}
+ 		</foreach>
+ 	</delete>
  	
  	<!-- ================================================================================== -->
  	<!-- ===============================다중 등록========================================== -->
