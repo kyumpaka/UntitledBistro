@@ -5,7 +5,7 @@
   
 <mapper namespace="jaego">
 
-	<select id="productSelectAll" parameterType="condition" resultType="product">
+	<select id="productSelectList" parameterType="condition" resultType="product">
 		SELECT 
 			 PRODUCT_CODE
 			,PRODUCT_NAME
@@ -23,7 +23,7 @@
 	
 	</select>
 
- 	<select id="itemSelectAll" parameterType="condition" resultType="item">
+ 	<select id="itemSelectList" parameterType="condition" resultType="item">
 	    SELECT 
 	         II.II_PRODUCT_CODE  					AS ITEM_PRODUCT_CODE
 	        ,P.PRODUCT_NAME     					AS PRODUCT_NAME
@@ -95,14 +95,6 @@
 		WHERE 
 		    ITEM_PRODUCT_CODE = #{item_product_code}
  	</update>
- 	<select id="itemMinusUpdateValidate" parameterType="item" resultType="int">
- 		SELECT
- 			ITEM_QTY - #{item_qty}
- 		FROM
- 			ITEM
- 		WHERE
- 			ITEM_PRODUCT_CODE = #{item_product_code}
- 	</select>
  	<update id="itemMinusUpdate" parameterType="item">
  		UPDATE 
 		    ITEM
@@ -123,7 +115,7 @@
 		    ((<include refid="maxItemNo"/>), #{item_product_code}, #{item_qty})
  	</insert>
  	
- 	<select id="inItemSelectAll" parameterType="condition" resultType="inItem"> 	
+ 	<select id="inItemSelectList" parameterType="condition" resultType="inItem"> 	
  		SELECT 
 		     /*+ INDEX_DESC(II PK_II_INDEX) */
 		     II.II_PRODUCT_CODE					AS II_PRODUCT_CODE
@@ -173,7 +165,7 @@
 				)
  	</insert>
  	
- 	<select id="outItemSelectAll" parameterType="condition" resultType="outItem">
+ 	<select id="outItemSelectList" parameterType="condition" resultType="outItem">
  		SELECT 
 		     /*+ INDEX_DESC(O PK_OI_INDEX) */
 		     OI.OI_PRODUCT_CODE					AS OI_PRODUCT_CODE
@@ -207,7 +199,7 @@
 	================================= 재고변동표 =====================================
 	==================================================================================
 	 -->
- 	<select id="changeItemSelectAll" parameterType="condition" resultType="changeItem">	  
+ 	<select id="changeItemSelectList" parameterType="condition" resultType="changeItem">	  
 		SELECT 
 		        T.PRODUCT_CODE			AS PRODUCT_CODE 
 		       ,T.PRODUCT_NAME			AS PRODUCT_NAME 
@@ -389,7 +381,7 @@
 		ORDER BY PRODUCT_CODE
  	</select>
 
-	<select id="defectItemSelectAll" parameterType="condition" resultType="defectItem">
+	<select id="defectItemSelectList" parameterType="condition" resultType="defectItem">
 		SELECT 
 		     DI_PRODUCT_CODE
 		    ,PRODUCT_NAME
@@ -488,7 +480,7 @@
 			)
 	</insert>
 	
- 	<insert id="safeItemInsertList" parameterType="list">
+ 	<insert id="safeItemInserts" parameterType="list">
 		<foreach item="item" collection="list" open="INSERT ALL"  close="SELECT * FROM DUAL" separator=" " index="index">
 		INTO SAFE_ITEM
 			(
@@ -506,7 +498,7 @@
  	</insert>
  	
  	<!-- 안전재고 조회 -->
- 	<select id="safeItemSelectAll" resultType="safeItem">
+ 	<select id="safeItemSelectList" resultType="safeItem">
  		SELECT
 		     S.SI_PRODUCT_CODE
 		    ,P.PRODUCT_NAME
@@ -538,7 +530,7 @@
  	</select>
  	
  	<!-- 재고현황과 안전재고 비교 -->
- 	<select id="riskItemSelectAll" parameterType="list" resultType="risk">
+ 	<select id="riskItemSelectList" parameterType="list" resultType="risk">
  		SELECT
 		       P.PRODUCT_CODE
 		      ,P.PRODUCT_NAME

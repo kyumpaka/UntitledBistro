@@ -192,7 +192,7 @@
 			}, {
 				name : "di_qty",
 				type : "text",
-				title: "입고수량",
+				title: "불량수량",
 				width : 80
 			}, {
 				name : "di_state",
@@ -222,11 +222,15 @@
 			// 배열객체를 json형태의 문자열로 변환하여 전달하기
 			data : JSON.stringify($("#jsGrid").jsGrid("option","data"))
 		})
-		.done(function() {
+		.done(function(count) {
 			swal("등록 성공!", "불량재고 등록을 완료했습니다.", "success");
+			webSocket.send(count);
 			$("#jsGrid").jsGrid("clearInsert");
 			$("#jsGrid").jsGrid({data : []});
 			$("#jsGrid").jsGrid("loadData");
+		})
+		.fail(function() {
+			swal("등록 실패!", "불량수량이 재고수량보다 많습니다.", "error");
 		}); 
 	});
 	
@@ -248,7 +252,7 @@
 	var productData;
 	
 	$.ajax({
-		url : "${path}/jaego/gridProductSelectAll",
+		url : "${path}/jaego/gridProductSelectList",
 		type : "get"
 	})
 	.done(function(json) {

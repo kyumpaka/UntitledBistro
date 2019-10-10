@@ -80,7 +80,7 @@
 			}, {
 				name : "ii_qty",
 				type : "text",
-				title: "재고수량",
+				title: "입고수량",
 				width : 80
 			}, {
 				type: "control", editButton: true, modeSwitchButton: false   // show clear filter button
@@ -93,12 +93,15 @@
 					contentType : "application/json",
 					data : JSON.stringify(args.item)
 				})
-				.done(function(result) {
-					if(result == 0) {
+				.done(function(map) {
+					if(map.result == 0) {
 						swal("등록 성공!", "안전재고 등록을 완료했습니다.", "success");
 					} else {
-						sweetAlert("업데이트 성공!", "이미 등록한 품목코드가 있습니다.", "success");
+						sweetAlert("업데이트 성공!", "안전재고 업데이트를 완료했습니다.", "success");
 					}
+					//$("#jsGrid").jsGrid({data:[]});
+					//$("#jsGrid").jsGrid("loadData");
+					webSocket.send(map.count);
 				});
 			}
 			
