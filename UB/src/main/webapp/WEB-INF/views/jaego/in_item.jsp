@@ -254,7 +254,7 @@
 				}, {
 					name : "ii_date",
 					type : "text",
-					title: "등록일자",
+					title: "입고날짜",
 					width : 100
 				}]
                 

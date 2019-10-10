@@ -17,7 +17,7 @@
 <!-- Modal -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
-<!-- datePicker -->
+<!-- datePicker -->ㅇㄹ
 <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
 <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
@@ -269,7 +269,7 @@
 				}, {
 					name : "di_qty",
 					type : "text",
-					title: "입고수량",
+					title: "불량수량",
 					width : 80
 				}, {
 					name : "di_state",

@@ -258,7 +258,7 @@
 				}, {
 					name : "oi_date",
 					type : "text",
-					title: "등록일자",
+					title: "출고날짜",
 					width : 100
 				}]
                 
