@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <header id="header" class="header">
             <div class="top-left">
@@ -87,6 +88,17 @@
                     </div>
 
                     <div class="user-area dropdown float-right">
+                    	<c:choose>
+                    	<c:when test="${sessionScope.empregister_empnum == null }" >
+                    	<a href="${path }/InsaLogin">로그인</a>
+                    	</c:when>
+                    	<c:otherwise>
+                    	${sessionScope.userName }님이 로그인중입니다. 
+                    	<a href="${path }/InsaLogout">로그아웃</a>
+                    	</c:otherwise>
+                    	
+                    	</c:choose>
+                    	
                         <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="user-avatar rounded-circle" src="${path}/resources/Admin/images/admin.jpg" alt="User Avatar">
                         </a>

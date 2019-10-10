@@ -3,6 +3,8 @@ package com.bit.UntitledBistro.service.insa;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
@@ -21,7 +23,14 @@ public interface InsaService {
 
 	public int EmpRegisterUpdate(Insa_EmpRegisterDTO dto);
 
+	public Insa_EmpRegisterDTO viewMember(Insa_EmpRegisterDTO dto);
+	
+	public boolean loginCheck(Insa_EmpRegisterDTO dto, HttpSession session);
+	
+	public void logout(HttpSession session);
 
 
+	
+	
 	
 }

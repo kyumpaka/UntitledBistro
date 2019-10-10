@@ -26,39 +26,38 @@ function getTime(item) {
 function schduleAdd(year, month, day) {
 	$('.startDate').val(year + "-" + numFormat(month) + "-" + numFormat(day));
 	$('#summary').val('');
-	$('#startTime').val('');
-	$('#endTime').val('');
-	$('#description').val('');
+	$('#schedule_workingstarttime').val('');
+	$('#schedule_workingendtime').val('');
 	$('#schduleForm').modal();
 }
 // 유효성 검사 일정 저장처리
 function calendarSchduleAdd() {
 	var summary = $('#summary').val();
-	var startTime = $('#startTime').val().split(":");
-	var endTime = $('#endTime').val().split(":");
+	var startTime = $('#schedule_workingstarttime').val().split(":");
+	var endTime = $('#schedule_workingendtime').val().split(":");
 	if(summary.trim() == '' || summary.trim().length == 0) {
 		swal('제목','입력해주세요');
 		return false;
-	}else if($('#startTime').val() == '') {
+	}else if($('#schedule_workingstarttime').val() == '') {
 		swal('시작시간','입력해주세요');
 		return false;
-	}else if($('#endTime').val() == '') {
+	}else if($('#schedule_workingendtime').val() == '') {
 		swal('종료시간','입력해주세요');
 		return false;		
-	}else if(new Date(0,0,0,endTime[0],endTime[1]).getTime() - new Date(0,0,0,startTime[0],startTime[1]).getTime() < 0) {
+	}else if(new Date(0,0,0,schedule_workingendtime[0],schedule_workingendtime[1]).getTime() - new Date(0,0,0,schedule_workingstarttime[0],schedule_workingstarttime[1]).getTime() < 0) {
 		swal('시간','종료시간이 시작시간보다 늦습니다');
 		return false;
-	}else if($('#endDate').val() == '') {
+	}else if($('#schedule_workingendday').val() == '') {
 		swal('종료날짜','입력해주세요');
 		return false;
-	}else if(new Date($('#endDate').val()).getTime() - new Date($('#startDate').val()).getTime() < 0) {
+	}else if(new Date($('#schedule_workingendday').val()).getTime() - new Date($('#schedule_workingstartday').val()).getTime() < 0) {
 		swal('날짜','종료일이 시작일보다 늦습니다');
 		return false;
 	}
 	$("#schduleForm").modal('hide');
 	swal('calendar', 'google토큰이 필요합니다.');
 	$.ajax({
-		url: './calendarEventAdd.do',
+		url: '/calendarEventAdd',
 		type: 'post',
 		async: false,
 		data : $('#frmSchdule').serialize(),

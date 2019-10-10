@@ -10,7 +10,7 @@
 <script src="${path }/resources/js/insa/jquery-3.1.1.min.js"></script>
 <script src="${path }/resources/js/insa/bootstrap.min.js"></script> 
 <link rel="stylesheet" href="${path }/resources/css/insa/bootstrap.min.css">
-<%-- <link rel="stylesheet" href="${path }/resources/css/insa/bootstrap-theme.min.css"> --%>
+<link rel="stylesheet" href="${path }/resources/css/insa/bootstrap-theme.min.css">
 <script type="text/javascript" src='${path }/resources/js/insa/sweetalert.min.js?ver=1'></script>
 <link rel="stylesheet" type="text/css" href='${path }/resources/css/insa/sweetalert.css?ver=1.2'>
 <script type="text/javascript" src="	${path }/resources/js/insa/stringBuffer.js"></script>
@@ -33,8 +33,8 @@ thead td {
 </style>
 </head>
 <body>
-    <input type="hidden" id="chk" value="0" />
-    <table class="table table-bordered">
+	<input type="hidden" id="calendarId" value="${calendarId}" />
+	<table class="table table-bordered">
         <thead id='thead'>
             <tr>
                 <td colspan="7">
@@ -48,13 +48,12 @@ thead td {
                         onclick="moveMonthNext()">›</button>  
                     <button type='button' class='btn btn-sm btn-warning'
                         id='moveFastNext' onclick="moveFastMonthNext()">»</button>
-                	 <div style="text-align: right;">
+                    <div style="text-align: right;">
                         <span>${title}</span> <input class='btn btn-sm btn-info'
                             type="button" value="주" onclick='tabWeek()' /> <input
                             class='btn btn-sm btn-info' type="button" value="월"
                             onclick='tabMonth()' /> 
                     </div>
-                
                 </td>
             </tr>
             <tr>
@@ -86,7 +85,7 @@ thead td {
                                 placeholder="예: 오후 7시에 멕시코 음식점에서 저녁식사">
                         </div>
                         <div class='form-group'>
-                            <label>출근시간</label> <input class='form-control' type="time"
+                            <label>출근시각</label> <input class='form-control' type="time"
                                 id='schedule_workingstarttime' name='schedule_workingstarttime'>
                         </div>
                         <div class='form-group'>
@@ -94,12 +93,12 @@ thead td {
                                 type="date" id='schedule_workingstartday' name='schedule_workingstartday' readonly="readonly">
                         </div>
                         <div class='form-group'>
-                            <label>퇴근시간</label> <input class='form-control' type="time"
+                            <label>퇴근시각</label> <input class='form-control' type="time"
                                 id='schedule_workingendtime' name='schedule_workingendtime'>
                         </div>
                         <div class='form-group'>
                             <label>퇴근날짜</label> <input class='form-control startDate'
-                                type="date" id='schedule_workingendday' name='endDate'>
+                                type="date" id='schedule_workingendday' name='schedule_workingendday'>
                         </div>
                         <div class='modal-footer'>
                             <input type="button" class='btn btn-sm btn-warning' value="확인"

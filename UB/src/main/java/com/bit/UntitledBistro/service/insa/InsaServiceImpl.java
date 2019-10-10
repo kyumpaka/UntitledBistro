@@ -8,6 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +21,14 @@ import com.bit.UntitledBistro.model.insa.InsaDAO;
 import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
 
 
+
+	
 @Service("test")
-public class InsaServiceImpl implements InsaService{
+public class InsaServiceImpl implements InsaService {
+	
+	
+	@Inject
+	InsaDAO insaDAO;
 
 	
 	@Autowired
@@ -29,61 +38,58 @@ public class InsaServiceImpl implements InsaService{
 	public int EmpRegisterInsert(Insa_EmpRegisterDTO dto) {
 		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
 		insaDAO.EmpRegisterInsert(dto);
-		
-		
+
 		return 1;
 	}
 
 	@Override
 	public List<Insa_EmpRegisterDTO> EmpRegisterList(HashMap map) {
 		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
-		
+
 		return insaDAO.EmpRegisterList(map);
 	}
 
 	@Override
 	public int getEmpCount() {
 		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
-		
-		
+
 		return insaDAO.getEmpCount();
 	}
 
 	@Override
 	public Insa_EmpRegisterDTO EmpRegisterRead(String empregister_empnum) {
 		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
-		
-		
+
 		return insaDAO.EmpRegisterRead(empregister_empnum);
 	}
 
 	@Override
 	public String imgUpload(MultipartHttpServletRequest mRequest) {
-		
+
 		String saveFileName = null;
-		
+
 		try {
 			String uploadPath = mRequest.getSession().getServletContext().getRealPath("/") + "resources/images/insa/";
-			
+
 			File dir = new File(uploadPath);
 
 			// 디렉토리 생성
 			if (!dir.isDirectory()) {
 				dir.mkdirs();
 			}
-			
+
 			Iterator<String> iter = mRequest.getFileNames();
-			
-			while(iter.hasNext()) {
+
+			while (iter.hasNext()) {
 				String uploadFileName = iter.next();
-				
+
 				MultipartFile mFile = mRequest.getFile(uploadFileName);
 				String originalFileName = mFile.getOriginalFilename();
 				UUID uuid = UUID.randomUUID();
-				if(originalFileName != "") {
+				if (originalFileName != "") {
 					saveFileName = uuid + "_" + originalFileName;
 				}
-				
+
 				byte[] data = mFile.getBytes();
 				FileOutputStream fos = new FileOutputStream(uploadPath + saveFileName);
 				fos.write(data);
@@ -92,7 +98,7 @@ public class InsaServiceImpl implements InsaService{
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		
+
 		return saveFileName;
 	}
 
@@ -103,9 +109,36 @@ public class InsaServiceImpl implements InsaService{
 		System.out.println(dto.toString());
 		System.out.println("=======================================");
 		return insaDAO.EmpRegisterUpdate(dto);
+
+	}
+
+	@Override
+	public Insa_EmpRegisterDTO viewMember(Insa_EmpRegisterDTO dto) {
 		
+		return insaDAO.viewMember(dto);
+	}
+
+	@Override
+	public boolean loginCheck(Insa_EmpRegisterDTO dto, HttpSession session) {
+		boolean result = insaDAO.loginCheck(dto);
+		if(result) {
+			Insa_EmpRegisterDTO dto2 = viewMember(dto);
+			
+			session.setAttribute("empregister_empnum", dto2.getEmpregister_empnum());
+			session.setAttribute("empregister_jumin", dto2.getEmpregister_jumin());
+		}
+		
+		
+		
+		return result;
+	}
+
+	@Override
+	public void logout(HttpSession session) {
+		
+		session.invalidate();
 		
 	}
-	
-	
+
+
 }

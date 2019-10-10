@@ -3,6 +3,8 @@ package com.bit.UntitledBistro.model.insa;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 public interface InsaDAO {
 
 	public int EmpRegisterInsert(Insa_EmpRegisterDTO dto);
@@ -15,4 +17,12 @@ public interface InsaDAO {
 
 	public int EmpRegisterUpdate(Insa_EmpRegisterDTO dto);
 
+	public Insa_EmpRegisterDTO viewMember(Insa_EmpRegisterDTO dto);
+
+	public boolean loginCheck(Insa_EmpRegisterDTO dto);
+	
+	public void logout(HttpSession session);
+	
+	
+	
 }
