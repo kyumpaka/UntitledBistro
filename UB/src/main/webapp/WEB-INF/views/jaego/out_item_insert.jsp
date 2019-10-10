@@ -98,6 +98,9 @@
 					//$("#jsGrid").jsGrid({data:[]});
 					//$("#jsGrid").jsGrid("loadData");
 					webSocket.send(count);
+				})
+				.fail(function() {
+					swal("등록 실패!", "출고수량이 재고수량보다 많습니다.", "error");
 				});
 			}
 			
