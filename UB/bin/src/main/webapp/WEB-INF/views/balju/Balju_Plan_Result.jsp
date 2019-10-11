@@ -72,11 +72,6 @@
 						</div>
 			<div id="jsGrid"></div>
 	<script>
-	var update_item = {};
-	//수정할 데이터의 값을 임시적으로 갖고 있을 jsonobj
-
-	//데이트 피커 부분
-
 	$.ajax({
 		type : "get",
 		url : "${path}/balju_Plan_Result",
@@ -95,13 +90,100 @@
 				pageButtonCount : 5,
 				//json 배열을 데이터에 연결함.
 				data : json,
+				//수정하고싶은 데이터를 추출해서 처리함
+				onItemUpdated : function(args){
+					console.log(args.item);
+					console.log(args.item.ORDPL_ORDLIN_NUM);
+					console.log(args.item.ORDPL_ONUM);
+					console.log(args.item.ORDPL_QT);
+					
+					var UpdateList = new Array();
+					UpdateList.push(args.item.ORDPL_ORDLIN_NUM);
+					UpdateList.push(args.item.ORDPL_ONUM);
+					UpdateList.push(args.item.ORDPL_QT);
+
+					console.log(UpdateList);
+					
+					$.ajax({
+						method: "post",
+						dataType:"json",
+						contentType: "application/json",
+						data: JSON.stringify(UpdateList),
+						url: "${path}/balju_Plan_Update",
+						success:function(result){
+								var jsonResult = JSON.parse(JSON.stringify(result));
+								if(jsonResult.result == "success"){
+										alert(jsonResult.resultMsg);
+										
+									/* sweetAlert은 일반 alert과는 다르게 location.href을 후속으로 두어서 연계할수 없고 바로 실행시킴 
+									swal({
+										  title: jsonResult.resultMsg,
+										  text: "확인을 눌러주세요",
+										  icon: jsonResult.result,
+										  button: "확인",
+										});  */
+									//location.href="${path}/balju/Balju_Plan"
+									//window.location.reload(true);
+									
+								} else if (jsonResult.result == "failure"){
+										aleart(jsonResult.resultMsg);
+										return false;
+									}
+							//success end
+							}
+						//ajax end
+						});
+					},
 				deleteConfirm: function(item){
 						return item.ORDPL_PRODUCT_NAME + "를 삭제하시겠습니까?"
+					},
+				onItemDeleted: function(args){
+					console.log(args.item);
+					console.log(args.item.ORDPL_ORDLIN_NUM);
+					console.log(args.item.ORDPL_ONUM);
+
+					var DeleteList = new Array();
+					DeleteList.push(args.item.ORDPL_ORDLIN_NUM);
+					DeleteList.push(args.item.ORDPL_ONUM);
+
+					console.log(DeleteList);
+
+					$.ajax({
+						method: "post",
+						dataType:"json",
+						contentType: "application/json",
+						data: JSON.stringify(DeleteList),
+						url: "${path}/balju_Plan_Delete",
+						success:function(result){
+								var jsonResult = JSON.parse(JSON.stringify(result));
+								if(jsonResult.result == "success"){
+										alert(jsonResult.resultMsg);
+										
+									/* sweetAlert은 일반 alert과는 다르게 location.href을 후속으로 두어서 연계할수 없고 바로 실행시킴 
+									swal({
+										  title: jsonResult.resultMsg,
+										  text: "확인을 눌러주세요",
+										  icon: jsonResult.result,
+										  button: "확인",
+										});  */
+									//location.href="${path}/balju/Balju_Plan"
+									//window.location.reload(true);
+									
+								} else if (jsonResult.result == "failure"){
+										aleart(jsonResult.resultMsg);
+										return false;
+									}
+							//success end
+							}
+						//ajax end
+						});
 					},
 				//grid에 표현될 필드 요소
 				fields : [ 
 					{name : "ORDPL_ORDLIN_NUM",  type : "text", title : "발주계획번호", align: "center",
-					 readOnly : true, width : 120}, 
+					 readOnly : true, width : 100}, 
+					{name : "ORDPL_ONUM",  type : "text", title : "발주물품번호", align: "center",
+						 readOnly : true, sorting : true, width : 100}, 
 					{name : "TO_CHAR(ORPLIN_DATE,'YYYY-MM-DD')", type : "text", title : "날짜", align: "center",
 					 readOnly : true, width : 100}, 
 					{name : "ORDPL_PRODUCT_CODE",type : "text",title : "품목코드", align: "center",
