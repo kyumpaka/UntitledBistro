@@ -75,7 +75,7 @@
 		</select>
 		<input type="text" id="day" class="form-control" maxlength="2">
 	    <span class="input-group date">
-	        <input type="hidden" id="date" >
+	        <input type="hidden" id="date" > <!-- 2019/10/09 -->
 	        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 	    </span>
 	</div>

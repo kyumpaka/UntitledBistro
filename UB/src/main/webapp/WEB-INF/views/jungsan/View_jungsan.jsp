@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+    pageEncoding="UTF-8"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
+
+<!-- 그래프시작 -->
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<script type="text/javascript">
 	 google.charts.load('current', {'packages':['line']});
@@ -34,7 +34,7 @@
      ]);
 
      var options = {
-       width: 900,
+       width: 550,
        height: 300,
        axes: {
          x: {
@@ -56,7 +56,7 @@
      function drawChart() {
        var data = google.visualization.arrayToDataTable([
          ['매출', '어제 비율', '현재 비율'],
-          ['총 매출',${total_card},${total_cash}],
+          ['총 매출',${befor_cash+befor_card},${today_card+today_cash}],
          ['카드 매출',${befor_card},${today_card}],
          ['현금 매출',${befor_cash},${today_cash}],
        ]);
@@ -78,9 +78,9 @@
      function drawChart() {
        var data = google.visualization.arrayToDataTable([
          ['day', '주류', '요리', '탕'],
-         ['지난주 월요일', 1000, 400, 200],
-         ['어제', 1170, 460, 250],
-         ['현재', 660, 1120, 300],
+         ['지난주 월요일', 10, 4, 2],
+         ['어제', ${menucount_drink}, ${menucount_cooking}, ${menucount_soup}],
+         ['현재', ${menucount_total}, 11, 3],
        ]);
 
        var options = {
@@ -96,49 +96,58 @@
        chart.draw(data, google.charts.Bar.convertOptions(options));
      }
      </script>
+<!-- 그래프 종료 -->
+
+
 
 <meta charset="UTF-8">
 <title></title>
 </head>
 <body>
-<div id="head" style="float:right;">
-	<select>
-		<option value="당일">당일 통계</option>
-		<option value="메뉴별">메뉴별 통계</option>
-		<option value="시간별">시간별 통계</option>
-		<option value="날짜별">날짜별 통계</option>
-		<option value="월별">월별 통계</option>
-		<option value="결제별">{결재 방법 통계}</option>
-	</select>
-</div>
-<div id="container" style="padding-left:50px; padding-top: 50px;">
-	<div class="row">
-		<div class="col-xd-6">
- 			<div id="columnchart_material" style="width: 600px; height: 700px; padding-left: 30px;"></div>
- 		</div>
+<h2 align="center">매출 현황 그래프</h2><br>
+	
+	<div id="container" style="margin-top: 20px; margin-left: 100px;">
+	<table border="5" style="width: 95%;">
+			<tr bgcolor="gray" align="center">
+				<td>금일 매출</td>
+				<td>현금</td>
+				<td>카드</td>
+				<td>포인트</td>
+			</tr>	
+			<tr align="center" style="color: red">
+				<td>${today_cash+today_card}</td> 
+				<td>${today_cash}</td>
+				<td>${today_card}</td>
+				<td>-${today_point}</td>
+			</tr>
+		</table>
+	</div>
+	<br>
+	<div id="container" style="padding-left:50px; padding-top: 20px;">
+		<div class="row">
+			<div class="col-md-6">
+ 				<div id="columnchart_material" style="width: 600px; height: 700px; padding-left: 30px;"></div>
+ 			</div>
  				<!-- 막대 그래프 -->
- 		<div class="col-xd-6" style="padding-left: 30px;">
- 			<div id="barchart_material" style="width: 900px; height: 350px;"></div>
+ 			<div class="col-md-6" style="padding-left: 30px;">
+ 				<div id="barchart_material" style="width: 550px; height: 350px;"></div>
  				<!-- 누운 그래프 -->
   			<div id="line_top_x" style="margin-top: 50px;"></div>
- 		</div>
+ 			</div>
+		</div>
 	</div>
-</div>
-<div id="food" align="center" style="padding:50px;">
-	<button type="button" class="btn btn-primary" onclick="javascript:location.href='/day.jsp';">일마감</button>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<button type="button" class="btn btn-dark" onclick="javascript:location.href='/month.jsp';">월마감</button>
+	
+	
+	
+	<div id="food" align="center" style="padding:50px;">
+	<button type="button" class="btn btn-primary"><a href="Daily.html">DailyList</a></button>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<button type="button" class="btn btn-dark"><a href="Monthly.html">MonthlyList</a></button>
 </div>
 
-<table>
-	<tr><td>어제 카드 결제가 : </td> <td>${befor_card}</td></tr>
-	<tr><td>어제 현금 결제가 : </td> <td>${befor_cash}</td></tr>
-	<tr><td>오늘 카드 결제가 : </td> <td>${today_card}</td></tr>
-	<tr><td>오늘 현금 결제가 : </td> <td>${today_cash}</td></tr>
-	<tr><td>총 카드 결제가 : </td> <td>${total_card}</td></tr>
-	<tr><td>총 현금 결제가 : </td> <td>${total_cash}</td></tr>
-	<tr><td>총 결제가 : </td> <td>${timeto_jungsan}</td></tr>
-</table>
+		
+
+
 </body>
-
 </html>
