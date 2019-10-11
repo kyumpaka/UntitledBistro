@@ -35,7 +35,7 @@
   		VALUES
   		(	
   			(SELECT MAX(ORPLIN_NUM) FROM ORPL_INPUT),
-  			(SELECT NVL(MAX(ORDPL_ONUM),0)+1 FROM ORDER_PLAN),
+  			#{ORDPL_ONUM},
   			#{ORDPL_PRODUCT_CODE},
   			#{ORDPL_PRODUCT_NAME},
   			#{ORDPL_PRODUCT_STNDR},
@@ -68,60 +68,45 @@
   			ORDER_ORDIN_NUM,
   			ORDER_NUM,
   			ORDER_PRODUCT_CODE,
+  			ORDER_PRODUCT_NAME,
+  			ORDER_PRODUCT_STNDR,
   			ORDER_QT,
   			ORDER_PR_EA,
-  			ORDER_WR,
-  			ORDER_SUMMA,
-  			ORDER_STAT,
-  			ORDER_END
+  			ORDER_WR
   		)
   		VALUES
   		(
-  			(SELECT NVL(MAX(ORDER_ORDIN_NUM),0) FROM ORDERLIST),
-  			(SELECT NVL(MAX(ORDER_NUM),0)+1 FROM ORDERLIST),
+  			(SELECT MAX(ORDIN_NUM) FROM ORDER_INPUT),
+  			#{ORDER_NUM},
   			#{ORDER_PRODUCT_CODE},
+  			#{ORDER_PRODUCT_NAME},
+  			#{ORDER_PRODUCT_STNDR},
   			#{ORDER_QT},
   			#{ORDER_PR_EA},
-  			#{ORDER_WR},
-  			#{ORDER_SUMMA},
-  			#{ORDER_STAT},
-  			#{ORDER_END}
+  			#{ORDER_WR}
   		)
   	]]>
   </insert>
   
-  <insert id="insert_Balju_Save1" parameterType="hashmap">
+  <insert id="insert_BookMark" parameterType="hashmap">
    <![CDATA[
-   		INSERT INTO ORDER_SAPL
+   		INSERT INTO BOOKMARK
    		(
-   			ORSP_NUM,
-   			ORSP_DATE
+   			BK_CODE,
+   			BK_NAME,
+   			BK_STNDR,
+   			BK_PR_EA,
+   			BK_QT,
+   			BK_WR
    		)
    		VALUES 
    		(
-   			(SELECT NVL(MAX(ORSP_NUM),0)+1 FROM ORDER_SAPL),
-   			SYSDATE
-   		)
-   	]]>
-  </insert>
-  
-  <insert id="insert_Balju_Save2" parameterType="hashmap">
-   <![CDATA[
-   		INSERT INTO ORDER_SAVE
-   		(
-   			ORSA_ORSP_NUM,
-   			ORSA_NUM,
-   			ORSA_PRODUCT_CODE,
-   			ORSA_QT,
-   			ORSA_WR
-   		)
-   		VALUES
-   		(
-   			(SELECT NVL(MAX(ORSA_ORSP_NUM),0) FROM ORDER_SAVE),
-   			(SELECT NVL(MAX(ORSA_NUM),0)+1 FROM ORDER_SAVE),
-   			ORSA_PRODUCT_CODE,
-   			ORSA_QT,
-   			ORSA_WR
+   			#{BK_CODE},
+   			#{BK_NAME},
+   			#{BK_STNDR},
+   			#{BK_PR_EA},
+   			#{BK_QT},
+   			#{BK_WR}
    		)
    	]]>
   </insert>
@@ -138,13 +123,39 @@
   	]]>	
   </select>
   
-  
-  <select id="balju_Dummy" parameterType="hashmap" resultType="hashmap">
+  <select id="item_resultList" parameterType="hashmap" resultType="hashmap">
   	<![CDATA[
   		SELECT 
-  			ORDPL_ONUM
+  			ITEM_NO as ITEM_INDEX,
+  			ITEM_PRODUCT_CODE,
+  			PRODUCT_NAME,
+  			PRODUCT_STNDR,
+  			ITEM_QTY,
+  			PRODUCT_SAFE,
+  			PRODUCT_PRICE
   		FROM 
-  			BP_DUMMY
+  			ITEM 
+  		INNER JOIN
+  			PRODUCT
+  		ON 
+  			ITEM.ITEM_PRODUCT_CODE 
+  			= 
+  			PRODUCT.PRODUCT_CODE
+  	]]>	
+  </select>
+  
+  <select id="item_BookMark" parameterType="hashmap" resultType="hashmap">
+  	<![CDATA[
+  		SELECT 
+  			ROWNUM,
+  			BK_CODE AS ORDER_PRODUCT_CODE,
+  			BK_NAME AS ORDER_PRODUCT_NAME,
+  			BK_STNDR AS ORDER_PRODUCT_STNDR,
+  			BK_PR_EA AS ORDER_PR_EA,
+  			BK_QT AS ORDER_QT,
+  			BK_WR AS ORDER_WR
+  		FROM 
+  			BOOKMARK
   	]]>	
   </select>
   
@@ -176,6 +187,7 @@
   	<![CDATA[
   		SELECT  
   			ORDPL_ORDLIN_NUM,
+  			ORDPL_ONUM,
   			TO_CHAR(ORPLIN_DATE,'YYYY-MM-DD'),
   			ORDPL_PRODUCT_CODE,
   			ORDPL_PRODUCT_NAME,
@@ -191,26 +203,54 @@
   			ORPL_INPUT.ORPLIN_NUM 
   			= 
   			ORDER_PLAN.ORDPL_ORDLIN_NUM
+  		ORDER BY
+  			ORDPL_ORDLIN_NUM, ORDPL_ONUM
   	]]>
   </select>
   
-  <select id="balju_Save_list" parameterType="hashmap" resultType="hashmap">
+  <!-- 발주계획 불러오기버튼 대응 -->
+  <select id="BPlan_Load" parameterType="hashmap" resultType="hashmap">
   	<![CDATA[
-  		SELECT
-  			ORSA_ORSP_NUM,
-  			ORSP_DATE,
-  			ORSA_NUM,
-  			ORSA_PRODUCT_CODE,
-  			ORSA_QT,
-  			ORSA_WR
+  		SELECT  
+  			MAX(TO_CHAR(ORPLIN_DATE,'YYYY-MM-DD')) AS ORPLIN_DATE,
+			MAX(ORDPL_ORDLIN_NUM) AS ORDPL_ORDLIN_NUM,
+  			MAX(ORDPL_PRODUCT_NAME) AS ORDPL_PRODUCT_NAME,
+			COUNT(ORDPL_PRODUCT_NAME)-1 AS ORDPL_PRODUCT_NAME_COUNT
   		FROM 
-  			ORDER_SAPL 
+  			ORPL_INPUT 
   		INNER JOIN
-  			ORDER_SAVE
+  			ORDER_PLAN
   		ON 
-  			ORDER_SAPL.ORSP_NUM
+  			ORPL_INPUT.ORPLIN_NUM 
   			= 
-  			ORDER_SAVE.ORSA_ORSP_NUM
+  			ORDER_PLAN.ORDPL_ORDLIN_NUM
+       GROUP BY
+            ORDPL_ORDLIN_NUM
+  	]]>
+  </select>
+  
+  <!-- 발주계획 불러오기 대상 조회 BPlan_Search -->
+  <select id="BPlan_Search" parameterType="hashmap" resultType="hashmap">
+  	<![CDATA[
+  		SELECT  
+  			ORDPL_PRODUCT_CODE AS ORDER_PRODUCT_CODE,
+  			ORDPL_PRODUCT_NAME AS ORDER_PRODUCT_NAME,
+  			ORDPL_PRODUCT_STNDR AS ORDER_PRODUCT_STNDR,
+  			ORDPL_QT AS ORDER_QT,
+  			ORDPL_PR_EA AS ORDER_PR_EA,
+  			ORDPL_WR AS ORDER_WR
+  		FROM 
+  			ORPL_INPUT 
+  		INNER JOIN
+  			ORDER_PLAN
+  		ON 
+  			ORPL_INPUT.ORPLIN_NUM 
+  			= 
+  			ORDER_PLAN.ORDPL_ORDLIN_NUM
+  		WHERE
+  			ORDPL_ORDLIN_NUM = #{ORDPL_ORDLIN_NUM}
+  		ORDER BY
+  			ORDPL_PRODUCT_CODE
   	]]>
   </select>
   
@@ -218,15 +258,13 @@
   	<![CDATA[
   		UPDATE ORDER_PLAN
   		SET
-  			ORDPL_ORDLIN_NUM = #{ORDPL_ORDLIN_NUM},
-  			ORDPL_ONUM = #{ORDPL_ONUM},
-  			ORDPL_PRODUCT_CODE = #{ORDPL_PRODUCT_CODE},
-        	ORDPL_QT = #{ORDPL_QT},
-        	ORDPL_WR = #{ORDPL_WR},
-        	ORDPL_STAT = #{ORDPL_STAT},
-        	ORDPL_END = #{ORDPL_END}
+  			
+        	ORDPL_QT = #{ORDPL_QT}
+        	
         WHERE 
         	ORDPL_ORDLIN_NUM = #{ORDPL_ORDLIN_NUM}
+        AND
+        	ORDPL_ONUM = #{ORDPL_ONUM}
   	]]>	
   </update>
   
@@ -248,18 +286,15 @@
   	]]>
   </update>
   
-   <update id="balju_Save_modi" parameterType="hashmap">
+   <update id="BookMark_Modi" parameterType="hashmap">
   	<![CDATA[
-  		UPDATE ORDER_SAVE
+  		UPDATE BOOKMARK
   		SET
-  			ORSA_ORSP_NUM = #{ORSA_ORSP_NUM},
-  			ORSA_NUM = #{ORSA_NUM},
-  			ORSA_PRODUCT_CODE = #{ORSA_PRODUCT_CODE},
-  			ORSA_QT = #{ORSA_QT},
-  			ORSA_WR = #{ORSA_WR}
+  			BK_CODE = #{BK_CODE},
+  			BK_NAME = #{BK_CODE}
   			
   		WHERE
-  			ORSA_ORSP_NUM = #{ORSA_ORSP_NUM}
+  			BK_CODE = #{BK_CODE}
   	]]>
   </update>
   
@@ -271,7 +306,20 @@
   		FROM
   			ORPL_INPUT
   		WHERE
-  			ORPLIN_NUM = #{ORPLIN_NUM}
+  			ORPLIN_NUM
+  		IN
+  			(
+  				SELECT
+  					ORPL_INPUT.ORPLIN_NUM
+  				FROM
+  					ORPL_INPUT
+  				LEFT OUTER JOIN
+  					ORDER_PLAN
+  				ON
+  					ORPL_INPUT.ORPLIN_NUM = ORDER_PLAN.ORDPL_ORDLIN_NUM
+  				WHERE
+  					ORDER_PLAN.ORDPL_ORDLIN_NUM IS NULL
+  			)
   	]]>
   </delete>
   
@@ -281,7 +329,10 @@
   		FROM
   			ORDER_PLAN
   		WHERE
-  			ORDPL_ONUM = #{ORDPL_ONUM}
+  			ORDPL_ORDLIN_NUM = #{ORDPL_ORDLIN_NUM}
+  		AND
+  			ORDPL_ONUM = #{ORDPL_ONUM} 
+  			
   	]]>
   </delete>
   
@@ -306,23 +357,13 @@
   	]]>
   </delete>
   
-  <delete id="Delete_Balju_Save1">
-  	<![CDATA[
-  		DELETE
-  		FROM
-  			ORDER_SAPL
-  		WHERE
-  			ORSP_NUM = #{ORSP_NUM}
-  	]]>
-  </delete>
-  
-  <delete id="Delete_Balju_Save2">
+  <delete id="Delete_BookMark">
   	  <![CDATA[
   		DELETE
   		FROM
-  			ORDER_SAVE
+  			BOOKMARK
   		WHERE
-  			ORSA_NUM = #{ORSA_NUM}
+  			BK_CODE = #{BK_CODE}
   	]]>
   </delete>
 

@@ -81,6 +81,26 @@
 		openItemWin = window.open("${path}/balju/popup/Item_list",'itemInfo',"width=500, height=600, toolbars=no");
 		
 		}
+	var openResultWin;
+	
+	function openItemResult(){
+
+		//부모창
+		window.name = "Balju_Plan";
+		//자식창셋팅
+		openResultWin = window.open("${path}/balju/popup/Item_Result",'itemInfo',"width=700, height=600, toolbars=no");
+		}
+
+	var bookMarkWin;
+
+	function openBkList(){
+
+		//부모창
+		window.name = "Balju";
+		//자식창셋팅
+		openBookMarkWin = window.open("${path}/balju/popup/BookMark_list", 'BookMark', "width=700, height=600, toolbars=no");
+		}
+	//openBookMark end
 </script>
 </head>
 <body>
@@ -137,8 +157,9 @@
 						<div class="col-lg-8">
 							<button type="button" class="btn btn-dark btn-sm" 
 								style="margin-right:5px;" onclick="openItemList()">제품정보</button>
-							<button type="button" class="btn btn-dark btn-sm" style="margin-right:5px;">즐겨찾기</button>
-							<button type="button" class="btn btn-dark btn-sm">재고현황</button>
+							<button type="button" class="btn btn-dark btn-sm" 
+								style="margin-right:5px;" onclick="openBkList()">관심품목</button>
+							<button type="button" class="btn btn-dark btn-sm" onclick="openItemResult()">재고현황</button>
 						</div>
 					</div>
 				<table class="table table-striped table-hover">
@@ -175,7 +196,6 @@
 						</div>
 						<div id="jsGrid"></div>
 						<script>
-							/* var Data = [{ "ORDPL_PRODUCT_NAME":"더미값"}]; */
 							var Data = [];
 							$("#jsGrid").jsGrid({
 								width:"100%",
@@ -186,16 +206,17 @@
 								editing : true,
 								data : Data,
 								 deleteConfirm: function(item){
-												return item.name +" 상품을 삭제하시겠습니까?";},
+												return item.ORDPL_PRODUCT_NAME +" 상품을 삭제하시겠습니까?";},
 
 								fields : [
-									{name:"ORDPL_PRODUCT_CODE", type:"text", width:150, title:"품목코드"},
-									{name:"ORDPL_PRODUCT_NAME", type:"text", width:150, title:"품목명"},
-									{name:"ORDPL_PRODUCT_STNDR", type:"text", width:150, title:"규격"},
-									{name:"ORDPL_QT", type:"text", width:150, title:"수량"},
-									{name:"ORDPL_PR_EA", type:"text", width:150, title:"단가"},
-									{name:"ORDPL_WR", type:"text", width:150, title:"작성자"},
-									{ type : 'control'}]
+									{name:"ORDER_PRODUCT_CODE", type:"text", width:150, title:"품목코드"},
+									{name:"ORDER_PRODUCT_NAME", type:"text", width:150, title:"품목명"},
+									{name:"ORDER_PRODUCT_STNDR", type:"text", width:150, title:"규격"},
+									{name:"ORDER_QT", type:"text", width:150, title:"수량"},
+									{name:"ORDER_PR_EA", type:"text", width:150, title:"단가"},
+									{name:"ORDER_WR", type:"text", width:150, title:"작성자"},
+									{ type : 'control'}
+									]
 								
 								});
 						</script>
@@ -215,12 +236,12 @@
 		$("#addData").click(function(){
 		alert("발주품이 추가되었습니다")
 		var insertItem={};
-		insertItem.ORDPL_PRODUCT_CODE = $("#code").val();
-		insertItem.ORDPL_PRODUCT_NAME = $("#name").val();
-		insertItem.ORDPL_PRODUCT_STNDR = $("#stndr").val();
-		insertItem.ORDPL_QT = $("#qt").val();
-		insertItem.ORDPL_PR_EA = $("#price").val();
-		insertItem.ORDPL_WR = "직접작성";
+		insertItem.ORDER_PRODUCT_CODE = $("#code").val();
+		insertItem.ORDER_PRODUCT_NAME = $("#name").val();
+		insertItem.ORDER_PRODUCT_STNDR = $("#stndr").val();
+		insertItem.ORDER_QT = $("#qt").val();
+		insertItem.ORDER_PR_EA = $("#price").val();
+		insertItem.ORDER_WR = "직접입력";
 								
 		console.log(insertItem);
 		$("#jsGrid").jsGrid("insertItem", insertItem);
@@ -238,7 +259,6 @@
 				url: "${path}/balju_Plan_Input",
 				success:function(result){
 						var jsonResult = JSON.parse(JSON.stringify(result));
-
 						if(jsonResult.result == "success"){
 								alert(jsonResult.resultMsg);
 								
@@ -261,5 +281,39 @@
 				//ajax end
 				});
 		};	
+</script>
+<script>
+	function getReturnValue(items){
+		console.log(items);
+		var insertItem={};
+		$.each(items, function(idx){
+				console.log(items);
+				$("#jsGrid").jsGrid("insertItem", items[idx]);
+			});
+
+		
+		
+		};
+/* 		$("#jsGrid").jsGrid({data : items});
+			$("#jsGrid").jsGrid("loadData"); */
+			
+</script>
+<script>
+	$(document).ready(function(){
+		$.ajax({
+			url: "${path}/balju_Plan_Check",
+			type: "post",
+			success:function(result){
+				console.log("리절트값 : " +result);
+				console.log("리절트메세지값 : " + resultMsg);
+				var jsonResult = (JSON.parse(JSON.stringify(result)));
+					alert("목록번호 정리완료");
+				},
+			error:function(){
+					alert("정상적으로 처리되지 않았습니다");
+				}
+			});
+		//.ready 종료
+		});
 </script>
 </html>

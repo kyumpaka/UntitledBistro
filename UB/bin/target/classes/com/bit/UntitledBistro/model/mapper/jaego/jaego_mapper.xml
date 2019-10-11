@@ -5,17 +5,7 @@
   
 <mapper namespace="jaego">
 
-	<select id="itemTotal" resultType="int">
-		<![CDATA[
-		SELECT 
-			COUNT(SUM(ITEM_QTY)) 
-		FROM 
-			ITEM 
-		GROUP BY 
-			ITEM_PRODUCT_CODE
-		]]>
-	</select>
-	<select id="productSelectAll" parameterType="condition" resultType="product">
+	<select id="productSelectList" parameterType="condition" resultType="product">
 		SELECT 
 			 PRODUCT_CODE
 			,PRODUCT_NAME
@@ -33,7 +23,7 @@
 	
 	</select>
 
- 	<select id="itemSelectAll" parameterType="condition" resultType="item">
+ 	<select id="itemSelectList" parameterType="condition" resultType="item">
 	    SELECT 
 	         II.II_PRODUCT_CODE  					AS ITEM_PRODUCT_CODE
 	        ,P.PRODUCT_NAME     					AS PRODUCT_NAME
@@ -88,13 +78,50 @@
 		
  	</select>
  	
- 	<select id="inItemSelectAll" parameterType="condition" resultType="inItem"> 	
+ 	<!-- 재고테이블 유효성 검사 -->
+ 	<select id="itemValidate" parameterType="item" resultType="int">
+ 		SELECT 
+		    COUNT(ITEM_NO) 
+		FROM 
+		    ITEM 
+		WHERE 
+		    ITEM_PRODUCT_CODE = #{item_product_code}
+ 	</select>
+ 	<update id="itemPlusUpdate" parameterType="item">
+ 		UPDATE 
+		    ITEM
+		SET 
+		    ITEM_QTY = ITEM_QTY + #{item_qty}
+		WHERE 
+		    ITEM_PRODUCT_CODE = #{item_product_code}
+ 	</update>
+ 	<update id="itemMinusUpdate" parameterType="item">
+ 		UPDATE 
+		    ITEM
+		SET 
+		    ITEM_QTY = ITEM_QTY - #{item_qty}
+		WHERE 
+		    ITEM_PRODUCT_CODE = #{item_product_code}
+ 	</update>
+
+ 	
+ 	<sql id="maxItemNo">
+ 		SELECT NVL(MAX(ITEM_NO),0) +1 FROM ITEM
+ 	</sql>
+ 	<insert id="itemInsert" parameterType="item">
+ 		INSERT INTO 
+		    ITEM(ITEM_NO, ITEM_PRODUCT_CODE, ITEM_QTY) 
+		VALUES
+		    ((<include refid="maxItemNo"/>), #{item_product_code}, #{item_qty})
+ 	</insert>
+ 	
+ 	<select id="inItemSelectList" parameterType="condition" resultType="inItem"> 	
  		SELECT 
 		     /*+ INDEX_DESC(II PK_II_INDEX) */
-		     II.II_PRODUCT_CODE			AS II_PRODUCT_CODE
-		    ,P.PRODUCT_NAME				AS PRODUCT_NAME
-		    ,II.II_QTY 					AS II_QTY 
-		    ,II.II_DATE					AS II_DATE
+		     II.II_PRODUCT_CODE					AS II_PRODUCT_CODE
+		    ,P.PRODUCT_NAME						AS PRODUCT_NAME
+		    ,II.II_QTY 							AS II_QTY 
+		    ,TO_CHAR(II.II_DATE, 'YYYY/MM/DD')	AS II_DATE
 		FROM 
 		    IN_ITEM II
 		INNER JOIN
@@ -116,14 +143,35 @@
 		</where> 
 		ORDER BY II_DATE DESC
  	</select>
+ 	<insert id="inItemInsert" parameterType="inItem">
+ 		<selectKey keyProperty="ii_no" resultType="int" order="BEFORE">
+ 			SELECT
+ 				NVL(MAX(II_NO),0) +1
+ 			FROM
+ 				IN_ITEM
+ 		</selectKey>
+ 		INSERT INTO 
+				IN_ITEM
+				(
+				 II_NO
+				,II_PRODUCT_CODE
+				,II_QTY
+				)
+		VALUES
+				(
+				 #{ii_no}
+				,#{ii_product_code}
+				,#{ii_qty}
+				)
+ 	</insert>
  	
- 	<select id="outItemSelectAll" parameterType="condition" resultType="outItem">
+ 	<select id="outItemSelectList" parameterType="condition" resultType="outItem">
  		SELECT 
 		     /*+ INDEX_DESC(O PK_OI_INDEX) */
-		     OI.OI_PRODUCT_CODE			AS OI_PRODUCT_CODE
-		    ,P.PRODUCT_NAME				AS PRODUCT_NAME
-		    ,OI.OI_QTY 					AS OI_QTY
-		    ,OI.OI_DATE					AS OI_DATE
+		     OI.OI_PRODUCT_CODE					AS OI_PRODUCT_CODE
+		    ,P.PRODUCT_NAME						AS PRODUCT_NAME
+		    ,OI.OI_QTY 							AS OI_QTY
+		    ,TO_CHAR(OI.OI_DATE, 'YYYY/MM/DD')	AS OI_DATE
 		FROM 
 		    OUT_ITEM OI
 		INNER JOIN
@@ -151,14 +199,15 @@
 	================================= 재고변동표 =====================================
 	==================================================================================
 	 -->
- 	<select id="changeItemSelectAll" parameterType="condition" resultType="changeItem">	  
+ 	<select id="changeItemSelectList" parameterType="condition" resultType="changeItem">	  
 		SELECT 
 		        T.PRODUCT_CODE			AS PRODUCT_CODE 
 		       ,T.PRODUCT_NAME			AS PRODUCT_NAME 
 		       ,NVL(T.TOTAL_QTY,0)		AS TOTAL_QTY	
 		       ,NVL(B.BEFORE_QTY,0)		AS BEFORE_QTY	
 		       ,NVL(I.IN_QTY,0)			AS IN_QTY		
-		       ,NVL(O.OUT_QTY,0)		AS OUT_QTY		
+		       ,NVL(O.OUT_QTY,0) 		AS OUT_QTY
+		       			
 		FROM
 		    (  
 		    SELECT 
@@ -300,7 +349,7 @@
 		FULL OUTER JOIN
 		    (
 		    SELECT 
-		         O.OI_PRODUCT_CODE 		AS PRODUCT_CODE
+		         O.OI_PRODUCT_CODE 				AS PRODUCT_CODE
 		        ,NVL(SUM(O.OI_QTY),0)    		AS OUT_QTY
 		    FROM 
 		        OUT_ITEM O
@@ -332,9 +381,10 @@
 		ORDER BY PRODUCT_CODE
  	</select>
 
-	<select id="defectItemSelectAll" parameterType="condition" resultType="defectItem">
-		SELECT 
-		     DI_PRODUCT_CODE
+	<select id="defectItemSelectList" parameterType="condition" resultType="defectItem">
+		SELECT
+			 DI_NO 
+		    ,DI_PRODUCT_CODE
 		    ,PRODUCT_NAME
 		    ,DI_QTY
 		    ,TO_CHAR(DI_DATE,'YYYY/MM/DD') 		AS DI_DATE
@@ -361,10 +411,55 @@
 		</where>
 	</select>
  	
+ 	<insert id="defectItemInsert" parameterType="defectItem">
+		<selectKey  keyProperty="di_no" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(DI_NO),0) +1 FROM DEFECT_ITEM
+		</selectKey>
+		INSERT INTO DEFECT_ITEM
+			(
+			 DI_NO
+			,DI_PRODUCT_CODE
+			,DI_QTY
+			,DI_STATE
+			,DI_REASON
+			) 
+		VALUES 
+			(
+			 #{di_no}
+			,#{di_product_code}
+			,#{di_qty}
+			,#{di_state}
+			,#{di_reason}
+			)
+ 	</insert>
+ 	
+ 	<update id="defectItemUpdates" parameterType="list">
+ 		<foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
+ 		UPDATE 
+		    DEFECT_ITEM
+		SET
+		     DI_QTY = #{item.di_qty}
+		    ,DI_STATE = #{item.di_state}
+		    ,DI_REASON = #{item.di_reason}
+		    ,DI_DATE = SYSDATE
+		WHERE 
+		    DI_NO = #{item.di_no}
+ 		</foreach>
+ 	</update>
+ 	
+ 	<delete id="defectItemDeletes" parameterType="list">
+ 		<foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
+ 		DELETE
+		    DEFECT_ITEM
+		WHERE
+		    DI_NO = #{item.di_no}
+ 		</foreach>
+ 	</delete>
+ 	
  	<!-- ================================================================================== -->
  	<!-- ===============================다중 등록========================================== -->
  	<!-- ================================================================================== -->
- 	<insert id="defectItemInsert" parameterType="list" flushCache="true">
+ 	<insert id="itemInsertList" parameterType="list">
 		<selectKey  keyProperty="di_no" resultType="int" order="BEFORE">
 			SELECT NVL(MAX(DI_NO),0) +1 FROM DEFECT_ITEM
 		</selectKey>
@@ -388,18 +483,135 @@
 		</foreach>
  	</insert>
  	
- 	<!-- 그리드 공부 -->
+	<insert id="outItemInsert" parameterType="outItem">
+		<selectKey keyProperty="oi_no" resultType="int" order="BEFORE">
+			SELECT 
+				NVL(MAX(OI_NO),0) +1 
+			FROM 
+				OUT_ITEM
+		</selectKey>
+		INSERT INTO OUT_ITEM
+			(
+			 OI_NO
+			,OI_PRODUCT_CODE
+			,OI_QTY
+			)
+		VALUES
+			(
+			 (#{oi_no})
+			,#{oi_product_code}
+			,#{oi_qty}
+			)
+	</insert>
+	
+ 	<insert id="safeItemInserts" parameterType="list">
+		<foreach item="item" collection="list" open="INSERT ALL"  close="SELECT * FROM DUAL" separator=" " index="index">
+		INTO SAFE_ITEM
+			(
+			 SI_NO
+			,SI_PRODUCT_CODE
+			,SI_QTY
+			) 
+		VALUES 
+			(
+			 ((SELECT NVL(MAX(SI_NO),0) +1 FROM SAFE_ITEM) + #{index})
+			,#{item.si_product_code}
+			,#{item.si_qty}
+			)
+		</foreach>
+ 	</insert>
  	
+ 	<!-- 안전재고 조회 -->
+ 	<select id="safeItemSelectList" resultType="safeItem">
+ 		SELECT
+ 			 S.SI_NO
+		    ,S.SI_PRODUCT_CODE
+		    ,P.PRODUCT_NAME
+		    ,S.SI_QTY
+		FROM
+		    SAFE_ITEM S
+		INNER JOIN
+		    PRODUCT P
+		ON
+	    	S.SI_PRODUCT_CODE = P.PRODUCT_CODE
+ 	</select>
  	
- 	<update id="itemUpdate" parameterType="item">
-		UPDATE ITEM 
-		SET ITEM_PRODUCT_CODE=#{item_product_code}, ITEM_QTY=#{item_qty}
-		WHERE ITEM_NO=#{item_no}
+ 	<update id="safeItemUpdates" parameterType="list">
+ 		<foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
+ 		UPDATE 
+		    SAFE_ITEM
+		SET
+		     SI_PRODUCT_CODE = #{item.si_product_code}
+		    ,SI_QTY = #{item.si_qty}
+		WHERE 
+		    SI_NO = #{item.si_no}
+ 		</foreach>
  	</update>
  	
- 	<delete id="itemDelete" parameterType="item">
- 		DELETE ITEM
- 		WHERE ITEM_NO=#{item_no}
+ 	<delete id="safeItemDeletes" parameterType="list">
+ 		<foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
+ 		DELETE
+		    SAFE_ITEM
+		WHERE
+		    SI_NO = #{item.si_no}
+ 		</foreach>
  	</delete>
+ 	
+ 	<!-- 재고현황과 안전재고 비교 -->
+ 	<select id="riskItemCount" parameterType="list" resultType="int">
+ 		SELECT
+		      COUNT(I.ITEM_NO)
+		FROM 
+		    ITEM I
+		INNER JOIN 
+		    SAFE_ITEM S
+		ON 
+		    I.ITEM_PRODUCT_CODE = S.SI_PRODUCT_CODE
+		<where>
+		<foreach collection="list" item="item" separator=" ">
+		OR	
+<![CDATA[	I.ITEM_PRODUCT_CODE = #{item.si_product_code} AND I.ITEM_QTY <= #{item.si_qty} ]]>
+		</foreach>
+		</where>
+ 	</select>
+ 	
+ 	<!-- 재고현황과 안전재고 비교 -->
+ 	<select id="riskItemSelectList" parameterType="list" resultType="risk">
+ 		SELECT
+		       P.PRODUCT_CODE
+		      ,P.PRODUCT_NAME
+		      ,I.ITEM_QTY
+		      ,S.SI_QTY
+		FROM 
+		    ITEM I
+		INNER JOIN 
+		    SAFE_ITEM S
+		ON 
+		    I.ITEM_PRODUCT_CODE = S.SI_PRODUCT_CODE
+		INNER JOIN
+			PRODUCT P
+		ON 
+			I.ITEM_PRODUCT_CODE = P.PRODUCT_CODE		    
+		<where>
+		<foreach collection="list" item="item" separator=" ">
+		OR	
+<![CDATA[	I.ITEM_PRODUCT_CODE = #{item.si_product_code} AND I.ITEM_QTY <= #{item.si_qty} ]]>
+		</foreach>
+		</where>
+ 	</select>
+ 	
+	
+<select id="safeItemValidate" parameterType="list" resultType="int">
+	SELECT 
+		COUNT(SI_NO) 
+	FROM 
+		SAFE_ITEM 
+	<where>
+	<foreach collection="list" item="item" separator=" ">
+	OR
+		SI_PRODUCT_CODE = #{item.si_product_code}
+	</foreach>
+	</where> 
+</select> 	
  
 </mapper>
