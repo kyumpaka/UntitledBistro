@@ -14,12 +14,13 @@ public class HomeController {
 	
 	@RequestMapping(value = "/")
 	public String home(HttpSession session) {
-		logger.info("홈 컨트롤러에 오신걸 환영합니다");
+		logger.info("로그인 컨트롤러에 오신걸 환영합니다");
 		return "views/insa/InsaLogin";
 	}
 	
 	@RequestMapping(value = "/erp")
 	public String erp() {
+		logger.info("홈 컨트롤러에 오신걸 환영합니다");
 		return "baseLayout";
 	}
 	
