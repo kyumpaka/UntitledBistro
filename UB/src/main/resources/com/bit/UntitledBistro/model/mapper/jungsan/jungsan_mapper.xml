@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.bit.UntitledBistro.model.jungsan.Jungsan_view_DAO">
+	<select id="getjungsan_viewList" resultType="com.bit.UntitledBistro.model.jungsan.Jungsan_view_DTO">
+		select payment_cash,payment_card,payment_point from PAYMENT where payment_date like to_date('2019-10-07','YYYY-MM-DD')
+	</select>
+	
+	<select id="menucount_total" resultType="int">
+		SELECT COUNT(menu_name)
+FROM MENU where menu_state='판매' and 
+menu_name='밥' or menu_name ='고기'or 
+menu_name='소주' or menu_name='맥주'
+	</select>
+	
+	<select id="menucount_soup" resultType="int">
+		SELECT COUNT(menu_name)
+FROM MENU where menu_state='판매' and 
+menu_name='짬뽕탕' or menu_name ='김치찌개'
+	</select>
+	
+	<select id="menucount_drink" resultType="int">
+		SELECT COUNT(menu_name)
+FROM MENU where menu_state='판매' and 
+menu_name='소주' or menu_name='맥주'
+	</select>
+	
+	<select id="menucount_cooking" resultType="int">
+		SELECT COUNT(menu_name)
+FROM MENU where menu_state='판매' and 
+menu_name='우삼겹' or menu_name ='볶음밥'or 
+menu_name='돈까스' or menu_name='치킨'
+	</select>
+	
+	
+	<select id="befor_cash" resultType="int">
+	 select nvl(sum(payment_cash),0) from PAYMENT where payment_date like to_date(sysdate-1,'YYYY-MM-DD')
+	</select>
+	
+	<select id="befor_card" resultType="int">
+	select nvl(sum(payment_card),0) from PAYMENT where payment_date like to_date(sysdate-1,'YYYY-MM-DD')
+	</select>
+	
+	<select id="today_cash" resultType="int">
+	 select nvl(sum(payment_cash),0) from PAYMENT where payment_date like to_date(sysdate,'YYYY-MM-DD')
+	</select>
+	
+	<select id="today_card" resultType="int">
+	select nvl(sum(payment_card),0) from PAYMENT where payment_date like to_date(sysdate,'YYYY-MM-DD')
+	</select>
+	
+	<select id="today_point" resultType="int">
+	select nvl(sum(payment_point),0) from PAYMENT where payment_date like to_date(sysdate,'YYYY-MM-DD')
+	</select>
+</mapper> 

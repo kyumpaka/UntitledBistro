@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="balju">
+  
+  <insert id="insert_Balju_Plan1" parameterType="hashmap"><!-- com.bit.UntitledBistro.model.balju.Balju_PlanDTO -->
+  	<![CDATA[
+  		INSERT INTO ORPL_INPUT
+  		(
+  			ORPLIN_NUM, 
+  			ORPLIN_DATE
+  		) 
+  		VALUES 
+  		(
+  			(SELECT NVL(MAX(ORPLIN_NUM),0)+1 FROM ORPL_INPUT),
+  			SYSDATE
+  		)
+  	]]>
+  </insert>
+  
+  <insert id="insert_Balju_Plan2" parameterType="hashmap">
+  	<![CDATA[
+  		INSERT INTO ORDER_PLAN
+  		(
+  			ORDPL_ORDLIN_NUM,
+  			ORDPL_ONUM,
+  			ORDPL_PRODUCT_CODE,
+  			ORDPL_PRODUCT_NAME,
+  			ORDPL_PRODUCT_STNDR,
+  			ORDPL_QT,
+  			ORDPL_PR_EA,
+  			ORDPL_WR
+  		)
+  		VALUES
+  		(	
+  			(SELECT MAX(ORPLIN_NUM) FROM ORPL_INPUT),
+  			#{ORDPL_ONUM},
+  			#{ORDPL_PRODUCT_CODE},
+  			#{ORDPL_PRODUCT_NAME},
+  			#{ORDPL_PRODUCT_STNDR},
+  			#{ORDPL_QT},
+  			#{ORDPL_PR_EA},
+  			#{ORDPL_WR}
+  		)
+  	]]>
+  </insert>
+  
+  <insert id="insert_Balju1" parameterType="hashmap">
+  	<![CDATA[
+  		INSERT INTO ORDER_INPUT
+  		(
+  			ORDIN_NUM,
+  			ORDIN_DATE
+  		) 
+  		VALUES
+  		(
+  			(SELECT NVL(MAX(ORDIN_NUM),0)+1 FROM ORDER_INPUT),
+  			SYSDATE
+  		)
+  	]]>
+  </insert>
+  
+  <insert id="insert_Balju2" parameterType="hashmap">
+  	<![CDATA[
+  		INSERT INTO ORDERLIST
+  		(
+  			ORDER_ORDIN_NUM,
+  			ORDER_NUM,
+  			ORDER_PRODUCT_CODE,
+  			ORDER_PRODUCT_NAME,
+  			ORDER_PRODUCT_STNDR,
+  			ORDER_QT,
+  			ORDER_PR_EA,
+  			ORDER_WR
+  		)
+  		VALUES
+  		(
+  			(SELECT MAX(ORDIN_NUM) FROM ORDER_INPUT),
+  			#{ORDER_NUM},
+  			#{ORDER_PRODUCT_CODE},
+  			#{ORDER_PRODUCT_NAME},
+  			#{ORDER_PRODUCT_STNDR},
+  			#{ORDER_QT},
+  			#{ORDER_PR_EA},
+  			#{ORDER_WR}
+  		)
+  	]]>
+  </insert>
+  
+  <insert id="insert_BookMark" parameterType="hashmap">
+   <![CDATA[
+   		INSERT INTO BOOKMARK
+   		(
+   			BK_CODE,
+   			BK_NAME,
+   			BK_STNDR,
+   			BK_PR_EA,
+   			BK_QT,
+   			BK_WR
+   		)
+   		VALUES 
+   		(
+   			#{BK_CODE},
+   			#{BK_NAME},
+   			#{BK_STNDR},
+   			#{BK_PR_EA},
+   			#{BK_QT},
+   			#{BK_WR}
+   		)
+   	]]>
+  </insert>
+  
+  <select id="item_list" parameterType="hashmap" resultType="hashmap">
+  	<![CDATA[
+  		SELECT 
+  			PRODUCT_CODE,
+  			PRODUCT_NAME,
+  			PRODUCT_STNDR,
+  			PRODUCT_PRICE
+  		FROM 
+  			PRODUCT
+  	]]>	
+  </select>
+  
+  <select id="item_resultList" parameterType="hashmap" resultType="hashmap">
+  	<![CDATA[
+  		SELECT 
+  			ITEM_NO as ITEM_INDEX,
+  			ITEM_PRODUCT_CODE,
+  			PRODUCT_NAME,
+  			PRODUCT_STNDR,
+  			ITEM_QTY,
+  			PRODUCT_SAFE,
+  			PRODUCT_PRICE
+  		FROM 
+  			ITEM 
+  		INNER JOIN
+  			PRODUCT
+  		ON 
+  			ITEM.ITEM_PRODUCT_CODE 
+  			= 
+  			PRODUCT.PRODUCT_CODE
+  	]]>	
+  </select>
+  
+  <select id="item_BookMark" parameterType="hashmap" resultType="hashmap">
+  	<![CDATA[
+  		SELECT 
+  			ROWNUM,
+  			BK_CODE AS ORDER_PRODUCT_CODE,
+  			BK_NAME AS ORDER_PRODUCT_NAME,
+  			BK_STNDR AS ORDER_PRODUCT_STNDR,
+  			BK_PR_EA AS ORDER_PR_EA,
+  			BK_QT AS ORDER_QT,
+  			BK_WR AS ORDER_WR
+  		FROM 
+  			BOOKMARK
+  	]]>	
+  </select>
+  
+  <select id="balju_List" parameterType="hashmap" resultType="hashmap">
+  	<![CDATA[
+  		SELECT 
+  			ORDER_ORDIN_NUM,
+  			ORDIN_DATE,
+  			ORDER_NUM,
+  			ORDER_PRODUCT_CODE,
+  			ORDER_QT,
+  			ORDER_PR_EA,
+  			ORDER_WR, 
+  			ORDER_SUMMA,
+  			ORDER_STAT,
+  			ORDER_END
+  		FROM 
+  			ORDER_INPUT
+  		INNER JOIN 
+  			ORDERLIST 
+  		ON 
+  			ORDER_INPUT.ORDIN_NUM 
+  			= 
+  			ORDERLIST.ORDER_ORDIN_NUM
+  	]]>	
+  </select>
+  
+  <select id="balju_Plan_list" parameterType="hashmap" resultType="hashmap">
+  	<![CDATA[
+  		SELECT  
+  			ORDPL_ORDLIN_NUM,
+  			ORDPL_ONUM,
+  			TO_CHAR(ORPLIN_DATE,'YYYY-MM-DD'),
+  			ORDPL_PRODUCT_CODE,
+  			ORDPL_PRODUCT_NAME,
+  			ORDPL_PRODUCT_STNDR,
+  			ORDPL_QT,
+  			ORDPL_PR_EA,
+  			ORDPL_WR
+  		FROM 
+  			ORPL_INPUT 
+  		INNER JOIN
+  			ORDER_PLAN
+  		ON 
+  			ORPL_INPUT.ORPLIN_NUM 
+  			= 
+  			ORDER_PLAN.ORDPL_ORDLIN_NUM
+  		ORDER BY
+  			ORDPL_ORDLIN_NUM, ORDPL_ONUM
+  	]]>
+  </select>
+  
+  <!-- 발주계획 불러오기버튼 대응 -->
+  <select id="BPlan_Load" parameterType="hashmap" resultType="hashmap">
+  	<![CDATA[
+  		SELECT  
+  			MAX(TO_CHAR(ORPLIN_DATE,'YYYY-MM-DD')) AS ORPLIN_DATE,
+			MAX(ORDPL_ORDLIN_NUM) AS ORDPL_ORDLIN_NUM,
+  			MAX(ORDPL_PRODUCT_NAME) AS ORDPL_PRODUCT_NAME,
+			COUNT(ORDPL_PRODUCT_NAME)-1 AS ORDPL_PRODUCT_NAME_COUNT
+  		FROM 
+  			ORPL_INPUT 
+  		INNER JOIN
+  			ORDER_PLAN
+  		ON 
+  			ORPL_INPUT.ORPLIN_NUM 
+  			= 
+  			ORDER_PLAN.ORDPL_ORDLIN_NUM
+       GROUP BY
+            ORDPL_ORDLIN_NUM
+  	]]>
+  </select>
+  
+  <!-- 발주계획 불러오기 대상 조회 BPlan_Search -->
+  <select id="BPlan_Search" parameterType="hashmap" resultType="hashmap">
+  	<![CDATA[
+  		SELECT  
+  			ORDPL_PRODUCT_CODE AS ORDER_PRODUCT_CODE,
+  			ORDPL_PRODUCT_NAME AS ORDER_PRODUCT_NAME,
+  			ORDPL_PRODUCT_STNDR AS ORDER_PRODUCT_STNDR,
+  			ORDPL_QT AS ORDER_QT,
+  			ORDPL_PR_EA AS ORDER_PR_EA,
+  			ORDPL_WR AS ORDER_WR
+  		FROM 
+  			ORPL_INPUT 
+  		INNER JOIN
+  			ORDER_PLAN
+  		ON 
+  			ORPL_INPUT.ORPLIN_NUM 
+  			= 
+  			ORDER_PLAN.ORDPL_ORDLIN_NUM
+  		WHERE
+  			ORDPL_ORDLIN_NUM = #{ORDPL_ORDLIN_NUM}
+  		ORDER BY
+  			ORDPL_PRODUCT_CODE
+  	]]>
+  </select>
+  
+  <update id="balju_Plan_modi" parameterType="hashmap">
+  	<![CDATA[
+  		UPDATE ORDER_PLAN
+  		SET
+  			
+        	ORDPL_QT = #{ORDPL_QT}
+        	
+        WHERE 
+        	ORDPL_ORDLIN_NUM = #{ORDPL_ORDLIN_NUM}
+        AND
+        	ORDPL_ONUM = #{ORDPL_ONUM}
+  	]]>	
+  </update>
+  
+   <update id="balju_Modi" parameterType="hashmap">
+  	<![CDATA[
+  		UPDATE ORDERLIST
+  		SET
+  			ORDER_ORDIN_NUM = #{ORDER_ORDIN_NUM},
+  			ORDER_NUM = #{ORDER_NUM},
+  			ORDER_PRODUCT_CODE = #{ORDER_PRODUCT_CODE},
+  			ORDER_QT = #{ORDER_QT},
+  			ORDER_PR_EA = #{ORDER_PR_EA},
+  			ORDER_WR = #{ORDER_WR},
+  			ORDER_SUMMA = #{ORDER_SUMMA},
+  			ORDER_STAT = #{ORDER_STAT},
+  			ORDER_END = #{ORDER_END}
+  		WHERE
+  			ORDER_ORDIN_NUM = #{ORDER_ORDIN_NUM}
+  	]]>
+  </update>
+  
+   <update id="BookMark_Modi" parameterType="hashmap">
+  	<![CDATA[
+  		UPDATE BOOKMARK
+  		SET
+  			BK_CODE = #{BK_CODE},
+  			BK_NAME = #{BK_CODE}
+  			
+  		WHERE
+  			BK_CODE = #{BK_CODE}
+  	]]>
+  </update>
+  
+
+  
+  <delete id="Delete_Balju_Plan1">
+  	<![CDATA[
+  		DELETE
+  		FROM
+  			ORPL_INPUT
+  		WHERE
+  			ORPLIN_NUM
+  		IN
+  			(
+  				SELECT
+  					ORPL_INPUT.ORPLIN_NUM
+  				FROM
+  					ORPL_INPUT
+  				LEFT OUTER JOIN
+  					ORDER_PLAN
+  				ON
+  					ORPL_INPUT.ORPLIN_NUM = ORDER_PLAN.ORDPL_ORDLIN_NUM
+  				WHERE
+  					ORDER_PLAN.ORDPL_ORDLIN_NUM IS NULL
+  			)
+  	]]>
+  </delete>
+  
+  <delete id="Delete_Balju_Plan2">
+  	<![CDATA[
+  		DELETE
+  		FROM
+  			ORDER_PLAN
+  		WHERE
+  			ORDPL_ORDLIN_NUM = #{ORDPL_ORDLIN_NUM}
+  		AND
+  			ORDPL_ONUM = #{ORDPL_ONUM} 
+  			
+  	]]>
+  </delete>
+  
+    
+  <delete id="Delete_Balju1" >
+  	<![CDATA[
+  		DELETE
+  		FROM
+  			ORDER_INPUT
+  		WHERE
+  			ORDIN_NUM = #{ORDIN_NUM}
+  	]]>
+  </delete>
+  
+  <delete id="Delete_Balju2" >
+  	<![CDATA[
+  		DELETE
+  		FROM
+  			ORDERLIST
+  		WHERE
+  			ORDER_NUM = #{ORDER_NUM}
+  	]]>
+  </delete>
+  
+  <delete id="Delete_BookMark">
+  	  <![CDATA[
+  		DELETE
+  		FROM
+  			BOOKMARK
+  		WHERE
+  			BK_CODE = #{BK_CODE}
+  	]]>
+  </delete>
+
+  
+</mapper>

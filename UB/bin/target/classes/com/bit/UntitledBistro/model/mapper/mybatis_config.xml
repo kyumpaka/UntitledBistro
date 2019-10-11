@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<!-- mapper에 사용할 클래스 별칭을 지정 -->
+	<typeAliases>
+		<typeAlias type="com.bit.UntitledBistro.model.jaego.ItemDTO" alias="item"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jaego.InItemDTO" alias="inItem"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jaego.OutItemDTO" alias="outItem"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jaego.ChangeItemDTO" alias="changeItem"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jaego.Condition" alias="condition"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jaego.ProductDTO" alias="product"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jaego.DefectItemDTO" alias="defectItem"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jaego.SafeItemDTO" alias="safeItem"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jaego.RiskItemDTO" alias="risk"/>
+		
+		<typeAlias type="com.bit.UntitledBistro.model.jumun.IngredientDTO" alias="ingredient"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jumun.MenuDTO" alias="menu"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jumun.MenuTypeDTO" alias="menuType"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jumun.OrdersDetailsDTO" alias="ordersDetails"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jumun.OrdersDTO" alias="orders"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jumun.TableSaveDTO" alias="tableSave"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jumun.SalesDTO" alias="sales"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jumun.SalesDetailsDTO" alias="salesDetails"/>
+		<typeAlias type="com.bit.UntitledBistro.model.jumun.PaymentDTO" alias="payment"/>
+	</typeAliases>
+	
+</configuration>  

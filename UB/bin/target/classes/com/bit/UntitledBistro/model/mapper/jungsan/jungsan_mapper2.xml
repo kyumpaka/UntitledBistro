@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DAO">
+	<select id="getjungsan_inputList" resultType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
+		select * from Jungsan_Input
+	</select>
+	
+	<insert id="insert_daily">
+		insert into Jungsan_Input(
+		jungsan_input_cash,jungsan_input_card,
+		jungsan_input_grade,jungsan_input_worktime,
+		jungsan_input_expenditure,jungsan_input_point,
+		jungsan_input_refund,jungsan_input_reason,jungsan_input_date) 
+		VALUES(
+		#{jungsan_input_cash, jdbcType=NUMERIC},#{jungsan_input_card, jdbcType=NUMERIC},
+		#{jungsan_input_grade, jdbcType=VARCHAR},#{jungsan_input_worktime, jdbcType=NUMERIC},
+		#{jungsan_input_expenditure, jdbcType=NUMERIC},#{jungsan_input_point, jdbcType=NUMERIC},
+		#{jungsan_input_refund, jdbcType=NUMERIC},#{jungsan_input_reason, jdbcType=VARCHAR},sysdate)
+	</insert>
+	
+	<update id="update" parameterType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
+	update Jungsan_Input set 
+        jungsan_input_cash= #{jungsan_input_cash, jdbcType=NUMERIC},
+        jungsan_input_card= #{jungsan_input_card, jdbcType=NUMERIC},
+		jungsan_input_grade= #{jungsan_input_grade, jdbcType=VARCHAR},
+		jungsan_input_worktime= #{jungsan_input_worktime, jdbcType=NUMERIC},
+		jungsan_input_expenditure= #{jungsan_input_expenditure, jdbcType=NUMERIC},
+		jungsan_input_point= #{jungsan_input_point, jdbcType=NUMERIC},
+		jungsan_input_refund= #{jungsan_input_refund, jdbcType=NUMERIC},
+		jungsan_input_reason= #{jungsan_input_reason, jdbcType=VARCHAR} 
+     where 
+        jungsan_input_date like to_date (sysdate,'YYYY-MM-DD')
+	</update>
+</mapper> 
