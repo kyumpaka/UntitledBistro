@@ -64,16 +64,16 @@
 
 
 <!-- 로그인 -->
-<select id = "loginChceck" resultType="String">
-select empregister_empnum as empregister_empnum from empregister_empnum
-where empregister_empnum = #{empregister_empnum} and empregister_jumin = #{empregister_jumin};
+<select id = "InsaLoginCheck" resultType="String">
+select empregister_name as empregister_name from EmpRegister
+where empregister_empnum = #{empregister_empnum} and empregister_jumin = #{empregister_jumin}
 </select>
 
 <select id="viewMember" resultType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
 select 
-empregister_name as empName, 
-empregister_empnum as empNum
-from empregister 
+empregister_name as empregister_name, 
+empregister_empnum as empregister_empnum
+from EmpRegister 
 where empregister_empnum = #{empregister_empnum} and empregister_jumin = #{empregister_jumin}
 
 </select> 

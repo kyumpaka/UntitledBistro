@@ -105,9 +105,7 @@ public class InsaServiceImpl implements InsaService {
 	@Override
 	public int EmpRegisterUpdate(Insa_EmpRegisterDTO dto) {
 		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
-		System.out.println("=======================================");
 		System.out.println(dto.toString());
-		System.out.println("=======================================");
 		return insaDAO.EmpRegisterUpdate(dto);
 
 	}
@@ -119,17 +117,21 @@ public class InsaServiceImpl implements InsaService {
 	}
 
 	@Override
-	public boolean loginCheck(Insa_EmpRegisterDTO dto, HttpSession session) {
-		boolean result = insaDAO.loginCheck(dto);
+	public boolean InsaLoginCheck(Insa_EmpRegisterDTO dto, HttpSession session) {
+		System.out.println("======================2222222");
+		boolean result = insaDAO.InsaLoginCheck(dto);
+		System.out.println("======================333");
+
 		if(result) {
 			Insa_EmpRegisterDTO dto2 = viewMember(dto);
 			
+			
 			session.setAttribute("empregister_empnum", dto2.getEmpregister_empnum());
-			session.setAttribute("empregister_jumin", dto2.getEmpregister_jumin());
+			session.setAttribute("empregister_name", dto2.getEmpregister_name());
 		}
 		
 		
-		
+			
 		return result;
 	}
 

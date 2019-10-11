@@ -37,7 +37,7 @@ import com.google.api.services.calendar.model.Events;
 @Controller
 public class InsaController {
 	@Resource(name = "test")
-	private InsaService insaService;
+	InsaService insaService;
 	private Logger logger = LoggerFactory.getLogger(InsaController.class);
 
 	@RequestMapping("/EmpRegisterInsertForm")
@@ -212,18 +212,18 @@ public class InsaController {
 	@RequestMapping("/InsaLogin")
 	public String login() {
 
-		return "insa/InsaLogin";
+		return "views/insa/InsaLogin";
 	}
 
 	@RequestMapping("/InsaLoginCheck")
-	public ModelAndView loginCheck(@ModelAttribute Insa_EmpRegisterDTO dto, HttpSession session) {
-		boolean result = insaService.loginCheck(dto, session);
+	public ModelAndView InsaLoginCheck(@ModelAttribute Insa_EmpRegisterDTO dto, HttpSession session) {
+		boolean result = insaService.InsaLoginCheck(dto, session);
 		ModelAndView mav = new ModelAndView();
 		if (result == true) {
-			mav.setViewName("home");
+			mav.setViewName("/EmpRegisterList");
 			mav.addObject("msg", "success");
 		} else {
-			mav.setViewName("insa/Insalogin");
+			mav.setViewName("views/insa/InsaLogin");
 			mav.addObject("msg", " failure");
 
 		}
@@ -235,7 +235,7 @@ public class InsaController {
 		public ModelAndView logout(HttpSession session) {
 			insaService.logout(session);
 			ModelAndView mav = new ModelAndView();
-			mav.setViewName("insa/Insalogin");
+			mav.setViewName("views/insa/InsaLogin");
 			mav.addObject("msg", "logout");
 			
 			return mav; 

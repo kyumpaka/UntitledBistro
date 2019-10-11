@@ -88,6 +88,9 @@
                     </div>
 
                     <div class="user-area dropdown float-right">
+                    	<c:if test="${msg == 'success' }" >
+                    	<h2>${sessionScope.empregister_empnum}님이 로그인했습니다.</h2>
+                    	</c:if>
                     	<c:choose>
                     	<c:when test="${sessionScope.empregister_empnum == null }" >
                     	<a href="${path }/InsaLogin">로그인</a>

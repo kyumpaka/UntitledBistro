@@ -19,7 +19,7 @@ public interface InsaDAO {
 
 	public Insa_EmpRegisterDTO viewMember(Insa_EmpRegisterDTO dto);
 
-	public boolean loginCheck(Insa_EmpRegisterDTO dto);
+	public boolean InsaLoginCheck(Insa_EmpRegisterDTO dto);
 	
 	public void logout(HttpSession session);
 	

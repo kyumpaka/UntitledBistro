@@ -25,7 +25,7 @@ public interface InsaService {
 
 	public Insa_EmpRegisterDTO viewMember(Insa_EmpRegisterDTO dto);
 	
-	public boolean loginCheck(Insa_EmpRegisterDTO dto, HttpSession session);
+	public boolean InsaLoginCheck(Insa_EmpRegisterDTO dto, HttpSession session);
 	
 	public void logout(HttpSession session);
 

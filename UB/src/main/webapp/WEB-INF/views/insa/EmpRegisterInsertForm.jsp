@@ -127,8 +127,7 @@ td {
 <body>
 	<form name="EmpRegisterInsertForm" id="insert"
 		action="EmpRegisterInsert" method="post" enctype="multipart/form-data">
-		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000'
-			align='center'>
+		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000' align='center'>
 			<tr>
 			
 				<td colspan='3' rowspan='3' width='120' class='ti'>
