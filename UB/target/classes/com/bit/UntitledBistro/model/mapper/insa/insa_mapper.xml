@@ -65,14 +65,17 @@
 
 <!-- 로그인 -->
 <select id = "InsaLoginCheck" resultType="String">
-select empregister_name as empregister_name from EmpRegister
+select empregister_name as empregister_name 
+,empregister_photo as empregister_photo
+from EmpRegister
 where empregister_empnum = #{empregister_empnum} and empregister_jumin = #{empregister_jumin}
 </select>
 
 <select id="viewMember" resultType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
 select 
 empregister_name as empregister_name, 
-empregister_empnum as empregister_empnum
+empregister_empnum as empregister_empnum,
+empregister_photo as empregister_photo
 from EmpRegister 
 where empregister_empnum = #{empregister_empnum} and empregister_jumin = #{empregister_jumin}
 

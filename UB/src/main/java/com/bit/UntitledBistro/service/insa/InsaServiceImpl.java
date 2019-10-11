@@ -86,6 +86,7 @@ public class InsaServiceImpl implements InsaService {
 
 				byte[] data = mFile.getBytes();
 				FileOutputStream fos = new FileOutputStream(uploadPath + saveFileName);
+				System.out.println("uploadPath  : " + uploadPath );
 				fos.write(data);
 				fos.close();
 			}
@@ -122,8 +123,10 @@ public class InsaServiceImpl implements InsaService {
 			
 			System.out.println("num : " + dto2.getEmpregister_empnum());
 			System.out.println("name : " + dto2.getEmpregister_name());
+			System.out.println("photo : " + dto2.getEmpregister_photo());
 			session.setAttribute("empregister_empnum", dto2.getEmpregister_empnum());
 			session.setAttribute("empregister_name", dto2.getEmpregister_name());
+			session.setAttribute("empregister_photo", dto2.getEmpregister_photo());
 		}
 		
 		
