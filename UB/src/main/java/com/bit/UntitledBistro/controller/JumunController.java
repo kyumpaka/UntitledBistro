@@ -153,7 +153,6 @@ public class JumunController {
 	@RequestMapping(value = "/tableSave.do", method = RequestMethod.POST)
 	@ResponseBody
 	public int tableSave(@RequestBody List<TableSaveDTO> list) {
-		
 		return jumunService.tableAdd(list);
 	}
 	
