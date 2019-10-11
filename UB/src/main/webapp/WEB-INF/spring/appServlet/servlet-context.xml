@@ -6,7 +6,9 @@
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
+		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
@@ -55,5 +57,11 @@
 		<beans:property name="defaultEncoding" value="UTF-8" />
 	</beans:bean>
 	
+	<!-- 실시간 알림 WebSocket -->
+	<beans:bean id="realTimeHandler" class="com.bit.UntitledBistro.model.jaego.websocket.RealTimeWebSocketHandler"/>
+	<websocket:handlers>
+		<websocket:mapping handler="realTimeHandler" path="/realTime-ws"/>
+	</websocket:handlers>
+
 </beans:beans>
 

@@ -61,7 +61,7 @@
 		SELECT INGREDIENT_PRODUCT_CODE, INGREDIENT_QTY FROM INGREDIENT WHERE INGREDIENT_MENU_CODE = null
 		</if>
 		<if test="ingredient_Menu_Code != null">
-		SELECT INGREDIENT_PRODUCT_CODE, INGREDIENT_QTY FROM INGREDIENT WHERE INGREDIENT_MENU_CODE = #{ingredient_Menu_Code}
+		SELECT PRODUCT_NAME AS INGREDIENT_PRODUCT_CODE, INGREDIENT_QTY FROM INGREDIENT, PRODUCT WHERE INGREDIENT.INGREDIENT_PRODUCT_CODE = PRODUCT.PRODUCT_CODE AND INGREDIENT_MENU_CODE = #{ingredient_Menu_Code}
 		</if>
 	</select>
 	
@@ -128,7 +128,7 @@
 	</select>
 	
 	<insert id="ordersDetailsInsert">
-	INSERT INTO ORDERS_DETAILS(OD_NO, OD_ORDERS_NO, OD_MENU_CODE, OD_QTY) VALUES((SELECT NVL(MAX(OD_NO),0)+1 FROM ORDERS_DETAILS), #{od_Orders_No}, #{od_Menu_Code}, #{od_Qty})
+	INSERT INTO ORDERS_DETAILS(OD_NO, OD_ORDERS_NO, OD_MENU_CODE, OD_QTY) VALUES((SELECT COUNT(OD_NO) + 1 FROM ORDERS_DETAILS), #{od_Orders_No}, #{od_Menu_Code}, #{od_Qty})
 	</insert>
 
 	<delete id="ordersDetailsDelete" parameterType="map">
@@ -138,6 +138,10 @@
 			<if test="od_Menu_Code != null">AND OD_MENU_CODE = #{od_Menu_Code}</if>
 	</trim>
 	</delete>
+	
+	<update id="ordersDetailsUpdate">
+	UPDATE ORDERS_DETAILS SET OD_QTY = OD_QTY + #{od_Qty} WHERE OD_ORDERS_NO = #{od_Orders_No} AND OD_MENU_CODE = #{od_Menu_Code}
+	</update>
 	
 	<update id="ordersDetailsPlus">
 	UPDATE ORDERS_DETAILS SET OD_QTY = OD_QTY + 1 WHERE OD_ORDERS_NO = #{od_Orders_No} AND OD_MENU_CODE = #{od_Menu_Code}
@@ -152,43 +156,27 @@
 	</select>
 	
 	<select id="tableControl" resultType="HashMap">
-	SELECT TABLESAVE_CODE, ORDERS_TABLESAVE_CODE  FROM TABLESAVE LEFT OUTER JOIN ORDERS ON ORDERS.ORDERS_TABLESAVE_CODE = TABLESAVE.TABLESAVE_CODE
-	</select>
-	
-	<update id="order_tableControl" parameterType="HashMap">
-	UPDATE ORDERS SET ORDERS_NO = #{newTable}, ORDERS_TABLESAVE_CODE = #{newTable} WHERE ORDERS_TABLESAVE_CODE = #{oldTable}
-	</update>
-
-	<update id="od_tableControl" parameterType="HashMap">
-	UPDATE ORDERS_DETAILS SET OD_ORDERS_NO = #{newTable} WHERE OD_ORDERS_NO = #{oldTable}
-	</update>
-	
-	<select id="paymentSelect" resultType="payment">
-	SELECT PAYMENT_NO, PAYMENT_SALES_NO, PAYMENT_MEMBER_ID, PAYMENT_TABLE, PAYMENT_STATE, PAYMENT_DATE, PAYMENT_POINT, PAYMENT_DISCOUNT, PAYMENT_CASH, PAYMENT_CARD FROM PAYMENT
-	</select>
-	
-	<select id="salesDetailesSelect" parameterType="sales" resultType="salesDetails">
-	SELECT SD_NO, SD_SALES_NO, SD_MENU_CODE AS MENU_NAME, SD_QTY, SD_PRICE FROM SALES_DETAILS LEFT OUTER JOIN MENU ON MENU.MENU_CODE=SALES_DETAILS.SD_MENU_CODE WHERE SD_SALES_NO = #{sales_No}
+	SELECT TABLESAVE_CODE, ORDERS_TABLESAVE_CODE  FROM TABLESAVE LEFT OUTER JOIN ORDERS ON ORDERS.ORDERS_TABLESAVE_CODE = TABLESAVE.TABLESAVE_CODE ORDER BY TABLESAVE_CODE
 	</select>
 	
 	<insert id="salesInsert">
-	INSERT INTO SALES(SALES_NO) VALUES(NVL((SELECT COUNT(*) FROM SALES), 1))
+	INSERT INTO SALES(SALES_NO) VALUES((SELECT COUNT(*) FROM SALES) + 1)
 	</insert>
 	
 	<select id="salesSelectMax" resultType="java.lang.Integer">
-	SELECT MAX(SALES_NO) FROM SALES;
+	SELECT MAX(SALES_NO) FROM SALES
 	</select>
 	
-	<select id="salesInputSelect" parameterType="HashMap">
-	SELECT OD_MENU_CODE AS SD_MENU_CODE, OD_QTY AS SD_QTY, MENU_PRICE AS SD_PRICE FROM ORDERS_DETAILS LEFT OUTER JOIN MENU ON MENU.MENU_CODE = #{orders_No}
+	<select id="salesInputSelect" parameterType="HashMap" resultType="salesDetails">
+	SELECT OD_MENU_CODE AS SD_MENU_CODE, OD_QTY AS SD_QTY, MENU_PRICE AS SD_PRICE FROM ORDERS_DETAILS LEFT OUTER JOIN MENU ON MENU_CODE = OD_MENU_CODE where OD_ORDERS_NO = #{orders_No}
 	</select>
 	
-	<select id="salesTableSelect" parameterType="HashMap">
+	<select id="salesTableSelect" parameterType="HashMap" resultType="java.lang.Integer">
 	SELECT ORDERS_TABLESAVE_CODE FROM ORDERS WHERE ORDERS_NO = #{orders_No}
 	</select>
 	
 	<insert id="salesDetailsInsert" parameterType="salesDetails">
-	INSERT INTO SALES_DETAILS(SD_NO, SD_SALES_NO, SD_MENU_CODE, SD_QTY, SD_PRICE) VALUES(NVL((SELECT COUNT(*) FROM SALES_DETAILS), 1), #{sd_Sales_No}, #{sd_Menu_Code} , #{sd_Qty}, {sd_Price})
+	INSERT INTO SALES_DETAILS(SD_NO, SD_SALES_NO, SD_MENU_CODE, SD_QTY, SD_PRICE) VALUES((SELECT COUNT(*) FROM SALES_DETAILS) + 1, #{sd_Sales_No}, #{sd_Menu_Code} , #{sd_Qty}, #{sd_Price})
 	</insert>
 		
 	<delete id="ordersDelete" parameterType="map">
@@ -197,7 +185,178 @@
 	
 	<insert id="paymentInsert">
 	INSERT INTO PAYMENT(PAYMENT_NO, PAYMENT_SALES_NO, PAYMENT_MEMBER_ID, PAYMENT_TABLE, PAYMENT_STATE, PAYMENT_POINT, PAYMENT_DISCOUNT, PAYMENT_CASH, PAYMENT_CARD) 
-	VALUES(NVL((SELECT COUNT(*) FROM PAYMENT), 1), #{payment_Sales_No}, #{payment_Member_Id}, #{payment_Table}, '성공', #{payment_Point}, #{payment_Discount}, #{payment_Cash}, #{payment_Card})
+	VALUES((SELECT COUNT(*) FROM PAYMENT) + 1, #{payment_Sales_No}, #{payment_Member_Id}, #{payment_Table}, '성공', #{payment_Point}, #{payment_Discount}, #{payment_Cash}, #{payment_Card})
 	</insert>
 	
+	<select id="paymentDateSelect" parameterType="map" resultType="java.util.Date">
+	SELECT PAYMENT_DATE FROM PAYMENT WHERE PAYMENT_SALES_NO = #{payment_Sales_No}
+	</select>
+	
+	<delete id="payFail">
+	DELETE FROM SALES WHERE SALES_NO = (SELECT MAX(SALES_NO) FROM SALES)
+	</delete>
+	
+	<select id="memberPointSelectById" parameterType="map" resultType="java.lang.Integer">
+	SELECT MEMBER_POINT FROM MEMBER WHERE MEMBER_ID = #{member_Id}
+	</select>
+	
+	<select id="memberPaySelectById" parameterType="map" resultType="java.lang.Integer">
+	SELECT MEMBER_PAY FROM MEMBER WHERE MEMBER_ID = #{member_Id}
+	</select>
+	
+	<select id="memberGradeSelectById" parameterType="map" resultType="java.lang.String">
+	SELECT MEMBER_GRADE FROM MEMBER WHERE MEMBER_ID = #{member_Id}
+	</select>
+	
+	<update id="memberGradeUpdateById" parameterType="map">
+	UPDATE MEMBER SET MEMBER_GRADE = #{member_Grade} WHERE MEMBER_ID = #{member_Id}
+	</update>
+	
+	<update id="memberPointUpdateById" parameterType="map">
+	UPDATE MEMBER SET MEMBER_POINT = MEMBER_POINT + #{upPoint}, MEMBER_PAY = MEMBER_PAY + #{upPay} WHERE MEMBER_ID = #{member_Id}
+	</update>
+	
+	<update id="memberPointDowndateById" parameterType="map">
+	UPDATE MEMBER SET MEMBER_POINT = MEMBER_POINT - #{downPoint} WHERE MEMBER_ID = #{member_Id}
+	</update>
+	
+	<select id="ordersCheck" parameterType="map" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM ORDERS_DETAILS WHERE OD_ORDERS_NO = #{orders_No}
+	</select>
+
+	<select id="paymentSelect" parameterType="map" resultType="payment">
+	SELECT PAYMENT_NO, PAYMENT_SALES_NO, PAYMENT_MEMBER_ID, PAYMENT_TABLE, PAYMENT_STATE, PAYMENT_DATE, PAYMENT_POINT, PAYMENT_DISCOUNT, PAYMENT_CASH, PAYMENT_CARD FROM PAYMENT
+	<where>
+		<choose>
+			<when test="'payment_Table' == searchType">
+			PAYMENT_TABLE = #{data} 
+			</when>
+			<when test="'payment_Member_Id' == searchType">
+			PAYMENT_MEMBER_ID = #{data} 
+			</when>
+			<when test="'payment_State' == searchType">
+			PAYMENT_STATE = #{data} 
+			</when>
+			<when test="'payment_Date' == searchType">
+				<choose>
+					<when test="predatepicker != null and postdatepicker != null">
+					<![CDATA[
+					payment_Date >= #{predatepicker} and payment_Date <= #{postdatepicker}
+					]]>
+					</when>
+					<when test="predatepicker != null and postdatepicker != null">
+					payment_Date >= #{predatepicker}
+					</when>
+					<when test="predatepicker != null and postdatepicker != null">
+					<![CDATA[
+					payment_Date <= #{postdatepicker}
+					]]>
+					</when>
+				</choose>
+			</when>
+		</choose>
+	</where>
+	ORDER BY PAYMENT_DATE DESC
+	</select>
+	
+	<select id="salesDetailesSelect" parameterType="map" resultType="salesDetails">
+	SELECT SD_NO, SD_SALES_NO, MENU_NAME AS SD_MENU_CODE, SD_QTY, SD_PRICE FROM SALES_DETAILS LEFT OUTER JOIN MENU ON MENU.MENU_CODE=SALES_DETAILS.SD_MENU_CODE WHERE SD_SALES_NO = #{sales_No}
+	</select>
+	
+	<update id="paymentCancle" parameterType="map">
+	UPDATE PAYMENT SET PAYMENT_STATE = '환불' WHERE PAYMENT_NO = #{payment_No}
+	</update>
+	
+	<update id="storeMinus" parameterType="map">
+	{ CALL
+	BEGIN
+	    FOR I IN (SELECT INGREDIENT_QTY, INGREDIENT_PRODUCT_CODE FROM INGREDIENT WHERE INGREDIENT_MENU_CODE = #{od_Menu_Code}) LOOP
+	        UPDATE ITEM 
+	        SET ITEM_QTY = ITEM_QTY - (I.INGREDIENT_QTY) 
+	        WHERE ITEM_PRODUCT_CODE = (I.INGREDIENT_PRODUCT_CODE);
+	    END LOOP;
+	END }
+	</update>
+	
+	<insert id="shippingHistoryInsert" parameterType="map">
+	{ CALL
+	BEGIN
+	    FOR I IN (SELECT INGREDIENT_QTY, INGREDIENT_PRODUCT_CODE FROM INGREDIENT WHERE INGREDIENT_MENU_CODE = #{od_Menu_Code}) LOOP
+	        INSERT INTO OUT_ITEM(OI_NO, OI_OD_NO, OI_PRODUCT_CODE, OI_QTY) 
+	        VALUES((SELECT COUNT(*) + 1 FROM OUT_ITEM), #{orders_No}, I.INGREDIENT_PRODUCT_CODE, I.INGREDIENT_QTY);
+	    END LOOP;
+	END }
+	</insert>
+	
+	<update id="storePlus" parameterType="map">
+	{ CALL
+	BEGIN
+	    FOR I IN (SELECT INGREDIENT_QTY, INGREDIENT_PRODUCT_CODE FROM INGREDIENT WHERE INGREDIENT_MENU_CODE = #{od_Menu_Code}) LOOP
+	        UPDATE ITEM 
+	        SET ITEM_QTY = ITEM_QTY + (I.INGREDIENT_QTY) 
+	        WHERE ITEM_PRODUCT_CODE = (I.INGREDIENT_PRODUCT_CODE);
+	    END LOOP;
+	END }
+	</update>
+	
+	<delete id="shippingHistoryDelete" parameterType="map">
+	DELETE FROM OUT_ITEM WHERE OI_OD_NO = #{orders_No} AND OI_NO = (SELECT MAX(OI_NO) FROM OUT_ITEM WHERE OI_OD_NO = #{orders_No})
+	AND OI_PRODUCT_CODE IN (SELECT INGREDIENT_PRODUCT_CODE FROM INGREDIENT WHERE INGREDIENT_MENU_CODE = #{od_Menu_Code})
+	</delete>
+	
+	<update id="storeAllPlus" parameterType="map">
+	{ CALL
+	BEGIN
+	    FOR I IN (SELECT INGREDIENT_QTY*OD_QTY AS QTY, INGREDIENT_PRODUCT_CODE FROM ORDERS_DETAILS, INGREDIENT 
+	    WHERE INGREDIENT.INGREDIENT_MENU_CODE = ORDERS_DETAILS.OD_MENU_CODE AND ORDERS_DETAILS.OD_ORDERS_NO = #{od_Orders_No}) LOOP
+	        UPDATE ITEM 
+	        SET ITEM_QTY = ITEM_QTY + (I.QTY) 
+	        WHERE ITEM_PRODUCT_CODE = (I.INGREDIENT_PRODUCT_CODE);
+	    END LOOP;
+	END }
+	</update>
+	
+	<delete id="shippingHistoryOneDelete" parameterType="map">
+	DELETE FROM OUT_ITEM WHERE OI_OD_NO = #{od_Orders_No} AND OI_SD_NO IS NULL AND 
+	OI_PRODUCT_CODE IN (SELECT INGREDIENT_PRODUCT_CODE FROM INGREDIENT WHERE INGREDIENT_MENU_CODE = #{od_Menu_Code})
+	</delete>
+	
+	<delete id="shippingHistoryAllDelete" parameterType="map">
+	DELETE FROM OUT_ITEM WHERE OI_OD_NO = #{od_Orders_No} AND OI_SD_NO IS NULL
+	</delete>
+	
+	<update id="storeCheck" parameterType="map">
+	<![CDATA[
+	{ CALL
+	DECLARE
+    IGD_QTY NUMBER;
+    ITEM_QTY NUMBER;
+    MN_CODE VARCHAR2(20);
+    BEGIN
+      FOR I IN (SELECT INGREDIENT_QTY, ITEM_QTY, INGREDIENT_MENU_CODE FROM INGREDIENT 
+      LEFT OUTER JOIN ITEM ON INGREDIENT.INGREDIENT_PRODUCT_CODE = ITEM.ITEM_PRODUCT_CODE WHERE INGREDIENT_MENU_CODE IN 
+      (SELECT INGREDIENT_MENU_CODE FROM INGREDIENT LEFT OUTER JOIN ITEM ON INGREDIENT.INGREDIENT_PRODUCT_CODE = ITEM.ITEM_PRODUCT_CODE WHERE ITEM_QTY < INGREDIENT_QTY)) LOOP
+      IGD_QTY := I.INGREDIENT_QTY;
+      ITEM_QTY := I.ITEM_QTY;
+      MN_CODE := I.INGREDIENT_MENU_CODE;
+      IF IGD_QTY > ITEM_QTY THEN
+         UPDATE MENU SET MENU_STATE = '품절' WHERE MENU_CODE = MN_CODE;
+      END IF;
+      END LOOP;
+    END }
+    ]]>
+    </update>
+    
+    <update id= "shippingHistoryUpdate" parameterType="map">
+    UPDATE OUT_ITEM SET OI_SD_NO = #{sales_No} WHERE OI_OD_NO  = #{od_Orders_No} AND OI_DATE = (SELECT MAX(OI_DATE) FROM OUT_ITEM)
+    </update>
+    
+    <select id="storeZeroSelect" resultType="java.lang.String">
+    SELECT INGREDIENT_MENU_CODE FROM INGREDIENT, ITEM WHERE INGREDIENT.INGREDIENT_PRODUCT_CODE = ITEM.ITEM_PRODUCT_CODE AND ITEM_QTY = 0
+    </select>
+    
+    <select id="productSelect" resultType="HashMap">
+    SELECT PRODUCT_CODE, PRODUCT_NAME FROM PRODUCT
+    </select>
+    
 </mapper>

@@ -314,14 +314,14 @@ public class JumunController {
 	}
 	
 	// 판매내역 보기
-	@RequestMapping(value = "/salesForm.do")
+	@RequestMapping(value = "/salesList.do")
 	public String salesForm(Model model) {
 		
-		return "views/jumun/salesForm";
+		return "views/jumun/salesList";
 	}
 	
 	// 판매내역 조회
-	@RequestMapping(value = "/salesList.do")
+	@RequestMapping(value = "/salesSearch.do")
 	@ResponseBody
 	public ArrayList<PaymentDTO> salesList(HttpServletRequest request) {
 		String data = request.getParameter("data");

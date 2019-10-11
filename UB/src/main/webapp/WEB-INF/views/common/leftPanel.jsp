@@ -25,12 +25,15 @@
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>재고</a>
                         <ul class="sub-menu children dropdown-menu">
-                             <li><i class="fa fa-id-badge"></i><a href="${path}/jaego/item">재고 현황</a></li>
-                            <li><i class="fa fa-bars"></i><a href="${path}/jaego/in_item">입고 내역</a></li>
-                            <li><i class="fa fa-id-card-o"></i><a href="${path}/jaego/out_item">출고 내역</a></li>
-                            <li><i class="fa fa-exclamation-triangle"></i><a href="${path}/jaego/change_item">재고 변동표</a></li>
-                            <li><i class="fa fa-spinner"></i><a href="${path}/jaego/bad_item">불량 처리</a></li>
-                            <li><i class="fa fa-fire"></i><a href="${path}/jaego/special_item">특별 관리</a></li>
+                            <li><i class="fa fa-square"></i><a href="${path}/jaego/item">재고 현황</a></li>
+                            <li><i class="fa fa-square"></i><a href="${path}/jaego/in_item">입고 내역</a></li>
+                            <li><i class="fa fa-square"></i><a href="${path}/jaego/out_item">출고 내역</a></li>
+                            <li><i class="fa fa-square"></i><a href="${path}/jaego/change_item">재고 변동표</a></li>
+                            <li><i class="fa fa-plus-square"></i><a href="${path}/jaego/defect_item">불량 현황</a></li>
+                            <li><i class="fa fa-square"></i><a href="${path}/jaego/risk_item">위험재고 현황</a></li>
+                            <li><i class="fa fa-plus-square"></i><a href="${path}/jaego/safe_item">안전재고 현황</a></li>
+                            <li><i class="fa fa-square"></i><a href="${path}/jaego/in_item_insert">입고 등록테스트</a></li>
+                            <li><i class="fa fa-square"></i><a href="${path}/jaego/out_item_insert">출고 등록테스트</a></li>
                         </ul>
                     </li>
                     
@@ -47,8 +50,8 @@
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>결산</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-line-chart"></i><a href="JungsanForm.html">결산 현황</a></li>
-                            <li><i class="menu-icon fa fa-pie-chart"></i><a href="deadlineForm.html">결산 마감</a></li>
+                           <li><i class="menu-icon fa fa-line-chart"></i><a href="View_jungsan.html">결산 현황</a></li>
+                            <li><i class="menu-icon fa fa-pie-chart"></i><a href="Day_DeadLine.html">결산 마감</a></li>
                         </ul>
                     </li>
 

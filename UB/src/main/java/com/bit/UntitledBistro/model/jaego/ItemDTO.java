@@ -6,6 +6,13 @@ public class ItemDTO {
 	private String product_name; // 품목명(PRODUCT)
 	private int item_qty; // 재고수량
 	
+	public ItemDTO() {}
+	
+	public ItemDTO(String item_product_code, int item_qty) {
+		this.item_product_code = item_product_code;
+		this.item_qty = item_qty;
+	}
+
 	public int getItem_no() {
 		return item_no;
 	}

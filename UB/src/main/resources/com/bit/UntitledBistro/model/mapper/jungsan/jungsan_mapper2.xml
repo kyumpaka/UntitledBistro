@@ -3,58 +3,35 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.bit.UntitledBistro.model.jungsan.DeadlineDAO">
-
-	<select id="getdeadlineList" resultType="com.bit.UntitledBistro.model.jungsan.DeadlineDTO">
-		select * from Jungsan
+<mapper namespace="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DAO">
+	<select id="getjungsan_inputList" resultType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
+		select * from Jungsan_Input
 	</select>
 	
-	<select id="day_profit" resultType="int">
-		select sum(PAYMENT_CASH + PAYMENT_CARD) from Jungsan where Laborcosts_date like to_date('2019-09-09')
-	</select>
+	<insert id="insert_daily">
+		insert into Jungsan_Input(
+		jungsan_input_cash,jungsan_input_card,
+		jungsan_input_grade,jungsan_input_worktime,
+		jungsan_input_expenditure,jungsan_input_point,
+		jungsan_input_refund,jungsan_input_reason,jungsan_input_date) 
+		VALUES(
+		#{jungsan_input_cash, jdbcType=NUMERIC},#{jungsan_input_card, jdbcType=NUMERIC},
+		#{jungsan_input_grade, jdbcType=VARCHAR},#{jungsan_input_worktime, jdbcType=NUMERIC},
+		#{jungsan_input_expenditure, jdbcType=NUMERIC},#{jungsan_input_point, jdbcType=NUMERIC},
+		#{jungsan_input_refund, jdbcType=NUMERIC},#{jungsan_input_reason, jdbcType=VARCHAR},sysdate)
+	</insert>
 	
-	<select id="month_profit" resultType="int">
-		 select sum(PAYMENT_CASH + PAYMENT_CARD) from Jungsan where Laborcosts_date between 
-		 to_char(TRUNC(to_date('2019-09-06'),'MM')) 
-		 and to_char(last_day(to_date('2019-09-06','YYYY-MM-DD')),'YYYY-MM-DD')
-	</select>
-	
-	<select id="day_expenditure" resultType="int">
-		select sum(ORDER_PR_EA  * ORSA_QT ) from Jungsan where Laborcosts_date like to_date('2019-09-09')
-	</select>
-	
-	<select id="month_expenditure" resultType="int">
-		select sum(ORDER_PR_EA  * ORSA_QT ) from Jungsan where Laborcosts_date between 
-		 to_char(TRUNC(to_date('2019-09-06'),'MM')) 
-		 and to_char(last_day(to_date('2019-09-06','YYYY-MM-DD')),'YYYY-MM-DD')
-	</select>
-	
-	<select id="day_refund" resultType="int">
-		select sum(PAYMENT_CASH - PAYMENT_POINT) from Jungsan where Laborcosts_date like to_date('2019-09-09')
-	</select>
-	
-	<select id="day_worktime" resultType="int">
-		select sum(Salary_workingTime*Salary_workingDate*Laborcosts) 
-		from Jungsan where Laborcosts_date like to_date('2019-09-09')
-	</select>
-	
-	<select id="month_worktime" resultType="int">
-		select sum(Salary_workingTime*Salary_workingDate*Laborcosts) 
-		from Jungsan where Laborcosts_date between 
-		 to_char(TRUNC(to_date('2019-09-06'),'MM')) 
-		 and to_char(last_day(to_date('2019-09-06','YYYY-MM-DD')),'YYYY-MM-DD')
-	</select>
-	
-	<select id="day_max_profit" resultType="int">
-		select sum(PAYMENT_CASH+PAYMENT_CARD-PAYMENT_POINT)
-		from Jungsan where Laborcosts_date like to_date('2019-09-09')
-	</select>
-	
-	<select id="month_max_profit" resultType="int">
-		select sum(PAYMENT_CASH+PAYMENT_CARD-PAYMENT_POINT) 
-		from Jungsan where Laborcosts_date between 
-		 to_char(TRUNC(to_date('2019-09-06'),'MM')) 
-		 and to_char(last_day(to_date('2019-09-06','YYYY-MM-DD')),'YYYY-MM-DD')
-	</select>
-	
-</mapper>
+	<update id="update" parameterType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
+	update Jungsan_Input set 
+        jungsan_input_cash= #{jungsan_input_cash, jdbcType=NUMERIC},
+        jungsan_input_card= #{jungsan_input_card, jdbcType=NUMERIC},
+		jungsan_input_grade= #{jungsan_input_grade, jdbcType=VARCHAR},
+		jungsan_input_worktime= #{jungsan_input_worktime, jdbcType=NUMERIC},
+		jungsan_input_expenditure= #{jungsan_input_expenditure, jdbcType=NUMERIC},
+		jungsan_input_point= #{jungsan_input_point, jdbcType=NUMERIC},
+		jungsan_input_refund= #{jungsan_input_refund, jdbcType=NUMERIC},
+		jungsan_input_reason= #{jungsan_input_reason, jdbcType=VARCHAR} 
+     where 
+        jungsan_input_date like to_date (sysdate,'YYYY-MM-DD')
+	</update>
+</mapper> 

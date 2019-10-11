@@ -1,86 +1,123 @@
-/**
- * 
- */
+// DatePicker 1개를 이용한 js
+
+var today;
 
 $(document).ready(function() {
+	
+	yearBasic("year");
+	today = dateFormat(new Date());	
+	dateBasic();
+	$("#dateResult").text(today);
+	
+});
+
+// 날짜 기본설정
+function dateBasic() {
 	$("#yearInput").hide();
-	yearBasic();
-	var today = dateFormat(new Date());
+	$("#year").show();
 	var date = today.split("/");
+	
 	$("#year").val(date[0]);
 	$("#month").val(date[1]);
 	$("#day").val(date[2]);
-});
-
-/* 년(기본설정) */
-function yearBasic(year) {
-	$("#year option").remove();
-	var todayYear = new Date().getFullYear();
-	for(var i = todayYear+1; i>=todayYear-2; i--) {
-		$("#year").append("<option value='" + i + "'>" + i);
-	}
-	if(year != '' && year != null) {
-		$("#year").append("<option value='" + year + "'>" + year);
-	}
-	$("#year").append("<option value='directInput'>직접입력");
+	
+	$("#date").val(today);
 }
 
-/* 달력 클릭했을때 */
-$("#date").on("change",function(){
-	var date = $("#date").val().split("/");
-	$("#year").val(date[0]);
-	$("#month").val(date[1]);
-	$("#day").val(date[2]);
-});
+// 년도 기본설정
+function yearBasic(year,yearInputVal) {
+	$("#" + year + " option").remove();
+	var todayYear = new Date().getFullYear();
+	
+	for(var i = todayYear+1; i>=todayYear-2; i--) {
+		$("#" + year).append("<option value='" + i + "'>" + i);
+	}
+	
+	if(yearInputVal != '' && yearInputVal != null) {
+		$("#" + year).append("<option value='" + yearInputVal + "'>" + yearInputVal);
+	}
+	
+	$("#" + year).append("<option value='directInput'>직접입력");
+}
 
-/* 년도 직접입력 */
-function year() {
-	var yearInput = $("#yearInput");
+// 년도 직접입력
+function yearInput(yearInputId,yearId) {
+	var yearInput = $("#" + yearInputId);
+	var year = $("#" + yearId);
+	
+	yearBasic(yearId, yearInput.val());
+	yearInput.hide();
+	year.show();
+	year.val(yearInput.val()).prop("selected",true);
+	
 	if(yearInput.val() >= 1900 && yearInput.val() <= new Date().getFullYear()+1) {
-		yearBasic(yearInput.val());
-		yearInput.hide();
+		$("#yy-mm-dd").css("border","");
+	} else {
+		alert("올바르지 않는 날짜형식 입니다.");
+		$("#yy-mm-dd").css("border","1px solid red");
+	}
+}
+
+// 날짜 변경이 될 때 반영하기 (유효성 검사까지)
+function yymmdd(dateId, year, month, day) {
+	var date = $("#" + dateId).val().split("/");
+	
+	if(this.id == year) date[0] = this.value;
+	if(this.id == month) date[1] = this.value;
+	if(this.id == day) date[2] = this.value;
+	
+	var dateResult = dateFormat(new Date(date[0] + "/" + date[1] + "/" + date[2]));	
+	
+	if(dateResult != "NaN/NaN/NaN" && date[0] >= 1900 && date[0] <= (new Date().getFullYear()+1)) {
+		$("#" + date).val(dateResult);
+		
+		var date = dateResult.split("/");
+		
+		$("#" + year).val(date[0]);
+		$("#" + month).val(date[1]);
+		$("#" + day).val(date[2]);
+	} else {
+		alert("올바르지 않는 날짜형식입니다.");
+	}
+}
+
+// 년,월,일 변경할때(달력그림x) 
+$("#yy-mm-dd input, #yy-mm-dd select," +
+		"#yy-mm-dd2 input, #yy-mm-dd2 select").on("change", function() {
+	
+	// 년도 직접입력 입력했을때 
+	if(this.id == "yearInput") {
+		yearInput("yearInput", "year");
+		$("#yearInput").hide();
 		$("#year").show();
 		return;
 	}
-	$("#yy-mm-dd").css("border","1px solid red");
-}
-
-/* 년,월,일 변경할때(달력그림x) */
-$("#yy-mm-dd input, #yy-mm-dd select").on("change", function() {
-	if(this.id == "yearInput") {
-		console.log("=*=*= yearInput =*=*=");
-		year();
-		return;
-	}
-	if(this.id == "year" && this.value == "directInput") {			
+	
+	// 년도 직접입력 선택했을때 
+	if(this.id == "year" && this.value == "directInput") {	
 		$("#yearInput").val("");
 		$("#yearInput").show();
 		$("#" + this.id).hide();
 		return;
 	}
 	
-	var date = $("#date").val().split("/");
-	if(this.id == "year") date[0] = this.value;
-	if(this.id == "month") date[1] = this.value;
-	if(this.id == "day") date[2] = this.value;
-	
-	var dateResult = dateFormat(new Date(date[0] + "/" + date[1] + "/" + date[2]));
-	
-	if(dateResult != "NaN/NaN/NaN" && date[0] >= 1900 && date[0] <= (new Date().getFullYear()+1)) {
-		$("#date").val(dateResult);
-		var date = dateResult.split("/");
-		$("#year").val(date[0]);
-		$("#month").val(date[1]);
-		$("#day").val(date[2]);
-	} else {
-		alert("올바르지 않는 날짜형식입니다.");
+	// 데이트피커로 날짜를 변경한 경우 
+	if(this.id == "date") {
+		yymmdd("date","year","month","day");
 	}
-	console.log("======02=======")
-	console.log($("#date").val());
-	console.log("===============")
+	
+	// 년,월,일 1개이상 변경이 된 경우
+	if(this.id == "year" || this.id == "month" || this.id == "day") {
+		var year = $("#year").val();
+		var month = $("#month").val();
+		var day = $("#day").val();
+		
+		$("#date").val(year + "/" + month + "/" + day);
+		if(this.id == "year") $("#yy-mm-dd").css("border","");
+	}
 });
 
-/* 날짜형식 바꾸기 */
+// 날짜형식 바꾸기
 function dateFormat(format) {
     var year = format.getFullYear();
     
@@ -94,7 +131,7 @@ function dateFormat(format) {
 
 }
 
-/* 달력기능 환경설정 */
+// DatePicker 기본설정
 $(function(){
 
     $('.input-group.date').datepicker({
@@ -109,7 +146,7 @@ $(function(){
 
 });
 
-/* 달력 한글로 변경 */
+// DatePicker 한글로 변경
 ;(function($){
 	$.fn.datepicker.dates['kr'] = {
 		days: ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"],

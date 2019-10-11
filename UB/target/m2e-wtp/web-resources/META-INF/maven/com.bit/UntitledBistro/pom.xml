@@ -16,6 +16,12 @@
 	</properties>
 
 	<dependencies>
+		<!-- spring-websocket -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-websocket</artifactId>
+		    <version>5.1.3.RELEASE</version>
+		</dependency>
 
 		<!-- Spring context -->
 		<dependency>
