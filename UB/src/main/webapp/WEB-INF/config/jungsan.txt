@@ -100,4 +100,23 @@ Laborcosts_date,EmpRegister_grade,PAYMENT_CASH,
 PAYMENT_CARD,PAYMENT_STATE,PAYMENT_POINT,ORDER_PR_EA,ORSA_QT,ORDER_END,Laborcosts_total)
 values ('ba112',2,9,8350,'2019-09-16','직원',120000,300000,'비정상',22,11500,10,'n',150300);
 select sum(cash) from GU_payment;
+
+CREATE TABLE Jungsan_Input(
+Jungsan_Input_cash number, Jungsan_Input_card number, 
+Jungsan_Input_grade varchar2(20), Jungsan_Input_worktime number,
+Jungsan_Input_expenditure number,Jungsan_Input_point number,
+Jungsan_Input_refund number,Jungsan_Input_reason varchar2(200),
+Jungsan_Input_date date);
+
+
+insert into Jungsan_Input(jungsan_input_cash,jungsan_input_card,jungsan_input_grade,
+jungsan_input_worktime,jungsan_input_expenditure,jungsan_input_point,
+jungsan_input_refund,jungsan_input_reason,jungsan_input_date) 
+VALUES(300000,1200000,'알바',6,280000,12000,7000,'환불',sysdate);
+
+insert into Jungsan_Input(jungsan_input_cash,jungsan_input_card,jungsan_input_grade,
+jungsan_input_worktime,jungsan_input_expenditure,jungsan_input_point,
+jungsan_input_refund,jungsan_input_reason,jungsan_input_date) 
+VALUES(300000,1200000,'직원',6,280000,12000,7000,'환불',sysdate-1);
+
 commit;
