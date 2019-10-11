@@ -17,9 +17,7 @@
     <meta name="description" content="Ela Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
     <link rel="stylesheet" href="${path}/resources/Admin/assets/css/lib/datatable/dataTables.bootstrap.min.css">
-
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
@@ -92,7 +90,6 @@
                                             	<th>생일</th>
                                             	<th>이메일</th>
                                             	<th>전화번호</th>
-                                            	<th>주소</th>
                                             	<th>가입일</th>
                                             	<th>삭제</th>
                                             </tr>
@@ -106,9 +103,8 @@
 												<td>${b.member_birth}</td>
 												<td>${b.member_email}</td>
 												<td>${b.member_phone1}</td>
-												<td>${b.member_addr1}</td>
 												<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${b.member_reg}" /></td>
-												<td><div id="btn_group"><button id="deletebutton" class="Seobis_MemberDelete" onclick="delet()">삭제</button></div></td>
+												<td><div id="btn_group"><button id="deletebutton" class="Seobis_MemberDelete" onclick="realDelete('${b.member_id}')">삭제</button></div></td>
 											</tr>
 										</c:forEach>
                                     </tbody>
@@ -145,8 +141,8 @@
         $(document).ready(function() {
           $('#bootstrap-data-table-export').DataTable();
       } );
-        	$(".Seobis_MemberDelete").on("click", function delet(){
-                var member_id = $(this).parent().parent().parent().children().eq(0).text();
+        	/* $(".Seobis_MemberDelete").on("click", function delet(){
+               // var member_id = $(this).parent().parent().parent().children().eq(0).text();
                 swal({
                 	  title: "회원 ID : "+member_id+"을 삭제하시겠습니까?",
                 	  icon: "warning",
@@ -155,7 +151,7 @@
                 	})
                 	.then((willDelete) => {
                 	  if (willDelete) {
-                	  $(location).attr("href", "${path}/Seobis_delete?member_id=" + member_id);
+                		  $(location).attr("href", "${path}/Seobis_delete?member_id=" + member_id);
                 	    swal("성공적으로 삭제하였습니다.", {
                 	      icon: "success",
                 	    });
@@ -163,7 +159,37 @@
                 	    swal("취소 되었습니다.");
                 	  }
                 	});
-            });
+            }); */
+        	
+        	function realDelete(member_id) {
+        		swal({
+      		   	  title: "회원 ID : " + member_id + "을 삭제하시겠습니까?",
+      		   	  icon: "warning",
+      		   	  buttons: true,
+      		   	  dangerMode: true,
+      		   	})
+      		.then((value) => {
+      			if(value) {
+      				if(false) swal("ss");
+      				realMod(member_id);
+      			}
+      		});
+            };
+            
+        	function realMod(realId) {
+            	swal("성공적으로 삭제하였습니다.", {
+             	      icon: "success",
+               	  	
+               	    })
+        		.then((value) => {
+        			if(value) {
+        				if(false) swal("ss");
+        				 $(location).attr("href", "${path}/Seobis_delete?member_id=" + realId);
+        			}
+        		});
+            }
+        	
+        	
   </script>
 
 

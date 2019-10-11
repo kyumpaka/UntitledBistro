@@ -75,20 +75,8 @@
                                         </div>
                                     </div>
                                         <div class="row form-group">
-                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">이동전화</label></div>
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">전화</label></div>
                                         <div class="col-12 col-md-9"><input type="text" id="member_phone1" name="member_phone1" placeholder="ex) 010-1111-1111" class="form-control" ><small class="form-text text-muted">사용하는 번호를 입력하세요</small></div>
-                                    </div>
-                                         <div class="row form-group">
-                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">집전화</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="member_phone2" name="member_phone2" placeholder="ex) 02-222-2222" class="form-control" ><small class="form-text text-muted" ></small></div>
-                                    </div>
-                                        <div class="row form-group">
-                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">주소</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="member_addr1" name="member_addr1" placeholder="(선택 사항)" class="form-control"><small class="form-text text-muted"></small></div>
-                                    </div>
-                                        <div class="row form-group">
-                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">상세 주소</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="member_addr2" name="member_addr2" placeholder="(선택 사항)" class="form-control"><small class="form-text text-muted"></small></div>
                                     </div>
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary btn-sm" onclick="CheckNull();">

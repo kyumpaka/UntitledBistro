@@ -10,9 +10,6 @@ public class Seobis_MemberDTO {
 	private String member_birth;
 	private String member_email;
 	private String member_phone1;
-	private String member_phone2;
-	private String member_addr1;
-	private String member_addr2;
 	private String member_grade;
 	private String member_point;
 	private Date member_reg;
@@ -54,24 +51,6 @@ public class Seobis_MemberDTO {
 	public void setMember_phone1(String member_phone1) {
 		this.member_phone1 = member_phone1;
 	}
-	public String getMember_phone2() {
-		return member_phone2;
-	}
-	public void setMember_phone2(String member_phone2) {
-		this.member_phone2 = member_phone2;
-	}
-	public String getMember_addr1() {
-		return member_addr1;
-	}
-	public void setMember_addr1(String member_addr1) {
-		this.member_addr1 = member_addr1;
-	}
-	public String getMember_addr2() {
-		return member_addr2;
-	}
-	public void setMember_addr2(String member_addr2) {
-		this.member_addr2 = member_addr2;
-	}
 	public String getMember_grade() {
 		return member_grade;
 	}
@@ -90,13 +69,4 @@ public class Seobis_MemberDTO {
 	public void setMember_reg(Date member_reg) {
 		this.member_reg = member_reg;
 	}
-	@Override
-	public String toString() {
-		return "Seobis_MemberDTO [member_id=" + member_id + ", member_name=" + member_name + ", member_gender="
-				+ member_gender + ", member_birth=" + member_birth + ", member_email=" + member_email
-				+ ", member_phone1=" + member_phone1 + ", member_phone2=" + member_phone2 + ", member_addr1="
-				+ member_addr1 + ", member_addr2=" + member_addr2 + ", member_grade=" + member_grade + ", member_point="
-				+ member_point + ", member_reg=" + member_reg + "]";
-	}
-	
 }

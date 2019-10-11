@@ -10,23 +10,18 @@
  	INTO MEMBER(
  	MEMBER_ID, 
  	MEMBER_NAME, 
- 	MEMBER_GENDER, 
  	MEMBER_EMAIL,
- 	MEMBER_BIRTH, 
- 	MEMBER_PHONE1,
- 	MEMBER_PHONE2,
- 	MEMBER_ADDR1,
- 	MEMBER_ADDR2)
+ 	MEMBER_BIRTH,
+ 	MEMBER_GENDER, 
+ 	MEMBER_PHONE1)
 	VALUES(
 	#{member_id},
 	#{member_name},
-	#{member_gender},
 	#{member_email},
 	TO_DATE(#{member_birth},'YYYYMMDD'),
-	#{member_phone1},
-	#{member_phone2},
-	#{member_addr1},
-	#{member_addr2})
+	#{member_gender},
+	#{member_phone1}
+	)
  	]]>
  </insert>
  
@@ -39,7 +34,6 @@
  			 TO_CHAR(MEMBER_BIRTH, 'YYYY-MM-DD') AS MEMBER_BIRTH,
  			 MEMBER_EMAIL,
  			 MEMBER_GRADE, 
- 			 MEMBER_ADDR1,
  			 MEMBER_POINT, 
  			 MEMBER_PHONE1 , 
  			 MEMBER_REG 
@@ -72,10 +66,7 @@
 			MEMBER_GENDER = #{member_gender},
 			MEMBER_BIRTH = #{member_birth},
 			MEMBER_EMAIL = #{member_email},
-			MEMBER_PHONE1 = #{member_phone1},
-			MEMBER_PHONE2 = #{member_phone2},
-			MEMBER_ADDR1 = #{member_addr1},
-			MEMBER_ADDR2 = #{member_addr2}
+			MEMBER_PHONE1 = #{member_phone1}
 		WHERE 
 			MEMBER_ID = #{member_id}
 	]]>
@@ -90,9 +81,6 @@
  		 	TO_CHAR(MEMBER_BIRTH, 'YYYY-MM-DD') AS MEMBER_BIRTH,
  		 	MEMBER_EMAIL,
  		 	MEMBER_PHONE1,
- 		 	MEMBER_PHONE2,
- 		 	MEMBER_ADDR1,
- 		 	MEMBER_ADDR2,
  		 	MEMBER_GRADE,
  		 	MEMBER_POINT,
  		 	MEMBER_REG 
