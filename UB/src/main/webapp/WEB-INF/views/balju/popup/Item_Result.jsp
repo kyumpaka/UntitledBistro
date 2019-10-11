@@ -33,76 +33,78 @@
 	
 </head>
 <body>
-	<table class="table table-striped table-hover" id="listTable">
-					<thead>
+	<table class="table table-striped table-hover" id="list_ResultTable">
+					<thead style="text-align:center">
 						<tr>
+							<th>번호</th>
 							<th>품목코드</th>
 							<th>품목명</th>
 							<th>규격</th>
-							<th>공급가액</th>
-							<th>적용</th>
+							<th>현재고</th>
+							<th>안전재고</th>
+							<th>단가</th>
 						</tr>
 					</thead>
-					<tbody>
-					<c:forEach var="Item_DTO" items="${item_list}" varStatus="status">
+					<tbody style="text-align:center">
+					<c:forEach var="Item_DTO" items="${itemResult}" varStatus="status">
 						<tr>
-							<td>${Item_DTO.PRODUCT_CODE}</td>
+							<td>${Item_DTO.ITEM_INDEX}</td>
+							<td>${Item_DTO.ITEM_PRODUCT_CODE}</td>
 							<td>${Item_DTO.PRODUCT_NAME}</td>
 							<td>${Item_DTO.PRODUCT_STNDR}</td>
+							<td>${Item_DTO.ITEM_QTY}</td>
+							<td>${Item_DTO.PRODUCT_SAFE}</td>
 							<td>${Item_DTO.PRODUCT_PRICE}</td>
-							<td><input type="button" class="insertBtn" style="border-radius: 0.25rem; color:#fff; 
+		 					<td><input type="button" class="insertBtn" style="border-radius: 0.25rem; color:#fff; 
 								background-color: #343a40; border-color: #343a40;" value="선택"/></td>
 						</tr> 
 					</c:forEach>          
   					</tbody>
  				</table>
- 				
- 				
-		<div class="col-lg-12" id="ex2_Result1" ></div> 
-		<div class="col-lg-12" id="ex2_Result2" ></div> 
 
-<script>
-		
-	$('.insertBtn').click(function(){ 
-		
-		var str = ""
-		var tdArr = new Array();	// 배열 선언
-		var checkBtn = $(this);
-		
-		// checkBtn.parent() : checkBtn의 부모는 <td>이다.
-		// checkBtn.parent().parent() : <td>의 부모이므로 <tr>이다.
-		var tr = checkBtn.parent().parent();
-		var td = tr.children();
-		
-		console.log("클릭한 Row의 모든 데이터 : "+tr.text());
-		
-		var CODE = td.eq(0).text();
-		var NAME = td.eq(1).text();
-		var STNDR = td.eq(2).text();
-		var PRICE = td.eq(3).text();
-		
-		opener.document.getElementById("code").value=CODE;
-		opener.document.getElementById("name").value=NAME;
-		opener.document.getElementById("stndr").value=STNDR;
-		opener.document.getElementById("price").value=PRICE;
-		window.close();
-		// 반복문을 이용해서 배열에 값을 담아 사용할 수 도 있다.
-		/* td.each(function(i){	
-			tdArr.push(td.eq(i).text()); 
-		});*/
-		
-		/* console.log("배열에 담긴 값 : "+tdArr);
-		
-		str +=	" * 클릭된 Row의 td값 = 품목코드 : <font color='red'>" + CODE + "</font>" +
-				", 품목명 : <font color='red'>" + NAME + "</font>" +
-				", 규격 : <font color='red'>" + STNDR + "</font>" +
-				", 공급가액 : <font color='red'>" + PRICE + "</font>";		
-		
-		$("#ex2_Result1").html(" * 클릭한 Row의 모든 데이터 = " + tr.text());		
-		$("#ex2_Result2").html(str); */
-		
-	});
-	</script>
 </body>
+<script>
+	$(".insertBtn").click(function(){
+		var str = "";
+		var tdArr = new Array();
+		var click = $(this);
 
+		var tr = click.parent().parent();
+		var td = tr.children();
+
+		console.log("클릭한 Row의 데이터 : " + tr.text());
+
+		var CODE = td.eq(1).text();
+		var NAME = td.eq(2).text();
+		var STNDR = td.eq(3).text();
+		var QTY = td.eq(4).text();
+		var SAFE = td.eq(5).text();
+		var PRICE = td.eq(6).text();
+		var SUM = 0;
+
+		console.log(typeof QTY);
+		console.log(typeof SAFE);
+
+		QTY = parseInt(QTY);
+		SAFE = parseInt(SAFE);
+
+		console.log("파스인트 체크 : "+typeof QTY);
+		console.log("파스인트 체크 : "+typeof SAFE);
+		
+		if(QTY<SAFE){
+			//안전재고가 5고 현재고가 1이랑 그럼 4= 5-1
+			SUM=(SAFE-QTY);
+		} else {
+			//그외에 안전재고보다 현재고 수량이 크거나 같으면 0을 입력한다
+			SUM="입력요망";
+			}
+		
+		opener.document.getElementById("code").value = CODE;
+		opener.document.getElementById("name").value = NAME;
+		opener.document.getElementById("stndr").value = STNDR;
+		opener.document.getElementById("qt").value = SUM;
+		opener.document.getElementById("price").value = PRICE;
+		window.close();
+	});
+</script>
 </html>
