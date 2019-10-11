@@ -437,9 +437,8 @@ public class JumunServiceImpl implements JumunService {
 	        params.add("item_name", "UntitledBistro"); // 물품 이름(매장 이름)
 	        params.add("quantity", "1"); // 개수
 	        params.add("total_amount", Integer.toString(payment_Card)); // 카드 결제 금액
-	        params.add("tax_free_amount", "0"); // 세금
-	        params.add("point_amount", Integer.toString(payment_Point)); // 포인트 사용 금액
-	        params.add("approval_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccess.do?payment_Cash="+payment_Cash + "&payment_Card=" + payment_Card + "&orders_No=" + orders_No);
+	        params.add("tax_free_amount", "0"); // 비과세
+	        params.add("approval_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccess.do?payment_Cash="+payment_Cash + "&payment_Card=" + payment_Card + "&orders_No=" + orders_No + "&payment_Point=" + payment_Point);
 	        params.add("cancel_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPayCancel.do");
 	        params.add("fail_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccessFail.do");
 	 
@@ -447,7 +446,6 @@ public class JumunServiceImpl implements JumunService {
 	 
 	        try {
 	            kakaoPayReadyDTO = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoPayReadyDTO.class);
-	            
 	            return kakaoPayReadyDTO.getNext_redirect_pc_url();
 	 
 	        } catch (RestClientException e) {
@@ -463,9 +461,9 @@ public class JumunServiceImpl implements JumunService {
 	}
 	
 	@Override
-	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token, String payment_Card, String orders_No) {
+	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token, String orders_No) {
 		
-		int sales_No = ordersToSales(orders_No, paymentDTO);
+		int sales_No = ordersToSales(orders_No, paymentDTO); // 주문 삭제 후 결제 입력
 		
         RestTemplate restTemplate = new RestTemplate();
  
@@ -482,8 +480,6 @@ public class JumunServiceImpl implements JumunService {
         params.add("partner_order_id", Integer.toString(sales_No));
         params.add("partner_user_id", "UntitledBistro");
         params.add("pg_token", pg_token);
-        params.add("total_amount", payment_Card);
-        
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
         
         try {

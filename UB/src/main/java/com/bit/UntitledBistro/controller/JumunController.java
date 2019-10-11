@@ -250,8 +250,8 @@ public class JumunController {
 	// 카카오 결제 완료
 	@RequestMapping(value = "/kakaoPaySuccess.do")
     public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model, @RequestParam("orders_No") String orders_No, 
-    		@ModelAttribute("payment_Cash") String payment_Cash, @ModelAttribute("payment_Card") String payment_Card) {
-		model.addAttribute("info", jumunService.kakaoPayInfo(pg_token, payment_Card, orders_No));
+    		@ModelAttribute("payment_Cash") String payment_Cash, @ModelAttribute("payment_Card") String payment_Card, @ModelAttribute("payment_Point") String payment_Point) {
+		model.addAttribute("info", jumunService.kakaoPayInfo(pg_token, orders_No));
         
         return "views/jumun/kakaoPaySuccess";
     }
