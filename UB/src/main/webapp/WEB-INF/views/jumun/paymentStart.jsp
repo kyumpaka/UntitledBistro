@@ -99,6 +99,22 @@ function pointCheck() {
 	}
 }
 
+function cashCheck() {
+	var cash = $("#payment_Cash").val().trim();
+	
+	if(cash == ""){
+		swal({
+			  title: "현금금액을 입력해주세요.",
+			  icon: "warning",
+			});
+		$("#payment_Cash").focus();
+		return false;
+	} else {
+		return true;
+	}
+	
+}
+
 function payCheck() {
 	event.preventDefault();
 	
@@ -109,47 +125,49 @@ function payCheck() {
 	var sumPrice;
 	if(typeof payment_Point == 'undefined') sumPrice = Number(payment_Cash) + Number(payment_Card);
 	else sumPrice = Number(payment_Cash) + Number(payment_Card) + Number(payment_Point);
-
-	if(pointCheck()) {
-		if($("#payment_Member_Id").val().trim() == "") {
-			swal({
-				  title: "회원 없이 결제하시겠습니까?",
-				  icon: "warning",
-				  buttons: ["아니요", "네"],
-				  dangerMode: true,
-				}).then((willDelete) => {
-					  if (willDelete) {
-						  if(resultPrice == sumPrice) {
+	
+	if(cashCheck()) {
+		if(pointCheck()) {
+			if($("#payment_Member_Id").val().trim() == "") {
+				swal({
+					  title: "회원 없이 결제하시겠습니까?",
+					  icon: "warning",
+					  buttons: ["아니요", "네"],
+					  dangerMode: true,
+					}).then((willDelete) => {
+						  if (willDelete) {
+							  if(resultPrice == sumPrice) {
 						  		goPayment();
+							  }
 						  }
-					  }
-				});
-		} else {
-			if(resultPrice == sumPrice && payment_Card >= 0) {
-				var memberId = $("#payment_Member_Id").val().trim();
-
-				// 회원여부 확인
-				$.ajax({
-					  url: 'memberPointSearchById.do',
-					  type: 'post',
-					  data: { member_Id:memberId },
-					  dataType: 'json',
-					  success : function(result) {
-						  	goPayment();
-					  },
-					  error : function(request,status,error) {
-						  swal({
+					});
+			} else {
+				if(resultPrice == sumPrice && payment_Card >= 0) {
+					var memberId = $("#payment_Member_Id").val().trim();
+	
+					// 회원여부 확인
+					$.ajax({
+						  url: 'memberPointSearchById.do',
+						  type: 'post',
+						  data: { member_Id:memberId },
+						  dataType: 'json',
+						  success : function(result) {
+							  	goPayment();
+						  },
+						  error : function(request,status,error) {
+							  swal({
 							  title: "가입되지 않은 아이디입니다.",
 							  icon: "warning",
-						  });
-					  }
-				});
-				
-			} else {
-				swal({
-					  title: "금액을 확인해주세요.",
-					  icon: "warning",
+							  });
+						  }
 					});
+					
+				} else {
+					swal({
+						title: "금액을 확인해주세요.",
+						icon: "warning",
+					});
+				}
 			}
 		}
 	}
