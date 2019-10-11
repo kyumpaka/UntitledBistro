@@ -28,12 +28,6 @@ public class Seobis_MemberServiceImpl implements Seobis_MemberService {
 		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
 		return seobis_MemberDAO.Seobis_MemberList(map);
 	}
-
-	@Override
-	public int Seobis_MemberListCount() {  //멤버카운트(글갯수)
-		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
-		return seobis_MemberDAO.Seobis_MemberListCount();
-	}
 	
 	@Override
 	public void Seobis_MemberDelete(Seobis_MemberDTO seobis_MemberDTO_dto) {  //멤버 삭제
@@ -53,9 +47,17 @@ public class Seobis_MemberServiceImpl implements Seobis_MemberService {
 		return seobis_MemberDAO.Seobis_MemberSelect(member_id);
 	}
 
-	@Override
-	public Seobis_ReserveDTO Seobis_ReserveCalendar(String member_id) {   // 캘린더 예약
-		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
-		return seobis_MemberDAO.Seobis_ReserveCalendar(member_id);
-	}
+	/*
+	 * @Override public Seobis_ReserveDTO Seobis_ReserveCalendar(String member_id) {
+	 * // 캘린더 예약 Seobis_MemberDAO seobis_MemberDAO =
+	 * SqlSession.getMapper(Seobis_MemberDAO.class); return
+	 * seobis_MemberDAO.Seobis_ReserveCalendar(member_id); }
+	 * 
+	 * @Override public List<Seobis_ReserveDTO> Seobis_ReserveCalendarList(String
+	 * member_id) { //캘린더 리스트 Seobis_MemberDAO seobis_MemberDAO =
+	 * SqlSession.getMapper(Seobis_MemberDAO.class); return
+	 * seobis_MemberDAO.Seobis_ReserveCalendarList(member_id); }
+	 */
+	
+	
 }
