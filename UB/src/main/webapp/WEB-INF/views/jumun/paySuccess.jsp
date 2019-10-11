@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
@@ -15,16 +14,15 @@
 	<div class="col-md-6">
 		<div class="card border border-primary">
 			<div class="card-header" align="center">
-				<strong class="card-title">카드 결제 내역</strong>
+				<strong class="card-title">현금 내역</strong>
 			</div>
 			<div class="card-body" align="left">
-				<p class="card-text"><strong>결제일시</strong> &nbsp; <fmt:formatDate value="${info.approved_at}" pattern="yyyy-MM-dd HH시 MM분 ss초"/></p>
-				<p class="card-text"><strong>결제번호</strong> &nbsp; ${info.partner_order_id}</p>
-				<p class="card-text"><strong>매장명</strong> &nbsp; ${info.item_name}</p>
-				<p class="card-text"><strong>결제금액</strong> &nbsp; ${info.amount.total}</p>
-				<p class="card-text"><strong>결제방법</strong> &nbsp; ${info.payment_method_type}</p>
-				<p class="card-text"><strong>현    금</strong> &nbsp; ${payment_Cash}
-				<p class="card-text"><strong>포 인 트</strong> &nbsp; ${info.amount.point}</p>
+				<p class="card-text"><strong>결제일시</strong> &nbsp; <fmt:formatDate value="${payment_Time}" pattern="yyyy년 MM월 dd일 HH시 mm분 ss초"/></p>
+				<p class="card-text"><strong>결제번호</strong> &nbsp; ${sales_No}</p>
+				<p class="card-text"><strong>매장명</strong> &nbsp; UntitledBistro</p>
+				<p class="card-text"><strong>결제금액</strong> &nbsp; ${payment_Cash}</p>
+				<p class="card-text"><strong>결제방법</strong> &nbsp; 현금</p>
+				<p class="card-text"><strong>포 인 트</strong> &nbsp; ${payment_Point}</p>
 			</div>
 		<button class="btn btn-primary btn-sm" onclick="windowClose()"> 닫기 </button>
 		</div>
@@ -36,6 +34,7 @@
 $(document).ready(function() {
 	opener.location.href = "posMain.do";
 });
+
 function windowClose() {
 	window.close();
 };

@@ -1,6 +1,7 @@
 package com.bit.UntitledBistro.model.jumun;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,6 +60,8 @@ public interface JumunDAO {
 	
 	public int ordersDetailsDelete(Map<String, String> map);
 	
+	public int ordersDetailsUpdate(OrdersDetailsDTO ordersDetailsDTO);
+	
 	public int ordersDetailsPlus(OrdersDetailsDTO ordersDetailDTO);
 	
 	public int ordersDetailsMinus(OrdersDetailsDTO ordersDetailDTO);
@@ -66,14 +69,6 @@ public interface JumunDAO {
 	public ArrayList<Integer> tableInfo();
 	
 	public ArrayList<HashMap<String, Object>> tableControl();
-	
-	public int order_tableControl(Map<String, Object> map);
-
-	public int od_tableControl(Map<String, Object> map);
-	
-	public ArrayList<PaymentDTO> paymentSelect();
-	
-	public ArrayList<SalesDetailsDTO> salesDetailesSelect(SalesDTO salesDTO);
 	
 	// 결제
 	public int salesInsert();
@@ -89,5 +84,51 @@ public interface JumunDAO {
 	public int ordersDelete(Map<String, String> map);
 	
 	public int paymentInsert(PaymentDTO paymentDTO);
+	
+	public Date paymentDateSelect(Map<String, String> map);
+	
+	public int payFail();
+	
+	public int memberPointSelectById(Map<String, String> map);
+
+	public int memberPaySelectById(Map<String, String> map);
+	
+	public String memberGradeSelectById(Map<String, String> map);
+	
+	public int memberGradeUpdateById(Map<String, String> map);
+
+	public int memberPointUpdateById(Map<String, String> map);
+
+	public int memberPointDowndateById(Map<String, String> map);
+
+	public int ordersCheck(Map<String, String> map);
+	
+	public ArrayList<PaymentDTO> paymentSelect(Map<String, String> map);
+	
+	public ArrayList<SalesDetailsDTO> salesDetailesSelect(Map<String, String> map);
+	
+	public int paymentCancle(Map<String, String> map);
+	
+	public int storeMinus(Map<String, String> map);
+	
+	public int shippingHistoryInsert(Map<String, String> map);
+	
+	public int storePlus(Map<String, String> map);
+	
+	public int shippingHistoryDelete(Map<String, String> map);
+	
+	public int storeAllPlus(Map<String, String> map);
+	
+	public int shippingHistoryOneDelete(Map<String, String> map);
+
+	public int shippingHistoryAllDelete(Map<String, String> map);
+	
+	public int storeCheck(Map<String, String> map);
+	
+	public int shippingHistoryUpdate(Map<String, String> map);
+	
+	public ArrayList<String> storeZeroSelect();
+	
+	public ArrayList<HashMap<String, Object>> productSelect();
 	
 }

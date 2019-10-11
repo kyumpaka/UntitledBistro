@@ -4,9 +4,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>POS</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-<title>POS</title>
 </head>
 <body>
 	<div class="col-lg-6">
@@ -53,93 +53,92 @@
 		</div>
 	</div>
 </body>
-
 <script src="${pageContext.request.contextPath}/resources/pos/assets/js/jquery-2.0.0.min.js" type="text/javascript" ></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
-	function moveTable(tableCode) {
-		var changebutton = "<input type=\"number\" id=\"input"+tableCode+"\" value="+tableCode+" style=\"width: 50px;\">&nbsp;";
-		changebutton += "<button onclick=\"moveTableEnd(\'"+tableCode+"\')\" class=\"btn btn-primary btn-sm\">완료</button>";
-		$("#td"+tableCode).html(changebutton);
-	};
+function moveTable(tableCode) {
+	var changebutton = "<input type=\"number\" id=\"input"+tableCode+"\" value="+tableCode+" style=\"width: 50px;\">&nbsp;";
+	changebutton += "<button onclick=\"moveTableEnd(\'"+tableCode+"\')\" class=\"btn btn-primary btn-sm\">완료</button>";
+	$("#td"+tableCode).html(changebutton);
+};
 
-	function moveTableEnd(tableCode) {
-		var newTableCode = $("#input"+tableCode).val();
-		var checkUsed = $("#check"+newTableCode).html();
+function moveTableEnd(tableCode) {
+	var newTableCode = $("#input"+tableCode).val();
+	var checkUsed = $("#check"+newTableCode).html();
 
-		if(checkUsed == '미사용' && newTableCode != tableCode) {
-			$.ajax({
-				  url: 'tableControl.do',
-				  type: 'post',
-				  data: JSON.stringify({ oldTable: tableCode,
-					  	  newTable: newTableCode}),
-				  dataType: 'json',
-				  contentType: 'application/json',
-				  success : function(result) {
-					  swal({
-						  title: "이동되었습니다.",
-						  icon: "success",
-						  button: "닫기",
-						}).then((value) => {
-								opener.document.location.reload();
-								window.close();
-						});
-				  }
+	if(checkUsed == '미사용' && newTableCode != tableCode) {
+		$.ajax({
+			  url: 'tableControl.do',
+			  type: 'post',
+			  data: JSON.stringify({ oldTable: tableCode,
+				  	  newTable: newTableCode}),
+			  dataType: 'json',
+			  contentType: 'application/json',
+			  success : function(result) {
+				  swal({
+					  title: "이동되었습니다.",
+					  icon: "success",
+					  button: "닫기",
+					}).then((value) => {
+							opener.document.location.reload();
+							window.close();
+					});
+			  }
+		});
+	} else {
+		swal({
+				title: "이용이 불가능한 테이블입니다.",
+				icon: "warning",
+				button: "닫기",
+			}).then((value) => {
+				$("#input"+tableCode).focus();
 			});
-		} else {
-			swal({
-					title: "이용이 불가능한 테이블입니다.",
-					icon: "warning",
-					button: "닫기",
-				}).then((value) => {
-					$("#input"+tableCode).focus();
-				});
-		}
-	};
+	}
+};
 
-	function joinTable(tableCode) {
-		var changebutton = "<input type=\"number\" id=\"input"+tableCode+"\" value="+tableCode+" style=\"width: 50px;\">&nbsp;";
-		changebutton += "<button onclick=\"joinTableEnd(\'"+tableCode+"\')\" class=\"btn btn-primary btn-sm\">완료</button>";
-		$("#td"+tableCode).html(changebutton);
-	};
+function joinTable(tableCode) {
+	var changebutton = "<input type=\"number\" id=\"input"+tableCode+"\" value="+tableCode+" style=\"width: 50px;\">&nbsp;";
+	changebutton += "<button onclick=\"joinTableEnd(\'"+tableCode+"\')\" class=\"btn btn-primary btn-sm\">완료</button>";
+	$("#td"+tableCode).html(changebutton);
+};
 
-	function joinTableEnd(tableCode) {
-		var newTableCode = $("#input"+tableCode).val();
-		var checkUsed = $("#check"+newTableCode).html();
+function joinTableEnd(tableCode) {
+	var newTableCode = $("#input"+tableCode).val();
+	var checkUsed = $("#check"+newTableCode).html();
 
-		if(checkUsed == '사용중' && newTableCode != tableCode) {
-			$.ajax({
-				  url: 'tableControl.do',
-				  type: 'post',
-				  data: JSON.stringify({ oldTable: tableCode,
-					  	  newTable: newTableCode}),
-				  dataType: 'json',
-				  contentType: 'application/json',
-				  success : function(result) {
-					  swal({
-						  title: "합석 처리되었습니다.",
-						  icon: "success",
-						  button: "닫기",
-						}).then((value) => {
-								opener.document.location.reload();
-								window.close();
-						});
-				  }
+	if(checkUsed == '사용중' && newTableCode != tableCode) {
+		$.ajax({
+			  url: 'tableControl.do',
+			  type: 'post',
+			  data: JSON.stringify({ oldTable: tableCode,
+				  	  newTable: newTableCode}),
+			  dataType: 'json',
+			  contentType: 'application/json',
+			  success : function(result) {
+				  swal({
+					  title: "합석 처리되었습니다.",
+					  icon: "success",
+					  button: "닫기",
+					}).then((value) => {
+							opener.document.location.reload();
+							window.close();
+					});
+			  }
+		});
+	} else {
+		swal({
+				title: "합석이 불가능한 테이블입니다.",
+				icon: "warning",
+				button: "닫기",
+			}).then((value) => {
+				$("#input"+tableCode).focus();
 			});
-		} else {
-			swal({
-					title: "합석이 불가능한 테이블입니다.",
-					icon: "warning",
-					button: "닫기",
-				}).then((value) => {
-					$("#input"+tableCode).focus();
-				});
-		}
-	};
-	
-	function goCloseMoveTable() {
-		  opener.document.location.reload();
-		  window.close();
-	};
+	}
+};
+
+function goCloseMoveTable() {
+	  opener.document.location.reload();
+	  window.close();
+};
 </script>
 </html>

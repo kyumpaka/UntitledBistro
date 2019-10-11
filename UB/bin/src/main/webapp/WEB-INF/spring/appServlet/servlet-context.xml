@@ -56,26 +56,6 @@
 		<beans:property name="maxUploadSize" value="52428800" />
 		<beans:property name="defaultEncoding" value="UTF-8" />
 	</beans:bean>
-	
-	<!-- 클라이언트를 관리하게 될 핸들러(websocket) -->
-	<beans:bean id="myHandler" class="com.bit.UntitledBistro.model.jaego.websocket.SocketHandler"/>
-    <websocket:handlers>
-	    <websocket:mapping handler="myHandler" path="/websocket/echo.do" />
-    </websocket:handlers>
-    
-    <!--  -->
-    <websocket:handlers>
-        <websocket:mapping handler="echoHandler" path="/echo-ws" />
-    </websocket:handlers>
-    <!-- 위에서 선언한 핸들러의 bean 설정 -->
-    <!-- Controller의 경로를 정확시 설정해준다 -->
-    <beans:bean id="echoHandler" class="com.bit.UntitledBistro.model.jaego.websocket.EchoHandler" />
-    
-    <!--  -->
-    <websocket:handlers>
-      <websocket:mapping handler="chatHandler" path="/chat-ws" />
-  </websocket:handlers>
-  <beans:bean id="chatHandler" class="com.bit.UntitledBistro.model.jaego.websocket.ChatWebSocketHandler" />
 
 	<!-- 실시간 알림 WebSocket -->
 	<beans:bean id="realTimeHandler" class="com.bit.UntitledBistro.model.jaego.websocket.RealTimeWebSocketHandler"/>

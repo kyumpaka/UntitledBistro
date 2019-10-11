@@ -1,9 +1,12 @@
 package com.bit.UntitledBistro.service.jumun;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -69,14 +72,34 @@ public interface JumunService {
 	
 	public ArrayList<HashMap<String, Object>> tableControl();
 	
-	public int tableControl(Map<String, Object> table);
-	
-	public ArrayList<PaymentDTO> paymentSearch();
-	
-	public ArrayList<SalesDetailsDTO> salesDetailsSearch(SalesDTO salesDTO);
+	public int tableControl(Map<String, String> table);
 	
 	public String kakaoPayReady(String orders_No, PaymentDTO paymentDTO);
 	
-	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token, String orders_No, String payment_Card);
+	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token, String payment_Card, String orders_No);
+	
+	public int ordersToSales(String orders_No, PaymentDTO paymentDTO);
+	
+	public int payFail();
+	
+	public Date paymentTime(String sales_No);
+	
+	public int memberPointSearchById(String member_Id);
+	
+	public int orderPDF(String orders_No, HttpServletRequest request);
+	
+	public int ordersCheck(String orders_No);
+	
+	public void ordersDeleteCheck(String orders_No);
+	
+	public ArrayList<PaymentDTO> paymentSearch(String data, String searchType, String predatepicker, String postdatepicker);
+	
+	public ArrayList<SalesDetailsDTO> salesDetailsSearch(String sales_No);	
+
+	public int paymentCancle(String payment_No);
+	
+	public ArrayList<String> storeCountCheck();
+	
+	public ArrayList<HashMap<String, Object>> productSearch();
 	
 }
