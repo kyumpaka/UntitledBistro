@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
@@ -25,14 +24,9 @@ import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
 	
 @Service("test")
 public class InsaServiceImpl implements InsaService {
-	
-	
-	@Inject
-	InsaDAO insaDAO;
 
-	
 	@Autowired
-	private SqlSession sqlsession;
+	private SqlSession sqlsession;	
 	
 	@Override
 	public int EmpRegisterInsert(Insa_EmpRegisterDTO dto) {
@@ -99,7 +93,7 @@ public class InsaServiceImpl implements InsaService {
 			throw new RuntimeException(e);
 		}
 
-		return saveFileName;
+		return saveFileName; 
 	}
 
 	@Override
@@ -112,16 +106,17 @@ public class InsaServiceImpl implements InsaService {
 
 	@Override
 	public Insa_EmpRegisterDTO viewMember(Insa_EmpRegisterDTO dto) {
-		
+		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
 		return insaDAO.viewMember(dto);
 	}
 
 	@Override
 	public boolean InsaLoginCheck(Insa_EmpRegisterDTO dto, HttpSession session) {
-		System.out.println("======================2222222");
-		boolean result = insaDAO.InsaLoginCheck(dto);
-		System.out.println("======================333");
-
+		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
+		String name = insaDAO.InsaLoginCheck(dto);
+		boolean result = false;
+		
+		if(name != null) result = true;
 		if(result) {
 			Insa_EmpRegisterDTO dto2 = viewMember(dto);
 			
