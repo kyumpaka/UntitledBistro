@@ -3,9 +3,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>POS</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-<title>POS</title>
 </head>
 <body>
 	<div class="card">
@@ -33,42 +33,43 @@
 <script src="${pageContext.request.contextPath}/resources/pos/assets/js/jquery-2.0.0.min.js" type="text/javascript"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
-	function mt_Add() {
-		event.preventDefault();
-		var name = $("input[name='mt_Name']").val().trim();
-		if(name == "") {
-			swal({
-				  title: "메뉴 구분명을 입력해주세요.",
-				  icon: "warning",
-				  button: "닫기",
-			});
-			$("input[name='mt_Name']").focus();
-			$("input[name='mt_Name']").val("");
-			return;
-		}
-		var info = {mt_Name:name};
-		console.log(name);
-		$.ajax({
-			  url: 'menuTypeAdd.do',
-			  type: 'post',
-			  data: JSON.stringify(info),
-			  dataType: 'json',
-			  contentType: 'application/json',
-			  success : function(result) {
-				  swal({
-					  title: result + "개 등록되었습니다.",
-					  icon: "success",
-					  button: "닫기",
-					}).then(() => {
-					  opener.document.location.reload();
-					  window.close();
-				  });
-			  }
+function mt_Add() {
+	event.preventDefault();
+	var name = $("input[name='mt_Name']").val().trim();
+	if(name == "") {
+		swal({
+			  title: "메뉴 구분명을 입력해주세요.",
+			  icon: "warning",
+			  button: "닫기",
 		});
-		
-	};
-	function windowClose() {
-		window.close();
+		$("input[name='mt_Name']").focus();
+		$("input[name='mt_Name']").val("");
+		return;
 	}
+	var info = {mt_Name:name};
+	console.log(name);
+	$.ajax({
+		  url: 'menuTypeAdd.do',
+		  type: 'post',
+		  data: JSON.stringify(info),
+		  dataType: 'json',
+		  contentType: 'application/json',
+		  success : function(result) {
+			  swal({
+				  title: result + "개 등록되었습니다.",
+				  icon: "success",
+				  button: "닫기",
+				}).then(() => {
+				  opener.document.location.reload();
+				  window.close();
+			  });
+		  }
+	});
+	
+};
+
+function windowClose() {
+	window.close();
+}
 </script>
 </html>
