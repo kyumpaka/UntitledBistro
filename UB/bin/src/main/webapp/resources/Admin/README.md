@@ -31,7 +31,7 @@
 - [ECharts](https://github.com/ecomfe/echarts/)
 - [Flot Charts](http://www.flotcharts.org/)
 - [Fontawesome](http://fontawesome.io/)
-- [FullCalendar](https://fullcalendar.io/)
+
 - [gauge.js](http://bernii.github.io/gauge.js/)
 - [gmaps](https://hpneo.github.io/gmaps/)
 - [Granim](https://sarcadass.github.io/granim.js)
