@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <style>
@@ -55,11 +56,19 @@
                     </div>
 
                     <div class="user-area dropdown float-right">
-                        <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="user-avatar rounded-circle" src="${path}/resources/Admin/images/admin.jpg" alt="User Avatar">
-                        </a>
-
-                        <div class="user-menu dropdown-menu">
+                    	<c:choose>
+                    	<c:when test="${sessionScope.empregister_empnum == null }" >
+                    	<a href="${path }/InsaLogin">로그인</a>
+                    	</c:when>
+                    	<c:otherwise>
+                    	${sessionScope.empregister_name }님이 로그인중입니다. 
+                        <img alt="empregister_photo" src="${path}/resources/images/insa/${sessionScope.empregister_photo}" width="50" height="30">
+                    	<a href="${path }/logout">로그아웃</a>
+                    	</c:otherwise>
+                    	
+                    	</c:choose>
+                        
+                  <!--       <div class="user-menu dropdown-menu">
                             <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
 
                             <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a>
@@ -67,7 +76,7 @@
                             <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
 
                             <a class="nav-link" href="#"><i class="fa fa-power -off"></i>Logout</a>
-                        </div>
+                        </div> -->
                     </div>
 
                 </div>

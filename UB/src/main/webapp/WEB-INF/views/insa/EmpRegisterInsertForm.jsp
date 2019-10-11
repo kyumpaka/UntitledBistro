@@ -51,55 +51,13 @@ td {
 	}  */
 
 	function EmpregisterInsert() {
-	/* 	$("#insert").submit; */
+		$("#insert").submit;
+		opener.parent.list();
 	
-		insert.submit();
-		opener.location.href = "EmpRegisterList";
-		window.opener.location.reload(); 
-		window.close();
-
+	
 	}
-
-	$(function() {
-		$('#btn-upload').click(function(e) {
-			e.preventDefault();
-			$('#file').click();
-		});
-	});
-	function preview(id, input, target) {
-		var idok = id;
-		if (input.files && input.files[0]) {
-			var fileName = input.files[0].name;
-			var ext = fileName.substr(fileName.length - 3, fileName.length);
-			var isCheck = false;
-			if (ext.toLowerCase() == 'jpg' || ext.toLowerCase() == 'gif'
-					|| ext.toLowerCase() == 'png') {
-				isCheck = true;
-			}
-			if (isCheck == false) {
-				alert("이미지 파일 아님");
-				jQuery(input).val("");
-				return;
-			}
-			var reader = new FileReader();
-			reader.readAsDataURL(input.files[0]);
-			reader.onload = function(e) {
-				jQuery(target).attr('src', e.target.result);
-				if (idok == "file") {
-					document.getElementById('btn-upload').style.visibility = 'hidden';
-					document.getElementById('select-del').style.visibility = 'visible';
-				}
-
-			}
-		}
-	}
-
-	function check() {
-		alert("등록 완료");
-		return true;
-	}
-
 	//주소정보
+	
 	function sample4_execDaumPostcode() {
 		new daum.Postcode(
 				{
@@ -162,31 +120,26 @@ td {
 					}
 				}).open();
 	}
+	
+
 </script>
 </head>
 <body>
 	<form name="EmpRegisterInsertForm" id="insert"
-		action="EmpRegisterInsert" method="post" >
-		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000'
-			align='center'>
+		action="EmpRegisterInsert" method="post" enctype="multipart/form-data">
+		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000' align='center'>
 			<tr>
+			
 				<td colspan='3' rowspan='3' width='120' class='ti'>
-					<!-- 	<div>
-						<input class="i-btn" type="file" id="file" name="empregister_photo"
-							onchange="preview(this.id,this, $('#image1'));" />
-						<button class="i-btn" type="button" id="btn-upload" name="empregister_photo">Image</button>
+					<div class="row form-group">
+					<div class="col col-md-3">
+						<label for="file-input" class=" form-control-label">사진</label>
 					</div>
-					<div class="selectable">
-						<div class="selectable-content">
-							<img src="" style="width: 108px; height: 81px;" id="image1">
-						</div>
-						<div class="selectable-layer">
-							<button id="select-del" class="selectable-del" type="button"
-								onclick="del()" style="visibility: hidden">X</button>
-						</div>
-					</div> --> <input type='file' name='empregister_photo'>
+					<div class="col-12 col-md-9">
+						<input type="file" id="file-input" name="file" class="form-control-file">
+					</div>
+				</div>
 				</td>
-
 
 				<td rowspan='2' class='ti' width='100'>성명</td>
 				<td rowspan='2' width='150'><input type="text"
@@ -265,9 +218,9 @@ td {
 					style="border: none; background: transparent; text-align: center"
 					name="empregister_banknum"></td>
 				<td colspan='1' class='ti'>급여 구분</td>
-				<td>시급<input type="radio" name="empregister_payclassfiy"
-					value="시급"> 일급<input type="radio"
-					name="empregister_payclassfiy" value="일급">
+				<td>시급<input type="radio" name="empregister_payclassfiy" value="시급"> 
+					일급<input type="radio" name="empregister_payclassfiy" value="일급">
+				
 				</td>
 
 			</tr>
@@ -276,8 +229,11 @@ td {
 
 				<td class='ti' colspan='3'>입사 날짜</td>
 				<td class='ti' colspan='2' name="empregister_entryday"></td>
-				<td class='ti' colspan='1'>재직여부</td>
-				<td><input type="checkbox" name="empregister_leavecompany"></td>
+				<td colspan='1' class='ti' >재직 여부</td>
+				<td clospan='2'>재직중<input type="radio" name="empregister_leavecompany"
+				value="재직중"> 퇴직<input type="radio"
+				value="퇴직"  name="empregister_leavecompany" >
+				</td>
 			</tr>
 			<tr>
 				<td class='ti' colspan='3'>시급</td>
@@ -306,11 +262,11 @@ td {
 
 				</select> --%></td>
 				<td>
-					<button type="Submit" onclick="EmpregisterInsert()">사원 등록</button> <!-- 	<input type="button" value="쓰기" onclick="document.getElementById('insert').submit();" /> -->
+					<button onclick="EmpregisterInsert()" id="insertform">사원 등록</button> <!-- 	<input type="button" value="쓰기" onclick="document.getElementById('insert').submit();" /> -->
 					<input type="reset" value="취소" />
 				</td>
 			</tr>
-
+	
 			<tr>
 		</table>
 	</form>
