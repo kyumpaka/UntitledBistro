@@ -73,7 +73,7 @@
 						<select id="select" class="form-control" name="menu_State">
 							<c:if test="${ menuDTO.menu_State eq '판매' }">
 								<option value="판매" selected="selected">판매</option>
-								<option value="품절">미판품절매</option>
+								<option value="품절">품절</option>
 							</c:if>
 							<c:if test="${ menuDTO.menu_State eq '품절' }">
 								<option value="판매">판매</option>
@@ -92,11 +92,11 @@
 								<div class="col-12 col-md-9">
 									<select class="form-control" name="ingredientDTO[${ stauts.index }].ingredient_Product_Code">
 									<c:forEach items="${ productList }" var="productList">
-									<c:if test="${ IngredientDTO.ingredient_Product_Code eq productList.PRODUCT_CODE }">
-									<option value="${ IngredientDTO.ingredient_Product_Code }" selected="selected">${ productList.PRODUCT_NAME }</option>
+									<c:if test="${ IngredientDTO.ingredient_Product_Code eq productList.PRODUCT_NAME }">
+									<option value="${ productList.PRODUCT_CODE }" selected="selected">${ productList.PRODUCT_NAME }</option>
 									</c:if>
-									<c:if test="${ IngredientDTO.ingredient_Product_Code != productList.PRODUCT_CODE }">
-									<option value="${ IngredientDTO.ingredient_Product_Code }">${ productList.PRODUCT_NAME }</option>
+									<c:if test="${ IngredientDTO.ingredient_Product_Code != productList.PRODUCT_NAME }">
+									<option value="${ productList.PRODUCT_CODE }">${ productList.PRODUCT_NAME }</option>
 									</c:if>
 									</c:forEach>
 									</select>
@@ -220,15 +220,15 @@ function menucheck(){
 
 function igdcheck(){
 	for(var i = 0; i < igdcnt; i++){
-		var code = $("input[name='ingredientDTO["+i+"].ingredient_Product_Code']").val().trim();
+		var code = $("select[name='ingredientDTO["+i+"].ingredient_Product_Code']").val().trim();
 		var qty = $("input[name='ingredientDTO["+i+"].ingredient_Qty']").val().trim();
 		if(code == "" || code == null) {
 			swal({
 				  title: "재료명을 입력해주세요.",
 				  icon: "warning",
 				});
-			$("input[name='ingredientDTO["+i+"].ingredient_Product_Code']").focus();
-			$("input[name='ingredientDTO["+i+"].ingredient_Product_Code']").val("");
+			$("select[name='ingredientDTO["+i+"].ingredient_Product_Code']").focus();
+			$("select[name='ingredientDTO["+i+"].ingredient_Product_Code']").val("");
 			return false;
 		}
 		if(qty == "" || qty == 0) {

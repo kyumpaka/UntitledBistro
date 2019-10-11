@@ -19,4 +19,9 @@
 	</div>
 </div>
 </body>
+<script type="text/javascript">
+function windowClose() {
+	window.close();
+};
+</script>
 </html>
