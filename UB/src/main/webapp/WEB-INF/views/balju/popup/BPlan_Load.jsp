@@ -36,20 +36,18 @@
 	<table class="table table-striped table-hover" id="listTable">
 					<thead>
 						<tr>
-							<th>품목코드</th>
-							<th>품목명</th>
-							<th>규격</th>
-							<th>공급가액</th>
+							<th>날짜</th>
+							<th>목록번호</th>
+							<th>발주품 정보</th>
 							<th>적용</th>
 						</tr>
 					</thead>
 					<tbody>
-					<c:forEach var="Item_DTO" items="${item_list}" varStatus="status">
+					<c:forEach var="BP_list" items="${BP_list}" varStatus="status">
 						<tr>
-							<td>${Item_DTO.PRODUCT_CODE}</td>
-							<td>${Item_DTO.PRODUCT_NAME}</td>
-							<td>${Item_DTO.PRODUCT_STNDR}</td>
-							<td>${Item_DTO.PRODUCT_PRICE}</td>
+							<td>${BP_list.ORPLIN_DATE}</td>
+							<td>${BP_list.ORDPL_ORDLIN_NUM}</td>
+							<td>${BP_list.ORDPL_PRODUCT_NAME} 외 ${BP_list.ORDPL_PRODUCT_NAME_COUNT} 개</td>
 							<td><input type="button" class="insertBtn" style="border-radius: 0.25rem; color:#fff; 
 								background-color: #343a40; border-color: #343a40;" value="선택"/></td>
 						</tr> 
@@ -63,9 +61,8 @@
 
 <script>
 		
-	$('.insertBtn').click(function(){ 
+	$(".insertBtn").click(function(){ 
 		
-		var str = ""
 		var tdArr = new Array();	// 배열 선언
 		var checkBtn = $(this);
 		
@@ -76,31 +73,11 @@
 		
 		console.log("클릭한 Row의 모든 데이터 : "+tr.text());
 		
-		var CODE = td.eq(0).text();
-		var NAME = td.eq(1).text();
-		var STNDR = td.eq(2).text();
-		var PRICE = td.eq(3).text();
+		var ORDPL_ORDLIN_NUM = td.eq(1).text();
 		
-		opener.document.getElementById("code").value=CODE;
-		opener.document.getElementById("name").value=NAME;
-		opener.document.getElementById("stndr").value=STNDR;
-		opener.document.getElementById("price").value=PRICE;
+		console.log(ORDPL_ORDLIN_NUM);
+		window.opener.getReturnValue2(ORDPL_ORDLIN_NUM);
 		window.close();
-		// 반복문을 이용해서 배열에 값을 담아 사용할 수 도 있다.
-		/* td.each(function(i){	
-			tdArr.push(td.eq(i).text()); 
-		});*/
-		
-		/* console.log("배열에 담긴 값 : "+tdArr);
-		
-		str +=	" * 클릭된 Row의 td값 = 품목코드 : <font color='red'>" + CODE + "</font>" +
-				", 품목명 : <font color='red'>" + NAME + "</font>" +
-				", 규격 : <font color='red'>" + STNDR + "</font>" +
-				", 공급가액 : <font color='red'>" + PRICE + "</font>";		
-		
-		$("#ex2_Result1").html(" * 클릭한 Row의 모든 데이터 = " + tr.text());		
-		$("#ex2_Result2").html(str); */
-		
 	});
 	</script>
 </body>

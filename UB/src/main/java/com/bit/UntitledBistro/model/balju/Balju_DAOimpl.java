@@ -1,5 +1,6 @@
 package com.bit.UntitledBistro.model.balju;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ public class Balju_DAOimpl implements Balju_DAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	// namespace = "매퍼경로"; 생략 후 직접 입력 balju.
+	// namespace = "매퍼경로"; 생략 후 직접 입력 balju. [ namespace + ".메소드명 ]
 	
 	@Override
 	public void insert_Balju_Plan1() {
@@ -26,8 +27,8 @@ public class Balju_DAOimpl implements Balju_DAO {
 	}
 
 	@Override
-	public void insert_Balju1(Balju_DTO Bdto) {
-		sqlSession.insert("balju.insert_Balju1", Bdto); 
+	public void insert_Balju1() {
+		sqlSession.insert("balju.insert_Balju1"); 
 
 	}
 
@@ -37,27 +38,16 @@ public class Balju_DAOimpl implements Balju_DAO {
 
 	}
 
-	@Override
-	public void insert_Balju_Save1(Balju_SaveDTO BSdto) {
-		sqlSession.insert("balju.insert_Balju_Save1", BSdto);
-
-	}
-
-	@Override
-	public void insert_Balju_Save2(Balju_SaveDTO BSdto) {
-		sqlSession.insert("balju.insert_Balju_Save2", BSdto);
-
-	}
 	
 	//품목 새창 리스트 불러오기용
 	@Override
 	public List<Map<String, String>> item_list(Item_DTO Idto) {
-		return sqlSession.selectList("item_list", Idto);
+		return sqlSession.selectList("balju.item_list", Idto);
 	}
-	
+	//품목 재고현황 리스트 불러오기용
 	@Override
-	public List<Map<String, String>> balju_Dummy(Balju_PlanDTO BPdto) {
-		return sqlSession.selectList("balju_Dummy", BPdto);
+	public List<Map<String, String>> item_resultList(Item_DTO Idto) {
+		return sqlSession.selectList("balju.item_resultList", Idto);
 	}
 
 	@Override
@@ -72,11 +62,6 @@ public class Balju_DAOimpl implements Balju_DAO {
 	}
 
 	@Override
-	public List<Map<String, String>> balju_Save_list(Balju_SaveDTO BSdto) {
-		return sqlSession.selectList("balju.balju_Save_list", BSdto);
-	}
-
-	@Override
 	public void balju_Plan_modi(Balju_PlanDTO BPdto) {
 		sqlSession.update("balju.balju_Plan_modi", BPdto); 
 
@@ -85,12 +70,6 @@ public class Balju_DAOimpl implements Balju_DAO {
 	@Override
 	public void balju_Modi(Balju_DTO Bdto) {
 		sqlSession.update("balju.balju_Modi", Bdto);
-
-	}
-
-	@Override
-	public void balju_Save_modi(Balju_SaveDTO BSdto) {
-		sqlSession.update("balju.balju_Save_modi", BSdto);
 
 	}
 
@@ -117,17 +96,39 @@ public class Balju_DAOimpl implements Balju_DAO {
 		sqlSession.delete("balju.Delete_Balju2", Bdto);
 
 	}
-
+	
+	//BookMark 영역
 	@Override
-	public void Delete_Balju_Save1(Balju_SaveDTO BSdto) {
-		sqlSession.delete("balju.Delete_Balju_Save1", BSdto);
-
+	public void insert_BookMark(Item_DTO Idto) {
+		sqlSession.insert("balju.insert_BookMark", Idto);
+		
 	}
 
 	@Override
-	public void Delete_Balju_Save2(Balju_SaveDTO BSdto) {
-		sqlSession.delete("balju.Delete_Balju_Save2", BSdto);
+	public void BookMark_Modi(Item_DTO Idto) {
+		sqlSession.update("balju.BookMark_Modi", Idto);
+		
+	}
 
+	@Override
+	public void Delete_BookMark(Item_DTO Idto) {
+		sqlSession.delete("balju.Delete_BookMark", Idto);
+		
+	}
+
+	@Override
+	public List<Map<String, String>> item_BookMark(Item_DTO Idto) {
+		return sqlSession.selectList("balju.item_BookMark", Idto);
+	}
+
+	@Override
+	public List<Map<String, String>> BPlan_Load(Balju_PlanDTO BPdto) {
+		return sqlSession.selectList("balju.BPlan_Load", BPdto);
+	}
+
+	@Override
+	public List<Map<?, ?>> BPlan_Search(Balju_PlanDTO BPdto) {
+		return sqlSession.selectList("balju.BPlan_Search", BPdto); 
 	}
 
 }
