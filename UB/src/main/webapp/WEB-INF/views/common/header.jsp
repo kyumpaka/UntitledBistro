@@ -94,6 +94,7 @@ function onOpen(e) {
 	.done(function(count) {
 		$("#riskItemCount").html(count);
 	});
+	
 }
 
 function onMessage(e) {
