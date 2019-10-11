@@ -4,13 +4,13 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
 
 <!-- sweetAlert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <!-- Modal -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
 
 <!-- datePicker -->
 <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
@@ -87,12 +87,7 @@
 	#search, #search2 {
 		display: inline-flex;
 	}
-	#logo {
-		color: #878787;
-		font: 20px "Open Sans", sans-serif;
-		margin: 0px 16px 0px 0px;
-		padding: 11px 0px;
-	}
+	
 </style>
 	
 	<!-- 페이지 제목 -->
