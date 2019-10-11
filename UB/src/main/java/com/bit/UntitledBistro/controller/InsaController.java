@@ -219,8 +219,8 @@ public class InsaController {
 	public ModelAndView InsaLoginCheck(@ModelAttribute Insa_EmpRegisterDTO dto, HttpSession session) {
 		boolean result = insaService.InsaLoginCheck(dto, session);
 		ModelAndView mav = new ModelAndView();
-		if (result == true) {
-			mav.setViewName("/EmpRegisterList");
+		if (result == true) { 
+			mav.setViewName("baseLayout");
 			mav.addObject("msg", "success");
 		} else {
 			mav.setViewName("views/insa/InsaLogin");

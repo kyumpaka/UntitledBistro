@@ -120,7 +120,8 @@ public class InsaServiceImpl implements InsaService {
 		if(result) {
 			Insa_EmpRegisterDTO dto2 = viewMember(dto);
 			
-			
+			System.out.println("num : " + dto2.getEmpregister_empnum());
+			System.out.println("name : " + dto2.getEmpregister_name());
 			session.setAttribute("empregister_empnum", dto2.getEmpregister_empnum());
 			session.setAttribute("empregister_name", dto2.getEmpregister_name());
 		}
