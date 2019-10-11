@@ -62,7 +62,7 @@
 					<div class="col-12 col-md-9">
 						<select id="select" class="form-control" name="menu_State">
 							<option value="판매">판매</option>
-							<option value="미판매">미판매</option>
+							<option value="품절">품절</option>
 						</select>
 					</div>
 				</div>
@@ -170,15 +170,15 @@ function menucheck(){
 
 function igdcheck(){
 	for(var i = 0; i < igdcnt; i++){
-		var code = $("input[name='ingredientDTO["+i+"].ingredient_Product_Code']").val().trim();
+		var code = $("select[name='ingredientDTO["+i+"].ingredient_Product_Code']").val().trim();
 		var qty = $("input[name='ingredientDTO["+i+"].ingredient_Qty']").val().trim();
 		if(code == "" || code == null) {
 			swal({
 				  title: "재료명을 입력해주세요.",
 				  icon: "warning",
 				});
-			$("input[name='ingredientDTO["+i+"].ingredient_Product_Code']").focus();
-			$("input[name='ingredientDTO["+i+"].ingredient_Product_Code']").val("");
+			$("input[select='ingredientDTO["+i+"].ingredient_Product_Code']").focus();
+			$("input[select='ingredientDTO["+i+"].ingredient_Product_Code']").val("");
 			return false;
 		}
 		if(qty == "" || qty == 0) {

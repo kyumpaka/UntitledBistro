@@ -76,7 +76,7 @@ public interface JumunService {
 	
 	public String kakaoPayReady(String orders_No, PaymentDTO paymentDTO);
 	
-	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token, String payment_Card, String orders_No);
+	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token, String orders_No);
 	
 	public int ordersToSales(String orders_No, PaymentDTO paymentDTO);
 	

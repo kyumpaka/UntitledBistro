@@ -14,7 +14,7 @@ public class RealTimeWebSocketHandler extends TextWebSocketHandler{
 
 	private static final Logger logger = LoggerFactory.getLogger(RealTimeWebSocketHandler.class);
 	
-	private Map<String, WebSocketSession> users = new ConcurrentHashMap<String, WebSocketSession>();
+	private Map<String, WebSocketSession> users = new ConcurrentHashMap<String, WebSocketSession>(); 
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -24,6 +24,7 @@ public class RealTimeWebSocketHandler extends TextWebSocketHandler{
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		
 		logger.info("웹소켓 " + session.getId() + "로부터 " + message.getPayload() + "의 메시지 받음");
 		for(WebSocketSession ws : users.values()) {
 			logger.info("웹소켓 유저들 : " + ws.getId()); 

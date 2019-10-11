@@ -61,7 +61,7 @@
 		SELECT INGREDIENT_PRODUCT_CODE, INGREDIENT_QTY FROM INGREDIENT WHERE INGREDIENT_MENU_CODE = null
 		</if>
 		<if test="ingredient_Menu_Code != null">
-		SELECT INGREDIENT_PRODUCT_CODE, INGREDIENT_QTY FROM INGREDIENT WHERE INGREDIENT_MENU_CODE = #{ingredient_Menu_Code}
+		SELECT PRODUCT_NAME AS INGREDIENT_PRODUCT_CODE, INGREDIENT_QTY FROM INGREDIENT, PRODUCT WHERE INGREDIENT.INGREDIENT_PRODUCT_CODE = PRODUCT.PRODUCT_CODE AND INGREDIENT_MENU_CODE = #{ingredient_Menu_Code}
 		</if>
 	</select>
 	
@@ -239,17 +239,17 @@
 			</when>
 			<when test="'payment_Date' == searchType">
 				<choose>
-					<when test="predatepicker != null and postdatepicker != null">
+					<when test="predatepicker != '' and postdatepicker != ''">
 					<![CDATA[
-					payment_Date >= #{predatepicker} and payment_Date <= #{postdatepicker}
+					payment_Date >= #{predatepicker} and payment_Date < #{postdatepicker}
 					]]>
 					</when>
-					<when test="predatepicker != null and postdatepicker != null">
+					<when test="predatepicker != ''">
 					payment_Date >= #{predatepicker}
 					</when>
-					<when test="predatepicker != null and postdatepicker != null">
+					<when test="postdatepicker != ''">
 					<![CDATA[
-					payment_Date <= #{postdatepicker}
+					payment_Date < #{postdatepicker}
 					]]>
 					</when>
 				</choose>
