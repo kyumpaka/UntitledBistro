@@ -66,7 +66,7 @@
 		$("#btnLogin").click(function() {
 			var empregister_empnum = $("#empregister_empnum").val();
 			var empregister_jumin = $("#empregister_jumin").val();
-			alert('여기');
+			
 			if (empregister_empnum == "") {
 				alert("사번을 입력해주세요.");
 				$("#empregister_empnum").focus();

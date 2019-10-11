@@ -208,19 +208,12 @@ public class InsaController {
 		return items;
 	}
 
-	// 로그인
-	@RequestMapping("/InsaLogin")
-	public String login() {
-
-		return "views/insa/InsaLogin";
-	}
-
 	@RequestMapping("/InsaLoginCheck")
 	public ModelAndView InsaLoginCheck(@ModelAttribute Insa_EmpRegisterDTO dto, HttpSession session) {
 		boolean result = insaService.InsaLoginCheck(dto, session);
 		ModelAndView mav = new ModelAndView();
 		if (result == true) { 
-			mav.setViewName("baseLayout");
+			mav.setViewName("redirect:jumun/posMain.do");
 			mav.addObject("msg", "success");
 		} else {
 			mav.setViewName("views/insa/InsaLogin");

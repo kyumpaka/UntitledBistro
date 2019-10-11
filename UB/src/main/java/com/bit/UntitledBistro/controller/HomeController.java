@@ -13,9 +13,15 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	@RequestMapping(value = "/")
-	public String test(HttpSession session) {
+	public String home(HttpSession session) {
 		logger.info("홈 컨트롤러에 오신걸 환영합니다");
+		return "views/insa/InsaLogin";
+	}
+	
+	@RequestMapping(value = "/erp")
+	public String erp() {
 		return "baseLayout";
 	}
+	
 	
 }

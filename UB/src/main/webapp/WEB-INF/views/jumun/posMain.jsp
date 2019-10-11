@@ -91,7 +91,7 @@ function goTableControl() {
 
 function goSetting() {
 	event.preventDefault();
-	location.href="${pageContext.request.contextPath}";
+	location.href="${pageContext.request.contextPath}/erp";
 };
 
 function goOrderList(tableNum) {

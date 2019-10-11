@@ -32,7 +32,7 @@
 <header id="header" class="header">
             <div class="top-left">
                 <div class="navbar-header"	>
-                    <a id="logo" class="navbar-brand" href="${path}">UntitedBistro</a>
+                    <a id="logo" class="navbar-brand" href="${path}/erp">UntitedBistro</a>
                     <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
                 </div>
             </div>
@@ -56,17 +56,11 @@
                     </div>
 
                     <div class="user-area dropdown float-right">
-                    	<c:choose>
-                    	<c:when test="${sessionScope.empregister_empnum == null }" >
-                    	<a href="${path }/InsaLogin">로그인</a>
-                    	</c:when>
-                    	<c:otherwise>
+                   
                     	${sessionScope.empregister_name }님이 로그인중입니다. 
                         <img alt="empregister_photo" src="${path}/resources/images/insa/${sessionScope.empregister_photo}" width="50" height="30">
                     	<a href="${path }/logout">로그아웃</a>
-                    	</c:otherwise>
-                    	
-                    	</c:choose>
+                   
                         
                   <!--       <div class="user-menu dropdown-menu">
                             <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>

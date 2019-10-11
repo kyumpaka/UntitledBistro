@@ -33,14 +33,6 @@ public class Balju_Controller {
 	
 	private static final Logger logger = LoggerFactory.getLogger(Balju_Controller.class);
 	
-	////////// 일반 페이지 영역 //////////
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String a() {
-		System.out.println("메인페이지에 접속되었습니다.");
-		return "baseLayout";
-		
-	}
-	
 	@RequestMapping(value = "/balju/Balju_Plan", method = RequestMethod.GET)
 	public void Balju_Plan(Locale locale, Model model) {
 		logger.info("발주계획에 접속되었습니다.");
