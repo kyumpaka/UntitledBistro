@@ -3,11 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -78,6 +73,7 @@
 	#search, #search2 {
 		display: inline-flex;
 	}
+	
 </style>
 	
 <title>JSP</title>

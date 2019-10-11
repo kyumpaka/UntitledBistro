@@ -3,11 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -82,12 +77,15 @@
 		margin: auto;
 		width: 600px;
 	}
+	#logo {
+		color: #878787;
+		font: 20px "Open Sans", sans-serif;
+		margin: 0px 16px 0px 0px;
+		padding: 11px 0px;
+	}
 	
 </style>
 
-<title>JSP</title>
-</head>
-<body>
 	<!-- 페이지 제목 -->
 	<div class="page-header">
 	    <h1>
@@ -212,8 +210,7 @@
 		<div id="jsGrid"></div> <!-- 그리드를 이용한 테이블 -->
 		<div id="jsGridPage"></div> <!-- 그리드를 이용한 페이징 -->
 	</div>
-	
-</body>
+
 
 <!-- 달력 유효성 및 기능 -->
 <script type="text/javascript" src="${path}/resources/js/jaego/datePicker2.js"></script>

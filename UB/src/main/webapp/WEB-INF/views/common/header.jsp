@@ -20,27 +20,24 @@
 	#riskItemCount:hover, #posMain:hover {
 		cursor: pointer;
 	}
+	
+	.right-panel .navbar-brand {
+		width: 188px;
+	}
+	
 -->
 </style>
 
 <header id="header" class="header">
             <div class="top-left">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="${path}"><img src="${path}/resources/Admin/images/logo.png" alt="Logo"></a>
-                    <a class="navbar-brand hidden" href="${path}"><img src="${path}/resources/Admin/images/logo2.png" alt="Logo"></a>
+                <div class="navbar-header"	>
+                    <a id="logo" class="navbar-brand" href="${path}">UntitedBistro</a>
                     <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
                 </div>
             </div>
             <div class="top-right">
                 <div class="header-menu">
                     <div class="header-left">
-                        <button class="search-trigger"><i class="fa fa-search"></i></button>
-                        <div class="form-inline">
-                            <form class="search-form">
-                                <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
-                                <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
-                            </form>
-                        </div>
 
                         <div class="dropdown for-notification">
 							<button id="realTimeSafeItem" class="customBtn" onclick="riskItem()">
