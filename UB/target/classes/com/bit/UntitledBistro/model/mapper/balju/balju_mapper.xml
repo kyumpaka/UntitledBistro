@@ -126,7 +126,7 @@
   <select id="item_resultList" parameterType="hashmap" resultType="hashmap">
   	<![CDATA[
   		SELECT 
-  			ITEM_INDEX,
+  			ITEM_NO as ITEM_INDEX,
   			ITEM_PRODUCT_CODE,
   			PRODUCT_NAME,
   			PRODUCT_STNDR,

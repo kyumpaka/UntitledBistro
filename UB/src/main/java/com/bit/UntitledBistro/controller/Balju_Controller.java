@@ -274,7 +274,7 @@ public class Balju_Controller {
 		//모델로 값을 넣고
 		model.addAttribute("item_list", list);
 		//스트링으로 뷰를지정
-		return "balju/popup/Item_List";
+		return "/views/balju/popup/Item_List";
 	}
 	
 	//발주계획현황 팝업창버튼 [재고현황] 
@@ -283,23 +283,23 @@ public class Balju_Controller {
 		logger.info("재고현황 새창에 실행되었습니다");
 		List<Map<String, String>> list = this.balju_Service.item_resultList(Idto);
 		model.addAttribute("itemResult", list);
-		return "balju/popup/Item_Result";
+		return "/views/balju/popup/Item_Result";
 	}
 	
 	//팝업창 버튼 [관심품목]
 	@RequestMapping(value = "/balju/popup/BookMark_list", method = RequestMethod.GET)
 	public String item_BookMark(Item_DTO Idto) {
 		logger.info("관심품목 새창에 실행되었습니다");
-		return "/balju/popup/BookMark_List"; 
+		return "/views/balju/popup/BookMark_List"; 
 	}
 	
 	@RequestMapping(value = "/balju/popup/BookMark_REG", method = RequestMethod.GET)
 	public String BookMark_REG() {
 		logger.info("관심품목 등록 새창에 등록되었습니다");
-		return "/balju/popup/BookMark_REG";
+		return "/views/balju/popup/BookMark_REG";
 	}
 	
-	@RequestMapping(value = "balju/popup/BookMark_Result", method = RequestMethod.GET)
+	@RequestMapping(value = "/balju/popup/BookMark_Result", method = RequestMethod.GET)
 	@ResponseBody
 	public List<?> BookMark_Result(Item_DTO Idto, Model model){
 		logger.info("관심품목 그리드에 접속되었습니다.");
@@ -378,7 +378,7 @@ public class Balju_Controller {
 				//모델로 값을 넣고
 				model.addAttribute("BP_list", list);
 				//스트링으로 뷰를지정
-				return "balju/popup/BPlan_Load";
+				return "/views/balju/popup/BPlan_Load";
 			}
 			//[발주계획불러오기] 목록번호로 조회한값 그리드에 입력
 			@RequestMapping(value = "/balju/popup/BPlan_Search", method = RequestMethod.POST)
