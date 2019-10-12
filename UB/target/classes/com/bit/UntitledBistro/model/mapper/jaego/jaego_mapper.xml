@@ -24,58 +24,74 @@
 	</select>
 
  	<select id="itemSelectList" parameterType="condition" resultType="item">
-	    SELECT 
-	         II.II_PRODUCT_CODE  					AS ITEM_PRODUCT_CODE
-	        ,P.PRODUCT_NAME     					AS PRODUCT_NAME
-	        ,NVL(II.II_QTY,0) - NVL(OI.OI_QTY,0)  	AS ITEM_QTY
-	        ,ROWNUM AS RNUM
-	    FROM
-	    	(
-	        SELECT 
-	             II_PRODUCT_CODE
-	            ,SUM(II_QTY) 			AS II_QTY
-	        FROM 
-	            IN_ITEM 
-	        <where>
-	        <if test="endDate != '' and endDate != null"> 
-<![CDATA[		II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
-		    </if>
-	        </where> 
-	        GROUP BY 
-	            II_PRODUCT_CODE
-		    ) II
-	    FULL OUTER JOIN
+	    SELECT
+		     II.II_PRODUCT_CODE     AS ITEM_PRODUCT_CODE
+		    ,II.II_PRODUCT_NAME     AS ITEM_PRODUCT_NAME
+		    ,II.II_QTY - OI.OI_QTY  AS ITEM_QTY
+		FROM
 		    (
-	        SELECT 
-	             OI_PRODUCT_CODE
-	            ,SUM(OI_QTY) 			AS OI_QTY
-	        FROM 
-	            OUT_ITEM
-	        <where>
-	        <if test="endDate != '' and endDate != null"> 
-<![CDATA[		OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
-		    </if>
-	        </where>     
-	        GROUP BY 
-	            OI_PRODUCT_CODE
-	    	) OI
-	    ON
-	        II.II_PRODUCT_CODE = OI.OI_PRODUCT_CODE
-	    INNER JOIN
-	        PRODUCT P
-	    ON  
-	        P.PRODUCT_CODE = II.II_PRODUCT_CODE
-	    <where>
-	    <if test="keyword != '' and keyword != null">
-	        P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'
-	    </if>
-	    <if test="keyword2 != '' and keyword2 != null">
-	    AND
-	        P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
-	    </if>
-	    </where> 
-	    ORDER BY ITEM_PRODUCT_CODE
-		
+		    SELECT 
+		         II_PRODUCT_CODE
+		        ,II_PRODUCT_NAME
+		        ,SUM(II_QTY)	AS II_QTY	
+		    FROM 
+		        IN_ITEM 
+		    <where>
+				<if test="keyword != '' and keyword != null"> 
+			<![CDATA[      
+		        II_PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+		    ]]>
+			    </if> 
+				<if test="keyword2 != '' and keyword2 != null">
+			<![CDATA[  
+			AND     
+		        II_PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
+		    ]]>
+			    </if>
+				<if test="endDate != '' and endDate != null">
+			<![CDATA[
+			AND
+				II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') 
+			]]>
+				</if>
+			</where> 
+		    GROUP BY
+		         II_PRODUCT_CODE
+		        ,II_PRODUCT_NAME
+		    ) II
+		FULL OUTER JOIN
+		    (
+		    SELECT 
+		         OI_PRODUCT_CODE
+		        ,SUM(OI_QTY)    AS OI_QTY		
+		    FROM 
+		        OUT_ITEM 
+		    <where>
+				<if test="keyword != '' and keyword != null"> 
+			<![CDATA[      
+		        OI_PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+		    ]]>
+			    </if> 
+				<if test="keyword2 != '' and keyword2 != null">
+			<![CDATA[  
+			AND     
+		        OI_PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
+		    ]]>
+			    </if>
+				<if test="endDate != '' and endDate != null">
+			<![CDATA[
+			AND
+				OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') 
+			]]>
+				</if>
+			</where> 
+		    GROUP BY
+		        OI_PRODUCT_CODE
+		    ) OI
+		ON
+		    II.II_PRODUCT_CODE = OI.OI_PRODUCT_CODE
+		ORDER BY 
+    		ITEM_PRODUCT_CODE
  	</select>
  	
  	<!-- 재고테이블 유효성 검사 -->
@@ -116,33 +132,37 @@
  	</insert>
  	
  	<select id="inItemSelectList" parameterType="condition" resultType="inItem"> 	
+ 		<![CDATA[
  		SELECT 
-		     /*+ INDEX_DESC(II PK_II_INDEX) */
-		     II.II_PRODUCT_CODE					AS II_PRODUCT_CODE
-		    ,P.PRODUCT_NAME						AS PRODUCT_NAME
-		    ,II.II_QTY 							AS II_QTY 
-		    ,TO_CHAR(II.II_DATE, 'YYYY/MM/DD')	AS II_DATE
+			 /*+ INDEX_DESC(IN_ITEM PK_II_NO) */
+			 II_PRODUCT_CODE
+			,II_PRODUCT_NAME
+			,II_QTY					
+			,TO_CHAR(II_DATE,'YYYY/MM/DD')	AS II_DATE 
 		FROM 
-		    IN_ITEM II
-		INNER JOIN
-		    PRODUCT P
-		ON
-		    II.II_PRODUCT_CODE = P.PRODUCT_CODE   
-		<where>		
-		<if test="keyword != '' and keyword != null">       
-	        P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'
-	    </if> 
-		<if test="keyword2!= '' and keyword2 != null">  
+			IN_ITEM
+		]]> 
+		<where>
+			<if test="keyword != '' and keyword != null"> 
+		<![CDATA[      
+	        II_PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+	    ]]>
+		    </if> 
+			<if test="keyword2 != '' and keyword2 != null">
+		<![CDATA[  
 		AND     
-	        P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
-	    </if> 
-	    <if test="endDate != '' and endDate != null"> 
-		AND 
-<![CDATA[	II.II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
-	    </if>
+	        II_PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
+	    ]]>
+		    </if>
+			<if test="endDate != '' and endDate != null">
+		<![CDATA[
+		AND
+			II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') 
+		]]>
+			</if>
 		</where> 
-		ORDER BY II_DATE DESC
  	</select>
+ 	
  	<insert id="inItemInsert" parameterType="inItem">
  		<selectKey keyProperty="ii_no" resultType="int" order="BEFORE">
  			SELECT
@@ -166,32 +186,35 @@
  	</insert>
  	
  	<select id="outItemSelectList" parameterType="condition" resultType="outItem">
+ 		<![CDATA[
  		SELECT 
-		     /*+ INDEX_DESC(O PK_OI_INDEX) */
-		     OI.OI_PRODUCT_CODE					AS OI_PRODUCT_CODE
-		    ,P.PRODUCT_NAME						AS PRODUCT_NAME
-		    ,OI.OI_QTY 							AS OI_QTY
-		    ,TO_CHAR(OI.OI_DATE, 'YYYY/MM/DD')	AS OI_DATE
+			 /*+ INDEX_DESC(OUT_ITEM PK_OI_NO) */
+			 OI_PRODUCT_CODE
+			,OI_PRODUCT_NAME
+			,OI_QTY					
+			,TO_CHAR(OI_DATE,'YYYY/MM/DD')	AS OI_DATE 
 		FROM 
-		    OUT_ITEM OI
-		INNER JOIN
-		    PRODUCT P
-		ON
-		    OI.OI_PRODUCT_CODE = P.PRODUCT_CODE   
-		<where>		
-		<if test="keyword != '' and keyword != null">       
-	        P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'
-	    </if> 
-		<if test="keyword2 != '' and keyword2 != null">  
+			OUT_ITEM
+		]]> 
+		<where>
+			<if test="keyword != '' and keyword != null"> 
+		<![CDATA[      
+	        OI_PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+	    ]]>
+		    </if> 
+			<if test="keyword2 != '' and keyword2 != null">
+		<![CDATA[  
 		AND     
-	        P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
-	    </if> 
-	    <if test="endDate != '' and endDate != null"> 
-		AND 
-<![CDATA[	OI.OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')]]>		
-	    </if>
+	        OI_PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
+	    ]]>
+		    </if>
+			<if test="endDate != '' and endDate != null">
+		<![CDATA[
+		AND
+			OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') 
+		]]>
+			</if>
 		</where>
-		ORDER BY OI_DATE DESC
  	</select>
 	
 	<!-- 

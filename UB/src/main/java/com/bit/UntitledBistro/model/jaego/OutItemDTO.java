@@ -3,18 +3,11 @@ package com.bit.UntitledBistro.model.jaego;
 public class OutItemDTO {
 	private int oi_no;
 	private String oi_product_code;
-	private String product_name;
+	private String oi_product_name;
 	private int oi_qty;
 	private String oi_date;
 	private String oi_type;
 	
-	public OutItemDTO() {}
-	
-	public OutItemDTO(String oi_product_code, int oi_qty) {
-		this.oi_product_code = oi_product_code;
-		this.oi_qty = oi_qty;
-	}
-
 	public int getOi_no() {
 		return oi_no;
 	}
@@ -27,11 +20,11 @@ public class OutItemDTO {
 	public void setOi_product_code(String oi_product_code) {
 		this.oi_product_code = oi_product_code;
 	}
-	public String getProduct_name() {
-		return product_name;
+	public String getOi_product_name() {
+		return oi_product_name;
 	}
-	public void setProduct_name(String product_name) {
-		this.product_name = product_name;
+	public void setOi_product_name(String oi_product_name) {
+		this.oi_product_name = oi_product_name;
 	}
 	public int getOi_qty() {
 		return oi_qty;
@@ -52,4 +45,9 @@ public class OutItemDTO {
 		this.oi_type = oi_type;
 	}
 	
-}
+	@Override
+	public String toString() {
+		return "OutItemDTO [oi_no=" + oi_no + ", oi_product_code=" + oi_product_code + ", oi_product_name="
+				+ oi_product_name + ", oi_qty=" + oi_qty + ", oi_date=" + oi_date + ", oi_type=" + oi_type + "]";
+	}
+}	
