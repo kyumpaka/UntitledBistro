@@ -203,7 +203,7 @@
 		title: "품목코드",
 		width : 80
 	}, {
-		name : "product_name",
+		name : "di_product_name",
 		type : "text",
 		title: "품목명",
 		width : 100
@@ -242,6 +242,7 @@
 			url:"${path}/jaego/gridDefectItemSelectList",
 		})
 		.done(function(json) {
+			console.log(json);
 			originalData = json.slice();
 			$("#jsGrid").jsGrid({
 				// 그리드 크기설정
@@ -285,6 +286,7 @@
 					
 					var index = updateData.indexOf(item);
 					if(index != -1) updateData.splice(index, 1);
+			
 				}
 			}); // 그리드 끝
 		}); // ajax 끝
@@ -370,18 +372,20 @@
 				contentType : "application/json",
 				data : JSON.stringify(updateData)
 			})
-			.done(function() {
+			.done(function(count) {
 				swal("수정 성공!", "불량테이블 수정을 완료되었습니다.", "success")
 				.then((value) => {
 					completeDelete();
 				});
 				updateData = [];
+				webSocket.send(count);
 			});
 		}
 	}
 	
 	// 불량 테이블 삭제함수
 	function completeDelete() {
+		console.log(deleteData);
 		if(deleteData != "" && deleteData != null) {
 			$.ajax({
 				url : "${path}/jaego/gridDefectItemDeletes",
@@ -390,9 +394,10 @@
 				contentType : "application/json",
 				data : JSON.stringify(deleteData)
 			})
-			.done(function() {
+			.done(function(count) {
 				swal("삭제요청 성공!", "작업요청을 완료되었습니다.", "success");
 				deleteData = [];
+				webSocket.send(count);
 			});
 		}
 	}
@@ -413,7 +418,7 @@
 				completeDelete();
 			}
 			
-		// 삭제 버튼
+		// 취소 버튼
 		} else if(this.id == "updateCancleBtn") {
 			$("#jsGrid").jsGrid({editing:false, fields:fieldsData, data:originalData});
 		}

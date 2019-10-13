@@ -311,12 +311,13 @@
 				contentType : "application/json",
 				data : JSON.stringify(updateData)
 			})
-			.done(function() {
+			.done(function(count) {
 				swal("수정 성공!", "안전테이블 수정을 완료되었습니다.", "success")
 				.then((value) => {
 					completeDelete();
 				});
 				updateData = [];
+				webSocket.send(count);
 			});
 		}
 	}
@@ -332,9 +333,10 @@
 				contentType : "application/json",
 				data : JSON.stringify(deleteData)
 			})
-			.done(function() {
+			.done(function(count) {
 				swal("삭제요청 성공!", "작업요청을 완료되었습니다.", "success");
 				deleteData = [];
+				webSocket.send(count);
 			});
 		}
 	}

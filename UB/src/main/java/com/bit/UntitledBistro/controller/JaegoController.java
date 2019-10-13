@@ -110,15 +110,15 @@ public class JaegoController {
 	}
 	
 	@RequestMapping(value = "/gridDefectItemUpdates")
-	public @ResponseBody void gridDefectItemUpdates(@RequestBody DefectItemDTO[] defectItemDTOs) {
+	public @ResponseBody int gridDefectItemUpdates(@RequestBody DefectItemDTO[] defectItemDTOs) {
 		logger.info("여기는 그리드 불량 테이블 다중수정 컨트롤러 입니다.");
-		service.defectItemUpdates(defectItemDTOs);
+		return service.defectItemUpdates(defectItemDTOs);
 	}
 	
 	@RequestMapping(value = "/gridDefectItemDeletes")
-	public @ResponseBody void gridDefectItemDeletes(@RequestBody DefectItemDTO[] defectItemDTOs) {
+	public @ResponseBody int gridDefectItemDeletes(@RequestBody DefectItemDTO[] defectItemDTOs) {
 		logger.info("여기는 그리드 불량 테이블 다중삭제 컨트롤러 입니다.");
-		service.defectItemDeletes(defectItemDTOs);
+		return service.defectItemDeletes(defectItemDTOs);
 	}
 	
 	@RequestMapping(value = "/gridProductSelectList")
@@ -157,15 +157,15 @@ public class JaegoController {
 	}
 	
 	@RequestMapping(value = "/gridSafeItemUpdates")
-	public @ResponseBody void gridSafeItemUpdates(@RequestBody SafeItemDTO[] safeItemDTOs) {
+	public @ResponseBody int gridSafeItemUpdates(@RequestBody SafeItemDTO[] safeItemDTOs) {
 		logger.info("여기는 그리드 안전 테이블 다중수정 컨트롤러 입니다.");
-		service.safeItemUpdates(safeItemDTOs);
+		return service.safeItemUpdates(safeItemDTOs);
 	}
 	
 	@RequestMapping(value = "/gridSafeItemDeletes")
-	public @ResponseBody void gridSafeItemDeletes(@RequestBody SafeItemDTO[] safeItemDTOs) {
+	public @ResponseBody int gridSafeItemDeletes(@RequestBody SafeItemDTO[] safeItemDTOs) {
 		logger.info("여기는 그리드 안전 테이블 다중삭제 컨트롤러 입니다.");
-		service.safeItemDeletes(safeItemDTOs);
+		return service.safeItemDeletes(safeItemDTOs);
 	}
 	
 	@GetMapping(value = "/safe_itemInsert")

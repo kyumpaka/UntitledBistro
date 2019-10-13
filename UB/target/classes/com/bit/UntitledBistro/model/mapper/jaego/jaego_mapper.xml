@@ -111,6 +111,27 @@
 		WHERE 
 		    ITEM_PRODUCT_CODE = #{item_product_code}
  	</update>
+ 	
+ 	<update id="itemUpdateForDefectItem" parameterType="defectItem">
+ 		UPDATE
+ 			ITEM
+ 		SET
+ 			ITEM_QTY = ITEM_QTY + #{di_qty}
+ 		WHERE 
+ 			ITEM_PRODUCT_CODE = #{di_product_code}
+ 	</update>
+ 	
+ 	<update id="itemPlusUpdateForDefectItem">
+ 	<foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
+ 		UPDATE 
+		    ITEM
+		SET 
+		    ITEM_QTY = ITEM_QTY + #{item.di_qty}
+		WHERE 
+		    ITEM_PRODUCT_CODE = #{item.di_product_code}
+ 	</foreach>
+ 	</update>
+ 	
  	<update id="itemMinusUpdate" parameterType="item">
  		UPDATE 
 		    ITEM
@@ -216,6 +237,40 @@
 			</if>
 		</where>
  	</select>
+ 	
+ 	<select id="outItemSelectForDefectItem" parameterType="defectItem" resultType="int">
+ 		<![CDATA[
+ 		SELECT 
+ 			OI_QTY
+ 		FROM
+ 			OUT_ITEM
+ 		WHERE
+	 		OI_NO = #{di_no}
+ 		]]>
+ 	</select>
+ 	
+ 	<update id="outItemUpdateForDefectItem" parameterType="defectItem">
+	 	<![CDATA[
+	 	UPDATE 
+	 		OUT_ITEM
+	 	SET
+	 		 OI_QTY = #{di_qty}
+	 		,OI_TYPE = #{di_state}
+	 	WHERE
+	 		OI_NO = #{di_no}
+	 	]]>
+ 	</update>
+	
+	<delete id="outItemDeleteForDefectItem" parameterType="list">
+		<foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
+		<![CDATA[
+		DELETE
+			OUT_ITEM
+		WHERE 
+			OI_NO = #{item.di_no}		
+		]]>
+ 		</foreach>
+	</delete>
 	
 	<!-- 
 	==================================================================================
@@ -408,24 +463,20 @@
 		SELECT
 			 DI_NO 
 		    ,DI_PRODUCT_CODE
-		    ,PRODUCT_NAME
+		    ,DI_PRODUCT_NAME
 		    ,DI_QTY
 		    ,TO_CHAR(DI_DATE,'YYYY/MM/DD') 		AS DI_DATE
 		    ,DI_STATE
 		    ,DI_REASON
 		FROM 
 		    DEFECT_ITEM D
-		INNER JOIN
-		    PRODUCT P
-		ON
-		    D.DI_PRODUCT_CODE = P.PRODUCT_CODE
 		<where>
 		<if test="keyword != '' and keyword != null">
-		    P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+		    P.DI_PRODUCT_CODE LIKE '%'||#{keyword}||'%'
 		</if>
 		<if test="keyword2 != '' and keyword2 != null">
 		AND
-		    P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
+		    P.DI_PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
 		</if>
 		<if test="endDate != '' and endDate != null">
 		AND
@@ -436,12 +487,13 @@
  	
  	<insert id="defectItemInsert" parameterType="defectItem">
 		<selectKey  keyProperty="di_no" resultType="int" order="BEFORE">
-			SELECT NVL(MAX(DI_NO),0) +1 FROM DEFECT_ITEM
+			SELECT NVL(MAX(OI_NO),0) +1 FROM OUT_ITEM
 		</selectKey>
 		INSERT INTO DEFECT_ITEM
 			(
 			 DI_NO
 			,DI_PRODUCT_CODE
+			,DI_PRODUCT_NAME
 			,DI_QTY
 			,DI_STATE
 			,DI_REASON
@@ -450,6 +502,7 @@
 			(
 			 #{di_no}
 			,#{di_product_code}
+			,#{di_product_name}
 			,#{di_qty}
 			,#{di_state}
 			,#{di_reason}
@@ -517,12 +570,14 @@
 			(
 			 OI_NO
 			,OI_PRODUCT_CODE
+			,OI_PRODUCT_NAME
 			,OI_QTY
 			)
 		VALUES
 			(
 			 (#{oi_no})
 			,#{oi_product_code}
+			,#{oi_product_name}
 			,#{oi_qty}
 			)
 	</insert>
