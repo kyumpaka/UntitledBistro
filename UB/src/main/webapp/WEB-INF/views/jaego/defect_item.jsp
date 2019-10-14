@@ -232,6 +232,7 @@
 	var originalData;
 	var updateData = [];
 	var deleteData = [];
+	var errorData =[];
 	
 	$(document).ready(function() {
 		$("#updateCompleteBtn").hide();
@@ -276,14 +277,19 @@
                 
 				// 수정 아이콘 누르면 수정배열에 담기
 				onItemUpdated : function(args) {
-					console.log(args.itemIndex);
 					if(args.item.di_qty <= 0) {
 						swal("수량갯수 오류","수량은 0보다 크게 입력해야 수정가능합니다.","error");
 						console.log("결과");
-						//$(args.row).css("border","1px solid red");
+						$(args.row).css("border","1px solid red");
+						errorData.push(args.itemIndex);
 						return;
 					}
 					updateData.push(args.item);
+					$(args.row).css("border","none");
+				
+					if(errorData.indexOf(args.itemIndex) != -1) {
+						errorData.splice(errorData.indexOf(args.itemIndex),1);
+					}
 				},
 				
 				// 삭제 아이콘 누르면 삭제배열에 담기
@@ -371,6 +377,8 @@
 	
 	// 불량 테이블 수정함수
 	function completeUpdate() {
+		
+		
 		if(updateData != "" && updateData != null) {
 			$.ajax({
 				url : "${path}/jaego/gridDefectItemUpdates",
@@ -414,6 +422,11 @@
 		
 		// 완료 버튼
 		if(this.id == "updateCompleteBtn") {
+			if(errorData.length != 0) {
+				swal("수량오류","올바르게 수량을 고치세요","error");
+				return;
+			}
+			
 			$("#jsGrid").jsGrid({editing:false, fields:fieldsData});
 
 			if(deleteData != "" && updateData != "") {
