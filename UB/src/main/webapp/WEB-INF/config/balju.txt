@@ -1,9 +1,24 @@
 -- jaego.txt에 PRODUCT 테이블 생성을 기준으로 만들었습니다.
 
-insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA11', '토마토', '개',500); 
-insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA22', '우유1L', '개',3500);
-insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA33', '올리브오일1L', '개',5000);
-insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA44', '후추', '개',2000);
+--DROP TABLE RESERVE;
+--DROP TABLE MEMBER;
+--DROP TABLE Jungsan_Input;
+--DROP TABLE TABLESAVE;
+--DROP TABLE MENU_TYPE;
+--DROP TABLE MENU;
+--DROP TABLE INGREDIENT;
+--DROP TABLE ORDERS;
+--DROP TABLE ORDERS_DETAILS;
+--DROP TABLE SALES;
+--DROP TABLE SALES_DETAILS;
+--DROP TABLE PAYMENT;
+--DROP TABLE EmpRegister;
+--DROP TABLE BOOKMARK;
+
+--insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA11', '토마토', '개',500); 
+--insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA22', '우유1L', '개',3500);
+--insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA33', '올리브오일1L', '개',5000);
+--insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA44', '후추', '개',2000);
 
 CREATE TABLE BOOKMARK ( --관심품목 테이블
  BK_CODE VARCHAR2(50),
@@ -36,5 +51,10 @@ CREATE TABLE ORDER_PLAN ( -- 발주계획상세
         ORDPL_QT NUMBER, -- 품목수량
         ORDPL_PR_EA NUMBER,
         ORDPL_WR VARCHAR2(50) -- 작성자
+);
+
+create table ORDER_INPUT ( -- 발주서 내역 
+        ORDIN_NUM VARCHAR2(20), -- 목록번호(PK)
+        ORDIN_DATE DATE -- 목록일자
 );
 commit;

@@ -276,6 +276,13 @@
                 
 				// 수정 아이콘 누르면 수정배열에 담기
 				onItemUpdated : function(args) {
+					console.log(args.itemIndex);
+					if(args.item.di_qty <= 0) {
+						swal("수량갯수 오류","수량은 0보다 크게 입력해야 수정가능합니다.","error");
+						console.log("결과");
+						//$(args.row).css("border","1px solid red");
+						return;
+					}
 					updateData.push(args.item);
 				},
 				
@@ -313,7 +320,7 @@
 		
 		// 빨간 테두리 존재여부
 		if($("#yy-mm-dd").css("border") == "1px solid rgb(255, 0, 0)") {
-			alert("올바른 검색조건으로 입력하세요.");
+			swal("올바른 검색조건으로 입력하세요.","","info")
 			return;
 		}
 		
