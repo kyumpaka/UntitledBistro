@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,6 +36,8 @@ import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
 
 @Controller
+@RequestMapping(value = "/insa")
+
 public class InsaController {
 	@Resource(name = "test")
 	InsaService insaService;
@@ -208,41 +211,15 @@ public class InsaController {
 		return items;
 	}
 
-	// 로그인
-	@RequestMapping("/InsaLogin")
-	public String login() {
-
-		return "views/insa/InsaLogin";
-	}
-
-	@RequestMapping("/InsaLoginCheck")
-	public ModelAndView InsaLoginCheck(@ModelAttribute Insa_EmpRegisterDTO dto, HttpSession session) {
-		boolean result = insaService.InsaLoginCheck(dto, session);
+	@RequestMapping("/logout")
+	public ModelAndView logout(HttpSession session) {
+		insaService.logout(session);
 		ModelAndView mav = new ModelAndView();
-		if (result == true) { 
-			mav.setViewName("baseLayout");
-			mav.addObject("msg", "success");
-		} else {
-			mav.setViewName("views/insa/InsaLogin");
-			mav.addObject("msg", " failure");
-
-		}
-
-		return mav;
-
+		mav.setViewName("views/insa/InsaLogin");
+		mav.addObject("msg", "logout");
+		
+		return mav; 
+		
 	}
-		@RequestMapping("/logout")
-		public ModelAndView logout(HttpSession session) {
-			insaService.logout(session);
-			ModelAndView mav = new ModelAndView();
-			mav.setViewName("views/insa/InsaLogin");
-			mav.addObject("msg", "logout");
-			
-			return mav; 
-			
-		}
-		
-		
-		
 		
 }

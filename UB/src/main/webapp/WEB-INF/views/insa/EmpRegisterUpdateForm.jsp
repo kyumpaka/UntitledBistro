@@ -109,7 +109,7 @@ function payclassfiy(){
 </head>
 
 <body>
-	<form name="EmpRegisterUpdateForm"  id="update" Action="EmpRegisterUpdate" method="post">
+	<form name="insa/EmpRegisterUpdateForm"  id="update" Action="EmpRegisterUpdate" method="post">
 		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000'align='center'>
 			<tr>
 				<td colspan='3' rowspan='3' class='ti' >

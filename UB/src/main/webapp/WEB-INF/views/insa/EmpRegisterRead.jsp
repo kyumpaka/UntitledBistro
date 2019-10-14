@@ -31,7 +31,7 @@ td {
 </head>
 
 <body>
-	<form name="EmpRegisterRead" id="read" Action="EmpRegisterRead"
+	<form name="insa/EmpRegisterRead" id="read" Action="EmpRegisterRead"
 		method="post">
 		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000'
 			align='center'>
@@ -108,7 +108,7 @@ td {
 				<td class='ti' colspan='3'>시급</td>
 				<td colspan='2'>${b.empregister_pay }천원</td>
 				<td class='ti' colspan='1'>일급</td>
-				<td>${b.empregister_pay }만원</td>
+			 	<td>만원</td>
 			</tr>
 			<tr>
 				<td colspan='3'>총근무시간</td>
