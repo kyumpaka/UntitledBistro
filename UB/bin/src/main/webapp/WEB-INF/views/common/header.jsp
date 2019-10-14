@@ -83,7 +83,7 @@
 <!-- WebSocket -->
 <script type="text/javascript">
 
-var webSocket = new WebSocket("ws://localhost:8080/UntitledBistro/realTime-ws");
+var webSocket = new WebSocket("ws://localhost:8095/UntitledBistro/realTime-ws");
 webSocket.onopen = onOpen;
 webSocket.onmessage = onMessage;
 webSocket.onclose = onClose;

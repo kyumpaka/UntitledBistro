@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>JSP</title>
 </head>
 <body>
-실패했습니다.
+
 </body>
 </html>
