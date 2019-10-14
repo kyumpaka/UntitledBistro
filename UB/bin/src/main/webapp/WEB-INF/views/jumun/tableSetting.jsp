@@ -198,7 +198,7 @@ $(function() {
 					  icon: "success",
 					  button: "닫기",
 					}).then(() => {
-						  location.href='${pageContext.request.contextPath}'
+						  location.href='${pageContext.request.contextPath}/erp'
 					  });
 			  }
 		});

@@ -77,6 +77,23 @@
 	    ORDER BY ITEM_PRODUCT_CODE
 		
  	</select>
+ 	<update id="itemPlusUpdate" parameterType="item">
+ 		UPDATE 
+		    ITEM
+		SET 
+		    ITEM_QTY = ITEM_QTY + #{item_qty}
+		WHERE 
+		    ITEM_PRODUCT_CODE = #{item_product_code}
+ 	</update>
+ 	
+ 	<update id="itemUpdateForDefectItem" parameterType="defectItem">
+ 		UPDATE
+ 			ITEM
+ 		SET
+ 			ITEM_QTY = ITEM_QTY + #{di_qty}
+ 		WHERE 
+ 			ITEM_PRODUCT_CODE = #{di_product_code}
+ 	</update>
  	
  	<!-- 재고테이블 유효성 검사 -->
  	<select id="itemValidate" parameterType="item" resultType="int">
@@ -193,6 +210,29 @@
 		</where>
 		ORDER BY OI_DATE DESC
  	</select>
+ 	
+ 	<update id="outItemUpdateForDefectItem" parameterType="defectItem">
+	 	<![CDATA[
+	 	UPDATE 
+	 		OUT_ITEM
+	 	SET
+	 		 OI_QTY = #{di_qty}
+	 		,OI_TYPE = #{di_state}
+	 	WHERE
+	 		OI_NO = #{di_no}
+	 	]]>
+ 	</update>
+	
+	<delete id="outItemDeleteForDefectItem" parameterType="list">
+		<foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
+		<![CDATA[
+		DELETE
+			OUT_ITEM
+		WHERE 
+			OI_NO = #{item.di_no}		
+		]]>
+ 		</foreach>
+	</delete>
 	
 	<!-- 
 	==================================================================================

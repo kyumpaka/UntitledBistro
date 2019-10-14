@@ -78,7 +78,7 @@ function goSalesList() {
 	var height = 600;
 	var popupX = (window.screen.width / 2) - (width / 2);
 	var popupY = (window.screen.height / 2) - (height / 2);
-	window.open('salesForm.do','판매내역','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+	window.open('salesList.do','판매내역','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
 };
 
 function goTableControl() {
@@ -91,7 +91,7 @@ function goTableControl() {
 
 function goSetting() {
 	event.preventDefault();
-	location.href="${pageContext.request.contextPath}";
+	location.href="${pageContext.request.contextPath}/erp";
 };
 
 function goOrderList(tableNum) {

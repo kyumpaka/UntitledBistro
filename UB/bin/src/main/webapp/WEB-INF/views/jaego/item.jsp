@@ -241,7 +241,7 @@
 					title: "품목코드",
 					width : 200
 				}, {
-					name : "product_name",
+					name : "item_product_name",
 					type : "text",
 					title : "품목명",
 					width : 200
