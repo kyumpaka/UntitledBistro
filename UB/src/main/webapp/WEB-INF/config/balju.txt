@@ -13,5 +13,18 @@ CREATE TABLE BOOKMARK ( --관심품목 테이블
  BK_QT NUMBER,
  BK_WR VARCHAR(20)
  );
+ 
+CREATE TABLE ORDERLIST( -- 발주서 내역 상세
+        ORDER_ORDIN_NUM VARCHAR2(20), -- 목록번호(FK)
+        ORDER_NUM VARCHAR2(20), -- 발주번호(PK)
+        ORDER_PRODUCT_CODE VARCHAR2(20), -- 품목코드(FK
+        ORDER_PRODUCT_NAME VARCHAR2(100),
+        ORDER_PRODUCT_STNDR VARCHAR2(20),
+        ORDER_QT NUMBER, -- 수량
+        ORDER_PR_EA NUMBER, -- 단가
+        ORDER_WR VARCHAR2(50), -- 작성자        
+        ORDER_STAT VARCHAR2(20), -- 진행상태
+        ORDER_END VARCHAR2(20) DEFAULT 'N' -- 완료여부
+);
 
 commit;
