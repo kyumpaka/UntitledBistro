@@ -209,7 +209,7 @@
 		width : 100
 	}, {
 		name : "di_qty",
-		type : "text",
+		type : "number",
 		title: "불량수량",
 		width : 80
 	}, {
