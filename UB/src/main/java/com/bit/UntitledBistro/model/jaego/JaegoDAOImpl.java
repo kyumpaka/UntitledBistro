@@ -56,11 +56,32 @@ public class JaegoDAOImpl {
 	public void defectItemUpdates(List<DefectItemDTO> defectItemList) {
 		mybatis.update("jaego.defectItemUpdates", defectItemList);
 	}
+	// 불량수정으로 인한 수정 전 출고수량 조회
+	public int outItemSelectForDefectItem(DefectItemDTO defectItemDTO) {
+		return mybatis.selectOne("jaego.outItemSelectForDefectItem", defectItemDTO);
+	}
+	// 불량수정으로 인한 출고 테이블 수정
+	public void outItemUpdateForDefectItem(DefectItemDTO defectItemDTO) {
+		mybatis.update("jaego.outItemUpdateForDefectItem", defectItemDTO);
+	}
+	// 불량수정으로 인한 재고 테이블 수정
+	public void itemUpdateForDefectItem(DefectItemDTO defectItemDTO) {
+		mybatis.update("jaego.itemUpdateForDefectItem", defectItemDTO);
+	}
 	
 	// 불량 테이블 다중삭제
 	public void defectItemDeletes(List<DefectItemDTO> defectItemList) {
 		mybatis.delete("jaego.defectItemDeletes", defectItemList);
 	}
+	// 불량삭제로 인한 출고 테이블 다중삭제
+	public void outItemDeleteForDefectItem(List<DefectItemDTO> defectItemList) {
+		mybatis.delete("jaego.outItemDeleteForDefectItem", defectItemList);
+	}
+	// 불량삭제로 인한 재고 테이블 수정
+	public void itemPlusUpdateForDefectItem(List<DefectItemDTO> defectItemList) {
+		mybatis.delete("jaego.itemPlusUpdateForDefectItem", defectItemList);
+	}
+	
 	
 	// 품목 테이블 전체조회
 	public List<ProductDTO> productSelectList(Condition condition) {

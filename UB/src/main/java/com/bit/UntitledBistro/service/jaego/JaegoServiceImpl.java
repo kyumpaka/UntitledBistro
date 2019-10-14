@@ -54,6 +54,7 @@ public class JaegoServiceImpl {
 			
 			OutItemDTO outItemDTO = new OutItemDTO();
 			outItemDTO.setOi_product_code(defectItemDTO.getDi_product_code());
+			outItemDTO.setOi_product_name(defectItemDTO.getDi_product_name());
 			outItemDTO.setOi_qty(defectItemDTO.getDi_qty());
 			dao.outItemInsert(outItemDTO);
 			
@@ -74,15 +75,31 @@ public class JaegoServiceImpl {
 	}
 	
 	// 불량 테이블 다중수정
-	public void defectItemUpdates(DefectItemDTO[] defectItemDTOs) {
+	public int defectItemUpdates(DefectItemDTO[] defectItemDTOs) {
 		List<DefectItemDTO> defectItemList = Arrays.asList(defectItemDTOs);
 		dao.defectItemUpdates(defectItemList);
+		for(DefectItemDTO defectItemDTO : defectItemDTOs) {
+			int before_qty = dao.outItemSelectForDefectItem(defectItemDTO);
+			int update_qty = defectItemDTO.getDi_qty();
+			int item_qty = before_qty - update_qty;
+			dao.outItemUpdateForDefectItem(defectItemDTO);
+			defectItemDTO.setDi_qty(item_qty);
+			dao.itemUpdateForDefectItem(defectItemDTO);
+		}
+		
+		List<SafeItemDTO> safeItemList = dao.safeItemSelectList();
+		return dao.riskItemCount(safeItemList);
 	}
 	
 	// 불량 테이블 다중삭제
-	public void defectItemDeletes(DefectItemDTO[] defectItemDTOs) {
+	public int defectItemDeletes(DefectItemDTO[] defectItemDTOs) {
 		List<DefectItemDTO> defectItemList = Arrays.asList(defectItemDTOs);
 		dao.defectItemDeletes(defectItemList);
+		dao.outItemDeleteForDefectItem(defectItemList);
+		dao.itemPlusUpdateForDefectItem(defectItemList);
+		
+		List<SafeItemDTO> safeItemList = dao.safeItemSelectList();
+		return dao.riskItemCount(safeItemList);
 	}
 	
 	// 품목 테이블 전체조회
@@ -108,15 +125,21 @@ public class JaegoServiceImpl {
 	}
 	
 	// 안전 테이블 다중수정
-	public void safeItemUpdates(SafeItemDTO[] safeItemDTOs) {
+	public int safeItemUpdates(SafeItemDTO[] safeItemDTOs) {
 		List<SafeItemDTO> safeItemList = Arrays.asList(safeItemDTOs);
 		dao.safeItemUpdates(safeItemList);
+		
+		List<SafeItemDTO> safeItemList2 = dao.safeItemSelectList();
+		return dao.riskItemCount(safeItemList2);
 	}
 	
 	// 안전 테이블 다중삭제
-	public void safeItemDeletes(SafeItemDTO[] safeItemDTOs) {
+	public int safeItemDeletes(SafeItemDTO[] safeItemDTOs) {
 		List<SafeItemDTO> safeItemList = Arrays.asList(safeItemDTOs);
 		dao.safeItemDeletes(safeItemList);
+		
+		List<SafeItemDTO> safeItemList2 = dao.safeItemSelectList();
+		return dao.riskItemCount(safeItemList2);
 	}
 	
 	// 안전 테이블 다중등록

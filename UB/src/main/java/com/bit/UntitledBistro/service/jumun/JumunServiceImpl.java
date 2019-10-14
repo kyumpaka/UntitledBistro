@@ -443,9 +443,10 @@ public class JumunServiceImpl implements JumunService {
 	        params.add("fail_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccessFail.do");
 	 
 	        HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
-	 
+	        
 	        try {
 	            kakaoPayReadyDTO = restTemplate.postForObject(new URI(HOST + "/v1/payment/ready"), body, KakaoPayReadyDTO.class);
+	            
 	            return kakaoPayReadyDTO.getNext_redirect_pc_url();
 	 
 	        } catch (RestClientException e) {

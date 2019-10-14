@@ -187,7 +187,7 @@ $(function() {
 	   }
 
 	   $.ajax({
-			  url: 'tableSave.do',
+			  url: '/erp/tableSave.do',
 			  type: 'post',
 			  data: JSON.stringify(tableArray),
 			  dataType: 'json',
@@ -198,7 +198,7 @@ $(function() {
 					  icon: "success",
 					  button: "닫기",
 					}).then(() => {
-						  location.href='${pageContext.request.contextPath}'
+						  location.href='${pageContext.request.contextPath}/erp'
 					  });
 			  }
 		});

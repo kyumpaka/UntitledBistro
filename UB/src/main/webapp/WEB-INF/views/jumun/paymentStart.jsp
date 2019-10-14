@@ -137,7 +137,7 @@ function payCheck() {
 					}).then((willDelete) => {
 						  if (willDelete) {
 							  if(resultPrice == sumPrice) {
-						  		goPayment();
+							  		goPayment();
 							  }
 						  }
 					});
@@ -156,17 +156,17 @@ function payCheck() {
 						  },
 						  error : function(request,status,error) {
 							  swal({
-							  title: "가입되지 않은 아이디입니다.",
-							  icon: "warning",
+								  title: "가입되지 않은 아이디입니다.",
+								  icon: "warning",
 							  });
 						  }
 					});
 					
 				} else {
 					swal({
-						title: "금액을 확인해주세요.",
-						icon: "warning",
-					});
+						  title: "금액을 확인해주세요.",
+						  icon: "warning",
+						});
 				}
 			}
 		}

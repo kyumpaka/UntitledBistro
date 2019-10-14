@@ -7,6 +7,7 @@ public class ChangeItemDTO {
 	private int before_qty;
 	private int in_qty;
 	private int out_qty;
+	
 	public String getProduct_code() {
 		return product_code;
 	}
