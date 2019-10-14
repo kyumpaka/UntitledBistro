@@ -13,10 +13,16 @@ public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	@RequestMapping(value = "/")
+	@RequestMapping(value = "/login")
 	public String home(HttpSession session) {
 		logger.info("로그인 컨트롤러에 오신걸 환영합니다");
 		return "views/insa/InsaLogin";
+	}
+	
+	@RequestMapping(value = "/accessDenied")
+	public String accessDenied(HttpSession session) {
+
+		return "views/insa/accessDenied";
 	}
 	
 	@RequestMapping(value = "/erp")

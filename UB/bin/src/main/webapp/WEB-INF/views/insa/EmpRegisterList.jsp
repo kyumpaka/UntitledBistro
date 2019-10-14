@@ -10,11 +10,29 @@
 <script type="text/javascript">
 
 function EmpRegisterRead(empnum){
+	//alert("삭제")
+	location.href="/UntitledBistro/EmpRegisterRead?empregister_empnum="+empnum; 
+}
+
+function list(){
+	alert("등록완료");
+	window.location.href=window.location.href;
+	window.location.replace('EmpRegisterList'); 
+
+}
+
+function EmpRegisterRead(empnum){
 	//alert("삭제");
 	location.href="/UntitledBistro/EmpRegisterRead?empregister_empnum="+empnum; 
-/*   window.open('/UntitledBistro/EmpRegisterRead?EmpRegister_empnum='+empnum , '_blank', 'width=1000,height=1500,location=no,status=no,scrollbars=yes' ); 
- */
 }
+
+function list(){
+	alert("등록완료");
+	window.location.href=window.location.href;
+	window.location.replace('EmpRegisterList'); 
+
+}
+
 </script>
 <meta charset="UTF-8">
 <title>리스트</title>
@@ -31,7 +49,7 @@ function EmpRegisterRead(empnum){
 			<th>주민2</th>
 			<th>직급</th>
 			<th>입사날짜</th>
-			<th>퇴사여부</th>
+			<th>재직여부</th>
 		</tr>
 		<c:forEach var="b" items="${EmpRegisterList}">
 
@@ -52,8 +70,7 @@ ${fn:substring(b.empregister_jumin2,1,fn:length(b.empregister_jumin2)-4)}******<
 				<td><fmt:formatDate value="${b.empregister_entryday }"
 						pattern="yyyy-MM-dd" /></td>
 				<td>${b.empregister_leavecompany }</td>
-				
-				<!-- <button onclick="window.open('EmpRegisterRead','Read','width=1000,height=1500,location=no,status=no,scrollbars=yes');">상세보기</button> -->
+				<td><a href="/UntitledBistro/EmpRegisterRead?empregister_empnum=${b.empregister_empnum }" onclick="window.open(this.href, '_blank', 'width=1000,height=700,toolbars=no,scrollbars=yes'); return false;">상세보기</a></td>
 			</tr>
 
 		</c:forEach>
@@ -62,7 +79,7 @@ ${fn:substring(b.empregister_jumin2,1,fn:length(b.empregister_jumin2)-4)}******<
 
 		<tr>
 			<td align="center">
-				<!-- 처음 이전 링크 --> <c:if test="${pg>block}">
+				<!-- 처음 이전 링크 --> <c:if test="${pg>block}">	
 					<!-- 5>10 : false / 15>10 : true -->
 			[<a href="EmpRegisterList?pg=1">◀◀</a>]
 			[<a href="EmpRegisterList?pg=${fromPage-1}">◀</a>]		
@@ -89,8 +106,7 @@ ${fn:substring(b.empregister_jumin2,1,fn:length(b.empregister_jumin2)-4)}******<
 		</c:if>
 
 			</td>
-			<td><button
-					onclick="window.open('EmpRegisterInsertForm','insert','width=1000,height=400,location=no,status=no,scrollbars=yes');">사원등록</button>
+			<td><button onclick="window.open('EmpRegisterInsertForm','insert','width=1000,height=400,location=no,status=no,scrollbars=yes');">사원등록</button>
 
 			</td>
 		</tr>

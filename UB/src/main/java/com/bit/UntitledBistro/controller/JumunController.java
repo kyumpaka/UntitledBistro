@@ -39,7 +39,7 @@ public class JumunController {
 	private static final Logger logger = LoggerFactory.getLogger(JumunController.class);
 	
 	// 메뉴 설정
-	@RequestMapping(value = "/menuSetting.do")
+	@RequestMapping(value = "/erp/menuSetting.do")
 	public String menuSettingSearch(@ModelAttribute("mt_Code") String mt_Code, Model model) {
 		model.addAttribute("menuTypeList", jumunService.menuTypeSearch("all"));
 		model.addAttribute("menuList", jumunService.menuSearch(mt_Code, "미판매"));
@@ -48,13 +48,14 @@ public class JumunController {
 	}
 	
 	// 메뉴구분 추가 형식
-	@RequestMapping(value = "/menuTypeAddForm.do")
+	@RequestMapping(value = "/erp/menuTypeAddForm.do")
 	public String menuTypeAddForm() {
+		
 		return "views/jumun/menuTypeAddForm";
 	}
 	
 	// 메뉴구분 추가
-	@RequestMapping(value = "/menuTypeAdd.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/erp/menuTypeAdd.do", method = RequestMethod.POST)
 	@ResponseBody
 	public int menuTypeAdd(@RequestBody MenuTypeDTO menuTypeDTO, RedirectAttributes attr) {
 		
@@ -62,7 +63,7 @@ public class JumunController {
 	}
 	
 	// 메뉴구분 관리
-	@RequestMapping(value = "/menuTypeList.do")
+	@RequestMapping(value = "/erp/menuTypeList.do")
 	public String menuTypeList(Model model) {
 		model.addAttribute("menuTypeList", jumunService.menuTypeSearch("all"));
 		
@@ -70,7 +71,7 @@ public class JumunController {
 	}
 	
 	// 메뉴구분 삭제
-	@RequestMapping(value = "/menuTypeRemove.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/erp/menuTypeRemove.do", method = RequestMethod.POST)
 	@ResponseBody
 	public int menuTypeRemove(@RequestParam("mt_Code") String[] mt_CodeList) {
 		
@@ -78,7 +79,7 @@ public class JumunController {
 	}
 	
 	// 메뉴구분 수정
-	@RequestMapping(value = "/menuTypeModi.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/erp/menuTypeModi.do", method = RequestMethod.POST)
 	@ResponseBody
 	public int menuTypeModi(@RequestBody MenuTypeDTO menuTypeDTO) {
 		
@@ -86,7 +87,7 @@ public class JumunController {
 	}
 	
 	// 메뉴 추가 형식
-	@RequestMapping(value = "/menuAddForm.do")
+	@RequestMapping(value = "/erp/menuAddForm.do")
 	public String menuAddForm(Model model) {
 		model.addAttribute("menuTypeList", jumunService.menuTypeSearch("all"));
 		model.addAttribute("productList", jumunService.productSearch());
@@ -95,7 +96,7 @@ public class JumunController {
 	}
 	
 	// 메뉴 추가
-	@RequestMapping(value = "/menuAdd.do", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/erp/menuAdd.do", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public int menuAdd(MenuDTO menuDTO, MultipartHttpServletRequest mRequest) {
 		String fileName = jumunService.imgUpload(mRequest);
@@ -105,7 +106,7 @@ public class JumunController {
 	}
 	
 	// 메뉴 삭제
-	@RequestMapping(value = "/menuRemove.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/erp/menuRemove.do", method = RequestMethod.POST)
 	public String menuRemove(RedirectAttributes attr, @RequestParam("menu_Code") String[] list) {
 		attr.addFlashAttribute("result", jumunService.menuRemove(list));
 		
@@ -113,7 +114,7 @@ public class JumunController {
 	}
 	
 	// 메뉴 수정 형식
-	@RequestMapping(value = "/menuModiForm.do")
+	@RequestMapping(value = "/erp/menuModiForm.do")
 	public String menuModiForm(@RequestParam("menu_Code") String menu_Code, Model model) {
 		model.addAttribute("menuTypeList", jumunService.menuTypeSearch("all"));
 		model.addAttribute("menuDTO", jumunService.menuSearchByMenuCode(menu_Code));
@@ -123,7 +124,7 @@ public class JumunController {
 	}
 	
 	// 메뉴 수정
-	@RequestMapping(value = "/menuModi.do", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/erp/menuModi.do", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public int menuModi(MenuDTO menuDTO, MultipartHttpServletRequest mRequest) {
 		String fileName = jumunService.imgUpload(mRequest);
@@ -134,7 +135,7 @@ public class JumunController {
 	}
 	
 	// 재료 확인
-	@RequestMapping(value = "/ingreSearchByMenuCode.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/erp/ingreSearchByMenuCode.do", method = RequestMethod.POST)
 	@ResponseBody
 	public ArrayList<IngredientDTO> ingreSearchByMenuCode(@RequestParam("menu_Code") String menu_Code) {
 
@@ -142,7 +143,7 @@ public class JumunController {
 	}
 	
 	// 테이블 설정
-	@RequestMapping(value = "/tableSetting.do")
+	@RequestMapping(value = "/erp/tableSetting.do")
 	public String tableSetting(Model model) {
 		model.addAttribute("tableList", jumunService.tableSearch());
 		
@@ -150,7 +151,7 @@ public class JumunController {
 	}
 	
 	// 테이블 위치 저장
-	@RequestMapping(value = "/tableSave.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/erp/tableSave.do", method = RequestMethod.POST)
 	@ResponseBody
 	public int tableSave(@RequestBody List<TableSaveDTO> list) {
 		return jumunService.tableAdd(list);

@@ -208,34 +208,15 @@ public class InsaController {
 		return items;
 	}
 
-	@RequestMapping("/InsaLoginCheck")
-	public ModelAndView InsaLoginCheck(@ModelAttribute Insa_EmpRegisterDTO dto, HttpSession session) {
-		boolean result = insaService.InsaLoginCheck(dto, session);
+	@RequestMapping("/logout")
+	public ModelAndView logout(HttpSession session) {
+		insaService.logout(session);
 		ModelAndView mav = new ModelAndView();
-		if (result == true) { 
-			mav.setViewName("redirect:jumun/posMain.do");
-			mav.addObject("msg", "success");
-		} else {
-			mav.setViewName("views/insa/InsaLogin");
-			mav.addObject("msg", " failure");
-
-		}
-
-		return mav;
-
+		mav.setViewName("views/insa/InsaLogin");
+		mav.addObject("msg", "logout");
+		
+		return mav; 
+		
 	}
-		@RequestMapping("/logout")
-		public ModelAndView logout(HttpSession session) {
-			insaService.logout(session);
-			ModelAndView mav = new ModelAndView();
-			mav.setViewName("views/insa/InsaLogin");
-			mav.addObject("msg", "logout");
-			
-			return mav; 
-			
-		}
-		
-		
-		
 		
 }

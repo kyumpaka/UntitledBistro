@@ -143,13 +143,13 @@ INSERT INTO PRODUCT(PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STNDR,PRODUCT_PRICE,PRODUC
 ------------------------------------------------------------------------------------
 
 CREATE TABLE DEFECT_ITEM ( -- 제품하자 테이블
-        DI_NO NUMBER, -- 번호(PK)
-        DI_PRODUCT_CODE VARCHAR2(20), -- 품목코드(FK)
-        DI_PRODUCT_NAME VARCHAR2(50), -- 품목명(역정렬화)
-        DI_QTY NUMBER, -- 제품하자 수량
-        DI_DATE DATE DEFAULT SYSDATE, -- 제품하자 날짜
-        DI_STATE VARCHAR2(20), -- 제품하자 상태(출고, 반품, 손상 등)
-        DI_REASON VARCHAR2(300) -- 제품하자 이유
+         DI_NO NUMBER -- 번호(PK)
+        ,DI_PRODUCT_CODE VARCHAR2(20) -- 품목코드(FK)
+        ,DI_PRODUCT_NAME VARCHAR2(50) -- 품목명(역정렬화)
+        ,DI_QTY NUMBER -- 제품하자 수량
+        ,DI_DATE DATE DEFAULT SYSDATE -- 제품하자 날짜
+        ,DI_STATE VARCHAR2(20) -- 제품하자 상태(출고, 반품, 손상 등)
+        ,DI_REASON VARCHAR2(300) -- 제품하자 이유
 );
 
 INSERT INTO DEFECT_ITEM(DI_NO,DI_PRODUCT_CODE,DI_PRODUCT_NAME,DI_QTY,DI_STATE,DI_REASON,DI_DATE) 

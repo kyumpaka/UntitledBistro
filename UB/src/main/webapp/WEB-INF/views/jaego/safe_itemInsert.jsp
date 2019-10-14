@@ -151,7 +151,6 @@
 		<div id="jsGridPage"></div> <!-- 그리드를 이용한 페이징 -->
 		<button id="insertBtn" class="btn btn-primary btn-sm">등록</button>
 		<button id="listBtn" class="btn btn-primary btn-sm">목록</button>
-		<button id="testBtn" class="btn btn-primary btn-sm">테스트</button>
 	</div>
 	
 	
