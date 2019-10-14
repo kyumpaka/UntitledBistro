@@ -27,4 +27,14 @@ CREATE TABLE ORDERLIST( -- 발주서 내역 상세
         ORDER_END VARCHAR2(20) DEFAULT 'N' -- 완료여부
 );
 
+CREATE TABLE ORDER_PLAN ( -- 발주계획상세
+        ORDPL_ORDLIN_NUM VARCHAR2(20), -- 발주계획번호(FK)
+        ORDPL_ONUM VARCHAR2(20), -- 발주상세번호(PK)
+        ORDPL_PRODUCT_CODE VARCHAR2(20), -- 품목코드(FK)
+        ORDPL_PRODUCT_NAME VARCHAR2(100), -- 제품명
+        ORDPL_PRODUCT_STNDR VARCHAR2(20), --규격
+        ORDPL_QT NUMBER, -- 품목수량
+        ORDPL_PR_EA NUMBER,
+        ORDPL_WR VARCHAR2(50) -- 작성자
+);
 commit;
