@@ -239,17 +239,17 @@
 			</when>
 			<when test="'payment_Date' == searchType">
 				<choose>
-					<when test="predatepicker != null and postdatepicker != null">
+					<when test="predatepicker != '' and postdatepicker != ''">
 					<![CDATA[
-					payment_Date >= #{predatepicker} and payment_Date <= #{postdatepicker}
+					payment_Date >= #{predatepicker} and payment_Date < #{postdatepicker}
 					]]>
 					</when>
-					<when test="predatepicker != null and postdatepicker != null">
+					<when test="predatepicker != ''">
 					payment_Date >= #{predatepicker}
 					</when>
-					<when test="predatepicker != null and postdatepicker != null">
+					<when test="postdatepicker != ''">
 					<![CDATA[
-					payment_Date <= #{postdatepicker}
+					payment_Date < #{postdatepicker}
 					]]>
 					</when>
 				</choose>

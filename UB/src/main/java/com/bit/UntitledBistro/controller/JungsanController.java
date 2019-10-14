@@ -16,6 +16,7 @@ import com.bit.UntitledBistro.service.jungsan.Jungsan_Input_Service;
 import com.bit.UntitledBistro.service.jungsan.Jungsan_view_Service;
 
 @Controller
+@RequestMapping("/jungsan")
 public class JungsanController {
 	@Resource(name = "view")
 	private Jungsan_view_Service jungsan_view_Service; // 결산 현황 view
@@ -23,7 +24,8 @@ public class JungsanController {
 	private Jungsan_Input_Service jungsan_input_Service; // 결산 마감 insert & list
 	private Object insert_daily; // 일마감 인서트 dto
 
-	@RequestMapping("View_jungsan.html") // 결산 현황 view 매핑
+	
+	@RequestMapping("/View_jungsan.html") // 결산 현황 view 매핑
 	public String Show(HttpServletRequest request) {
 
 		int menucount_total = jungsan_view_Service.menucount_total(); // 메뉴 토탈 테스트용

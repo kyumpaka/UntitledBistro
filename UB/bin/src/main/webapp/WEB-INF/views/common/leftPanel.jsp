@@ -9,7 +9,7 @@
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active">
-                        <a href="${path}"><i class="menu-icon fa fa-laptop"></i>현황판</a>
+                        <a href="${path}/erp"><i class="menu-icon fa fa-laptop"></i>현황판</a>
                     </li>
                     <li class="menu-title">재고관리</li><!-- /.menu-title -->
                     <li class="menu-item-has-children dropdown">
@@ -60,10 +60,10 @@
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>사원관리</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-sign-in"></i><a href="page-login.html">직원 등록</a></li>
+                            <li><i class="menu-icon fa fa-sign-in"></i><a href="${path }/InsaLogin">직원 등록</a></li>
                             <li><i class="menu-icon fa fa-sign-in"></i><a href="${path}/EmpRegisterList">직원 목록</a></li>
                             <li><i class="menu-icon fa fa-paper-plane"></i><a href="pages-forget.html">급여 확인</a></li>
-                            <li><i class="fa fa-bars"></i><a href="ui-tabs.html">근무 스케줄</a></li>
+                            <li><i class="fa fa-bars"></i><a href="${path }/Schedule">근무 스케줄</a></li>
                         </ul>
                     </li>
                       <li class="menu-item-has-children dropdown">

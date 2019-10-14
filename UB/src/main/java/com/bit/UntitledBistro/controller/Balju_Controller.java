@@ -93,7 +93,8 @@ public class Balju_Controller {
 			  BPdto.setORDPL_QT(Integer.parseInt(data.get("ORDER_QT")));
 			  BPdto.setORDPL_PR_EA(Integer.parseInt(data.get("ORDER_PR_EA")));
 			  BPdto.setORDPL_WR(data.get("ORDER_WR"));
-			  
+			  System.out.println(BPdto);
+			  System.out.println("결과");
 			  this.balju_Service.insert_Balju_Plan2(BPdto);
 			}
 		

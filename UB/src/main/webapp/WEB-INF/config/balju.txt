@@ -1,5 +1,45 @@
 -- jaego.txt에 PRODUCT 테이블 생성을 기준으로 만들었습니다.
 
+
+DROP TABLE ORDER_INPUT;
+create table ORDER_INPUT ( -- 발주서 내역 
+        ORDIN_NUM VARCHAR2(20), -- 목록번호(PK)
+        ORDIN_DATE DATE -- 목록일자
+);
+DROP TABLE ORPL_INPUT;
+
+CREATE TABLE ORPL_INPUT(   
+    ORPLIN_NUM VARCHAR2(20 BYTE)
+    ,ORPLIN_DATE DATE
+);
+
+DROP TABLE ORDER_PLAN;
+
+create table ORDER_PLAN ( -- 발주계획상세
+        ORDPL_ORDLIN_NUM VARCHAR2(20), -- 발주계획번호(FK)
+        ORDPL_ONUM VARCHAR2(20), -- 발주상세번호(PK)
+        ORDPL_PRODUCT_CODE VARCHAR2(20), -- 품목코드(FK)
+        ORDPL_PRODUCT_NAME VARCHAR2(100), -- 제품명
+        ORDPL_PRODUCT_STNDR VARCHAR2(20), --규격
+        ORDPL_QT NUMBER, -- 품목수량
+        ORDPL_PR_EA NUMBER,
+        ORDPL_WR VARCHAR2(50) -- 작성자
+);
+DROP TABLE ORDERLIST;
+create table ORDERLIST( -- 발주서 내역 상세
+        ORDER_ORDIN_NUM VARCHAR2(20), -- 목록번호(FK)
+        ORDER_NUM VARCHAR2(20), -- 발주번호(PK)
+        ORDER_PRODUCT_CODE VARCHAR2(20), -- 품목코드(FK
+        ORDER_PRODUCT_NAME VARCHAR2(100),
+        ORDER_PRODUCT_STNDR VARCHAR2(20),
+        ORDER_QT NUMBER, -- 수량
+        ORDER_PR_EA NUMBER, -- 단가
+        ORDER_WR VARCHAR2(50), -- 작성자        
+        ORDER_STAT VARCHAR2(20), -- 진행상태
+        ORDER_END VARCHAR2(20) DEFAULT 'N' -- 완료여부
+);
+
+
 insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA11', '토마토', '개',500); 
 insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA22', '우유1L', '개',3500);
 insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA33', '올리브오일1L', '개',5000);
