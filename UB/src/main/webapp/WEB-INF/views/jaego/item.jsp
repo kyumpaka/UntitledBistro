@@ -3,16 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
-<!-- jQuery -->
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
-
-<!-- sweetAlert -->
-<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script> -->
-
-<!-- Modal -->
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
-
 <!-- datePicker -->
 <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
@@ -28,20 +18,17 @@
 	#jsGrid {
 		margin: auto;
 	}
+	
+	/* 디자인 수정부분 */
 	.form-inline {
 		display: grid;
+		margin-bottom: 8px;
 	}
+	
 	/* jsGird 스크롤바 없애기 */
 	.jsgrid-header-scrollbar {overflow: hidden;}
 	.jsgrid-grid-body {overflow: hidden;}
 	
-	.input-group-addon {
-		/* width: 39px;
-		height: 34px; */
-	}
-	.input-group {
-		/* width: 25px; */
-	}
 	.form-group {
 		display: flex;
 		padding-bottom: 5px;
@@ -50,26 +37,29 @@
 	.input-group date {
 		margin-left: -4px;
 	}
+	
+	/* 디자인 수정부분 */
 	#yearInput {
 		width: 79px;
 		margin-right: 5px;
 	}
 	#year {
-		width: 79px;
+		width: 84px;
 		margin-right: 5px;
 	}
 	#month {
-		width: 76px;
+		width: 80px;
 		margin-right: 5px;
 	}
 	#day {
-		width: 42px;
+		width: 43px;
 	}
+	
 	#searchBackground {
 		margin: auto;
 		width: 600px;
-		margin-top: 15px;
-		margin-bottom: 15px;
+		margin-top: 10px;
+		margin-bottom: 5px;
 		padding: 10px;
 		background-color: #f3f0f0;
 	}
@@ -85,6 +75,8 @@
 	#search, #search2 {
 		display: inline-flex;
 	}
+	
+	/* 디자인 수정부분 */
 	label {
 		font-weight: bold;
 		margin-left: 10px;
@@ -237,7 +229,7 @@
 					title: "품목코드",
 					width : 200
 				}, {
-					name : "product_name",
+					name : "item_product_name",
 					type : "text",
 					title : "품목명",
 					width : 200
