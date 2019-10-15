@@ -3,8 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 <!-- sweetAlert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<!-- Modal -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
 <!-- datePicker -->
 <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
@@ -21,68 +27,86 @@
 	#jsGrid {
 		margin: auto;
 	}
-	
-	/* 디자인 수정부분 */
 	.form-inline {
 		display: grid;
-		margin-bottom: 8px;
+	}
+	.jsgrid-header-scrollbar {
+		overflow: hidden;
 	}
 	
-	/* jsGird 스크롤바 없애기 */
-	.jsgrid-header-scrollbar {overflow: hidden;}
-	.jsgrid-grid-body {overflow: hidden;}
+	.jsgrid-grid-body {
+		overflow: hidden;
+	}
+	
+	.input-group-addon {
+		width: 39px;
+		height: 34px;
+	}
+	
+	.input-group {
+		width: 25px;
+	}
 	
 	.form-group {
 		display: flex;
 		padding-bottom: 5px;
 		padding-top: 5px;
 	}
+	
 	.input-group date {
 		margin-left: -4px;
 	}
 	
-	/* 디자인 수정부분 */
-	#yearInput {
+	#yearInput, #yearInput2 {
 		width: 79px;
 		margin-right: 5px;
 	}
-	#year {
-		width: 84px;
+	
+	#year, #year2 {
+		width: 79px;
 		margin-right: 5px;
 	}
-	#month {
-		width: 80px;
+	
+	#month, #month2 {
+		width: 76px;
 		margin-right: 5px;
 	}
-	#day {
-		width: 43px;
+	
+	#day, #day2 {
+		width: 42px;
 	}
 	
 	#searchBackground {
 		margin: auto;
 		width: 600px;
-		margin-top: 10px;
-		margin-bottom: 5px;
+		margin-top: 15px;
+		margin-bottom: 15px;
 		padding: 10px;
 		background-color: #f3f0f0;
 	}
+	
 	#dateResult {
 		text-align: right;
 		font-weight: bold;
 		padding-right: 1px;
 	}
+	
 	#jsGridBackground {
 		margin: auto;
 		width: 600px;
 	}
+	
+	#centher {
+		width: 50px;
+	}
 	#search, #search2 {
 		display: inline-flex;
 	}
-	
-	/* 디자인 수정부분 */
-	label {
-		font-weight: bold;
-		margin-left: 10px;
+	#logo {
+		color: #878787;
+		font: 20px "Open Sans", sans-serif;
+		margin: 0px 16px 0px 0px;
+		padding: 11px 0px;
 	}
 </style>
 	
@@ -144,28 +168,28 @@
 				<div class="input-group date">
 					<input type="hidden" class="form-control" id="date"> 
 					<span class="input-group-addon"> 
-						<i class="fa fa-calendar"></i>
+						<i class="glyphicon glyphicon-calendar"></i>
 					</span>
 				</div>
 			</div> <!-- 날짜 end -->
 			
 			<div id="search" class="form-group">
-				<label for="product_code" class="text-dark">품목코드</label>
+				<label for="product_code" class="col-2 col-form-label">품목코드</label>
 				<div class="col-10">
 					<!-- 검색 모달창 열기버튼 -->
-					<button id="open" type="button" class="btn btn-light" data-toggle="modal" data-target="#myModal">
-						<i class="fa fa-search"></i>
+					<button id="open" type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">
+						<i class="glyphicon glyphicon-search"></i>
 					</button>
 					<input class="form-control" type="search" placeholder="검색할 품목코드 입력" id="product_code">
 				</div>
 			</div>
 			
 			<div id="search2" class="form-group">
-				<label for="product_name" class="text-dark">품목명</label>
+				<label for="product_name" class="col-2 col-form-label">품목명</label>
 				<div class="col-10">
 					<!-- 검색 모달창 열기버튼 -->
-					<button id="open2" type="button" class="btn btn-light" data-toggle="modal" data-target="#myModal">
-						<i class="fa fa-search"></i>
+					<button id="open2" type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">
+						<i class="glyphicon glyphicon-search"></i>
 					</button>
 					<input class="form-control" type="search" placeholder="검색할 품목명 입력" id="product_name">
 				</div>
@@ -174,7 +198,7 @@
 		</div> <!-- form-inline end -->
 		
 		<button type="button" id="searchBtn" class="btn btn-primary btn-sm">검색</button>
-		<button type="button" id="cancle" class="btn btn-success btn-sm">취소</button>
+		<button type="button" id="cancle" class="btn btn-default btn-sm">취소</button>
 		
 	</div> <!-- searchBackground end -->
   
@@ -203,7 +227,7 @@
 		title: "품목코드",
 		width : 80
 	}, {
-		name : "di_product_name",
+		name : "product_name",
 		type : "text",
 		title: "품목명",
 		width : 100
@@ -242,7 +266,6 @@
 			url:"${path}/jaego/gridDefectItemSelectList",
 		})
 		.done(function(json) {
-			console.log(json);
 			originalData = json.slice();
 			$("#jsGrid").jsGrid({
 				// 그리드 크기설정
@@ -286,7 +309,6 @@
 					
 					var index = updateData.indexOf(item);
 					if(index != -1) updateData.splice(index, 1);
-			
 				}
 			}); // 그리드 끝
 		}); // ajax 끝
@@ -372,20 +394,18 @@
 				contentType : "application/json",
 				data : JSON.stringify(updateData)
 			})
-			.done(function(count) {
+			.done(function() {
 				swal("수정 성공!", "불량테이블 수정을 완료되었습니다.", "success")
 				.then((value) => {
 					completeDelete();
 				});
 				updateData = [];
-				webSocket.send(count);
 			});
 		}
 	}
 	
 	// 불량 테이블 삭제함수
 	function completeDelete() {
-		console.log(deleteData);
 		if(deleteData != "" && deleteData != null) {
 			$.ajax({
 				url : "${path}/jaego/gridDefectItemDeletes",
@@ -394,10 +414,9 @@
 				contentType : "application/json",
 				data : JSON.stringify(deleteData)
 			})
-			.done(function(count) {
+			.done(function() {
 				swal("삭제요청 성공!", "작업요청을 완료되었습니다.", "success");
 				deleteData = [];
-				webSocket.send(count);
 			});
 		}
 	}
@@ -418,7 +437,7 @@
 				completeDelete();
 			}
 			
-		// 취소 버튼
+		// 삭제 버튼
 		} else if(this.id == "updateCancleBtn") {
 			$("#jsGrid").jsGrid({editing:false, fields:fieldsData, data:originalData});
 		}
@@ -530,3 +549,5 @@
 	});
 	
 </script>
+
+</html>

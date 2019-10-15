@@ -3,8 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 <!-- sweetAlert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<!-- Modal -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
 <!-- datePicker -->
 <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
@@ -21,48 +28,57 @@
 	#jsGrid {
 		margin: auto;
 	}
-	
-	/* 디자인 수정부분 */
 	.form-inline {
 		display: grid;
-		margin-bottom: 8px;
+	}
+	.jsgrid-header-scrollbar {
+		overflow: hidden;
 	}
 	
-	/* jsGird 스크롤바 없애기 */
-	.jsgrid-header-scrollbar {overflow: hidden;}
-	.jsgrid-grid-body {overflow: hidden;}
+	.jsgrid-grid-body {
+		overflow: hidden;
+	}
+	
+	.input-group-addon {
+		width: 39px;
+		height: 34px;
+	}
+	
+	.input-group {
+		width: 25px;
+	}
 	
 	.form-group {
 		display: flex;
 		padding-bottom: 5px;
 		padding-top: 5px;
 	}
-	.input-group date {
-		margin-left: -4px;
-	}
 	
 	#searchBackground {
 		margin: auto;
 		width: 600px;
-		margin-top: 10px;
-		margin-bottom: 5px;
+		margin-top: 15px;
+		margin-bottom: 15px;
 		padding: 10px;
 		background-color: #f3f0f0;
 	}
-
+	
 	#jsGridBackground {
 		margin: auto;
 		width: 600px;
 	}
 	
-	/* 디자인 수정부분 */
-	label {
-		font-weight: bold;
-		margin-left: 10px;
+	#centher {
+		width: 50px;
 	}
-	
-	#insertBtn, #listBtn {
-		margin-top: 10px;
+	#search, #search2 {
+		display: inline-flex;
+	}
+	#logo {
+		color: #878787;
+		font: 20px "Open Sans", sans-serif;
+		margin: 0px 16px 0px 0px;
+		padding: 11px 0px;
 	}
 </style>
 	
@@ -105,29 +121,17 @@
 		<div class="form-inline">
 			
 			<div id="search" class="form-group">
-				<label for="product_code" class="text-dark">품목코드</label>
+				<label for="product_code" class="col-2 col-form-label">품목코드</label>
 				<div class="col-10">
 					<!-- 검색 모달창 열기버튼 -->
-					<button id="open" class="btn btn-light" data-toggle="modal" data-target="#myModal">
-						<i class="fa fa-search"></i>
+					<button id="open" type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">
+						<i class="glyphicon glyphicon-search"></i>
 					</button>
 					<input class="form-control" type="search" placeholder="검색할 품목코드 입력" id="product_code">
-					<button id="codeSearchBtn" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">검색</button>
+					<button id="applyBtn" class="btn btn-primary btn-sm">적용</button>
 				</div>
 			</div>
-			
-			<div id="search" class="form-group">
-				<label for="product_name" class="text-dark">품목명</label>
-				<div class="col-10">
-					<!-- 검색 모달창 열기버튼 -->
-					<button id="open" class="btn btn-light" data-toggle="modal" data-target="#myModal">
-						<i class="fa fa-search"></i>
-					</button>
-					<input class="form-control" type="search" placeholder="검색할 품목명 입력" id="product_name">
-					<button id="nameSearchBtn" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">검색</button>
-				</div>
-			</div>
-			
+
 		</div> <!-- form-inline end -->
 		
 	</div> <!-- searchBackground end -->
@@ -138,7 +142,7 @@
 		<div id="jsGrid"></div> <!-- 그리드를 이용한 테이블 -->
 		<div id="jsGridPage"></div> <!-- 그리드를 이용한 페이징 -->
 		<button id="insertBtn" class="btn btn-primary btn-sm">등록</button>
-		<button id="listBtn" class="btn btn-primary btn-sm">목록</button>
+		<button type="button" id="listBtn" class="btn btn-primary btn-sm">목록</button>
 	</div>
 
 
@@ -181,12 +185,7 @@
 				name : "di_product_code",
 				type : "text",
 				title: "품목코드",
-				width : 80		
-			}, {
-				name : "di_product_name",
-				type : "text",
-				title: "품목명",
-				width : 80		
+				width : 80
 			}, {
 				name : "di_qty",
 				type : "text",
@@ -230,6 +229,12 @@
 		.fail(function() {
 			swal("등록 실패!", "불량수량이 재고수량보다 많습니다.", "error");
 		}); 
+	});
+	
+	// 적용 버튼 클릭했을 경우 입력창 적용하기
+	$("#applyBtn").on("click",function() {
+		var product_code = $("#product_code").val();
+		$($("#jsGrid .jsgrid-insert-row input")[0]).val(product_code);
 	});
 	
 	// 목록 버튼 클릭했을 경우 이동하기
@@ -293,14 +298,11 @@
 			// 특정 행을 클릭했을 경우
 			rowClick: function(args) {
 				var product_code = args.item.product_code;
-				var product_name = args.item.product_name;
 				
 				// 그리드 입력창 해당셀에 값 적용
 				$($("#jsGrid .jsgrid-insert-row input")[0]).val(product_code);
-				$($("#jsGrid .jsgrid-insert-row input")[1]).val(product_name);
 				
 				$("#product_code").val(product_code);
-				$("#product_name").val(product_name);
 				$("#myModal").trigger("click"); // 강제 클릭
 			},
 			
@@ -313,9 +315,9 @@
 					}
 					
 					// 검색할 값이 있을 경우
-					var filterData;
-					if(filter.product_code !== "") filterData = valueTest(productData,"product_code",filter.product_code);
-					if(filter.product_name !== "") filterData = valueTest(productData,"product_name",filter.product_name);
+					var filterData = original;
+					if(filter.product_code !== "") filterData = valueTest(productData,"product_code",filter);
+					if(filter.product_name !== "") filterData = valueTest(productData,"product_name",filter);
 					return filterData;
 				}
 		
@@ -325,27 +327,16 @@
 	}); // ajax end
 	
 	// 검색할 때 필터와 일치하는 데이터 제거하기
-	function valueTest(arr,condition,value) {
+	function valueTest(arr,condition,filter) {
 		return $.grep(arr, function(i) {
-			if(condition == "product_code") return i.product_code.indexOf(value) != -1;
-			if(condition == "product_name") return i.product_name.indexOf(value) != -1;
+			if(condition == "product_code") return i.product_code.indexOf(filter.product_code) != -1;
+			if(condition == "product_name") return i.product_name.indexOf(filter.product_name) != -1;
 		});
 	}
 	
 	// 검색창을 새로 열때마다 품목데이터 초기화
-	$("#open, #open2").on("click",function() {
-		$("#productJsGrid").jsGrid({data:[], pageIndex: 1});
-		$("#productJsGrid").jsGrid("loadData");
-	});
-
-	// 품목코드, 품목명 검색 버튼 클릭했을 경우 입력창 적용하기
-	$("#codeSearchBtn, #nameSearchBtn").on("click",function() {
-		var product_code = $("#product_code").val();
-		var product_name = $("#product_name").val();
-		
-		$($("#productJsGrid input")[0]).val(product_code);
-		$($("#productJsGrid input")[1]).val(product_name);
-		
+	$("#open").on("click",function() {
+		$("#productJsGrid").jsGrid({data:productData, pageIndex: 1});
 		$("#productJsGrid").jsGrid("loadData");
 	});
 

@@ -207,16 +207,5 @@ public class InsaController {
 		}
 		return items;
 	}
-
-	@RequestMapping("/logout")
-	public ModelAndView logout(HttpSession session) {
-		insaService.logout(session);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("views/insa/InsaLogin");
-		mav.addObject("msg", "logout");
-		
-		return mav; 
-		
-	}
 		
 }

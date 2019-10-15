@@ -122,7 +122,7 @@ function upload(){
 			$.ajax({
 	            type: "POST",
 	            enctype: 'multipart/form-data',
-	            url: "/erp/menuAdd.do",
+	            url: "menuAdd.do",
 	            data: formData,
 	            processData: false,
 	            contentType: false,
@@ -191,6 +191,7 @@ function igdcheck(){
 			return false;
 		}
 	}
+	if(igdcnt == 0) return false;
 	return true;
 };
 </script>
