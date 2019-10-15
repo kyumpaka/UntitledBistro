@@ -319,15 +319,25 @@
 	$("#searchBtn").click(function(){
 		
 		// 빨간 테두리 존재여부
-		if($("#yy-mm-dd").css("border") == "1px solid rgb(255, 0, 0)"
-				|| $("#yy-mm-dd2").css("border") == "1px solid rgb(255, 0, 0)") {
-			alert("올바른 검색조건으로 입력하세요.");
+		if($("#year").css("border") == "1px solid rgb(255, 0, 0)"
+				|| $("#year2").css("border") == "1px solid rgb(255, 0, 0)") {
+			swal({
+				  title: "잘못된 년도입력!",
+				  text: "올바른 범위로 년도를 입력하세요.! (1900 ~ " + (year+1) + ")",
+				  icon: "error",
+				  button: "확인",
+			});
 			return;
 		}
 		
 		// 날짜 크기 유효성 검사
 		if(new Date(startDate) > new Date(endDate)) {
-			alert("시작날짜가 종료날짜보다 클 수는 없습니다.");
+			swal({
+				  title: "잘못된 년도입력!",
+				  text: "시작날짜가 종료날짜보다 클 수는 없습니다.",
+				  icon: "error",
+				  button: "확인",
+			});
 			return;
 		}
 		

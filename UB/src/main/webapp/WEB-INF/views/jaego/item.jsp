@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
+<!-- sweetAlert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <!-- datePicker -->
 <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
@@ -264,8 +267,13 @@
 	$("#searchBtn").click(function(){
 		
 		// 빨간 테두리 존재여부
-		if($("#yy-mm-dd").css("border") == "1px solid rgb(255, 0, 0)") {
-			alert("올바른 검색조건으로 입력하세요.");
+		if($("#year").css("border") == "1px solid rgb(255, 0, 0)") {
+			swal({
+				  title: "잘못된 년도입력!",
+				  text: "올바른 범위로 년도를 입력하세요.! (1900 ~ " + (year+1) + ")",
+				  icon: "error",
+				  button: "확인",
+			});
 			return;
 		}
 		

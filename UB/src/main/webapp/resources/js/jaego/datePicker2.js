@@ -67,16 +67,16 @@ function yearInput(yearInputId,yearId) {
 	
 	if(yearInput.val() >= 1900 && yearInput.val() <= new Date().getFullYear()+1) {
 		if(yearId == "year") {
-			$("#yy-mm-dd").css("border","");
+			$("#year").css("border","");
 		} else if(yearId == "year2") {
-			$("#yy-mm-dd2").css("border","");
+			$("#year2").css("border","");
 		}
 	} else {
 		alert("올바르지 않는 날짜형식 입니다.");
 		if(yearId == "year") {
-			$("#yy-mm-dd").css("border","1px solid red");
+			$("#year").css("border","1px solid red");
 		} else if(yearId == "year2") {
-			$("#yy-mm-dd2").css("border","1px solid red");
+			$("#year2").css("border","1px solid red");
 		}
 	}
 }

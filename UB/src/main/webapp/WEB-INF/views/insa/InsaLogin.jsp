@@ -98,6 +98,7 @@
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" id="empregister_jumin" name="empregister_jumin" class="form-control" placeholder="Password" required><br>
         
+        <%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> --%>
         <button type="button" id="btnLogin">로 그 인</button>
       </form>
       

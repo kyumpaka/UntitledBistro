@@ -279,7 +279,6 @@
 				onItemUpdated : function(args) {
 					if(args.item.di_qty <= 0) {
 						swal("수량갯수 오류","수량은 0보다 크게 입력해야 수정가능합니다.","error");
-						console.log("결과");
 						$(args.row).css("border","1px solid red");
 						errorData.push(args.itemIndex);
 						return;
@@ -325,8 +324,13 @@
 	$("#searchBtn").click(function(){
 		
 		// 빨간 테두리 존재여부
-		if($("#yy-mm-dd").css("border") == "1px solid rgb(255, 0, 0)") {
-			swal("올바른 검색조건으로 입력하세요.","","info")
+		if($("#year").css("border") == "1px solid rgb(255, 0, 0)") {
+			swal({
+				  title: "잘못된 년도입력!",
+				  text: "올바른 범위로 년도를 입력하세요.! (1900 ~ " + (year+1) + ")",
+				  icon: "error",
+				  button: "확인",
+			});
 			return;
 		}
 		

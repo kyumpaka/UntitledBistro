@@ -210,6 +210,7 @@ public class InsaController {
 
 	@RequestMapping("/logout")
 	public ModelAndView logout(HttpSession session) {
+		System.out.println("로그아웃함 !!");
 		insaService.logout(session);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("views/insa/InsaLogin");

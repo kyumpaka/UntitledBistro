@@ -142,103 +142,6 @@
 	</div>
 
 
-<!-- 메인화면 기능 -->
-<script type="text/javascript">
-	
-	$(document).ready(function() {
-		
-		$("#jsGrid").jsGrid({
-			// 그리드 크기설정
-			width : "100%",
-			height : "auto",
-			inserting: true,
-			editing : true,
-			
-			// 데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
-			autoload : true,
-			
-			// 그리드 헤더 클릭시 sorting이 되게함
-			sorting : true,
-			
-			// 페이징 기본설정
-			paging:true,
-			pageSize : 10,
-			pageButtonCount : 5,
-			
-			// 커스텀 페이징 설정
-			pagerContainer: "#jsGridPage",
-            pagerFormat: "{first} {prev} {pages} {next} {last}",
-            pagePrevText: "<",
-            pageNextText: ">",
-            pageFirstText: "<<",
-            pageLastText: ">>",
-			
-			// 비어있는 배열을 데이터에 연결.
-			data : [], 
-			
-			// 그리드에 표현될 필드 요소
-			fields : [ {
-				name : "di_product_code",
-				type : "text",
-				title: "품목코드",
-				width : 80		
-			}, {
-				name : "di_product_name",
-				type : "text",
-				title: "품목명",
-				width : 80		
-			}, {
-				name : "di_qty",
-				type : "text",
-				title: "불량수량",
-				width : 80
-			}, {
-				name : "di_state",
-				type : "text",
-				title: "불량상태",
-				width : 80
-			}, {
-				name : "di_reason",
-				type : "text",
-				title: "불량이유",
-				width : 150
-			}, {
-				// 그리드에서 제공하는 버튼 설정
-				type: "control", editButton: true, modeSwitchButton: false   
-			}]
-			
-		}); // 그리드 끝
-	}); // ready 끝
-	
-	// 등록 버튼 클릭했을 경우 DB에 적용하기
-	$("#insertBtn").on("click",function() {
-		
-		$.ajax({
-			url : "${path}/jaego/gridDefectItemInsert",
-			type : "post",
-			contentType : "application/json",
-			// 배열객체를 json형태의 문자열로 변환하여 전달하기
-			data : JSON.stringify($("#jsGrid").jsGrid("option","data"))
-		})
-		.done(function(count) {
-			swal("등록 성공!", "불량재고 등록을 완료했습니다.", "success");
-			webSocket.send(count);
-			$("#jsGrid").jsGrid("clearInsert");
-			$("#jsGrid").jsGrid({data : []});
-			$("#jsGrid").jsGrid("loadData");
-		})
-		.fail(function() {
-			swal("등록 실패!", "불량수량이 재고수량보다 많습니다.", "error");
-		}); 
-	});
-	
-	// 목록 버튼 클릭했을 경우 이동하기
-	$("#listBtn").on("click",function() {
-		window.location.href = "${path}/jaego/defect_item";
-	});
-</script>
-
-
 <!-- 모달 검색창 -->
 <script type="text/javascript">
 	var productData;
@@ -350,5 +253,109 @@
 	});
 
 </script>
+
+
+<!-- 메인화면 기능 -->
+<script type="text/javascript">
+	
+	$(document).ready(function() {
+		
+		$("#jsGrid").jsGrid({
+			// 그리드 크기설정
+			width : "100%",
+			height : "auto",
+			inserting: true,
+			editing : true,
+			
+			// 데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
+			autoload : true,
+			
+			// 그리드 헤더 클릭시 sorting이 되게함
+			sorting : true,
+			
+			// 페이징 기본설정
+			paging:true,
+			pageSize : 10,
+			pageButtonCount : 5,
+			
+			// 커스텀 페이징 설정
+			pagerContainer: "#jsGridPage",
+            pagerFormat: "{first} {prev} {pages} {next} {last}",
+            pagePrevText: "<",
+            pageNextText: ">",
+            pageFirstText: "<<",
+            pageLastText: ">>",
+			
+            confirmDeleting : false,
+            
+			// 비어있는 배열을 데이터에 연결.
+			data : [], 
+			
+			// 그리드에 표현될 필드 요소
+			fields : [ {
+				name : "di_product_code",
+				type : "text",
+				title: "품목코드",
+				width : 80,
+				readOnly: true
+			}, {
+				name : "di_product_name",
+				type : "text",
+				title: "품목명",
+				width : 80,
+				readOnly: true	
+			}, {
+				name : "di_qty",
+				type : "text",
+				title: "불량수량",
+				width : 80
+			}, {
+				name : "di_state",
+				type : "text",
+				title: "불량상태",
+				width : 80
+			}, {
+				name : "di_reason",
+				type : "text",
+				title: "불량이유",
+				width : 150
+			}, {
+				// 그리드에서 제공하는 버튼 설정
+				type: "control", editButton: true, modeSwitchButton: false   
+			}]
+			
+		}); // 그리드 끝
+	}); // ready 끝
+	
+	// 등록 버튼 클릭했을 경우 DB에 적용하기
+	$("#insertBtn").on("click",function() {		
+		
+		$.ajax({
+			url : "${path}/jaego/gridDefectItemInsert",
+			type : "post",
+			contentType : "application/json",
+			// 배열객체를 json형태의 문자열로 변환하여 전달하기
+			data : JSON.stringify($("#jsGrid").jsGrid("option","data"))
+		})
+		.done(function(count) {
+			swal("등록 성공!", "불량재고 등록을 완료했습니다.", "success");
+			webSocket.send(count);
+			$("#jsGrid").jsGrid("clearInsert");
+			$("#jsGrid").jsGrid({data : []});
+			$("#jsGrid").jsGrid("loadData");
+		})
+		.fail(function() {
+			swal("등록 실패!", "불량수량이 재고수량보다 많습니다.", "error");
+		}); 
+	});
+	
+	// 목록 버튼 클릭했을 경우 이동하기
+	$("#listBtn").on("click",function() {
+		window.location.href = "${path}/jaego/defect_item";
+	});
+</script>
+
+
+
 
 </html>

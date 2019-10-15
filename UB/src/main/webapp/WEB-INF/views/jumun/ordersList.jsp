@@ -341,7 +341,16 @@ function plusOrder(code, name, price) {
 					});
 					
 			  }
+				// 웹소켓 	  
+				$.ajax({
+					url : "${pageContext.request.contextPath}/jaego/gridRiskItemCount",
+					type : "get"
+				})
+				.done(function(count) {
+					webSocket.send(count);
+				});
 		  }
+		  
 	});
 };
 
@@ -502,5 +511,23 @@ function goPosMain(ordersNo) {
              }
        });
 };
+
+var webSocket = new WebSocket("ws://localhost:8095${pageContext.request.contextPath}/realTime-ws");
+webSocket.onopen = onOpen;
+webSocket.onmessage = onMessage;
+webSocket.onclose = onClose;
+
+function onOpen(e) {
+	console.log("웹소켓 연결");	
+}
+
+function onMessage(e) {
+	console.log("서버로 부터 응답메시지 받음 : " + e.data);
+}
+
+function onClose(e) {
+	console.log("웹소컷 닫음");
+}
+
 </script>
 </html>

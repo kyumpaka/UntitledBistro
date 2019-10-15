@@ -1,11 +1,13 @@
 // DatePicker 1개를 이용한 js
 
 var today;
+var year;
 
 $(document).ready(function() {
-	
+	var nowDate = new Date();
+	year = nowDate.getFullYear();
 	yearBasic("year");
-	today = dateFormat(new Date());	
+	today = dateFormat(nowDate);	
 	dateBasic();
 	$("#dateResult").text(today);
 	
@@ -51,10 +53,10 @@ function yearInput(yearInputId,yearId) {
 	year.val(yearInput.val()).prop("selected",true);
 	
 	if(yearInput.val() >= 1900 && yearInput.val() <= new Date().getFullYear()+1) {
-		$("#yy-mm-dd").css("border","");
+		$("#year").css("border","");
 	} else {
 		alert("올바르지 않는 날짜형식 입니다.");
-		$("#yy-mm-dd").css("border","1px solid red");
+		$("#year").css("border","1px solid red");
 	}
 }
 
@@ -113,7 +115,7 @@ $("#yy-mm-dd input, #yy-mm-dd select," +
 		var day = $("#day").val();
 		
 		$("#date").val(year + "/" + month + "/" + day);
-		if(this.id == "year") $("#yy-mm-dd").css("border","");
+		if(this.id == "year") $("#year").css("border","");
 	}
 });
 
