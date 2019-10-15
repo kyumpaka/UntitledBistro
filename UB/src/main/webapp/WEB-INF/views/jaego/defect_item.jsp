@@ -209,7 +209,7 @@
 		width : 100
 	}, {
 		name : "di_qty",
-		type : "text",
+		type : "number",
 		title: "불량수량",
 		width : 80
 	}, {
@@ -232,6 +232,7 @@
 	var originalData;
 	var updateData = [];
 	var deleteData = [];
+	var errorData =[];
 	
 	$(document).ready(function() {
 		$("#updateCompleteBtn").hide();
@@ -276,7 +277,18 @@
                 
 				// 수정 아이콘 누르면 수정배열에 담기
 				onItemUpdated : function(args) {
+					if(args.item.di_qty <= 0) {
+						swal("수량갯수 오류","수량은 0보다 크게 입력해야 수정가능합니다.","error");
+						$(args.row).css("border","1px solid red");
+						errorData.push(args.itemIndex);
+						return;
+					}
 					updateData.push(args.item);
+					$(args.row).css("border","none");
+				
+					if(errorData.indexOf(args.itemIndex) != -1) {
+						errorData.splice(errorData.indexOf(args.itemIndex),1);
+					}
 				},
 				
 				// 삭제 아이콘 누르면 삭제배열에 담기
@@ -312,8 +324,13 @@
 	$("#searchBtn").click(function(){
 		
 		// 빨간 테두리 존재여부
-		if($("#yy-mm-dd").css("border") == "1px solid rgb(255, 0, 0)") {
-			alert("올바른 검색조건으로 입력하세요.");
+		if($("#year").css("border") == "1px solid rgb(255, 0, 0)") {
+			swal({
+				  title: "잘못된 년도입력!",
+				  text: "올바른 범위로 년도를 입력하세요.! (1900 ~ " + (year+1) + ")",
+				  icon: "error",
+				  button: "확인",
+			});
 			return;
 		}
 		
@@ -364,6 +381,8 @@
 	
 	// 불량 테이블 수정함수
 	function completeUpdate() {
+		
+		
 		if(updateData != "" && updateData != null) {
 			$.ajax({
 				url : "${path}/jaego/gridDefectItemUpdates",
@@ -407,6 +426,11 @@
 		
 		// 완료 버튼
 		if(this.id == "updateCompleteBtn") {
+			if(errorData.length != 0) {
+				swal("수량오류","올바르게 수량을 고치세요","error");
+				return;
+			}
+			
 			$("#jsGrid").jsGrid({editing:false, fields:fieldsData});
 
 			if(deleteData != "" && updateData != "") {

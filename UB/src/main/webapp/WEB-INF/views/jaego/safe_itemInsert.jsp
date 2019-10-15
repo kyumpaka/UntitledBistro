@@ -7,10 +7,10 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <!-- datePicker -->
-<script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
+<!-- <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
 <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> -->
 
 <!-- jsgrid 사용을 위한 필요한 요소 cdn 연결-->
 <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
@@ -158,9 +158,9 @@
 
 <!-- 메인화면 기능 -->
 <script type="text/javascript">
-	
+
 	$(document).ready(function() {
-		
+	
 		$("#jsGrid").jsGrid({
 			// 그리드 크기설정
 			width : "100%",
@@ -195,7 +195,8 @@
 				name : "si_product_code",
 				type : "text",
 				title: "품목코드",
-				width : 80
+				width : 80,
+				readOnly: true
 			}, {
 				name : "si_qty",
 				type : "text",
@@ -203,9 +204,24 @@
 				width : 80
 			}, {
 				type: "control", editButton: true, modeSwitchButton: false   // show clear filter button
-			}]
+			}],
+			
+			onItemInserted: function(args) {
+				if(args.item.di_qty <= 0) {
+					swal({
+						title: "수량갯수 오류",
+						text: "수량은 0보다 크게 입력해야 수정가능합니다.",
+						icon: "error",
+						button: "확인"
+					});
+					$("#jsGrid").jsGrid("deleteItem", args.item);
+				}
+			}
 			
 		}); // 그리드 끝
+		
+		
+		
 	}); // ready 끝
 	
 	// 등록 버튼 클릭했을 경우 DB에 적용하기
@@ -243,6 +259,7 @@
 		window.location.href = "${path}/jaego/safe_item";
 	});
 
+	
 </script>
 
 

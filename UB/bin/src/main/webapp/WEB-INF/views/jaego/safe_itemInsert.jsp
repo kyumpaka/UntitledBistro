@@ -3,20 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
-<!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
 <!-- sweetAlert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-<!-- Modal -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-
 <!-- datePicker -->
-<script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
+<!-- <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
 <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> -->
 
 <!-- jsgrid 사용을 위한 필요한 요소 cdn 연결-->
 <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
@@ -26,52 +20,70 @@
 <style type="text/css">
 	#jsGrid {
 		margin: auto;
+		padding-bottom: 10px;
 	}
+	
+	/* 디자인 수정부분 */
 	.form-inline {
 		display: grid;
-	}
-	.jsgrid-header-scrollbar {
-		overflow: hidden;
+		margin-bottom: 8px;
 	}
 	
-	.jsgrid-grid-body {
-		overflow: hidden;
-	}
-	
-	.input-group-addon {
-		width: 39px;
-		height: 34px;
-	}
-	
-	.input-group {
-		width: 25px;
-	}
+	/* jsGird 스크롤바 없애기 */
+	.jsgrid-header-scrollbar {overflow: hidden;}
+	.jsgrid-grid-body {overflow: hidden;}
 	
 	.form-group {
 		display: flex;
 		padding-bottom: 5px;
 		padding-top: 5px;
 	}
+	.input-group date {
+		margin-left: -4px;
+	}
+	
+	/* 디자인 수정부분 */
+	#yearInput {
+		width: 79px;
+		margin-right: 5px;
+	}
+	#year {
+		width: 84px;
+		margin-right: 5px;
+	}
+	#month {
+		width: 80px;
+		margin-right: 5px;
+	}
+	#day {
+		width: 43px;
+	}
 	
 	#searchBackground {
 		margin: auto;
 		width: 600px;
-		margin-top: 15px;
-		margin-bottom: 15px;
+		margin-top: 10px;
+		margin-bottom: 5px;
 		padding: 10px;
 		background-color: #f3f0f0;
 	}
-	
+	#dateResult {
+		text-align: right;
+		font-weight: bold;
+		padding-right: 1px;
+	}
 	#jsGridBackground {
 		margin: auto;
 		width: 600px;
 	}
-	
-	#centher {
-		width: 50px;
-	}
-	#search, #search2 {
+	#search {
 		display: inline-flex;
+	}
+	
+	/* 디자인 수정부분 */
+	label {
+		font-weight: bold;
+		margin-left: 10px;
 	}
 	
 </style>
@@ -117,11 +129,11 @@
 		<div class="form-inline">
 			
 			<div id="search" class="form-group">
-				<label for="product_code" class="col-2 col-form-label">품목코드</label>
+				<label for="product_code" class="text-dark">품목코드</label>
 				<div class="col-10">
 					<!-- 검색 모달창 열기버튼 -->
-					<button id="open" type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">
-						<i class="glyphicon glyphicon-search"></i>
+					<button id="open" type="button" class="btn btn-light" data-toggle="modal" data-target="#myModal">
+						<i class="fa fa-search"></i>
 					</button>
 					<input class="form-control" type="search" placeholder="검색할 품목코드 입력" id="product_code">
 					<button id="applyBtn" class="btn btn-primary btn-sm">적용</button>
@@ -139,7 +151,6 @@
 		<div id="jsGridPage"></div> <!-- 그리드를 이용한 페이징 -->
 		<button id="insertBtn" class="btn btn-primary btn-sm">등록</button>
 		<button id="listBtn" class="btn btn-primary btn-sm">목록</button>
-		<button id="testBtn" class="btn btn-primary btn-sm">테스트</button>
 	</div>
 	
 	
@@ -147,9 +158,9 @@
 
 <!-- 메인화면 기능 -->
 <script type="text/javascript">
-	
+
 	$(document).ready(function() {
-		
+	
 		$("#jsGrid").jsGrid({
 			// 그리드 크기설정
 			width : "100%",
@@ -184,7 +195,8 @@
 				name : "si_product_code",
 				type : "text",
 				title: "품목코드",
-				width : 80
+				width : 80,
+				readOnly: true
 			}, {
 				name : "si_qty",
 				type : "text",
@@ -192,9 +204,24 @@
 				width : 80
 			}, {
 				type: "control", editButton: true, modeSwitchButton: false   // show clear filter button
-			}]
+			}],
+			
+			onItemInserted: function(args) {
+				if(args.item.di_qty <= 0) {
+					swal({
+						title: "수량갯수 오류",
+						text: "수량은 0보다 크게 입력해야 수정가능합니다.",
+						icon: "error",
+						button: "확인"
+					});
+					$("#jsGrid").jsGrid("deleteItem", args.item);
+				}
+			}
 			
 		}); // 그리드 끝
+		
+		
+		
 	}); // ready 끝
 	
 	// 등록 버튼 클릭했을 경우 DB에 적용하기
@@ -232,6 +259,7 @@
 		window.location.href = "${path}/jaego/safe_item";
 	});
 
+	
 </script>
 
 

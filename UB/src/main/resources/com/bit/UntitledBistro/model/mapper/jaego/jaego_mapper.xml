@@ -121,7 +121,7 @@
  			ITEM_PRODUCT_CODE = #{di_product_code}
  	</update>
  	
- 	<update id="itemPlusUpdateForDefectItem">
+ 	<update id="itemPlusUpdateForDefectItem" parameterType="list">
  	<foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
  		UPDATE 
 		    ITEM

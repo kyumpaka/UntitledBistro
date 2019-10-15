@@ -1,9 +1,24 @@
 -- jaego.txt에 PRODUCT 테이블 생성을 기준으로 만들었습니다.
 
-insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA11', '토마토', '개',500); 
-insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA22', '우유1L', '개',3500);
-insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA33', '올리브오일1L', '개',5000);
-insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA44', '후추', '개',2000);
+--DROP TABLE RESERVE;
+--DROP TABLE MEMBER;
+--DROP TABLE Jungsan_Input;
+--DROP TABLE TABLESAVE;
+--DROP TABLE MENU_TYPE;
+--DROP TABLE MENU;
+--DROP TABLE INGREDIENT;
+--DROP TABLE ORDERS;
+--DROP TABLE ORDERS_DETAILS;
+--DROP TABLE SALES;
+--DROP TABLE SALES_DETAILS;
+--DROP TABLE PAYMENT;
+--DROP TABLE EmpRegister;
+--DROP TABLE BOOKMARK;
+
+--insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA11', '토마토', '개',500); 
+--insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA22', '우유1L', '개',3500);
+--insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA33', '올리브오일1L', '개',5000);
+--insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA44', '후추', '개',2000);
 
 CREATE TABLE BOOKMARK ( --관심품목 테이블
  BK_CODE VARCHAR2(50),
@@ -13,5 +28,33 @@ CREATE TABLE BOOKMARK ( --관심품목 테이블
  BK_QT NUMBER,
  BK_WR VARCHAR(20)
  );
+ 
+CREATE TABLE ORDERLIST( -- 발주서 내역 상세
+        ORDER_ORDIN_NUM VARCHAR2(20), -- 목록번호(FK)
+        ORDER_NUM VARCHAR2(20), -- 발주번호(PK)
+        ORDER_PRODUCT_CODE VARCHAR2(20), -- 품목코드(FK
+        ORDER_PRODUCT_NAME VARCHAR2(100),
+        ORDER_PRODUCT_STNDR VARCHAR2(20),
+        ORDER_QT NUMBER, -- 수량
+        ORDER_PR_EA NUMBER, -- 단가
+        ORDER_WR VARCHAR2(50), -- 작성자        
+        ORDER_STAT VARCHAR2(20), -- 진행상태
+        ORDER_END VARCHAR2(20) DEFAULT 'N' -- 완료여부
+);
 
+CREATE TABLE ORDER_PLAN ( -- 발주계획상세
+        ORDPL_ORDLIN_NUM VARCHAR2(20), -- 발주계획번호(FK)
+        ORDPL_ONUM VARCHAR2(20), -- 발주상세번호(PK)
+        ORDPL_PRODUCT_CODE VARCHAR2(20), -- 품목코드(FK)
+        ORDPL_PRODUCT_NAME VARCHAR2(100), -- 제품명
+        ORDPL_PRODUCT_STNDR VARCHAR2(20), --규격
+        ORDPL_QT NUMBER, -- 품목수량
+        ORDPL_PR_EA NUMBER,
+        ORDPL_WR VARCHAR2(50) -- 작성자
+);
+
+create table ORDER_INPUT ( -- 발주서 내역 
+        ORDIN_NUM VARCHAR2(20), -- 목록번호(PK)
+        ORDIN_DATE DATE -- 목록일자
+);
 commit;

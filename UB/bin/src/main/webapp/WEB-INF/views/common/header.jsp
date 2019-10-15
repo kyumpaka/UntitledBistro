@@ -54,23 +54,16 @@
                         </div>
 
                     </div>
-
+                    
                     <div class="user-area dropdown float-right">
-                   
                     	${sessionScope.empregister_name }님이 로그인중입니다. 
-                        <img alt="empregister_photo" src="${path}/resources/images/insa/${sessionScope.empregister_photo}" width="50" height="30">
-                    	<a href="${path }/logout">로그아웃</a>
-                   
-                        
-                  <!--       <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
-
-                            <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a>
-
-                            <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
-
-                            <a class="nav-link" href="#"><i class="fa fa-power -off"></i>Logout</a>
-                        </div> -->
+                        <img alt="프로필" src="${path}/resources/images/insa/${sessionScope.empregister_photo}" width="50" height="30">
+                    </div>
+                    
+                    <div class="dropdown for-notification">
+						<button id="posMain" class="customBtn" onclick="goLogout()">
+	                           <i class="fa fa-power-off"></i>
+						</button>                        
                     </div>
 
                 </div>
@@ -83,7 +76,7 @@
 <!-- WebSocket -->
 <script type="text/javascript">
 
-var webSocket = new WebSocket("ws://localhost:8080/UntitledBistro/realTime-ws");
+var webSocket = new WebSocket("ws://localhost:8095${pageContext.request.contextPath}/realTime-ws");
 webSocket.onopen = onOpen;
 webSocket.onmessage = onMessage;
 webSocket.onclose = onClose;
@@ -115,6 +108,14 @@ function riskItem() {
 
 function posMain() {
 	self.location="${path}/jumun/posMain.do";
+}
+
+function goLogout() {
+	var width = 400;
+	var height = 300;
+	var popupX = (window.screen.width / 2) - (width / 2);
+	var popupY = (window.screen.height / 2) - (height / 2);
+	window.open('${path}/logout','로그아웃','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
 }
 
 </script>        
