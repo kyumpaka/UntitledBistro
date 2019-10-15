@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -91,7 +92,7 @@ function goTableControl() {
 
 function goSetting() {
 	event.preventDefault();
-	location.href="${pageContext.request.contextPath}/erp";
+	location.href="${pageContext.request.contextPath}/erp?empregister_empnum=<sec:authentication property='principal.username'/>";
 };
 
 function goOrderList(tableNum) {

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <style>
@@ -38,6 +37,12 @@
             </div>
             <div class="top-right">
                 <div class="header-menu">
+                    
+                    <div class="user-area dropdown float-right">
+                        <img alt="프로필" src="${path}/resources/images/insa/${sessionScope.empregister_photo}" width="50" height="30">
+                    	${sessionScope.empregister_name}님이 로그인중입니다. 
+                    </div>
+                    
                     <div class="header-left">
 
                         <div class="dropdown for-notification">
@@ -53,18 +58,13 @@
 							</button>                        
                         </div>
 
+	                    <div class="dropdown for-notification">
+							<button id="posMain" class="customBtn" onclick="goLogout()">
+		                           <i class="fa fa-power-off"></i>
+							</button>                        
+	                    </div>
                     </div>
                     
-                    <div class="user-area dropdown float-right">
-                    	${sessionScope.empregister_name }님이 로그인중입니다. 
-                        <img alt="프로필" src="${path}/resources/images/insa/${sessionScope.empregister_photo}" width="50" height="30">
-                    </div>
-                    
-                    <div class="dropdown for-notification">
-						<button id="posMain" class="customBtn" onclick="goLogout()">
-	                           <i class="fa fa-power-off"></i>
-						</button>                        
-                    </div>
 
                 </div>
             </div>
@@ -111,11 +111,7 @@ function posMain() {
 }
 
 function goLogout() {
-	var width = 400;
-	var height = 300;
-	var popupX = (window.screen.width / 2) - (width / 2);
-	var popupY = (window.screen.height / 2) - (height / 2);
-	window.open('${path}/logout','로그아웃','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+	self.location="${path}/logout";
 }
 
 </script>        

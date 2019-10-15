@@ -19,9 +19,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.bit.UntitledBistro.model.insa.InsaDAO;
 import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
 
-
-
-	
 @Service("test")
 public class InsaServiceImpl implements InsaService {
 
@@ -110,28 +107,17 @@ public class InsaServiceImpl implements InsaService {
 		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
 		return insaDAO.viewMember(dto);
 	}
-
+	
 	@Override
-	public boolean InsaLoginCheck(Insa_EmpRegisterDTO dto, HttpSession session) {
+	public boolean InsaLoginSearch(Insa_EmpRegisterDTO dto, HttpSession session) {
 		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
-		String name = insaDAO.InsaLoginCheck(dto);
-		boolean result = false;
 		
-		if(name != null) result = true;
-		if(result) {
-			Insa_EmpRegisterDTO dto2 = viewMember(dto);
+		Insa_EmpRegisterDTO dto2 = viewMember(dto);
+		session.setAttribute("empregister_empnum", dto2.getEmpregister_empnum());
+		session.setAttribute("empregister_name", dto2.getEmpregister_name());
+		session.setAttribute("empregister_photo", dto2.getEmpregister_photo());
 			
-			System.out.println("num : " + dto2.getEmpregister_empnum());
-			System.out.println("name : " + dto2.getEmpregister_name());
-			System.out.println("photo : " + dto2.getEmpregister_photo());
-			session.setAttribute("empregister_empnum", dto2.getEmpregister_empnum());
-			session.setAttribute("empregister_name", dto2.getEmpregister_name());
-			session.setAttribute("empregister_photo", dto2.getEmpregister_photo());
-		}
-		
-		
-			
-		return result;
+		return true;
 	}
 
 }

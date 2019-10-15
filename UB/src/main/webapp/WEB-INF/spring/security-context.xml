@@ -28,7 +28,7 @@
          authentication-failure-url="/login?error=1"
          always-use-default-target='true' />
       <!-- 세선삭제여부, 로그아웃 처리할 URL, 로그아웃 성공 시 이동 URL -->
-      <security:logout invalidate-session="false" logout-success-url="/logoutSuccess" />
+      <security:logout invalidate-session="false" logout-success-url="/login?logout=1" />
       <!-- invalid session일 때 url, 최대 허용 가능한 세션 수, max-sessions을 넘었을때 접속한 세션을 실패처리할지 여부 -->
       <security:session-management invalid-session-url="/login">
          <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
