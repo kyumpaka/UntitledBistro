@@ -134,12 +134,4 @@ public class InsaServiceImpl implements InsaService {
 		return result;
 	}
 
-	@Override
-	public void logout(HttpSession session) {
-		
-		session.invalidate();
-		
-	}
-
-
 }

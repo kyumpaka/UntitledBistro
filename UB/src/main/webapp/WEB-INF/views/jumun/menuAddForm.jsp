@@ -191,6 +191,7 @@ function igdcheck(){
 			return false;
 		}
 	}
+	if(igdcnt == 0) return false;
 	return true;
 };
 </script>

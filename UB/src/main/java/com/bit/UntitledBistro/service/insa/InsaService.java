@@ -27,10 +27,4 @@ public interface InsaService {
 	
 	public boolean InsaLoginCheck(Insa_EmpRegisterDTO dto, HttpSession session);
 	
-	public void logout(HttpSession session);
-
-
-	
-	
-	
 }
