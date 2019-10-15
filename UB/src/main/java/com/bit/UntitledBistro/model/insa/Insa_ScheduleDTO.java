@@ -25,6 +25,7 @@ public class Insa_ScheduleDTO {
     }
     
 
+
 	public Insa_ScheduleDTO() {}
     
     public Date getStartDateTime() throws ParseException {
@@ -153,7 +154,7 @@ public class Insa_ScheduleDTO {
 	}
 
 
-	
+
 	
 	
 }

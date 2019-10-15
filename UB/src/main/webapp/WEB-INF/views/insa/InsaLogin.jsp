@@ -9,7 +9,6 @@
 <html>
 <head>
 <style type="text/css">
-
 @import url("http://fonts.googleapis.com/earlyaccess/nanumgothic.css");
 	
 	html {
@@ -76,12 +75,9 @@
 				alert("비밀번호를 입력해주세요.");
 				$("#empregister_jumin").focus();
 				return;
-
 			}
-
 			document.loginform.submit();
 		});
-
 	});
 </script>
 

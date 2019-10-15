@@ -221,5 +221,20 @@ public class InsaController {
 		return mav; 
 		
 	}
+	
+	
+	@RequestMapping("WorkManagement")
+	public String WorkManagement(HttpSession session) {
+		logger.info("출퇴관리 로그인");
+		return "views/insa/WorkManagement";
+	}
+	
+	
+	@RequestMapping("AddWork")
+	public String AddWork() {
+		return null;
 		
+	}
+	
+	
 }

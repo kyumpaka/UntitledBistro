@@ -56,8 +56,8 @@ function list(){
 			<tr>
 				<td>${b.empregister_name}</td>
 
-				<td><a href="/UntitledBistro/EmpRegisterRead?empregister_empnum=${b.empregister_empnum }" onclick="window.open(this.href, '_blank', 'width=700,height=600,toolbars=no,scrollbars=yes'); return false;">${b.empregister_empnum }</a></td>
-
+				<td>${b.empregister_empnum }</td>
+				<%-- <td><a href="/UntitledBistro/EmpRegisterRead?empregister_empnum=${b.empregister_empnum }" onclick="window.open(this.href, '_blank', 'width=700,height=600,toolbars=no,scrollbars=yes'); return false;">${b.empregister_empnum }</a></td> --%>
 				<%-- <td>${b.empregister_empnum }</td> --%>
 				<td>${b.empregister_age }</td>
 				<td>${b.empregister_tel }</td>
@@ -70,7 +70,7 @@ ${fn:substring(b.empregister_jumin2,1,fn:length(b.empregister_jumin2)-4)}******<
 				<td><fmt:formatDate value="${b.empregister_entryday }"
 						pattern="yyyy-MM-dd" /></td>
 				<td>${b.empregister_leavecompany }</td>
-				<td><a href="/UntitledBistro/EmpRegisterRead?empregister_empnum=${b.empregister_empnum }" onclick="window.open(this.href, '_blank', 'width=1000,height=700,toolbars=no,scrollbars=yes'); return false;">상세보기</a></td>
+				<td><a href="/UntitledBistro/insa/EmpRegisterRead?empregister_empnum=${b.empregister_empnum }" onclick="window.open(this.href, '_blank', 'width=1000,height=700,toolbars=no,scrollbars=yes'); return false;">상세보기</a></td>
 			</tr>
 
 		</c:forEach>

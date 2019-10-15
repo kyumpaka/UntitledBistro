@@ -22,6 +22,9 @@ public interface InsaDAO {
 	public String InsaLoginCheck(Insa_EmpRegisterDTO dto);
 	
 	public void logout(HttpSession session);
+
+	public String WorkManagement(Insa_EmpRegisterDTO dto);
+
 	
 	
 	

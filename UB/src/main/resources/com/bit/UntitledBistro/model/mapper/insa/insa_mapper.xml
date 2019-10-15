@@ -80,5 +80,16 @@ from EmpRegister
 where empregister_empnum = #{empregister_empnum} and empregister_jumin = #{empregister_jumin}
 
 </select> 
- 
+
+<!-- 출퇴관리 --> 
+<select id = "WorkManagement" resultType="String">
+select empregister_name as empregister_name 
+from EmpRegister
+where empregister_empnum = #{empregister_empnum} and empregister_jumin = #{empregister_jumin}
+</select>
+
+
+
+
+
 </mapper>

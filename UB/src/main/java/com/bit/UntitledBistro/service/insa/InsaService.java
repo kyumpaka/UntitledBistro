@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
+import com.bit.UntitledBistro.model.insa.Insa_ScheduleDTO;
 
 public interface InsaService {
 
@@ -28,6 +29,10 @@ public interface InsaService {
 	public boolean InsaLoginCheck(Insa_EmpRegisterDTO dto, HttpSession session);
 	
 	public void logout(HttpSession session);
+
+	boolean WorkManagement(Insa_EmpRegisterDTO dto, HttpSession session);
+
+
 
 
 	

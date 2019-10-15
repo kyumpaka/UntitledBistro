@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bit.UntitledBistro.model.insa.InsaDAO;
 import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
+import com.bit.UntitledBistro.model.insa.Insa_ScheduleDTO;
 
 
 
@@ -140,6 +141,26 @@ public class InsaServiceImpl implements InsaService {
 		session.invalidate();
 		
 	}
-
+	 
+	@Override
+	public boolean WorkManagement(Insa_EmpRegisterDTO dto, HttpSession session) {
+		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
+		String name = insaDAO.WorkManagement(dto);
+		boolean result = false;
+		
+		if(name != null) result = true;
+		if(result) {
+			Insa_EmpRegisterDTO dto2 = viewMember(dto);
+			
+			System.out.println("num : " + dto2.getEmpregister_empnum());
+			System.out.println("name : " + dto2.getEmpregister_name());
+			System.out.println("photo : " + dto2.getEmpregister_photo());
+			session.setAttribute("empregister_empnum", dto2.getEmpregister_empnum());
+			session.setAttribute("empregister_name", dto2.getEmpregister_name());
+			session.setAttribute("empregister_photo", dto2.getEmpregister_photo());
+		}
+		return result;
+		
+	}
 
 }

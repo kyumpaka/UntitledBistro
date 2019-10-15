@@ -11,6 +11,7 @@
 <link href="${pageContext.request.contextPath}/resources/pos/assets/fonts/fontawesome/css/fontawesome-all.min.css" type="text/css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/pos/assets/css/OverlayScrollbars.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jumun/jumun.css">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
 	<section class="header-main">
@@ -56,7 +57,7 @@
 						</div>
 						<hr>
 						<div class="col-md-13">
-							<button value="#" class="btn  btn-primary btn-lg btn-block"> 출퇴관리 </button>
+							<button onclick="window.open('../insa/WorkManagement','work','width=1000,height=400,location=no,status=no,scrollbars=yes');" class="btn  btn-primary btn-lg btn-block"> 출퇴관리 </button>
 						</div>
 						<hr>
 						<div class="col-md-13">
@@ -167,6 +168,8 @@ function realtimeClock() {
   document.timeForm.timeInput.value = getTimeStamp();
   setTimeout("realtimeClock()", 1000);
 }
+
+
 </script>
 </body>
 </html>
