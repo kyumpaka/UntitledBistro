@@ -61,9 +61,9 @@
                         <div class="page-header float-right">
                             <div class="page-title">
                                 <ol class="breadcrumb text-right">
-                                    <li class="active"><a href="Seobis_jUs">회원 등록</a></li>
+                                    <li class="active"><a href="${path}/Seobis/jUs">회원 등록</a></li>
                                     <li><a href="#">예약 확인</a></li>
-                                    <li><a href="Seobis_pList">포인트 관리</a></li>
+                                    <li><a href="${path}/Seobis/pList">포인트 관리</a></li>
                                 </ol>
                             </div>
                         </div>
@@ -97,7 +97,7 @@
                                     <tbody>
                                         <c:forEach var="b" items="${Seobis_memberList}">
 											<tr>
-												<td><div id="btn_group"><button id="updatebutton" onclick='location.href="${path}/Seobis_select?member_id=${b.member_id}"'>${b.member_id}</button></div></td>
+												<td><div id="btn_group"><button id="updatebutton" onclick='location.href="${path}/Seobis/select?member_id=${b.member_id}"'>${b.member_id}</button></div></td>
 												<td>${b.member_name}</td>
 												<td>${b.member_gender}</td>
 												<td>${b.member_birth}</td>
@@ -184,7 +184,7 @@
         		.then((value) => {
         			if(value) {
         				if(false) swal("ss");
-        				 $(location).attr("href", "${path}/Seobis_delete?member_id=" + realId);
+        				 $(location).attr("href", "${path}/Seobis/delete?member_id=" + realId);
         			}
         		});
             }

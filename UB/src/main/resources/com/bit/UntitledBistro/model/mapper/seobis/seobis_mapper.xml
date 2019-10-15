@@ -18,7 +18,7 @@
 	#{member_id},
 	#{member_name},
 	#{member_email},
-	TO_DATE(#{member_birth},'YYYYMMDD'),
+	TO_DATE(#{member_birth},'YYMMDD'),
 	#{member_gender},
 	#{member_phone1}
 	)
@@ -31,7 +31,7 @@
  			 MEMBER_ID, 
  			 MEMBER_NAME, 
  			 MEMBER_GENDER,
- 			 TO_CHAR(MEMBER_BIRTH, 'YYYY-MM-DD') AS MEMBER_BIRTH,
+ 			 TO_CHAR(MEMBER_BIRTH, 'YYMMDD') AS MEMBER_BIRTH,
  			 MEMBER_EMAIL,
  			 MEMBER_GRADE, 
  			 MEMBER_POINT, 
@@ -78,7 +78,7 @@
 		 	MEMBER_ID,
  		 	MEMBER_NAME,
  		 	MEMBER_GENDER,
- 		 	TO_CHAR(MEMBER_BIRTH, 'YYYY-MM-DD') AS MEMBER_BIRTH,
+ 		 	TO_CHAR(MEMBER_BIRTH, 'YYMMDD') AS MEMBER_BIRTH,
  		 	MEMBER_EMAIL,
  		 	MEMBER_PHONE1,
  		 	MEMBER_GRADE,

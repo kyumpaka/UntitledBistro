@@ -52,7 +52,7 @@
                                 <strong>회원 정보 수정</strong>
                             </div>
                             <div class="card-body card-block">
-                                <form id="edit" action="${path}/Seobis_update" method="post"  class="form-horizontal">
+                                <form id="edit" action="${path}/Seobis/update" method="post"  class="form-horizontal">
                                         <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">아이디</label></div>
                                         <div class="col-12 col-md-9"><input type="text" id="member_id" name="member_id"  value="${Seobis_memberSelect.member_id}" readonly="readonly" class="form-control"><small class="form-text text-muted">대소문자, 숫자 사용</small></div>
