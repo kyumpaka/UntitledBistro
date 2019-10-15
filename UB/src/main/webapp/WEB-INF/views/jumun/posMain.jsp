@@ -24,9 +24,7 @@
 			<div class="col-lg-3">
 			</div>
 			<div class="col-lg-3">
-			사용 테이블수 : ${ tableUseList[0] }
-			&nbsp;/&nbsp;
-			총 테이블수 : ${ tableUseList[1] }
+			사용 테이블수 : ${ tableUseList[0] } &nbsp;/&nbsp; 총 테이블수 : ${ tableUseList[1] }
 			</div>
 			<div class="col-lg-3 col-sm-6">
 				<div class="widgets-wrap d-flex justify-content-end">

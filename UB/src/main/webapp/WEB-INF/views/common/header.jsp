@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <style>
@@ -31,7 +32,7 @@
 <header id="header" class="header">
             <div class="top-left">
                 <div class="navbar-header"	>
-                    <a id="logo" class="navbar-brand" href="${path}/erp">UntitedBistro</a>
+                    <a id="logo" class="navbar-brand" href="${path}/erp?empregister_empnum=<sec:authentication property='principal.username'/>">UntitedBistro</a>
                     <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
                 </div>
             </div>
@@ -40,7 +41,7 @@
                     
                     <div class="user-area dropdown float-right">
                         <img alt="프로필" src="${path}/resources/images/insa/${sessionScope.empregister_photo}" width="50" height="30">
-                    	${sessionScope.empregister_name}님이 로그인중입니다. 
+                    	${sessionScope.empregister_name}님 환영합니다.
                     </div>
                     
                     <div class="header-left">
@@ -72,7 +73,7 @@
 
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>        
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- WebSocket -->
 <script type="text/javascript">
 
@@ -111,7 +112,16 @@ function posMain() {
 }
 
 function goLogout() {
-	self.location="${path}/logout";
+	swal({
+		  title: "로그아웃하시겠습니까?",
+		  icon: "warning",
+		  buttons: ["아니요", "네"],
+		  dangerMode: true,
+		}).then((willDelete) => {
+			if (willDelete) {
+				self.location="${path}/logout";
+			}
+		});
 }
 
 </script>        

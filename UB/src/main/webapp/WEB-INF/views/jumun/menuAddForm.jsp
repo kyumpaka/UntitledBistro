@@ -132,8 +132,7 @@ function upload(){
 						  title: result + "개 등록되었습니다.",
 						  icon: "success",
 						  button: "닫기",
-						})
-					  .then(() => {
+						}).then(() => {
 						  opener.document.location.reload();
 						  window.close();
 					  });
