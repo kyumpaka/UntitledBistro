@@ -173,6 +173,12 @@ public class JaegoController {
 		logger.info("여기는 안전재고 등록 컨트롤러입니다.");
 	}
 	
+	@GetMapping(value = "/gridSafeItemSelectProductCode")
+	public @ResponseBody String gridSafeItemSelectProductCode(String si_product_code) {
+		logger.info("여기는 안전재고 품목코드 유효성 검사 컨트롤러입니다.");
+		return service.safeItemSelectValidate(si_product_code);
+	}
+	
 	@PostMapping(value = "/gridSafeItemInserts")
 	public @ResponseBody int gridSafeItemInsertList(@RequestBody SafeItemDTO[] safeItemDTOs) {
 		logger.info("여기는 그리드 안전재고s 등록 컨트롤러입니다.");

@@ -6,12 +6,6 @@
 <!-- sweetAlert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-<!-- datePicker -->
-<!-- <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
-<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> -->
-
 <!-- jsgrid 사용을 위한 필요한 요소 cdn 연결-->
 <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
 <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
@@ -299,22 +293,16 @@
 		title: "품목명",
 		width : 80,
 		validate: function(value) {
-			var isSame = false;
-			$.grep(productData, function(i) {
-				if(i.product_name == value) {
-					isSame = true;
-				}
-			});
-			if(!isSame) {
+			if(value.length < 1) {
 				swal({
 					title: "품목명 오류",
-					text: "존재하지 않는 품목명 입니다.",
+					text: "적어도 한글자는 입력해야 합니다.",
 					icon: "error",
-					buttion: "확인"
+					button: "확인"
 				});
+			} else {
+				return true;
 			}
-			
-			return isSame;
 		}
 	
 	}, {

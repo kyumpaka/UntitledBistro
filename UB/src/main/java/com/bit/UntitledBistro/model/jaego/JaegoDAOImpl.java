@@ -118,7 +118,12 @@ public class JaegoDAOImpl {
 		return mybatis.selectOne("jaego.safeItemValidate", list);
 	}
 	
-	// 안전재고 다중등록
+	// 안전 테이블 품목코드 유효성 검사
+	public String safeItemSelectValidate(String si_product_code) {
+		return mybatis.selectOne("jaego.safeItemSelectValidate", si_product_code);
+	}
+	
+	// 안전 테이블 다중등록
 	public List<RiskItemDTO> safeItemInserts(List<SafeItemDTO> SafeItemDTOs) {
 		return mybatis.selectList("jaego.safeItemInserts", SafeItemDTOs);
 	}
