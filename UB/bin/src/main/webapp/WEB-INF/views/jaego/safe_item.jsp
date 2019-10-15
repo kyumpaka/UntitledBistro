@@ -3,20 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
-<!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
 <!-- sweetAlert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-<!-- Modal -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-
 <!-- datePicker -->
-<script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
+<!-- <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
 <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> -->
 
 <!-- jsgrid 사용을 위한 필요한 요소 cdn 연결-->
 <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
@@ -26,88 +20,72 @@
 <style type="text/css">
 	#jsGrid {
 		margin: auto;
+		padding-bottom: 10px;
 	}
+	
+	/* 디자인 수정부분 */
 	.form-inline {
 		display: grid;
-	}
-	.jsgrid-header-scrollbar {
-		overflow: hidden;
+		margin-bottom: 8px;
 	}
 	
-	.jsgrid-grid-body {
-		overflow: hidden;
-	}
-	
-	.input-group-addon {
-		width: 39px;
-		height: 34px;
-	}
-	
-	.input-group {
-		width: 25px;
-	}
+	/* jsGird 스크롤바 없애기 */
+	.jsgrid-header-scrollbar {overflow: hidden;}
+	.jsgrid-grid-body {overflow: hidden;}
 	
 	.form-group {
 		display: flex;
 		padding-bottom: 5px;
 		padding-top: 5px;
 	}
-	
 	.input-group date {
 		margin-left: -4px;
 	}
 	
-	#yearInput, #yearInput2 {
+	/* 디자인 수정부분 */
+	#yearInput {
 		width: 79px;
 		margin-right: 5px;
 	}
-	
-	#year, #year2 {
-		width: 79px;
+	#year {
+		width: 84px;
 		margin-right: 5px;
 	}
-	
-	#month, #month2 {
-		width: 76px;
+	#month {
+		width: 80px;
 		margin-right: 5px;
 	}
-	
-	#day, #day2 {
-		width: 42px;
+	#day {
+		width: 43px;
 	}
 	
 	#searchBackground {
 		margin: auto;
 		width: 600px;
-		margin-top: 15px;
-		margin-bottom: 15px;
+		margin-top: 10px;
+		margin-bottom: 5px;
 		padding: 10px;
 		background-color: #f3f0f0;
 	}
-	
 	#dateResult {
 		text-align: right;
 		font-weight: bold;
 		padding-right: 1px;
 	}
-	
 	#jsGridBackground {
 		margin: auto;
 		width: 600px;
 	}
-	
-	#centher {
-		width: 50px;
-	}
 	#search, #search2 {
 		display: inline-flex;
 	}
-	#logo {
-		color: #878787;
-		font: 20px "Open Sans", sans-serif;
-		margin: 0px 16px 0px 0px;
-		padding: 11px 0px;
+	
+	/* 디자인 수정부분 */
+	label {
+		font-weight: bold;
+		margin-left: 10px;
 	}
+	
 </style>
 	
 	<!-- 페이지 제목 -->
@@ -144,26 +122,26 @@
 
 	<!-- 검색 회색바탕화면 -->
 	<div id="searchBackground"> 
-		<!-- 2줄(품목코드,품목명) 디자인 -->
+		<!-- 3줄(날짜,품목코드,품목명) 디자인 -->
 		<div class="form-inline">
 			
 			<div id="search" class="form-group">
-				<label for="product_code" class="col-2 col-form-label">품목코드</label>
+				<label for="product_code" class="text-dark">품목코드</label>
 				<div class="col-10">
 					<!-- 검색 모달창 열기버튼 -->
-					<button id="open" type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">
-						<i class="glyphicon glyphicon-search"></i>
+					<button id="open" type="button" class="btn btn-light" data-toggle="modal" data-target="#myModal">
+						<i class="fa fa-search"></i>
 					</button>
 					<input class="form-control" type="search" placeholder="검색할 품목코드 입력" id="product_code">
 				</div>
 			</div>
 			
 			<div id="search2" class="form-group">
-				<label for="product_name" class="col-2 col-form-label">품목명</label>
+				<label for="product_name" class="text-dark">품목명</label>
 				<div class="col-10">
 					<!-- 검색 모달창 열기버튼 -->
-					<button id="open2" type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">
-						<i class="glyphicon glyphicon-search"></i>
+					<button id="open2" type="button" class="btn btn-light" data-toggle="modal" data-target="#myModal">
+						<i class="fa fa-search"></i>
 					</button>
 					<input class="form-control" type="search" placeholder="검색할 품목명 입력" id="product_name">
 				</div>
@@ -172,7 +150,7 @@
 		</div> <!-- form-inline end -->
 		
 		<button type="button" id="searchBtn" class="btn btn-primary btn-sm">검색</button>
-		<button type="button" id="cancle" class="btn btn-default btn-sm">취소</button>
+		<button type="button" id="cancle" class="btn btn-success btn-sm">취소</button>
 		
 	</div> <!-- searchBackground end -->
   
@@ -187,212 +165,6 @@
 		<button type="button" id="updateCancleBtn" class="btn btn-primary btn-sm">취소</button>
 	</div>
 	
-
-<!-- 메인화면 기능 -->
-<script type="text/javascript">
-	var fieldsData = [ {
-		name : "si_product_code",
-		type : "text",
-		title: "품목코드",
-		width : 80
-	}, {
-		name : "product_name",
-		type : "text",
-		title: "품목명",
-		width : 80
-	}, {
-		name : "si_qty",
-		type : "text",
-		title: "안전수량",
-		width : 80
-	}];
-
-	var originalData;
-	var updateData = [];
-	var deleteData = [];
-	
-	$(document).ready(function() {
-		$("#updateCompleteBtn").hide();
-		$("#updateCancleBtn").hide();
-		
-		$.ajax({
-			url : "${path}/jaego/gridSafeItemSelectList",
-			type : "get"
-		})
-		.done(function(json) {
-			originalData = json;
-			console.log(json);
-			
-			$("#jsGrid").jsGrid({
-				// 그리드 크기설정
-				width : "100%",
-				height : "auto",
-				
-				// 데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
-				autoload : true,
-				
-				// 그리드 헤더 클릭시 sorting이 되게함
-				sorting : true,
-				
-				// 페이징 기본설정
-				paging:true,
-				pageSize : 10,
-				pageButtonCount : 5,
-				
-				// 커스텀 페이징 설정
-				pagerContainer: "#jsGridPage",
-	            pagerFormat: "{first} {prev} {pages} {next} {last}",
-	            pagePrevText: "<",
-	            pageNextText: ">",
-	            pageFirstText: "<<",
-	            pageLastText: ">>",
-	            
-				//json 배열을 데이터에 연결
-				data : json, 
-				
-				// 그리드에 표현될 필드 요소
-				fields : fieldsData,
-				
-				// 수정 아이콘 누르면 수정배열에 담기
-				onItemUpdated : function(args) {
-					updateData.push(args.item);
-				},
-				
-				// 삭제 아이콘 누르면 삭제배열에 담기
-				onItemDeleted : function(args) {
-					var item = args.item
-					deleteData.push(item);
-					
-					var index = updateData.indexOf(item);
-					if(index != -1) updateData.splice(index, 1);
-				}
-			}); // 그리드 끝
-		}); // ajax end
-	}); // ready 끝
-	
-	// 검색 버튼 클릭했을 경우
-	$("#searchBtn").click(function() {
-		
-		var product_code = $("#product_code").val();
-		var product_name = $("#product_name").val();
-		var filterData;
-		
-		// 검색할 값이 없는 경우
-		if(product_code === "" && product_name === "") {
-			filterData = originalData;
-		}
-
-		// 검색할 값이 있을 경우
-		if(product_code !== "") filterData = valueTest(originalData,"product_code",product_code);
-		if(product_name !== "") filterData = valueTest(originalData,"product_name",product_name);
-		
-		// 검색조건으로 그리드 다시 불러오기
-		$("#jsGrid").jsGrid({data : filterData, pageIndex: 1});
-		$("#jsGrid").jsGrid("loadData");
-		
-	});
-	
-	// 취소 버튼 클릭했을 경우 검색부분 값초기화
-	$("#cancle").on("click",function(){
-		$("#product_code").val("");
-		$("#product_name").val("");
-		
-	}); // cancle.click 끝
-	
-	// 신규 버튼 클릭했을 경우 이동하기
-	$("#newBtn").on("click",function() {
-		window.location.href = "${path}/jaego/safe_itemInsert";
-	});
-
-	// 수정 버튼 클릭했을 경우
-	$("#editBtn").on("click",function() {
-		
-		var filterFieldsData = fieldsData.slice();
-		filterFieldsData.push( {
-			type: "control", editButton: true, modeSwitchButton: false   
-		});
-		
-		$("#jsGrid").jsGrid({editing:true, fields:filterFieldsData});
-		$("#jsGrid").jsGrid("loadData");
-		
-		$("#updateCompleteBtn").show();
-		$("#updateCancleBtn").show();
-		$("#editBtn").hide();
-		
-	});
-	
-	var both = false;
-	var dummy = false;
-	
-	// 불량 테이블 수정함수
-	function completeUpdate() {
-		if(updateData != "" && updateData != null) {
-			$.ajax({
-				url : "${path}/jaego/gridSafeItemUpdates",
-				type : "post",
-				async : false,
-				contentType : "application/json",
-				data : JSON.stringify(updateData)
-			})
-			.done(function() {
-				swal("수정 성공!", "안전테이블 수정을 완료되었습니다.", "success")
-				.then((value) => {
-					completeDelete();
-				});
-				updateData = [];
-			});
-		}
-	}
-	
-	// 불량 테이블 삭제함수
-	function completeDelete() {
-		console.log(deleteData);
-		if(deleteData != "" && deleteData != null) {
-			$.ajax({
-				url : "${path}/jaego/gridSafeItemDeletes",
-				type : "post",
-				async : false,
-				contentType : "application/json",
-				data : JSON.stringify(deleteData)
-			})
-			.done(function() {
-				swal("삭제요청 성공!", "작업요청을 완료되었습니다.", "success");
-				deleteData = [];
-			});
-		}
-	}
-	
-	// 업데이트 완료 또는 취소 버튼 클릭했을 경우
-	$("#updateCompleteBtn, #updateCancleBtn").on("click",function() {
-		
-		// 완료 버튼
-		if(this.id == "updateCompleteBtn") {
-			$("#jsGrid").jsGrid({editing:false, fields:fieldsData});
-
-			if(deleteData != "" && updateData != "") {
-				both = true;
-				completeUpdate();
-			} else if(updateData != "") {
-				completeUpdate();
-			} else if(deleteData != "") {
-				completeDelete();
-			}
-			
-		// 삭제 버튼
-		} else if(this.id == "updateCancleBtn") {
-			$("#jsGrid").jsGrid({editing:false, fields:fieldsData, data:originalData});
-		}
-	
-		$("#jsGrid").jsGrid("loadData");
-		originalData = $("#jsGrid").jsGrid("option","data").slice();
-		
-		$("#updateCompleteBtn").hide();
-		$("#updateCancleBtn").hide();
-		$("#editBtn").show();
-	});
-</script>
-
-
 
 <!-- 모달 검색창 -->
 <script type="text/javascript">
@@ -491,4 +263,257 @@
 	
 </script>
 
-</html>
+<!-- 메인화면 기능 -->
+<script type="text/javascript">
+	var originalData = [];
+	var updateData = [];
+	var deleteData = [];
+
+	var fieldsData = [ {
+		name : "si_product_code",
+		type : "text",
+		title: "품목코드",
+		width : 80,
+		validate: function(value) {
+			var isSame = false;
+			$.grep(productData, function(i) {
+				if(i.product_code == value) {
+					isSame = true;
+				}
+			});
+			if(!isSame) {
+				swal({
+					title: "품목코드 오류",
+					text: "존재하지 않는 품목코드 입니다.",
+					icon: "error",
+					buttion: "확인"
+				});
+			}
+			
+			return isSame;
+		}
+	
+	}, {
+		name : "product_name",
+		type : "text",
+		title: "품목명",
+		width : 80,
+		validate: function(value) {
+			var isSame = false;
+			$.grep(productData, function(i) {
+				if(i.product_name == value) {
+					isSame = true;
+				}
+			});
+			if(!isSame) {
+				swal({
+					title: "품목명 오류",
+					text: "존재하지 않는 품목명 입니다.",
+					icon: "error",
+					buttion: "확인"
+				});
+			}
+			
+			return isSame;
+		}
+	
+	}, {
+		name : "si_qty",
+		type : "number",
+		title: "안전수량",
+		validate: function(value) {
+			if(value <= 0) {
+				swal({
+					title: "수량오류",
+					text: "수량을 0이하로 수정할 수 없습니다",
+					icon: "error",
+					button: "확인"
+				});
+			}
+			return value > 0
+		},
+		width : 80
+	}];
+
+	$(document).ready(function() {
+		$("#updateCompleteBtn").hide();
+		$("#updateCancleBtn").hide();
+		
+		$.ajax({
+			url : "${path}/jaego/gridSafeItemSelectList",
+			type : "get"
+		})
+		.done(function(json) {
+			// 배열 깊은 복사
+			originalData = JSON.parse(JSON.stringify(json));
+			
+			$("#jsGrid").jsGrid({
+				// 그리드 크기설정
+				width : "100%",
+				height : "auto",
+				
+				// 데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
+				autoload : true,
+				
+				// 그리드 헤더 클릭시 sorting이 되게함
+				sorting : true,
+				
+				// 페이징 기본설정
+				paging:true,
+				pageSize : 10,
+				pageButtonCount : 5,
+				
+				// 커스텀 페이징 설정
+				pagerContainer: "#jsGridPage",
+	            pagerFormat: "{first} {prev} {pages} {next} {last}",
+	            pagePrevText: "<",
+	            pageNextText: ">",
+	            pageFirstText: "<<",
+	            pageLastText: ">>",
+	            
+				//json 배열을 데이터에 연결
+				data : json, 
+				
+				invalidNotify : true,
+				
+				// 그리드에 표현될 필드 요소
+				fields : fieldsData,
+				
+				// 수정 아이콘 누르면 수정배열에 담기
+				onItemUpdated : function(args) {
+					updateData.push(args.item);
+				},
+				
+				// 삭제 아이콘 누르면 삭제배열에 담기
+				onItemDeleted : function(args) {
+					var item = args.item
+					deleteData.push(item);
+					
+					var index = updateData.indexOf(item);
+					if(index != -1) updateData.splice(index, 1);
+				}
+			}); // 그리드 끝
+		}); // ajax end
+	}); // ready 끝
+	
+	// 검색 버튼 클릭했을 경우
+	$("#searchBtn").click(function() {
+		
+		var product_code = $("#product_code").val();
+		var product_name = $("#product_name").val();
+		var filterData;
+		
+		// 검색할 값이 없는 경우
+		if(product_code === "" && product_name === "") {
+			filterData = originalData;
+		}
+
+		// 검색할 값이 있을 경우
+		if(product_code !== "") filterData = valueTest(originalData,"product_code",product_code);
+		if(product_name !== "") filterData = valueTest(originalData,"product_name",product_name);
+		
+		// 검색조건으로 그리드 다시 불러오기
+		$("#jsGrid").jsGrid({data : filterData, pageIndex: 1});
+		$("#jsGrid").jsGrid("loadData");
+		
+	});
+	
+	// 취소 버튼 클릭했을 경우 검색부분 값초기화
+	$("#cancle").on("click",function(){
+		$("#product_code").val("");
+		$("#product_name").val("");
+		
+	}); // cancle.click 끝
+	
+	// 신규 버튼 클릭했을 경우 이동하기
+	$("#newBtn").on("click",function() {
+		window.location.href = "${path}/jaego/safe_itemInsert";
+	});
+
+	// 수정 버튼 클릭했을 경우
+	$("#editBtn").on("click",function() {
+		
+		var filterFieldsData = fieldsData.slice();
+		filterFieldsData.push( {
+			type: "control", editButton: true, modeSwitchButton: false   
+		});
+		
+		$("#jsGrid").jsGrid({editing:true, fields:filterFieldsData});
+		$("#jsGrid").jsGrid("loadData");
+		
+		$("#updateCompleteBtn").show();
+		$("#updateCancleBtn").show();
+		$("#editBtn").hide();
+		
+	});
+	
+	var both = false;
+	var dummy = false;
+	
+	// 불량 테이블 수정함수
+	function completeUpdate() {
+		if(updateData != "" && updateData != null) {
+			$.ajax({
+				url : "${path}/jaego/gridSafeItemUpdates",
+				type : "post",
+				async : false,
+				contentType : "application/json",
+				data : JSON.stringify(updateData)
+			})
+			.done(function(count) {
+				swal("수정 성공!", "안전테이블 수정을 완료되었습니다.", "success")
+				.then((value) => {
+					completeDelete();
+				});
+				updateData = [];
+				webSocket.send(count);
+			});
+		}
+	}
+	
+	// 불량 테이블 삭제함수
+	function completeDelete() {
+		if(deleteData != "" && deleteData != null) {
+			$.ajax({
+				url : "${path}/jaego/gridSafeItemDeletes",
+				type : "post",
+				async : false,
+				contentType : "application/json",
+				data : JSON.stringify(deleteData)
+			})
+			.done(function(count) {
+				swal("삭제요청 성공!", "작업요청을 완료되었습니다.", "success");
+				deleteData = [];
+				webSocket.send(count);
+			});
+		}
+	}
+	
+	// 업데이트 완료 또는 취소 버튼 클릭했을 경우
+	$("#updateCompleteBtn, #updateCancleBtn").on("click",function() {
+		
+		// 완료 버튼
+		if(this.id == "updateCompleteBtn") {
+			$("#jsGrid").jsGrid({editing:false, fields:fieldsData});
+
+			if(deleteData != "" && updateData != "") {
+				both = true;
+				completeUpdate();
+			} else if(updateData != "") {
+				completeUpdate();
+			} else if(deleteData != "") {
+				completeDelete();
+			}
+			
+		// 취소 버튼
+		} else if(this.id == "updateCancleBtn") {
+			$("#jsGrid").jsGrid({editing:false, fields:fieldsData, data:originalData});
+		}
+		$("#jsGrid").jsGrid("loadData");
+		originalData = JSON.parse(JSON.stringify(originalData));
+		
+		$("#updateCompleteBtn").hide();
+		$("#updateCancleBtn").hide();
+		$("#editBtn").show();
+	});
+</script>

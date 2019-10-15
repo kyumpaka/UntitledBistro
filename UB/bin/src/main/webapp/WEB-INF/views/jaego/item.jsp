@@ -3,14 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
-<!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
 <!-- sweetAlert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
-<!-- Modal -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
 <!-- datePicker -->
 <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
@@ -27,20 +21,17 @@
 	#jsGrid {
 		margin: auto;
 	}
+	
+	/* 디자인 수정부분 */
 	.form-inline {
 		display: grid;
+		margin-bottom: 8px;
 	}
+	
 	/* jsGird 스크롤바 없애기 */
 	.jsgrid-header-scrollbar {overflow: hidden;}
 	.jsgrid-grid-body {overflow: hidden;}
 	
-	.input-group-addon {
-		width: 39px;
-		height: 34px;
-	}
-	.input-group {
-		width: 25px;
-	}
 	.form-group {
 		display: flex;
 		padding-bottom: 5px;
@@ -49,26 +40,29 @@
 	.input-group date {
 		margin-left: -4px;
 	}
+	
+	/* 디자인 수정부분 */
 	#yearInput {
 		width: 79px;
 		margin-right: 5px;
 	}
 	#year {
-		width: 79px;
+		width: 84px;
 		margin-right: 5px;
 	}
 	#month {
-		width: 76px;
+		width: 80px;
 		margin-right: 5px;
 	}
 	#day {
-		width: 42px;
+		width: 43px;
 	}
+	
 	#searchBackground {
 		margin: auto;
 		width: 600px;
-		margin-top: 15px;
-		margin-bottom: 15px;
+		margin-top: 10px;
+		margin-bottom: 5px;
 		padding: 10px;
 		background-color: #f3f0f0;
 	}
@@ -81,17 +75,14 @@
 		margin: auto;
 		width: 600px;
 	}
-	#centher {
-		width: 50px;
-	}
 	#search, #search2 {
 		display: inline-flex;
 	}
-	#logo {
-		color: #878787;
-		font: 20px "Open Sans", sans-serif;
-		margin: 0px 16px 0px 0px;
-		padding: 11px 0px;
+	
+	/* 디자인 수정부분 */
+	label {
+		font-weight: bold;
+		margin-left: 10px;
 	}
 </style>
 
@@ -153,28 +144,28 @@
 				<div class="input-group date">
 					<input type="hidden" class="form-control" id="date"> 
 					<span class="input-group-addon"> 
-						<i class="glyphicon glyphicon-calendar"></i>
+						<i class="fa fa-calendar"></i>
 					</span>
 				</div>
 			</div> <!-- 날짜 end -->
 			
 			<div id="search" class="form-group">
-				<label for="product_code" class="col-2 col-form-label">품목코드</label>
+				<label for="product_code" class="text-dark">품목코드</label>
 				<div class="col-10">
 					<!-- 검색 모달창 열기버튼 -->
-					<button id="open" type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">
-						<i class="glyphicon glyphicon-search"></i>
+					<button id="open" type="button" class="btn btn-light" data-toggle="modal" data-target="#myModal">
+						<i class="fa fa-search"></i>
 					</button>
 					<input class="form-control" type="search" placeholder="검색할 품목코드 입력" id="product_code">
 				</div>
 			</div>
 			
 			<div id="search2" class="form-group">
-				<label for="product_name" class="col-2 col-form-label">품목명</label>
+				<label for="product_name" class="text-dark">품목명</label>
 				<div class="col-10">
 					<!-- 검색 모달창 열기버튼 -->
-					<button id="open2" type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">
-						<i class="glyphicon glyphicon-search"></i>
+					<button id="open2" type="button" class="btn btn-light" data-toggle="modal" data-target="#myModal">
+						<i class="fa fa-search"></i>
 					</button>
 					<input class="form-control" type="search" placeholder="검색할 품목명 입력" id="product_name">
 				</div>
@@ -183,7 +174,7 @@
 		</div> <!-- form-inline end -->
 		
 		<button type="button" id="searchBtn" class="btn btn-primary btn-sm">검색</button>
-		<button type="button" id="cancle" class="btn btn-default btn-sm">취소</button>
+		<button type="button" id="cancle" class="btn btn-success btn-sm">취소</button>
 		
 	</div> <!-- searchBackground end -->
   
@@ -276,8 +267,13 @@
 	$("#searchBtn").click(function(){
 		
 		// 빨간 테두리 존재여부
-		if($("#yy-mm-dd").css("border") == "1px solid rgb(255, 0, 0)") {
-			alert("올바른 검색조건으로 입력하세요.");
+		if($("#year").css("border") == "1px solid rgb(255, 0, 0)") {
+			swal({
+				  title: "잘못된 년도입력!",
+				  text: "올바른 범위로 년도를 입력하세요.! (1900 ~ " + (year+1) + ")",
+				  icon: "error",
+				  button: "확인",
+			});
 			return;
 		}
 		

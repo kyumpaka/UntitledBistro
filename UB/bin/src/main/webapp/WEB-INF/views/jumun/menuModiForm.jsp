@@ -18,7 +18,7 @@
 			<div class="col col-md-3" align="center">
 				<img alt="사진 등록 안됨" src="${pageContext.request.contextPath}/resources/images/jumun/${ menuDTO.menu_Image }" height="200" width="400">
 			</div>
-			<form action="menuAdd.do" method="post" enctype="multipart/form-data" id="multiform" class="form-horizontal">
+			<form action="/erp/menuModi.do" method="post" enctype="multipart/form-data" id="multiform" class="form-horizontal">
 				<input type="hidden" value="${ menuDTO.menu_Code }" name="menu_Code">
 				<div class="row form-group">
 					<div class="col col-md-3">
@@ -241,6 +241,7 @@ function igdcheck(){
 			return false;
 		}
 	}
+	if(igdcnt == 0) return false;
 	return true;
 };
 </script>
