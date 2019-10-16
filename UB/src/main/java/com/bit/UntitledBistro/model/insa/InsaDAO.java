@@ -23,7 +23,7 @@ public interface InsaDAO {
 	
 	public void logout(HttpSession session);
 
-	public String WorkManagement(Insa_EmpRegisterDTO dto);
+	public int WorkManagement(Insa_ScheduleDTO dto);
 
 	
 	

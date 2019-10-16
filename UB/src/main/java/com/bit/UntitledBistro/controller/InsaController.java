@@ -86,7 +86,7 @@ public class InsaController {
 	@RequestMapping("EmpRegisterUpdate")
 	public String update(Insa_EmpRegisterDTO dto) {
 		int result = insaService.EmpRegisterUpdate(dto);
-		System.out.println(result);
+		System.out.println(result);	
 		String res = "redirect:/insa/EmpRegisterList";
 		if (result == 0) {
 			res = "insa/EmpRegisterFail";
@@ -167,49 +167,41 @@ public class InsaController {
 		return "insa/ScheduleCalendar";
 	}
 
-	// 일정 저장 처리
-	@RequestMapping(value = "/calendarEventAdd", method = RequestMethod.POST)
-	public Map<String, Boolean> calendarEventAdd(Insa_ScheduleDTO ScDto) {
-		logger.info("calendarEventAdd " + ScDto.toString());
-
-		boolean isc = false;
-		try {
-			Calendar service = GoogleCalendarService.getCalendarService();
-			Event event = new Event().setSummary(ScDto.getSummary()).setDescription(ScDto.getDescription());
-			// 시작일
-			DateTime startDateTime = new DateTime(ScDto.getStartDateTime());
-			EventDateTime start = new EventDateTime().setDateTime(startDateTime).setTimeZone("America/Los_Angeles");
-			event.setStart(start);
-			// 종료일
-			DateTime endDateTime = new DateTime(ScDto.getEndDateTime());
-			EventDateTime end = new EventDateTime().setDateTime(endDateTime).setTimeZone("America/Los_Angeles");
-			event.setEnd(end);
-			event = service.events().insert(ScDto.getCalendarId(), event).execute();
-			isc = true;
-		} catch (IOException | ParseException e) {
-			e.printStackTrace();
-		}
-		Map<String, Boolean> map = new HashMap<String, Boolean>();
-		map.put("isc", isc);
-		return map;
-	}
-
-	// 일정 데이터 처리
-	@RequestMapping(value = "/calendarEventList.do", method = RequestMethod.POST)
-	public List<Event> calendarEventList(Insa_ScheduleDTO ScDto) {
-		logger.info("calendarEventList " + ScDto.toString());
-
-		List<Event> items = new ArrayList<Event>();
-		try {
-			com.google.api.services.calendar.Calendar service = GoogleCalendarService.getCalendarService();
-			Events events = service.events().list(ScDto.getCalendarId()).setOrderBy("schedule_workingstarttime")
-					.setSingleEvents(true).execute();
-			items = events.getItems();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return items;
-	}
+	/*
+	 * // 일정 저장 처리
+	 * 
+	 * @RequestMapping(value = "/calendarEventAdd", method = RequestMethod.POST)
+	 * public Map<String, Boolean> calendarEventAdd(Insa_ScheduleDTO ScDto) {
+	 * logger.info("calendarEventAdd " + ScDto.toString());
+	 * 
+	 * boolean isc = false; try { Calendar service =
+	 * GoogleCalendarService.getCalendarService(); Event event = new
+	 * Event().setSummary(ScDto.getSummary()).setDescription(ScDto.getDescription())
+	 * ; // 시작일 DateTime startDateTime = new DateTime(ScDto.getStartDateTime());
+	 * EventDateTime start = new
+	 * EventDateTime().setDateTime(startDateTime).setTimeZone("America/Los_Angeles")
+	 * ; event.setStart(start); // 종료일 DateTime endDateTime = new
+	 * DateTime(ScDto.getEndDateTime()); EventDateTime end = new
+	 * EventDateTime().setDateTime(endDateTime).setTimeZone("America/Los_Angeles");
+	 * event.setEnd(end); event = service.events().insert(ScDto.getCalendarId(),
+	 * event).execute(); isc = true; } catch (IOException | ParseException e) {
+	 * e.printStackTrace(); } Map<String, Boolean> map = new HashMap<String,
+	 * Boolean>(); map.put("isc", isc); return map; }
+	 * 
+	 * // 일정 데이터 처리
+	 * 
+	 * @RequestMapping(value = "/calendarEventList.do", method = RequestMethod.POST)
+	 * public List<Event> calendarEventList(Insa_ScheduleDTO ScDto) {
+	 * logger.info("calendarEventList " + ScDto.toString());
+	 * 
+	 * List<Event> items = new ArrayList<Event>(); try {
+	 * com.google.api.services.calendar.Calendar service =
+	 * GoogleCalendarService.getCalendarService(); Events events =
+	 * service.events().list(ScDto.getCalendarId()).setOrderBy(
+	 * "schedule_workingstarttime") .setSingleEvents(true).execute(); items =
+	 * events.getItems(); } catch (IOException e) { e.printStackTrace(); } return
+	 * items; }
+	 */
 
 	@RequestMapping("/logout")
 	public ModelAndView logout(HttpSession session) {
@@ -223,18 +215,23 @@ public class InsaController {
 	}
 	
 	
-	@RequestMapping("WorkManagement")
-	public String WorkManagement(HttpSession session) {
+	@RequestMapping("WorkManagementForm")
+	public String WorkManagement() {
 		logger.info("출퇴관리 로그인");
+		return "views/insa/WorkManagementForm";
+	}
+	
+	@RequestMapping("WorkManagement")
+	@ResponseBody
+	public int WorkManagement(Insa_ScheduleDTO dto) {
+		logger.info("출퇴관리 로그인");
+		return insaService.WorkManagement(dto);
+	}
+	
+	@RequestMapping("WorkLoginCheck")
+	public String WorkHome(HttpSession session) {
+		logger.info("로그인 컨트롤러에 오신걸 환영합니다");
 		return "views/insa/WorkManagement";
 	}
-	
-	
-	@RequestMapping("AddWork")
-	public String AddWork() {
-		return null;
-		
-	}
-	
 	
 }

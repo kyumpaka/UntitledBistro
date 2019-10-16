@@ -142,10 +142,36 @@ public class InsaServiceImpl implements InsaService {
 		
 	}
 	 
+	/*
+	 * @Override public boolean WorkManagement(Insa_EmpRegisterDTO dto, HttpSession
+	 * session) { InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class); String name
+	 * = insaDAO.WorkManagement(dto); boolean result = false;
+	 * 
+	 * if(name != null) result = true; if(result) { Insa_EmpRegisterDTO dto2 =
+	 * viewMember(dto);
+	 * 
+	 * System.out.println("num : " + dto2.getEmpregister_empnum());
+	 * System.out.println("name : " + dto2.getEmpregister_name());
+	 * System.out.println("photo : " + dto2.getEmpregister_photo());
+	 * session.setAttribute("empregister_empnum", dto2.getEmpregister_empnum());
+	 * session.setAttribute("empregister_name", dto2.getEmpregister_name());
+	 * session.setAttribute("empregister_photo", dto2.getEmpregister_photo()); }
+	 * return result;
+	 * 
+	 * }
+	 */
+
 	@Override
-	public boolean WorkManagement(Insa_EmpRegisterDTO dto, HttpSession session) {
+	public int WorkManagement(Insa_ScheduleDTO dto) {
 		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
-		String name = insaDAO.WorkManagement(dto);
+		insaDAO.WorkManagement(dto);
+		
+		return 1;
+	}
+	@Override
+	public boolean WorkLoginCheck(Insa_EmpRegisterDTO dto, HttpSession session) {
+		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
+		String name = insaDAO.InsaLoginCheck(dto);
 		boolean result = false;
 		
 		if(name != null) result = true;
@@ -159,8 +185,13 @@ public class InsaServiceImpl implements InsaService {
 			session.setAttribute("empregister_name", dto2.getEmpregister_name());
 			session.setAttribute("empregister_photo", dto2.getEmpregister_photo());
 		}
-		return result;
 		
+		
+			
+		return result;
 	}
+	
+	
+	
 
 }

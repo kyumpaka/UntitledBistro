@@ -24,7 +24,6 @@
  	</select> 
 	
 
-	<!-- empregister_photo, -->
 	<insert id="EmpRegisterInsert"
 		parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
 		insert into EmpRegister(empregister_name,empregister_photo, empregister_jumin,
@@ -82,14 +81,23 @@ where empregister_empnum = #{empregister_empnum} and empregister_jumin = #{empre
 </select> 
 
 <!-- 출퇴관리 --> 
-<select id = "WorkManagement" resultType="String">
+<!-- <select id = "WorkManagement" resultType="String">
 select empregister_name as empregister_name 
 from EmpRegister
 where empregister_empnum = #{empregister_empnum} and empregister_jumin = #{empregister_jumin}
 </select>
+ -->
 
+<insert id ="WorkManagement" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
 
+</insert>
 
+<select id ="WorkLoginCheck" resultType="String">
+select empregister_name as empregister_name 
+,empregister_photo as empregister_photo
+from EmpRegister
+where empregister_empnum = #{empregister_empnum} and empregister_jumin = #{empregister_jumin}
+</select>
 
 
 </mapper>

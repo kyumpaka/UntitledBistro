@@ -57,7 +57,7 @@
 						</div>
 						<hr>
 						<div class="col-md-13">
-							<button onclick="window.open('../insa/WorkManagement','work','width=1000,height=400,location=no,status=no,scrollbars=yes');" class="btn  btn-primary btn-lg btn-block"> 출퇴관리 </button>
+							<button onclick="window.open('../insa/WorkManagementForm','work','width=1000,height=400,location=no,status=no,scrollbars=yes');" class="btn  btn-primary btn-lg btn-block"> 출퇴관리 </button>
 						</div>
 						<hr>
 						<div class="col-md-13">
