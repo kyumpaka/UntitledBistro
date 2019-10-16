@@ -55,6 +55,7 @@
             start: info.dateStr,
             allDay: true
           });
+        // 날짜 아이디 디비에 넣기
       },
       select: function(info) {
        /*  alert('selected ' + info.startStr + ' to ' + info.endStr); */ /* info.endStr : 클릭 다음 날짜 */
