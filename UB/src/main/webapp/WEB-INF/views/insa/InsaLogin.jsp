@@ -88,22 +88,6 @@ function login() {
 	}
 };
 
-$(document).ready(function() {
-	if('${logout}' != "empty") {
-		swal({
-			  title: "${logout}",
-			  icon: "success",
-			  button: "닫기",
-			});
-	}
-	if('${error}' != "empty") {
-		swal({
-		  title: "${error}",
-		  icon: "warning",
-		  button: "닫기",
-		});
-	}
-});
 </script>
 
 </head>

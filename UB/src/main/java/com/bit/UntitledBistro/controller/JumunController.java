@@ -25,7 +25,6 @@ import com.bit.UntitledBistro.model.jumun.MenuDTO;
 import com.bit.UntitledBistro.model.jumun.MenuTypeDTO;
 import com.bit.UntitledBistro.model.jumun.OrdersDetailsDTO;
 import com.bit.UntitledBistro.model.jumun.PaymentDTO;
-import com.bit.UntitledBistro.model.jumun.SalesDTO;
 import com.bit.UntitledBistro.model.jumun.SalesDetailsDTO;
 import com.bit.UntitledBistro.model.jumun.TableSaveDTO;
 import com.bit.UntitledBistro.service.jumun.JumunService;

@@ -190,7 +190,13 @@ function igdcheck(){
 			return false;
 		}
 	}
-	if(igdcnt == 0) return false;
+	if(igdcnt == 0){
+		swal({
+			  title: "재료를 추가해주세요.",
+			  icon: "warning",
+			});
+		return false;
+	}
 	return true;
 };
 </script>

@@ -464,7 +464,7 @@ public class JumunServiceImpl implements JumunService {
 	@Override
 	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token, String orders_No) {
 		
-		int sales_No = ordersToSales(orders_No, paymentDTO); // 주문 삭제 후 결제 입력
+		ordersToSales(orders_No, paymentDTO); // 주문 삭제 후 결제 입력
 		
         RestTemplate restTemplate = new RestTemplate();
  
@@ -478,7 +478,7 @@ public class JumunServiceImpl implements JumunService {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("cid", "TC0ONETIME");
         params.add("tid", kakaoPayReadyDTO.getTid());
-        params.add("partner_order_id", Integer.toString(sales_No));
+        params.add("partner_order_id", Integer.toString(dao.salesSelectMax()));
         params.add("partner_user_id", "UntitledBistro");
         params.add("pg_token", pg_token);
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
@@ -498,9 +498,8 @@ public class JumunServiceImpl implements JumunService {
     }
 	
 	@Override
-	public int ordersToSales(String orders_No, PaymentDTO paymentDTO) {
+	public void ordersToSales(String orders_No, PaymentDTO paymentDTO) {
 		dao = sqlSession.getMapper(JumunDAO.class);
-		int sales_No = dao.salesSelectMax();
 		
 		map = new HashMap<String, String>();
 		map.put("orders_No", orders_No);
@@ -509,11 +508,9 @@ public class JumunServiceImpl implements JumunService {
 		int tableNum = dao.salesTableSelect(map);
 		
 		for(int i = 0; i < sdList.size(); i++) {
-			sdList.get(i).setSd_Sales_No(Integer.toString(sales_No)); // 판매내역번호 설정
 			dao.salesDetailsInsert(sdList.get(i)); // 판매내역 입력
 		}
 		
-		paymentDTO.setPayment_Sales_No(Integer.toString(sales_No)); // 판매내역번호 설정
 		paymentDTO.setPayment_Table(Integer.toString(tableNum)); // 테이블번호 설정
 		dao.paymentInsert(paymentDTO); // 결제내역 입력
 		
@@ -562,10 +559,7 @@ public class JumunServiceImpl implements JumunService {
 		}
 		
 		// 주문내역
-		map.put("sales_No", Integer.toString(sales_No));
 		dao.shippingHistoryUpdate(map);
-		
-		return sales_No;
 	}
 	
 	@Override

@@ -20,10 +20,15 @@ public class HomeController {
 	
 	@Autowired
 	InsaService insaService;
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	@RequestMapping(value = {"/login", "/"})
-	public String home(String error, String logout, Model model) {
+	public String home() {
+		
+		return "views/insa/InsaLogin";
+	}
+	
+	@RequestMapping(value = "/loginFail")
+	public String loginFail(String error, String logout, String exist, String timeOut, String access, Model model) {
 		if(error != null) {
 			model.addAttribute("error", "아이디 또는 비밀번호가 틀렸습니다.");
 			
@@ -38,19 +43,28 @@ public class HomeController {
 			model.addAttribute("logout", "empty");
 		}
 		
-		return "views/insa/InsaLogin";
-	}
-	
-	@RequestMapping(value = "/accessDenied")
-	public String accessDenied() {
+		if(exist != null) {
+			model.addAttribute("exist", "이미 접속중입니다. 로그인하시려면 다시 시도해주세요.");
+			
+		} else {
+			model.addAttribute("exist", "empty");
+		}
 		
-		return "views/insa/accessDenied";
-	}
-	
-	@RequestMapping(value = "/logoutSuccess")
-	public String logoutSuccess() {
+		if(timeOut != null) {
+			model.addAttribute("timeOut", "현재 계정으로 다른 곳에서 로그인하였습니다.");
+			
+		} else {
+			model.addAttribute("timeOut", "empty");
+		}
 		
-		return "views/insa/logoutSuccess";
+		if(access != null) {
+			model.addAttribute("access", "권한이 부족합니다.");
+			
+		} else {
+			model.addAttribute("access", "empty");
+		}
+		
+		return "views/insa/loginFail";
 	}
 	
 	@RequestMapping(value = "/erp")

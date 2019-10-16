@@ -59,6 +59,10 @@
 						</div>
 						<hr>
 						<div class="col-md-13">
+							<button onclick="#" class="btn  btn-primary btn-lg btn-block"> 정산내역 </button>
+						</div>
+						<hr>
+						<div class="col-md-13">
 							<button onclick="goSetting()" class="btn  btn-primary btn-lg btn-block"> 설정 </button>
 						</div>
 					</div>
