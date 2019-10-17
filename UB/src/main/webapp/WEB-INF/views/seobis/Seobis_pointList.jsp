@@ -18,6 +18,24 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
+    
+         <style>
+        #pointbutton{
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            margin-right:-4px;
+        }
+        #btn_group button{
+            border: 1px solid skyblue;
+            background-color: skyblue;
+            color: white;
+            padding: 5px;
+        }
+        #btn_group button:hover{
+            color: skyblue;
+            background-color: white;
+        }
+    </style>
 
 </head>
 <body>
@@ -36,9 +54,9 @@
                         <div class="page-header float-right">
                             <div class="page-title">
                                 <ol class="breadcrumb text-right">
-                                    <li class="active"><a href="Seobis_jUs">회원 등록</a></li>
+                                    <li class="active"><a href="${path}/Seobis/jUs">회원 등록</a></li>
                                     <li><a href="#">예약 확인</a></li>
-                                    <li><a href="Seobis_pList">포인트 관리</a></li>
+                                    <li><a href="${path}/Seobis/pList">포인트 관리</a></li>
                                 </ol>
                             </div>
                         </div>
@@ -66,19 +84,17 @@
                                             	<th>포인트</th>
                                             	<th>전화번호</th>
                                             	<th>가입일</th>
-                                            	<th>포인트 수정</th>
                                         	</tr>
                                     </thead>
                                     <tbody>
                                         <c:forEach var="b" items="${Seobis_memberList}">
 											<tr>
-												<td>${b.member_id}</td>
+												<td><div id="btn_group"><button id="pointbutton" onclick='location.href="${path}/Seobis/select?member_id=${b.member_id}"'>${b.member_id}</button></div></td>
 												<td>${b.member_name}</td>
 												<td>${b.member_grade}</td>
 												<td>${b.member_point}</td>
 												<td>${b.member_phone1}</td>
 												<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${b.member_reg}" /></td>
-												<td><button onclick='location.href="${path}/Seobis_select?member_id=${b.member_id}"'>포인트 수정</button></td>
 											</tr>
 										</c:forEach>
                                     </tbody>
@@ -97,11 +113,9 @@
     <!-- Scripts -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script> --> <!-- 이거 쓰면 메뉴 비활성화 됩니다 --> 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+<!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script> -->
+<!--     <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script> -->
     <script src="${path}/resources/Admin/assets/js/main.js"></script>
-
-
     <script src="${path}/resources/Admin/assets/js/lib/data-table/datatables.min.js"></script>
     <script src="${path}/resources/Admin/assets/js/lib/data-table/dataTables.bootstrap.min.js"></script>
     <script src="${path}/resources/Admin/assets/js/lib/data-table/dataTables.buttons.min.js"></script>
@@ -119,12 +133,6 @@
           $('#bootstrap-data-table-export').DataTable();
       } );
         
-        $(".Seobis_MemberDelete").on("click", function(){
-            var member_id = $(this).parent().parent().children().eq(0).text();
-            if(confirm("회원 ID : "+member_id+"을 삭제하시겠습니까?")){
-                $(location).attr("href", "${path}/Seobis_delete?member_id=" + member_id);
-            }
-        });
   </script>
 
 

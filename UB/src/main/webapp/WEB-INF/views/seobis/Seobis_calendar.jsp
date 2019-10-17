@@ -48,7 +48,7 @@
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
       dateClick: function(info) {
-        alert('clicked ' + info.dateStr); /* info.dateStr : 클릭날짜 */
+        alert(info.dateStr + " 날짜를 선택하셨습니다."); /* info.dateStr : 클릭날짜 */
         var memberId = prompt("아이디를 입력하세요.");
         calendar.addEvent({
             title: memberId,

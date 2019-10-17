@@ -36,10 +36,6 @@ public class SeobisController {
 	public String seobis_formcalendar() {
 		return "seobis/Seobis_calendar";
 	}
-	@RequestMapping(value="/pList")  // 회원 등록으로 보내는 맵핑
-	public String seobis_formpointlist() {
-		return "seobis/Seobis_pointList";
-	}
 	
 	@RequestMapping(value="/createMember", method = RequestMethod.POST)  //회원 가입을 처리하는 맵핑
 	public String seobis_joinUsSubmit (HttpSession session, Seobis_MemberDTO seobis_MemberDTO_dto) {
@@ -61,6 +57,13 @@ public class SeobisController {
 		List<Seobis_MemberDTO> Seobis_memberList = Seobis_memberService.Seobis_MemberList(map);
 		model.addAttribute("Seobis_memberList", Seobis_memberList);
 		return "seobis/Seobis_memberList"; //.jsp
+	}
+	
+	@RequestMapping(value="/pList") //포인트 목록을 처리하는 맵핑
+	public String seobis_pointList(Model model, HashMap<String, Object> map) {
+		List<Seobis_MemberDTO> Seobis_memberList = Seobis_memberService.Seobis_MemberList(map);
+		model.addAttribute("Seobis_memberList", Seobis_memberList);
+		return "seobis/Seobis_pointList"; //.jsp
 	}
 	
 	@RequestMapping(value="/delete")  //회원 삭제 맵핑

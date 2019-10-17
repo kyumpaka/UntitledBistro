@@ -44,19 +44,19 @@
                                 <form action="${path}/Seobis/createMember" method="post"  class="form-horizontal" onsubmit="return CheckNull();">
                                                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">아이디</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="member_id" name="member_id" placeholder="아이디 입력 ex) 특수문자 불가능, 길이 2글자~10글자 제한" class="form-control"><small class="form-text text-muted">대소문자, 숫자 사용</small></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="member_id" name="member_id" placeholder="ex) 특수문자 불가능, 길이 2글자~10글자 제한" class="form-control"><small class="form-text text-muted">대소문자, 숫자 사용</small></div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">이름</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="member_name" name="member_name" placeholder="이름 입력 ex) 2글자 이상" class="form-control"><small class="form-text text-muted">8자 이내</small></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="member_name" name="member_name" placeholder="ex) 2글자 이상" class="form-control"><small class="form-text text-muted">8자 이내</small></div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="email-input" class=" form-control-label">이메일</label></div>
-                                        <div class="col-12 col-md-9"><input type="email" id="member_email" name="member_email" placeholder="이메일 입력!! ex) ID@naver.com" class="form-control" ><small class="help-block form-text"></small></div>
+                                        <div class="col-12 col-md-9"><input type="email" id="member_email" name="member_email" placeholder="ex) ID@naver.com" class="form-control" ><small class="help-block form-text"></small></div>
                                     </div>
                                        <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">생일</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="member_birth" name="member_birth" placeholder="생일 입력!! ex) 191121" class="form-control"><small class="form-text text-muted"></small></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="member_birth" name="member_birth" placeholder="ex) 191121" class="form-control"><small class="form-text text-muted"></small></div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label class="form-control-label">성별</label></div>
@@ -109,6 +109,7 @@ function CheckNull() {
     var num3 = member_phone1.substr(3,3) //두번째 번호 ex) 999 -2
     var num4 = member_phone1.substr(7) //세번째 번호 ex) 8888 -1  
     var num5 = member_phone1.substr(6) //세번째 번호 ex) 8888 - 2 
+    var ck_type = new Array();
     
 	//아이디 입력여부 검사
 	if(member_id.length == 0){
@@ -116,7 +117,7 @@ function CheckNull() {
 		$("#member_id").focus();
 		return false;
 	}
-	console.log(member_id);
+    
 	//아이디 공백여부 검사
 	if(member_id.indexOf(" ") >= 0){
 		swal("아이디에 공백을 사용할 수 없습니다.");
@@ -162,12 +163,14 @@ function CheckNull() {
 		return false;
 	}
 	
+	 //이메일 공백여부 검사
 	if(member_email.indexOf(" ") >= 0){
 		swal("이메일에 공백을 사용할 수 없습니다");
 		$("#member_email").focus();
 		return false;
 	}
 	
+	 //생일 입력여부 검사
 	if(member_birth.length == 0){
 		swal("생일을 입력해 주세요");
 		$("#member_birth").focus();
@@ -182,20 +185,35 @@ function CheckNull() {
 		return false;
 	 }
 	
-	 //전화 입력여부 검사
+	//성별 입력여부 검사
+	for(var i = 0; i < member_gender.length; i++){
+		if(member_gender[i].checked == true){
+			ck_type[i] = member_gender[i].value;
+		console.log(ck_type[i])
+		}
+	} //FOR END
+	
+	for(var i = 0; i < ck_type.length; i++){
+		if(ck_type[i] == null){
+			swal("성별을 체크해 주세요");
+			return false;
+		}
+	}
+	//전화 입력여부 검사
 	if(member_phone1.length == 0){
 		swal("전화를 입력해 주세요");
 		$("#member_phone1").focus();
 		return false;
 	}
 	
-	 //전화 공백여부 검사
+	//전화 공백여부 검사
 	if(member_phone1.indexOf(" ") >= 0){
 		swal("전화에 공백을 사용할 수 없습니다");
 		$("#member_phone1").focus();
 		return false;
 	}
-	 //전화 문자 검사
+	
+	//전화 문자 검사
 	for(i = 0; i < member_phone1.length; i++){
 		ch = member_phone1.charAt(i)
 		if(!(ch >= '0' && ch <= '9')){
@@ -218,7 +236,7 @@ function CheckNull() {
 				$("#member_phone1").focus();
 				return false;
 			}
-			if(num4.length < 3 || num4.length > 4 || num5.length < 3 || num5.length > 4) {
+			if(num4.length < 3 || num4.length > 4 || num5.length < 3) {
 				swal("세번째 자리 전화 범위값이 부적절 합니다.");
 				member_phone1 = ""
 				$("#member_phone1").focus();
