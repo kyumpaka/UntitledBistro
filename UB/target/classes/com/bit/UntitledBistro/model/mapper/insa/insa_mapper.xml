@@ -88,7 +88,11 @@ where empregister_empnum = #{empregister_empnum} and empregister_jumin = #{empre
 </select>
  -->
 
-<insert id ="WorkManagement" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
+<insert id ="WorkAdd" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
+select (select count(*) from EmpRegister where empregister_empnum = 'ADMIN1' and empregister_jumin = 12345) as Schedule_no, Schedule_WorkingStart, Schedule_WorkingEnd
+from EmpRegister e left outer join schedule s
+on e.empregister_empnum = s.schedule_empregister_empnum where empregister_empnum = 'ADMIN1' and empregister_jumin = 12345;
+
 
 </insert>
 

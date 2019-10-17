@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,7 +36,7 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
 
-@Controller
+@Controller()
 @RequestMapping(value = "/insa")
 
 public class InsaController {
@@ -215,23 +216,37 @@ public class InsaController {
 	}
 	
 	
-	@RequestMapping("WorkManagementForm")
+	@RequestMapping("/WorkManagementForm")
 	public String WorkManagement() {
 		logger.info("출퇴관리 로그인");
 		return "views/insa/WorkManagementForm";
 	}
 	
-	@RequestMapping("WorkManagement")
+	@RequestMapping(value = "/WorkCheck" , method = RequestMethod.POST)
 	@ResponseBody
-	public int WorkManagement(Insa_ScheduleDTO dto) {
+	public int WorkManagement(@RequestBody Insa_EmpRegisterDTO dto) {
+		System.out.println(dto.getEmpregister_empnum()+"abcabcabc");
+		System.out.println(dto.getEmpregister_jumin()+"abcabcabc");
 		logger.info("출퇴관리 로그인");
-		return insaService.WorkManagement(dto);
+		return insaService.WorkCheck(dto);
 	}
 	
-	@RequestMapping("WorkLoginCheck")
+	@RequestMapping("/WorkLoginCheck")
 	public String WorkHome(HttpSession session) {
 		logger.info("로그인 컨트롤러에 오신걸 환영합니다");
-		return "views/insa/WorkManagement";
+		return "views/insa/WorkAdd";
 	}
+	@RequestMapping("/WorkLogout")
+	public ModelAndView Worklogout(HttpSession session) {
+		insaService.WorkLogout(session);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("views/insa/WorkManagementForm");
+		mav.addObject("msg", "WorkLogout");
+		
+		return mav; 
+		
+	}
+	
+	
 	
 }

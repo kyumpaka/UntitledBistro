@@ -31,9 +31,13 @@ public interface InsaService {
 	public void logout(HttpSession session);
 
 
-	public int WorkManagement(Insa_ScheduleDTO dto);
 
 	boolean WorkLoginCheck(Insa_EmpRegisterDTO dto, HttpSession session);
+
+	public void WorkLogout(HttpSession session);
+
+	public int WorkCheck(Insa_EmpRegisterDTO dto);
+
 
 
 

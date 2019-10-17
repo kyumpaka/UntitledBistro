@@ -20,28 +20,7 @@
 
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript">
 
-$("#WorkManagement").click(function(){
-    $.ajax({
-        type:"POST",
-        url:"WorkManagement",
-        data : JSON.stringify(Insa_ScheduleDTO),
-        dataType : "json",
-        success: function(result){
-            console.log(xml);
-        },
-        error: function(xhr, status, error) {
-            alert(error);
-        }  
-    });
-});
-
-
-
-
-
-</script>
 
 
 </head>
@@ -52,9 +31,9 @@ $("#WorkManagement").click(function(){
 		${sessionScope.empregister_name }님이 로그인중입니다. <img
 			alt="empregister_photo"
 			src="${path}/resources/images/insa/${sessionScope.empregister_photo}"
-			width="50" height="30"> <a href="${path }/logout">로그아웃</a>
+			width="50" height="30"> <a href="${path }/WorkLogout">로그아웃</a>
 
-
+		
 		<!--       <div class="user-menu dropdown-menu">
                             <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
 
@@ -68,9 +47,40 @@ $("#WorkManagement").click(function(){
 	
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<button id="WorkManagement" class="btn btn-default">출근</button>
+				<button onclick="WorkManagement()" class="btn btn-default">출근</button>
 				<button type="button" id="" class="btn btn-default">퇴근</button>
 			</div>
 		</div>
 </body>
+<script type="text/javascript">
+var schedule_empregister_empnum = $("#empregister_empnum").val();
+function WorkManagement(){
+    $.ajax({
+        type:"POST",
+        url:"WorkAdd", 
+        data :'schedule_empregister_empnum='+schedule_empregister_empnum,
+        dataType : "json",
+        success: function(data){
+        	
+        	alert("작동완료");
+        },
+        error: function(xhr, status, error) {
+          	alert("에럽니다");
+        }  
+    });
+};
+
+
+
+
+
+</script>
+
+</html>
+
+
+
+
+</script>
+
 </html>

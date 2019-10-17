@@ -18,6 +18,16 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
+
+
+var empregister_empnum = $("#empregister_empnum").val();
+var empregister_jumin = $("#empregister_jumin").val();
+
+var obj = new Object;
+obj.empregister_empnum = empregister_empnum;
+obj.empregister_jumin = empregister_jumin;
+
+
 $(document).ready(function() {
 	$("#btnwork").click(function() {
 		var empregister_empnum = $("#empregister_empnum").val();
@@ -43,19 +53,33 @@ $(document).ready(function() {
 	
 });
 		
- function WorkManagement() {
 	
-	swal("출근하시겠습니까?.", {
- 	      icon: "success",
-   	  
-   	    })
-	.then((value) => {
-		if(value) {
-			if(false) swal("ss");
-			$("#WorkManagement").submit(); 
-		}
-	});
-} 
+		
+		function WorkManagement(){
+		    $.ajax({
+		        type:"POST",
+		        url:"WorkCheck", 
+		        data :JSON.stringify(obj),
+		        dataType : "json",
+		        success: function(data) {
+		        	if(data == 0) {
+		        		swal("안녕");
+		        	} else if(data != 1) {
+		        	/* 	출근 알람띄우고 창닫기 */
+		        	swal("1번");
+		        	} else if(data != 2) {
+		        		/* 퇴근 알람띄우고 창 닫기 */
+		        		swal("2번");
+		        	}
+		        		
+		        	alert("작동완료"+data);
+		        },
+		        error: function(xhr, status, error) {
+		          	alert("에럽니다");
+		        }  
+		    });
+		};
+
  
 	
 
@@ -65,8 +89,6 @@ $(document).ready(function() {
 </script>
 </head>
 <body>
-	<form class="form-horizontal" id="WorkManagement"
-		name="WorkManagementForm" method="post" action="WorkLoginCheck">
 		<div class="form-group">
 			<label for="inputEmail3" class="col-sm-2 control-label">사번</label>
 			<div class="col-sm-10">
@@ -88,7 +110,6 @@ $(document).ready(function() {
 				
 			</div>
 		</div>
-	</form>
 
 
 </body>
