@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -72,9 +75,9 @@ public class JumunController {
 	// 메뉴구분 삭제
 	@RequestMapping(value = "/erp/menuTypeRemove.do", method = RequestMethod.POST)
 	@ResponseBody
-	public int menuTypeRemove(@RequestParam("mt_Code") String[] mt_CodeList) {
+	public int menuTypeRemove(@RequestParam("mt_Code") String mt_Code) {
 		
-		return jumunService.menuTypeRemove(mt_CodeList);
+		return jumunService.menuTypeRemove(mt_Code);
 	}
 	
 	// 메뉴구분 수정

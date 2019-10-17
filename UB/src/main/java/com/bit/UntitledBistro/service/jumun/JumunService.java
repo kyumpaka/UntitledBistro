@@ -28,7 +28,7 @@ public interface JumunService {
 	
 	public int menuTypeAdd(MenuTypeDTO dto);
 	
-	public int menuTypeRemove(String[] list);
+	public int menuTypeRemove(String mt_Code);
 
 	public int menuTypeModi(MenuTypeDTO dto);
 	

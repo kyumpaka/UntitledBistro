@@ -34,65 +34,70 @@ insert into ITEM_SUB_GROUP(ISG_NUM, ISG_IG_NUM, ISG_NAME) values('ISG6', 'IG2', 
 insert into ITEM_SUB_GROUP(ISG_NUM, ISG_IG_NUM, ISG_NAME) values('ISG7', 'IG3', '조리도구');
 insert into ITEM_SUB_GROUP(ISG_NUM, ISG_IG_NUM, ISG_NAME) values('ISG8', 'IG3', '가구');
 insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
- values('PD1', 'IG1', 'ISG1', '하이트', 3000, '병', '없음', '판매', 50);
+ values('PD1', 'IG1', 'ISG1', '하이트[병]', 3000, '병', '없음', '판매', 50);
 insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
- values('PD2', 'IG1', 'ISG1', '테라', 3000, '병', '없음', '판매', 50);
+ values('PD2', 'IG1', 'ISG1', '테라[병]', 3000, '병', '없음', '판매', 50);
 insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
- values('PD3', 'IG1', 'ISG1', '카스', 3000, '병', '없음', '판매', 50);
+ values('PD3', 'IG1', 'ISG1', '카스[병]', 3000, '병', '없음', '판매', 50);
 insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
- values('PD4', 'IG1', 'ISG2', '참이슬', 3000, '병', '없음', '판매', 50);
+ values('PD4', 'IG1', 'ISG2', '참이슬[병]', 3000, '병', '없음', '판매', 50);
 insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
- values('PD5', 'IG1', 'ISG2', '처음처럼', 3000, '병', '없음', '판매', 50);
+ values('PD5', 'IG1', 'ISG2', '처음처럼[병]', 3000, '병', '없음', '판매', 50);
 
 insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
- values('PD6', 'IG2', 'ISG3', '돼지고기', 10000, 'G', '없음', '판매', 5000);
+ values('PD6', 'IG2', 'ISG3', '돼지고기[G]', 10000, 'G', '없음', '판매', 5000);
 insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
- values('PD7', 'IG2', 'ISG3', '소고기', 20000, 'G', '없음', '판매', 5000);
+ values('PD7', 'IG2', 'ISG3', '소고기[G]', 20000, 'G', '없음', '판매', 5000);
 insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
- values('PD8', 'IG2', 'ISG3', '닭고기', 8000, 'G', '없음', '판매', 5000);
+ values('PD8', 'IG2', 'ISG3', '닭고기[G]', 8000, 'G', '없음', '판매', 5000);
 
 insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
- values('PD9', 'IG2', 'ISG4', '대파', 3000, 'EA', '없음', '판매', 5);
+ values('PD9', 'IG2', 'ISG4', '대파[EA]', 3000, 'EA', '없음', '판매', 5);
 insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
- values('PD10', 'IG2', 'ISG4', '마늘', 10000, 'G', '없음', '판매', 2000);
+ values('PD10', 'IG2', 'ISG4', '마늘[G]', 10000, 'G', '없음', '판매', 2000);
 insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
- values('PD11', 'IG2', 'ISG4', '콩나물', 13000, 'G', '없음', '판매', 2000);
+ values('PD11', 'IG2', 'ISG4', '콩나물[G]', 13000, 'G', '없음', '판매', 2000);
 
 insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
- values('PD12', 'IG2', 'ISG5', '햄', 3000, 'EA', '없음', '판매', 50);
+ values('PD12', 'IG2', 'ISG5', '햄[EA]', 3000, 'EA', '없음', '판매', 50);
 insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
- values('PD13', 'IG2', 'ISG5', '오뎅', 2000, 'EA', '없음', '판매', 50);
+ values('PD13', 'IG2', 'ISG5', '오뎅[EA]', 2000, 'EA', '없음', '판매', 50);
 insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
- values('PD14', 'IG2', 'ISG5', '김치', 15000, 'G', '없음', '판매', 10000);
+ values('PD14', 'IG2', 'ISG5', '김치[G]', 15000, 'G', '없음', '판매', 10000);
 
 insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
- values('PD15', 'IG2', 'ISG6', '쌀', 22000, 'G', '없음', '판매', 5000);
+ values('PD15', 'IG2', 'ISG6', '쌀[G]', 22000, 'G', '없음', '판매', 5000);
 insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
- values('PD16', 'IG2', 'ISG6', '보리', 27000, 'G', '없음', '판매', 3000);
+ values('PD16', 'IG2', 'ISG6', '보리[G]', 27000, 'G', '없음', '판매', 3000);
 
 insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
- values('PD17', 'IG3', 'ISG7', '후라이팬', 30000, 'EA', '없음', '판매', 3);
+ values('PD17', 'IG3', 'ISG7', '후라이팬[EA]', 30000, 'EA', '없음', '판매', 3);
 insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
- values('PD18', 'IG3', 'ISG7', '냄비', 10000, 'EA', '없음', '판매', 3);
- 
-insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
- values('PD19', 'IG3', 'ISG8', '책상', 10000, 'EA', '없음', '판매', 20);
-insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
- values('PD20', 'IG3', 'ISG8', '의자', 10000, 'EA', '없음', '판매', 40);
+ values('PD18', 'IG3', 'ISG7', '냄비[EA]', 10000, 'EA', '없음', '판매', 3);
 
-INSERT INTO ITEM VALUES((select count(*)+1 from item),concat('PD',(select count(*)+1 from item)),'하이트',100);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),concat('PD',(select count(*)+1 from item)),'테라',100);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),concat('PD',(select count(*)+1 from item)),'카스',100);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),concat('PD',(select count(*)+1 from item)),'참이슬',100);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),concat('PD',(select count(*)+1 from item)),'처음처럼',100);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),concat('PD',(select count(*)+1 from item)),'돼지고기',1000);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),concat('PD',(select count(*)+1 from item)),'소고기',1000);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),concat('PD',(select count(*)+1 from item)),'닭고기',1000);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),concat('PD',(select count(*)+1 from item)),'대파',10);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),concat('PD',(select count(*)+1 from item)),'마늘',1000);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),concat('PD',(select count(*)+1 from item)),'콩나물',5000);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),concat('PD',(select count(*)+1 from item)),'오뎅',100);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),concat('PD',(select count(*)+1 from item)),'김치',10000);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),concat('PD',(select count(*)+1 from item)),'쌀',15000);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),concat('PD',(select count(*)+1 from item)),'보리',5000);
+insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
+ values('PD19', 'IG3', 'ISG8', '책상[EA]', 10000, 'EA', '없음', '판매', 10);
+insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
+ values('PD20', 'IG3', 'ISG8', '의자[EA]', 10000, 'EA', '없음', '판매', 20);
+
+INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD','하이트[병]',100);
+INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD2','테라[병]',100);
+INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD3','카스[병]',100);
+INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD4','참이슬[병]',100);
+INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD5','처음처럼[병]',100);
+INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD6','돼지고기[G]',1000);
+INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD7','소고기[G]',1000);
+INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD8','닭고기[G]',1000);
+INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD9','대파[EA]',10);
+INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD10','마늘[G]',1000);
+INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD11','콩나물',5000);
+INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD13','오뎅[EA]',100);
+INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD14','김치[G]',10000);
+INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD15','쌀[G]',15000);
+INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD16','보리[G]',5000);
+INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD12','햄[EA]',100);
+INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD12','후라이팬[EA]',3);
+INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD12','냄비[EA]',3);
+INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD12','책상[EA]',10);
+INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD12','의자[EA]',20);
 
