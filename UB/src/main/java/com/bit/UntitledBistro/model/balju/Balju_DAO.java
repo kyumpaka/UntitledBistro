@@ -1,14 +1,8 @@
 package com.bit.UntitledBistro.model.balju;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.session.SqlSession;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 
 public interface Balju_DAO {
 
@@ -19,10 +13,13 @@ public interface Balju_DAO {
 	void insert_Balju2(Balju_DTO Bdto);
 
 	List<Map<String,String>> balju_Plan_list(Balju_PlanDTO BPdto);
-	List<Map<String,String>> balju_List(Balju_DTO Bdto);
+	List<Map<String,String>> balju_Result(Balju_DTO Bdto);
+	List<Map<String,String>> balju_Mng_List(Balju_DTO Bdto);
+	List<Map<String,String>> balju_Mng_Filter(Balju_DTO Bdto);
 	
 	void balju_Plan_modi(Balju_PlanDTO BPdto);
 	void balju_Modi(Balju_DTO Bdto);
+	void End_Balju(Balju_DTO Bdto);
 	
 	void Delete_Balju_Plan1(Balju_PlanDTO BPdto);
 	void Delete_Balju_Plan2(Balju_PlanDTO BPdto);

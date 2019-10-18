@@ -17,17 +17,19 @@ public interface Balju_Service {
 
 
 	List<Map<String,String>> balju_Plan_list(Balju_PlanDTO BPdto);
-	List<Map<String,String>> balju_List(Balju_DTO Bdto);
-	
+	List<Map<String,String>> balju_Result(Balju_DTO Bdto);
+	List<Map<String,String>> balju_Mng_List(Balju_DTO Bdto);
+	List<Map<String,String>> balju_Mng_Filter(String FilterParam);
 
 	
 	void balju_Plan_modi(Balju_PlanDTO BPdto);
 	void balju_Modi(Balju_DTO Bdto);
+	void End_Balju(List<Map<String, String>> endRow);
 
 	
 	void Delete_Balju_Plan(Balju_PlanDTO BPdto);
 	void Delete_Balju_Plan_Check(Balju_PlanDTO BPdto);
-	void Delete_Balju1(Balju_DTO Bdto);
+	void Delete_Balju(ArrayList<String> deleteRow);
 
 	//공통품목 서비스부분
 	List<Map<String,String>> item_list(Item_DTO Idto);
@@ -40,5 +42,6 @@ public interface Balju_Service {
 	//발주계획불러오기
 	List<Map<String,String>>BPlan_Load(Balju_PlanDTO BPdto);
 	List<Map<?,?>>BPlan_Search(ArrayList<String> SearchParam);
+	
 	
 }
