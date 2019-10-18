@@ -99,7 +99,7 @@ function CheckNull() {
 	var member_name = $("#member_name").val();
 	var member_email = $("#member_email").val();
 	var member_birth = $("#member_birth").val();
-	var member_gender = $("#member_gender").val();
+	var member_gender = $(':radio[name="member_gender"]:checked').length;
 	var member_phone1 = $("#member_phone1").val();
 	var yy = member_birth.substr(0,2);        // 년도
     var mm = member_birth.substr(2,2);        // 월
@@ -186,19 +186,11 @@ function CheckNull() {
 	 }
 	
 	//성별 입력여부 검사
-	for(var i = 0; i < member_gender.length; i++){
-		if(member_gender[i].checked == true){
-			ck_type[i] = member_gender[i].value;
-		console.log(ck_type[i])
-		}
-	} //FOR END
-	
-	for(var i = 0; i < ck_type.length; i++){
-		if(ck_type[i] == null){
-			swal("성별을 체크해 주세요");
-			return false;
-		}
+	if(member_gender < 1) {
+		swal("성별을 체크해 주세요");
+		return false;
 	}
+	
 	//전화 입력여부 검사
 	if(member_phone1.length == 0){
 		swal("전화를 입력해 주세요");

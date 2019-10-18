@@ -55,7 +55,7 @@
                             <div class="page-title">
                                 <ol class="breadcrumb text-right">
                                     <li class="active"><a href="${path}/Seobis/jUs">회원 등록</a></li>
-                                    <li><a href="#">예약 확인</a></li>
+                                    <li><a href="${path}/Seobis/cal">예약 관리</a></li>
                                     <li><a href="${path}/Seobis/pList">포인트 관리</a></li>
                                 </ol>
                             </div>

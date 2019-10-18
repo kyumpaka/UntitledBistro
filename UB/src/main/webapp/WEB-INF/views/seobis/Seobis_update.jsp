@@ -20,7 +20,7 @@
 		var member_name = $("#member_name").val();
 		var member_email = $("#member_email").val();
 		var member_birth = $("#member_birth").val();
-		var member_gender = $("#member_gender").val();
+		var member_gender = $(':radio[name="member_gender"]:checked').length;
 		var member_phone1 = $("#member_phone1").val();
 		var yy = member_birth.substr(0,2);        // 년도
 	    var mm = member_birth.substr(2,2);        // 월
@@ -73,9 +73,8 @@
 		 }
 		
 		//성별 입력여부 검사
-		if(member_gender.length == 0){
+		if(member_gender < 1) {
 			swal("성별을 체크해 주세요");
-			$("#member_gender").focus();
 			return false;
 		}
 		

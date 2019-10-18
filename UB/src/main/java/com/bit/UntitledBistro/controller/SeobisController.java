@@ -4,16 +4,20 @@ package com.bit.UntitledBistro.controller;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.UntitledBistro.model.seobis.Seobis_MemberDTO;
+import com.bit.UntitledBistro.model.seobis.Seobis_ReserveDTO;
 import com.bit.UntitledBistro.service.seobis.Seobis_MemberService;
 
 
@@ -33,8 +37,13 @@ public class SeobisController {
 		return "seobis/Seobis_joinUs";
 	}
 	@RequestMapping(value="/cal") //메뉴를 누르면 예약 캘린더로 보내는 맵핑
-	public String seobis_formcalendar() {
+	public String seobis_formcalendar(Model model) {
+		model.addAttribute("Seobis_reserveSelect", Seobis_memberService.Seobis_ReserveSelect());
 		return "seobis/Seobis_calendar";
+	}
+	@RequestMapping(value="/nc") //예약 새창으로 보내는 맵핑
+	public String seobis_formnewCalendar(@ModelAttribute("date") String date) {
+		return "/views/seobis/Seobis_newCalendar";
 	}
 	
 	@RequestMapping(value="/createMember", method = RequestMethod.POST)  //회원 가입을 처리하는 맵핑
@@ -84,18 +93,19 @@ public class SeobisController {
 		return "seobis/Seobis_update";
 	}
 	
-	/*
-	 * @RequestMapping(value="/users/calendar") //캘린더 예약 public String
-	 * seobis_memberCalendar(Model model, String member_id) {
-	 * model.addAttribute("Seobis_memberCalendar",
-	 * Seobis_memberService.Seobis_ReserveCalendar(member_id)); return
-	 * "seobis/Seobis_update"; }
-	 * 
-	 * @RequestMapping(value="/users/attendances", method = RequestMethod.GET)
-	 * public List<Seobis_ReserveDTO> seobis_memberCalendarList(Model model, String
-	 * member_id){ List<Calendar> calList =
-	 * Seobis_memberService.Seobis_ReserveCalendarList(member_id);
-	 * List<Seobis_ReserveDTO> events = new ArrayList<Seobis_ReserveDTO>(); return
-	 * events; }
-	 */
+	@RequestMapping(value="/resAdd", method = RequestMethod.POST) // 예약 추가 맵핑
+	@ResponseBody
+	public int seobis_reserveAdd(Seobis_ReserveDTO seobis_ReserveDTO_dto) {
+		System.out.println(seobis_ReserveDTO_dto.getReserve_num()+"aasdfasdf");
+		System.out.println(seobis_ReserveDTO_dto.getReserve_member_id()+"aasdfasdf");
+		return Seobis_memberService.Seobis_ReserveAdd(seobis_ReserveDTO_dto);
+	}
+	
+	@RequestMapping(value="/resCheck") // 예약 추가 맵핑
+	@ResponseBody
+	public int seobis_resCheck(@RequestParam("reserve_member_id") String reserve_member_id) {
+		
+		return Seobis_memberService.Seobis_MemberListCount(reserve_member_id);
+	}
+	
 }

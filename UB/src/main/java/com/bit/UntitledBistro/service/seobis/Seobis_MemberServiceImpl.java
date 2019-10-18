@@ -47,6 +47,26 @@ public class Seobis_MemberServiceImpl implements Seobis_MemberService {
 		return seobis_MemberDAO.Seobis_MemberSelect(member_id);
 	}
 
+	@Override
+	public int Seobis_ReserveAdd(Seobis_ReserveDTO seobis_ReserveDTO_dto) {     //예약 추가
+		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
+		return seobis_MemberDAO.Seobis_ReserveAdd(seobis_ReserveDTO_dto);
+	}
+
+	@Override
+	public List<Seobis_ReserveDTO> Seobis_ReserveSelect() {      //예약 읽기
+		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
+		return seobis_MemberDAO.Seobis_ReserveSelect();
+	}
+
+	@Override
+	public int Seobis_MemberListCount(String reserve_member_id) {
+		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("reserve_member_id", reserve_member_id);
+		return seobis_MemberDAO.Seobis_MemberListCount(map);
+	}
+
 	/*
 	 * @Override public Seobis_ReserveDTO Seobis_ReserveCalendar(String member_id) {
 	 * // 캘린더 예약 Seobis_MemberDAO seobis_MemberDAO =
@@ -58,6 +78,5 @@ public class Seobis_MemberServiceImpl implements Seobis_MemberService {
 	 * SqlSession.getMapper(Seobis_MemberDAO.class); return
 	 * seobis_MemberDAO.Seobis_ReserveCalendarList(member_id); }
 	 */
-	
 	
 }

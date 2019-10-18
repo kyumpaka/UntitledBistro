@@ -42,12 +42,14 @@
 	 ]]>
  </select>
  
-  <select id="Seobis_MemberListCount" resultType="Integer">
+  <select id="Seobis_MemberListCount" parameterType="map" resultType="java.lang.Integer">
  	<![CDATA[
  		SELECT 
  			COUNT(*) 
  		FROM
  			MEMBER
+ 		WHERE
+		MEMBER_ID = #{reserve_member_id}
  	]]>
  </select>
 
@@ -89,4 +91,73 @@
 		WHERE MEMBER_ID=#{member_id}
  	]]>
  </select>
+ 
+ <select id="Seobis_ReserveSelect"  resultType="com.bit.UntitledBistro.model.seobis.Seobis_ReserveDTO">
+ 	<![CDATA[
+ 		SELECT
+ 			RESERVE_NUM,
+ 			RESERVE_MEMBER_ID,
+ 			RESERVE_NAME,
+ 			RESERVE_DATE
+ 		FROM
+ 			RESERVE
+ 	]]>
+ </select>
+ 
+   <insert id="Seobis_ReserveAdd" parameterType="com.bit.UntitledBistro.model.seobis.Seobis_ReserveDTO">
+ 		<choose>
+			<when test ="#{reserve_name} != null">
+			<![CDATA[
+ 				INSERT 
+	 				INTO RESERVE(
+			 			RESERVE_NUM,
+						RESERVE_MEMBER_ID,
+ 						RESERVE_PHONE1,
+ 						RESERVE_DATE)
+						VALUES(
+						#{reserve_num},
+						#{reserve_member_id},
+						#{reserve_phone1},
+						#{reserve_dateString}
+						)
+ 			]]>
+			</when>
+
+			<when test ="#{reserve_member_id} != null">
+ 			<![CDATA[
+ 				INSERT 
+ 					INTO RESERVE(
+ 						RESERVE_NUM,
+ 						RESERVE_NAME,
+ 						RESERVE_PHONE1,
+ 						RESERVE_DATE)
+				VALUES(
+						#{reserve_num},
+						#{reserve_name},
+						#{reserve_phone1},
+						#{reserve_dateString}
+						)
+ 			]]>
+			</when>
+
+<otherwise>
+ 			<![CDATA[
+ 				INSERT 
+ 					INTO RESERVE(
+ 						RESERVE_NUM,
+ 						RESERVE_MEMBER_ID,
+ 						RESERVE_NAME,
+ 						RESERVE_PHONE1,
+ 						RESERVE_DATE)
+				VALUES(
+						#{reserve_num},
+						#{reserve_member_id},
+						#{reserve_name},
+						#{reserve_phone1},
+						#{reserve_dateString}
+						)
+ 			]]>
+</otherwise>
+</choose>
+ </insert>
 </mapper>

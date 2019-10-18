@@ -8,11 +8,16 @@ public class Seobis_ReserveDTO {
 	private String reserve_member_id;
 	private String reserve_name;
 	private String reserve_phone1;
-	private String reserve_phone2;
 	private Date reserve_firsttime;
 	private Date reserve_date;
+	private String reserve_dateString;
 	
-	
+	public String getReserve_dateString() {
+		return reserve_dateString;
+	}
+	public void setReserve_dateString(String reserve_dateString) {
+		this.reserve_dateString = reserve_dateString;
+	}
 	public String getReserve_num() {
 		return reserve_num;
 	}
@@ -37,12 +42,6 @@ public class Seobis_ReserveDTO {
 	public void setReserve_phone1(String reserve_phone1) {
 		this.reserve_phone1 = reserve_phone1;
 	}
-	public String getReserve_phone2() {
-		return reserve_phone2;
-	}
-	public void setReserve_phone2(String reserve_phone2) {
-		this.reserve_phone2 = reserve_phone2;
-	}
 	public Date getReserve_firsttime() {
 		return reserve_firsttime;
 	}
@@ -55,6 +54,5 @@ public class Seobis_ReserveDTO {
 	public void setReserve_date(Date reserve_date) {
 		this.reserve_date = reserve_date;
 	}
-	
 	
 }
