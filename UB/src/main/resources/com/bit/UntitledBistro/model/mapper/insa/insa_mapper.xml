@@ -47,6 +47,10 @@
 		select count(*) from EmpRegister
 	</select>
 
+
+
+
+
 	<update id="EmpRegisterUpdate" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
      update EmpRegister set empregister_tel=#{empregister_tel},empregister_age=#{empregister_age}, empregister_addr=#{empregister_addr},empregister_addr2=#{empregister_addr2},empregister_addr3=#{empregister_addr3},empregister_addr4=#{empregister_addr4},empregister_grade=#{empregister_grade},empregister_bankname=#{empregister_bankname}, 
      empregister_accountholder=#{empregister_accountholder},empregister_banknum=#{empregister_banknum},empregister_payclassfiy=#{empregister_payclassfiy},empregister_leavecompany=#{empregister_leavecompany},
@@ -88,13 +92,31 @@ where empregister_empnum = #{empregister_empnum} and empregister_jumin = #{empre
 </select>
  -->
 
+<!-- <select id ="WorkCheck" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO" resultType="com.bit.UntitledBistro.model.insa.Insa_ScheduleDTO">
+SELECT (SELECT COUNT(*) FROM EMPREGISTER WHERE EMPREGISTER_EMPNUM = #{empregister_empnum} AND EMPREGISTER_JUMIN = #{empregister_jumin}) AS SCHEDULE_NO, 
+NVL(SCHEDULE_WORKINGSTART, '1111/11/11') AS SCHEDULE_WORKINGSTART, NVL(SCHEDULE_WORKINGEND, '1111/11/11') AS SCHEDULE_WORKINGEND
+FROM EMPREGISTER E LEFT OUTER JOIN SCHEDULE S
+ON E.EMPREGISTER_EMPNUM = S.SCHEDULE_EMPREGISTER_EMPNUM WHERE EMPREGISTER_EMPNUM = #{empregister_empnum} AND EMPREGISTER_JUMIN = #{empregister_jumin}
+</select> -->
+
+
+<select id ="WorkCheck" resultType="Integer">
+select count(*) from EmpRegister where empregister_empnum = #{empregister_empnum} and empregister_jumin = #{empregister_jumin}
+</select>
+
+
 <insert id ="WorkAdd" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
-select (select count(*) from EmpRegister where empregister_empnum = 'ADMIN1' and empregister_jumin = 12345) as Schedule_no, Schedule_WorkingStart, Schedule_WorkingEnd
-from EmpRegister e left outer join schedule s
-on e.empregister_empnum = s.schedule_empregister_empnum where empregister_empnum = 'ADMIN1' and empregister_jumin = 12345;
-
-
+INSERT INTO SCHEDULE
+(SCHEDULE_NO, SCHEDULE_EMPREGISTER_EMPNUM, SCHEDULE_WORKINGSTART)
+VALUES ( (SELECT NVL(MAX(SCHEDULE_NO)+1,0)  FROM SCHEDULE), #{empregister_empnum}, SYSDATE)
 </insert>
+
+<update id ="WorkEnd" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
+UPDATE Schedule SET SCHEDULE_WORKINGEND = SYSDATE WHERE SCHEDULE_EMPREGISTER_EMPNUM = #{empregister_empnum}
+AND to_char( Schedule_WorkingStart, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd')
+
+</update>
+
 
 <select id ="WorkLoginCheck" resultType="String">
 select empregister_name as empregister_name 
@@ -103,5 +125,14 @@ from EmpRegister
 where empregister_empnum = #{empregister_empnum} and empregister_jumin = #{empregister_jumin}
 </select>
 
+
+<select id = "DayCheck" resultType="Integer">
+select count(*) from schedule 
+
+where to_char( Schedule_WorkingStart, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd') and schedule_empregister_empnum= #{empregister_empnum}
+
+
+
+</select>
 
 </mapper>

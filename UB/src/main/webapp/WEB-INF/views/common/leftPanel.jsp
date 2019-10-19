@@ -58,9 +58,8 @@
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>사원관리</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-sign-in"></i><a href="${path}/insa/InsaLogin">직원 등록</a></li>
                             <li><i class="menu-icon fa fa-sign-in"></i><a href="${path}/insa/EmpRegisterList">직원 목록</a></li>
-                            <li><i class="menu-icon fa fa-paper-plane"></i><a href="pages-forget.html">급여 확인</a></li>
+                            <li><i class="menu-icon fa fa-paper-plane"></i><a href="${path}/insa/EmpWork">근무 일지</a></li>
                             <li><i class="fa fa-bars"></i><a href="${path }/insa/Schedule">근무 스케줄</a></li>
                         </ul>
                     </li>

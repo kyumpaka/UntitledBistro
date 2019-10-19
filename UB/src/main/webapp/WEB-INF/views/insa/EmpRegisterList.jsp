@@ -33,6 +33,14 @@ function list(){
 
 }
 
+<script type="text/javascript">
+jQuery(function($){ 
+    $("#foo-table").DataTable(); 
+}); 
+</script>
+
+
+
 </script>
 <meta charset="UTF-8">
 <title>리스트</title>

@@ -224,9 +224,7 @@ public class InsaController {
 	
 	@RequestMapping(value = "/WorkCheck" , method = RequestMethod.POST)
 	@ResponseBody
-	public int WorkManagement(@RequestBody Insa_EmpRegisterDTO dto) {
-		System.out.println(dto.getEmpregister_empnum()+"abcabcabc");
-		System.out.println(dto.getEmpregister_jumin()+"abcabcabc");
+	public int WorkManagement(@RequestBody Insa_EmpRegisterDTO dto) throws ParseException {
 		logger.info("출퇴관리 로그인");
 		return insaService.WorkCheck(dto);
 	}

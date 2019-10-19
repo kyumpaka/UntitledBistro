@@ -20,14 +20,16 @@ public interface InsaDAO {
 	public Insa_EmpRegisterDTO viewMember(Insa_EmpRegisterDTO dto);
 
 	public String InsaLoginCheck(Insa_EmpRegisterDTO dto);
-	
+
 	public void logout(HttpSession session);
 
 	public int WorkAdd(Insa_EmpRegisterDTO dto);
 
 	public int WorkEnd(Insa_EmpRegisterDTO dto);
 
-	
-	
-	
+	public int WorkCheck(Insa_EmpRegisterDTO dto);
+
+	public int DayCheck(Insa_EmpRegisterDTO dto);
+
+
 }

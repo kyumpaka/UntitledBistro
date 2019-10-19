@@ -164,16 +164,23 @@ public class InsaServiceImpl implements InsaService {
 	@Override
 	public int WorkCheck(Insa_EmpRegisterDTO dto) {
 		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
-		// 아이디 비밀번호로 회원여부 확인 및 출근 기록 여부확인
-		// select emp.id 출근, 퇴근 from empregister, 캘린더 where id = ? and password = ? and emp.id = 캘린더.id
-		if(dto.getEmpregister_empnum() != null ) { 
-			insaDAO.WorkAdd(dto);
-		} else {
-			insaDAO.WorkEnd(dto);
-			// 출근이 있으면 퇴근
+		int idCheck = insaDAO.WorkCheck(dto);
+		if(idCheck == 1)  { //아이디 비밀번호가 모두 일치하는 놈 개수 emp
+			int toDayCheck = insaDAO.DayCheck(dto);
+			if(toDayCheck == 0) { //아이디가 일치하는 놈의 개수 schedule
+				// 출근이 없으면 출근
+				insaDAO.WorkAdd(dto);
+				return 1;
+			} else {
+				// 출근이 있으면 퇴근
+				insaDAO.WorkEnd(dto);
+				return 2;
+			}
 		}
-		return 0;
+		// 없는 직원
+		return idCheck;
 	}
+
 	@Override
 	public boolean WorkLoginCheck(Insa_EmpRegisterDTO dto, HttpSession session) {
 		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
@@ -204,6 +211,7 @@ public class InsaServiceImpl implements InsaService {
 		
 		
 	}
+
 	
 	
 	

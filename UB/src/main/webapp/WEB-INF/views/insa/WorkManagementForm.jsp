@@ -18,21 +18,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
-
-
-var empregister_empnum = $("#empregister_empnum").val();
-var empregister_jumin = $("#empregister_jumin").val();
-
-var obj = new Object;
-obj.empregister_empnum = empregister_empnum;
-obj.empregister_jumin = empregister_jumin;
-
-
 $(document).ready(function() {
 	$("#btnwork").click(function() {
-		var empregister_empnum = $("#empregister_empnum").val();
-		var empregister_jumin = $("#empregister_jumin").val();
-		
+
 		if (empregister_empnum == "") {
 			swal("사번을 입력해주세요.", {
 				 icon: "warning",
@@ -52,40 +40,33 @@ $(document).ready(function() {
 	});
 	
 });
-		
-	
-		
-		function WorkManagement(){
-		    $.ajax({
-		        type:"POST",
-		        url:"WorkCheck", 
-		        data :JSON.stringify(obj),
-		        dataType : "json",
-		        success: function(data) {
-		        	if(data == 0) {
-		        		swal("안녕");
-		        	} else if(data != 1) {
-		        	/* 	출근 알람띄우고 창닫기 */
-		        	swal("1번");
-		        	} else if(data != 2) {
-		        		/* 퇴근 알람띄우고 창 닫기 */
-		        		swal("2번");
-		        	}
-		        		
-		        	alert("작동완료"+data);
-		        },
-		        error: function(xhr, status, error) {
-		          	alert("에럽니다");
-		        }  
-		    });
-		};
 
- 
-	
+function WorkManagement(){
+	var empregister_empnum = $("#empregister_empnum").val();
+	var empregister_jumin = $("#empregister_jumin").val(); 
 
+	var obj = new Object;
+	obj.empregister_empnum = empregister_empnum;
+	obj.empregister_jumin = empregister_jumin;
 	
-	
-	
+    $.ajax({
+        type:"POST",
+        url:"WorkCheck", 
+        data :JSON.stringify(obj),
+        contentType : "application/json; charset=UTF-8",
+		dataType : "json",
+        success: function(data) {
+        	if(data == 0) {
+        		swal("없는직원입니다")
+        	} else if(data == 1) {
+        		swal("출근입니다")
+        	} else if(data == 2) {
+        		swal("퇴근입니다");
+        		/* 퇴근 알람띄우고 창 닫기 */
+        	}
+        }
+    });
+};
 </script>
 </head>
 <body>
