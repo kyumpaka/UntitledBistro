@@ -144,7 +144,9 @@ public class JaegoServiceImpl {
 	
 	// 안전 테이블 품목코드 유효성 검사
 	public String safeItemSelectValidate(String si_product_code) {
-		return dao.safeItemSelectValidate(si_product_code);
+		String result =  dao.safeItemSelectValidate(si_product_code);
+		if(result == null) result = "noData";
+		return result;
 	}
 	
 	// 안전 테이블 다중등록
