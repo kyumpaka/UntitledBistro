@@ -71,7 +71,7 @@ jQuery(function($){
 				<td>${b.empregister_tel }</td>
 				<td>${b.empregister_jumin }</td>
 				<td><c:if
-						test="${b.empregister_jumin2 ne null && b.empregister_jumin2!=''}">
+test="${b.empregister_jumin2 ne null && b.empregister_jumin2!=''}">
 ${fn:substring(b.empregister_jumin2,1,fn:length(b.empregister_jumin2)-4)}******</c:if>
 				</td>
 				<td>${b.empregister_grade 	}</td>

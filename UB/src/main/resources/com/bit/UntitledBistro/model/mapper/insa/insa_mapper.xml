@@ -135,4 +135,14 @@ where to_char( Schedule_WorkingStart, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd
 
 </select>
 
+
+
+
+	<select id="EmpWork" parameterType="map"
+		resultType="com.bit.UntitledBistro.model.insa.Insa_ScheduleDTO">
+		select schedule_no ,schedule_empregister_empnum,
+		Schedule_WorkingStart,Schedule_WorkingEnd,schedule_workingtime ,schedule_workingdate
+		
+		from Schedule
+	</select>
 </mapper>

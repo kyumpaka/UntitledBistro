@@ -47,7 +47,7 @@ public class InsaController {
 	@RequestMapping("/EmpRegisterInsertForm")
 	public String insertform() {
 		return "views/insa/EmpRegisterInsertForm";
-	}// ModelAndView를 리턴하는것과 같음
+	}// ModelAndView瑜� 由ы꽩�븯�뒗寃껉낵 媛숈쓬
 
 	@RequestMapping("/EmpRegisterInsert")
 	@ResponseBody
@@ -68,7 +68,7 @@ public class InsaController {
 		System.out.println("===================== 22");
 		Insa_EmpRegisterDTO dto = insaService.EmpRegisterRead(empregister_empnum);
 		model.addAttribute("b", dto);
-		System.out.println("여기까지왔습니다");
+		System.out.println("�뿬湲곌퉴吏��솕�뒿�땲�떎");
 		/* model.addAttribute("pg", pg); */
 		return "views/insa/EmpRegisterRead";
 
@@ -112,8 +112,8 @@ public class InsaController {
 		int end = pg * rowSize;
 
 		int total = insaService.getEmpCount();
-		System.out.println("시작 : " + start + " 끝:" + end);
-		System.out.println("글의 수 : " + total);
+		System.out.println("�떆�옉 : " + start + " �걹:" + end);
+		System.out.println("湲��쓽 �닔 : " + total);
 
 		int allPage = (int) Math.ceil(total / (double) rowSize);
 
@@ -143,7 +143,7 @@ public class InsaController {
 
 	}
 
-	// 캘린더 이동처리
+	// 罹섎┛�뜑 �씠�룞泥섎━
 	@RequestMapping("/Schedule")
 	public String schdule(Model model, String calendarId, String title) {
 		logger.info("schdule");
@@ -169,7 +169,7 @@ public class InsaController {
 	}
 
 	/*
-	 * // 일정 저장 처리
+	 * // �씪�젙 ���옣 泥섎━
 	 * 
 	 * @RequestMapping(value = "/calendarEventAdd", method = RequestMethod.POST)
 	 * public Map<String, Boolean> calendarEventAdd(Insa_ScheduleDTO ScDto) {
@@ -178,10 +178,10 @@ public class InsaController {
 	 * boolean isc = false; try { Calendar service =
 	 * GoogleCalendarService.getCalendarService(); Event event = new
 	 * Event().setSummary(ScDto.getSummary()).setDescription(ScDto.getDescription())
-	 * ; // 시작일 DateTime startDateTime = new DateTime(ScDto.getStartDateTime());
+	 * ; // �떆�옉�씪 DateTime startDateTime = new DateTime(ScDto.getStartDateTime());
 	 * EventDateTime start = new
 	 * EventDateTime().setDateTime(startDateTime).setTimeZone("America/Los_Angeles")
-	 * ; event.setStart(start); // 종료일 DateTime endDateTime = new
+	 * ; event.setStart(start); // 醫낅즺�씪 DateTime endDateTime = new
 	 * DateTime(ScDto.getEndDateTime()); EventDateTime end = new
 	 * EventDateTime().setDateTime(endDateTime).setTimeZone("America/Los_Angeles");
 	 * event.setEnd(end); event = service.events().insert(ScDto.getCalendarId(),
@@ -189,7 +189,7 @@ public class InsaController {
 	 * e.printStackTrace(); } Map<String, Boolean> map = new HashMap<String,
 	 * Boolean>(); map.put("isc", isc); return map; }
 	 * 
-	 * // 일정 데이터 처리
+	 * // �씪�젙 �뜲�씠�꽣 泥섎━
 	 * 
 	 * @RequestMapping(value = "/calendarEventList.do", method = RequestMethod.POST)
 	 * public List<Event> calendarEventList(Insa_ScheduleDTO ScDto) {
@@ -218,20 +218,20 @@ public class InsaController {
 	
 	@RequestMapping("/WorkManagementForm")
 	public String WorkManagement() {
-		logger.info("출퇴관리 로그인");
+		logger.info("異쒗눜愿�由� 濡쒓렇�씤");
 		return "views/insa/WorkManagementForm";
 	}
 	
 	@RequestMapping(value = "/WorkCheck" , method = RequestMethod.POST)
 	@ResponseBody
 	public int WorkManagement(@RequestBody Insa_EmpRegisterDTO dto) throws ParseException {
-		logger.info("출퇴관리 로그인");
+		logger.info("異쒗눜愿�由� 濡쒓렇�씤");
 		return insaService.WorkCheck(dto);
 	}
 	
 	@RequestMapping("/WorkLoginCheck")
 	public String WorkHome(HttpSession session) {
-		logger.info("로그인 컨트롤러에 오신걸 환영합니다");
+		logger.info("濡쒓렇�씤 而⑦듃濡ㅻ윭�뿉 �삤�떊嫄� �솚�쁺�빀�땲�떎");
 		return "views/insa/WorkAdd";
 	}
 	@RequestMapping("/WorkLogout")
@@ -244,7 +244,12 @@ public class InsaController {
 		return mav; 
 		
 	}
-	
-	
+	@RequestMapping("/EmpWork")
+	public String EmpWorklist() {
+
+
+		return "insa/EmpWork"; // list.jsp
+
+	}
 	
 }
