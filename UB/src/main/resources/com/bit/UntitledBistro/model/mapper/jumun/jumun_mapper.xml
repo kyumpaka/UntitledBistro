@@ -75,7 +75,7 @@
 	
 	<insert id="ingreInsert" >
 	INSERT INTO INGREDIENT(INGREDIENT_NO, INGREDIENT_MENU_CODE, INGREDIENT_PRODUCT_CODE, INGREDIENT_QTY) 
-	VALUES(CONCAT('IGD',(SELECT NVL(MAX(SUBSTR(INGREDIENT_NO,4)),0)+1 FROM INGREDIENT)), #{ingredient_Menu_Code}, #{ingredient_Product_Code}, #{ingredient_Qty})
+    VALUES(CONCAT('IGD',(SELECT NVL(MAX(TO_NUMBER(SUBSTR(INGREDIENT_NO,4,2))),0)+1 FROM INGREDIENT), #{ingredient_Menu_Code}, #{ingredient_Product_Code}, #{ingredient_Qty})
 	</insert>
 	
 	<delete id="ingreDelete">
