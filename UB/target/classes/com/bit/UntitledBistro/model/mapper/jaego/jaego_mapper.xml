@@ -25,9 +25,9 @@
 
  	<select id="itemSelectList" parameterType="condition" resultType="item">
 	    SELECT
-		     II.II_PRODUCT_CODE     AS ITEM_PRODUCT_CODE
-		    ,II.II_PRODUCT_NAME     AS ITEM_PRODUCT_NAME
-		    ,II.II_QTY - OI.OI_QTY  AS ITEM_QTY
+		     II.II_PRODUCT_CODE     				AS ITEM_PRODUCT_CODE
+		    ,II.II_PRODUCT_NAME     				AS ITEM_PRODUCT_NAME
+		    ,NVL(II.II_QTY,0) - NVL(OI.OI_QTY,0)	AS ITEM_QTY
 		FROM
 		    (
 		    SELECT 

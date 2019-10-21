@@ -1,3 +1,9 @@
+--------------------- 테이블 전체삭제 -------------------------------------
+DROP TABLE ITEM_GROUP;
+DROP TABLE ITEM_SUB_GROUP;
+DROP TABLE PRODUCT;
+
+-----------------------------------------------------------------------------
 create table ITEM_GROUP ( -- 상위품목테이블 
         IG_NUM VARCHAR2(20), -- 상위품목번호(PK)
         IG_NAME VARCHAR2(50) -- 상위품목이름(ex.주류,식자재,비품)
@@ -80,24 +86,5 @@ insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME,
 insert into PRODUCT(PRODUCT_CODE, PRODUCT_IG_NUM, PRODUCT_ISG_NUM, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STNDR, PRODUCT_IMAGE, PRODUCT_STATE, PRODUCT_SAFE)
  values('PD20', 'IG3', 'ISG8', '의자[EA]', 10000, 'EA', '없음', '판매', 20);
 
-INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD','하이트[병]',100);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD2','테라[병]',100);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD3','카스[병]',100);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD4','참이슬[병]',100);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD5','처음처럼[병]',100);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD6','돼지고기[G]',1000);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD7','소고기[G]',1000);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD8','닭고기[G]',1000);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD9','대파[EA]',10);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD10','마늘[G]',1000);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD11','콩나물',5000);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD13','오뎅[EA]',100);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD14','김치[G]',10000);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD15','쌀[G]',15000);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD16','보리[G]',5000);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD12','햄[EA]',100);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD12','후라이팬[EA]',3);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD12','냄비[EA]',3);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD12','책상[EA]',10);
-INSERT INTO ITEM VALUES((select count(*)+1 from item),'PD12','의자[EA]',20);
+
 
