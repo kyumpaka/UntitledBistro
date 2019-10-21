@@ -55,7 +55,12 @@ function yearInput(yearInputId,yearId) {
 	if(yearInput.val() >= 1900 && yearInput.val() <= new Date().getFullYear()+1) {
 		$("#year").css("border","");
 	} else {
-		alert("올바르지 않는 날짜형식 입니다.");
+		swal({
+			title: "날짜오류",
+			text: "올바르지 않는 날짜형식 입니다.",
+			icon: "error",
+			button: "확인"
+		});
 		$("#year").css("border","1px solid red");
 	}
 }
@@ -79,7 +84,12 @@ function yymmdd(dateId, year, month, day) {
 		$("#" + month).val(date[1]);
 		$("#" + day).val(date[2]);
 	} else {
-		alert("올바르지 않는 날짜형식입니다.");
+		swal({
+			title: "날짜오류",
+			text: "올바르지 않는 날짜형식 입니다.",
+			icon: "error",
+			button: "확인"
+		});
 	}
 }
 
@@ -101,6 +111,22 @@ $("#yy-mm-dd input, #yy-mm-dd select," +
 		$("#yearInput").show();
 		$("#" + this.id).hide();
 		return;
+	}
+	
+	// 년도 select박스 선택했을 경우
+	if(this.id == "year") {
+		if(this.value >= 1900 && this.value <= new Date().getFullYear()+1) {
+			$("#year").css("border","");
+		} else {
+			swal({
+				title: "날짜오류",
+				text: "올바르지 않는 날짜형식 입니다.",
+				icon: "error",
+				button: "확인"
+			});
+			$("#year").css("border","1px solid red");
+			return;
+		}
 	}
 	
 	// 데이트피커로 날짜를 변경한 경우 

@@ -293,6 +293,7 @@
 				title: "품목코드",
 				width : 80,
 				validate: function(value) {
+					var isSame = false;
 					$.grep(productData, function(i) {
 						if(i.product_code == value) {
 							isSame = true;
@@ -307,25 +308,34 @@
 						});
 						return false;
 					}
+
+					var isResult = false;
 					if(isSame) {
 						$.ajax({
 							url: "${path}/jaego/gridSafeItemSelectProductCode",
 							type: "get",
+							async : false,
 							data: {si_product_code : value},
 							dataType: "text"
 						})
 						.done(function(result) {
-							swal({
-								title: "품목코드 오류",
-								text: "품목코드 " + result + "는 이미 등록된 상태입니다.",
-								icon: "error",
-								buttion: "확인"
-							});
-							return false;
+							if(result != 'noData') {
+								swal({
+									title: "품목코드 오류",
+									text: "품목코드 " + result + "는 이미 등록된 상태입니다.",
+									icon: "error",
+									buttion: "확인"
+								});
+							} else {
+								isResult = true;
+							}
 						});
-					} else {
-						return true;
+						
+						if(isResult) {
+							return true;
+						}
 					}
+					
 					
 				} // validate end
 			

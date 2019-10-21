@@ -194,6 +194,104 @@
 <!-- 달력 유효성 및 기능 -->
 <script type="text/javascript" src="${path}/resources/js/jaego/datePicker.js"></script>
 
+<!-- 모달 검색창 -->
+<script type="text/javascript">
+	var productData;
+	
+	$.ajax({
+		url : "${path}/jaego/gridProductSelectList",
+		type : "get",
+	})
+	.done(function(json) {
+		productData = json;
+		
+		$("#productJsGrid").jsGrid({
+			width : "100%",
+			height : "auto",
+			// 데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
+			autoload : true,
+			
+			// 그리드 헤더 클릭시 sorting이 되게함
+			sorting : true,
+			
+			// 그리드 검색 입력창 표시
+			filtering : true,
+			
+			// 페이징 기본설정
+			paging:true,
+			pageSize : 10,
+			pageButtonCount : 5,
+			
+			// 커스텀 페이징 설정
+			pagerContainer: "#productPage",
+            pagerFormat: "{first} {prev} {pages} {next} {last}",
+            pagePrevText: "<",
+            pageNextText: ">",
+            pageFirstText: "<<",
+            pageLastText: ">>",
+			
+         	// json 배열을 데이터에 연결
+			data : json, 
+			
+			// 그리드에 표현될 필드 요소
+			fields : [ {
+				name : "product_code",
+				type : "text",
+				title: "품목코드",
+				width : 100
+			}, {
+				name : "product_name",
+				type : "text",
+				title : "품목명",
+				width : 100
+			}],
+			
+			// 특정 행을 클릭했을 경우
+			rowClick: function(args) {
+				var product_code = args.item.product_code;
+				var product_name = args.item.product_name;
+				
+				$("#product_code").val(product_code);
+				$("#product_name").val(product_name);
+				$("#myModal").trigger("click"); // 강제 클릭 함수
+			},
+			
+			// filtering 입력창에 엔터를 누를 경우
+			controller : {
+				loadData: function(filter) {
+					// 검색할 값이 없는 경우
+					if(filter.product_code === "" && filter.product_name === "") {
+						return productData;
+					}
+
+					// 검색할 값이 있을 경우
+					var filterData;
+					if(filter.product_code !== "") filterData = valueTest(productData,"product_code",filter);
+					if(filter.product_name !== "") filterData = valueTest(productData,"product_name",filter);
+					return filterData;
+				}
+		
+			} // controller end
+			
+		}); // jsGrid end
+	}); // ajax end
+	
+	// 검색할 때 필터와 일치하는 데이터 제거하기
+	function valueTest(arr,condition,filter) {
+		return $.grep(arr, function(i) {
+			if(condition == "product_code") return i.product_code.indexOf(filter.product_code) != -1;
+			if(condition == "product_name") return i.product_name.indexOf(filter.product_name) != -1;
+		});
+	}
+	
+	// 검색창을 새로 열때마다 품목데이터 초기화
+	$("#open, #open2").on("click",function() {
+		$("#productJsGrid").jsGrid({data:productData, pageIndex: 1});
+		$("#productJsGrid").jsGrid("loadData");
+	});
+	
+</script>
+
 <!-- 메인화면 기능 -->
 <script type="text/javascript">
 	
@@ -201,17 +299,68 @@
 		name : "di_product_code",
 		type : "text",
 		title: "품목코드",
-		width : 80
+		width : 80,
+		validate: function(value) {
+			var isSame = false;
+			$.grep(productData, function(i) {
+				if(i.product_code == value) {
+					isSame = true;
+				}
+			});
+			if(!isSame) {
+				swal({
+					title: "품목코드 오류",
+					text: "존재하지 않는 품목코드 입니다.",
+					icon: "error",
+					buttion: "확인"
+				});
+				return false;
+			} else {
+				return true;
+			}
+			
+		} // validate end
 	}, {
 		name : "di_product_name",
 		type : "text",
 		title: "품목명",
-		width : 100
+		width : 100,
+		validate: function(value) {
+			if(value.length < 1) {
+				swal({
+					title: "품목명 오류",
+					text: "적어도 한글자는 입력해야 합니다.",
+					icon: "error",
+					button: "확인"
+				});
+			} else {
+				return true;
+			}
+		}
 	}, {
 		name : "di_qty",
 		type : "number",
 		title: "불량수량",
-		width : 80
+		width : 80,
+		validate: function(value) {
+			if(value == null) {
+				swal({
+					title: "불량수량 오류",
+					text: "불량수량을 반드시 입력하세요.",
+					icon: "error",
+					button: "확인"
+				});
+			} else if(value <= 0) {
+				swal({
+					title: "불량수량 오류",
+					text: "불량수량은 0이하로 등록할 수 없습니다.",
+					icon: "error",
+					button: "확인"
+				});
+			} else {
+				return true;
+			}
+		}
 	}, {
 		name : "di_state",
 		type : "text",
@@ -243,7 +392,6 @@
 			url:"${path}/jaego/gridDefectItemSelectList",
 		})
 		.done(function(json) {
-			console.log(json);
 			originalData = json.slice();
 			$("#jsGrid").jsGrid({
 				// 그리드 크기설정
@@ -274,17 +422,12 @@
 				
 				// 그리드에 표현될 필드 요소
 				fields : fieldsData,
-                
+				invalidNotify : true,
 				// 수정 아이콘 누르면 수정배열에 담기
 				onItemUpdated : function(args) {
-					if(args.item.di_qty <= 0) {
-						swal("수량갯수 오류","수량은 0보다 크게 입력해야 수정가능합니다.","error");
-						$(args.row).css("border","1px solid red");
-						errorData.push(args.itemIndex);
-						return;
-					}
+					errorData.push(args.itemIndex);
+					
 					updateData.push(args.item);
-					$(args.row).css("border","none");
 				
 					if(errorData.indexOf(args.itemIndex) != -1) {
 						errorData.splice(errorData.indexOf(args.itemIndex),1);
@@ -310,7 +453,7 @@
 		
 		$.ajax({
 			type : "get", 
-			url : "/UntitledBistro/jaego/gridDefectItemSelectList",
+			url : "${path}/jaego/gridDefectItemSelectList",
 			data : {"endDate" : endDate, "keyword" : product_code, "keyword2" : product_name},
 		})
 		.done(function(json) {
@@ -322,7 +465,6 @@
 	
 	// 검색 버튼 클릭했을 경우
 	$("#searchBtn").click(function(){
-		
 		// 빨간 테두리 존재여부
 		if($("#year").css("border") == "1px solid rgb(255, 0, 0)") {
 			swal({
@@ -341,6 +483,9 @@
 		// 검색조건으로 그리드 다시 불러오기
 		var product_code = $("#product_code").val();
 		var product_name = $("#product_name").val();
+		console.log("aaaa");
+		console.log(product_code);
+		console.log(product_name);
 		dataLoad(endDate, product_code, product_name);
 		
 	}); // searchBtn.click 끝
@@ -453,104 +598,6 @@
 		$("#updateCompleteBtn").hide();
 		$("#updateCancleBtn").hide();
 		$("#editBtn").show();
-	});
-	
-</script>
-
-<!-- 모달 검색창 -->
-<script type="text/javascript">
-	var productData;
-	
-	$.ajax({
-		url : "${path}/jaego/gridProductSelectList",
-		type : "get",
-	})
-	.done(function(json) {
-		productData = json;
-		
-		$("#productJsGrid").jsGrid({
-			width : "100%",
-			height : "auto",
-			// 데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
-			autoload : true,
-			
-			// 그리드 헤더 클릭시 sorting이 되게함
-			sorting : true,
-			
-			// 그리드 검색 입력창 표시
-			filtering : true,
-			
-			// 페이징 기본설정
-			paging:true,
-			pageSize : 10,
-			pageButtonCount : 5,
-			
-			// 커스텀 페이징 설정
-			pagerContainer: "#productPage",
-            pagerFormat: "{first} {prev} {pages} {next} {last}",
-            pagePrevText: "<",
-            pageNextText: ">",
-            pageFirstText: "<<",
-            pageLastText: ">>",
-			
-         	// json 배열을 데이터에 연결
-			data : json, 
-			
-			// 그리드에 표현될 필드 요소
-			fields : [ {
-				name : "product_code",
-				type : "text",
-				title: "품목코드",
-				width : 100
-			}, {
-				name : "product_name",
-				type : "text",
-				title : "품목명",
-				width : 100
-			}],
-			
-			// 특정 행을 클릭했을 경우
-			rowClick: function(args) {
-				var product_code = args.item.product_code;
-				var product_name = args.item.product_name;
-				
-				$("#product_code").val(product_code);
-				$("#product_name").val(product_name);
-				$("#myModal").trigger("click"); // 강제 클릭 함수
-			},
-			
-			// filtering 입력창에 엔터를 누를 경우
-			controller : {
-				loadData: function(filter) {
-					// 검색할 값이 없는 경우
-					if(filter.product_code === "" && filter.product_name === "") {
-						return productData;
-					}
-
-					// 검색할 값이 있을 경우
-					var filterData;
-					if(filter.product_code !== "") filterData = valueTest(productData,"product_code",filter);
-					if(filter.product_name !== "") filterData = valueTest(productData,"product_name",filter);
-					return filterData;
-				}
-		
-			} // controller end
-			
-		}); // jsGrid end
-	}); // ajax end
-	
-	// 검색할 때 필터와 일치하는 데이터 제거하기
-	function valueTest(arr,condition,filter) {
-		return $.grep(arr, function(i) {
-			if(condition == "product_code") return i.product_code.indexOf(filter.product_code) != -1;
-			if(condition == "product_name") return i.product_name.indexOf(filter.product_name) != -1;
-		});
-	}
-	
-	// 검색창을 새로 열때마다 품목데이터 초기화
-	$("#open, #open2").on("click",function() {
-		$("#productJsGrid").jsGrid({data:productData, pageIndex: 1});
-		$("#productJsGrid").jsGrid("loadData");
 	});
 	
 </script>
