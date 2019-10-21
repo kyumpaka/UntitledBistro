@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -23,9 +24,7 @@
 			<div class="col-lg-3">
 			</div>
 			<div class="col-lg-3">
-			사용 테이블수 : ${ tableUseList[0] }
-			&nbsp;/&nbsp;
-			총 테이블수 : ${ tableUseList[1] }
+			사용 테이블수 : ${ tableUseList[0] } &nbsp;/&nbsp; 총 테이블수 : ${ tableUseList[1] }
 			</div>
 			<div class="col-lg-3 col-sm-6">
 				<div class="widgets-wrap d-flex justify-content-end">
@@ -60,6 +59,10 @@
 						</div>
 						<hr>
 						<div class="col-md-13">
+							<button onclick="#" class="btn  btn-primary btn-lg btn-block"> 정산내역 </button>
+						</div>
+						<hr>
+						<div class="col-md-13">
 							<button onclick="goSetting()" class="btn  btn-primary btn-lg btn-block"> 설정 </button>
 						</div>
 					</div>
@@ -91,7 +94,7 @@ function goTableControl() {
 
 function goSetting() {
 	event.preventDefault();
-	location.href="${pageContext.request.contextPath}/erp";
+	location.href="${pageContext.request.contextPath}/erp?empregister_empnum=<sec:authentication property='principal.username'/>";
 };
 
 function goOrderList(tableNum) {
