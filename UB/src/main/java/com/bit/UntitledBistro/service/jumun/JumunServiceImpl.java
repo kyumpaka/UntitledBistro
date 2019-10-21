@@ -39,7 +39,6 @@ import com.bit.UntitledBistro.model.jumun.MenuTypeDTO;
 import com.bit.UntitledBistro.model.jumun.OrdersDTO;
 import com.bit.UntitledBistro.model.jumun.OrdersDetailsDTO;
 import com.bit.UntitledBistro.model.jumun.PaymentDTO;
-import com.bit.UntitledBistro.model.jumun.SalesDTO;
 import com.bit.UntitledBistro.model.jumun.SalesDetailsDTO;
 import com.bit.UntitledBistro.model.jumun.TableSaveDTO;
 import com.itextpdf.text.Chunk;
@@ -79,21 +78,18 @@ public class JumunServiceImpl implements JumunService {
 	}
 	
 	@Override
-	public int menuTypeRemove(String[] list) {
+	public int menuTypeRemove(String mt_Code) {
 		dao = sqlSession.getMapper(JumunDAO.class);
-		int cnt = 0;
 		map = new HashMap<String, String>();
 		
-		for(String mt_Code : list) {
-			map.put("mt_Code", mt_Code);
-			map.put("menu_Mt_Code", mt_Code);
-			
-			dao.ingreDelete(map); // 포함되는 재료 삭제
-			dao.menuDelete(map); // 포함되는 메뉴 삭제
-			dao.menuTypeDelete(map); // 포함되는 메뉴구분 삭제
-			cnt++;
-		}
-		return cnt;
+		map.put("mt_Code", mt_Code);
+		map.put("menu_Mt_Code", mt_Code);
+		
+		dao.ingreDelete(map); // 포함되는 재료 삭제
+		dao.menuDelete(map); // 포함되는 메뉴 삭제
+		dao.menuTypeDelete(map); // 포함되는 메뉴구분 삭제
+		
+		return 1;
 	}
 	
 	@Override 
@@ -464,7 +460,7 @@ public class JumunServiceImpl implements JumunService {
 	@Override
 	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token, String orders_No) {
 		
-		int sales_No = ordersToSales(orders_No, paymentDTO); // 주문 삭제 후 결제 입력
+		ordersToSales(orders_No, paymentDTO); // 주문 삭제 후 결제 입력
 		
         RestTemplate restTemplate = new RestTemplate();
  
@@ -478,7 +474,7 @@ public class JumunServiceImpl implements JumunService {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("cid", "TC0ONETIME");
         params.add("tid", kakaoPayReadyDTO.getTid());
-        params.add("partner_order_id", Integer.toString(sales_No));
+        params.add("partner_order_id", Integer.toString(dao.salesSelectMax()));
         params.add("partner_user_id", "UntitledBistro");
         params.add("pg_token", pg_token);
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
@@ -498,9 +494,8 @@ public class JumunServiceImpl implements JumunService {
     }
 	
 	@Override
-	public int ordersToSales(String orders_No, PaymentDTO paymentDTO) {
+	public void ordersToSales(String orders_No, PaymentDTO paymentDTO) {
 		dao = sqlSession.getMapper(JumunDAO.class);
-		int sales_No = dao.salesSelectMax();
 		
 		map = new HashMap<String, String>();
 		map.put("orders_No", orders_No);
@@ -509,11 +504,9 @@ public class JumunServiceImpl implements JumunService {
 		int tableNum = dao.salesTableSelect(map);
 		
 		for(int i = 0; i < sdList.size(); i++) {
-			sdList.get(i).setSd_Sales_No(Integer.toString(sales_No)); // 판매내역번호 설정
 			dao.salesDetailsInsert(sdList.get(i)); // 판매내역 입력
 		}
 		
-		paymentDTO.setPayment_Sales_No(Integer.toString(sales_No)); // 판매내역번호 설정
 		paymentDTO.setPayment_Table(Integer.toString(tableNum)); // 테이블번호 설정
 		dao.paymentInsert(paymentDTO); // 결제내역 입력
 		
@@ -562,10 +555,7 @@ public class JumunServiceImpl implements JumunService {
 		}
 		
 		// 주문내역
-		map.put("sales_No", Integer.toString(sales_No));
 		dao.shippingHistoryUpdate(map);
-		
-		return sales_No;
 	}
 	
 	@Override
@@ -621,6 +611,7 @@ public class JumunServiceImpl implements JumunService {
             // 만약에 이 경로에 없을 경우엔 java파일로 만들어서 집어넣어야 한다.
  
             Font font = new Font(baseFont, 12); // 폰트의 사이즈를 12픽셀로 한다.
+            Font font2 = new Font(baseFont, 8); // 폰트의 사이즈를 12픽셀로 한다.
  
             PdfPTable table = new PdfPTable(4); // 4개의 셀을 가진 테이블 객체를 생성 (pdf파일에 나타날 테이블)
             Chunk chunk = new Chunk(ordersDTO.getOrders_TableSave_Code()+ "번 테이블 주문서", font); // 타이틀 객체를 생성 (타이틀의 이름을 장바구니로 하고 위에 있는 font를 사용)
@@ -633,13 +624,13 @@ public class JumunServiceImpl implements JumunService {
 
             SimpleDateFormat  format = new SimpleDateFormat("yyyy년 MM월 dd일 hh시 mm분 ss초");
             String timeFirst = "처음주문 시간 : " + format.format(ordersDTO.getOrders_First());
-            Chunk chunkFirst = new Chunk(timeFirst, font);
+            Chunk chunkFirst = new Chunk(timeFirst, font2);
             Paragraph phFirst = new Paragraph(chunkFirst);
             phFirst.setAlignment(Element.ALIGN_RIGHT);
             document.add(phFirst);
             
             String timeFinal = "마지막 주문 시간 : " + format.format(ordersDTO.getOrders_Final());
-            Chunk chunkFinal = new Chunk(timeFinal, font);
+            Chunk chunkFinal = new Chunk(timeFinal, font2);
             Paragraph phFinal = new Paragraph(chunkFinal);
             phFinal.setAlignment(Element.ALIGN_RIGHT);
             document.add(phFinal);

@@ -10,8 +10,25 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
 function start() {
+	var msg = "";
+	if('${logout}' != "empty") {
+		msg = "${logout}";
+	}
+	if('${error}' != "empty") {
+		msg = "${error}";
+	}
+	if('${exist}' != "empty") {
+		msg = "${exist}";
+	}
+	if('${timeOut}' != "empty") {
+		msg = "${timeOut}";
+	}
+	if('${access}' != "empty") {
+		msg = "${access}";
+	}
+	
 	swal({
-		  title: "권한이 부족합니다.",
+		  title: msg,
 		  icon: "warning",
 		  button: "다시 로그인하기",
 		}).then(() => {

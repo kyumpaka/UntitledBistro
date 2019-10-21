@@ -28,7 +28,7 @@ public interface JumunService {
 	
 	public int menuTypeAdd(MenuTypeDTO dto);
 	
-	public int menuTypeRemove(String[] list);
+	public int menuTypeRemove(String mt_Code);
 
 	public int menuTypeModi(MenuTypeDTO dto);
 	
@@ -78,7 +78,7 @@ public interface JumunService {
 	
 	public KakaoPayApprovalDTO kakaoPayInfo(String pg_token, String orders_No);
 	
-	public int ordersToSales(String orders_No, PaymentDTO paymentDTO);
+	public void ordersToSales(String orders_No, PaymentDTO paymentDTO);
 	
 	public int payFail();
 	
