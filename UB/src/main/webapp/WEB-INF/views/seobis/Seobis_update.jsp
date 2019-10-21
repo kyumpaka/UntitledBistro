@@ -52,12 +52,14 @@
 			return false;
 		}
 		
+		//이메일 공백 검사
 		if(member_email.indexOf(" ") >= 0){
 			swal("이메일에 공백을 사용할 수 없습니다");
 			$("#member_email").focus();
 			return false;
 		}
 		
+		//생일 입력여부 검사
 		if(member_birth.length == 0){
 			swal("생일을 입력해 주세요");
 			$("#member_birth").focus();
@@ -160,7 +162,7 @@
                                 <form id="edit" action="${path}/Seobis/update" method="post"  class="form-horizontal">
                                         <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">아이디</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="member_id" name="member_id"  value="${Seobis_memberSelect.member_id}" readonly="readonly" class="form-control"><small class="form-text text-muted">대소문자, 숫자 사용</small></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="member_id" name="member_id"  value="${Seobis_memberSelect.member_id}" readonly="readonly" class="form-control"><small class="form-text text-muted"></small></div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">이름</label></div>

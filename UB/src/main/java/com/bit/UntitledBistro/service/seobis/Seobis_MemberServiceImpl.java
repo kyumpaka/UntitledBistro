@@ -48,6 +48,12 @@ public class Seobis_MemberServiceImpl implements Seobis_MemberService {
 	}
 
 	@Override
+	public void Seobis_PointUpdate(Seobis_MemberDTO seobis_MemberDTO_dto) {         //포인트 수정
+		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
+		seobis_MemberDAO.Seobis_PointUpdate(seobis_MemberDTO_dto);
+	}
+	
+	@Override
 	public int Seobis_ReserveAdd(Seobis_ReserveDTO seobis_ReserveDTO_dto) {     //예약 추가
 		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
 		return seobis_MemberDAO.Seobis_ReserveAdd(seobis_ReserveDTO_dto);
@@ -58,13 +64,40 @@ public class Seobis_MemberServiceImpl implements Seobis_MemberService {
 		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
 		return seobis_MemberDAO.Seobis_ReserveSelect();
 	}
-
+	
 	@Override
-	public int Seobis_MemberListCount(String reserve_member_id) {
+	public int Seobis_MemberListCount(String reserve_member_id) {        //예약 체크
 		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("reserve_member_id", reserve_member_id);
 		return seobis_MemberDAO.Seobis_MemberListCount(map);
+	}
+	
+	@Override
+	public int Seobis_ReserveUpdate(Seobis_ReserveDTO seobis_ReserveDTO_dto) {            //예약 수정
+		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
+		return seobis_MemberDAO.Seobis_ReserveUpdate(seobis_ReserveDTO_dto);
+	}
+
+	@Override
+	public List<Seobis_ReserveDTO> Seobis_ReserveList(HashMap<String, Object> map) {           //예약 리스트
+		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
+		return seobis_MemberDAO.Seobis_ReserveList(map);
+	}
+
+	@Override
+	public Seobis_ReserveDTO Seobis_ReserveSelectByNum(String reserve_num) {
+		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("reserve_num", reserve_num);
+		
+		return seobis_MemberDAO.Seobis_ReserveSelectByNum(map);
+	}
+
+	@Override
+	public int Seobis_ReserveDelete(Seobis_ReserveDTO seobis_ReserveDTO_dto) {
+		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
+		return seobis_MemberDAO.Seobis_ReserveDelete(seobis_ReserveDTO_dto);
 	}
 
 	/*

@@ -11,7 +11,22 @@ public class Seobis_ReserveDTO {
 	private Date reserve_firsttime;
 	private Date reserve_date;
 	private String reserve_dateString;
+	private String reserve_start;
+	private String reserve_end;
 	
+	
+	public String getReserve_start() {
+		return reserve_start;
+	}
+	public void setReserve_start(String reserve_start) {
+		this.reserve_start = reserve_start;
+	}
+	public String getReserve_end() {
+		return reserve_end;
+	}
+	public void setReserve_end(String reserve_end) {
+		this.reserve_end = reserve_end;
+	}
 	public String getReserve_dateString() {
 		return reserve_dateString;
 	}

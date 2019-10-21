@@ -42,6 +42,18 @@
 	 ]]>
  </select>
  
+  <select id="Seobis_ReserveList"  parameterType="map"  resultType="com.bit.UntitledBistro.model.seobis.Seobis_ReserveDTO">
+ 	<![CDATA[
+ 		SELECT
+ 			RESERVE_NUM,
+ 			RESERVE_MEMBER_ID,
+ 			RESERVE_NAME,
+ 			RESERVE_DATE
+ 		FROM
+ 			RESERVE
+	 ]]>
+ </select>
+ 
   <select id="Seobis_MemberListCount" parameterType="map" resultType="java.lang.Integer">
  	<![CDATA[
  		SELECT 
@@ -59,6 +71,13 @@
 		WHERE MEMBER_ID = #{member_id}
 	]]>
  </delete>
+ 
+ <delete id="Seobis_ReserveDelete" parameterType="com.bit.UntitledBistro.model.seobis.Seobis_ReserveDTO">
+	<![CDATA[
+		DELETE FROM RESERVE
+		WHERE RESERVE_NUM = #{reserve_num}
+	]]>
+ </delete>
 
  <update id="Seobis_MemberUpdate" parameterType="com.bit.UntitledBistro.model.seobis.Seobis_MemberDTO">
 	<![CDATA[
@@ -74,6 +93,45 @@
 	]]>
  </update>
  
+ 
+ <update id="Seobis_PointUpdate" parameterType="com.bit.UntitledBistro.model.seobis.Seobis_MemberDTO">
+	<![CDATA[
+		UPDATE MEMBER 
+		SET 
+			MEMBER_GRADE = #{member_grade},
+			MEMBER_POINT = #{member_point}
+		WHERE 
+			MEMBER_ID = #{member_id}
+	]]>
+ </update>
+ 
+ <update id="Seobis_ReserveUpdate" parameterType="com.bit.UntitledBistro.model.seobis.Seobis_ReserveDTO">
+ <if test="reserve_member_id != null">
+	<![CDATA[
+		UPDATE RESERVE 
+		SET 
+			RESERVE_MEMBER_ID= #{reserve_member_id},
+			RESERVE_PHONE1 = #{reserve_phone1},
+			RESERVE_START= #{reserve_start},
+			RESERVE_END = #{reserve_end}
+		WHERE 
+			RESERVE_NUM = #{reserve_num}
+	]]>
+ </if>
+	<if test="reserve_name != null">
+	<![CDATA[
+		UPDATE RESERVE 
+		SET 
+			RESERVE_NAME= #{reserve_name},
+			RESERVE_PHONE1 = #{reserve_phone1},
+			RESERVE_START= #{reserve_start},
+			RESERVE_END = #{reserve_end}
+		WHERE 
+			RESERVE_NUM = #{reserve_num}
+	]]>
+	</if>
+ </update>
+
  <select id="Seobis_MemberSelect" parameterType="String"  resultType="com.bit.UntitledBistro.model.seobis.Seobis_MemberDTO">
  	<![CDATA[
  		SELECT 
@@ -98,7 +156,9 @@
  			RESERVE_NUM,
  			RESERVE_MEMBER_ID,
  			RESERVE_NAME,
- 			RESERVE_DATE
+ 			RESERVE_DATE,
+ 			RESERVE_START,
+ 			RESERVE_END
  		FROM
  			RESERVE
  	]]>
@@ -113,12 +173,16 @@
 			 			RESERVE_NUM,
 						RESERVE_MEMBER_ID,
  						RESERVE_PHONE1,
- 						RESERVE_DATE)
+ 						RESERVE_DATE,
+ 						RESERVE_START,
+ 						RESERVE_END)
 						VALUES(
 						#{reserve_num},
 						#{reserve_member_id},
 						#{reserve_phone1},
-						#{reserve_dateString}
+						#{reserve_dateString},
+						#{reserve_start},
+						#{reserve_end}
 						)
  			]]>
 			</when>
@@ -130,12 +194,16 @@
  						RESERVE_NUM,
  						RESERVE_NAME,
  						RESERVE_PHONE1,
- 						RESERVE_DATE)
+ 						RESERVE_DATE
+ 						RESERVE_START,
+ 						RESERVE_END)
 				VALUES(
 						#{reserve_num},
 						#{reserve_name},
 						#{reserve_phone1},
 						#{reserve_dateString}
+						#{reserve_start},
+						#{reserve_end}
 						)
  			]]>
 			</when>
@@ -148,16 +216,24 @@
  						RESERVE_MEMBER_ID,
  						RESERVE_NAME,
  						RESERVE_PHONE1,
- 						RESERVE_DATE)
+ 						RESERVE_DATE
+ 						RESERVE_START,
+ 						RESERVE_END)
 				VALUES(
 						#{reserve_num},
 						#{reserve_member_id},
 						#{reserve_name},
 						#{reserve_phone1},
-						#{reserve_dateString}
+						#{reserve_dateString},
+						#{reserve_start},
+						#{reserve_end}
 						)
  			]]>
 </otherwise>
 </choose>
  </insert>
+ 
+ <select id="Seobis_ReserveSelectByNum" parameterType="map" resultType="com.bit.UntitledBistro.model.seobis.Seobis_ReserveDTO">
+SELECT * FROM RESERVE WHERE  RESERVE_NUM = #{reserve_num}
+ </select>
 </mapper>

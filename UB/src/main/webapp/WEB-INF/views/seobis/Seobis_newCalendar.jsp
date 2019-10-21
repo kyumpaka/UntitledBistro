@@ -9,9 +9,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+    
+    <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <title>예약 양식</title>
 </head>
-<body>
+<%-- <body>
 <h1>예약 양식</h1>
 <form id="testForm" >
 번호:<input type="text" name="reserve_num" /><br>
@@ -20,11 +28,47 @@ ID:<input type="text" name="reserve_member_id"  id="reserve_member_id"/><br>
 전화: <input type="tel" name="reserve_phone1" /><br>
 예약일: <input type="text" name="reserve_dateString"  value="${date}" readonly="readonly"/><br>
 </form>
-<input type="button" value="예약하기" onclick="gogo()"/>
+<input type="button" value="예약하기" onclick="gogo()"/> --%>
+
+<body>
+	<div class="card align-middle" style="width:20rem; border-radius:20px;">
+		<div class="card-title" style="margin-top:30px;">
+			<h2 class="card-title text-center" style="color:#113366;">예약 양식</h2>
+		</div>
+		<div class="card-body">
+      <form class="form-signin" id="testForm">
+        <h5 class="form-signin-heading">예약 정보를 입력하세요</h5>
+        <label for="input" class="sr-only">번호</label>
+        	<input type="text"  name="reserve_num" class="form-control" placeholder="번호" required autofocus><br>
+         <label for="input" class="sr-only">회원 아이디</label>
+        	<input type="text" id="reserve_member_id" name="reserve_member_id" class="form-control" placeholder="회원 아이디" required autofocus><BR>
+        <label for="input" class="sr-only">이름</label>
+        	<input type="text"  name="reserve_name" class="form-control" placeholder="이름" required autofocus><br>
+         <label for="input" class="sr-only">전화</label>
+        	<input type="tel" name="reserve_phone1" class="form-control" placeholder="전화" required autofocus><br>
+         <label for="input" class="sr-only">예약일</label>
+        	<input type="text" name="reserve_dateString" class="form-control" value="${date}" readonly="readonly"><br>
+         <label for="input" class="sr-only">시작 시간</label>
+        	<input type="time" name="reserve_start" class="form-control" ><br>
+         <label for="input" class="sr-only">마감 시간</label>
+        	<input type="time" name="reserve_end" class="form-control" ><br>
+      </form>
+        <button id="btn-Yes" class="btn btn-lg btn-primary btn-block" type="button" value="예약하기"  onclick="gogo()">예 약</button>
+        <button id="btn-Yes" class="btn btn-lg btn-primary btn-block" type="button" value="취소" onclick="sc()">닫기</button>
+		</div>
+	</div>
+
+	<div class="modal">
+	</div>
 </body>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
+function sc(){
+    self.close();
+}
+
 function gogo() {
 	var id = $("#reserve_member_id").val().trim();
 	$.ajax({

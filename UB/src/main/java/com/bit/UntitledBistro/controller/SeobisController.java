@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +47,12 @@ public class SeobisController {
 		return "/views/seobis/Seobis_newCalendar";
 	}
 	
+	@RequestMapping(value="/nck") //예약 확인 페이지로 보내는 맵핑
+	public String seobis_formCkCalendar(@RequestParam("reserve_num") String reserve_num, Model model) {
+		model.addAttribute("Seobis_reserveSelect", Seobis_memberService.Seobis_ReserveSelectByNum(reserve_num));
+		return "/views/seobis/Seobis_newCkCalendar";
+	}
+	
 	@RequestMapping(value="/createMember", method = RequestMethod.POST)  //회원 가입을 처리하는 맵핑
 	public String seobis_joinUsSubmit (HttpSession session, Seobis_MemberDTO seobis_MemberDTO_dto) {
 		String view = null;
@@ -74,20 +81,26 @@ public class SeobisController {
 		model.addAttribute("Seobis_memberList", Seobis_memberList);
 		return "seobis/Seobis_pointList"; //.jsp
 	}
-	
+	 
 	@RequestMapping(value="/delete")  //회원 삭제 맵핑
 	public String seobis_memberDelete(Seobis_MemberDTO seobis_MemberDTO_dto) {
 		Seobis_memberService.Seobis_MemberDelete(seobis_MemberDTO_dto);
 		return "redirect:mList";
 	}
 	
-	@RequestMapping(value="/update") //회원 수정 맵핑 
+	@RequestMapping(value="/update") //회원 업데이트 맵핑 
 	public String seobis_memberUpdate(Seobis_MemberDTO seobis_MemberDTO_dto) {
 		Seobis_memberService.Seobis_MemberUpdate(seobis_MemberDTO_dto);
 		return "redirect:mList";
 	}
 	
-	@RequestMapping(value="/select") //회원 읽기 맵핑
+	@RequestMapping(value="/pUpdate")  //포인트 업데이트 맵핑
+	public String seobis_pointUpdate(Seobis_MemberDTO seobis_MemberDTO_dto) {
+		Seobis_memberService.Seobis_PointUpdate(seobis_MemberDTO_dto);
+		return "redirect:pList";
+	}
+	
+	@RequestMapping(value="/select") //회원 수정 맵핑
 	public String seobis_memberSelect(String member_id, Model model) {
 		model.addAttribute("Seobis_memberSelect", Seobis_memberService.Seobis_MemberSelect(member_id));	 
 		return "seobis/Seobis_update";
@@ -96,16 +109,32 @@ public class SeobisController {
 	@RequestMapping(value="/resAdd", method = RequestMethod.POST) // 예약 추가 맵핑
 	@ResponseBody
 	public int seobis_reserveAdd(Seobis_ReserveDTO seobis_ReserveDTO_dto) {
-		System.out.println(seobis_ReserveDTO_dto.getReserve_num()+"aasdfasdf");
-		System.out.println(seobis_ReserveDTO_dto.getReserve_member_id()+"aasdfasdf");
+		
 		return Seobis_memberService.Seobis_ReserveAdd(seobis_ReserveDTO_dto);
 	}
 	
-	@RequestMapping(value="/resCheck") // 예약 추가 맵핑
+	@RequestMapping(value="/resCheck") // 예약시 회원 아이디 유효성 검사 맵핑
 	@ResponseBody
 	public int seobis_resCheck(@RequestParam("reserve_member_id") String reserve_member_id) {
 		
 		return Seobis_memberService.Seobis_MemberListCount(reserve_member_id);
+	}
+	
+	@RequestMapping(value="/selectP") //포인트 수정 맵핑
+	public String seobis_pointSelect(String member_id, Model model) {
+		model.addAttribute("Seobis_memberSelect", Seobis_memberService.Seobis_MemberSelect(member_id));	 
+		return "seobis/Seobis_pointUpdate";
+	}
+	
+	@RequestMapping(value="/rUpdate")  //예약 업데이트 맵핑
+	@ResponseBody
+	public int seobis_resUpdate(Seobis_ReserveDTO seobis_ReserveDTO_dto) {
+		return Seobis_memberService.Seobis_ReserveUpdate(seobis_ReserveDTO_dto);
+	}
+	
+	@RequestMapping(value="/rDelete")
+	public void seobis_reserveDelete(Seobis_ReserveDTO seobis_ReserveDTO_dto) {
+		Seobis_memberService.Seobis_ReserveDelete(seobis_ReserveDTO_dto);
 	}
 	
 }

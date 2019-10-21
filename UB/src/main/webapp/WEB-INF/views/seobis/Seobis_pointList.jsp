@@ -89,7 +89,7 @@
                                     <tbody>
                                         <c:forEach var="b" items="${Seobis_memberList}">
 											<tr>
-												<td><div id="btn_group"><button id="pointbutton" onclick='location.href="${path}/Seobis/select?member_id=${b.member_id}"'>${b.member_id}</button></div></td>
+												<td><div id="btn_group"><button id="pointbutton" onclick='location.href="${path}/Seobis/selectP?member_id=${b.member_id}"'>${b.member_id}</button></div></td>
 												<td>${b.member_name}</td>
 												<td>${b.member_grade}</td>
 												<td>${b.member_point}</td>

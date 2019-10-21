@@ -46,19 +46,21 @@
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
+      
       events: [ // 디비꺼 캘린더에 표시
     	  <c:forEach items="${Seobis_reserveSelect}" var="Seobis_reserveSelect">
     	  {
     	    title: <c:if test="${Seobis_reserveSelect.reserve_member_id != null}">'${Seobis_reserveSelect.reserve_member_id}'</c:if>
     	           <c:if test="${Seobis_reserveSelect.reserve_name != null}">'${Seobis_reserveSelect.reserve_name}'</c:if>,
+    	    url: '${path}/Seobis/nck?reserve_num=${Seobis_reserveSelect.reserve_num}',
     	    start: '<fmt:formatDate pattern="yyyy-MM-dd" value="${Seobis_reserveSelect.reserve_date}" />',
     	    allDay: true
     	  },
     		</c:forEach>
         ],
       dateClick: function(info) {
-        var width = 400;
-		var height = 400;
+        var width = 360;
+		var height = 800;
 		var popupX = (window.screen.width / 2) - (width / 2);
 		var popupY = (window.screen.height / 2) - (height / 2);
 		window.open('${path}/Seobis/nc?date='+info.dateStr,'예약하기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
@@ -70,6 +72,18 @@
 //           });
         
 
+      },
+      eventClick: function(info) {
+          var eventObj = info.event;
+
+          if (eventObj.url) {
+        	var width = 360;
+      		var height = 800;
+      		var popupX = (window.screen.width / 2) - (width / 2);
+      		var popupY = (window.screen.height / 2) - (height / 2);
+      		window.open(eventObj.url,'예약확인','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+            info.jsEvent.preventDefault(); // prevents browser from following link in current tab.
+          }
       },
       select: function(info) {
        /*  alert('selected ' + info.startStr + ' to ' + info.endStr); */ /* info.endStr : 클릭 다음 날짜 */
