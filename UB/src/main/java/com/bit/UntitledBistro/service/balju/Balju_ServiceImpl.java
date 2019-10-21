@@ -71,8 +71,18 @@ public class Balju_ServiceImpl implements Balju_Service {
 
 	@Override
 	public List<Map<String, String>> balju_Result(Balju_DTO Bdto) {
-		List<Map<String, String>> balju_List = this.balju_DAO.balju_Result(Bdto);
-		return balju_List;
+		List<Map<String, String>> balju_Result = this.balju_DAO.balju_Result(Bdto);
+		return balju_Result;
+	}
+	
+	//발주서 현황 일자 검색
+	@Override
+	public List<Map<String,String>> balju_Result_Search(String DATESTART, String DATEEND){
+		Balju_DTO Bdto = new Balju_DTO();
+		Bdto.setDATESTART(DATESTART);
+		Bdto.setDATEEND(DATEEND);
+		List<Map<String,String>> balju_Result_Search = this.balju_DAO.balju_Result_Search(Bdto);
+		return balju_Result_Search;
 	}
 	
 	//발주서 관리 불러오기

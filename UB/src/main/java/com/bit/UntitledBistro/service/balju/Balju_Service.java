@@ -18,6 +18,7 @@ public interface Balju_Service {
 
 	List<Map<String,String>> balju_Plan_list(Balju_PlanDTO BPdto);
 	List<Map<String,String>> balju_Result(Balju_DTO Bdto);
+	List<Map<String,String>> balju_Result_Search(String DATESTART, String DATEEND);
 	List<Map<String,String>> balju_Mng_List(Balju_DTO Bdto);
 	List<Map<String,String>> balju_Mng_Filter(String FilterParam);
 

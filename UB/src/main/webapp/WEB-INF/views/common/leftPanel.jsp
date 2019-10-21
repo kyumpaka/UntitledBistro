@@ -77,10 +77,3 @@
         </nav>
     </aside>
     <!-- /#left-panel -->
-<script>
- function Balju_Mng_Filter(){
-	 var form = documnet.forms["listform"];
-	 form.action="${path}/balju/Balju_Mng_Filter";
-	 form.
-	 }
-</script>

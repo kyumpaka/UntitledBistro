@@ -61,6 +61,11 @@ public class Balju_DAOimpl implements Balju_DAO {
 	}
 
 	@Override
+	public List<Map<String,String>> balju_Result_Search(Balju_DTO Bdto){
+		return sqlSession.selectList("balju.balju_Result_Search", Bdto);
+	}
+	
+	@Override
 	public List<Map<String, String>> balju_Mng_List(Balju_DTO Bdto) {
 		return sqlSession.selectList("balju.balju_Mng_List", Bdto);
 	}

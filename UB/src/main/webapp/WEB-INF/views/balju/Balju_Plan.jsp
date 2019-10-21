@@ -176,11 +176,11 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td><input type="text" id="code"></td>
-							<td><input type="text" id="name"></td>
-							<td><input type="text" id="stndr"></td>
-							<td><input type="text" id="qt"></td>
-							<td><input type="text" id="price"></td>
+							<td><input type="text" id="code" readonly></td>
+							<td><input type="text" id="name" readonly></td>
+							<td><input type="text" id="stndr" readonly></td>
+							<td><input type="text" id="qt" placeholder="수량 입력"></td>
+							<td><input type="text" id="price" readonly></td>
 							<td><button class="btn btn-dark" id="addData">등록</button>
 						</tr>            
   					</tbody>
@@ -210,19 +210,19 @@
 												return item.ORDPL_PRODUCT_NAME +" 상품을 삭제하시겠습니까?";},
 
 								fields : [
-									{name:"ORDER_PRODUCT_CODE", type:"text", width:150, title:"품목코드"},
-									{name:"ORDER_PRODUCT_NAME", type:"text", width:150, title:"품목명"},
-									{name:"ORDER_PRODUCT_STNDR", type:"text", width:150, title:"규격"},
+									{name:"ORDER_PRODUCT_CODE", type:"text", width:150, title:"품목코드", readOnly:true},
+									{name:"ORDER_PRODUCT_NAME", type:"text", width:150, title:"품목명", readOnly:true},
+									{name:"ORDER_PRODUCT_STNDR", type:"text", width:150, title:"규격", readOnly:true},
 									{name:"ORDER_QT", type:"text", width:150, title:"수량"},
-									{name:"ORDER_PR_EA", type:"text", width:150, title:"단가"},
-									{name:"ORDER_WR", type:"text", width:150, title:"작성자"},
+									{name:"ORDER_PR_EA", type:"text", width:150, title:"단가", readOnly:true},
+									{name:"ORDER_WR", type:"text", width:150, title:"작성자", readOnly:true},
 									{ type : 'control'}
 									]
 								
 								});
 						</script>
 						<div class="card-footer">
-							<button id="fuck_js" class="btn btn-primary btn-lg pull-right" onclick="test1()">등록123</button>
+							<button id="fuck_js" class="btn btn-primary btn-lg pull-right" onclick="baljuSub()">등록</button>
 						</div>
 					</div>
 				</div>
@@ -249,8 +249,19 @@
 		});
 </script>
 <script>
-		function test1(){
+		function baljuSub(){
 		var items = $("#jsGrid").jsGrid("option", "data");
+		var flag = true;
+			$.each(items,function(idx,row){
+				if(items[idx].ORDER_QT<1||isNaN(items[idx].ORDER_QT)){
+					alert("수량을 정확히 입력해주세요");
+					flag = false;
+					return false;
+				}
+			})
+		if(flag == false){
+			return false;
+		}else{	
 		console.log(JSON.stringify(items));
 			$.ajax({
 				method: "post",
@@ -281,7 +292,8 @@
 					}
 				//ajax end
 				});
-		};	
+			}
+		};
 </script>
 <script>
 	function getReturnValue(items){
@@ -305,13 +317,13 @@
 			url: "${path}/balju_Plan_Check",
 			type: "post",
 			success:function(result){
-				console.log("리절트값 : " +result);
-				console.log("리절트메세지값 : " + resultMsg);
 				var jsonResult = (JSON.parse(JSON.stringify(result)));
-					alert("목록번호 정리완료");
-				},
-			error:function(){
-					alert("정상적으로 처리되지 않았습니다");
+					if(jsonResult.result=="success"){
+						alert(jsonResult.resultMsg);
+					}else if(jsonResult.result=="failure"){
+						alert(jsonResult.resultMsg);
+						}
+					
 				}
 			});
 		//.ready 종료

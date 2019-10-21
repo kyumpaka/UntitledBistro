@@ -240,22 +240,6 @@
 		}
 	});
 </script>
-<script>
-	function Balju_All(){
-		location.href = "${path}/balju/Balju_Mng"
-	}
-
-	function Balju_Pro(){
-		var FilterParam = "N";
-
-		
-	}
-
-	function Balju_Com(){
-		var FilterParam = "Y";
-	}
-</script>
-
 </body>
 </html>
 

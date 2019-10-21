@@ -19,8 +19,32 @@ public class Balju_DTO {
 	private int ORDER_PR_EA;
 	private String ORDER_WR;
 	
+	//발주 현황 일자 검색용 
+	private String DATESTART;
+	private String DATEEND;
 	
 	
+	
+	@Override
+	public String toString() {
+		return "Balju_DTO [ORDIN_NUM=" + ORDIN_NUM + ", ORDIN_DATE=" + ORDIN_DATE + ", ORDIN_END=" + ORDIN_END
+				+ ", ORDER_ORDIN_NUM=" + ORDER_ORDIN_NUM + ", ORDER_NUM=" + ORDER_NUM + ", ORDER_PRODUCT_CODE="
+				+ ORDER_PRODUCT_CODE + ", ORDER_PRODUCT_NAME=" + ORDER_PRODUCT_NAME + ", ORDER_PRODUCT_STNDR="
+				+ ORDER_PRODUCT_STNDR + ", ORDER_QT=" + ORDER_QT + ", ORDER_PR_EA=" + ORDER_PR_EA + ", ORDER_WR="
+				+ ORDER_WR + ", DATESTART=" + DATESTART + ", DATEEND=" + DATEEND + "]";
+	}
+	public String getDATEEND() {
+		return DATEEND;
+	}
+	public void setDATEEND(String dATEEND) {
+		DATEEND = dATEEND;
+	}
+	public String getDATESTART() {
+		return DATESTART;
+	}
+	public void setDATESTART(String dATESTART) {
+		DATESTART = dATESTART;
+	}
 	public int getORDIN_NUM() {
 		return ORDIN_NUM;
 	}

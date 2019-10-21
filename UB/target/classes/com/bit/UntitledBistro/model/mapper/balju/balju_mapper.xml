@@ -182,6 +182,32 @@
   	]]>	
   </select>
   
+  <!-- 발주 일자 조회 -->
+  <select id="balju_Result_Search" parameterType="hashmap" resultType="hashmap">
+  	<![CDATA[
+  		SELECT 
+            TO_CHAR(ORDIN_DATE,'YYYY-MM-DD') AS ORDIN_DATE,
+            ORDER_ORDIN_NUM,
+            ORDER_WR,
+  			NVL(ORDER_PRODUCT_NAME,'합계') AS ORDER_PRODUCT_NAME,
+            SUM(ORDER_QT) AS ORDER_QT,
+            ORDER_PR_EA,
+            SUM(ORDER_QT*ORDER_PR_EA) AS ORDER_PR_TOT
+  		FROM 
+  			ORDER_INPUT
+  		INNER JOIN 
+  			ORDERLIST 
+  		ON 
+  			ORDER_INPUT.ORDIN_NUM 
+  			= 
+  			ORDERLIST.ORDER_ORDIN_NUM
+  		WHERE
+  			ORDIN_DATE >= TO_DATE(#{DATESTART}, 'YY-MM-DD') and ORDIN_DATE <= TO_DATE(#{DATEEND},'YY-MM-DD')+1
+        GROUP BY 
+            ROLLUP((ORDIN_DATE, ORDER_ORDIN_NUM, ORDER_PRODUCT_NAME, ORDER_WR,ORDER_PR_EA))
+  	]]>	
+  </select>
+  
   <select id="balju_Plan_list" parameterType="hashmap" resultType="hashmap">
   	<![CDATA[
   		SELECT  

@@ -39,7 +39,6 @@
 				<div class="col-md-7">
 				<div class="card">
 					<div class="card-header"></div>
-				<form method="get" action="${path}/balju/Balju_Result_Search">
 				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
@@ -54,11 +53,10 @@
 							<td></td>
 							<td><input type="text" id="dateStart"></td>
 							<td><input type="text" id="dateEnd"></td>
-							<td><input type="submit" value="검색"></td>
+							<td><button class="btn btn-dark btn-sm" id="dateSub">검색</button></td>
 						</tr>            
   					</tbody>
  				</table>
- 				</form>
  					<div class="card-footer"></div>
  				</div>
 			</div>
@@ -72,7 +70,7 @@
 						<div class="card-header">
 							발주서 관리<small><code> 이 부분은 잠시대기 </code></small>
 						</div>
-						<div class="card-body">
+	 						<div class="card-body">
 							<table class="table table-striped table-hover">
 								<thead style="text-align: center;">
 									<tr>
@@ -135,4 +133,41 @@
 			$("#dateStart").datepicker("setDate", "-1D");
 			$("#dateEnd").datepicker("setDate", "+1");
 		});
+</script>
+<script>
+	$("#dateSub").click(function(){
+		/* var dateParam = new Array();
+		var StartEnd = new Object(); */
+		var DATESTART = $("#dateStart").val();
+		console.log(DATESTART);
+		var DATEEND = $("#dateEnd").val();
+		console.log(DATEEND);
+			
+		var form = document.createElement("form");
+		form.setAttribute("charset", "UTF-8");
+		form.setAttribute("method", "POST");
+		form.setAttribute("action", "${path}/balju/Balju_Result_Search");
+		
+		var dateStart = document.createElement("input");
+		dateStart.setAttribute("type","hidden");
+		dateStart.setAttribute("name","DATESTART");
+		dateStart.setAttribute("value",DATESTART);
+		form.appendChild(dateStart);
+
+		var dateEnd = document.createElement("input");
+		dateEnd.setAttribute("type","hidden");
+		dateEnd.setAttribute("name","DATEEND");
+		dateEnd.setAttribute("value",DATEEND);
+		form.appendChild(dateEnd);
+		
+		document.body.appendChild(form);
+		form.submit();
+		/* StartEnd.dateEnd = $("#dateEnd").val(); */
+		/* var bbb = $("#dateEnd").val(); */
+
+
+		/* dateParam.push(StartEnd);
+		console.log(dateParam); */
+	});
+		
 </script>

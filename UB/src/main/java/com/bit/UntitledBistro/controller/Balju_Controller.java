@@ -64,11 +64,11 @@ public class Balju_Controller {
 	}
 
 	@RequestMapping(value = "/balju/Balju_Result", method = RequestMethod.GET)
-	public void Balju_Result(Model model, Balju_DTO Bdto) {
+	public void balju_Result(Model model, Balju_DTO Bdto) {
 		logger.info("발주현황에 접속되었습니다.");
-		List<Map<String,String>> list = this.balju_Service.balju_Result(Bdto);
-		model.addAttribute("Result_list", list);
-	}
+			List<Map<String,String>> list = this.balju_Service.balju_Result(Bdto);
+			model.addAttribute("Result_list", list);
+		}
 
 	
 	@RequestMapping(value = "/balju/Balju_Mng_All", method = RequestMethod.GET)
@@ -231,10 +231,10 @@ public class Balju_Controller {
 			this.balju_Service.Delete_Balju_Plan_Check(BPdto);
 
 			result = "success";
-			resultMsg = "삭제 성공";
+			resultMsg = "발주계획 정리완료, 기능을 시작합니다.";
 		} catch (Exception e) {
 			result = "failure";
-			resultMsg = "삭제 실패";
+			resultMsg = "발주계획 로딩 에러";
 		}
 		resultMap.put("result", result);
 		resultMap.put("resultMsg", resultMsg);
@@ -334,6 +334,19 @@ public class Balju_Controller {
 		resultMap.put("resultMsg", resultMsg);
 
 		return resultMap;
+
+	}
+	
+	@RequestMapping(value = "/balju/Balju_Result_Search", method = RequestMethod.POST)
+	public String Balju_Search(@RequestParam("DATESTART") String DATESTART, @RequestParam("DATEEND") String DATEEND, Model model) {
+		logger.info("발주서 조회 기능에 접속되었습니다");
+		
+		logger.info("조회할 시작일자 값 : " + DATESTART);
+		logger.info("조회할 종료일자 값 : " + DATEEND);
+		
+		List<Map<String,String>> list = this.balju_Service.balju_Result_Search(DATESTART,DATEEND);
+		model.addAttribute("Result_list", list);
+		return "balju/Balju_Result";
 
 	}
 	////////// 기능 구현 영역 //////////
