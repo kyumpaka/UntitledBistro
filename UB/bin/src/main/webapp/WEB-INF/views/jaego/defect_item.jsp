@@ -392,7 +392,6 @@
 			url:"${path}/jaego/gridDefectItemSelectList",
 		})
 		.done(function(json) {
-			console.log(json);
 			originalData = json.slice();
 			$("#jsGrid").jsGrid({
 				// 그리드 크기설정

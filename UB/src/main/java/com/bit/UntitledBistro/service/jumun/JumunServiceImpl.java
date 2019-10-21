@@ -160,14 +160,14 @@ public class JumunServiceImpl implements JumunService {
 				UUID uuid = UUID.randomUUID(); // 사진 이름 중복 방지
 				if(originalFileName != "") {
 					saveFileName = uuid + "_" + originalFileName;
+					
+					byte[] data = mFile.getBytes();
+					FileOutputStream fos = new FileOutputStream(uploadPath + saveFileName);
+					fos.write(data);
+					fos.close();
 				} else {
 					saveFileName = "noImage.jpg";
 				}
-				
-				byte[] data = mFile.getBytes();
-				FileOutputStream fos = new FileOutputStream(uploadPath + saveFileName);
-				fos.write(data);
-				fos.close();
 			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -212,6 +212,15 @@ public class JumunServiceImpl implements JumunService {
 			}
 		}
 		return 1;
+	}
+	
+	@Override
+	public int menuNameCheck(String name) {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		map = new HashMap<String, String>();
+		map.put("menu_Name", name);
+		
+		return dao.menuNameCheck(map);
 	}
 	
 	@Override
