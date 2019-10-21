@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
+import com.bit.UntitledBistro.model.insa.Insa_SalaryDTO;
 import com.bit.UntitledBistro.model.insa.Insa_ScheduleDTO;
 import com.bit.UntitledBistro.service.insa.GoogleCalendarService;
 import com.bit.UntitledBistro.service.insa.InsaService;
@@ -101,43 +103,13 @@ public class InsaController {
 	@RequestMapping("/EmpRegisterList")
 	public String list(HttpServletRequest request) {
 
-		int pg = 1;
-		String strPg = request.getParameter("pg");
-		if (strPg != null) {
-			pg = Integer.parseInt(strPg);
-
-		}
-		int rowSize = 10;
-		int start = (pg * rowSize) - (rowSize - 1);
-		int end = pg * rowSize;
 
 		int total = insaService.getEmpCount();
-		System.out.println("�떆�옉 : " + start + " �걹:" + end);
-		System.out.println("湲��쓽 �닔 : " + total);
-
-		int allPage = (int) Math.ceil(total / (double) rowSize);
-
-		int block = 5;
-		int fromPage = ((pg - 1) / block * block) + 1;
-
-		int toPage = ((pg - 1) / block * block) + block;
-		if (toPage > allPage) {
-			toPage = allPage;
-
-		}
 
 		HashMap map = new HashMap();
 
-		map.put("start", start);
-		map.put("end", end);
-
 		List<Insa_EmpRegisterDTO> EmpRegisterList = insaService.EmpRegisterList(map);
 		request.setAttribute("EmpRegisterList", EmpRegisterList);
-		request.setAttribute("pg", pg);
-		request.setAttribute("allPage", allPage);
-		request.setAttribute("block", block);
-		request.setAttribute("fromPage", fromPage);
-		request.setAttribute("toPage", toPage);
 
 		return "insa/EmpRegisterList"; // list.jsp
 
@@ -244,12 +216,70 @@ public class InsaController {
 		return mav; 
 		
 	}
-	@RequestMapping("/EmpWork")
-	public String EmpWorklist() {
-
-
-		return "insa/EmpWork"; // list.jsp
-
-	}
+	/*
+	 * @RequestMapping("/EmpWork") public String EmpWorklist(HttpServletRequest
+	 * request) {
+	 * 
+	 * 
+	 * int total = insaService.getWorkCount();
+	 * 
+	 * 
+	 * 
+	 * HashMap map = new HashMap();
+	 * 
+	 * 
+	 * List<Insa_ScheduleDTO> EmpWork = insaService.EmpWork(map);
+	 * request.setAttribute("EmpWork", EmpWork);
+	 * 
+	 * return "insa/EmpWork"; // list.jsp
+	 * 
+	 * }
+	 */
 	
+
+@RequestMapping(value = "/EmpWork")
+ public @ResponseBody Object getRecordList(HttpServletRequest request,
+   HttpServletResponse response,
+   @ModelAttribute("Insa_ScheduleDTO") Insa_ScheduleDTO dto){
+  
+  Map<String, Object> mp = new HashMap<String, Object>();
+  mp.put("data", insaService.EmpWork(dto));
+  
+  Object result = mp;
+  
+  return result;
+}
+
+
+@RequestMapping("/EmpWorkList")
+public String Worklist(HttpServletRequest request) {
+
+
+	int total = insaService.getWorkCount();
+	HashMap map = new HashMap();
+
+
+	List<Insa_ScheduleDTO> EmpWorkList = insaService.EmpWorkList(map);
+	request.setAttribute("EmpWorkList", EmpWorkList);
+
+	return "insa/EmpWorkList"; // list.jsp
+
+}
+
+@RequestMapping("/PayCheck")
+public String PayCheck(HttpServletRequest request) {
+
+
+	int total = insaService.getPayCount();
+	HashMap map = new HashMap();
+
+
+	List<Insa_SalaryDTO> PayCheck = insaService.PayCheck(map);
+	request.setAttribute("PayCheck", PayCheck);
+
+	return "insa/PayCheck"; // list.jsp
+
+}
+
+
 }

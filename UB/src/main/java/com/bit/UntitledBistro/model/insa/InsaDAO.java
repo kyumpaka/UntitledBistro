@@ -33,5 +33,15 @@ public interface InsaDAO {
 
 	public List <Insa_ScheduleDTO> EmpWork();
 
+	public int getWorkCount();
+
+	public List<Insa_ScheduleDTO> EmpWorkList();
+
+	public List<Insa_SalaryDTO> PayCheck();
+
+	public void SalaryAdd(Insa_EmpRegisterDTO dto);
+
+	public void SalaryUpdate(Insa_EmpRegisterDTO dto);
+
 
 }

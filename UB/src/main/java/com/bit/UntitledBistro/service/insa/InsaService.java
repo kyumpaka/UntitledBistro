@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
+import com.bit.UntitledBistro.model.insa.Insa_SalaryDTO;
 import com.bit.UntitledBistro.model.insa.Insa_ScheduleDTO;
 
 public interface InsaService {
@@ -34,9 +35,17 @@ public interface InsaService {
 	boolean WorkLoginCheck(Insa_EmpRegisterDTO dto, HttpSession session);
 
 	public void WorkLogout(HttpSession session);
-	
+
 	public int WorkCheck(Insa_EmpRegisterDTO dto) throws ParseException;
 
-	public List <Insa_ScheduleDTO> EmpWork();
+	public List<Insa_ScheduleDTO> EmpWork(Insa_ScheduleDTO dto);
+
+	public List<Insa_ScheduleDTO> EmpWorkList(HashMap map);
+
+	public int getWorkCount();
+
+	public int getPayCount();
+
+	public List<Insa_SalaryDTO> PayCheck(HashMap map);
 
 }

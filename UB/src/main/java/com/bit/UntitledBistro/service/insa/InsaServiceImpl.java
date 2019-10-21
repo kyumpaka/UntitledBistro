@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bit.UntitledBistro.model.insa.InsaDAO;
 import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
+import com.bit.UntitledBistro.model.insa.Insa_SalaryDTO;
 import com.bit.UntitledBistro.model.insa.Insa_ScheduleDTO;
 
 
@@ -169,11 +170,15 @@ public class InsaServiceImpl implements InsaService {
 			int toDayCheck = insaDAO.DayCheck(dto);
 			if(toDayCheck == 0) { //아이디가 일치하는 놈의 개수 schedule
 				// 출근이 없으면 출근
+				
 				insaDAO.WorkAdd(dto);
+				insaDAO.SalaryAdd(dto);
 				return 1;
 			} else {
 				// 출근이 있으면 퇴근
 				insaDAO.WorkEnd(dto);
+				insaDAO.SalaryUpdate(dto);
+
 				return 2;
 			}
 		}
@@ -213,11 +218,42 @@ public class InsaServiceImpl implements InsaService {
 	}
 
 	@Override
-	public List<Insa_ScheduleDTO> EmpWork() {
+	public int getWorkCount() {
+		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
+
+		return insaDAO.getWorkCount();
+	}
+
+	@Override
+	public List<Insa_ScheduleDTO> EmpWork(Insa_ScheduleDTO dto) {
 		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
 
 		return insaDAO.EmpWork();
 	}
+
+	@Override
+	public List<Insa_ScheduleDTO> EmpWorkList(HashMap map) {
+		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
+
+		return insaDAO.EmpWorkList();
+	}
+
+	@Override
+	public int getPayCount() {
+		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
+
+		return insaDAO.getWorkCount();
+	}
+
+	@Override
+	public List<Insa_SalaryDTO> PayCheck(HashMap map) {
+		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
+
+		return insaDAO.PayCheck();
+	}
+
+
+
 
 	
 	

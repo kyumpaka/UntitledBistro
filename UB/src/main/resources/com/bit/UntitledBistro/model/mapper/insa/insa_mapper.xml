@@ -118,6 +118,7 @@ AND to_char( Schedule_WorkingStart, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd')
 </update>
 
 
+
 <select id ="WorkLoginCheck" resultType="String">
 select empregister_name as empregister_name 
 ,empregister_photo as empregister_photo
@@ -143,6 +144,54 @@ where to_char( Schedule_WorkingStart, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd
 		select schedule_no ,schedule_empregister_empnum,
 		Schedule_WorkingStart,Schedule_WorkingEnd,schedule_workingtime ,schedule_workingdate
 		
-		from Schedule
+		from schedule
 	</select>
+	
+	
+<select id="getWorkCount" resultType="Integer">
+		select count(*) from schedule
+	</select>
+	
+	
+	<select id="getPayCount" resultType="Integer">
+		select count(*) from salary
+	</select>
+	
+	<select id="EmpWorkList" parameterType="map"
+		resultType="com.bit.UntitledBistro.model.insa.Insa_ScheduleDTO">
+		select schedule_no ,schedule_empregister_empnum,
+		schedule_workingstart,schedule_workingend,
+        ROUND((schedule_workingend-schedule_workingstart)*24*60)
+        AS schedule_workingtime
+		
+		from schedule
+
+	</select>
+	
+	
+	<select id="PayCheck" parameterType="map"
+		resultType="com.bit.UntitledBistro.model.insa.Insa_ScheduleDTO">
+		select salary_no ,salary_empRegister_empnum,
+		salary_workingtime,salary_workingdate
+		
+		from salary
+
+	</select>
+	
+<insert id ="SalaryAdd" parameterType="com.bit.UntitledBistro.model.insa.Insa_SalaryDTO">
+INSERT INTO salary
+(salary_no, salary_empRegister_empnum)
+VALUES ( (SELECT NVL(MAX(salary_no)+1,1)  FROM salary), #{empregister_empnum})
+</insert>
+
+<update id ="SalaryUpdate" parameterType="com.bit.UntitledBistro.model.insa.Insa_SalaryDTO">
+update salary set salary_workingdate = salary_workingdate +1,Salary_workingtime = salary_workingtime +  
+(select schedule_workingtime from schedule where schedule_empregister_empnum = #{empregister_empnum})
+</update>
+	
+	
+	
+	
+	
+	
 </mapper>
