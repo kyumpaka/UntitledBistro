@@ -37,4 +37,6 @@ public interface InsaService {
 	
 	public int WorkCheck(Insa_EmpRegisterDTO dto) throws ParseException;
 
+	public List <Insa_ScheduleDTO> EmpWork();
+
 }

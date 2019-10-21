@@ -31,5 +31,7 @@ public interface InsaDAO {
 
 	public int DayCheck(Insa_EmpRegisterDTO dto);
 
+	public List <Insa_ScheduleDTO> EmpWork();
+
 
 }

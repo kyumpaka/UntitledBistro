@@ -212,6 +212,13 @@ public class InsaServiceImpl implements InsaService {
 		
 	}
 
+	@Override
+	public List<Insa_ScheduleDTO> EmpWork() {
+		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
+
+		return insaDAO.EmpWork();
+	}
+
 	
 	
 	
