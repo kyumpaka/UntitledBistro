@@ -7,8 +7,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bit.UntitledBistro.model.balju.Balju_DAO;
 import com.bit.UntitledBistro.model.balju.Balju_DTO;
@@ -72,9 +70,35 @@ public class Balju_ServiceImpl implements Balju_Service {
 	}
 
 	@Override
-	public List<Map<String, String>> balju_List(Balju_DTO Bdto) {
-		List<Map<String, String>> balju_List = this.balju_DAO.balju_List(Bdto);
-		return balju_List;
+	public List<Map<String, String>> balju_Result(Balju_DTO Bdto) {
+		List<Map<String, String>> balju_Result = this.balju_DAO.balju_Result(Bdto);
+		return balju_Result;
+	}
+	
+	//발주서 현황 일자 검색
+	@Override
+	public List<Map<String,String>> balju_Result_Search(String DATESTART, String DATEEND){
+		Balju_DTO Bdto = new Balju_DTO();
+		Bdto.setDATESTART(DATESTART);
+		Bdto.setDATEEND(DATEEND);
+		List<Map<String,String>> balju_Result_Search = this.balju_DAO.balju_Result_Search(Bdto);
+		return balju_Result_Search;
+	}
+	
+	//발주서 관리 불러오기
+	@Override
+	public List<Map<String, String>> balju_Mng_List(Balju_DTO Bdto) {
+		List<Map<String,String>> balju_Mng_List = this.balju_DAO.balju_Mng_List(Bdto);
+		return balju_Mng_List;
+	}
+		
+	//발주서 관리 불러오기 필터링
+	@Override
+	public List<Map<String,String>> balju_Mng_Filter(String FilterParam){
+		Balju_DTO Bdto = new Balju_DTO();
+		Bdto.setORDIN_END(FilterParam);
+		List<Map<String,String>> balju_Mng_Filter = this.balju_DAO.balju_Mng_Filter(Bdto);
+		return balju_Mng_Filter;
 	}
 	
 	//관심품목 리스트 불러오기
@@ -92,6 +116,20 @@ public class Balju_ServiceImpl implements Balju_Service {
 	@Override
 	public void balju_Modi(Balju_DTO Bdto) {
 		this.balju_DAO.balju_Modi(Bdto);
+	}
+	
+	//발주서 종결처리
+	@Override
+	public void End_Balju(List<Map<String,String>> endRow) {
+		Balju_DTO Bdto = new Balju_DTO();
+		
+		for (Map<String, String> data : endRow) {
+
+			Bdto.setORDIN_NUM(Integer.parseInt(data.get("ORDIN_NUM")));
+			Bdto.setORDIN_END(data.get("ORDIN_END"));
+			this.balju_DAO.End_Balju(Bdto);
+		}
+		
 	}
 	
 	//관심품목 목록 수정
@@ -116,9 +154,15 @@ public class Balju_ServiceImpl implements Balju_Service {
 	}
 
 	@Override
-	public void Delete_Balju1(Balju_DTO Bdto) {
-		this.balju_DAO.Delete_Balju1(Bdto);
-		this.balju_DAO.Delete_Balju2(Bdto);
+	public void Delete_Balju(ArrayList<String> DeleteRow) {
+		Balju_DTO Bdto = new Balju_DTO();
+		for (int i = 0; i < DeleteRow.size(); i++) {
+			Bdto.setORDER_ORDIN_NUM(Integer.parseInt(DeleteRow.get(i)));
+			this.balju_DAO.Delete_Balju2(Bdto);
+			Bdto.setORDIN_NUM(Integer.parseInt(DeleteRow.get(i)));
+			this.balju_DAO.Delete_Balju1(Bdto);
+		}
+		
 	}
 	
 	//관심품목 목록삭제
@@ -146,6 +190,5 @@ public class Balju_ServiceImpl implements Balju_Service {
 		List<Map<?,?>> BPlan_Search = this.balju_DAO.BPlan_Search(BPdto);
 		return BPlan_Search;
 	}
-
 
 }
