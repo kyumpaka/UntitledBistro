@@ -472,11 +472,11 @@
 		    DEFECT_ITEM D
 		<where>
 		<if test="keyword != '' and keyword != null">
-		    P.DI_PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+		    DI_PRODUCT_CODE LIKE '%'||#{keyword}||'%'
 		</if>
 		<if test="keyword2 != '' and keyword2 != null">
 		AND
-		    P.DI_PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
+		    DI_PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
 		</if>
 		<if test="endDate != '' and endDate != null">
 		AND

@@ -188,211 +188,38 @@
 <!-- 달력 유효성 및 기능 -->
 <script type="text/javascript" src="${path}/resources/js/jaego/datePicker.js"></script>
 
-<!-- 메인화면 기능 -->
-<script type="text/javascript">
-	
-	$(document).ready(function() {
-		$.ajax({
-			type:"get",
-			url:"${path}/jaego/gridInItemSelectList",
-		})
-		.done(function(json) {
-			$("#jsGrid").jsGrid({
-				width : "100%",
-				height : "auto",
-				// 데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
-				autoload : true,
-				
-				// 그리드 헤더 클릭시 sorting이 되게함
-				sorting : true,
-				
-				// 페이징 기본설정
-				paging:true,
-				pageSize : 10,
-				pageButtonCount : 5,
-				
-				// 커스텀 페이징 설정
-				pagerContainer: "#jsGridPage",
-                pagerFormat: "{first} {prev} {pages} {next} {last}",
-                pagePrevText: "<",
-                pageNextText: ">",
-                pageFirstText: "<<",
-                pageLastText: ">>",
-                
-				// json 배열을 데이터에 연결
-				data : json, 
-				
-				// 그리드에 표현될 필드 요소
-				fields : [ {
-					name : "ii_product_code",
-					type : "text",
-					title: "품목코드",
-					width : 100
-				}, {
-					name : "ii_product_name",
-					type : "text",
-					title: "품목명",
-					width : 100
-				}, {
-					name : "ii_qty",
-					type : "text",
-					title: "입고수량",
-					width : 100
-				}, {
-					name : "ii_date",
-					type : "text",
-					title: "입고날짜",
-					width : 100
-				}]
-                
-			}); // 그리드 끝
-		}); // ajax 끝
-		
-	}); // ready 끝
-	
-	// 데이터를 읽어와서 그리드에 표현하기
-	function dataLoad(endDate, product_code, product_name) {
-		
-		$.ajax({
-			type : "get", 
-			url : "/UntitledBistro/jaego/gridInItemSelectList",
-			data : {"endDate" : endDate, "keyword" : product_code, "keyword2" : product_name},
-		})
-		.done(function(json) {
-			$("#jsGrid").jsGrid({data:json, pageIndex: 1}); // 새로 받은 데이터 반영
-			$("#jsGrid").jsGrid("loadData"); // 그리드에 데이터를 표현
-		}); // ajax 끝
-		
-	} // dataLoad 끝
-	
-	// 검색 버튼 클릭했을 경우
-	$("#searchBtn").click(function(){
-		
-		// 빨간 테두리 존재여부
-		if($("#year").css("border") == "1px solid rgb(255, 0, 0)") {
-			swal({
-				  title: "잘못된 년도입력!",
-				  text: "올바른 범위로 년도를 입력하세요.! (1900 ~ " + (year+1) + ")",
-				  icon: "error",
-				  button: "확인",
-			});
-			return;
-		}
-		
-		// 바뀐 날짜 날짜화면에 보여주기
-		var endDate = $("#date").val();
-		$("#dateResult").text(endDate);	
-				
-		// 검색조건으로 그리드 다시 불러오기
-		var product_code = $("#product_code").val();
-		var product_name = $("#product_name").val();
-		dataLoad(endDate, product_code, product_name);
-		
-	}); // searchBtn.click 끝
-	
-	// 취소 버튼 클릭했을 경우 검색부분 값초기화
-	$("#cancle").on("click",function(){
-		dateBasic();
-		$("#product_code").val("");
-		$("#product_name").val("");
-		
-	}); // cancle.click 끝
-	
-</script>
-
 <!-- 모달 검색창 -->
-<script type="text/javascript">
-	var productData;
-	
-	$.ajax({
-		url : "${path}/jaego/gridProductSelectList",
-		type : "get",
-	})
-	.done(function(json) {
-		productData = json;
-		$("#productJsGrid").jsGrid({
-			width : "100%",
-			height : "auto",
-			// 데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
-			autoload : true,
-			
-			// 그리드 헤더 클릭시 sorting이 되게함
-			sorting : true,
-			
-			// 그리드 검색 입력창 표시
-			filtering : true,
-			
-			// 페이징 기본설정
-			paging:true,
-			pageSize : 10,
-			pageButtonCount : 5,
-			
-			// 커스텀 페이징 설정
-			pagerContainer: "#productPage",
-            pagerFormat: "{first} {prev} {pages} {next} {last}",
-            pagePrevText: "<",
-            pageNextText: ">",
-            pageFirstText: "<<",
-            pageLastText: ">>",
-			
-         	// json 배열을 데이터에 연결
-			data : json, 
-			
-			// 그리드에 표현될 필드 요소
-			fields : [ {
-				name : "product_code",
-				type : "text",
-				title: "품목코드",
-				width : 100
-			}, {
-				name : "product_name",
-				type : "text",
-				title : "품목명",
-				width : 100
-			}],
-			
-			// 특저 행을 클릭했을 경우
-			rowClick: function(args) {
-				var product_code = args.item.product_code;
-				var product_name = args.item.product_name;
-				
-				$("#product_code").val(product_code);
-				$("#product_name").val(product_name);
-				$("#myModal").trigger("click"); // 강제 클릭 함수
-			},
-			
-			// filtering 입력창에 엔터를 누를 경우
-			controller : {
-				loadData: function(filter) {
-					// 검색할 값이 없는 경우
-					if(filter.product_code === "" && filter.product_name === "") {
-						return productData;
-					}
+<script type="text/javascript" src="${path}/resources/js/jaego/searchModal.js"></script>
 
-					// 검색할 값이 있을 경우
-					var filterData;
-					if(filter.product_code !== "") filterData = valueTest(productData,"product_code",filter);
-					if(filter.product_name !== "") filterData = valueTest(productData,"product_name",filter);
-					return filterData;
-				}
-		
-			} // controller end
-			
-		}); // jsGrid end
-	}); // ajax end
-	
-	// 검색할 때 필터와 일치하는 데이터 제거하기
-	function valueTest(arr,condition,filter) {
-		return $.grep(arr, function(i) {
-			if(condition == "product_code") return i.product_code.indexOf(filter.product_code) != -1;
-			if(condition == "product_name") return i.product_name.indexOf(filter.product_name) != -1;
-		});
-	}
-	
-	// 검색창을 새로 열때마다 품목데이터 초기화
-	$("#open, #open2").on("click",function() {
-		$("#productJsGrid").jsGrid({data:productData, pageIndex: 1});
-		$("#productJsGrid").jsGrid("loadData");
+<!-- 메인화면 기능 -->
+<script type="text/javascript" src="${path}/resources/js/jaego/gridItemAjax.js"></script>
+
+<script type="text/javascript">
+	var fieldsData = [ {
+		name : "ii_product_code",
+		type : "text",
+		title: "품목코드",
+		width : 100
+	}, {
+		name : "ii_product_name",
+		type : "text",
+		title: "품목명",
+		width : 100
+	}, {
+		name : "ii_qty",
+		type : "text",
+		title: "입고수량",
+		width : 100
+	}, {
+		name : "ii_date",
+		type : "text",
+		title: "입고날짜",
+		width : 100
+	}];
+
+	$(document).ready(function() {
+		gridProductAjax("${path}");
+		gridItemAjax("${path}/jaego/gridInItemSelectList", fieldsData);
 	});
 	
 </script>
