@@ -359,7 +359,7 @@
 		        GROUP BY 
 		            II_PRODUCT_CODE
 		    	) II
-		    INNER JOIN
+		    FULL OUTER JOIN
 		   		(
 		        SELECT 
 		             OI_PRODUCT_CODE
