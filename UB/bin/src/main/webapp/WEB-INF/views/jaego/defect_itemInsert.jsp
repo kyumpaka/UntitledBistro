@@ -6,12 +6,6 @@
 <!-- sweetAlert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-<!-- datePicker -->
-<script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
-<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-
 <!-- jsgrid 사용을 위한 필요한 요소 cdn 연결-->
 <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
 <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
@@ -287,6 +281,7 @@
             pageLastText: ">>",
 			
             confirmDeleting : false,
+            invalidNotify : true,
             
 			// 비어있는 배열을 데이터에 연결.
 			data : [], 
@@ -297,18 +292,67 @@
 				type : "text",
 				title: "품목코드",
 				width : 80,
-				readOnly: true
+				validate: function(value) {
+					var isSame = false;
+					$.grep(productData, function(i) {
+						if(i.product_code == value) {
+							isSame = true;
+						}
+					});
+					if(!isSame) {
+						swal({
+							title: "품목코드 오류",
+							text: "존재하지 않는 품목코드 입니다.",
+							icon: "error",
+							buttion: "확인"
+						});
+						return false;
+					} else {
+						return true;
+					}
+					
+				} // validate end
 			}, {
 				name : "di_product_name",
 				type : "text",
 				title: "품목명",
 				width : 80,
-				readOnly: true	
+				validate: function(value) {
+					if(value.length < 1) {
+						swal({
+							title: "품목명 오류",
+							text: "적어도 한글자는 입력해야 합니다.",
+							icon: "error",
+							button: "확인"
+						});
+					} else {
+						return true;
+					}
+				}
 			}, {
 				name : "di_qty",
-				type : "text",
+				type : "number",
 				title: "불량수량",
-				width : 80
+				width : 80,
+				validate: function(value) {
+					if(value == null) {
+						swal({
+							title: "불량수량 오류",
+							text: "불량수량을 반드시 입력하세요.",
+							icon: "error",
+							button: "확인"
+						});
+					} else if(value <= 0) {
+						swal({
+							title: "불량수량 오류",
+							text: "불량수량은 0이하로 등록할 수 없습니다.",
+							icon: "error",
+							button: "확인"
+						});
+					} else {
+						return true;
+					}
+				}
 			}, {
 				name : "di_state",
 				type : "text",

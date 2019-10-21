@@ -472,11 +472,11 @@
 		    DEFECT_ITEM D
 		<where>
 		<if test="keyword != '' and keyword != null">
-		    P.DI_PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+		    DI_PRODUCT_CODE LIKE '%'||#{keyword}||'%'
 		</if>
 		<if test="keyword2 != '' and keyword2 != null">
 		AND
-		    P.DI_PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
+		    DI_PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
 		</if>
 		<if test="endDate != '' and endDate != null">
 		AND
@@ -598,6 +598,15 @@
 			)
 		</foreach>
  	</insert>
+ 	
+ 	<select id="safeItemSelectValidate" parameterType="string" resultType="string">
+ 		SELECT 
+ 			SI_PRODUCT_CODE 
+ 		FROM 
+ 			SAFE_ITEM 
+ 		WHERE 
+ 			SI_PRODUCT_CODE = #{si_product_code}
+ 	</select>
  	
  	<!-- 안전재고 조회 -->
  	<select id="safeItemSelectList" resultType="safeItem">

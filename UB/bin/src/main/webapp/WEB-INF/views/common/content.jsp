@@ -23,6 +23,26 @@
 <script src="https://cdn.jsdelivr.net/npm/flot-pie@1.0.0/src/jquery.flot.pie.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flot-spline@0.0.1/js/jquery.flot.spline.min.js"></script>
 
+<!-- sweetAlert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+	$.ajax({
+		url : "${path}/jaego/gridRiskItemCount",
+		type : "get"
+	})
+	.done(function(count) {
+		if(count > 0) {
+			swal({
+				title: "위험재고 수량알림",
+				text: "위험재고에 해당하는 품목이 존재합니다.",
+				icon: "info",
+				button: "확인"
+			});
+		}
+	});
+</script>
+
 <div class="content">
             <!-- Animated -->
             <div class="animated fadeIn">

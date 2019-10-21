@@ -6,12 +6,6 @@
 <!-- sweetAlert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-<!-- datePicker -->
-<!-- <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
-<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> -->
-
 <!-- jsgrid 사용을 위한 필요한 요소 cdn 연결-->
 <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
 <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
@@ -156,111 +150,6 @@
 	
 </body>
 
-<!-- 메인화면 기능 -->
-<script type="text/javascript">
-
-	$(document).ready(function() {
-	
-		$("#jsGrid").jsGrid({
-			// 그리드 크기설정
-			width : "100%",
-			height : "auto",
-			inserting: true,
-			editing : true,
-			
-			// 데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
-			autoload : true,
-			
-			// 그리드 헤더 클릭시 sorting이 되게함
-			sorting : true,
-			
-			// 페이징 기본설정
-			paging:true,
-			pageSize : 10,
-			pageButtonCount : 5,
-			
-			// 커스텀 페이징 설정
-			pagerContainer: "#jsGridPage",
-            pagerFormat: "{first} {prev} {pages} {next} {last}",
-            pagePrevText: "<",
-            pageNextText: ">",
-            pageFirstText: "<<",
-            pageLastText: ">>",
-            
-         	// 비어있는 배열을 데이터에 연결.
-			data : [], 
-			
-			// 그리드에 표현될 필드 요소
-			fields : [ {
-				name : "si_product_code",
-				type : "text",
-				title: "품목코드",
-				width : 80,
-				readOnly: true
-			}, {
-				name : "si_qty",
-				type : "text",
-				title: "안전수량",
-				width : 80
-			}, {
-				type: "control", editButton: true, modeSwitchButton: false   // show clear filter button
-			}],
-			
-			onItemInserted: function(args) {
-				if(args.item.di_qty <= 0) {
-					swal({
-						title: "수량갯수 오류",
-						text: "수량은 0보다 크게 입력해야 수정가능합니다.",
-						icon: "error",
-						button: "확인"
-					});
-					$("#jsGrid").jsGrid("deleteItem", args.item);
-				}
-			}
-			
-		}); // 그리드 끝
-		
-		
-		
-	}); // ready 끝
-	
-	// 등록 버튼 클릭했을 경우 DB에 적용하기
-	$("#insertBtn").on("click",function() {
-		$.ajax({
-			url : "${path}/jaego/gridSafeItemInserts",
-			type : "post",
-			contentType : "application/json",
-			// 배열객체를 json형태의 문자열로 변환하여 전달하기
-			data : JSON.stringify($("#jsGrid").jsGrid("option","data"))
-		})
-		.done(function(count) {
-			if(count != -1) {
-				swal("등록 성공!", "안전재고 등록을 완료했습니다.", "success");
-				webSocket.send(count);
-			} else {
-				sweetAlert("등록 실패!", "이미 등록한 품목코드가 있습니다.", "error");
-				return;
-			}
-			$("#jsGrid").jsGrid("clearInsert");
-			$("#jsGrid").jsGrid({data : []});
-			$("#jsGrid").jsGrid("loadData");
-			
-		});
-	});
-	
-	// 적용 버튼 클릭했을 경우 입력창 적용하기
-	$("#applyBtn").on("click",function() {
-		var product_code = $("#product_code").val();
-		$($("#jsGrid .jsgrid-insert-row input")[0]).val(product_code);
-	});
-	
-	// 목록 버튼 클릭했을 경우 이동하기
-	$("#listBtn").on("click",function() {
-		window.location.href = "${path}/jaego/safe_item";
-	});
-
-	
-</script>
 
 
 <!-- 모달 검색창 -->
@@ -358,6 +247,167 @@
 		$("#productJsGrid").jsGrid("loadData");
 	});
 
+</script>
+
+<!-- 메인화면 기능 -->
+<script type="text/javascript">
+
+	$(document).ready(function() {
+	
+		$("#jsGrid").jsGrid({
+			// 그리드 크기설정
+			width : "100%",
+			height : "auto",
+			inserting: true,
+			editing : true,
+			
+			// 데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
+			autoload : true,
+			
+			// 그리드 헤더 클릭시 sorting이 되게함
+			sorting : true,
+			
+			// 페이징 기본설정
+			paging:true,
+			pageSize : 10,
+			pageButtonCount : 5,
+			
+			// 커스텀 페이징 설정
+			pagerContainer: "#jsGridPage",
+            pagerFormat: "{first} {prev} {pages} {next} {last}",
+            pagePrevText: "<",
+            pageNextText: ">",
+            pageFirstText: "<<",
+            pageLastText: ">>",
+            
+            invalidNotify : true,
+            
+         	// 비어있는 배열을 데이터에 연결.
+			data : [], 
+			
+			// 그리드에 표현될 필드 요소
+			fields : [ {
+				name : "si_product_code",
+				type : "text",
+				title: "품목코드",
+				width : 80,
+				validate: function(value) {
+					var isSame = false;
+					$.grep(productData, function(i) {
+						if(i.product_code == value) {
+							isSame = true;
+						}
+					});
+					if(!isSame) {
+						swal({
+							title: "품목코드 오류",
+							text: "존재하지 않는 품목코드 입니다.",
+							icon: "error",
+							buttion: "확인"
+						});
+						return false;
+					}
+
+					var isResult = false;
+					if(isSame) {
+						$.ajax({
+							url: "${path}/jaego/gridSafeItemSelectProductCode",
+							type: "get",
+							async : false,
+							data: {si_product_code : value},
+							dataType: "text"
+						})
+						.done(function(result) {
+							if(result != 'noData') {
+								swal({
+									title: "품목코드 오류",
+									text: "품목코드 " + result + "는 이미 등록된 상태입니다.",
+									icon: "error",
+									buttion: "확인"
+								});
+							} else {
+								isResult = true;
+							}
+						});
+						
+						if(isResult) {
+							return true;
+						}
+					}
+					
+					
+				} // validate end
+			
+			}, {
+				name : "si_qty",
+				type : "number",
+				title: "안전수량",
+				width : 80,
+				validate : function(value) {
+					if(value == null) {
+						swal({
+							title: "수량오류",
+							text: "수량을 반드시 등록하세요.",
+							icon: "error",
+							button: "확인"
+						});
+					} else if(value <= 0) {
+						swal({
+							title: "수량오류",
+							text: "0이하로 등록할 수 없습니다.",
+							icon: "error",
+							button: "확인"
+						});
+					} else {
+						return true;
+					}
+				}
+			}, {
+				type: "control", editButton: true, modeSwitchButton: false   // show clear filter button
+			}],
+			
+		}); // 그리드 끝
+		
+		
+		
+	}); // ready 끝
+	
+	// 등록 버튼 클릭했을 경우 DB에 적용하기
+	$("#insertBtn").on("click",function() {
+		$.ajax({
+			url : "${path}/jaego/gridSafeItemInserts",
+			type : "post",
+			contentType : "application/json",
+			// 배열객체를 json형태의 문자열로 변환하여 전달하기
+			data : JSON.stringify($("#jsGrid").jsGrid("option","data"))
+		})
+		.done(function(count) {
+			if(count != -1) {
+				swal("등록 성공!", "안전재고 등록을 완료했습니다.", "success");
+				webSocket.send(count);
+			} else {
+				sweetAlert("등록 실패!", "이미 등록한 품목코드가 있습니다.", "error");
+				return;
+			}
+			$("#jsGrid").jsGrid("clearInsert");
+			$("#jsGrid").jsGrid({data : []});
+			$("#jsGrid").jsGrid("loadData");
+			
+		});
+	});
+	
+	// 적용 버튼 클릭했을 경우 입력창 적용하기
+	$("#applyBtn").on("click",function() {
+		var product_code = $("#product_code").val();
+		$($("#jsGrid .jsgrid-insert-row input")[0]).val(product_code);
+	});
+	
+	// 목록 버튼 클릭했을 경우 이동하기
+	$("#listBtn").on("click",function() {
+		window.location.href = "${path}/jaego/safe_item";
+	});
+
+	
 </script>
 
 </html>
