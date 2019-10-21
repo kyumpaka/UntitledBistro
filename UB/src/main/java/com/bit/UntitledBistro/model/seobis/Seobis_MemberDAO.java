@@ -16,7 +16,6 @@ public interface Seobis_MemberDAO {
 	public int Seobis_ReserveAdd(Seobis_ReserveDTO seobis_ReserveDTO_dto); // 예약 추가
 	public int Seobis_ReserveUpdate(Seobis_ReserveDTO seobis_ReserveDTO_dto); //예약 수정
 	public List<Seobis_ReserveDTO> Seobis_ReserveSelect(); // 예약 읽기
-	public List<Seobis_ReserveDTO> Seobis_ReserveList(HashMap<String, Object> map);   //예약 리스트
-	public int Seobis_ReserveDelete(Seobis_ReserveDTO seobis_ReserveDTO_dto); //예약 삭제
+	public void Seobis_ReserveDelete(Seobis_ReserveDTO seobis_ReserveDTO_dto); //예약 삭제
 	public Seobis_ReserveDTO Seobis_ReserveSelectByNum(HashMap<String, String> map);
 }

@@ -109,7 +109,7 @@ public class SeobisController {
 	@RequestMapping(value="/resAdd", method = RequestMethod.POST) // 예약 추가 맵핑
 	@ResponseBody
 	public int seobis_reserveAdd(Seobis_ReserveDTO seobis_ReserveDTO_dto) {
-		
+		System.out.println(Seobis_memberService.Seobis_ReserveAdd(seobis_ReserveDTO_dto) + "absabsabs");
 		return Seobis_memberService.Seobis_ReserveAdd(seobis_ReserveDTO_dto);
 	}
 	
@@ -132,7 +132,7 @@ public class SeobisController {
 		return Seobis_memberService.Seobis_ReserveUpdate(seobis_ReserveDTO_dto);
 	}
 	
-	@RequestMapping(value="/rDelete")
+	@RequestMapping(value="/rDelete")  //예약 삭제 맵핑
 	public void seobis_reserveDelete(Seobis_ReserveDTO seobis_ReserveDTO_dto) {
 		Seobis_memberService.Seobis_ReserveDelete(seobis_ReserveDTO_dto);
 	}

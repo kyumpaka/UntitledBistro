@@ -9,12 +9,19 @@ public class Seobis_ReserveDTO {
 	private String reserve_name;
 	private String reserve_phone1;
 	private Date reserve_firsttime;
+	private String reserve_firstString;
 	private Date reserve_date;
 	private String reserve_dateString;
 	private String reserve_start;
 	private String reserve_end;
 	
 	
+	public String getReserve_firstString() {
+		return reserve_firstString;
+	}
+	public void setReserve_firstString(String reserve_firstString) {
+		this.reserve_firstString = reserve_firstString;
+	}
 	public String getReserve_start() {
 		return reserve_start;
 	}

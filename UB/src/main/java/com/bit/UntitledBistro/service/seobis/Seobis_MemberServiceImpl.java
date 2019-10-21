@@ -80,12 +80,6 @@ public class Seobis_MemberServiceImpl implements Seobis_MemberService {
 	}
 
 	@Override
-	public List<Seobis_ReserveDTO> Seobis_ReserveList(HashMap<String, Object> map) {           //예약 리스트
-		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
-		return seobis_MemberDAO.Seobis_ReserveList(map);
-	}
-
-	@Override
 	public Seobis_ReserveDTO Seobis_ReserveSelectByNum(String reserve_num) {
 		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -95,9 +89,9 @@ public class Seobis_MemberServiceImpl implements Seobis_MemberService {
 	}
 
 	@Override
-	public int Seobis_ReserveDelete(Seobis_ReserveDTO seobis_ReserveDTO_dto) {
+	public void Seobis_ReserveDelete(Seobis_ReserveDTO seobis_ReserveDTO_dto) {
 		Seobis_MemberDAO seobis_MemberDAO = SqlSession.getMapper(Seobis_MemberDAO.class);
-		return seobis_MemberDAO.Seobis_ReserveDelete(seobis_ReserveDTO_dto);
+		seobis_MemberDAO.Seobis_ReserveDelete(seobis_ReserveDTO_dto);
 	}
 
 	/*

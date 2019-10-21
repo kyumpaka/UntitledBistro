@@ -23,41 +23,27 @@
 <body>
 	<div class="card align-middle" style="width:20rem; border-radius:20px;">
 		<div class="card-title" style="margin-top:30px;">
-		<c:if test="${Seobis_reserveSelect.reserve_member_id != null}">
-			<h2 class="card-title text-center" style="color:#113366;">회원 예약</h2>
-		</c:if>
-		<c:if test="${Seobis_reserveSelect.reserve_name != null}">
-			<h2 class="card-title text-center" style="color:#113366;">비회원 예약</h2>
-		</c:if>
+			<h2 class="card-title text-center" style="color:#113366;">예약 양식</h2>
 		</div>
 		<div class="card-body">
-      <form class="form-signin" id="tf" >
-        <h5 class="form-signin-heading">예약 번호</h5>
+      <form class="form-signin" id="testForm" >
+        <h5 class="form-signin-heading">예약 정보</h5>
         <label for="input" class="sr-only">번호</label>
         	<input type="text"  name="reserve_num" class="form-control" value="${Seobis_reserveSelect.reserve_num}"  readonly="readonly" ><br>
         	<c:if test="${Seobis_reserveSelect.reserve_member_id != null}">
-        <h5 class="form-signin-heading">회원 아이디</h5>
          <label for="input" class="sr-only">회원 아이디</label>
-        	<input type="text" id="reserve_member_id" name="reserve_member_id" value="${Seobis_reserveSelect.reserve_member_id}" class="form-control" readonly="readonly"><BR>
+        	<input type="text" id="reserve_member_id" name="reserve_member_id" value="${Seobis_reserveSelect.reserve_member_id}" class="form-control" required autofocus><BR>
         	</c:if>
         	<c:if test="${Seobis_reserveSelect.reserve_name != null}">
-            <h5 class="form-signin-heading">성함</h5>
-        	<label for="input" class="sr-only">성함</label>
+        <label for="input" class="sr-only">이름</label>
         	<input type="text"  id="reserve_name" name="reserve_name" class="form-control" value="${Seobis_reserveSelect.reserve_name}"   readonly="readonly"><br>
         	</c:if>
-        	<h5 class="form-signin-heading">전화</h5>
          <label for="input" class="sr-only">전화</label>
         	<input type="tel" id="reserve_phone1" name="reserve_phone1" class="form-control" value="${Seobis_reserveSelect.reserve_phone1}" required autofocus><br>
-         <h5 class="form-signin-heading">예약 등록일</h5>
-         <label for="input" class="sr-only">예약 등록일</label>
-        	<input type="text" id="reserve_firstString" name="reserve_firstString" class="form-control" value="<fmt:formatDate value="${Seobis_reserveSelect.reserve_firsttime}" pattern="yyyy-MM-dd  hh:mm"/>" readonly="readonly"><br>
-          <h5 class="form-signin-heading">예약일</h5>
          <label for="input" class="sr-only">예약일</label>
-        	<input type="text" id="reserve_dateString" name="reserve_dateString" class="form-control" value="<fmt:formatDate value="${Seobis_reserveSelect.reserve_date}" pattern="yyyy-MM-dd"/>" readonly="readonly"><br>
-        <h5 class="form-signin-heading">시작 시간</h5>
+        	<input type="text" id="reserve_dateString" name="reserve_dateString" class="form-control" value="<fmt:formatDate value="${Seobis_reserveSelect.reserve_date}" pattern="yyyy / MM / dd"/>" readonly="readonly"><br>
          <label for="input" class="sr-only">시작 시간</label>
         	<input type="time" id="reserve_start" name="reserve_start" class="form-control"  value="${Seobis_reserveSelect.reserve_start}" /><br>
-        <h5 class="form-signin-heading">마감 시간</h5>
          <label for="input" class="sr-only">마감 시간</label>
         	<input type="time" id="reserve_end" name="reserve_end" class="form-control"  value="${Seobis_reserveSelect.reserve_end}" /><br>
       </form>
@@ -79,59 +65,7 @@ function sc(){
 }
 //확인 메소드
 function gogo() {
-
-	var reserve_phone1 = $("#reserve_phone1").val().trim();
-    var num1 = reserve_phone1.substr(0,3); //첫번째 번호 ex) 010
-    var num2 = reserve_phone1.substr(3,4); //두번째 번호 ex) 9999 -1
-    var num3 = reserve_phone1.substr(3,3) //두번째 번호 ex) 999 -245
-    var num4 = reserve_phone1.substr(7) //세번째 번호 ex) 8888 -1  
-    var num5 = reserve_phone1.substr(6) //세번째 번호 ex) 8888 - 2 
-    
-	 //전화 입력여부 검사
-	if(reserve_phone1.length == 0){
-		swal("전화를 입력해 주세요");
-		$("#reserve_phone1").focus();
-		return false;
-	}
-	
-	 //전화 공백여부 검사
-	if(reserve_phone1.indexOf(" ") >= 0){
-		swal("전화에 공백을 사용할 수 없습니다");
-		$("#reserve_phone1").focus();
-		return false;
-	}
-	 //전화 문자 검사
-	for(i = 0; i < reserve_phone1.length; i++){
-		ch = reserve_phone1.charAt(i)
-		if(!(ch >= '0' && ch <= '9')){
-			swal("전화는 숫자만 입력해 주세요");
-		$("#reserve_phone1").focus();
-		return false;
-		}
-	}
-		//전화 형식 검사
-		if(reserve_phone1.length != 0){
-			if(num1 != '010'){
-				swal("앞자리는 010 입니다.");
-				reserve_phone1 = ""
-				$("#reserve_phone1").focus();
-				return false;
-			}
-			if(num2.length < 3 || num2.length > 4 || num3.length < 3 || num3.length > 4){
-				swal("두번째 자리 전화 범위값이 부적절 합니다.");
-				reserve_phone1 = ""
-				$("#reserve_phone1").focus();
-				return false;
-			}
-			if(num4.length < 3 || num4.length > 4 || num5.length < 3) {
-				swal("세번째 자리 전화 범위값이 부적절 합니다.");
-				reserve_phone1 = ""
-				$("#reserve_phone1").focus();
-				return false;
-			}
-		}
-		
-	var formData = $("#tf").serialize();
+	var formData = $("#testForm").serialize();
 	$.ajax({
 		  url: '${path}/Seobis/rUpdate',
 		  type: 'post',
@@ -161,13 +95,14 @@ function gogo() {
 //삭제 메소드
 function realDelete(reserve_num) {
 	swal({
-	   	  title: "예약 번호 : " + reserve_num + "을 삭제하시겠습니까?",
+	   	  title: "회원 ID : " + reserve_num + "을 삭제하시겠습니까?",
 	   	  icon: "warning",
 	   	  buttons: true,
 	   	  dangerMode: true,
 	   	})
 	.then((value) => {
 		if(value) {
+			if(false) swal("ss");
 			realMod(reserve_num);
 		}
 	});
@@ -180,6 +115,7 @@ function realMod(reserve_num) {
    	    })
 	.then((value) => {
 		if(value) {
+			if(false) swal("ss");
 			 $(location).attr("href", "${path}/Seobis/rDelete?reserve_num=" + reserve_num);
 		}
 	});
