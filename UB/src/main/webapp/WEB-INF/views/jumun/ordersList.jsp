@@ -317,6 +317,14 @@ function plusOrder(code, name, price) {
 					}
 					oderCntMap.delete(code);
 					oderCntMap.set(code, count);
+
+					/* $.ajax({
+						url: '${pageContext.request.contextPath}/jaego/gridRiskItemCount',
+						type: 'get',
+						success : function(result) {
+							
+						}
+					}); */
 					
 					var allPrice = $("#allPrice").html();
 					$("#allPrice").html(Number(allPrice) + Number(price));

@@ -14,7 +14,7 @@
 			<strong>메뉴 추가</strong>
 		</div>
 		<div class="card-body card-block">
-			<form action="menuAdd.do" method="post" enctype="multipart/form-data" id="multiform" class="form-horizontal">
+			<form action="/erp/menuAdd.do" method="post" enctype="multipart/form-data" id="multiform" class="form-horizontal">
 				<div class="row form-group">
 					<div class="col col-md-3">
 						<label for="select" class=" form-control-label">메뉴 구분 이름</label>
@@ -122,7 +122,7 @@ function upload(){
 			$.ajax({
 	            type: "POST",
 	            enctype: 'multipart/form-data',
-	            url: "menuAdd.do",
+	            url: "/erp/menuAdd.do",
 	            data: formData,
 	            processData: false,
 	            contentType: false,

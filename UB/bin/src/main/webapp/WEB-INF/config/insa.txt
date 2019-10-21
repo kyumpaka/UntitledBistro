@@ -19,8 +19,9 @@ create table EmpRegister ( -- 직원등록 테이블
         EmpRegister_payClassfiy VARCHAR2(20), -- 급여구분
         EmpRegister_pay NUMBER, -- 급여 얼마인지
         EmpRegister_workPlan NUMBER, -- 근무예정시간
-        EmpRegister_leavecompany VARCHAR2(20) -- 퇴사여부 
-        
+        EmpRegister_leavecompany VARCHAR2(20), -- 퇴사여부 
+        EmpRegister_ENABLED NUMBER DEFAULT 1, -- 사용여부
+        EmpRegister_AUTHORITY VARCHAR2(20) DEFAULT ROLE_MEMBER-- 권한
 );
 ALTER TABLE EmpRegister ADD CONSTRAINT PK_EmpRegister_empnum PRIMARY KEY(EmpRegister_empnum);
 

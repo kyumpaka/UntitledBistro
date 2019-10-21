@@ -32,8 +32,6 @@
                             <li><i class="fa fa-plus-square"></i><a href="${path}/jaego/defect_item">불량 현황</a></li>
                             <li><i class="fa fa-square"></i><a href="${path}/jaego/risk_item">위험재고 현황</a></li>
                             <li><i class="fa fa-plus-square"></i><a href="${path}/jaego/safe_item">안전재고 현황</a></li>
-                            <li><i class="fa fa-square"></i><a href="${path}/jaego/in_item_insert">입고 등록테스트</a></li>
-                            <li><i class="fa fa-square"></i><a href="${path}/jaego/out_item_insert">출고 등록테스트</a></li>
                         </ul>
                     </li>
                     
@@ -42,16 +40,16 @@
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>주문</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-fort-awesome"></i><a href="${path}/jumun/menuSetting.do">메뉴 관리</a></li>
-                            <li><i class="menu-icon ti-themify-logo"></i><a href="${path}/jumun/tableSetting.do">테이블 관리</a></li>
+                            <li><i class="menu-icon fa fa-fort-awesome"></i><a href="${path}/jumun/erp/menuSetting.do">메뉴 관리</a></li>
+                            <li><i class="menu-icon ti-themify-logo"></i><a href="${path}/jumun/erp/tableSetting.do">테이블 관리</a></li>
                         </ul>
                     </li>
                    
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>결산</a>
                         <ul class="sub-menu children dropdown-menu">
-                           <li><i class="menu-icon fa fa-line-chart"></i><a href="${path}/jungsan/View_jungsan.html">결산 현황</a></li>
-                            <li><i class="menu-icon fa fa-pie-chart"></i><a href="${path}/jungsan/Day_DeadLine.html">결산 마감</a></li>
+                           <li><i class="menu-icon fa fa-line-chart"></i><a href="${path}/View_jungsan.html">결산 현황</a></li>
+                            <li><i class="menu-icon fa fa-pie-chart"></i><a href="${path}/Day_DeadLine.html">결산 마감</a></li>
                         </ul>
                     </li>
 
@@ -60,7 +58,7 @@
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>사원관리</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-sign-in"></i><a href="${path }/InsaLogin">직원 등록</a></li>
+                            <li><i class="menu-icon fa fa-sign-in"></i><a href="${path}/InsaLogin">직원 등록</a></li>
                             <li><i class="menu-icon fa fa-sign-in"></i><a href="${path}/EmpRegisterList">직원 목록</a></li>
                             <li><i class="menu-icon fa fa-paper-plane"></i><a href="pages-forget.html">급여 확인</a></li>
                             <li><i class="fa fa-bars"></i><a href="${path }/Schedule">근무 스케줄</a></li>

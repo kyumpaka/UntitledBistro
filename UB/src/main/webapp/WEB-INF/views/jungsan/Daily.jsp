@@ -25,7 +25,7 @@
 				<td>포인트사용가</td>
 				<td>환불</td>
 				<td>환불이유</td>
-				<td>직급</td>
+				<td>기입자</td>
 				<td>차액</td>
 			</tr>	
 	<c:forEach var="dto" items="${getjungsan_inputList}">

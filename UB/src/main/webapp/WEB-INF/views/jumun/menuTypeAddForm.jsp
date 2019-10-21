@@ -49,7 +49,7 @@ function mt_Add() {
 	var info = {mt_Name:name};
 	console.log(name);
 	$.ajax({
-		  url: 'menuTypeAdd.do',
+		  url: '/erp/menuTypeAdd.do',
 		  type: 'post',
 		  data: JSON.stringify(info),
 		  dataType: 'json',
