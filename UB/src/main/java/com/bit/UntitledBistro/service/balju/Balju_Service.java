@@ -25,7 +25,7 @@ public interface Balju_Service {
 	
 	void balju_Plan_modi(Balju_PlanDTO BPdto);
 	void balju_Modi(Balju_DTO Bdto);
-	void End_Balju(List<Map<String, String>> endRow);
+	int End_Balju(List<Map<String, String>> endRow);
 
 	
 	void Delete_Balju_Plan(Balju_PlanDTO BPdto);

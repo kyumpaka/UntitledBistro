@@ -12,6 +12,9 @@ import com.bit.UntitledBistro.model.balju.Balju_DAO;
 import com.bit.UntitledBistro.model.balju.Balju_DTO;
 import com.bit.UntitledBistro.model.balju.Balju_PlanDTO;
 import com.bit.UntitledBistro.model.balju.Item_DTO;
+import com.bit.UntitledBistro.model.jaego.JaegoDAOImpl;
+import com.bit.UntitledBistro.model.jaego.SafeItemDTO;
+import com.bit.UntitledBistro.service.jaego.JaegoServiceImpl;
 
 @Service
 public class Balju_ServiceImpl implements Balju_Service {
@@ -19,6 +22,9 @@ public class Balju_ServiceImpl implements Balju_Service {
 	@Autowired
 	private Balju_DAO balju_DAO;
 
+	@Autowired
+	private JaegoServiceImpl jaego;
+	
 	@Override
 	public void insert_Balju_Plan1() {
 		this.balju_DAO.insert_Balju_Plan1();
@@ -120,15 +126,17 @@ public class Balju_ServiceImpl implements Balju_Service {
 	
 	//발주서 종결처리
 	@Override
-	public void End_Balju(List<Map<String,String>> endRow) {
+	public int End_Balju(List<Map<String,String>> endRow) {
 		Balju_DTO Bdto = new Balju_DTO();
-		
 		for (Map<String, String> data : endRow) {
 
 			Bdto.setORDIN_NUM(Integer.parseInt(data.get("ORDIN_NUM")));
 			Bdto.setORDIN_END(data.get("ORDIN_END"));
 			this.balju_DAO.End_Balju(Bdto);
+			jaego.inItemInsert(Integer.parseInt(data.get("ORDIN_NUM")));
 		}
+		
+		return jaego.riskItemCount();
 		
 	}
 	

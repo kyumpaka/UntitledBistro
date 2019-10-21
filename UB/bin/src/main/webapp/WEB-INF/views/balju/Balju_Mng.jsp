@@ -20,24 +20,6 @@
 <link rel="apple-touch-icon" href="https://i.imgur.com/QRAUqs9.png">
 <link rel="shortcut icon" href="https://i.imgur.com/QRAUqs9.png">
 
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
-<!-- 적용 안되는중 -->
-<link rel="stylesheet"
-	href="../src/main/webapp/resources/Admin/assets/css/cs-skin-elastic.css">
-<link rel="stylesheet"
-	href="../src/main/webapp/resources/Admin/assets/css/style.css">
-<!-- 적용 안되는중 -->
 
 <link
 	href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800'
@@ -72,9 +54,9 @@
 					<div class="page-header float-right">
 						<div class="page-title">
 							<ol class="breadcrumb text-right">
-								<li><a href="#"> 발주서입력 </a></li>
-								<li class="active">발주서관리</li>
-								<li><a href="#"> 발주서현황 </a></li>
+								<li><a href="${path}/balju/Balju_Mng_All" > 전체 </a></li>
+								<li><a href="${path}/balju/Balju_Mng" > 진행중 </a></li>
+								<li><a href="${path}/balju/Balju_Com" > 완료 </a></li>
 								<!-- <li class="active">Basic</li> -->
 							</ol>
 						</div>
@@ -90,81 +72,174 @@
 			<div class="row">
 				<!-- body -->
 				<div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <strong class="card-title">Data Table</strong>
-                            </div>
-                            <div class="card-body">
-                                <table id="bootstrap-data-table" class="table table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                        	<th><input type="checkbox" name="_selected_all_"></th>
-                                            <th>발주번호</th>
-                                            <th>거래처명</th>
-                                            <th>담당자</th>
-                                            <th>품목</th>
-                                            <th>금액</th>
-                                            <th>종결여부</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                        	<td><input type="checkbox" name="_selected_" value="ROW_1"></td>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>$320,800</td>
-                                            <td>123,123</td>
-                                            <td><a href="#" onclick="window.open('${path}/Balju_Plan_Result','listOpen',
-                                            'width=300, height=300, menubar=no, status=no, toolbar=no'); return false;" target="_blank">종결</a></td>
+					<div class="card">
+						<div class="card-header">
+							발주서 관리<small><code> 이 부분은 잠시대기 </code></small>
+						</div>
+						<div class="card-body">
+							<table class="table table-striped table-hover">
+								<thead style="text-align: center;">
+									<tr>
+										<th width=25px;><input type="checkbox" name="checkAll" 
+											id="checkAll_prime" onclick="checkAll()"></th>
+										<th width=100px;>발주번호</th>
+										<th width=200px;>일자</th>
+										<th width=150px;>담당자</th>
+										<th>품목</th>
+										<th>총 금액</th>
+										<th>종결</th>
+									</tr>
+								</thead>
+								<tbody style="text-align: center;">
+									<c:forEach var="Mng" items="${Mng_list}" varStatus="status">
+										<tr>
+											<td><input type="checkbox" name="checkRow"
+												value="${status.count}"></td>
+											<td>${Mng.ORDER_ORDIN_NUM}</td>
+											<td>${Mng.ORPLIN_DATE}</td>
+											<td>${Mng.ORDER_WR}</td>
+											<td>${Mng.ORDER_PRODUCT_NAME}외${Mng.ORDER_PRODUCT_COUNT}개</td>
+											<td>${Mng.TOTAL_PR}</td>
+											<td><input type="button" class="endBtn" 
+													style="background-color: transparent !important;
+													background-image: none !important;
+													border-color: transparent;
+													border: none;
+													color: #007BFF;" value="${Mng.ORDER_END}"/></td>
 										</tr>
-                                        <tr>
-                                            <td>Garrett Winters</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            <td>$170,750</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Ashton Cox</td>
-                                            <td>Junior Technical Author</td>
-                                            <td>San Francisco</td>
-                                            <td>$86,000</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+						<div class="card-footer">
+							<button class="btn btn-dark btn-lg pull-left"
+								style="margin-right: 20px;" onclick="location.href='${path}/balju/Balju'">신규</button>
+							<button class="btn btn-dark btn-lg pull-left"
+								style="margin-right: 20px;" onclick="test1()">인쇄</button>
+							<button class="btn btn-dark btn-lg pull-left" 
+								onclick="deleteCheck()">선택삭제</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<!-- .animated -->
 	</div>
 	<!-- .content -->
 	<div class="clearfix"></div>
-	    <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
-    <script src="assets/js/main.js"></script>
+	
+	
+<script>
+	//체크박스 전체선택
+	function checkAll(){
+		if($("#checkAll_prime").is(":checked")){
+				$("input[name=checkRow]").prop("checked",true);
+		}else{
+				$("input[name=checkRow]").prop("checked",false);
+			}
+		}
+</script>
+<script>
+	function deleteCheck(){
+		var deleteRow =  new Array();
+		var rowVal = new Object();
+		var checkBox = $("input[name='checkRow']:checked");
+		checkBox.each(function(idx){
+			var tr = checkBox.parent().parent().eq(idx);
+			var td = tr.children();
 
+			rowVal = td.eq(1).text();
+			//rowVal[idx] = $(this).val();
+			console.log("rowVal값 체크 : " + rowVal);
+			deleteRow.push(rowVal)
+			console.log("deleteRow값 체크 : " + deleteRow); 
+			})
+		console.log("deleteRow값 체크 : "+deleteRow);
+		if(deleteRow==""){
+			alert("삭제할 대상을 선택하세요.");
+			return false;
+			}
+		
 
-    <script src="assets/js/lib/data-table/datatables.min.js"></script>
-    <script src="assets/js/lib/data-table/dataTables.bootstrap.min.js"></script>
-    <script src="assets/js/lib/data-table/dataTables.buttons.min.js"></script>
-    <script src="assets/js/lib/data-table/buttons.bootstrap.min.js"></script>
-    <script src="assets/js/lib/data-table/jszip.min.js"></script>
-    <script src="assets/js/lib/data-table/vfs_fonts.js"></script>
-    <script src="assets/js/lib/data-table/buttons.html5.min.js"></script>
-    <script src="assets/js/lib/data-table/buttons.print.min.js"></script>
-    <script src="assets/js/lib/data-table/buttons.colVis.min.js"></script>
-    <script src="assets/js/init/datatables-init.js"></script>
-
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-          $('#bootstrap-data-table-export').DataTable();
-      } );
-  </script>
+		if(confirm("선택한 발주서를 삭제하시겠습니까?")){
+				$.ajax({
+					method : "post",
+					dataType : "json",
+					data : JSON.stringify(deleteRow),
+					contentType : "application/json",
+					url : "${path}/balju/deleteBalju",
+					success : function(result){
+						var jsonResult = JSON.parse(JSON.stringify(result));
+						if(jsonResult.result == "success"){
+								alert(jsonResult.resultMsg);
+								location.href="${path}/balju/Balju_Mng"
+						}else if(jsonResult.result == "failure"){
+								alert(jsonResult.resultMsg);
+								return false;
+							}
+						//success end
+						}
+					//ajax end
+					});
+			//if confirm end
+			}
+		}
+</script>
+<script>
+	$('.endBtn').click(function(){
+	var ynParam = $(this).attr('value'); //종결이냐 취소냐
+	var endVal = $(this); // 버튼위치
+	var endParam = new Array();
+	var data = new Object();
+	
+	console.log(ynParam);
+	console.log(endVal);
+	
+		var tr = endVal.parent().parent();
+		var td = tr.children();
+		
+				//발주번호 td.eq(1)
+		data.ORDIN_NUM = td.eq(1).text();
+		
+		console.log("data값 체크 : " + data);
+				//종결값 종결/취소 
+				
+		if(ynParam == "종결"){
+			ynParam="취소";
+		}else if(ynParam == "취소"){
+			ynParam="종결";
+			}
+				
+		data.ORDIN_END = ynParam;
+		console.log("data값 체크 : " + data);
+		
+		endParam.push(data);
+		console.log("endParam값 체크 : " + endParam);
+		
+	if(confirm("해당 발주서의 종결여부를 결정 하시겠습니까?")){
+			$.ajax({
+				method : "post",
+				dataType : "json",
+				data : JSON.stringify(endParam),
+				contentType : "application/json",
+				url : "${path}/balju/BaljuEnd",
+				success : function(result){
+					var jsonResult = JSON.parse(JSON.stringify(result));
+					if(jsonResult.result == "success"){
+							alert(jsonResult.resultMsg);
+							location.href="${path}/balju/Balju_Mng"
+					}else if(jsonResult.result == "failure"){
+							alert(jsonResult.resultMsg);
+							return false;
+						}
+					//success end
+					}
+				//ajax end
+				});
+		//if confirm end
+		}
+	});
+</script>
 </body>
 </html>
 

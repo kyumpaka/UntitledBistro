@@ -184,6 +184,25 @@
 		</where> 
  	</select>
  	
+ 	<select id="orderInItemSelect" parameterType="int" resultType="inItem">
+ 		<![CDATA[
+ 		SELECT 
+		     ORDER_PRODUCT_CODE  	AS II_PRODUCT_CODE
+		    ,ORDER_PRODUCT_NAME 	AS II_PRODUCT_NAME
+		    ,ORDER_QT   			AS II_QTY
+		FROM
+		    ORDER_INPUT
+		INNER JOIN 
+		    ORDERLIST
+		ON 
+		    ORDIN_NUM = ORDER_ORDIN_NUM
+		WHERE
+		    ORDIN_NUM = #{ordin_num}
+		AND
+		    ORDIN_END ='취소'
+		]]>
+ 	</select>
+ 	
  	<insert id="inItemInsert" parameterType="inItem">
  		<selectKey keyProperty="ii_no" resultType="int" order="BEFORE">
  			SELECT
@@ -195,13 +214,17 @@
 				IN_ITEM
 				(
 				 II_NO
+				,II_ORDIN_NUM
 				,II_PRODUCT_CODE
+				,II_PRODUCT_NAME
 				,II_QTY
 				)
 		VALUES
 				(
 				 #{ii_no}
+				,#{ii_ordin_num}
 				,#{ii_product_code}
+				,#{ii_product_name}
 				,#{ii_qty}
 				)
  	</insert>

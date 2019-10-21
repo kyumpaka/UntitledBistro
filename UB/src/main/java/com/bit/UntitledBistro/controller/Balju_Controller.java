@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bit.UntitledBistro.model.balju.Balju_DTO;
 import com.bit.UntitledBistro.model.balju.Balju_PlanDTO;
 import com.bit.UntitledBistro.model.balju.Item_DTO;
+import com.bit.UntitledBistro.model.jaego.SafeItemDTO;
 import com.bit.UntitledBistro.service.balju.Balju_Service;
 
 @Controller
@@ -93,6 +94,9 @@ public class Balju_Controller {
 		logger.info("발주관리 필터에 접속되었습니다.");
 		logger.info(FilterParam);
 		List<Map<String, String>> list = this.balju_Service.balju_Mng_Filter(FilterParam);
+		
+		
+		
 		model.addAttribute("Mng_list", list);
 		return "balju/Balju_Mng";
 	}
@@ -320,9 +324,9 @@ public class Balju_Controller {
 		String resultMsg = null;
 
 		System.out.println("종결 where row값 : " + EndRow);
-
+		int riskItemCount = 0;
 		try {
-			this.balju_Service.End_Balju(EndRow);
+			riskItemCount = this.balju_Service.End_Balju(EndRow);
 
 			result = "success";
 			resultMsg = "종결처리 성공";
@@ -332,7 +336,8 @@ public class Balju_Controller {
 		}
 		resultMap.put("result", result);
 		resultMap.put("resultMsg", resultMsg);
-
+		resultMap.put("riskItemCount", String.valueOf(riskItemCount));
+		
 		return resultMap;
 
 	}
@@ -360,7 +365,7 @@ public class Balju_Controller {
 		// 모델로 값을 넣고
 		model.addAttribute("item_list", list);
 		// 스트링으로 뷰를지정
-		return "balju/popup/Item_List";
+		return "/views/balju/popup/Item_List";
 	}
 
 	// 발주계획현황 팝업창버튼 [재고현황]
@@ -376,7 +381,7 @@ public class Balju_Controller {
 	@RequestMapping(value = "/balju/popup/BookMark_list", method = RequestMethod.GET)
 	public String item_BookMark(Item_DTO Idto) {
 		logger.info("관심품목 새창에 실행되었습니다");
-		return "/balju/popup/BookMark_List";
+		return "/views/balju/popup/BookMark_List";
 	}
 
 	@RequestMapping(value = "/balju/popup/BookMark_REG", method = RequestMethod.GET)
@@ -463,7 +468,7 @@ public class Balju_Controller {
 		// 모델로 값을 넣고
 		model.addAttribute("BP_list", list);
 		// 스트링으로 뷰를지정
-		return "balju/popup/BPlan_Load";
+		return "/views/balju/popup/BPlan_Load";
 	}
 
 	// [발주계획불러오기] 목록번호로 조회한값 그리드에 입력

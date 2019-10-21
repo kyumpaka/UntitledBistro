@@ -231,11 +231,13 @@
 					}else if(jsonResult.result == "failure"){
 							alert(jsonResult.resultMsg);
 							return false;
-						}
-					//success end
 					}
+					webSocket.send(jsonResult.riskItemCount);
+					//success end
+				}
+					
 				//ajax end
-				});
+			});
 		//if confirm end
 		}
 	});
