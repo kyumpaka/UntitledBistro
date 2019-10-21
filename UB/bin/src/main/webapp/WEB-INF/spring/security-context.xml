@@ -6,7 +6,7 @@
       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
    
    <!-- true 로 할경우 filter는 dafault 값으로 동작, 스프링 표현식(spEL)의 사용여부 -->
-   <security:http auto-config="true" use-expressions="true">
+   <security:http auto-config="true" use-expressions="false">
       <!-- 보안을 확인할 url패턴, 접근제한권한 지정 -->
       <security:intercept-url pattern="/erp" access="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')" />
       <security:intercept-url pattern="/balju/**" access="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')" />

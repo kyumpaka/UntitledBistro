@@ -73,6 +73,9 @@
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>        
 
+<!-- sweetAlert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <!-- WebSocket -->
 <script type="text/javascript">
 
@@ -95,7 +98,17 @@ function onOpen(e) {
 
 function onMessage(e) {
 	console.log("서버로 부터 응답메시지 받음 : " + e.data);
+	var count = $("#riskItemCount").html();
 	$("#riskItemCount").html(e.data);
+	
+	if(count != e.data) {
+		swal({
+			title: "위험재고 수량알림",
+			text: "위험재고 갯수에 변경사항이 있음을 알립니다.",
+			icon: "info",
+			button: "확인"
+		});
+	}
 }
 
 function onClose(e) {

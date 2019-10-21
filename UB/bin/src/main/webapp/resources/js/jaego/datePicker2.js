@@ -2,12 +2,14 @@
 
 var ogStartDate;
 var ogEndDate;
+var year;
 
 $(document).ready(function() {
-	
+	var nowDate = new Date();
+	year = nowDate.getFullYear();
 	yearBasic("year");
 	yearBasic("year2");
-	ogEndDate = dateFormat(new Date());
+	ogEndDate = dateFormat(nowDate);
 	dateBasic();
 	
 	$("#dateResult").text(ogStartDate + " ~ " + ogEndDate);
@@ -72,7 +74,12 @@ function yearInput(yearInputId,yearId) {
 			$("#year2").css("border","");
 		}
 	} else {
-		alert("올바르지 않는 날짜형식 입니다.");
+		swal({
+			title: "날짜오류",
+			text: "올바르지 않는 날짜형식 입니다.",
+			icon: "error",
+			button: "확인"
+		});
 		if(yearId == "year") {
 			$("#year").css("border","1px solid red");
 		} else if(yearId == "year2") {
@@ -98,7 +105,12 @@ function yymmdd(dateId, year, month, day) {
 		$("#" + month).val(date[1]);
 		$("#" + day).val(date[2]);
 	} else {
-		alert("올바르지 않는 날짜형식입니다.");
+		swal({
+			title: "날짜오류",
+			text: "올바르지 않는 날짜형식 입니다.",
+			icon: "error",
+			button: "확인"
+		});
 	}
 }
 
@@ -131,6 +143,22 @@ $("#yy-mm-dd input, #yy-mm-dd select," +
 		return;
 	}
 	
+	// 년도 select박스 선택했을 경우
+	if(this.id == "year" || this.id == "year2") {
+		if(this.value >= 1900 && this.value <= new Date().getFullYear()+1) {
+			$("#" + this.id).css("border","");
+		} else {
+			swal({
+				title: "날짜오류",
+				text: "올바르지 않는 날짜형식 입니다.",
+				icon: "error",
+				button: "확인"
+			});
+			$("#" + this.id).css("border","1px solid red");
+			return;
+		}
+	}
+	
 	// 데이트피커로 날짜를 변경한 경우
 	if(this.id == "date") {
 		yymmdd("date","year","month","day");
@@ -145,7 +173,7 @@ $("#yy-mm-dd input, #yy-mm-dd select," +
 		var day = $("#day").val();
 		
 		$("#date").val(year + "/" + month + "/" + day);
-		if(this.id == "year") $("#yy-mm-dd").css("border","");
+		if(this.id == "year") $("#year").css("border","");
 		
 	} else if(this.id == "year2" || this.id == "month2" || this.id == "day2") {
 		var year = $("#year2").val();
@@ -153,7 +181,7 @@ $("#yy-mm-dd input, #yy-mm-dd select," +
 		var day = $("#day2").val();
 		
 		$("#date2").val(year + "/" + month + "/" + day);
-		if(this.id == "year2") $("#yy-mm-dd2").css("border","");
+		if(this.id == "year2") $("#year2").css("border","");
 	}
 });
 

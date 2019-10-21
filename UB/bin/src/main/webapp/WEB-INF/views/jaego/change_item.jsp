@@ -330,6 +330,9 @@
 			return;
 		}
 		
+		var startDate = $("#date").val();
+		var endDate = $("#date2").val();
+
 		// 날짜 크기 유효성 검사
 		if(new Date(startDate) > new Date(endDate)) {
 			swal({
@@ -339,13 +342,10 @@
 				  button: "확인",
 			});
 			return;
-		}
+		}	
 		
 		// 바뀐 날짜 날짜화면에 보여주기
-		var startDate = $("#date").val();
-		var endDate = $("#date2").val();
-		$("#dateResult").text(startDate + " ~ " + endDate);			
-		
+		$("#dateResult").text(startDate + " ~ " + endDate);		
 		
 		// 검색조건으로 그리드 다시 불러오기
 		var product_code = $("#product_code").val();

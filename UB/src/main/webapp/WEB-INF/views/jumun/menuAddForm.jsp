@@ -132,8 +132,7 @@ function upload(){
 						  title: result + "개 등록되었습니다.",
 						  icon: "success",
 						  button: "닫기",
-						})
-					  .then(() => {
+						}).then(() => {
 						  opener.document.location.reload();
 						  window.close();
 					  });
@@ -191,7 +190,13 @@ function igdcheck(){
 			return false;
 		}
 	}
-	if(igdcnt == 0) return false;
+	if(igdcnt == 0){
+		swal({
+			  title: "재료를 추가해주세요.",
+			  icon: "warning",
+			});
+		return false;
+	}
 	return true;
 };
 </script>
