@@ -1,3 +1,7 @@
+--------------------- 테이블 전체삭제 -------------------------------------
+DROP TABLE EmpRegister;
+
+---------------------------------------------------------------------------
 create table EmpRegister ( -- 직원등록 테이블
         EmpRegister_name VARCHAR2 (50) NOT NULL, -- 이름
         EmpRegister_Photo VARCHAR2 (300), -- 사원 사진 
@@ -21,25 +25,13 @@ create table EmpRegister ( -- 직원등록 테이블
         EmpRegister_workPlan NUMBER, -- 근무예정시간
         EmpRegister_leavecompany VARCHAR2(20), -- 퇴사여부 
         EmpRegister_ENABLED NUMBER DEFAULT 1, -- 사용여부
-        EmpRegister_AUTHORITY VARCHAR2(20) DEFAULT ROLE_MEMBER-- 권한
+        EmpRegister_AUTHORITY VARCHAR2(20) DEFAULT 'ROLE_MEMBER'-- 권한
 );
 ALTER TABLE EmpRegister ADD CONSTRAINT PK_EmpRegister_empnum PRIMARY KEY(EmpRegister_empnum);
 
-select * from empregister;
-
-insert into EmpRegister(empregister_name,empregister_photo, empregister_jumin, empregister_jumin2, 
-empregister_empnum, empregister_gender, empregister_tel, empregister_age, empregister_addr,empregister_addr2,empregister_addr3,empregister_addr4, 
-empregister_grade, empregister_bankname, empregister_accountholder, empregister_banknum, empregister_payclassfiy, 
-empregister_entryday, empregister_leavecompany, empregister_pay,empregister_workplan) Values('테스트','달력.JPG', 
-'7778445', '444784', 'A0004', '남', '7478', 13, '90','44','서울 동작구 대방동 408-6','49-22', '사원', 
-'국민은행', '배재준', '777', '시급', sysdate, 'on', 12, 13 ) ;
-
-insert into EmpRegister(empregister_name, empregister_jumin, empregister_jumin2, empregister_empnum, 
-empregister_gender, empregister_tel, empregister_age, empregister_addr, empregister_grade, 
-empregister_bankname, empregister_accountholder, empregister_banknum, empregister_payclassfiy, 
-empregister_entryday, empregister_leavecompany, empregister_pay,empregister_workplan) Values('테스트3', 
-'910878', '2117811', '77708', '여', '111-111-1111', 8, '91,90,22', '사원', '국민은행', '테스트3', '777', 
-'0', sysdate, 'on', 700, 77 ) ;
-
+insert into empregister(EmpRegister_name, EmpRegister_empnum, EmpRegister_jumin, EmpRegister_ENABLED, EmpRegister_AUTHORITY) 
+values('MEMBER', 'MEMBER', '12345', 1, 'ROLE_MEMBER');
+insert into empregister(EmpRegister_name, EmpRegister_empnum, EmpRegister_jumin, EmpRegister_ENABLED, EmpRegister_AUTHORITY) 
+values('ADMIN', 'ADMIN', '12345', 1, 'ROLE_ADMIN');
 
 commit;
