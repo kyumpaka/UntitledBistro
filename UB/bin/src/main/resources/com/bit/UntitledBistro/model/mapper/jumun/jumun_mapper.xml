@@ -69,6 +69,10 @@
 	UPDATE MENU SET MENU_MT_CODE = #{menu_Mt_Code}, MENU_NAME = #{menu_Name}, MENU_PRICE = #{menu_Price}, MENU_IMAGE = #{menu_Image}, MENU_STATE = #{menu_State} WHERE MENU_CODE = #{menu_Code}
 	</update>
 	
+	<select id="menuNameCheck" parameterType="map" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM MENU WHERE MENU_NAME = #{menu_Name}
+	</select>
+	
 	<insert id="ingreInsert" >
 	INSERT INTO INGREDIENT(INGREDIENT_NO, INGREDIENT_MENU_CODE, INGREDIENT_PRODUCT_CODE, INGREDIENT_QTY) 
 	VALUES(CONCAT('IGD',(SELECT NVL(MAX(SUBSTR(INGREDIENT_NO,4)),0)+1 FROM INGREDIENT)), #{ingredient_Menu_Code}, #{ingredient_Product_Code}, #{ingredient_Qty})
