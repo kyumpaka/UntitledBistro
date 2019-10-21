@@ -43,4 +43,5 @@ create table ORDER_INPUT ( -- 발주서 내역
         ORDIN_NUM VARCHAR2(20), -- 목록번호(PK)
         ORDIN_DATE DATE -- 목록일자
 );
+
 commit;
