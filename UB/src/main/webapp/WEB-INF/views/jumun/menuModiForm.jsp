@@ -180,7 +180,7 @@ function upload() {
 							  title: "같은 메뉴 이름이 등록되어 있습니다.",
 							  icon: "warning",
 							});
-					  } else if(result == 0) {
+					  } else if(result <= 1) {
 						    var form = $('#multiform')[0];
 							var formData = new FormData(form);
 							$.ajax({
