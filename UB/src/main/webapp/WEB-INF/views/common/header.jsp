@@ -40,7 +40,6 @@
                 <div class="header-menu">
                     
                     <div class="user-area dropdown float-right">
-                        <img alt="프로필" src="${path}/resources/images/insa/${sessionScope.empregister_photo}" width="50" height="30">
                     	${sessionScope.empregister_name}님 환영합니다.
                     </div>
                     
