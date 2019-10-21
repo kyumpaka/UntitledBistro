@@ -168,27 +168,49 @@ function windowClose(){
 function upload() {
 	if(igdcheck()){
 		if(menucheck()){
-			var form = $('#multiform')[0];
-			var formData = new FormData(form);
+			var menu_Name = $("input[name='menu_Name']").val().trim();
 			$.ajax({
-	            type: "POST",
-	            enctype: 'multipart/form-data',
-	            url: "menuModi.do",
-	            data: formData,
-	            processData: false,
-	            contentType: false,
-	            cache: false,
-	            success: function (result) {
-	            	swal({
-						  title: result + "개 수정되었습니다.",
-						  icon: "success",
-						  button: "닫기",
-						}).then(() => {
-						  opener.document.location.reload();
-						  window.close();
-					  	});
-	            }
-	        });
+				  url: 'menuNameCheck.do',
+				  type: 'post',
+				  data: {name:menu_Name},
+				  dataType: 'json',
+				  success : function(result) {
+					  if(result > 1) {
+						  swal({
+							  title: "같은 메뉴 이름이 등록되어 있습니다.",
+							  icon: "warning",
+							});
+					  } else if(result == 0) {
+						    var form = $('#multiform')[0];
+							var formData = new FormData(form);
+							$.ajax({
+					            type: "POST",
+					            enctype: 'multipart/form-data',
+					            url: "menuModi.do",
+					            data: formData,
+					            processData: false,
+					            contentType: false,
+					            cache: false,
+					            success: function (result) {
+					            	swal({
+										  title: result + "개 수정되었습니다.",
+										  icon: "success",
+										  button: "닫기",
+										}).then(() => {
+										  opener.document.location.reload();
+										  window.close();
+									  	});
+					            },
+					            error:function(request,status,error) {
+					            	swal({
+										  title: "같은 메뉴 이름이 등록되어 있습니다.",
+										  icon: "warning",
+										});
+					            }
+					        });
+					  }
+				  }
+			});
 		}
 	}
 };

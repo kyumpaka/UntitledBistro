@@ -27,6 +27,8 @@ public interface JumunDAO {
 	
 	public int menuUpdate(MenuDTO dto);
 	
+	public int menuNameCheck(Map<String, String> map);
+	
 	// 재료
 	public ArrayList<IngredientDTO> ingreSelect(Map<String, String> map);
 	

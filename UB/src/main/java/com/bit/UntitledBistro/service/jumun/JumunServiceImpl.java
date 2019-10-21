@@ -215,6 +215,15 @@ public class JumunServiceImpl implements JumunService {
 	}
 	
 	@Override
+	public int menuNameCheck(String name) {
+		dao = sqlSession.getMapper(JumunDAO.class);
+		map = new HashMap<String, String>();
+		map.put("menu_Name", name);
+		
+		return dao.menuNameCheck(map);
+	}
+	
+	@Override
 	public ArrayList<IngredientDTO> ingreSearchByMenuCode(String menu_Code) {
 		dao = sqlSession.getMapper(JumunDAO.class);
 		map = new HashMap<String, String>();
