@@ -136,7 +136,7 @@
 				<div class="col-lg-3">
 					<h6>발주자</h6>
 					<section class="card">
-						<div class="card-body text-secondary">아이디로 이름을 불러옴</div>
+						<div class="card-body text-secondary">${sessionScope.empregister_name}</div>
 					</section>
 				</div>
 				<div class="col-lg-3">
@@ -241,7 +241,7 @@
 		insertItem.ORDER_PRODUCT_STNDR = $("#stndr").val();
 		insertItem.ORDER_QT = $("#qt").val();
 		insertItem.ORDER_PR_EA = $("#price").val();
-		insertItem.ORDER_WR = "직접입력";
+		insertItem.ORDER_WR = "${sessionScope.empregister_name}";
 								
 		console.log(insertItem);
 		$("#jsGrid").jsGrid("insertItem", insertItem);
