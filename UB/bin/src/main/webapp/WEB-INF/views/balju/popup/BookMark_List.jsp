@@ -63,7 +63,6 @@
 			$("#jsGrid").jsGrid({
 				width : "100%",
 				height : "auto",
-				editing : true,
 				//데이터 변경, 추가, 삭제대하여 자동으로 로드되게 함
 				autoload : true,
 				//그리드 헤더 클릭시 sorting이 되게함
@@ -115,12 +114,12 @@
 						 readOnly : true, width : 150}, 
 					{name : "ORDER_PRODUCT_CODE",type : "text",title : "품목코드", align: "center",
 					 readOnly : true, width : 150}, 
-					{name : "ORDER_PRODUCT_NAME", type : "text", title : "품목명", align: "center", width : 120},
+					{name : "ORDER_PRODUCT_NAME", type : "text", title : "품목명", align: "center", width : 120, readOnly : true},
 					{name : "ORDER_PRODUCT_STNDR", type : "text", title : "규격", align: "center", readOnly : true, width : 120}, 
 					{name : "ORDER_PR_EA", type : "text", title : "공급가액", align: "center", readOnly : true, width : 100},
 					{name : "ORDER_QT", type : "text", visible : false, width : 0},
 					{name : "ORDER_WR", type : "text", visible : false, width : 0},
-					{type : "control", editButton: false, deleteButton : true} ]
+					 ]
 
 					}); // 그리드 끝
 				}); // ajax 끝

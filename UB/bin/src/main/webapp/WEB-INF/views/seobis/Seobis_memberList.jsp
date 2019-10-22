@@ -170,7 +170,6 @@
       		   	})
       		.then((value) => {
       			if(value) {
-      				if(false) swal("ss");
       				realMod(member_id);
       			}
       		});
@@ -183,7 +182,6 @@
                	    })
         		.then((value) => {
         			if(value) {
-        				if(false) swal("ss");
         				 $(location).attr("href", "${path}/Seobis/delete?member_id=" + realId);
         			}
         		});

@@ -375,6 +375,15 @@
   	]]>
   </update>
   
+  <update id="orderListInItemUpdate" parameterType="int">
+  	<![CDATA[
+  	UPDATE ORDERLIST
+  	SET
+  		ORDER_II_NO = (select nvl(max(ii_no),0) from in_item)
+  	WHERE
+  		ORDER_ORDIN_NUM = #{order_ordin_num}
+  	]]>
+  </update>
   
    <update id="BookMark_Modi" parameterType="hashmap">
   	<![CDATA[
