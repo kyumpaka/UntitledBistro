@@ -30,7 +30,7 @@
 		<trim prefix="WHERE" prefixOverrides="AND">
 			<if test="menu_Mt_Code != null and menu_Mt_Code != ''">MENU_MT_CODE = #{menu_Mt_Code}</if>
 			<if test="menu_Code != null">AND MENU_CODE = #{menu_Code}</if>
-			<if test="menu_State == '?�매'">AND MENU_STATE = #{menu_State}</if>
+			<if test="menu_State == '판매'">AND MENU_STATE = #{menu_State}</if>
 		</trim>
 	ORDER BY MENU_CODE
 	</select>
