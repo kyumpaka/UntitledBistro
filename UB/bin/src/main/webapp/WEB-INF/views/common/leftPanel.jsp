@@ -70,7 +70,7 @@
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="menu-icon fa fa-map-o"></i><a href="${path}/Seobis/mList">회원 관리</a></li>
                             <li><i class="menu-icon fa fa-street-view"></i><a href="${path}/Seobis/jUs">회원 등록</a></li>
-                            <li><i class="fa fa-calendar-check-o"></i><a href="${path}/Seobis/cal">예약 관리</a></li>
+                            <li><i class="fa fa-calendar-check-o"></i><a href="${path}/Seobis/Seobis_calendar">예약 관리</a></li>
                             <li><i class="menu-icon fa fa-map-o"></i><a href="${path}/Seobis/pList">포인트 관리</a></li>
                             
                         </ul>

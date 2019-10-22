@@ -114,10 +114,10 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td><input type="text" id="code"></td>
-									<td><input type="text" id="name"></td>
-									<td><input type="text" id="stndr"></td>
-									<td><input type="text" id="price"></td>
+									<td><input type="text" id="code" readonly></td>
+									<td><input type="text" id="name" readonly></td>
+									<td><input type="text" id="stndr" readonly></td>
+									<td><input type="text" id="price" readonly></td>
 									<td><button class="btn btn-dark" id="addData">등록</button>
 								</tr>
 							</tbody>
@@ -151,22 +151,26 @@
 									name : "BK_CODE",
 									type : "text",
 									width : 150,
-									title : "품목코드"
+									title : "품목코드",
+									readOnly : true
 								}, {
 									name : "BK_NAME",
 									type : "text",
 									width : 150,
-									title : "품목명"
+									title : "품목명",
+									readOnly : true
 								}, {
 									name : "BK_STNDR",
 									type : "text",
 									width : 150,
-									title : "규격"
+									title : "규격",
+									readOnly : true
 								}, {
 									name : "BK_PR_EA",
 									type : "text",
 									width : 150,
-									title : "공급가액"
+									title : "공급가액",
+									readOnly : true
 								},{
 									name : "BK_QT",
 									type : "text",
@@ -205,7 +209,7 @@
 		insertItem.BK_STNDR = $("#stndr").val();
 		insertItem.BK_PR_EA = $("#price").val();
 		insertItem.BK_QT = 0;
-		insertItem.BK_WR = "직접입력";
+		insertItem.BK_WR = "${sessionScope.empregister_name}";
 
 		console.log(insertItem);
 		$("#jsGrid").jsGrid("insertItem", insertItem);

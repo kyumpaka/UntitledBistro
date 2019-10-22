@@ -53,7 +53,7 @@ $(function() {
 	});
 	$("#cart").height(445);
 	$("#cart").overlayScrollbars({});
-});
+})
   
   // 전역 변수 설정
   var img_L = 0;
@@ -126,7 +126,7 @@ $(function() {
 	</c:forEach>
 	table_left = 0;
 	table_top = 0;
-});
+})
 
   // 테이블 삭제
   function tableRemove() {
@@ -187,7 +187,7 @@ $(function() {
 	   }
 
 	   $.ajax({
-			  url: '/erp/tableSave.do',
+			  url: 'tableSave.do',
 			  type: 'post',
 			  data: JSON.stringify(tableArray),
 			  dataType: 'json',
