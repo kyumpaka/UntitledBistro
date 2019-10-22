@@ -154,9 +154,13 @@
  	]]>
  </select>
  
+   <insert id="RmInsert">
+   	INSERT INTO RESERVE(RESERVE_NUM) VALUES((SELECT COUNT(*) FROM RESERVE) + 1)
+   </insert>
+   
    <insert id="Seobis_ReserveAdd" parameterType="com.bit.UntitledBistro.model.seobis.Seobis_ReserveDTO">
 		<choose>
-			<when test="#{reserve_name} == null">
+			<when test="reserve_name == null">
 			<![CDATA[
  				INSERT 
 	 				INTO RESERVE(
@@ -167,7 +171,7 @@
  						RESERVE_START,
  						RESERVE_END)
 						VALUES(
-						#{reserve_num},
+						(SELECT COUNT(*)+1 FROM RESERVE),
 						#{reserve_member_id},
 						#{reserve_phone1},
 						#{reserve_dateString},
@@ -176,8 +180,7 @@
 						)
  			]]>
 			</when>
-
-			<when test ="#{reserve_member_id} == null">
+			<when test ="reserve_member_id == null">
  			<![CDATA[
  				INSERT 
  					INTO RESERVE(
@@ -188,7 +191,7 @@
  						RESERVE_START,
  						RESERVE_END)
 				VALUES(
-						#{reserve_num},
+						(SELECT COUNT(*)+1 FROM RESERVE),
 						#{reserve_name},
 						#{reserve_phone1},
 						#{reserve_dateString},
@@ -209,7 +212,7 @@
  						RESERVE_START,
  						RESERVE_END)
 				VALUES(
-						#{reserve_num},
+						(SELECT COUNT(*)+1 FROM RESERVE),
 						#{reserve_member_id},
 						#{reserve_name},
 						#{reserve_phone1},
@@ -225,4 +228,6 @@
  <select id="Seobis_ReserveSelectByNum" parameterType="map" resultType="com.bit.UntitledBistro.model.seobis.Seobis_ReserveDTO">
 SELECT * FROM RESERVE WHERE  RESERVE_NUM = #{reserve_num}
  </select>
+ 
+
 </mapper>

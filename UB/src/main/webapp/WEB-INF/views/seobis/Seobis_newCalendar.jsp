@@ -26,9 +26,6 @@
 		</div>
 		<div class="card-body">
       <form class="form-signin" id="testForm">
-        <h5 class="form-signin-heading">예약 정보를 입력하세요</h5>
-        <label for="input" class="sr-only">번호</label>
-        	<input type="text"  id="reserve_num" name="reserve_num" class="form-control" placeholder="번호" required autofocus><br>
          <h5 class="form-signin-heading">회원 아이디</h5>
          <label for="input" class="sr-only">회원 아이디</label>
         	<input type="text" id="reserve_member_id" name="reserve_member_id" class="form-control" placeholder="회원 아이디" required autofocus><BR>
@@ -65,8 +62,9 @@ function sc(){
 }
 
 function gogo() {
-	var reserve_num = $("#reserve_num").val().trim();
 	var reserve_phone1 = $("#reserve_phone1").val().trim();
+	var reserve_name = $("#reserve_name").val().trim();
+	var reserve_member_id = $("#reserve_member_id").val().trim();
 	var reserve_name = $("#reserve_name").val().trim();
     var num1 = reserve_phone1.substr(0,3); //첫번째 번호 ex) 010
     var num2 = reserve_phone1.substr(3,4); //두번째 번호 ex) 9999 -1
@@ -74,28 +72,11 @@ function gogo() {
     var num4 = reserve_phone1.substr(7); //세번째 번호 ex) 8888 -1  
     var num5 = reserve_phone1.substr(6); //세번째 번호 ex) 8888 - 2 
 
-	//번호 입력여부 검사
-    if(reserve_num.length == 0){
-		swal("번호를 입력하지 않았습니다.");
-		$("#reserve_num").focus();
-		return false;
-	}
-
-	//번호 길이 형식 검사
-    if(reserve_num < 1 || reserve_num > 200){
-		swal("1~200까지 입력 가능합니다.");
-		reserve_num = ""
-		$("#reserve_num").focus();
-		return false;
-	 }
 	
-	//번호 공백 사용여부 검사
-	if(reserve_num.indexOf(" ") >= 0){
-		swal("번호에 공백을 사용할 수 없습니다");
-		$("#reserve_num").focus();
+	if(reserve_member_id.length != 0 && reserve_name.length != 0){
+		swal("회원이시면 ID, 비회원이시면 성함을 입력해 주세요");
 		return false;
 	}
-
 	//이름 공백 사용여부 검사
 	if(reserve_name.indexOf(" ") >= 0){
 		swal("이름에 공백을 사용할 수 없습니다.");
@@ -148,14 +129,12 @@ function gogo() {
 		}
 		
 		var reserve_start = $("#reserve_start").val(); 
-        var startDateArr = reserve_start.split('-');
+        var startDateArr = reserve_start.split(':');
         var reserve_end = $("#reserve_end").val(); 
-        var endDateArr = reserve_end.split('-');  
-        var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1])-1, startDateArr[2]);
-        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
-        if(startDateCompare.getTime() > endDateCompare.getTime()) {
-        	swal("시작날짜와 종료날짜를 확인해 주세요.");
-            return;
+        var endDateArr = reserve_end.split(':');
+        if(startDateArr > endDateArr) {
+        	swal("시작일이 종료일보다 늦을 수 없습니다.");
+            return false;
         }
 
 		if(reserve_start.length == 0){
@@ -190,7 +169,6 @@ function gogo() {
 	});
 	
 	var formData = $("#testForm").serialize();
-	alert(formData);
 	$.ajax({
 		  url: '${path}/Seobis/resAdd',
 		  type: 'post',

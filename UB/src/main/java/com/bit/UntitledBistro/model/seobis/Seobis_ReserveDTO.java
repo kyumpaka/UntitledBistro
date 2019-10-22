@@ -76,5 +76,5 @@ public class Seobis_ReserveDTO {
 	public void setReserve_date(Date reserve_date) {
 		this.reserve_date = reserve_date;
 	}
-	
+
 }

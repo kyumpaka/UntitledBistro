@@ -59,11 +59,11 @@
     		</c:forEach>
         ],
       dateClick: function(info) {
-        var width = 330;
-		var height = 760;
+        var width = 360;
+		var height = 800;
 		var popupX = (window.screen.width / 2) - (width / 2);
 		var popupY = (window.screen.height / 2) - (height / 2);
-		window.open('${path}/Seobis/nc?date='+info.dateStr,'예약하기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+		window.open('${path}/Seobis/Seobis_newCalendar' ,'예약하기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
 		
 //         calendar.addEvent({
 //             title: 새창에서 가져온 아이디or이름 추가하기,
@@ -77,8 +77,8 @@
           var eventObj = info.event;
 
           if (eventObj.url) {
-        	var width = 330;
-      		var height = 760;
+        	var width = 360;
+      		var height = 800;
       		var popupX = (window.screen.width / 2) - (width / 2);
       		var popupY = (window.screen.height / 2) - (height / 2);
       		window.open(eventObj.url,'예약확인','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);

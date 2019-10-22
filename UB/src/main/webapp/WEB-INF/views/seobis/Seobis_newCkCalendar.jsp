@@ -62,7 +62,7 @@
         	<input type="time" id="reserve_end" name="reserve_end" class="form-control"  value="${Seobis_reserveSelect.reserve_end}" /><br>
       </form>
         <button id="btn-Yes" class="btn btn-lg btn-primary btn-block" type="button" value="예약하기" onclick="gogo()">수정</button>
-        <button id="btn-Yes" class="btn btn-lg btn-primary btn-block" type="button" value="삭제" onclick="realDelete('${Seobis_reserveSelect.reserve_num}')">예약 취소</button>
+        <button id="btn-Yes" class="btn btn-lg btn-primary btn-block" type="button" value="삭제" onclick="del()">예약 취소</button>
         <button id="btn-Yes" class="btn btn-lg btn-primary btn-block" type="button" value="취소" onclick="sc()">닫기</button>
 		</div>
 	</div>
@@ -158,30 +158,30 @@ function gogo() {
 	});
 };
 
-//삭제 메소드
-function realDelete(reserve_num) {
-	swal({
-	   	  title: "예약 번호 : " + reserve_num + "을 삭제하시겠습니까?",
-	   	  icon: "warning",
-	   	  buttons: true,
-	   	  dangerMode: true,
-	   	})
-	.then((value) => {
-		if(value) {
-			realMod(reserve_num);
-		}
-	});
-};
-
-function realMod(reserve_num) {
-	swal("성공적으로 삭제하였습니다.", {
- 	      icon: "success",
-   	  	
-   	    })
-	.then((value) => {
-		if(value) {
-			 $(location).attr("href", "${path}/Seobis/rDelete?reserve_num=" + reserve_num);
-		}
+function del(){
+	var formData = $("#tf").serialize();
+	$.ajax({
+		  url: '${path}/Seobis/rDelete',
+		  type: 'post',
+		  data: formData,
+		  
+		  success : function() {
+			  swal({
+				  title: "삭제 되었습니다.",
+				  icon: "success",
+				  button: "닫기",
+				}).then(() => {
+					  opener.document.location.reload();
+					  window.close();
+				  });
+		  },
+		  error:function() {
+			  swal({
+				  title: "삭제 실패 했습니다.",
+				  icon: "warning",
+				  button: "닫기",
+				});
+		  }
 	});
 }
 </script>

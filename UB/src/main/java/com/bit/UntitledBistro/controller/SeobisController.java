@@ -1,11 +1,15 @@
 package com.bit.UntitledBistro.controller;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,13 +41,16 @@ public class SeobisController {
 	public String seobis_formadd() {
 		return "seobis/Seobis_joinUs";
 	}
-	@RequestMapping(value="/cal") //메뉴를 누르면 예약 캘린더로 보내는 맵핑
+	@RequestMapping(value="/Seobis_calendar") //메뉴를 누르면 예약 캘린더로 보내는 맵핑
 	public String seobis_formcalendar(Model model) {
 		model.addAttribute("Seobis_reserveSelect", Seobis_memberService.Seobis_ReserveSelect());
 		return "seobis/Seobis_calendar";
 	}
-	@RequestMapping(value="/nc") //예약 새창으로 보내는 맵핑
-	public String seobis_formnewCalendar(@ModelAttribute("date") String date) {
+	@RequestMapping(value="/Seobis_newCalendar") //예약 새창으로 보내는 맵핑
+	public String seobis_formnewCalendar(Model model) {
+		SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
+		String date = SDF.format(new Date());
+		model.addAttribute("date", date);
 		return "/views/seobis/Seobis_newCalendar";
 	}
 	
@@ -67,11 +74,12 @@ public class SeobisController {
 		}
 		return view;
 	}
-	
+	private static final Logger logger = LoggerFactory.getLogger(JumunController.class);
 	@RequestMapping(value="/mList")  //회원 목록을 처리하는 맵핑
 	public String seobis_memberList(Model model, HashMap<String, Object> map) {
 		List<Seobis_MemberDTO> Seobis_memberList = Seobis_memberService.Seobis_MemberList(map);
 		model.addAttribute("Seobis_memberList", Seobis_memberList);
+		logger.info(Seobis_memberList.get(0).getMember_phone1()+"asdfasdf");
 		return "seobis/Seobis_memberList"; //.jsp
 	}
 	
@@ -83,6 +91,7 @@ public class SeobisController {
 	}
 	 
 	@RequestMapping(value="/delete")  //회원 삭제 맵핑
+	
 	public String seobis_memberDelete(Seobis_MemberDTO seobis_MemberDTO_dto) {
 		Seobis_memberService.Seobis_MemberDelete(seobis_MemberDTO_dto);
 		return "redirect:mList";
@@ -109,7 +118,6 @@ public class SeobisController {
 	@RequestMapping(value="/resAdd", method = RequestMethod.POST) // 예약 추가 맵핑
 	@ResponseBody
 	public int seobis_reserveAdd(Seobis_ReserveDTO seobis_ReserveDTO_dto) {
-		System.out.println(Seobis_memberService.Seobis_ReserveAdd(seobis_ReserveDTO_dto) + "absabsabs");
 		return Seobis_memberService.Seobis_ReserveAdd(seobis_ReserveDTO_dto);
 	}
 	
@@ -133,6 +141,7 @@ public class SeobisController {
 	}
 	
 	@RequestMapping(value="/rDelete")  //예약 삭제 맵핑
+	@ResponseBody
 	public void seobis_reserveDelete(Seobis_ReserveDTO seobis_ReserveDTO_dto) {
 		Seobis_memberService.Seobis_ReserveDelete(seobis_ReserveDTO_dto);
 	}
