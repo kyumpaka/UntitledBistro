@@ -17,6 +17,7 @@
       <security:intercept-url pattern="/jungsan/**" access="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')" />
       <security:intercept-url pattern="/seobis/**" access="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')" />
       <security:intercept-url pattern="/jumun/erp/**" access="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')" />
+      <security:intercept-url pattern="/seobis/pop/**" access="authenticated"/>
       <security:intercept-url pattern="/login" access="permitAll"/>
       <security:intercept-url pattern="/loginFail" access="permitAll"/>
       <security:intercept-url pattern="/**" access="authenticated"/>
@@ -30,7 +31,7 @@
          authentication-failure-url="/loginFail?error=1"
          always-use-default-target='false' />
       <!-- 세선삭제여부, 로그아웃 처리할 URL, 로그아웃 성공 시 이동 URL -->
-      <security:logout invalidate-session="true" logout-success-url="/loginFail?logout=1" />
+      <security:logout invalidate-session="false" logout-success-url="/loginFail?logout=1" />
       <!-- invalid session일 때 url, 최대 허용 가능한 세션 수, max-sessions을 넘었을때 접속한 세션을 실패처리할지 여부 -->
       <security:session-management invalid-session-url="/loginFail?timeOut=1">
          <security:concurrency-control max-sessions="1" expired-url="/loginFail?exist=1" error-if-maximum-exceeded="false" />
