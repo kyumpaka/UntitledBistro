@@ -28,6 +28,9 @@ public class JungsanController {
 	private Jungsan_Input_Service jungsan_input_Service; // 결산 마감 insert & list
 	private Object insert_daily; // 일마감 인서트 dto
 	private Object insert_Monthly;
+	private Object Show_difference;
+	private Object update_difference;
+	private Object update_difference_Month;
 	
 	@RequestMapping("View_jungsan.html") // 결산 현황 view 매핑
 	public String Show(HttpServletRequest request) {
@@ -209,14 +212,10 @@ public class JungsanController {
 		
 		jungsan_view_Service.update_state(dto);
 		
-		System.out.println("끝");
-		
 		HashMap map = new HashMap();
 		
 		List<Jungsan_view_DTO> jungsan_state = jungsan_view_Service.jungsan_state(map);
 		request.setAttribute("jungsan_state", jungsan_state);
-		System.out.println("리스트 실행 컨트롤단");
-		
 		
 		  int befor_cash = jungsan_view_Service.befor_cash(); // 어제 현금
 		  request.setAttribute("befor_cash", befor_cash);
@@ -255,7 +254,14 @@ public class JungsanController {
 
 	@RequestMapping("Daily.html") // 일마감
 	public String day_list(HttpServletRequest request, Jungsan_Input_DTO dto) {
-
+		
+		 jungsan_input_Service.Show_difference(dto); //현상황 확인후 기본값 입력
+		  
+		 jungsan_input_Service.update_difference(dto); // 변경
+		
+		 int to_difference = jungsan_input_Service.to_difference(); // 메뉴 국물
+		 request.setAttribute("to_difference", to_difference);
+		 
 		HashMap map = new HashMap();
 
 		List<Jungsan_Input_DTO> getjungsan_inputList = jungsan_input_Service.getjungsan_inputList(map); // 조회
@@ -268,12 +274,20 @@ public class JungsanController {
 	
 	  @RequestMapping("Monthly.html") // 월마감
 	  public String MonthList(HttpServletRequest request,@ModelAttribute Jungsan_Input_DTO dto) {
-	  jungsan_input_Service.insert_Monthly(dto); // 등록
+		  
+	  jungsan_input_Service.Show_Month(dto); //현상황 확인후 기본값 입력
+		  
+	  jungsan_input_Service.update_Monthly(dto); //리스트 수정 
+	  
+	  jungsan_input_Service.update_difference_Month(dto);// 차액 수정
 	  
 	  HashMap map = new HashMap();
 	  
 	  List<Jungsan_Input_DTO> MonthList = jungsan_input_Service.MonthList(map); //조회 
 	  request.setAttribute("MonthList", MonthList); // 조회한걸 담음
+	  
+	  List<Jungsan_Input_DTO> differenceList = jungsan_input_Service.differenceList(map);
+	  request.setAttribute("differenceList", differenceList); //월차액
 	  
 	  return "jungsan/Monthly";
 	  }
@@ -284,6 +298,7 @@ public class JungsanController {
 	public String update(HttpServletRequest request, @ModelAttribute Jungsan_Input_DTO dto) {
 		int update = jungsan_input_Service.update(dto); // 업데이트 실행
 		request.setAttribute("update", update); // 1개 결과 담음
+		
 		return "jungsan/UpdateForm"; // 주소 이동
 	}
 

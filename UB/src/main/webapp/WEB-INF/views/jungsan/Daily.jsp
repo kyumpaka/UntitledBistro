@@ -26,8 +26,7 @@
 				<td>환불</td>
 				<td>환불이유</td>
 				<td>기입자</td>
-				<td>차액</td>
-			</tr>	
+			</tr>
 	<c:forEach var="dto" items="${getjungsan_inputList}">
 			<tr>
 				<td><a href="UpdateForm.html">${dto.jungsan_input_date}</a></td>
@@ -41,9 +40,11 @@
 				<td>${dto.jungsan_input_refund}</td>
 				<td>${dto.jungsan_input_reason}</td>
 				<td>${dto.jungsan_input_grade}</td> 
-				<td>포스 입력 금액 - 매니저 입력금액</td>
 			</tr>
 	</c:forEach>
+			<tr>
+				<td colspan="11" align="right" style="color: red">차액 (pos 정산금 - 매니저 기입금)&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp; <h4>${to_difference}</h4>&nbsp;&nbsp;</td>
+			</tr>
 		</table>
 	</div>
 	<button type="button"><a href="Monthly.html">월마감</a></button>

@@ -171,21 +171,20 @@
 	<div class="container" align="center">
 		<table border="5" style="width: 100%;">
 			<tr bgcolor="gray" align="center">
+				<td>순매출</td>
+				<td>총매출</td>
 				<td>현금</td>
 				<td>카드</td>
-				<td>총매출</td>
-				<td>순매출</td>
-				<td>업무시간</td>
-				<td>지출</td>
 				<td>포인트사용가</td>
+				<td>지출</td>
+				<td>업무시간</td>
 				<td>환불</td>
 				<td>환불이유</td>
-				<td>날짜</td>
-				<!-- <td>직급</td>
-				<td>차액</td> -->
+				<td>날짜</td> <!-- 월만 나오면됨 -->
 			</tr>	
 			
 			<c:forEach var="M" items="${MonthList}">
+			<c:forEach var="D" items="${differenceList}">
 			<tr>
 				<td>${M.month_cash}</td>
 				<td>${M.month_card}</td>
@@ -196,10 +195,9 @@
 				<td>${M.month_sum}</td> 
 				<td>${M.month_real_sum}</td>
 				<td>${M.month_date}</td>
-				<%-- <td>${M. }</td>
-				<td>${M. }</td>  --%>
-				<td>포스 입력 금액 - 매니저 입력금액</td>
+				<td>${D.difference_month}</td>
 			</tr>
+			</c:forEach>
 			</c:forEach>
 		</table>
 	</div>
