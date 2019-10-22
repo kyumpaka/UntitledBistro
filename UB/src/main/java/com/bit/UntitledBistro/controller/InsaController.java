@@ -2,7 +2,9 @@ package com.bit.UntitledBistro.controller;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,20 +31,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
 import com.bit.UntitledBistro.model.insa.Insa_SalaryDTO;
 import com.bit.UntitledBistro.model.insa.Insa_ScheduleDTO;
-import com.bit.UntitledBistro.service.insa.GoogleCalendarService;
+import com.bit.UntitledBistro.model.seobis.Seobis_ReserveDTO;
 import com.bit.UntitledBistro.service.insa.InsaService;
-import com.google.api.client.util.DateTime;
-import com.google.api.services.calendar.Calendar;
-import com.google.api.services.calendar.model.CalendarList;
-import com.google.api.services.calendar.model.CalendarListEntry;
-import com.google.api.services.calendar.model.Event;
-import com.google.api.services.calendar.model.EventDateTime;
-import com.google.api.services.calendar.model.Events;
 
 @Controller()
 @RequestMapping(value = "/insa")
 
 public class InsaController {
+	private static final String Insa_SalaryDTO = null;
 	@Resource(name = "test")
 	InsaService insaService;
 	private Logger logger = LoggerFactory.getLogger(InsaController.class);
@@ -117,64 +114,32 @@ public class InsaController {
 
 	// 罹섎┛�뜑 �씠�룞泥섎━
 	@RequestMapping("/Schedule")
-	public String schdule(Model model, String calendarId, String title) {
-		logger.info("schdule");
-		model.addAttribute("calendarId", calendarId);
-		model.addAttribute("title", title);
+	public String insa_formcalendar(Model model) {
+		model.addAttribute("Schedule", insaService.Schedule());
 		return "insa/Schedule";
 	}
-
-	@RequestMapping("/calendarAdd")
-	public String calendarAdd(Insa_ScheduleDTO ScDto) {
-		logger.info("calendarAdd " + ScDto.toString());
-
-		try {
-			Calendar service = GoogleCalendarService.getCalendarService();
-			com.google.api.services.calendar.model.Calendar calendar = new com.google.api.services.calendar.model.Calendar();
-			calendar.setSummary(ScDto.getSummary());
-			calendar.setTimeZone("America/Los_Angeles");
-			service.calendars().insert(calendar).execute();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return "insa/ScheduleCalendar";
+	
+	@RequestMapping(value="/nck") //예약 확인 페이지로 보내는 맵핑
+	public String insa_formCkCalendar(@RequestParam("salary_empRegister_empnum") String salary_empRegister_empnum, Model model) {
+		model.addAttribute("SelectNum", insaService.SelectNum(salary_empRegister_empnum));
+		System.out.println("인사서비스 " + insaService.SelectNum(salary_empRegister_empnum));
+		return "/views/insa/HollydayList";
 	}
 
-	/*
-	 * // �씪�젙 ���옣 泥섎━
-	 * 
-	 * @RequestMapping(value = "/calendarEventAdd", method = RequestMethod.POST)
-	 * public Map<String, Boolean> calendarEventAdd(Insa_ScheduleDTO ScDto) {
-	 * logger.info("calendarEventAdd " + ScDto.toString());
-	 * 
-	 * boolean isc = false; try { Calendar service =
-	 * GoogleCalendarService.getCalendarService(); Event event = new
-	 * Event().setSummary(ScDto.getSummary()).setDescription(ScDto.getDescription())
-	 * ; // �떆�옉�씪 DateTime startDateTime = new DateTime(ScDto.getStartDateTime());
-	 * EventDateTime start = new
-	 * EventDateTime().setDateTime(startDateTime).setTimeZone("America/Los_Angeles")
-	 * ; event.setStart(start); // 醫낅즺�씪 DateTime endDateTime = new
-	 * DateTime(ScDto.getEndDateTime()); EventDateTime end = new
-	 * EventDateTime().setDateTime(endDateTime).setTimeZone("America/Los_Angeles");
-	 * event.setEnd(end); event = service.events().insert(ScDto.getCalendarId(),
-	 * event).execute(); isc = true; } catch (IOException | ParseException e) {
-	 * e.printStackTrace(); } Map<String, Boolean> map = new HashMap<String,
-	 * Boolean>(); map.put("isc", isc); return map; }
-	 * 
-	 * // �씪�젙 �뜲�씠�꽣 泥섎━
-	 * 
-	 * @RequestMapping(value = "/calendarEventList.do", method = RequestMethod.POST)
-	 * public List<Event> calendarEventList(Insa_ScheduleDTO ScDto) {
-	 * logger.info("calendarEventList " + ScDto.toString());
-	 * 
-	 * List<Event> items = new ArrayList<Event>(); try {
-	 * com.google.api.services.calendar.Calendar service =
-	 * GoogleCalendarService.getCalendarService(); Events events =
-	 * service.events().list(ScDto.getCalendarId()).setOrderBy(
-	 * "schedule_workingstarttime") .setSingleEvents(true).execute(); items =
-	 * events.getItems(); } catch (IOException e) { e.printStackTrace(); } return
-	 * items; }
-	 */
+	@RequestMapping(value="/Hollyday") //예약 새창으로 보내는 맵핑
+	public String insa_formnewCalendar(Model model) {
+		SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
+		String date = SDF.format(new Date());
+		model.addAttribute("date", date);
+		return "/views/insa/Hollyday";
+	}
+	
+	@RequestMapping(value="/HollydayAdd", method = RequestMethod.POST) // 예약 추가 맵핑
+	@ResponseBody
+	public int HollydayAdd(Insa_SalaryDTO dto) {
+		return insaService.HollydayAdd(dto);
+	}
+	
 
 	@RequestMapping("/logout")
 	public ModelAndView logout(HttpSession session) {

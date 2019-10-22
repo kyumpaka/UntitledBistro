@@ -9,15 +9,13 @@ public interface Seobis_MemberDAO {
 	public void Seobis_MemberInsert(Seobis_MemberDTO seobis_MemberDTO_dto);   //회원 추가
 	public void Seobis_MemberDelete(Seobis_MemberDTO seobis_MemberDTO_dto); //회원 삭제
 	public int Seobis_MemberUpdate(Seobis_MemberDTO seobis_MemberDTO_dto); //회원 수정
+	public int Seobis_PointUpdate(Seobis_MemberDTO seobis_MemberDTO_dto); //포인트 수정
 	public Seobis_MemberDTO Seobis_MemberSelect(String member_id); // 회원 읽기
+	public int Seobis_MemberListCount(HashMap<String, String> map); //예약 카운트 비교
 	
-	/*
-	 * public Seobis_ReserveDTO Seobis_ReserveCalendar(String member_id); // 캘린더 예약
-	 * public List<Seobis_ReserveDTO> Seobis_ReserveCalendarList(String member_id);
-	 * //캘린더 리스트 public String Seobis_ClickCalendar(String member_id); // 캘린더 클릭
-	 */	
-	
-	/*
-	 * public Seobis_ReserveDTO Seobis_ReservePoint(String member_id); // 포인트 읽기
-	 * 
-	 */}
+	public int Seobis_ReserveAdd(Seobis_ReserveDTO seobis_ReserveDTO_dto); // 예약 추가
+	public int Seobis_ReserveUpdate(Seobis_ReserveDTO seobis_ReserveDTO_dto); //예약 수정
+	public List<Seobis_ReserveDTO> Seobis_ReserveSelect(); // 예약 읽기
+	public void Seobis_ReserveDelete(Seobis_ReserveDTO seobis_ReserveDTO_dto); //예약 삭제
+	public Seobis_ReserveDTO Seobis_ReserveSelectByNum(HashMap<String, String> map);
+}

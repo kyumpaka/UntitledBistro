@@ -11,9 +11,10 @@ public class Insa_ScheduleDTO {
 	private int schedule_workingdate;// 당월근무일수
 	private String schedule_hollydaystart;// 휴가시작
 	private String schedule_hollydayend; // 휴가종료
-	private String summary; //googleApi에서 필요
-	private String calendarId; //googleApi에서 필요
-    private String description; //googleApi에서 필요 
+	
+	
+	
+	
 	public String getSchedule_no() {
 		return schedule_no;
 	}
@@ -25,6 +26,18 @@ public class Insa_ScheduleDTO {
 	}
 	public void setSchedule_empregister_empnum(String schedule_empregister_empnum) {
 		this.schedule_empregister_empnum = schedule_empregister_empnum;
+	}
+	public Date getSchedule_workingstart() {
+		return schedule_workingstart;
+	}
+	public void setSchedule_workingstart(Date schedule_workingstart) {
+		this.schedule_workingstart = schedule_workingstart;
+	}
+	public Date getSchedule_workingend() {
+		return schedule_workingend;
+	}
+	public void setSchedule_workingend(Date schedule_workingend) {
+		this.schedule_workingend = schedule_workingend;
 	}
 	public String getSchedule_workingtime() {
 		return schedule_workingtime;
@@ -50,47 +63,16 @@ public class Insa_ScheduleDTO {
 	public void setSchedule_hollydayend(String schedule_hollydayend) {
 		this.schedule_hollydayend = schedule_hollydayend;
 	}
-	public String getSummary() {
-		return summary;
-	}
-	public void setSummary(String summary) {
-		this.summary = summary;
-	}
-	public String getCalendarId() {
-		return calendarId;
-	}
-	public void setCalendarId(String calendarId) {
-		this.calendarId = calendarId;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public Date getSchedule_workingstart() {
-		return schedule_workingstart;
-	}
-	public void setSchedule_workingstart(Date schedule_workingstart) {
-		this.schedule_workingstart = schedule_workingstart;
-	}
-	public Date getSchedule_workingend() {
-		return schedule_workingend;
-	}
-	public void setSchedule_workingend(Date schedule_workingend) {
-		this.schedule_workingend = schedule_workingend;
-	}
 	@Override
 	public String toString() {
 		return "Insa_ScheduleDTO [schedule_no=" + schedule_no + ", schedule_empregister_empnum="
 				+ schedule_empregister_empnum + ", schedule_workingstart=" + schedule_workingstart
 				+ ", schedule_workingend=" + schedule_workingend + ", schedule_workingtime=" + schedule_workingtime
 				+ ", schedule_workingdate=" + schedule_workingdate + ", schedule_hollydaystart="
-				+ schedule_hollydaystart + ", schedule_hollydayend=" + schedule_hollydayend + ", summary=" + summary
-				+ ", calendarId=" + calendarId + ", description=" + description + "]";
+				+ schedule_hollydaystart + ", schedule_hollydayend=" + schedule_hollydayend + "]";
 	}
-
-
+    
+    
 
 	
 	

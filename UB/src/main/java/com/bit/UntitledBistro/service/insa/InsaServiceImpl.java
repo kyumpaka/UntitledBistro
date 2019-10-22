@@ -20,6 +20,8 @@ import com.bit.UntitledBistro.model.insa.InsaDAO;
 import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
 import com.bit.UntitledBistro.model.insa.Insa_SalaryDTO;
 import com.bit.UntitledBistro.model.insa.Insa_ScheduleDTO;
+import com.bit.UntitledBistro.model.seobis.Seobis_MemberDAO;
+import com.bit.UntitledBistro.model.seobis.Seobis_ReserveDTO;
 
 
 
@@ -170,7 +172,6 @@ public class InsaServiceImpl implements InsaService {
 			int toDayCheck = insaDAO.DayCheck(dto);
 			if(toDayCheck == 0) { //아이디가 일치하는 놈의 개수 schedule
 				// 출근이 없으면 출근
-				
 				insaDAO.WorkAdd(dto);
 				insaDAO.SalaryAdd(dto);
 				return 1;
@@ -178,7 +179,6 @@ public class InsaServiceImpl implements InsaService {
 				// 출근이 있으면 퇴근
 				insaDAO.WorkEnd(dto);
 				insaDAO.SalaryUpdate(dto);
-
 				return 2;
 			}
 		}
@@ -252,11 +252,35 @@ public class InsaServiceImpl implements InsaService {
 		return insaDAO.PayCheck();
 	}
 
+	/*
+	 * @Override public List<Insa_SalaryDTO> Hollday() { //예약 읽기 InsaDAO insaDAO =
+	 * sqlsession.getMapper(InsaDAO.class); return insaDAO.HollyDay(); }
+	 */
+	@Override
+	public int HollydayAdd(Insa_SalaryDTO dto) {
+		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
+			return insaDAO.HollydayAdd(dto);
 
 
+	}
 
+	@Override
+	public Insa_SalaryDTO SelectNum(String salary_empRegister_empnum) {
+		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("salary_empRegister_empnum", salary_empRegister_empnum);
+		System.out.println("map입니다" + map);
+		return insaDAO.SelectNum(map);
+	}
+
+	@Override
+	public List<Insa_SalaryDTO> Schedule() {
+		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
+
+		
+		return insaDAO.Schedule();
+	}
 	
-	
-	
+
 
 }

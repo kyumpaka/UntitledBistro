@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
 import com.bit.UntitledBistro.model.insa.Insa_SalaryDTO;
 import com.bit.UntitledBistro.model.insa.Insa_ScheduleDTO;
+import com.bit.UntitledBistro.model.seobis.Seobis_ReserveDTO;
 
 public interface InsaService {
 
@@ -47,5 +48,13 @@ public interface InsaService {
 	public int getPayCount();
 
 	public List<Insa_SalaryDTO> PayCheck(HashMap map);
+
+	/* public List<Insa_SalaryDTO> Hollday(); */
+
+	public int HollydayAdd(Insa_SalaryDTO dto);
+
+	public Insa_SalaryDTO SelectNum(String salary_empRegister_empnum);
+
+	public List<Insa_SalaryDTO> Schedule();
 
 }

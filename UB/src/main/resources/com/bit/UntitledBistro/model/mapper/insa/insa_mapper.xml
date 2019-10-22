@@ -112,9 +112,9 @@ VALUES ( (SELECT NVL(MAX(SCHEDULE_NO)+1,0)  FROM SCHEDULE), #{empregister_empnum
 </insert>
 
 <update id ="WorkEnd" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
-UPDATE Schedule SET SCHEDULE_WORKINGEND = SYSDATE WHERE SCHEDULE_EMPREGISTER_EMPNUM = #{empregister_empnum}
+UPDATE Schedule SET SCHEDULE_WORKINGEND = SYSDATE, schedule_workingtime = ROUND((sysdate - schedule_workingstart)*24*60*60) 
+WHERE SCHEDULE_EMPREGISTER_EMPNUM = #{empregister_empnum}
 AND to_char( Schedule_WorkingStart, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd')
-
 </update>
 
 
@@ -170,28 +170,61 @@ where to_char( Schedule_WorkingStart, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd
 	
 	
 	<select id="PayCheck" parameterType="map"
-		resultType="com.bit.UntitledBistro.model.insa.Insa_ScheduleDTO">
-		select salary_no ,salary_empRegister_empnum,
-		salary_workingtime,salary_workingdate
-		
-		from salary
+		resultType="com.bit.UntitledBistro.model.insa.Insa_EmpSalaryJoinDTO">
+ 	
+select  empregister_name
+, sum(empregister_pay) as empregister_pay
+,sum(salary_workingtime) as salary_workingtime
+,sum(salary_workingdate) as salary_workingdate
+,sum(pay) as pay
+from EmpRegister
+inner join salary
+on empregister_empnum = salary_empregister_empnum
+GROUP BY ROLLUP(empregister_name)
+
+
 
 	</select>
 	
-<insert id ="SalaryAdd" parameterType="com.bit.UntitledBistro.model.insa.Insa_SalaryDTO">
+<insert id ="SalaryAdd" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
 INSERT INTO salary
-(salary_no, salary_empRegister_empnum)
-VALUES ( (SELECT NVL(MAX(salary_no)+1,1)  FROM salary), #{empregister_empnum})
+(salary_no, salary_empRegister_empnum, salary_workingtime , salary_workingdate,pay )
+VALUES ( (SELECT NVL(MAX(salary_no)+1,1)  FROM salary), #{empregister_empnum}, 1 ,  (SELECT NVL(MAX(salary_workingdate)+1,1)  FROM salary), 0 )
 </insert>
 
-<update id ="SalaryUpdate" parameterType="com.bit.UntitledBistro.model.insa.Insa_SalaryDTO">
-update salary set salary_workingdate = salary_workingdate +1,Salary_workingtime = salary_workingtime +  
-(select schedule_workingtime from schedule where schedule_empregister_empnum = #{empregister_empnum})
+<update id ="SalaryUpdate" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
+
+update salary 
+set 
+salary_workingtime = salary_workingtime + (select schedule_workingtime from schedule where schedule_empregister_empnum = #{empregister_empnum} )
+, pay = (select empregister_pay from EmpRegister where empregister_empnum = #{empregister_empnum}) * salary_workingdate * salary_workingtime
+where salary_empregister_empnum = #{empregister_empnum} 
 </update>
 	
+	<select id="Schedule"  resultType="com.bit.UntitledBistro.model.insa.Insa_SalaryDTO">
+ 	<![CDATA[
+ 		SELECT
+ 			salary_empregister_empnum,
+ 			salary_hollydaystart,
+ 			salary_hollydayend
+ 		FROM
+ 			salary
+ 	]]>
+ </select>
 	
+	<update id="HollydayAdd" parameterType="com.bit.UntitledBistro.model.insa.Insa_SalaryDTO">
+		<![CDATA[
+		UPDATE salary 
+		SET 
+			salary_empRegister_empnum = #{salary_empRegister_empnum},
+			salary_hollydaystart= #{salary_hollydaystart},
+			salary_hollydayend = #{salary_hollydayend}
+			where salary_empRegister_empnum = #{salary_empRegister_empnum} 
+	]]>
+	</update>
 	
-	
-	
-	
+	 <select id="SelectNum" parameterType="map" resultType="com.bit.UntitledBistro.model.insa.Insa_SalaryDTO">
+SELECT SALARY_EMPREGISTER_EMPNUM,SALARY_HOLLYDAYSTART,SALARY_HOLLYDAYEND from salary WHERE  
+salary_empregister_empnum = #{salary_empRegister_empnum}
+ </select>
 </mapper>

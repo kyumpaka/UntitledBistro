@@ -26,28 +26,29 @@
 		class="table table-striped table-bordered table-hover">
 		<thead>
 			<tr>
-				<th>No</th>
-				<th>사번</th>
-				<th>출근시간</th>
-				<th>퇴근시간</th>
-				<th>일한시간</th>
+				<th>이름</th>
+				<th>시급</th>
+				<th>근무시간</th>
+				<th>근무일수</th>
+				<th>급여</th>
 			</tr>
 
 		</thead>
 		<tbody>
-
+		
 			<c:forEach var="b" items="${PayCheck}">
 
 				<tr>
-					<td>${b.Salary_no}</td>
-
-					<td>${b.Salary_empRegister_empnum }</td>
-					<td>${b.salary_workingtime}시간</td>
-					<td>${b.salary_workingdate}일</td>
+					<td>${b.empregister_name}</td>
+					<td>${b.empregister_pay }000원</td>
+					<td>${b.salary_workingtime }시간</td>
+					<td>${b.salary_workingdate }일</td>
+					<td>${b.pay }000원</td>
 				</tr>
 			</c:forEach>
+			
 		</tbody>
-
+			
 	</table>
 	<!-- <script type="text/javascript">
 		$(document).ready(function() {
