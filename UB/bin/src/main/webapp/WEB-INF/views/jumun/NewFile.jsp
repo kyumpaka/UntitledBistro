@@ -7,6 +7,6 @@
 <title>JSP</title>
 </head>
 <body>
-  여기로 오는지? 로그인 화면이야
+
 </body>
 </html>

@@ -63,6 +63,6 @@
 	<websocket:handlers>
 		<websocket:mapping handler="realTimeHandler" path="/realTime-ws"/>
 	</websocket:handlers>
-
+	
 </beans:beans>
 

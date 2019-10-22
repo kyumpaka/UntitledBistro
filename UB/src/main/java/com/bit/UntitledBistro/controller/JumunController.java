@@ -98,7 +98,7 @@ public class JumunController {
 	}
 	
 	// 메뉴 추가
-	@RequestMapping(value = "/erp/menuAdd.do", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/erp/menuAdd.do", method = RequestMethod.POST)
 	@ResponseBody
 	public int menuAdd(MenuDTO menuDTO, MultipartHttpServletRequest mRequest) {
 		String fileName = jumunService.imgUpload(mRequest);
@@ -126,14 +126,21 @@ public class JumunController {
 	}
 	
 	// 메뉴 수정
-	@RequestMapping(value = "/erp/menuModi.do", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/erp/menuModi.do", method = RequestMethod.POST)
 	@ResponseBody
 	public int menuModi(MenuDTO menuDTO, MultipartHttpServletRequest mRequest) {
 		String fileName = jumunService.imgUpload(mRequest);
-		if(fileName == null) fileName = "없음.jpg";
 		menuDTO.setMenu_Image(fileName);
 		
 		return jumunService.menuModi(menuDTO);
+	}
+	
+	// 메뉴 수정
+	@RequestMapping(value = "/erp/menuNameCheck.do", method = RequestMethod.POST)
+	@ResponseBody
+	public int menuNameCheck(@RequestParam("name") String name) {
+		
+		return jumunService.menuNameCheck(name);
 	}
 	
 	// 재료 확인

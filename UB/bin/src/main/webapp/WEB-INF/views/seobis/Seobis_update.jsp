@@ -17,6 +17,113 @@
 
 
 	function sub() {
+		var member_name = $("#member_name").val();
+		var member_email = $("#member_email").val();
+		var member_birth = $("#member_birth").val();
+		var member_gender = $(':radio[name="member_gender"]:checked').length;
+		var member_phone1 = $("#member_phone1").val();
+		var yy = member_birth.substr(0,2);        // 년도
+	    var mm = member_birth.substr(2,2);        // 월
+	    var dd = member_birth.substr(4,2);        // 일 */
+	    var num1 = member_phone1.substr(0,3); //첫번째 번호 ex) 010
+	    var num2 = member_phone1.substr(3,4); //두번째 번호 ex) 9999 -1
+	    var num3 = member_phone1.substr(3,3) //두번째 번호 ex) 999 -2
+	    var num4 = member_phone1.substr(7) //세번째 번호 ex) 8888 -1  
+	    var num5 = member_phone1.substr(6) //세번째 번호 ex) 8888 - 2 
+	    
+	  //이름 길이 체크
+		if(member_name.length < 2){
+			swal("이름을 2자 이상 입력해 주세요");
+			$("#member_id").focus();
+			return false;
+		}
+		
+		//이름 입력여부 검사
+		if(member_name.length == 0){
+			swal("이름을 입력해 주세요");
+			$("#member_name").focus();
+			return false;
+		}
+		
+		 //이메일 입력여부 검사
+		if(member_email.length == 0){
+			swal("이메일을 입력하지 않았습니다.");
+			$("#member_email").focus();
+			return false;
+		}
+		
+		//이메일 공백 검사
+		if(member_email.indexOf(" ") >= 0){
+			swal("이메일에 공백을 사용할 수 없습니다");
+			$("#member_email").focus();
+			return false;
+		}
+		
+		//생일 입력여부 검사
+		if(member_birth.length == 0){
+			swal("생일을 입력해 주세요");
+			$("#member_birth").focus();
+			return false;
+		}
+		
+		//생일 형식 검사	
+		if(yy < '00' || yy > '99' || mm < '01' || mm > '12' || dd < '01' || dd > '31'){
+			swal("정확히 입력해 주세요");
+			member_birth = ""
+			$("#member_birth").focus();
+			return false;
+		 }
+		
+		//성별 입력여부 검사
+		if(member_gender < 1) {
+			swal("성별을 체크해 주세요");
+			return false;
+		}
+		
+		 //전화 입력여부 검사
+		if(member_phone1.length == 0){
+			swal("전화를 입력해 주세요");
+			$("#member_phone1").focus();
+			return false;
+		}
+		
+		 //전화 공백여부 검사
+		if(member_phone1.indexOf(" ") >= 0){
+			swal("전화에 공백을 사용할 수 없습니다");
+			$("#member_phone1").focus();
+			return false;
+		}
+		 //전화 문자 검사
+		for(i = 0; i < member_phone1.length; i++){
+			ch = member_phone1.charAt(i)
+			if(!(ch >= '0' && ch <= '9')){
+				swal("전화는 숫자만 입력해 주세요");
+			$("#member_phone1").focus();
+			return false;
+			}
+		}
+			//전화 형식 검사
+			if(member_phone1.length != 0){
+				if(num1 != '010'){
+					swal("앞자리는 010 입니다.");
+					member_phone1 = ""
+					$("#member_phone1").focus();
+					return false;
+				}
+				if(num2.length < 3 || num2.length > 4 || num3.length < 3 || num3.length > 4){
+					swal("두번째 자리 전화 범위값이 부적절 합니다.");
+					member_phone1 = ""
+					$("#member_phone1").focus();
+					return false;
+				}
+				if(num4.length < 3 || num4.length > 4 || num5.length < 3) {
+					swal("세번째 자리 전화 범위값이 부적절 합니다.");
+					member_phone1 = ""
+					$("#member_phone1").focus();
+					return false;
+				}
+			}
+			
 		swal({
 		   	  title: "회원 ID : ${Seobis_memberSelect.member_id}을 수정하시겠습니까?",
 		   	  icon: "warning",
@@ -52,10 +159,10 @@
                                 <strong>회원 정보 수정</strong>
                             </div>
                             <div class="card-body card-block">
-                                <form id="edit" action="${path}/Seobis_update" method="post"  class="form-horizontal">
+                                <form id="edit" action="${path}/Seobis/update" method="post"  class="form-horizontal">
                                         <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">아이디</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="member_id" name="member_id"  value="${Seobis_memberSelect.member_id}" readonly="readonly" class="form-control"><small class="form-text text-muted">대소문자, 숫자 사용</small></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="member_id" name="member_id"  value="${Seobis_memberSelect.member_id}" readonly="readonly" class="form-control"><small class="form-text text-muted"></small></div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">이름</label></div>

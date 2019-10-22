@@ -110,6 +110,8 @@ public class JaegoServiceImpl {
 	// 위험재고 갯수조회
 	public int riskItemCount() {
 		List<SafeItemDTO> safeItemList = dao.safeItemSelectList();
+		System.out.println("안전재고 리스트조회");
+		System.out.println(safeItemList);
 		return dao.riskItemCount(safeItemList);
 	}
 	
@@ -165,27 +167,38 @@ public class JaegoServiceImpl {
 	}
 	
 	// 입고 테이블 등록
-	public Map<String, Object> inItemInsert(InItemDTO inItemDTO) {
-		dao.inItemInsert(inItemDTO);
-		
-		ItemDTO itemDTO = new ItemDTO();
-		itemDTO.setItem_product_code(inItemDTO.getIi_product_code());
-		itemDTO.setItem_qty(inItemDTO.getIi_qty());
-		
-		int result = dao.itemValidate(itemDTO);
-		if(result == 0) {
-			dao.itemInsert(itemDTO);
-		} else {
-			dao.itemPlusUpdate(itemDTO);
+	public void inItemInsert(int ordin_num) {
+		List<InItemDTO> inItemDTOList = dao.orderInItemSelect(ordin_num);
+		for(InItemDTO inItemDTO : inItemDTOList) {
+			inItemDTO.setIi_ordin_num(ordin_num);
+			dao.inItemInsert(inItemDTO);
+			
+			ItemDTO itemDTO = new ItemDTO();
+			itemDTO.setItem_product_code(inItemDTO.getIi_product_code());
+			itemDTO.setItem_qty(inItemDTO.getIi_qty());
+			
+			int result = dao.itemValidate(itemDTO);
+			if(result == 0) {
+				dao.itemInsert(itemDTO);
+			} else {
+				dao.itemPlusUpdate(itemDTO);
+			}
 		}
 		
-		List<SafeItemDTO> safeItemList = dao.safeItemSelectList();
-		int count = dao.riskItemCount(safeItemList);
+	}
+	
+	// 입고 테이블 삭제
+	public void inItemDelete(int ordin_num) {
+		List<InItemDTO> inItemDTOList = dao.orderInItemSelect(ordin_num);
+		for(InItemDTO inItemDTO : inItemDTOList) {
+			dao.inItemDelete(inItemDTO);
+			ItemDTO itemDTO = new ItemDTO();
+			itemDTO.setItem_product_code(inItemDTO.getIi_product_code());
+			itemDTO.setItem_qty(inItemDTO.getIi_qty());
+			
+			dao.itemMinusUpdate(itemDTO);
+		}
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("result", result);
-		map.put("count", count);
-		return map;
 	}
 	
 	// 출고 테이블 등록

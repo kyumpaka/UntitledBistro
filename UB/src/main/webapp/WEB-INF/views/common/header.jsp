@@ -71,8 +71,11 @@
         </header>
 
 <!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>        
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
+      
+<!-- Swal -->      
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <!-- WebSocket -->
 <script type="text/javascript">
 
@@ -99,6 +102,10 @@ function onMessage(e) {
 	$("#riskItemCount").html(e.data);
 	
 	if(count != e.data) {
+		console.log("==== 결과 ====")
+		console.log(count);
+		console.log(e.data);
+		console.log("==============")
 		swal({
 			title: "위험재고 수량알림",
 			text: "위험재고 갯수에 변경사항이 있음을 알립니다.",

@@ -180,12 +180,12 @@
 					},
 				//grid에 표현될 필드 요소
 				fields : [ 
+					{name : "TO_CHAR(ORPLIN_DATE,'YYYY-MM-DD')", type : "text", title : "일자", align: "center",
+						 readOnly : true, width : 100}, 
 					{name : "ORDPL_ORDLIN_NUM",  type : "text", title : "발주계획번호", align: "center",
 					 readOnly : true, width : 100}, 
 					{name : "ORDPL_ONUM",  type : "text", title : "발주물품번호", align: "center",
 						 readOnly : true, sorting : true, width : 100}, 
-					{name : "TO_CHAR(ORPLIN_DATE,'YYYY-MM-DD')", type : "text", title : "날짜", align: "center",
-					 readOnly : true, width : 100}, 
 					{name : "ORDPL_PRODUCT_CODE",type : "text",title : "품목코드", align: "center",
 					 readOnly : true, width : 150}, 
 					{name : "ORDPL_PRODUCT_NAME",type : "text",title : "품목명", align: "center",

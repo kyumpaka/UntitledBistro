@@ -45,6 +45,8 @@ public interface JumunService {
 	
 	public int menuModi(MenuDTO dto);
 	
+	public int menuNameCheck(String name);
+	
 	// 재료
 	public ArrayList<IngredientDTO> ingreSearchByMenuCode(String menu_Code);
 	
