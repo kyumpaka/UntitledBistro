@@ -89,6 +89,11 @@ public class Balju_DAOimpl implements Balju_DAO {
 	public void End_Balju(Balju_DTO Bdto) {
 		sqlSession.update("balju.End_Balju", Bdto);
 	}
+	
+	@Override
+	public void orderListInItemUpdate(int  order_ordin_num) {
+		sqlSession.update("balju.orderListInItemUpdate", order_ordin_num);
+	}
 
 	@Override
 	public void Delete_Balju_Plan1(Balju_PlanDTO BPdto) {

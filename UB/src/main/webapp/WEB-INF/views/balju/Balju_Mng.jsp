@@ -160,7 +160,6 @@
 			return false;
 			}
 		
-
 		if(confirm("선택한 발주서를 삭제하시겠습니까?")){
 				$.ajax({
 					method : "post",
@@ -183,10 +182,13 @@
 					});
 			//if confirm end
 			}
+		
+		
 		}
 </script>
 <script>
 	$('.endBtn').click(function(){
+	
 	var ynParam = $(this).attr('value'); //종결이냐 취소냐
 	var endVal = $(this); // 버튼위치
 	var endParam = new Array();
@@ -227,12 +229,11 @@
 					var jsonResult = JSON.parse(JSON.stringify(result));
 					if(jsonResult.result == "success"){
 							alert(jsonResult.resultMsg);
-							location.href="${path}/balju/Balju_Mng"
+							location.href="${path}/balju/Balju_Mng?isRiskItemCount=" + jsonResult.riskItemCount;
 					}else if(jsonResult.result == "failure"){
 							alert(jsonResult.resultMsg);
 							return false;
 					}
-					webSocket.send(jsonResult.riskItemCount);
 					//success end
 				}
 					
@@ -240,6 +241,7 @@
 			});
 		//if confirm end
 		}
+	
 	});
 </script>
 </body>

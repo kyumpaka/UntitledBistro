@@ -21,6 +21,7 @@ public interface Balju_DAO {
 	void balju_Plan_modi(Balju_PlanDTO BPdto);
 	void balju_Modi(Balju_DTO Bdto);
 	void End_Balju(Balju_DTO Bdto);
+	void orderListInItemUpdate(int  order_ordin_num);
 	
 	void Delete_Balju_Plan1(Balju_PlanDTO BPdto);
 	void Delete_Balju_Plan2(Balju_PlanDTO BPdto);

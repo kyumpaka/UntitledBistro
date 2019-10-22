@@ -12,8 +12,6 @@ import com.bit.UntitledBistro.model.balju.Balju_DAO;
 import com.bit.UntitledBistro.model.balju.Balju_DTO;
 import com.bit.UntitledBistro.model.balju.Balju_PlanDTO;
 import com.bit.UntitledBistro.model.balju.Item_DTO;
-import com.bit.UntitledBistro.model.jaego.JaegoDAOImpl;
-import com.bit.UntitledBistro.model.jaego.SafeItemDTO;
 import com.bit.UntitledBistro.service.jaego.JaegoServiceImpl;
 
 @Service
@@ -127,17 +125,28 @@ public class Balju_ServiceImpl implements Balju_Service {
 	//발주서 종결처리
 	@Override
 	public int End_Balju(List<Map<String,String>> endRow) {
+		System.out.println("시작2");
 		Balju_DTO Bdto = new Balju_DTO();
 		for (Map<String, String> data : endRow) {
-
+			
 			Bdto.setORDIN_NUM(Integer.parseInt(data.get("ORDIN_NUM")));
 			Bdto.setORDIN_END(data.get("ORDIN_END"));
 			this.balju_DAO.End_Balju(Bdto);
-			jaego.inItemInsert(Integer.parseInt(data.get("ORDIN_NUM")));
+			
+			System.out.println("가즈아!!");
+			if(data.get("ORDIN_END").equals("종결")) {
+				System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa삭제aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+				jaego.inItemDelete(Integer.parseInt(data.get("ORDIN_NUM")));;
+			} else {
+				System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb등록bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+				jaego.inItemInsert(Integer.parseInt(data.get("ORDIN_NUM")));
+				balju_DAO.orderListInItemUpdate(Integer.parseInt(data.get("ORDIN_NUM")));
+			}
 		}
 		
-		return jaego.riskItemCount();
-		
+		int riskItemCount = jaego.riskItemCount();
+		System.out.println("위험재고수량 : " + riskItemCount);
+		return riskItemCount;
 	}
 	
 	//관심품목 목록 수정

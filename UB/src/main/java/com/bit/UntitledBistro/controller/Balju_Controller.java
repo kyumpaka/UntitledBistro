@@ -90,14 +90,16 @@ public class Balju_Controller {
 	}
 	
 	@RequestMapping(value = "/balju/Balju_Mng", method = RequestMethod.GET)
-	public String Balju_Mng_Filter(@RequestParam (value = "FilterParam", required = false ,defaultValue = "종결") String FilterParam, Model model) {
+	public String Balju_Mng_Filter(@RequestParam (value = "FilterParam", required = false ,defaultValue = "종결") String FilterParam, @RequestParam(value = "isRiskItemCount", defaultValue = "none") String isRiskItemCount, Model model) {
 		logger.info("발주관리 필터에 접속되었습니다.");
 		logger.info(FilterParam);
+		logger.info(isRiskItemCount);
 		List<Map<String, String>> list = this.balju_Service.balju_Mng_Filter(FilterParam);
 		
 		
 		
 		model.addAttribute("Mng_list", list);
+		model.addAttribute("isRiskItemCount", isRiskItemCount);
 		return "balju/Balju_Mng";
 	}
 	////////// 일반 페이지 영역 //////////
@@ -322,9 +324,9 @@ public class Balju_Controller {
 		Map<String, String> resultMap = new HashMap<String, String>();
 		String result = null;
 		String resultMsg = null;
+		int riskItemCount = 0;
 
 		System.out.println("종결 where row값 : " + EndRow);
-		int riskItemCount = 0;
 		try {
 			riskItemCount = this.balju_Service.End_Balju(EndRow);
 

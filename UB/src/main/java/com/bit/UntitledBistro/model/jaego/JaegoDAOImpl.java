@@ -138,6 +138,12 @@ public class JaegoDAOImpl {
 		return mybatis.insert("jaego.inItemInsert", inItemDTO);
 	}
 	
+	// 입고 테이블 삭제
+	public int inItemDelete(InItemDTO inItemDTO) {
+		return mybatis.delete("jaego.inItemDelete", inItemDTO);
+	}
+	
+	
 	// 재고 테이블 유효성검사
 	public int itemValidate(ItemDTO itemDTO) {
 		return mybatis.selectOne("jaego.itemValidate", itemDTO);

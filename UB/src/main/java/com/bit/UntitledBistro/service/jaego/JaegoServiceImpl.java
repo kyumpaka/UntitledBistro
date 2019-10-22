@@ -110,6 +110,8 @@ public class JaegoServiceImpl {
 	// 위험재고 갯수조회
 	public int riskItemCount() {
 		List<SafeItemDTO> safeItemList = dao.safeItemSelectList();
+		System.out.println("안전재고 리스트조회");
+		System.out.println(safeItemList);
 		return dao.riskItemCount(safeItemList);
 	}
 	
@@ -181,6 +183,20 @@ public class JaegoServiceImpl {
 			} else {
 				dao.itemPlusUpdate(itemDTO);
 			}
+		}
+		
+	}
+	
+	// 입고 테이블 삭제
+	public void inItemDelete(int ordin_num) {
+		List<InItemDTO> inItemDTOList = dao.orderInItemSelect(ordin_num);
+		for(InItemDTO inItemDTO : inItemDTOList) {
+			dao.inItemDelete(inItemDTO);
+			ItemDTO itemDTO = new ItemDTO();
+			itemDTO.setItem_product_code(inItemDTO.getIi_product_code());
+			itemDTO.setItem_qty(inItemDTO.getIi_qty());
+			
+			dao.itemMinusUpdate(itemDTO);
 		}
 		
 	}

@@ -190,6 +190,7 @@
 		     ORDER_PRODUCT_CODE  	AS II_PRODUCT_CODE
 		    ,ORDER_PRODUCT_NAME 	AS II_PRODUCT_NAME
 		    ,ORDER_QT   			AS II_QTY
+		    ,ORDER_II_NO			AS II_NO
 		FROM
 		    ORDER_INPUT
 		INNER JOIN 
@@ -198,8 +199,6 @@
 		    ORDIN_NUM = ORDER_ORDIN_NUM
 		WHERE
 		    ORDIN_NUM = #{ordin_num}
-		AND
-		    ORDIN_END ='취소'
 		]]>
  	</select>
  	
@@ -228,6 +227,15 @@
 				,#{ii_qty}
 				)
  	</insert>
+ 	
+ 	<delete id="inItemDelete" parameterType="inItem">
+ 		<![CDATA[
+ 		DELETE
+ 			IN_ITEM
+ 		WHERE
+ 			II_NO = #{ii_no}
+ 		]]>
+ 	</delete>
  	
  	<select id="outItemSelectList" parameterType="condition" resultType="outItem">
  		<![CDATA[
