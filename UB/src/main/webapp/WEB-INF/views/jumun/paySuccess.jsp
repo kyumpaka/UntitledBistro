@@ -33,10 +33,10 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	opener.location.href = "posMain.do";
-});
+})
 
 function windowClose() {
 	window.close();
-};
+}
 </script>
 </html>

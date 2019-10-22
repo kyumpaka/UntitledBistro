@@ -60,7 +60,7 @@ function moveTable(tableCode) {
 	var changebutton = "<input type=\"number\" id=\"input"+tableCode+"\" value="+tableCode+" style=\"width: 50px;\">&nbsp;";
 	changebutton += "<button onclick=\"moveTableEnd(\'"+tableCode+"\')\" class=\"btn btn-primary btn-sm\">완료</button>";
 	$("#td"+tableCode).html(changebutton);
-};
+}
 
 function moveTableEnd(tableCode) {
 	var newTableCode = $("#input"+tableCode).val();
@@ -94,13 +94,13 @@ function moveTableEnd(tableCode) {
 				$("#input"+tableCode).focus();
 			});
 	}
-};
+}
 
 function joinTable(tableCode) {
 	var changebutton = "<input type=\"number\" id=\"input"+tableCode+"\" value="+tableCode+" style=\"width: 50px;\">&nbsp;";
 	changebutton += "<button onclick=\"joinTableEnd(\'"+tableCode+"\')\" class=\"btn btn-primary btn-sm\">완료</button>";
 	$("#td"+tableCode).html(changebutton);
-};
+}
 
 function joinTableEnd(tableCode) {
 	var newTableCode = $("#input"+tableCode).val();
@@ -134,11 +134,11 @@ function joinTableEnd(tableCode) {
 				$("#input"+tableCode).focus();
 			});
 	}
-};
+}
 
 function goCloseMoveTable() {
 	  opener.document.location.reload();
 	  window.close();
-};
+}
 </script>
 </html>
