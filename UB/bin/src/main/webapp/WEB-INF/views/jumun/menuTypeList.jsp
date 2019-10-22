@@ -61,7 +61,7 @@ function mt_Del(name, code) {
 		}).then((willDelete) => {
 			  if (willDelete) {
 				  $.ajax({
-					  url: '/erp/menuTypeRemove.do',
+					  url: 'menuTypeRemove.do',
 					  type: 'post',
 					  data: { mt_Code:code },
 					  dataType: 'json',
@@ -98,7 +98,7 @@ function mt_Modiend(code) {
 		var info = {mt_Code:code, mt_Name:name};
 		
 		$.ajax({
-			  url: '/erp/menuTypeModi.do',
+			  url: 'menuTypeModi.do',
 			  type: 'post',
 			  data: JSON.stringify(info),
 			  dataType: 'json',
