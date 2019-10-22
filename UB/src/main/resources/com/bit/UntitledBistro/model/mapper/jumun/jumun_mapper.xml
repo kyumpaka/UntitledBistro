@@ -30,7 +30,7 @@
 		<trim prefix="WHERE" prefixOverrides="AND">
 			<if test="menu_Mt_Code != null and menu_Mt_Code != ''">MENU_MT_CODE = #{menu_Mt_Code}</if>
 			<if test="menu_Code != null">AND MENU_CODE = #{menu_Code}</if>
-			<if test="menu_State == '판매'">AND MENU_STATE = #{menu_State}</if>
+			<if test="menu_State == '?�매'">AND MENU_STATE = #{menu_State}</if>
 		</trim>
 	ORDER BY MENU_CODE
 	</select>
@@ -75,7 +75,7 @@
 	
 	<insert id="ingreInsert" >
 	INSERT INTO INGREDIENT(INGREDIENT_NO, INGREDIENT_MENU_CODE, INGREDIENT_PRODUCT_CODE, INGREDIENT_QTY) 
-	VALUES(CONCAT('IGD',(SELECT NVL(MAX(TO_NUMBER(SUBSTR(INGREDIENT_NO,4,2))),0)+1 FROM INGREDIENT), #{ingredient_Menu_Code}, #{ingredient_Product_Code}, #{ingredient_Qty})
+    VALUES(CONCAT('IGD',(SELECT NVL(MAX(TO_NUMBER(SUBSTR(INGREDIENT_NO,4,2))),0)+1 FROM INGREDIENT)), #{ingredient_Menu_Code}, #{ingredient_Product_Code}, #{ingredient_Qty})
 	</insert>
 	
 	<delete id="ingreDelete">

@@ -1,65 +1,176 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+	<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>jQuery UI Datepicker - Select a Date Range</title>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-  $( function() {
-    var dateFormat = "yy-mm-dd",
-      from = $( "#from" )
-        .datepicker({
-          defaultDate: "+1w",
-          changeMonth: true,
-          numberOfMonths: 2
-        })
-        .on( "change", function() {
-          to.datepicker( "option", "minDate", getDate( this ) );
-        }),
-      to = $( "#to" ).datepicker({
-        defaultDate: "+1w",
-        changeMonth: true,
-        numberOfMonths: 2
-      })
-      .on( "change", function() {
-        from.datepicker( "option", "maxDate", getDate( this ) );
-      });
- 
-    function getDate( element ) {
-      var date;
-      try {
-        date = $.datepicker.parseDate( dateFormat, element.value );
-      } catch( error ) {
-        date = null;
-      }
- 
-      return date;
-    }
-  } );
-  </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jQuery UI Datepicker - Select a Date Range</title>
+<!-- 그래프 시작 -->
+<!-- Styles -->
+<style>
+#chartdiv {
+	width: 100%;
+	height: 350px;
+}
+</style>
+
+<!-- Resources -->
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+<!-- Chart code -->
+<script>
+	am4core.ready(function() {
+
+		// Themes begin
+		am4core.useTheme(am4themes_animated);
+		// Themes end
+
+		// Create chart instance
+		var chart = am4core.create("chartdiv", am4charts.XYChart);
+
+		// Add data
+		chart.data = [ {
+			"Month" : "1월",
+			"value" : 600000
+		}, {
+			"Month" : "2월",
+			"value" : 900000
+		}, {
+			"Month" : "3월",
+			"value" : 180000
+		}, {
+			"Month" : "4월",
+			"value" : 600000
+		}, {
+			"Month" : "5월",
+			"value" : 350000
+		}, {
+			"Month" : "6월",
+			"value" : 600000
+		}, {
+			"Month" : "7월",
+			"value" : 670000
+		}, {
+			"Month" : "8월",
+			"value" : 900000
+		}, {
+			"Month" : "9월",
+			"value" : 180000
+		}, {
+			"Month" : "10월",
+			"value" : 600000
+		}, {
+			"Month" : "11월",
+			"value" : 350000
+		}, {
+			"Month" : "12월",
+			"value" : 600000
+		} ];
+
+		// Populate data
+		for (var i = 0; i < (chart.data.length - 1); i++) {
+			chart.data[i].valueNext = chart.data[i + 1].value;
+		}
+
+		// Create axes
+		var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+		categoryAxis.dataFields.category = "Month";
+		categoryAxis.renderer.grid.template.location = 0;
+		categoryAxis.renderer.minGridDistance = 30;
+
+		var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+		valueAxis.min = 0;
+
+		// Create series
+		var series = chart.series.push(new am4charts.ColumnSeries());
+		series.dataFields.valueY = "value";
+		series.dataFields.categoryX = "Month";
+
+		// Add series for showing variance arrows
+		var series2 = chart.series.push(new am4charts.ColumnSeries());
+		series2.dataFields.valueY = "valueNext";
+		series2.dataFields.openValueY = "value";
+		series2.dataFields.categoryX = "Month";
+		series2.columns.template.width = 1;
+		series2.fill = am4core.color("#555");
+		series2.stroke = am4core.color("#555");
+
+		// Add a triangle for arrow tip
+		var arrow = series2.bullets.push(new am4core.Triangle);
+		arrow.width = 10;
+		arrow.height = 10;
+		arrow.horizontalCenter = "middle";
+		arrow.verticalCenter = "top";
+		arrow.dy = -1;
+
+		// Set up a rotation adapter which would rotate the triangle if its a negative change
+		arrow.adapter.add("rotation", function(rotation, target) {
+			return getVariancePercent(target.dataItem) < 0 ? 180 : rotation;
+		});
+
+		// Set up a rotation adapter which adjusts Y position
+		arrow.adapter.add("dy", function(dy, target) {
+			return getVariancePercent(target.dataItem) < 0 ? 1 : dy;
+		});
+
+		// Add a label
+		var label = series2.bullets.push(new am4core.Label);
+		label.padding(10, 10, 10, 10);
+		label.text = "";
+		label.fill = am4core.color("#0c0");
+		label.strokeWidth = 0;
+		label.horizontalCenter = "middle";
+		label.verticalCenter = "bottom";
+		label.fontWeight = "bolder";
+
+		// Adapter for label text which calculates change in percent
+		label.adapter.add("textOutput", function(text, target) {
+			var percent = getVariancePercent(target.dataItem);
+			return percent ? percent + "%" : text;
+		});
+
+		// Adapter which shifts the label if it's below the variance column
+		label.adapter.add("verticalCenter", function(center, target) {
+			return getVariancePercent(target.dataItem) < 0 ? "top" : center;
+		});
+
+		// Adapter which changes color of label to red
+		label.adapter.add("fill", function(fill, target) {
+			return getVariancePercent(target.dataItem) < 0 ? am4core
+					.color("#c00") : fill;
+		});
+
+		function getVariancePercent(dataItem) {
+			if (dataItem) {
+				var value = dataItem.valueY;
+				var openValue = dataItem.openValueY;
+				var change = value - openValue;
+				return Math.round(change / openValue * 100);
+			}
+			return 0;
+		}
+
+	}); // end am4core.ready()
+</script>
+<!-- 그래프 끝 -->
+
 <meta charset="UTF-8">
 <title></title>
 </head>
 <body>
+	<div id="chartdiv"></div>
 	몬뜨리 리스트 입니다
 	즉 월마감 리스트 입니다.
-	<label for="from">From</label>
-	<input type="text" id="from" name="from">
-	<label for="to">to</label>
-	<input type="text" id="to" name="to">
 	
 	<h2 align="center">Monthly List</h2><br><br>
-
+	
 	<div class="container" align="center">
 		<table border="5" style="width: 100%;">
 			<tr bgcolor="gray" align="center">
-				<td>날짜</td>
 				<td>현금</td>
 				<td>카드</td>
 				<td>총매출</td>
@@ -69,23 +180,27 @@
 				<td>포인트사용가</td>
 				<td>환불</td>
 				<td>환불이유</td>
-				<td>직급</td>
-				<td>차액</td>
+				<td>날짜</td>
+				<!-- <td>직급</td>
+				<td>차액</td> -->
 			</tr>	
+			
+			<c:forEach var="M" items="${MonthList}">
 			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td> 
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td> 
+				<td>${M.month_cash}</td>
+				<td>${M.month_card}</td>
+				<td>${M.month_worktime}</td>
+				<td>${M.month_expenditure}</td>
+				<td>${M.month_point}</td>
+				<td>${M.month_refund}</td>
+				<td>${M.month_sum}</td> 
+				<td>${M.month_real_sum}</td>
+				<td>${M.month_date}</td>
+				<%-- <td>${M. }</td>
+				<td>${M. }</td>  --%>
 				<td>포스 입력 금액 - 매니저 입력금액</td>
 			</tr>
+			</c:forEach>
 		</table>
 	</div>
 	<button type="button"><a href="Daily.html">일마감</a></button>

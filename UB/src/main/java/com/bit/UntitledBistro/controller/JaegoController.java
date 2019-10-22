@@ -195,25 +195,4 @@ public class JaegoController {
 		logger.info("여기는 출고 등록 테스트 컨트롤러입니다.");
 	}
 	
-	
-	
-	///////////////////////////////////////////////////
-	///////////  그리드 입고 등록 테스트   ////////////
-	///////////////////////////////////////////////////
-	@PostMapping(value = "/gridInItemInsert")
-	public @ResponseBody Map<String, Object> gridInItemInsert(@RequestBody InItemDTO inItemDTO) {
-		logger.info("여기는 그리드 입고 등록 테스트 컨트롤러입니다.");
-		return service.inItemInsert(inItemDTO);
-	}
-	
-	
-	///////////////////////////////////////////////////
-	///////////  그리드 출고 등록 테스트   ////////////
-	///////////////////////////////////////////////////
-	@PostMapping(value = "/gridOutItemInsert")
-	public @ResponseBody int gridOutItemInsert(@RequestBody OutItemDTO outItemDTO) {
-		logger.info("여기는 그리드 출고 등록 테스트 컨트롤러입니다.");
-		return service.outItemInsert(outItemDTO);
-	}
-	
 }

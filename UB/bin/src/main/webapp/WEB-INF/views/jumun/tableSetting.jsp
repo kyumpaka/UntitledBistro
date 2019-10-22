@@ -187,7 +187,7 @@ $(function() {
 	   }
 
 	   $.ajax({
-			  url: 'tableSave.do',
+			  url: '/erp/tableSave.do',
 			  type: 'post',
 			  data: JSON.stringify(tableArray),
 			  dataType: 'json',

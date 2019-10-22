@@ -8,6 +8,14 @@
 		select * from Jungsan_Input
 	</select>
 	
+	<select id="to_date" resultType="string">
+		select DISTINCT to_char(sysdate, 'day') from Jungsan_Input
+	</select>
+	
+	<select id="MonthList" resultType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
+		select * from Month_Input where month_date like to_date(sysdate , 'YYYY-MM-DD')
+	</select>
+	
 	<insert id="insert_daily">
 		insert into Jungsan_Input(
 		jungsan_input_cash,jungsan_input_card,
@@ -19,6 +27,41 @@
 		#{jungsan_input_grade, jdbcType=VARCHAR},#{jungsan_input_worktime, jdbcType=NUMERIC},
 		#{jungsan_input_expenditure, jdbcType=NUMERIC},#{jungsan_input_point, jdbcType=NUMERIC},
 		#{jungsan_input_refund, jdbcType=NUMERIC},#{jungsan_input_reason, jdbcType=VARCHAR},sysdate)
+	</insert>
+	
+	<insert id="insert_Monthly">
+	insert into Month_Input
+		max(month_cash,month_card,month_worktime,month_expenditure,
+		month_point,month_refund,month_sum,month_real_sum,month_date) 
+		select DISTINCT
+		(select sum(jungsan_input_cash) from Jungsan_Input where jungsan_input_date between
+		(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Jungsan_Input) and 
+		(select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from Jungsan_Input)),
+		(select sum(Jungsan_Input_card) from Jungsan_Input where jungsan_input_date between
+		(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Jungsan_Input) and 
+		(select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from Jungsan_Input)),
+		(select sum(Jungsan_Input_worktime*8350) from Jungsan_Input where jungsan_input_date between
+		(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Jungsan_Input) and 
+		(select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from Jungsan_Input)),
+		(select sum(Jungsan_Input_expenditure) from Jungsan_Input where jungsan_input_date between
+		(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Jungsan_Input) and 
+		(select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from Jungsan_Input)),
+		(select sum(Jungsan_Input_point) from Jungsan_Input where jungsan_input_date between
+		(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Jungsan_Input) and 
+		(select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from Jungsan_Input)),
+		(select sum(Jungsan_Input_refund) from Jungsan_Input where jungsan_input_date between
+		(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Jungsan_Input) and 
+		(select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from Jungsan_Input)),
+		(select sum(Jungsan_Input_cash+Jungsan_Input_card) from Jungsan_Input where jungsan_input_date between
+		(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Jungsan_Input) and 
+		(select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from Jungsan_Input)),
+		(select sum(Jungsan_Input_cash+Jungsan_Input_card-Jungsan_Input_point) from Jungsan_Input where 
+		jungsan_input_date between
+		(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Jungsan_Input) and 
+		(select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from Jungsan_Input)),
+		(select DISTINCT Jungsan_Input_date from Jungsan_Input where Jungsan_Input_date like 
+		to_date(sysdate,'YYYY-MM-DD'))
+		from Jungsan_Input	
 	</insert>
 	
 	<update id="update" parameterType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">

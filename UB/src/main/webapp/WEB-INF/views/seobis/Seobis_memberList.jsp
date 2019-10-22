@@ -61,9 +61,9 @@
                         <div class="page-header float-right">
                             <div class="page-title">
                                 <ol class="breadcrumb text-right">
-                                    <li class="active"><a href="Seobis_jUs">회원 등록</a></li>
-                                    <li><a href="#">예약 확인</a></li>
-                                    <li><a href="Seobis_pList">포인트 관리</a></li>
+                                    <li class="active"><a href="${path}/Seobis/jUs">회원 등록</a></li>
+                                    <li><a href="${path}/Seobis/cal">예약 관리</a></li>
+                                    <li><a href="${path}/Seobis/pList">포인트 관리</a></li>
                                 </ol>
                             </div>
                         </div>
@@ -97,7 +97,7 @@
                                     <tbody>
                                         <c:forEach var="b" items="${Seobis_memberList}">
 											<tr>
-												<td><div id="btn_group"><button id="updatebutton" onclick='location.href="${path}/Seobis_select?member_id=${b.member_id}"'>${b.member_id}</button></div></td>
+												<td><div id="btn_group"><button id="updatebutton" onclick='location.href="${path}/Seobis/select?member_id=${b.member_id}"'>${b.member_id}</button></div></td>
 												<td>${b.member_name}</td>
 												<td>${b.member_gender}</td>
 												<td>${b.member_birth}</td>
@@ -119,10 +119,10 @@
         <div class="clearfix"></div>
 
     <!-- Scripts -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script> --> <!-- 이거 쓰면 메뉴 비활성화 됩니다 --> 
+<!--     <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script> 이거 쓰면 메뉴 비활성화 됩니다  -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+<!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script> -->
+<!--     <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script> -->
     <script src="${path}/resources/Admin/assets/js/main.js"></script>
     <script src="${path}/resources/Admin/assets/js/lib/data-table/datatables.min.js"></script>
     <script src="${path}/resources/Admin/assets/js/lib/data-table/dataTables.bootstrap.min.js"></script>
@@ -170,7 +170,6 @@
       		   	})
       		.then((value) => {
       			if(value) {
-      				if(false) swal("ss");
       				realMod(member_id);
       			}
       		});
@@ -183,8 +182,7 @@
                	    })
         		.then((value) => {
         			if(value) {
-        				if(false) swal("ss");
-        				 $(location).attr("href", "${path}/Seobis_delete?member_id=" + realId);
+        				 $(location).attr("href", "${path}/Seobis/delete?member_id=" + realId);
         			}
         		});
             }

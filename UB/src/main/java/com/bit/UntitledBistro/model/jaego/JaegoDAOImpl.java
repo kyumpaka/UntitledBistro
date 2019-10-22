@@ -128,10 +128,21 @@ public class JaegoDAOImpl {
 		return mybatis.selectList("jaego.safeItemInserts", SafeItemDTOs);
 	}
 	
+	// 주문 테이블 이용하여 입고 테이블 조회하기
+	public List<InItemDTO> orderInItemSelect(int ordin_num) {
+		return mybatis.selectList("jaego.orderInItemSelect", ordin_num);
+	}
+	
 	// 입고 테이블 등록
 	public int inItemInsert(InItemDTO inItemDTO) {
 		return mybatis.insert("jaego.inItemInsert", inItemDTO);
 	}
+	
+	// 입고 테이블 삭제
+	public int inItemDelete(InItemDTO inItemDTO) {
+		return mybatis.delete("jaego.inItemDelete", inItemDTO);
+	}
+	
 	
 	// 재고 테이블 유효성검사
 	public int itemValidate(ItemDTO itemDTO) {
