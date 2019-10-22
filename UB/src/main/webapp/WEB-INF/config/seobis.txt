@@ -1,10 +1,16 @@
+--------------------- 테이블 전체삭제 -------------------------------------
+DROP TABLE RESERVE;
+DROP TABLE MEMBER;
+
+-----------------------------------------------------------------------------
+
 create table RESERVE ( -- 예약 테이블
         RESERVE_NUM VARCHAR2(20), -- 번호(PK)
         RESERVE_MEMBER_ID VARCHAR2(50),  -- 아이디(FK)
         RESERVE_NAME VARCHAR2(50), -- 이름
         RESERVE_PHONE1 VARCHAR2(50), -- 전화1
         RESERVE_FIRSTTIME DATE DEFAULT SYSDATE, -- 처음 예약한 날짜
-        RESERVE_DATE DATE DEFAULT SYSDATE -- 방문할 날짜
+        RESERVE_DATE DATE DEFAULT SYSDATE, -- 방문할 날짜
         RESERVE_START VARCHAR2(50), 
         RESERVE_END VARCHAR2(50)
 );
