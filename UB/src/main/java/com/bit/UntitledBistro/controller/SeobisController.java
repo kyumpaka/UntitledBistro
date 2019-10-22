@@ -46,11 +46,17 @@ public class SeobisController {
 		model.addAttribute("Seobis_reserveSelect", Seobis_memberService.Seobis_ReserveSelect());
 		return "seobis/Seobis_calendar";
 	}
+	@RequestMapping(value="/pop/jUs")  // 팝업 회원 등록으로 보내는 맵핑
+	public String seobis_formaddPop() {
+		return "views/seobis/Seobis_joinUs";
+	}
+	@RequestMapping(value="/pop/Seobis_calendar")  // 팝업 예약 내역 확인
+	public String seobis_resList(Model model) {
+		model.addAttribute("Seobis_reserveSelect", Seobis_memberService.Seobis_ReserveSelect());
+		return "views/seobis/Seobis_calendar";
+	}
 	@RequestMapping(value="/Seobis_newCalendar") //예약 새창으로 보내는 맵핑
-	public String seobis_formnewCalendar(Model model) {
-		SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
-		String date = SDF.format(new Date());
-		model.addAttribute("date", date);
+	public String seobis_formnewCalendar(@ModelAttribute("date") String date) {
 		return "/views/seobis/Seobis_newCalendar";
 	}
 	

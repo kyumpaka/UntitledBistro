@@ -206,7 +206,7 @@ public class JumunServiceImpl implements JumunService {
 				if(menuDTO.getIngredientDTO().get(i).getIngredient_Product_Code() != null && menuDTO.getIngredientDTO().get(i).getIngredient_Qty() != 0) {
 					map = new HashMap<String, String>();
 					map.put("menu_Name", menuDTO.getMenu_Name());
-					menuDTO.getIngredientDTO().get(i).setIngredient_Menu_Code(dao.menuSelectByMenuName(map));
+					menuDTO.getIngredientDTO().get(i).setIngredient_Menu_Code(dao.menuSelectByMenuName(map)); // 메뉴이름으로 메뉴코드 찾기
 					dao.ingreInsert(menuDTO.getIngredientDTO().get(i)); // 새로운 메뉴 재료 입력
 				}
 			}

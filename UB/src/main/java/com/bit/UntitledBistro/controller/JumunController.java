@@ -135,7 +135,7 @@ public class JumunController {
 		return jumunService.menuModi(menuDTO);
 	}
 	
-	// 메뉴 수정
+	// 메뉴 이름 확인
 	@RequestMapping(value = "/erp/menuNameCheck.do", method = RequestMethod.POST)
 	@ResponseBody
 	public int menuNameCheck(@RequestParam("name") String name) {
