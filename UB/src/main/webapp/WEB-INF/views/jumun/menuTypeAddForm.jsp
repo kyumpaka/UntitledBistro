@@ -65,8 +65,7 @@ function mt_Add() {
 			  });
 		  }
 	});
-	
-};
+}
 
 function windowClose() {
 	window.close();

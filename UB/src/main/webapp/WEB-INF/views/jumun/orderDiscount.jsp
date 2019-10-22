@@ -113,7 +113,7 @@ function inputNum(num) {
 			else $("#posInput").val(oldNum + num);
 		}
 	}
-};
+}
 
 function calc() {
 	var input = $("#posInput").val();
@@ -150,7 +150,7 @@ function calc() {
 				$("#posInput").focus();
 			});
 	}
-};
+}
 </script>
 </body>
 </html>
