@@ -9,6 +9,7 @@
 <html>
 <head>
 <style>
+
 td {
 	background-color: #FFFFFF;
 	height: 30px;
@@ -31,7 +32,7 @@ td {
 </head>
 
 <body>
-	<form name="EmpRegisterRead" id="read" Action="EmpRegisterRead"
+	<form name="insa/EmpRegisterRead" id="read" Action="EmpRegisterRead"
 		method="post">
 		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000'
 			align='center'>
@@ -101,14 +102,14 @@ td {
 				<td class='ti' colspan='3'>입사 날짜</td>
 				<td class='ti' colspan='1'><fmt:formatDate
 						value="${b.empregister_entryday }" pattern="yyyy-MM-dd" /></td>
-				<td colspan='1' class='ti'>재직 여부</td>
+				<td colspan='2' class='ti'>재직 여부</td>
 				<td colspan='2' class='ti'>${b.empregister_leavecompany}</td>
 			</tr>
 			<tr>
 				<td class='ti' colspan='3'>시급</td>
-				<td colspan='2'>${b.empregister_pay }천원</td>
+				<td colspan='2'>${b.empregister_paytime }천원</td>
 				<td class='ti' colspan='1'>일급</td>
-			 	<td>만원</td>
+				<td colspan='2'>${b.empregister_payday }만원</td>
 			</tr>
 			<tr>
 				<td colspan='3'>총근무시간</td>
@@ -127,7 +128,7 @@ td {
 
 				</select> --%></td>
 				<td><input type="button" value="수정"
-					onclick="EmpregisterUpdate()" width="1300" height="800" /></td>
+					onclick="EmpregisterUpdate()" /></td>
 			</tr>
 		</table>
 	</form>
