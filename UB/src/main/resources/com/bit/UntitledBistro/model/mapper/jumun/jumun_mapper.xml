@@ -189,7 +189,7 @@
 	
 	<insert id="paymentInsert">
 	INSERT INTO PAYMENT(PAYMENT_NO, PAYMENT_SALES_NO, PAYMENT_MEMBER_ID, PAYMENT_TABLE, PAYMENT_STATE, PAYMENT_POINT, PAYMENT_DISCOUNT, PAYMENT_CASH, PAYMENT_CARD) 
-	VALUES((SELECT COUNT(*) FROM PAYMENT) + 1, (SELECT MAX(SALES_NO) FROM SALES), #{payment_Member_Id}, #{payment_Table}, '?�공', #{payment_Point}, #{payment_Discount}, #{payment_Cash}, #{payment_Card})
+	VALUES((SELECT COUNT(*) FROM PAYMENT) + 1, (SELECT MAX(SALES_NO) FROM SALES), #{payment_Member_Id}, #{payment_Table}, '성공', #{payment_Point}, #{payment_Discount}, #{payment_Cash}, #{payment_Card})
 	</insert>
 	
 	<select id="paymentDateSelect" parameterType="map" resultType="java.util.Date">

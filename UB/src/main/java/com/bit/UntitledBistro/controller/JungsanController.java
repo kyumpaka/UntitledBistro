@@ -348,5 +348,6 @@ public class JungsanController {
 	public String ajaxTest(@RequestBody String param) {
 //		int update = jungsan_input_Service.update(dto);
 		return "ajax 테스트" + param; // 주소 이동
+		//이거 나중에 써야징
 	}
 }

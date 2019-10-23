@@ -12,7 +12,7 @@
 <%@include file="Show_List.jsp" %>
 
 <h2 align="center">매니저 입력</h2>
-	 <form name="form1" method="post" action="Day_DeadLineForm.html">
+	 <form name="form1" method="post" action="Day_DeadLineForm.html" hidden="">
 		<table style="width: 1200px; margin: auto;" border="1">
 		
 			<tr>
