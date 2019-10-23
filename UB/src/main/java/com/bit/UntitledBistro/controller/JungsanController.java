@@ -31,6 +31,7 @@ public class JungsanController {
 	private Object Show_difference;
 	private Object update_difference;
 	private Object update_difference_Month;
+	private Object delete_Initialvalue_Month;
 	
 	@RequestMapping("View_jungsan.html") // 결산 현황 view 매핑
 	public String Show(HttpServletRequest request) {
@@ -86,7 +87,6 @@ public class JungsanController {
 		String to_date = jungsan_input_Service.to_date();		//요일 표시
 		request.setAttribute("to_date", to_date);
 		
-		//여기부터
 		int Monday = jungsan_view_Service.Monday();
 		request.setAttribute("Monday", Monday);
 		int Tuesday = jungsan_view_Service.Tuesday();
@@ -270,25 +270,60 @@ public class JungsanController {
 		
 		return "jungsan/Daily"; // 주소 이동
 	}
-
 	
 	  @RequestMapping("Monthly.html") // 월마감
 	  public String MonthList(HttpServletRequest request,@ModelAttribute Jungsan_Input_DTO dto) {
 		  
-	  jungsan_input_Service.Show_Month(dto); //현상황 확인후 기본값 입력
-		  
 	  jungsan_input_Service.update_Monthly(dto); //리스트 수정 
 	  
-	  jungsan_input_Service.update_difference_Month(dto);// 차액 수정
 	  
+		
+		  jungsan_input_Service.update_difference_Month(dto);// 차액 수정
+		 	  
 	  HashMap map = new HashMap();
+
+	  List<Jungsan_Input_DTO> differenceList = jungsan_input_Service.differenceList(map);
+	  request.setAttribute("differenceList", differenceList); //월차액
 	  
 	  List<Jungsan_Input_DTO> MonthList = jungsan_input_Service.MonthList(map); //조회 
 	  request.setAttribute("MonthList", MonthList); // 조회한걸 담음
 	  
-	  List<Jungsan_Input_DTO> differenceList = jungsan_input_Service.differenceList(map);
-	  request.setAttribute("differenceList", differenceList); //월차액
-	  
+	  	int Jan = jungsan_input_Service.Jan();
+		request.setAttribute("Jan", Jan);
+		
+		int Feb = jungsan_input_Service.Feb();
+		request.setAttribute("Feb", Feb);
+		
+		int Mar = jungsan_input_Service.Mar();
+		request.setAttribute("Mar", Mar);
+		
+		int Apr = jungsan_input_Service.Apr();
+		request.setAttribute("Apr", Apr);
+		
+		int May = jungsan_input_Service.May();
+		request.setAttribute("May", May);
+		
+		int Jun = jungsan_input_Service.Jun();
+		request.setAttribute("Jun", Jun);
+		
+		int Jul = jungsan_input_Service.Jul();
+		request.setAttribute("Jul", Jul);
+		
+		int Aug = jungsan_input_Service.Aug();
+		request.setAttribute("Aug", Aug);
+		
+		int Sept = jungsan_input_Service.Sept();
+		request.setAttribute("Sept", Sept);
+		
+		int Ock = jungsan_input_Service.Ock();
+		request.setAttribute("Ock", Ock);
+		
+		int Nov = jungsan_input_Service.Nov();
+		request.setAttribute("Nov", Nov);
+		
+		int Dec = jungsan_input_Service.Dec();
+		request.setAttribute("Dec", Dec);
+		
 	  return "jungsan/Monthly";
 	  }
 	 

@@ -17,27 +17,27 @@
 		
 			<tr>
 				<td>현금</td>
-				<td><input type="number" name="jungsan_input_cash"/></td>
+				<td><input type="number" name="jungsan_input_cash" value="0"/></td>
 				<td>카드</td>
-				<td><input type="number" name="jungsan_input_card"/></td>
+				<td><input type="number" name="jungsan_input_card" value="0"/></td>
 				<td>포인트사용</td>
-				<td><input type="number" name="jungsan_input_point"/></td>
+				<td><input type="number" name="jungsan_input_point" value="0"/></td>
 			</tr>
 			<tr>
 				<td>지출</td>
-				<td><input type="number" name="jungsan_input_expenditure"/></td>
+				<td><input type="number" name="jungsan_input_expenditure" value="0"/></td>
 				<td>근무시간</td>
-				<td><input type="number" name="jungsan_input_worktime"/></td>
+				<td><input type="number" name="jungsan_input_worktime" value="0"/></td>
 				<td>기입자</td>
-				<td><input type="text" name="jungsan_input_grade"/></td>
+				<td><input type="text" name="jungsan_input_grade"value="매니져"/></td>
 			</tr>
 			<tr>
 				<td>환불 유무</td>
 				<td>환불 유<input type="radio">환불 무<input type="radio"></td>				
 				<td>환불 금액</td>
-				<td><input type="number" name="jungsan_input_refund"/></td>
+				<td><input type="number" name="jungsan_input_refund" value="0"/></td>
 				<td>환불내용</td>
-				<td><textarea name="jungsan_input_reason"></textarea></td>
+				<td><textarea name="jungsan_input_reason" placeholder="내용을 기입하세요"></textarea></td>
 				</tr>
 			</table>
 			<div align="center">

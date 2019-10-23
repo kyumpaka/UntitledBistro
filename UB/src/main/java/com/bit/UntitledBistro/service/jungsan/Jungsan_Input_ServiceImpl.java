@@ -53,28 +53,6 @@ public class Jungsan_Input_ServiceImpl implements Jungsan_Input_Service {
 	}
 	
 	@Override
-	public void Show_Month(Jungsan_Input_DTO dto) {
-		Jungsan_Input_DAO dao = sqlsession.getMapper(Jungsan_Input_DAO.class);
-		int tmp = dao.Benchmark();
-		if(tmp == 0){
-			dao.insert_Initial_value(dto);
-			}
-		}
-	
-	@Override
-	public void insert_Initial_value(Jungsan_Input_DTO dto) {
-		Jungsan_Input_DAO jungsan_input_DAO =sqlsession.getMapper(Jungsan_Input_DAO.class);
-		jungsan_input_DAO.insert_Initial_value(dto);
-		
-	}
-
-	@Override
-	public int Benchmark() {
-		Jungsan_Input_DAO jungsan_input_DAO=sqlsession.getMapper(Jungsan_Input_DAO.class);
-		return jungsan_input_DAO.Benchmark();
-	}
-
-	@Override
 	public int to_difference() {
 		Jungsan_Input_DAO jungsan_input_DAO=sqlsession.getMapper(Jungsan_Input_DAO.class);
 		return jungsan_input_DAO.to_difference();
@@ -97,7 +75,7 @@ public class Jungsan_Input_ServiceImpl implements Jungsan_Input_Service {
 		Jungsan_Input_DAO jungsan_input_DAO =sqlsession.getMapper(Jungsan_Input_DAO.class);
 		jungsan_input_DAO.update_difference_Month(dto);
 	}
-
+	
 	@Override
 	public void Show_difference(Jungsan_Input_DTO dto) {
 		Jungsan_Input_DAO dao = sqlsession.getMapper(Jungsan_Input_DAO.class);
@@ -117,6 +95,78 @@ public class Jungsan_Input_ServiceImpl implements Jungsan_Input_Service {
 	public List<Jungsan_Input_DTO> differenceList(HashMap map) {
 		Jungsan_Input_DAO jungsan_input_DAO =sqlsession.getMapper(Jungsan_Input_DAO.class);
 		return jungsan_input_DAO.differenceList(map);
+	}
+
+	@Override
+	public int Jan() {
+		Jungsan_Input_DAO jungsan_input_DAO=sqlsession.getMapper(Jungsan_Input_DAO.class);
+		return jungsan_input_DAO.Jan();
+	}
+
+	@Override
+	public int Feb() {
+		Jungsan_Input_DAO jungsan_input_DAO=sqlsession.getMapper(Jungsan_Input_DAO.class);
+		return jungsan_input_DAO.Feb();
+	}
+
+	@Override
+	public int Mar() {
+		Jungsan_Input_DAO jungsan_input_DAO=sqlsession.getMapper(Jungsan_Input_DAO.class);
+		return jungsan_input_DAO.Mar();
+	}
+
+	@Override
+	public int Apr() {
+		Jungsan_Input_DAO jungsan_input_DAO=sqlsession.getMapper(Jungsan_Input_DAO.class);
+		return jungsan_input_DAO.Apr();
+	}
+
+	@Override
+	public int May() {
+		Jungsan_Input_DAO jungsan_input_DAO=sqlsession.getMapper(Jungsan_Input_DAO.class);
+		return jungsan_input_DAO.May();
+	}
+
+	@Override
+	public int Jun() {
+		Jungsan_Input_DAO jungsan_input_DAO=sqlsession.getMapper(Jungsan_Input_DAO.class);
+		return jungsan_input_DAO.Jun();
+	}
+
+	@Override
+	public int Jul() {
+		Jungsan_Input_DAO jungsan_input_DAO=sqlsession.getMapper(Jungsan_Input_DAO.class);
+		return jungsan_input_DAO.Jul();
+	}
+
+	@Override
+	public int Aug() {
+		Jungsan_Input_DAO jungsan_input_DAO=sqlsession.getMapper(Jungsan_Input_DAO.class);
+		return jungsan_input_DAO.Aug();
+	}
+
+	@Override
+	public int Sept() {
+		Jungsan_Input_DAO jungsan_input_DAO=sqlsession.getMapper(Jungsan_Input_DAO.class);
+		return jungsan_input_DAO.Sept();
+	}
+
+	@Override
+	public int Ock() {
+		Jungsan_Input_DAO jungsan_input_DAO=sqlsession.getMapper(Jungsan_Input_DAO.class);
+		return jungsan_input_DAO.Ock();
+	}
+
+	@Override
+	public int Nov() {
+		Jungsan_Input_DAO jungsan_input_DAO=sqlsession.getMapper(Jungsan_Input_DAO.class);
+		return jungsan_input_DAO.Nov();
+	}
+
+	@Override
+	public int Dec() {
+		Jungsan_Input_DAO jungsan_input_DAO=sqlsession.getMapper(Jungsan_Input_DAO.class);
+		return jungsan_input_DAO.Dec();
 	}
 
 

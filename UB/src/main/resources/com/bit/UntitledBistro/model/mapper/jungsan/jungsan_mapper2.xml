@@ -55,21 +55,9 @@
 	(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Month_input) and
 	(select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from Month_input)),
 	Month_date= sysdate where Month_date between 
-   (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from payment) and 
-   (select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from payment)
+   (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Month_input) and 
+   (select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from Month_input)
 	</update>
-	
-	<select id="Benchmark" resultType="int">
-		select nvl(sum(Jungsan_Input_cash+Jungsan_Input_card-Jungsan_Input_point),0) from Jungsan_Input where 
-		jungsan_input_date between
-		(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Jungsan_Input) and 
-		(select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from Jungsan_Input)
-	</select>
-	
-	
-	<insert id="insert_Initial_value">
-		insert into Month_input values(0,0,0,0,0,0,0,0,sysdate)
-	</insert>
 	
 	<update id="update" parameterType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
 	update Jungsan_Input set 
@@ -108,12 +96,85 @@
 	
 	<update id="update_difference_Month" parameterType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
 	update jungsan_difference set difference_Month = (select nvl(sum(difference),0) from jungsan_difference where 
-     difference_date between (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from payment) and 
-    (select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from payment))
+     difference_date between (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from jungsan_difference) and 
+    (select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from jungsan_difference))
 	</update>
 	
 	<select id="differenceList" resultType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
 		select * from jungsan_difference
+	</select>
+	
+	<!-- 여기부터 -->
+	<select id="Jan" resultType="int">
+	select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT TRUNC (SYSDATE, 'YEAR')FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 1) FROM Month_input)
+	</select>
+	
+	<select id="Feb" resultType="int">
+	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 1) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 2) FROM Month_input)
+	</select>
+	
+	<select id="Mar" resultType="int">
+	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 2) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 3) FROM Month_input)
+	</select>
+	
+	<select id="Apr" resultType="int">
+	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 3) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 4) FROM Month_input)
+	</select>
+	
+	<select id="May" resultType="int">
+	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 4) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 5) FROM Month_input)
+	</select>
+	
+	<select id="Jun" resultType="int">
+	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 5) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 6) FROM Month_input)
+	</select>
+	
+	<select id="Jul" resultType="int">
+	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 6) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 7) FROM Month_input)
+	</select>
+	
+	<select id="Aug" resultType="int">
+	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 7) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 8) FROM Month_input)
+	</select>
+	
+	<select id="Sept" resultType="int">
+	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 8) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 9) FROM Month_input)
+	</select>
+	
+	<select id="Ock" resultType="int">
+	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 9) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 10) FROM Month_input)
+	</select>
+	
+	<select id="Nov" resultType="int">
+	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 10) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 11) FROM Month_input)
+	</select>
+	
+	<select id="Dec" resultType="int">
+	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 11) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 12) FROM Month_input)
 	</select>
 	
 </mapper> 

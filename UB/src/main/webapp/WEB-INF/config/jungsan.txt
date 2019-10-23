@@ -1,7 +1,9 @@
---DROP TABLE JUNGSAN_STATE;
---DROP TABLE Jungsan_Input;
---DROP TABLE Month_Input;
----------------------drop--------------------
+-------------jungsan 현상황 DB
+DROP TABLE JUNGSAN_STATE;
+DROP TABLE Jungsan_Input;
+DROP TABLE Month_Input;
+drop table jungsan_difference;
+
 CREATE TABLE JUNGSAN_STATE (
 to_total NUMBER,to_cash NUMBER,to_card NUMBER,
 to_point NUMBER,before_total NUMBER,before_cash NUMBER,
@@ -25,4 +27,28 @@ Month_expenditure number,Month_point number,
 Month_refund number,Month_sum number,
 Month_real_sum number,Month_date DATE);
 
-select * from Month_Input;
+--날짜 부분에 쿼리 다시 하나 짜기
+   insert into month_input values (0,0,0,0,0,0,0,0,'2019-01-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,'2019-02-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,'2019-03-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,'2019-04-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,'2019-05-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,'2019-06-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,'2019-07-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,'2019-08-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,'2019-09-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,'2019-10-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,'2019-11-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,'2019-12-01');
+   commit;
+ 
+create table jungsan_difference (
+difference number,difference_Month number,difference_date date);
+     
+select * from jungsan_difference;    
+commit;
+
+--------------입력
+
+
+

@@ -35,40 +35,40 @@
 		// Add data
 		chart.data = [ {
 			"Month" : "1월",
-			"value" : 600000
+			"value" : ${Jan}
 		}, {
 			"Month" : "2월",
-			"value" : 900000
+			"value" : ${Feb}
 		}, {
 			"Month" : "3월",
-			"value" : 180000
+			"value" : ${Mar}
 		}, {
 			"Month" : "4월",
-			"value" : 600000
+			"value" : ${Apr}
 		}, {
 			"Month" : "5월",
-			"value" : 350000
+			"value" : ${May}
 		}, {
 			"Month" : "6월",
-			"value" : 600000
+			"value" : ${Jun}
 		}, {
 			"Month" : "7월",
-			"value" : 670000
+			"value" : ${Jul}
 		}, {
 			"Month" : "8월",
-			"value" : 900000
+			"value" : ${Aug}
 		}, {
 			"Month" : "9월",
-			"value" : 180000
+			"value" : ${Sept}
 		}, {
 			"Month" : "10월",
-			"value" : 600000
+			"value" : ${Ock}
 		}, {
 			"Month" : "11월",
-			"value" : 350000
+			"value" : ${Nov}
 		}, {
 			"Month" : "12월",
-			"value" : 600000
+			"value" : ${Dec}
 		} ];
 
 		// Populate data
@@ -163,8 +163,6 @@
 </head>
 <body>
 	<div id="chartdiv"></div>
-	몬뜨리 리스트 입니다
-	즉 월마감 리스트 입니다.
 	
 	<h2 align="center">Monthly List</h2><br><br>
 	
@@ -179,21 +177,21 @@
 				<td>지출</td>
 				<td>업무시간</td>
 				<td>환불</td>
-				<td>환불이유</td>
-				<td>날짜</td> <!-- 월만 나오면됨 -->
+				<td>날짜</td>
+				<td>월 차액</td> <!-- 월만 나오면됨 -->
 			</tr>	
 			
 			<c:forEach var="M" items="${MonthList}">
 			<c:forEach var="D" items="${differenceList}">
 			<tr>
+				<td>${M.month_real_sum}</td>
+				<td>${M.month_sum}</td> 
 				<td>${M.month_cash}</td>
 				<td>${M.month_card}</td>
-				<td>${M.month_worktime}</td>
-				<td>${M.month_expenditure}</td>
 				<td>${M.month_point}</td>
+				<td>${M.month_expenditure}</td>
+				<td>${M.month_worktime}</td>
 				<td>${M.month_refund}</td>
-				<td>${M.month_sum}</td> 
-				<td>${M.month_real_sum}</td>
 				<td>${M.month_date}</td>
 				<td>${D.difference_month}</td>
 			</tr>
