@@ -125,7 +125,7 @@ td {
 </script>
 </head>
 <body>
-	<form name="EmpRegisterInsertForm" id="insert"
+	<form name="insa/EmpRegisterInsertForm" id="insert"
 		action="EmpRegisterInsert" method="post" enctype="multipart/form-data">
 		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000' align='center'>
 			<tr>
@@ -230,7 +230,7 @@ td {
 				<td class='ti' colspan='3'>입사 날짜</td>
 				<td class='ti' colspan='2' name="empregister_entryday"></td>
 				<td colspan='1' class='ti' >재직 여부</td>
-				<td clospan='2'>재직중<input type="radio" name="empregister_leavecompany"
+				<td colspan='2'>재직중<input type="radio" name="empregister_leavecompany"
 				value="재직중"> 퇴직<input type="radio"
 				value="퇴직"  name="empregister_leavecompany" >
 				</td>
@@ -238,10 +238,10 @@ td {
 			<tr>
 				<td class='ti' colspan='3'>시급</td>
 
-				<td colspan='2'><input type="number" name="empregister_pay"
+				<td colspan='2'><input type="number" name="empregister_paytime"
 					style="border: none; background: transparent; text-align: center">천원</td>
 				<td class='ti' colspan='1'>일급</td>
-				<td><input type="number" name="empregister_pay"
+				<td><input type="number" name="empregister_payday"
 					style="border: none; background: transparent; text-align: center">만원</td>
 			</tr>
 			<tr>
@@ -249,18 +249,10 @@ td {
 
 
 				<td colspan='3'><input type="number"
-					name="empregister_workplan"> <%-- <select id="empregister_workplan"
 					name="empregister_workplan">
-						<option value="empregister_workplan">시간 선택</option>
-						<%
-							for (int i = 1; i <= 24; i++) {
-						%>
-						<option value="<%=i%>"><%=i + "시"%></option>
-						<%
-							}
-						%>
+				
 
-				</select> --%></td>
+				</td>
 				<td>
 					<button onclick="EmpregisterInsert()" id="insertform">사원 등록</button> <!-- 	<input type="button" value="쓰기" onclick="document.getElementById('insert').submit();" /> -->
 					<input type="reset" value="취소" />

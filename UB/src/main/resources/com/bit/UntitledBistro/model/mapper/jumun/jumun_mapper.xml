@@ -243,15 +243,15 @@
 			</when>
 			<when test="'payment_Date' == searchType">
 				<choose>
-					<when test="predatepicker != '' and postdatepicker != ''">
+					<when test="predatepicker != null and postdatepicker != null">
 					<![CDATA[
 					payment_Date >= #{predatepicker} and payment_Date < #{postdatepicker}
 					]]>
 					</when>
-					<when test="predatepicker != ''">
+					<when test="predatepicker != null">
 					payment_Date >= #{predatepicker}
 					</when>
-					<when test="postdatepicker != ''">
+					<when test="postdatepicker != null">
 					<![CDATA[
 					payment_Date < #{postdatepicker}
 					]]>
@@ -345,7 +345,7 @@
       ITEM_QTY := I.ITEM_QTY;
       MN_CODE := I.INGREDIENT_MENU_CODE;
       IF IGD_QTY > ITEM_QTY THEN
-         UPDATE MENU SET MENU_STATE = '?�절' WHERE MENU_CODE = MN_CODE;
+         UPDATE MENU SET MENU_STATE = '품절' WHERE MENU_CODE = MN_CODE;
       END IF;
       END LOOP;
     END }

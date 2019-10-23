@@ -21,7 +21,8 @@ public class Insa_EmpRegisterDTO {
 	private String empregister_accountholder; //예금주
 	private Date empregister_entryday; //입사날자
 	private String empregister_payclassfiy; //급여구분
-	private int empregister_pay; //급여
+	private String empregister_paytime; //시급
+	private String empregister_payday; //일급
 	private int empregister_workplan; //근무예정시간
 	private String empregister_leavecompany; //퇴사여부
 
@@ -148,6 +149,23 @@ public class Insa_EmpRegisterDTO {
 		this.empregister_entryday = empregister_entryday;
 	}
 
+	public String getEmpregister_paytime() {
+		return empregister_paytime;
+	}
+
+
+	public void setEmpregister_paytime(String empregister_paytime) {
+		this.empregister_paytime = empregister_paytime;
+	}
+
+	public String getEmpregister_payday() {
+		return empregister_payday;
+	}
+
+	public void setEmpregister_payday(String empregister_payday) {
+		this.empregister_payday = empregister_payday;
+	}
+
 	public String getEmpregister_payclassfiy() {
 		return empregister_payclassfiy;
 	}
@@ -156,13 +174,6 @@ public class Insa_EmpRegisterDTO {
 		this.empregister_payclassfiy = empregister_payclassfiy;
 	}
 
-	public int getEmpregister_pay() {
-		return empregister_pay;
-	}
-
-	public void setEmpregister_pay(int empregister_pay) {
-		this.empregister_pay = empregister_pay;
-	}
 
 	public int getEmpregister_workplan() {
 		return empregister_workplan;
@@ -198,13 +209,16 @@ public class Insa_EmpRegisterDTO {
 	@Override
 	public String toString() {
 		return "Insa_EmpRegisterDTO [empregister_name=" + empregister_name + ", empregister_photo=" + empregister_photo
-				+ ", empregister_empnum=" + empregister_empnum + ", empregister_password="
-				+ ", empregister_number=" + empregister_age + ", empregister_jumin=" + empregister_jumin
-				+ ", empregister_jumin2=" + empregister_jumin2 + ", empregister_addr=" + empregister_addr
+				+ ", empregister_empnum=" + empregister_empnum + ", empregister_age=" + empregister_age
+				+ ", empregister_tel=" + empregister_tel + ", empregister_jumin=" + empregister_jumin
+				+ ", empregister_jumin2=" + empregister_jumin2 + ", empregister_gender=" + empregister_gender
+				+ ", empregister_addr=" + empregister_addr + ", empregister_addr2=" + empregister_addr2
+				+ ", empregister_addr3=" + empregister_addr3 + ", empregister_addr4=" + empregister_addr4
 				+ ", empregister_grade=" + empregister_grade + ", empregister_banknum=" + empregister_banknum
-				+ ", empregister_accountholder=" + empregister_accountholder + ", empregister_entryday="
-				+ empregister_entryday + ", empregister_payclassfiy=" + empregister_payclassfiy + ", empregister_pay="
-				+ empregister_pay + ", empregister_workplan=" + empregister_workplan + ", empregister_leavecompany="
-				+ empregister_leavecompany + "]";
+				+ ", empregister_bankname=" + empregister_bankname + ", empregister_accountholder="
+				+ empregister_accountholder + ", empregister_entryday=" + empregister_entryday
+				+ ", empregister_payclassfiy=" + empregister_payclassfiy + ", empregister_paytime="
+				+ empregister_paytime + ", empregister_payday=" + empregister_payday + ", empregister_workplan="
+				+ empregister_workplan + ", empregister_leavecompany=" + empregister_leavecompany + "]";
 	}
 }
