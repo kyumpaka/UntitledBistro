@@ -2,7 +2,7 @@
 DROP TABLE JUNGSAN_STATE;
 DROP TABLE Jungsan_Input;
 DROP TABLE Month_Input;
-drop table jungsan_difference;
+DROP TABLE jungsan_difference;
 
 CREATE TABLE JUNGSAN_STATE (
     to_total NUMBER,to_cash NUMBER,to_card NUMBER,
@@ -42,9 +42,12 @@ Month_real_sum number,Month_date DATE);
    commit;
  
 create table jungsan_difference (
-difference number,difference_Month number,difference_date date);
+	difference number
+	,difference_Month number
+	,difference_date date
+);
      
-select * from jungsan_difference;    
+  
 commit;
 
 --------------입력

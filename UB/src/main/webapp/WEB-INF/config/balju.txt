@@ -4,8 +4,6 @@ DROP TABLE ORPL_INPUT;
 DROP TABLE ORDER_PLAN;
 DROP TABLE ORDER_INPUT;
 DROP TABLE ORDERLIST;
-DROP TABLE ITEM_GROUP;
-DROP TABLE ITEM_SUB_GROUP;
 
 ---------------------------------------------------------------------------
 CREATE TABLE BOOKMARK ( --관심품목 테이블
@@ -56,16 +54,6 @@ create table ORDERLIST( -- 발주서 내역 상세
         ORDER_PR_EA NUMBER, -- 단가
         ORDER_WR VARCHAR2(50) -- 작성자        
 );
+             
 
------------------------------발주서               
-create table ITEM_GROUP ( -- 상위품목테이블 
-        IG_NUM VARCHAR2(20), -- 상위품목번호(PK)
-        IG_NAME VARCHAR2(50) -- 상위품목이름(ex.주류,식자재,비품)
-);
-
-create table ITEM_SUB_GROUP ( -- 하위품목테이블
-        ISG_NUM VARCHAR2(20), -- 하위품목번호(PK)
-        ISG_IG_NUM VARCHAR2(20), -- 상위품번번호(FK)
-        ISG_NAME VARCHAR2(50) -- 하위품목이름
-);
 
