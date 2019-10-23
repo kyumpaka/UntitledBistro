@@ -1,17 +1,71 @@
--- jaego.txt에 PRODUCT 테이블 생성을 기준으로 만들었습니다.
+--------------------- 테이블 전체삭제 -------------------------------------
+DROP TABLE BOOKMARK;
+DROP TABLE ORPL_INPUT;
+DROP TABLE ORDER_PLAN;
+DROP TABLE ORDER_INPUT;
+DROP TABLE ORDERLIST;
+DROP TABLE ITEM_GROUP;
+DROP TABLE ITEM_SUB_GROUP;
 
-insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA11', '토마토', '개',500); 
-insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA22', '우유1L', '개',3500);
-insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA33', '올리브오일1L', '개',5000);
-insert into product (PRODUCT_CODE,PRODUCT_NAME,PRODUCT_STATE,PRODUCT_PRICE) values('AA44', '후추', '개',2000);
-
+---------------------------------------------------------------------------
 CREATE TABLE BOOKMARK ( --관심품목 테이블
- BK_CODE VARCHAR2(50),
- BK_NAME VARCHAR2(100),
- BK_STNDR VARCHAR2(20),
- BK_PR_EA NUMBER,
- BK_QT NUMBER,
- BK_WR VARCHAR(20)
+        BK_CODE VARCHAR2(50),
+        BK_NAME VARCHAR2(100),
+        BK_STNDR VARCHAR2(20),
+        BK_PR_EA NUMBER,
+        BK_QT NUMBER,
+        BK_WR VARCHAR(20)
  );
 
-commit;
+-----------------------------발주계획
+create table ORPL_INPUT ( -- 발주계획
+        ORPLIN_NUM VARCHAR2(20),  -- 목록번호(PK)   
+        ORPLIN_DATE DATE, -- 목록일자 
+        ORPLIN_END NUMBER
+);
+
+create table ORDER_PLAN ( -- 발주계획상세
+        ORDPL_ORDLIN_NUM VARCHAR2(20), -- 발주계획번호(FK)
+        ORDPL_ONUM VARCHAR2(20), -- 발주상세번호(PK)
+        ORDPL_PRODUCT_CODE VARCHAR2(20), -- 품목코드(FK)
+        ORDPL_PRODUCT_NAME VARCHAR2(100), -- 제품명
+        ORDPL_PRODUCT_STNDR VARCHAR2(20), --규격
+        ORDPL_QT NUMBER, -- 품목수량
+        ORDPL_PR_EA NUMBER,
+        ORDPL_WR VARCHAR2(50) -- 작성자
+);
+
+-----------------------------발주계획
+-----------------------------발주서
+
+create table ORDER_INPUT ( -- 발주서 내역 
+        ORDIN_NUM VARCHAR2(20), -- 목록번호(PK)
+        ORDIN_DATE DATE, -- 목록일자
+        ORDIN_END VARCHAR2(20) DEFAULT '종결'   -- 완료여부
+);
+
+
+create table ORDERLIST( -- 발주서 내역 상세
+        ORDER_ORDIN_NUM VARCHAR2(20), -- 목록번호(FK)
+        ORDER_NUM VARCHAR2(20), -- 발주번호(PK)
+        ORDER_PRODUCT_CODE VARCHAR2(20), -- 품목코드(FK)
+        ORDER_II_NO NUMBER, -- 입고번호(FK)
+        ORDER_PRODUCT_NAME VARCHAR2(100),
+        ORDER_PRODUCT_STNDR VARCHAR2(20),
+        ORDER_QT NUMBER, -- 수량
+        ORDER_PR_EA NUMBER, -- 단가
+        ORDER_WR VARCHAR2(50) -- 작성자        
+);
+
+-----------------------------발주서               
+create table ITEM_GROUP ( -- 상위품목테이블 
+        IG_NUM VARCHAR2(20), -- 상위품목번호(PK)
+        IG_NAME VARCHAR2(50) -- 상위품목이름(ex.주류,식자재,비품)
+);
+
+create table ITEM_SUB_GROUP ( -- 하위품목테이블
+        ISG_NUM VARCHAR2(20), -- 하위품목번호(PK)
+        ISG_IG_NUM VARCHAR2(20), -- 상위품번번호(FK)
+        ISG_NAME VARCHAR2(50) -- 하위품목이름
+);
+

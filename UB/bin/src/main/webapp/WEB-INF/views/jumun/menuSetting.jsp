@@ -9,7 +9,7 @@
 <title>POS</title>
 <link href="${pageContext.request.contextPath}/resources/pos/assets/css/bootstrap.css" rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath}/resources/pos/assets/css/ui.css" rel="stylesheet type="text/css" />
-<link href="${pageContext.request.contextPath}/resources/pos/assets/fonts/fontawesome/css/fontawesome-all.min.css" type="text/css" rel="stylesheet">
+<%-- <link href="${pageContext.request.contextPath}/resources/pos/assets/fonts/fontawesome/css/fontawesome-all.min.css" type="text/css" rel="stylesheet"> --%>
 <link href="${pageContext.request.contextPath}/resources/pos/assets/css/OverlayScrollbars.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jumun/jumun.css">
 </head>

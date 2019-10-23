@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -329,7 +328,7 @@ function plusOrder(code, name, price) {
 					var allPrice = $("#allPrice").html();
 					$("#allPrice").html(Number(allPrice) + Number(price));
 					$("#resultPrice").html(Number(allPrice) + Number(price));
-
+					
 					$.ajax({
 						  url: 'storeCountCheck.do',
 						  type: 'post',
@@ -341,7 +340,16 @@ function plusOrder(code, name, price) {
 					});
 					
 			  }
+			  // 웹소켓 	  
+			  $.ajax({
+				  url : "${pageContext.request.contextPath}/jaego/gridRiskItemCount",
+				  type : "get"
+			  })
+			  .done(function(count) {
+				  webSocket.send(count);
+			  });
 		  }
+		  
 	});
 };
 
@@ -368,6 +376,14 @@ function removeOrderAll() {
 					  oderCntMap.set("MN"+i, 0);
 				  }
 			  }
+			  // 웹소켓 	  
+			  $.ajax({
+			  	  url : "${pageContext.request.contextPath}/jaego/gridRiskItemCount",
+				  type : "get"
+			  })
+			  .done(function(count) {
+			  	  webSocket.send(count);
+			  });
 		  }
 	});
 
@@ -399,6 +415,14 @@ function removeOrder(code, price) {
 					oderCntMap.delete(code);
 					oderCntMap.set(code, 0);
 			  }
+			  // 웹소켓 	  
+			  $.ajax({
+				  url : "${pageContext.request.contextPath}/jaego/gridRiskItemCount",
+				  type : "get"
+			  })
+			  .done(function(count) {
+				  webSocket.send(count);
+			  });
 		  }
 	});
 };
@@ -431,6 +455,14 @@ function minusOrder(code, price) {
 						$("#allPrice").html(Number(allPrice) - Number(price));
 						$("#resultPrice").html(Number(allPrice) - Number(price));
 				  }
+				  // 웹소켓 	  
+				  $.ajax({
+					  url : "${pageContext.request.contextPath}/jaego/gridRiskItemCount",
+					  type : "get"
+				  })
+				  .done(function(count) {
+					  webSocket.send(count);
+				  });
 			  }
 		});
 	}
@@ -502,5 +534,23 @@ function goPosMain(ordersNo) {
              }
        });
 };
+
+var webSocket = new WebSocket("ws://localhost:8095${pageContext.request.contextPath}/realTime-ws");
+webSocket.onopen = onOpen;
+webSocket.onmessage = onMessage;
+webSocket.onclose = onClose;
+
+function onOpen(e) {
+	console.log("웹소켓 연결");	
+}
+
+function onMessage(e) {
+	console.log("서버로 부터 응답메시지 받음 : " + e.data);
+}
+
+function onClose(e) {
+	console.log("웹소컷 닫음");
+}
+
 </script>
 </html>

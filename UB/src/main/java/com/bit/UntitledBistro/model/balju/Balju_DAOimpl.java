@@ -1,6 +1,5 @@
 package com.bit.UntitledBistro.model.balju;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -57,20 +56,43 @@ public class Balju_DAOimpl implements Balju_DAO {
 	}
 
 	@Override
-	public List<Map<String, String>> balju_List(Balju_DTO Bdto) {
-		return sqlSession.selectList("balju.balju_List", Bdto); 
+	public List<Map<String, String>> balju_Result(Balju_DTO Bdto) {
+		return sqlSession.selectList("balju.balju_Result", Bdto); 
 	}
 
 	@Override
+	public List<Map<String,String>> balju_Result_Search(Balju_DTO Bdto){
+		return sqlSession.selectList("balju.balju_Result_Search", Bdto);
+	}
+	
+	@Override
+	public List<Map<String, String>> balju_Mng_List(Balju_DTO Bdto) {
+		return sqlSession.selectList("balju.balju_Mng_List", Bdto);
+	}
+	
+	@Override
+	public List<Map<String,String>> balju_Mng_Filter(Balju_DTO Bdto){
+		return sqlSession.selectList("balju.balju_Mng_Filter", Bdto);
+	}
+	
+	@Override
 	public void balju_Plan_modi(Balju_PlanDTO BPdto) {
 		sqlSession.update("balju.balju_Plan_modi", BPdto); 
-
 	}
 
 	@Override
 	public void balju_Modi(Balju_DTO Bdto) {
 		sqlSession.update("balju.balju_Modi", Bdto);
-
+	}
+	
+	@Override
+	public void End_Balju(Balju_DTO Bdto) {
+		sqlSession.update("balju.End_Balju", Bdto);
+	}
+	
+	@Override
+	public void orderListInItemUpdate(int  order_ordin_num) {
+		sqlSession.update("balju.orderListInItemUpdate", order_ordin_num);
 	}
 
 	@Override
@@ -130,5 +152,7 @@ public class Balju_DAOimpl implements Balju_DAO {
 	public List<Map<?, ?>> BPlan_Search(Balju_PlanDTO BPdto) {
 		return sqlSession.selectList("balju.BPlan_Search", BPdto); 
 	}
+
+	
 
 }

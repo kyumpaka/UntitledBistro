@@ -69,9 +69,13 @@
 	UPDATE MENU SET MENU_MT_CODE = #{menu_Mt_Code}, MENU_NAME = #{menu_Name}, MENU_PRICE = #{menu_Price}, MENU_IMAGE = #{menu_Image}, MENU_STATE = #{menu_State} WHERE MENU_CODE = #{menu_Code}
 	</update>
 	
+	<select id="menuNameCheck" parameterType="map" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM MENU WHERE MENU_NAME = #{menu_Name}
+	</select>
+	
 	<insert id="ingreInsert" >
 	INSERT INTO INGREDIENT(INGREDIENT_NO, INGREDIENT_MENU_CODE, INGREDIENT_PRODUCT_CODE, INGREDIENT_QTY) 
-	VALUES(CONCAT('IGD',(SELECT NVL(MAX(SUBSTR(INGREDIENT_NO,4)),0)+1 FROM INGREDIENT)), #{ingredient_Menu_Code}, #{ingredient_Product_Code}, #{ingredient_Qty})
+    VALUES(CONCAT('IGD',(SELECT NVL(MAX(TO_NUMBER(SUBSTR(INGREDIENT_NO,4,2))),0)+1 FROM INGREDIENT)), #{ingredient_Menu_Code}, #{ingredient_Product_Code}, #{ingredient_Qty})
 	</insert>
 	
 	<delete id="ingreDelete">
@@ -176,7 +180,7 @@
 	</select>
 	
 	<insert id="salesDetailsInsert" parameterType="salesDetails">
-	INSERT INTO SALES_DETAILS(SD_NO, SD_SALES_NO, SD_MENU_CODE, SD_QTY, SD_PRICE) VALUES((SELECT COUNT(*) FROM SALES_DETAILS) + 1, #{sd_Sales_No}, #{sd_Menu_Code} , #{sd_Qty}, #{sd_Price})
+	INSERT INTO SALES_DETAILS(SD_NO, SD_SALES_NO, SD_MENU_CODE, SD_QTY, SD_PRICE) VALUES((SELECT COUNT(*) FROM SALES_DETAILS) + 1, (SELECT MAX(SALES_NO) FROM SALES), #{sd_Menu_Code} , #{sd_Qty}, #{sd_Price})
 	</insert>
 		
 	<delete id="ordersDelete" parameterType="map">
@@ -185,7 +189,7 @@
 	
 	<insert id="paymentInsert">
 	INSERT INTO PAYMENT(PAYMENT_NO, PAYMENT_SALES_NO, PAYMENT_MEMBER_ID, PAYMENT_TABLE, PAYMENT_STATE, PAYMENT_POINT, PAYMENT_DISCOUNT, PAYMENT_CASH, PAYMENT_CARD) 
-	VALUES((SELECT COUNT(*) FROM PAYMENT) + 1, #{payment_Sales_No}, #{payment_Member_Id}, #{payment_Table}, '성공', #{payment_Point}, #{payment_Discount}, #{payment_Cash}, #{payment_Card})
+	VALUES((SELECT COUNT(*) FROM PAYMENT) + 1, (SELECT MAX(SALES_NO) FROM SALES), #{payment_Member_Id}, #{payment_Table}, '성공', #{payment_Point}, #{payment_Discount}, #{payment_Cash}, #{payment_Card})
 	</insert>
 	
 	<select id="paymentDateSelect" parameterType="map" resultType="java.util.Date">
@@ -282,8 +286,9 @@
 	{ CALL
 	BEGIN
 	    FOR I IN (SELECT INGREDIENT_QTY, INGREDIENT_PRODUCT_CODE FROM INGREDIENT WHERE INGREDIENT_MENU_CODE = #{od_Menu_Code}) LOOP
-	        INSERT INTO OUT_ITEM(OI_NO, OI_OD_NO, OI_PRODUCT_CODE, OI_QTY) 
-	        VALUES((SELECT COUNT(*) + 1 FROM OUT_ITEM), #{orders_No}, I.INGREDIENT_PRODUCT_CODE, I.INGREDIENT_QTY);
+	        INSERT INTO OUT_ITEM(OI_NO, OI_OD_NO, OI_PRODUCT_CODE, OI_PRODUCT_NAME, OI_QTY) 
+	        VALUES((SELECT COUNT(*) + 1 FROM OUT_ITEM), #{orders_No}, 
+	        I.INGREDIENT_PRODUCT_CODE,(SELECT PRODUCT_NAME FROM PRODUCT WHERE PRODUCT_CODE=I.INGREDIENT_PRODUCT_CODE), I.INGREDIENT_QTY);
 	    END LOOP;
 	END }
 	</insert>
@@ -348,7 +353,7 @@
     </update>
     
     <update id= "shippingHistoryUpdate" parameterType="map">
-    UPDATE OUT_ITEM SET OI_SD_NO = #{sales_No} WHERE OI_OD_NO  = #{od_Orders_No} AND OI_DATE = (SELECT MAX(OI_DATE) FROM OUT_ITEM)
+    UPDATE OUT_ITEM SET OI_SD_NO = (SELECT MAX(SALES_NO) FROM SALES) WHERE OI_OD_NO  = #{od_Orders_No} AND OI_DATE = (SELECT MAX(OI_DATE) FROM OUT_ITEM)
     </update>
     
     <select id="storeZeroSelect" resultType="java.lang.String">

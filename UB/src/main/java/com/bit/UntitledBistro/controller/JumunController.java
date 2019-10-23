@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -25,7 +28,6 @@ import com.bit.UntitledBistro.model.jumun.MenuDTO;
 import com.bit.UntitledBistro.model.jumun.MenuTypeDTO;
 import com.bit.UntitledBistro.model.jumun.OrdersDetailsDTO;
 import com.bit.UntitledBistro.model.jumun.PaymentDTO;
-import com.bit.UntitledBistro.model.jumun.SalesDTO;
 import com.bit.UntitledBistro.model.jumun.SalesDetailsDTO;
 import com.bit.UntitledBistro.model.jumun.TableSaveDTO;
 import com.bit.UntitledBistro.service.jumun.JumunService;
@@ -73,9 +75,9 @@ public class JumunController {
 	// 메뉴구분 삭제
 	@RequestMapping(value = "/erp/menuTypeRemove.do", method = RequestMethod.POST)
 	@ResponseBody
-	public int menuTypeRemove(@RequestParam("mt_Code") String[] mt_CodeList) {
+	public int menuTypeRemove(@RequestParam("mt_Code") String mt_Code) {
 		
-		return jumunService.menuTypeRemove(mt_CodeList);
+		return jumunService.menuTypeRemove(mt_Code);
 	}
 	
 	// 메뉴구분 수정
@@ -96,7 +98,7 @@ public class JumunController {
 	}
 	
 	// 메뉴 추가
-	@RequestMapping(value = "/erp/menuAdd.do", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/erp/menuAdd.do", method = RequestMethod.POST)
 	@ResponseBody
 	public int menuAdd(MenuDTO menuDTO, MultipartHttpServletRequest mRequest) {
 		String fileName = jumunService.imgUpload(mRequest);
@@ -124,14 +126,21 @@ public class JumunController {
 	}
 	
 	// 메뉴 수정
-	@RequestMapping(value = "/erp/menuModi.do", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/erp/menuModi.do", method = RequestMethod.POST)
 	@ResponseBody
 	public int menuModi(MenuDTO menuDTO, MultipartHttpServletRequest mRequest) {
 		String fileName = jumunService.imgUpload(mRequest);
-		if(fileName == null) fileName = "없음.jpg";
 		menuDTO.setMenu_Image(fileName);
 		
 		return jumunService.menuModi(menuDTO);
+	}
+	
+	// 메뉴 이름 확인
+	@RequestMapping(value = "/erp/menuNameCheck.do", method = RequestMethod.POST)
+	@ResponseBody
+	public int menuNameCheck(@RequestParam("name") String name) {
+		
+		return jumunService.menuNameCheck(name);
 	}
 	
 	// 재료 확인

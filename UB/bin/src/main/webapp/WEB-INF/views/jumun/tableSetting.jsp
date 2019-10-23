@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -9,7 +9,7 @@
 <title>POS</title>
 <link href="${pageContext.request.contextPath}/resources/pos/assets/css/bootstrap.css" rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath}/resources/pos/assets/css/ui.css" rel="stylesheet" type="text/css" />
-<link href="${pageContext.request.contextPath}/resources/pos/assets/fonts/fontawesome/css/fontawesome-all.min.css" type="text/css" rel="stylesheet">
+<%-- <link href="${pageContext.request.contextPath}/resources/pos/assets/fonts/fontawesome/css/fontawesome-all.min.css" type="text/css" rel="stylesheet"> --%>
 <link href="${pageContext.request.contextPath}/resources/pos/assets/css/OverlayScrollbars.css" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jumun/jumun.css">
 </head>
@@ -187,7 +187,7 @@ $(function() {
 	   }
 
 	   $.ajax({
-			  url: '/erp/tableSave.do',
+			  url: 'tableSave.do',
 			  type: 'post',
 			  data: JSON.stringify(tableArray),
 			  dataType: 'json',
@@ -198,7 +198,7 @@ $(function() {
 					  icon: "success",
 					  button: "닫기",
 					}).then(() => {
-						  location.href='${pageContext.request.contextPath}/erp'
+						  location.href='${pageContext.request.contextPath}/erp?empregister_empnum=<sec:authentication property="principal.username"/>'
 					  });
 			  }
 		});

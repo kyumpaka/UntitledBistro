@@ -18,7 +18,7 @@
 	#{member_id},
 	#{member_name},
 	#{member_email},
-	TO_DATE(#{member_birth},'YYYYMMDD'),
+	TO_DATE(#{member_birth},'YYMMDD'),
 	#{member_gender},
 	#{member_phone1}
 	)
@@ -31,7 +31,7 @@
  			 MEMBER_ID, 
  			 MEMBER_NAME, 
  			 MEMBER_GENDER,
- 			 TO_CHAR(MEMBER_BIRTH, 'YYYY-MM-DD') AS MEMBER_BIRTH,
+ 			 TO_CHAR(MEMBER_BIRTH, 'YYMMDD') AS MEMBER_BIRTH,
  			 MEMBER_EMAIL,
  			 MEMBER_GRADE, 
  			 MEMBER_POINT, 
@@ -42,12 +42,14 @@
 	 ]]>
  </select>
  
-  <select id="Seobis_MemberListCount" resultType="Integer">
+  <select id="Seobis_MemberListCount" parameterType="map" resultType="java.lang.Integer">
  	<![CDATA[
  		SELECT 
  			COUNT(*) 
  		FROM
  			MEMBER
+ 		WHERE
+		MEMBER_ID = #{reserve_member_id}
  	]]>
  </select>
 
@@ -55,6 +57,13 @@
 	<![CDATA[
 		DELETE FROM MEMBER 
 		WHERE MEMBER_ID = #{member_id}
+	]]>
+ </delete>
+ 
+ <delete id="Seobis_ReserveDelete" parameterType="com.bit.UntitledBistro.model.seobis.Seobis_ReserveDTO">
+	<![CDATA[
+		DELETE FROM RESERVE
+		WHERE RESERVE_NUM = #{reserve_num}
 	]]>
  </delete>
 
@@ -72,13 +81,52 @@
 	]]>
  </update>
  
+ 
+ <update id="Seobis_PointUpdate" parameterType="com.bit.UntitledBistro.model.seobis.Seobis_MemberDTO">
+	<![CDATA[
+		UPDATE MEMBER 
+		SET 
+			MEMBER_GRADE = #{member_grade},
+			MEMBER_POINT = #{member_point}
+		WHERE 
+			MEMBER_ID = #{member_id}
+	]]>
+ </update>
+ 
+ <update id="Seobis_ReserveUpdate" parameterType="com.bit.UntitledBistro.model.seobis.Seobis_ReserveDTO">
+ <if test="reserve_member_id != null">
+	<![CDATA[
+		UPDATE RESERVE 
+		SET 
+			RESERVE_MEMBER_ID= #{reserve_member_id},
+			RESERVE_PHONE1 = #{reserve_phone1},
+			RESERVE_START= #{reserve_start},
+			RESERVE_END = #{reserve_end}
+		WHERE 
+			RESERVE_NUM = #{reserve_num}
+	]]>
+ </if>
+	<if test="reserve_name != null">
+	<![CDATA[
+		UPDATE RESERVE 
+		SET 
+			RESERVE_NAME= #{reserve_name},
+			RESERVE_PHONE1 = #{reserve_phone1},
+			RESERVE_START= #{reserve_start},
+			RESERVE_END = #{reserve_end}
+		WHERE 
+			RESERVE_NUM = #{reserve_num}
+	]]>
+	</if>
+ </update>
+
  <select id="Seobis_MemberSelect" parameterType="String"  resultType="com.bit.UntitledBistro.model.seobis.Seobis_MemberDTO">
  	<![CDATA[
  		SELECT 
 		 	MEMBER_ID,
  		 	MEMBER_NAME,
  		 	MEMBER_GENDER,
- 		 	TO_CHAR(MEMBER_BIRTH, 'YYYY-MM-DD') AS MEMBER_BIRTH,
+ 		 	TO_CHAR(MEMBER_BIRTH, 'YYMMDD') AS MEMBER_BIRTH,
  		 	MEMBER_EMAIL,
  		 	MEMBER_PHONE1,
  		 	MEMBER_GRADE,
@@ -89,4 +137,97 @@
 		WHERE MEMBER_ID=#{member_id}
  	]]>
  </select>
+ 
+ <select id="Seobis_ReserveSelect"  resultType="com.bit.UntitledBistro.model.seobis.Seobis_ReserveDTO">
+ 	<![CDATA[
+ 		SELECT
+ 			RESERVE_NUM,
+ 			RESERVE_MEMBER_ID,
+ 			RESERVE_NAME,
+ 			RESERVE_PHONE1,
+ 			RESERVE_FIRSTTIME,
+ 			RESERVE_DATE,
+ 			RESERVE_START,
+ 			RESERVE_END
+ 		FROM
+ 			RESERVE
+ 	]]>
+ </select>
+ 
+   <insert id="RmInsert">
+   	INSERT INTO RESERVE(RESERVE_NUM) VALUES((SELECT COUNT(*) FROM RESERVE) + 1)
+   </insert>
+   
+   <insert id="Seobis_ReserveAdd" parameterType="com.bit.UntitledBistro.model.seobis.Seobis_ReserveDTO">
+		<choose>
+			<when test="reserve_name == null">
+			<![CDATA[
+ 				INSERT 
+	 				INTO RESERVE(
+			 			RESERVE_NUM,
+						RESERVE_MEMBER_ID,
+ 						RESERVE_PHONE1,
+ 						RESERVE_DATE,
+ 						RESERVE_START,
+ 						RESERVE_END)
+						VALUES(
+						(SELECT COUNT(*)+1 FROM RESERVE),
+						#{reserve_member_id},
+						#{reserve_phone1},
+						#{reserve_dateString},
+						#{reserve_start},
+						#{reserve_end}
+						)
+ 			]]>
+			</when>
+			<when test ="reserve_member_id == null">
+ 			<![CDATA[
+ 				INSERT 
+ 					INTO RESERVE(
+ 						RESERVE_NUM,
+ 						RESERVE_NAME,
+ 						RESERVE_PHONE1,
+ 						RESERVE_DATE,
+ 						RESERVE_START,
+ 						RESERVE_END)
+				VALUES(
+						(SELECT COUNT(*)+1 FROM RESERVE),
+						#{reserve_name},
+						#{reserve_phone1},
+						#{reserve_dateString},
+						#{reserve_start},
+						#{reserve_end}
+						)
+ 			]]>
+			</when>
+			<otherwise>
+			 <![CDATA[
+ 				INSERT 
+ 					INTO RESERVE(
+ 						RESERVE_NUM,
+ 						RESERVE_MEMBER_ID,
+ 						RESERVE_NAME,
+ 						RESERVE_PHONE1,
+ 						RESERVE_DATE,
+ 						RESERVE_START,
+ 						RESERVE_END)
+				VALUES(
+						(SELECT COUNT(*)+1 FROM RESERVE),
+						#{reserve_member_id},
+						#{reserve_name},
+						#{reserve_phone1},
+						#{reserve_dateString},
+						#{reserve_start},
+						#{reserve_end}
+						)
+ 			]]>
+			</otherwise>
+		</choose>
+ </insert>
+ 
+ <select id="Seobis_ReserveSelectByNum" parameterType="map" resultType="com.bit.UntitledBistro.model.seobis.Seobis_ReserveDTO">
+SELECT * FROM RESERVE WHERE  RESERVE_NUM = #{reserve_num}
+ </select>
+ 
+
 </mapper>

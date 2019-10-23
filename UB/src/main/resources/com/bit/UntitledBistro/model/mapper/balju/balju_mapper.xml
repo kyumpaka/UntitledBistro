@@ -110,7 +110,21 @@
    		)
    	]]>
   </insert>
+  <!-- 셀렉트문 -->
   
+  <!-- 엑셀용 셀렉트문 
+  <select id="ExcelList_Mng" fetchSize="100" resultType="hashmap">
+  	<![CDATA[
+  		SELECT
+  	]]>
+  </select>
+  
+  <select id="ExcelList_Result" fetchSize="100" resultType="hashmap">
+  	<![CDATA[
+  		SELECT
+  	]]>
+  </select>
+  -->
   <select id="item_list" parameterType="hashmap" resultType="hashmap">
   	<![CDATA[
   		SELECT 
@@ -159,19 +173,16 @@
   	]]>	
   </select>
   
-  <select id="balju_List" parameterType="hashmap" resultType="hashmap">
+  <select id="balju_Result" parameterType="hashmap" resultType="hashmap">
   	<![CDATA[
   		SELECT 
-  			ORDER_ORDIN_NUM,
-  			ORDIN_DATE,
-  			ORDER_NUM,
-  			ORDER_PRODUCT_CODE,
-  			ORDER_QT,
-  			ORDER_PR_EA,
-  			ORDER_WR, 
-  			ORDER_SUMMA,
-  			ORDER_STAT,
-  			ORDER_END
+            TO_CHAR(ORDIN_DATE,'YYYY-MM-DD') AS ORDIN_DATE,
+            ORDER_ORDIN_NUM,
+            ORDER_WR,
+  			NVL(ORDER_PRODUCT_NAME,'합계') AS ORDER_PRODUCT_NAME,
+            SUM(ORDER_QT) AS ORDER_QT,
+            ORDER_PR_EA,
+            SUM(ORDER_QT*ORDER_PR_EA) AS ORDER_PR_TOT
   		FROM 
   			ORDER_INPUT
   		INNER JOIN 
@@ -180,6 +191,34 @@
   			ORDER_INPUT.ORDIN_NUM 
   			= 
   			ORDERLIST.ORDER_ORDIN_NUM
+        GROUP BY 
+            ROLLUP((ORDIN_DATE, ORDER_ORDIN_NUM, ORDER_PRODUCT_NAME, ORDER_WR,ORDER_PR_EA))
+  	]]>	
+  </select>
+  
+  <!-- 발주 일자 조회 -->
+  <select id="balju_Result_Search" parameterType="hashmap" resultType="hashmap">
+  	<![CDATA[
+  		SELECT 
+            TO_CHAR(ORDIN_DATE,'YYYY-MM-DD') AS ORDIN_DATE,
+            ORDER_ORDIN_NUM,
+            ORDER_WR,
+  			NVL(ORDER_PRODUCT_NAME,'합계') AS ORDER_PRODUCT_NAME,
+            SUM(ORDER_QT) AS ORDER_QT,
+            ORDER_PR_EA,
+            SUM(ORDER_QT*ORDER_PR_EA) AS ORDER_PR_TOT
+  		FROM 
+  			ORDER_INPUT
+  		INNER JOIN 
+  			ORDERLIST 
+  		ON 
+  			ORDER_INPUT.ORDIN_NUM 
+  			= 
+  			ORDERLIST.ORDER_ORDIN_NUM
+  		WHERE
+  			ORDIN_DATE >= TO_DATE(#{DATESTART}, 'YY-MM-DD') and ORDIN_DATE <= TO_DATE(#{DATEEND},'YY-MM-DD')+1
+        GROUP BY 
+            ROLLUP((ORDIN_DATE, ORDER_ORDIN_NUM, ORDER_PRODUCT_NAME, ORDER_WR,ORDER_PR_EA))
   	]]>	
   </select>
   
@@ -205,6 +244,59 @@
   			ORDER_PLAN.ORDPL_ORDLIN_NUM
   		ORDER BY
   			ORDPL_ORDLIN_NUM, ORDPL_ONUM
+  	]]>
+  </select>
+  
+  	<!-- 발주서 관리문 -->
+    <select id="balju_Mng_List" parameterType="hashmap" resultType="hashmap">
+  	<![CDATA[
+  		SELECT 
+  			MAX(ORDER_ORDIN_NUM) AS ORDER_ORDIN_NUM,
+            MAX(TO_CHAR(ORDIN_DATE,'YYYY-MM-DD')) AS ORPLIN_DATE,
+            MAX(ORDER_WR) AS ORDER_WR,
+  			MAX(ORDER_PRODUCT_NAME) AS ORDER_PRODUCT_NAME,
+            COUNT(ORDER_PRODUCT_NAME)-1 AS ORDER_PRODUCT_COUNT,
+            SUM(ORDER_QT*ORDER_PR_EA) AS TOTAL_PR,
+            MAX(ORDIN_END) AS ORDER_END
+  		FROM 
+  			ORDER_INPUT
+  		INNER JOIN 
+  			ORDERLIST 
+  		ON 
+  			ORDER_INPUT.ORDIN_NUM 
+  			= 
+  			ORDERLIST.ORDER_ORDIN_NUM
+        GROUP BY
+            ORDER_ORDIN_NUM
+        ORDER BY
+            ORDER_ORDIN_NUM
+  	]]>
+  </select>
+  
+  <select id="balju_Mng_Filter" parameterType="hashmap" resultType="hashmap">
+  	<![CDATA[
+  		SELECT 
+  			MAX(ORDER_ORDIN_NUM) AS ORDER_ORDIN_NUM,
+            MAX(TO_CHAR(ORDIN_DATE,'YYYY-MM-DD')) AS ORPLIN_DATE,
+            MAX(ORDER_WR) AS ORDER_WR,
+  			MAX(ORDER_PRODUCT_NAME) AS ORDER_PRODUCT_NAME,
+            COUNT(ORDER_PRODUCT_NAME)-1 AS ORDER_PRODUCT_COUNT,
+            SUM(ORDER_QT*ORDER_PR_EA) AS TOTAL_PR,
+            MAX(ORDIN_END) AS ORDER_END
+  		FROM 
+  			ORDER_INPUT
+  		INNER JOIN 
+  			ORDERLIST 
+  		ON 
+  			ORDER_INPUT.ORDIN_NUM 
+  			= 
+  			ORDERLIST.ORDER_ORDIN_NUM
+  		WHERE
+  			ORDIN_END = #{ORDIN_END}
+        GROUP BY
+            ORDER_ORDIN_NUM
+        ORDER BY
+            ORDER_ORDIN_NUM
   	]]>
   </select>
   
@@ -286,6 +378,27 @@
   	]]>
   </update>
   
+  <!-- 발주서 종결처리 업데이트  -->
+     <update id="End_Balju" parameterType="hashmap">
+  	<![CDATA[
+  		UPDATE ORDER_INPUT
+  		SET
+  			ORDIN_END = #{ORDIN_END}
+  		WHERE
+  			ORDIN_NUM = #{ORDIN_NUM}
+  	]]>
+  </update>
+  
+  <update id="orderListInItemUpdate" parameterType="int">
+  	<![CDATA[
+  	UPDATE ORDERLIST
+  	SET
+  		ORDER_II_NO = (select nvl(max(ii_no),0) from in_item)
+  	WHERE
+  		ORDER_ORDIN_NUM = #{order_ordin_num}
+  	]]>
+  </update>
+  
    <update id="BookMark_Modi" parameterType="hashmap">
   	<![CDATA[
   		UPDATE BOOKMARK
@@ -353,7 +466,7 @@
   		FROM
   			ORDERLIST
   		WHERE
-  			ORDER_NUM = #{ORDER_NUM}
+  			ORDER_ORDIN_NUM = #{ORDER_ORDIN_NUM}
   	]]>
   </delete>
   

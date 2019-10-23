@@ -2,6 +2,7 @@ package com.bit.UntitledBistro.model.jaego;
 
 public class InItemDTO {
 	private int ii_no;
+	private int ii_ordin_num;
     private String ii_product_code;
 	private String ii_product_name;
 	private int ii_qty;
@@ -12,6 +13,12 @@ public class InItemDTO {
 	}
 	public void setIi_no(int ii_no) {
 		this.ii_no = ii_no;
+	}
+	public int getIi_ordin_num() {
+		return ii_ordin_num;
+	}
+	public void setIi_ordin_num(int ii_ordin_num) {
+		this.ii_ordin_num = ii_ordin_num;
 	}
 	public String getIi_product_code() {
 		return ii_product_code;
@@ -37,7 +44,7 @@ public class InItemDTO {
 	public void setIi_date(String ii_date) {
 		this.ii_date = ii_date;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "InItemDTO [ii_no=" + ii_no + ", ii_product_code=" + ii_product_code + ", ii_product_name="

@@ -73,7 +73,7 @@
 
 <!-- jsgrid 사용을 위한 필요한 요소 cdn 연결-->
 <meta charset="UTF-8">
-<title>발주 계획 작성</title>
+<title>관심 품목 작성</title>
 <script type="text/javascript">
 	var openItemWin;
 
@@ -114,10 +114,10 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td><input type="text" id="code"></td>
-									<td><input type="text" id="name"></td>
-									<td><input type="text" id="stndr"></td>
-									<td><input type="text" id="price"></td>
+									<td><input type="text" id="code" readonly></td>
+									<td><input type="text" id="name" readonly></td>
+									<td><input type="text" id="stndr" readonly></td>
+									<td><input type="text" id="price" readonly></td>
 									<td><button class="btn btn-dark" id="addData">등록</button>
 								</tr>
 							</tbody>
@@ -151,22 +151,26 @@
 									name : "BK_CODE",
 									type : "text",
 									width : 150,
-									title : "품목코드"
+									title : "품목코드",
+									readOnly : true
 								}, {
 									name : "BK_NAME",
 									type : "text",
 									width : 150,
-									title : "품목명"
+									title : "품목명",
+									readOnly : true
 								}, {
 									name : "BK_STNDR",
 									type : "text",
 									width : 150,
-									title : "규격"
+									title : "규격",
+									readOnly : true
 								}, {
 									name : "BK_PR_EA",
 									type : "text",
 									width : 150,
-									title : "공급가액"
+									title : "공급가액",
+									readOnly : true
 								},{
 									name : "BK_QT",
 									type : "text",
@@ -199,14 +203,23 @@
 <script>
 	$("#addData").click(function() {
 		alert("관심품목이 추가되었습니다")
+		var flag = true;
 		var insertItem = {};
 		insertItem.BK_CODE = $("#code").val();
 		insertItem.BK_NAME = $("#name").val();
 		insertItem.BK_STNDR = $("#stndr").val();
 		insertItem.BK_PR_EA = $("#price").val();
 		insertItem.BK_QT = 0;
-		insertItem.BK_WR = "직접입력";
+		insertItem.BK_WR = "${sessionScope.empregister_name}";
 
+			if(insertItem.ORDER_QT<1||isNaN(insertItem.ORDER_QT)){
+					alert("수량을 정확히 입력해주세요");
+					flag = false;
+					return false;
+				}
+			if(flag == false){
+					return false;
+				}
 		console.log(insertItem);
 		$("#jsGrid").jsGrid("insertItem", insertItem);
 	});

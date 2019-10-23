@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -23,9 +24,7 @@
 			<div class="col-lg-3">
 			</div>
 			<div class="col-lg-3">
-			사용 테이블수 : ${ tableUseList[0] }
-			&nbsp;/&nbsp;
-			총 테이블수 : ${ tableUseList[1] }
+			사용 테이블수 : ${ tableUseList[0] } &nbsp;/&nbsp; 총 테이블수 : ${ tableUseList[1] }
 			</div>
 			<div class="col-lg-3 col-sm-6">
 				<div class="widgets-wrap d-flex justify-content-end">
@@ -48,7 +47,7 @@
 						</div>
 						<hr>
 						<div class="col-md-13">
-							<button value="#" class="btn  btn-primary btn-lg btn-block"> 예약관리 </button>
+							<button onclick="goReserveList()" class="btn  btn-primary btn-lg btn-block"> 예약관리 </button>
 						</div>
 						<hr>
 						<div class="col-md-13">
@@ -56,7 +55,11 @@
 						</div>
 						<hr>
 						<div class="col-md-13">
-							<button value="#" class="btn  btn-primary btn-lg btn-block"> 출퇴관리 </button>
+							<button onclick="#" class="btn  btn-primary btn-lg btn-block"> 출퇴관리 </button>
+						</div>
+						<hr>
+						<div class="col-md-13">
+							<button onclick="#" class="btn  btn-primary btn-lg btn-block"> 정산내역 </button>
 						</div>
 						<hr>
 						<div class="col-md-13">
@@ -72,6 +75,15 @@
 <script src="${pageContext.request.contextPath}/resources/pos/assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/resources/pos/assets/js/OverlayScrollbars.js" type="text/javascript"></script>
 <script type="text/javascript">
+function goReserveList() {
+	event.preventDefault();
+	var width = 1000;
+	var height = 600;
+	var popupX = (window.screen.width / 2) - (width / 2);
+	var popupY = (window.screen.height / 2) - (height / 2);
+	window.open('${pageContext.request.contextPath}/Seobis/pop/Seobis_calendar','예약내역','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+}
+
 function goSalesList() {
 	event.preventDefault();
 	var width = 1000;
@@ -79,7 +91,7 @@ function goSalesList() {
 	var popupX = (window.screen.width / 2) - (width / 2);
 	var popupY = (window.screen.height / 2) - (height / 2);
 	window.open('salesList.do','판매내역','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
-};
+}
 
 function goTableControl() {
 	var width = 400;
@@ -91,7 +103,7 @@ function goTableControl() {
 
 function goSetting() {
 	event.preventDefault();
-	location.href="${pageContext.request.contextPath}/erp";
+	location.href="${pageContext.request.contextPath}/erp?empregister_empnum=<sec:authentication property='principal.username'/>";
 };
 
 function goOrderList(tableNum) {

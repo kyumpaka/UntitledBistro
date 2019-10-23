@@ -25,9 +25,9 @@
 
  	<select id="itemSelectList" parameterType="condition" resultType="item">
 	    SELECT
-		     II.II_PRODUCT_CODE     AS ITEM_PRODUCT_CODE
-		    ,II.II_PRODUCT_NAME     AS ITEM_PRODUCT_NAME
-		    ,II.II_QTY - OI.OI_QTY  AS ITEM_QTY
+		     II.II_PRODUCT_CODE     				AS ITEM_PRODUCT_CODE
+		    ,II.II_PRODUCT_NAME     				AS ITEM_PRODUCT_NAME
+		    ,NVL(II.II_QTY,0) - NVL(OI.OI_QTY,0)	AS ITEM_QTY
 		FROM
 		    (
 		    SELECT 
@@ -121,7 +121,7 @@
  			ITEM_PRODUCT_CODE = #{di_product_code}
  	</update>
  	
- 	<update id="itemPlusUpdateForDefectItem">
+ 	<update id="itemPlusUpdateForDefectItem" parameterType="list">
  	<foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
  		UPDATE 
 		    ITEM
@@ -184,6 +184,24 @@
 		</where> 
  	</select>
  	
+ 	<select id="orderInItemSelect" parameterType="int" resultType="inItem">
+ 		<![CDATA[
+ 		SELECT 
+		     ORDER_PRODUCT_CODE  	AS II_PRODUCT_CODE
+		    ,ORDER_PRODUCT_NAME 	AS II_PRODUCT_NAME
+		    ,ORDER_QT   			AS II_QTY
+		    ,ORDER_II_NO			AS II_NO
+		FROM
+		    ORDER_INPUT
+		INNER JOIN 
+		    ORDERLIST
+		ON 
+		    ORDIN_NUM = ORDER_ORDIN_NUM
+		WHERE
+		    ORDIN_NUM = #{ordin_num}
+		]]>
+ 	</select>
+ 	
  	<insert id="inItemInsert" parameterType="inItem">
  		<selectKey keyProperty="ii_no" resultType="int" order="BEFORE">
  			SELECT
@@ -195,16 +213,29 @@
 				IN_ITEM
 				(
 				 II_NO
+				,II_ORDIN_NUM
 				,II_PRODUCT_CODE
+				,II_PRODUCT_NAME
 				,II_QTY
 				)
 		VALUES
 				(
 				 #{ii_no}
+				,#{ii_ordin_num}
 				,#{ii_product_code}
+				,#{ii_product_name}
 				,#{ii_qty}
 				)
  	</insert>
+ 	
+ 	<delete id="inItemDelete" parameterType="inItem">
+ 		<![CDATA[
+ 		DELETE
+ 			IN_ITEM
+ 		WHERE
+ 			II_NO = #{ii_no}
+ 		]]>
+ 	</delete>
  	
  	<select id="outItemSelectList" parameterType="condition" resultType="outItem">
  		<![CDATA[
@@ -359,7 +390,7 @@
 		        GROUP BY 
 		            II_PRODUCT_CODE
 		    	) II
-		    INNER JOIN
+		    FULL OUTER JOIN
 		   		(
 		        SELECT 
 		             OI_PRODUCT_CODE
@@ -472,11 +503,11 @@
 		    DEFECT_ITEM D
 		<where>
 		<if test="keyword != '' and keyword != null">
-		    P.DI_PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+		    DI_PRODUCT_CODE LIKE '%'||#{keyword}||'%'
 		</if>
 		<if test="keyword2 != '' and keyword2 != null">
 		AND
-		    P.DI_PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
+		    DI_PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
 		</if>
 		<if test="endDate != '' and endDate != null">
 		AND
@@ -598,6 +629,15 @@
 			)
 		</foreach>
  	</insert>
+ 	
+ 	<select id="safeItemSelectValidate" parameterType="string" resultType="string">
+ 		SELECT 
+ 			SI_PRODUCT_CODE 
+ 		FROM 
+ 			SAFE_ITEM 
+ 		WHERE 
+ 			SI_PRODUCT_CODE = #{si_product_code}
+ 	</select>
  	
  	<!-- 안전재고 조회 -->
  	<select id="safeItemSelectList" resultType="safeItem">

@@ -65,7 +65,6 @@
 		
 	$('.insertBtn').click(function(){ 
 		
-		var str = ""
 		var tdArr = new Array();	// 배열 선언
 		var checkBtn = $(this);
 		
