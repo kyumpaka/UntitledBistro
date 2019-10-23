@@ -81,19 +81,18 @@
 	
 	function test1(){
 		var obj = document.EmpRegisterInsertForm
-		
 		if(obj.empregister_name.value == '' ){
 			swal('이름을 입력하세요');
 			obj.empregister_name.focus();
 			return false;
 		}
 		
-		if(obj.empregister_jumin.length =< 6 ){
+		if(obj.empregister_jumin.length < 6 ){
 			swal('주민등록번호 앞자리를 정확히 입력해주세요');
 			obj.empregister_jumin.focus();
 			return false;
 		}
-		if(obj.empregister_jumin2.length != 7 ){
+		if(obj.empregister_jumin2.length < 7 ){
 			swal('주민등록번호 뒷자리를 정확히 입력해주세요');
 			obj.empregister_jumin2.focus();
 			return false;
@@ -103,12 +102,73 @@
 			obj.empregister_empnum.focus();
 			return false;
 		}
-		if(obj.empregister_gender.value == '' ){
-			swal('성별을 입력하세요');
-			obj.empregister_gender.focus();
+		if($(':radio[name="empregister_gender"]').length < 1){
+			swal('성별을 체크해주세요 ');
+			return false; 
+			}
+		if(obj.empregister_tel.length != 11 ){
+			swal('핸드폰을 정확히 입력해주세요');
+			obj.empregister_tel.focus();
+			return false;
+		}
+		if(isNaN($("#empregister_tel").val)){
+		swal('핸드폰 번호를 숫자로만 입력해주세요');
+		obj.empregister_tel.focus();
+			}
+		if(obj.empregister_age.value == '' ){
+			swal('나이를 입력하세요');
+			obj.empregister_age.focus();
+			return false;
+		}
+		if(obj.sample4_postcode.value == '' ){
+			swal('우편번호를 입력해주세요');
+			obj.sample4_postcode.focus();
+			return false;
+		}
+		if(obj.empregister_grade.value == '' ){
+			swal('직급을 선택해주세요 ');
+			obj.empregister_grade.focus();
+			return false;
+		}
+		if(obj.empregister_bankname.value == '' ){
+			swal('은행을 선택해주세요 ');
+			obj.empregister_bankname.focus();
+			return false;
+		}
+		if(obj.empregister_accountholder.value == '' ){
+			swal('예금주를 적어주세요 ');
+			obj.empregister_accountholder.focus();
 			return false;
 		}
 		
+		if(obj.empregister_banknum.value == '' ){
+			swal('계좌번호를 적어주세요 ');
+			obj.empregister_banknum.focus();
+			return false;
+		}
+
+		if($(':radio[name="empregister_payclassfiy"]').length < 1){
+			swal('급여구분을 체크해주세요 ');
+			return false; 
+			}
+
+		if($(':radio[name="empregister_leavecompany"]').length < 1){
+			swal('재직여부를 체크해주세요 ');
+			return false; 
+			}
+		if(obj.empregister_paytime.value == '' && obj.empregister_payday.value == '' ){
+			swal('급여를 적어주세요 ');
+			obj.empregister_paytime.focus();
+			return false;
+		}
+		if(obj.empregister_workplan.value == '' ){
+			swal('총근무시간을 적어주세요 ');
+			obj.empregister_workplan.focus();
+			return false;
+		}
+		window.opener.location.reload();
+		window.close();
+
 	}
 	
 	
@@ -132,7 +192,7 @@ td {
 </head>
 <body>
 	<form name="EmpRegisterInsertForm" action="EmpRegisterInsert" id="insert"
-		 method="post" enctype="multipart/form-data">
+		 method="post" enctype="multipart/form-data" onsubmit="return test1()">
 		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000' align='center'>
 			<tr>
 			
@@ -155,9 +215,9 @@ td {
 			</tr>
 			<tr>
 				<td colspan='2'><input type="text" name="empregister_jumin" id="empregister_jumin"
-					style="border: none; background: transparent; text-align: center">-<input
-					type="text" name="empregister_jumin2" id="empregister_jumin2"
-					style="border: none; background: transparent; text-align: center"></td>
+					style="border: none; background: transparent; text-align: center" maxlength="6">-<input
+					type="password" name="empregister_jumin2" id="empregister_jumin2"
+					style="border: none; background: transparent; text-align: center" maxlength="7" ></td>
 
 			</tr>
 			<tr>
@@ -263,7 +323,7 @@ td {
 
 				</td>
 				<td>
-					<button type = "button" onclick="test1()" >사원 등록</button> <!-- 	<input type="button" value="쓰기" onclick="document.getElementById('insert').submit();" /> -->
+					<input type="submit">사원 등록 
 					<input type="reset" value="취소" />
 				</td>
 			</tr>
