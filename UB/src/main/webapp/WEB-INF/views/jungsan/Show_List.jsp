@@ -109,13 +109,15 @@ chart.cursor.lineY.strokeOpacity = 0;
 					<td>인권비</td>
 					<td>근무진행시간</td>
 					<td>발주비용</td>
-				</tr>	
+				</tr>
+				<c:forEach var="in" items="${PayCheck}">	
 				<tr>
 					<td>select count(SCHEDULE_EMPREGISTER_EMPNUM) from schedule where SCHEDULE_WORKINGSTART like to_date(sysdate);</td>
-					<td>인권비이이이</td>
+					<td>${in.salary_pay}000원</td>
 					<td>근무진행시간</td>
 					<td>${expenditure}</td>
 				</tr>	
+				</c:forEach>
 			<c:forEach var="dto" items="${jungsan_state}">
 				<tr bgcolor="gray" align="center">
 					<td>매출</td>

@@ -26,8 +26,6 @@ public class Insa_EmpRegisterDTO {
 	private int empregister_workplan; //근무예정시간
 	private String empregister_leavecompany; //퇴사여부
 
-	
-	
 	public String getEmpregister_name() {
 		return empregister_name;
 	}

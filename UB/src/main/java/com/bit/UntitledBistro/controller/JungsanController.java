@@ -6,14 +6,17 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bit.UntitledBistro.model.insa.Insa_SalaryDTO;
 import com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO;
 import com.bit.UntitledBistro.model.jungsan.Jungsan_view_DTO;
+import com.bit.UntitledBistro.service.insa.InsaService;
 import com.bit.UntitledBistro.service.jungsan.Jungsan_Input_Service;
 import com.bit.UntitledBistro.service.jungsan.Jungsan_view_Service;
 
@@ -33,6 +36,9 @@ public class JungsanController {
 	private Object update_difference_Month;
 	private Object delete_Initialvalue_Month;
 
+	@Autowired
+	private InsaService insaService;
+	
 	@RequestMapping("View_jungsan.html") // 결산 현황 view 매핑
 	public String Show(HttpServletRequest request) {
 		////////////// 어제//////////
@@ -211,7 +217,12 @@ public class JungsanController {
 		jungsan_view_Service.Show_list(dto);
 
 		jungsan_view_Service.update_state(dto);
-
+		
+			List<Insa_SalaryDTO> PayCheck = insaService.PayCheck(new HashMap());
+			request.setAttribute("PayCheck", PayCheck);
+			System.out.println(PayCheck+"PayCheck");
+		
+		
 		HashMap map = new HashMap();
 
 		List<Jungsan_view_DTO> jungsan_state = jungsan_view_Service.jungsan_state(map);

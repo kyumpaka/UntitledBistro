@@ -167,5 +167,5 @@ public class InsaController {
 		return "insa/PayCheck"; // list.jsp
 
 	}
-
+	
 }
