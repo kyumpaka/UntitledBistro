@@ -504,4 +504,10 @@ public class Jungsan_view_ServiceImpl implements Jungsan_view_Service {
 		return jungsan_view_DAO.yesterday_zero_Oclock();
 	}
 
+	@Override
+	public int expenditure() {
+		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
+		return jungsan_view_DAO.expenditure();
+	}
+
 }

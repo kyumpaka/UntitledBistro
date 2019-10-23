@@ -169,5 +169,7 @@ public class Jungsan_Input_ServiceImpl implements Jungsan_Input_Service {
 		return jungsan_input_DAO.Dec();
 	}
 
+	
+
 
 }

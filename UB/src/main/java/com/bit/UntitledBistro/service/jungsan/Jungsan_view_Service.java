@@ -89,4 +89,5 @@ public interface Jungsan_view_Service {
 	public int yesterday_twentythree_Oclock();
 	public int yesterday_zero_Oclock();
 	
+	public int expenditure();
 }

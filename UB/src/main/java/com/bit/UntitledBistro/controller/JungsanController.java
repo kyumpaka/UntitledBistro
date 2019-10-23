@@ -200,6 +200,9 @@ public class JungsanController {
 		int yesterday_zero_Oclock = jungsan_view_Service.yesterday_zero_Oclock();
 		request.setAttribute("yesterday_zero_Oclock", yesterday_zero_Oclock);
 		
+		int expenditure = jungsan_view_Service.expenditure();
+		request.setAttribute("expenditure", expenditure);
+		
 		return "jungsan/View_jungsan";
 	}
 
@@ -258,12 +261,15 @@ public class JungsanController {
 		 jungsan_input_Service.Show_difference(dto); //현상황 확인후 기본값 입력
 		  
 		 jungsan_input_Service.update_difference(dto); // 변경
-		
 		 int to_difference = jungsan_input_Service.to_difference(); // 메뉴 국물
 		 request.setAttribute("to_difference", to_difference);
 		 
 		HashMap map = new HashMap();
-
+		
+		String postdatepicker = request.getParameter("postdatepicker");
+		if(postdatepicker != null) {
+			map.put("postdatepicker", "%"+postdatepicker+"%");
+		}
 		List<Jungsan_Input_DTO> getjungsan_inputList = jungsan_input_Service.getjungsan_inputList(map); // 조회
 
 		request.setAttribute("getjungsan_inputList", getjungsan_inputList); // 조회한걸 담음

@@ -32,6 +32,7 @@ public interface Jungsan_view_DAO {
 	public int before_total();											//어제의 매출
 	public void Show_list(Jungsan_view_DTO dto);
 	//////////요일별 매출
+	
 public int Monday();
 public int Tuesday();
 public int Wednesday();
@@ -89,4 +90,6 @@ public int yesterday_twentyone_Oclock();
 public int yesterday_twentytwo_Oclock();
 public int yesterday_twentythree_Oclock();
 public int yesterday_zero_Oclock();
+
+public int expenditure();
 }

@@ -11,8 +11,9 @@
 <body>
 <%@include file="Show_List.jsp" %>
 
+		<%-- <c:if test=""> --%>
+	 <form name="form1" method="post" action="Day_DeadLineForm.html" >
 <h2 align="center">매니저 입력</h2>
-	 <form name="form1" method="post" action="Day_DeadLineForm.html" hidden="">
 		<table style="width: 1200px; margin: auto;" border="1">
 		
 			<tr>
@@ -33,7 +34,10 @@
 			</tr>
 			<tr>
 				<td>환불 유무</td>
-				<td>환불 유<input type="radio">환불 무<input type="radio"></td>				
+				<td>
+					<input type="radio" onclick="chk_info()" name="chk_info" value="환불 유">환불 유
+					<input type="radio" name="chk_info" value="환불 무" >환불 무
+				</td>				
 				<td>환불 금액</td>
 				<td><input type="number" name="jungsan_input_refund" value="0"/></td>
 				<td>환불내용</td>
@@ -45,6 +49,8 @@
 				<input type="submit" value="저장"/>
 			</div>
 			</form>
+			
+			<%-- </c:if> --%>
 
 
 </body>

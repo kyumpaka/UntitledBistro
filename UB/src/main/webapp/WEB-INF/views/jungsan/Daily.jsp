@@ -5,11 +5,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/themes/redmond/jquery-ui.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.14.0/css/ui.jqgrid.min.css">
 <meta charset="UTF-8">
 <title></title>
 </head>
 <body>
+<form action="Daily.html">
+<div><input type="text" name="postdatepicker" id="postdatepicker">
+<input type="submit">
+</div>
+</form>
 	<h2 align="center">Daily List</h2><br><br>
 
 	<div class="container" align="center">
@@ -19,7 +25,6 @@
 				<td>현금</td>
 				<td>카드</td>
 				<td>총매출</td>
-				<td>순매출</td>
 				<td>업무시간</td>
 				<td>지출</td>
 				<td>포인트사용가</td>
@@ -32,8 +37,7 @@
 				<td><a href="UpdateForm.html">${dto.jungsan_input_date}</a></td>
 				<td>${dto.jungsan_input_cash}</td>
 				<td>${dto.jungsan_input_card}</td>
-				<td>${dto.jungsan_input_card +dto.jungsan_input_cash}</td>
-				<td>${dto.jungsan_input_card +dto.jungsan_input_cash-dto.jungsan_input_point}</td>
+				<td>${dto.jungsan_input_card +dto.jungsan_input_cash+dto.jungsan_input_point}</td>
 				<td>${dto.jungsan_input_worktime}</td>
 				<td>${dto.jungsan_input_expenditure}</td> 
 				<td>${dto.jungsan_input_point}</td>
@@ -49,5 +53,17 @@
 	</div>
 	<button type="button"><a href="Monthly.html">월마감</a></button>
 	<button type="button"><a href="View_jungsan.html">현황 그래프 보기</a></button>
+	
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.14.0/jquery.jqgrid.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#postdatepicker").datepicker({
+		 showButtonPanel: true, 
+	    currentText: '오늘 날짜', 
+	    closeText: '닫기', 
+	    dateFormat: "yymmdd"});
+})
+</script>
 </html>
