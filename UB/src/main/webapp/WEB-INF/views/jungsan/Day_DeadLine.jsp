@@ -11,7 +11,6 @@
 <body>
 <%@include file="Show_List.jsp" %>
 
-		<%-- <c:if test=""> --%>
 	 <form name="form1" method="post" action="Day_DeadLineForm.html" >
 <h2 align="center">매니저 입력</h2>
 		<table style="width: 1200px; margin: auto;" border="1">
@@ -50,7 +49,6 @@
 			</div>
 			</form>
 			
-			<%-- </c:if> --%>
 
 
 </body>
