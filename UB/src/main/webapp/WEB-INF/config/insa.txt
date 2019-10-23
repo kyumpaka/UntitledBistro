@@ -1,7 +1,7 @@
 --------------------- 테이블 전체삭제 -------------------------------------
-DROP TABLE EmpRegister;
-DROP TABLE Salary;
 DROP TABLE Schedule;
+DROP TABLE Salary;
+DROP TABLE EmpRegister;
 
 ---------------------------------------------------------------------------
 create table EmpRegister ( -- 직원등록 테이블
@@ -31,11 +31,6 @@ create table EmpRegister ( -- 직원등록 테이블
         EmpRegister_AUTHORITY VARCHAR2(20) DEFAULT 'ROLE_MEMBER'-- 권한
 );
 
-insert into empregister(EmpRegister_name, EmpRegister_empnum, EmpRegister_jumin, EmpRegister_ENABLED, EmpRegister_AUTHORITY) 
-values('MEMBER', 'MEMBER', '12345', 1, 'ROLE_MEMBER');
-insert into empregister(EmpRegister_name, EmpRegister_empnum, EmpRegister_jumin, EmpRegister_ENABLED, EmpRegister_AUTHORITY) 
-values('ADMIN', 'ADMIN', '12345', 1, 'ROLE_ADMIN');
-
 create table Salary ( -- 근무 및 급여내역, 저장하는테이블
         Salary_no VARCHAR2(20), -- 번호(PK)
         Salary_EmpRegister_empnum VARCHAR2(20), -- 사번(FK)
@@ -57,4 +52,18 @@ create table  Schedule ( -- 스케쥴
         
 );
 
+ALTER TABLE EmpRegister ADD CONSTRAINT PK_EmpRegister_empnum PRIMARY KEY(EmpRegister_empnum);
+
+ALTER TABLE Salary ADD CONSTRAINT PK_Salary_no PRIMARY KEY(Salary_no);
+ALTER TABLE Salary ADD CONSTRAINT FK_Salary_EmpRegister_empnum FOREIGN KEY(Salary_EmpRegister_empnum) REFERENCES EmpRegister(EmpRegister_empnum);
+
+ALTER TABLE Schedule ADD CONSTRAINT PK_Schedule_no PRIMARY KEY(Schedule_no);
+ALTER TABLE Schedule ADD CONSTRAINT FK_Schedule_EmpRegister_empnum FOREIGN KEY(Schedule_EmpRegister_empnum) REFERENCES EmpRegister(EmpRegister_empnum);
+
+insert into empregister(EmpRegister_name, EmpRegister_empnum, EmpRegister_jumin, EmpRegister_ENABLED, EmpRegister_AUTHORITY) 
+values('MEMBER', 'MEMBER', '12345', 1, 'ROLE_MEMBER');
+insert into empregister(EmpRegister_name, EmpRegister_empnum, EmpRegister_jumin, EmpRegister_ENABLED, EmpRegister_AUTHORITY) 
+values('ADMIN', 'ADMIN', '12345', 1, 'ROLE_ADMIN');
+
 commit;
+
