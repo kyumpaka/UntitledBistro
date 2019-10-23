@@ -90,7 +90,7 @@ function goDaily() {
 	var height = 600;
 	var popupX = (window.screen.width / 2) - (width / 2);
 	var popupY = (window.screen.height / 2) - (height / 2);
-	window.open('${pageContext.request.contextPath}/Daily.html','일매출확인','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+	window.open('${pageContext.request.contextPath}/pop/Daily.html','일매출확인','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
 }
 
 function goSalesList() {
