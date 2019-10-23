@@ -37,7 +37,11 @@ public interface InsaDAO {
 
 	public void SalaryAdd(Insa_EmpRegisterDTO dto);
 
+	public void SalaryDayAdd(Insa_EmpRegisterDTO dto);
+	   
 	public void SalaryUpdate(Insa_EmpRegisterDTO dto);
+	
+	public void SalaryDayUpdate(Insa_EmpRegisterDTO dto);	
 
 	public List<Insa_SalaryDTO> HollyDay();
 
@@ -47,4 +51,5 @@ public interface InsaDAO {
 
 	public List<Insa_SalaryDTO> Schedule();
 	
+	public int PayCheckByNum(Insa_EmpRegisterDTO dto);
 }
