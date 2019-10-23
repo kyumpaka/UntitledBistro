@@ -158,13 +158,13 @@
 							<br>
 							<div class="row">
 								<div class="col-md-4">
-									<div class="btn  btn-primary btn-lg btn-block" onclick="orderStart('${orders_No}')"><i class="fa fa-shopping-bag"></i> 주문 </div>
+									<div class="btn  btn-primary btn-lg btn-block" onclick="orderStart()"><i class="fa fa-shopping-bag"></i> 주문 </div>
 								</div>
 								<div class="col-md-4">
-									<div class="btn  btn-primary btn-lg btn-block" onclick="orderPrint('${orders_No}')"><i class="fa fa-shopping-bag"></i> 출력 </div>
+									<div class="btn  btn-primary btn-lg btn-block" onclick="orderPrint()"><i class="fa fa-shopping-bag"></i> 출력 </div>
 								</div>
 								<div class="col-md-4">
-									<div class="btn  btn-primary btn-lg btn-block" onclick="goPosMain('${orders_No}')"><i class="fa fa-shopping-bag"></i> 메인 </div>
+									<div class="btn  btn-primary btn-lg btn-block" onclick="goPosMain()"><i class="fa fa-shopping-bag"></i> 메인 </div>
 								</div>
 							</div>
 						</div>
@@ -268,24 +268,56 @@ function realtimeClock() {
 
 // 결제
 function goPay() {
-	var width = 800;
-	var height = 600;
-	var popupX = (window.screen.width / 2) - (width / 2);
-	var popupY = (window.screen.height / 2) - (height / 2);
-	var allPrice = $("#allPrice").html();
-	var discountPrice = $("#discountPrice").html();
-	var resultPrice = $("#resultPrice").html();
-	var price = '&allPrice=' + allPrice + '&discountPrice=' + discountPrice + '&resultPrice=' + resultPrice;
-	var openWin = window.open('paymentStart.do?orders_No='+${orders_No}+price,'결제','width='+width+',height='+height+',status=no,scrollbars=no, left='+ popupX + ', top='+ popupY);
+	$.ajax({
+		  url: 'ordersCheck.do',
+		  type: 'post',
+		  data: { orders_No:'${orders_No}' },
+		  dataType: 'json',
+		  success : function(result) {
+         		if(result > 0) {
+         			var width = 800;
+         			var height = 600;
+         			var popupX = (window.screen.width / 2) - (width / 2);
+         			var popupY = (window.screen.height / 2) - (height / 2);
+         			var allPrice = $("#allPrice").html();
+         			var discountPrice = $("#discountPrice").html();
+         			var resultPrice = $("#resultPrice").html();
+         			var price = '&allPrice=' + allPrice + '&discountPrice=' + discountPrice + '&resultPrice=' + resultPrice;
+         			var openWin = window.open('paymentStart.do?orders_No='+${orders_No}+price,'결제','width='+width+',height='+height+',status=no,scrollbars=no, left='+ popupX + ', top='+ popupY);
+	          	} else {
+	          		swal({
+	     					title: "주문내역이 없습니다.",
+	     					icon: "warning",
+	     					button: "닫기",
+	      			});
+		        }
+         }
+     });
 }
 
 // 서비스
 function goDiscount() {
-	var width = 800;
-	var height = 450;
-	var popupX = (window.screen.width / 2) - (width / 2);
-	var popupY = (window.screen.height / 2) - (height / 2);
-	window.open('orderDiscount.do?allPrice='+$("#allPrice").html(),'서비스','width='+width+',height='+height+',status=no,scrollbars=no, left='+ popupX + ', top='+ popupY);
+	$.ajax({
+		  url: 'ordersCheck.do',
+		  type: 'post',
+		  data: { orders_No:'${orders_No}' },
+		  dataType: 'json',
+		  success : function(result) {
+       		if(result > 0) {
+       			var width = 800;
+       			var height = 450;
+       			var popupX = (window.screen.width / 2) - (width / 2);
+       			var popupY = (window.screen.height / 2) - (height / 2);
+       			window.open('orderDiscount.do?allPrice='+$("#allPrice").html(),'서비스','width='+width+',height='+height+',status=no,scrollbars=no, left='+ popupX + ', top='+ popupY);
+          	} else {
+          		swal({
+     					title: "주문내역이 없습니다.",
+     					icon: "warning",
+     					button: "닫기",
+      			});
+	        }
+       }
+   });
 }
 
 // 각 메뉴 주문 개수
@@ -295,10 +327,10 @@ var oderCntMap;
 function plusOrder(code, name, price) {
 	var count = oderCntMap.get(code) + 1;
 	
- 		    var ordersDetailDTO = new Object();
- 				ordersDetailDTO.od_Menu_Code = code;
- 				ordersDetailDTO.od_Qty = count;
- 				ordersDetailDTO.od_Orders_No = ${orders_No};
+    var ordersDetailDTO = new Object();
+		ordersDetailDTO.od_Menu_Code = code;
+		ordersDetailDTO.od_Qty = count;
+		ordersDetailDTO.od_Orders_No = ${orders_No};
 
 	$.ajax({
 		  url: 'ordersPlus.do',
@@ -356,45 +388,61 @@ function plusOrder(code, name, price) {
 // 모든주문취소
 function removeOrderAll() {
 	event.preventDefault();
-	
-	var ordersDetailDTO = new Object();
- 		 	ordersDetailDTO.od_Orders_No = ${orders_No};
- 		 	
+
 	$.ajax({
-		  url: 'ordersRemoveAll.do',
+		  url: 'ordersCheck.do',
 		  type: 'post',
-		  data: JSON.stringify(ordersDetailDTO),
+		  data: { orders_No:'${orders_No}' },
 		  dataType: 'json',
-		  contentType: 'application/json',
 		  success : function(result) {
-			  if(result > 0){
-				  $("#allPrice").html(0);
-				  $("#resultPrice").html(0);
-				  for(var i = 1; i <= oderCntMap.size; i++) {
-					  $("#trMN"+i).remove();
-					  oderCntMap.delete("MN"+i);
-					  oderCntMap.set("MN"+i, 0);
-				  }
-			  }
-			  // 웹소켓 	  
-			  $.ajax({
-			  	  url : "${pageContext.request.contextPath}/jaego/gridRiskItemCount",
-				  type : "get"
-			  })
-			  .done(function(count) {
-			  	  webSocket.send(count);
-			  });
-		  }
-	});
+         		if(result > 0) {
+         			var ordersDetailDTO = new Object();
+         		 	ordersDetailDTO.od_Orders_No = '${orders_No}';
+         		 		 	
+         			$.ajax({
+         				  url: 'ordersRemoveAll.do',
+         				  type: 'post',
+         				  data: JSON.stringify(ordersDetailDTO),
+         				  dataType: 'json',
+         				  contentType: 'application/json',
+         				  success : function(result) {
+         					  if(result > 0){
+         						  $("#allPrice").html(0);
+         						  $("#resultPrice").html(0);
+         						  for(var i = 1; i <= oderCntMap.size; i++) {
+         							  $("#trMN"+i).remove();
+         							  oderCntMap.delete("MN"+i);
+         							  oderCntMap.set("MN"+i, 0);
+         						  }
+         					  }
+         					  // 웹소켓 	  
+         					  $.ajax({
+         					  	  url : "${pageContext.request.contextPath}/jaego/gridRiskItemCount",
+         						  type : "get"
+         					  })
+         					  .done(function(count) {
+         					  	  webSocket.send(count);
+         					  });
+         				  }
+         			});
+	          	} else {
+	          		swal({
+     					title: "주문내역이 없습니다.",
+     					icon: "warning",
+     					button: "닫기",
+	      			});
+	            }
+         }
+     });
 }
 
 // 한개 제품 모든 주문취소
 function removeOrder(code, price) {
 	event.preventDefault();
 	
- 		    var ordersDetailDTO = new Object();
- 			ordersDetailDTO.od_Menu_Code = code;
- 		 	ordersDetailDTO.od_Orders_No = ${orders_No};
+    var ordersDetailDTO = new Object();
+	ordersDetailDTO.od_Menu_Code = code;
+ 	ordersDetailDTO.od_Orders_No = ${orders_No};
  		 	
 	$.ajax({
 		  url: 'ordersRemove.do',
@@ -429,10 +477,11 @@ function removeOrder(code, price) {
 function minusOrder(code, price) {
 	var count = oderCntMap.get(code) - 1;
 	
- 		    var ordersDetailDTO = new Object();
- 				ordersDetailDTO.od_Menu_Code = code;
- 				ordersDetailDTO.od_Qty = count;
- 				ordersDetailDTO.od_Orders_No = ${orders_No};
+    var ordersDetailDTO = new Object();
+		ordersDetailDTO.od_Menu_Code = code;
+		ordersDetailDTO.od_Qty = count;
+		ordersDetailDTO.od_Orders_No = ${orders_No};
+		
 	if(count == 0){
 		removeOrder(code, price);
 	} else {
@@ -466,11 +515,11 @@ function minusOrder(code, price) {
 	}
 }
 
-function orderStart(ordersNo) {
+function orderStart() {
 	$.ajax({
 		  url: 'ordersCheck.do',
 		  type: 'post',
-		  data: { orders_No:ordersNo },
+		  data: { orders_No:'${orders_No}' },
 		  dataType: 'json',
 		  success : function(result) {
            		if(result > 0) {
@@ -483,7 +532,7 @@ function orderStart(ordersNo) {
         					var height = 500;
         					var popupX = (window.screen.width / 2) - (width / 2);
         					var popupY = (window.screen.height / 2) - (height / 2);
-        					window.open('ordersPDF.do?orders_No='+ordersNo,'주문하기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+        					window.open('ordersPDF.do?orders_No=${orders_No}','주문하기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
         				    location.href='posMain.do';
         			});
             	} else {
@@ -497,11 +546,11 @@ function orderStart(ordersNo) {
        });
 }
 
-function orderPrint(ordersNo) {
+function orderPrint() {
 	$.ajax({
 		  url: 'ordersCheck.do',
 		  type: 'post',
-		  data: { orders_No:ordersNo },
+		  data: { orders_No:'${orders_No}' },
 		  dataType: 'json',
 		  success : function(result) {
            		if(result > 0) {
@@ -509,7 +558,7 @@ function orderPrint(ordersNo) {
        				var height = 500;
        				var popupX = (window.screen.width / 2) - (width / 2);
        				var popupY = (window.screen.height / 2) - (height / 2);
-       				window.open('ordersPDF.do?orders_No='+ordersNo,'출력하기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+       				window.open('ordersPDF.do?orders_No=${orders_No}','출력하기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
             	} else {
             		swal({
        					title: "주문내역이 없습니다.",
@@ -521,11 +570,11 @@ function orderPrint(ordersNo) {
        });
 }
 
-function goPosMain(ordersNo) {
+function goPosMain() {
 	$.ajax({
 		  url: 'ordersDeleteCheck.do',
 		  type: 'post',
-		  data: { orders_No:ordersNo },
+		  data: { orders_No:'${orders_No}' },
 		  dataType: 'json',
 		  complete : function() {
            		location.href='posMain.do';
