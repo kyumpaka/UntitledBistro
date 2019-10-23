@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <style>
@@ -32,12 +32,17 @@
 <header id="header" class="header">
             <div class="top-left">
                 <div class="navbar-header"	>
-                    <a id="logo" class="navbar-brand" href="${path}/erp">UntitedBistro</a>
+                    <a id="logo" class="navbar-brand" href="${path}/erp?empregister_empnum=<sec:authentication property='principal.username'/>">UntitedBistro</a>
                     <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
                 </div>
             </div>
             <div class="top-right">
                 <div class="header-menu">
+                    
+                    <div class="user-area dropdown float-right">
+                    	${sessionScope.empregister_name}님 환영합니다.
+                    </div>
+                    
                     <div class="header-left">
 
                         <div class="dropdown for-notification">
@@ -53,37 +58,28 @@
 							</button>                        
                         </div>
 
+	                    <div class="dropdown for-notification">
+							<button id="posMain" class="customBtn" onclick="goLogout()">
+		                           <i class="fa fa-power-off"></i>
+							</button>                        
+	                    </div>
                     </div>
-
-                    <div class="user-area dropdown float-right">
-                   
-                    	${sessionScope.empregister_name }님이 로그인중입니다. 
-                        <img alt="empregister_photo" src="${path}/resources/images/insa/${sessionScope.empregister_photo}" width="50" height="30">
-                    	<a href="${path }/logout">로그아웃</a>
-                   
-                        
-                  <!--       <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
-
-                            <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a>
-
-                            <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
-
-                            <a class="nav-link" href="#"><i class="fa fa-power -off"></i>Logout</a>
-                        </div> -->
-                    </div>
+                    
 
                 </div>
             </div>
         </header>
 
 <!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>        
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
+      
+<!-- Swal -->      
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <!-- WebSocket -->
 <script type="text/javascript">
 
-var webSocket = new WebSocket("ws://localhost:8095/UntitledBistro/realTime-ws");
+var webSocket = new WebSocket("ws://localhost:8095${pageContext.request.contextPath}/realTime-ws");
 webSocket.onopen = onOpen;
 webSocket.onmessage = onMessage;
 webSocket.onclose = onClose;
@@ -102,7 +98,21 @@ function onOpen(e) {
 
 function onMessage(e) {
 	console.log("서버로 부터 응답메시지 받음 : " + e.data);
+	var count = $("#riskItemCount").html();
 	$("#riskItemCount").html(e.data);
+	
+	if(count != e.data) {
+		console.log("==== 결과 ====")
+		console.log(count);
+		console.log(e.data);
+		console.log("==============")
+		swal({
+			title: "위험재고 수량알림",
+			text: "위험재고 갯수에 변경사항이 있음을 알립니다.",
+			icon: "info",
+			button: "확인"
+		});
+	}
 }
 
 function onClose(e) {
@@ -115,6 +125,19 @@ function riskItem() {
 
 function posMain() {
 	self.location="${path}/jumun/posMain.do";
+}
+
+function goLogout() {
+	swal({
+		  title: "로그아웃하시겠습니까?",
+		  icon: "warning",
+		  buttons: ["아니요", "네"],
+		  dangerMode: true,
+		}).then((willDelete) => {
+			if (willDelete) {
+				self.location="${path}/logout";
+			}
+		});
 }
 
 </script>        

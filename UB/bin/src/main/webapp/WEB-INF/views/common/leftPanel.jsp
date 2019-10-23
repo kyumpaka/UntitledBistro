@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 <!-- Left Panel -->
@@ -9,7 +10,7 @@
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active">
-                        <a href="${path}/erp"><i class="menu-icon fa fa-laptop"></i>현황판</a>
+                        <a href="${path}/erp?empregister_empnum=<sec:authentication property='principal.username'/>"><i class="menu-icon fa fa-laptop"></i>현황판</a>
                     </li>
                     <li class="menu-title">재고관리</li><!-- /.menu-title -->
                     <li class="menu-item-has-children dropdown">
@@ -67,9 +68,10 @@
                       <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-area-chart"></i>서비스</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-map-o"></i><a href="${path}/Seobis_mList">회원 관리</a></li>
-                            <li><i class="menu-icon fa fa-street-view"></i><a href="${path}/Seobis_jUs">회원 등록</a></li>
-                            <li><i class="fa fa-calendar-check-o"></i><a href="${path}/Seobis_cal">예약 관리</a></li>
+                            <li><i class="menu-icon fa fa-map-o"></i><a href="${path}/Seobis/mList">회원 관리</a></li>
+                            <li><i class="menu-icon fa fa-street-view"></i><a href="${path}/Seobis/jUs">회원 등록</a></li>
+                            <li><i class="fa fa-calendar-check-o"></i><a href="${path}/Seobis/Seobis_calendar">예약 관리</a></li>
+                            <li><i class="menu-icon fa fa-map-o"></i><a href="${path}/Seobis/pList">포인트 관리</a></li>
                             
                         </ul>
                     </li>

@@ -2,33 +2,71 @@ package com.bit.UntitledBistro.controller;
 
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
+import com.bit.UntitledBistro.service.insa.InsaService;
 
 @Controller
 public class HomeController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	@Autowired
+	InsaService insaService;
 	
 	@RequestMapping(value = {"/login", "/"})
-	public String home(HttpSession session) {
-		logger.info("로그인 컨트롤러에 오신걸 환영합니다");
+	public String home() {
+		
 		return "views/insa/InsaLogin";
 	}
 	
-	@RequestMapping(value = "/accessDenied")
-	public String accessDenied(HttpSession session) {
-
-		return "views/insa/accessDenied";
+	@RequestMapping(value = "/loginFail")
+	public String loginFail(String error, String logout, String exist, String timeOut, String access, Model model) {
+		if(error != null) {
+			model.addAttribute("error", "아이디 또는 비밀번호가 틀렸습니다.");
+			
+		} else {
+			model.addAttribute("error", "empty");
+		}
+		
+		if(logout != null) {
+			model.addAttribute("logout", "로그아웃하셨습니다.");
+			
+		} else {
+			model.addAttribute("logout", "empty");
+		}
+		
+		if(exist != null) {
+			model.addAttribute("exist", "이미 접속중입니다. 로그인하시려면 다시 시도해주세요.");
+			
+		} else {
+			model.addAttribute("exist", "empty");
+		}
+		
+		if(timeOut != null) {
+			model.addAttribute("timeOut", "현재 계정으로 다른 곳에서 로그인하였습니다.");
+			
+		} else {
+			model.addAttribute("timeOut", "empty");
+		}
+		
+		if(access != null) {
+			model.addAttribute("access", "권한이 부족합니다.");
+			
+		} else {
+			model.addAttribute("access", "empty");
+		}
+		
+		return "views/insa/loginFail";
 	}
 	
 	@RequestMapping(value = "/erp")
-	public String erp() {
-		logger.info("홈 컨트롤러에 오신걸 환영합니다");
+	public String erp(Insa_EmpRegisterDTO dto, HttpSession session) {
+		insaService.InsaLoginSearch(dto, session);
+		
 		return "baseLayout";
 	}
-	
 	
 }

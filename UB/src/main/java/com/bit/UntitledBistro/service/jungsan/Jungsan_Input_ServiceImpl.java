@@ -33,4 +33,23 @@ public class Jungsan_Input_ServiceImpl implements Jungsan_Input_Service {
 		return jungsan_input_DAO.update(dto);
 	}
 
+	@Override
+	public List<Jungsan_Input_DTO> MonthList(HashMap map) {
+		Jungsan_Input_DAO jungsan_input_DAO =sqlsession.getMapper(Jungsan_Input_DAO.class);
+		return jungsan_input_DAO.MonthList(map);
+	}
+
+	@Override
+	public void insert_Monthly(Jungsan_Input_DTO dto) {
+		Jungsan_Input_DAO jungsan_input_DAO =sqlsession.getMapper(Jungsan_Input_DAO.class);
+		jungsan_input_DAO.insert_Monthly(dto);
+	}
+
+	@Override
+	public String to_date() {
+		Jungsan_Input_DAO jungsan_input_DAO=sqlsession.getMapper(Jungsan_Input_DAO.class);
+		return jungsan_input_DAO.to_date();
+	}
+
+
 }

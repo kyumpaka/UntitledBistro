@@ -1,7 +1,6 @@
 package com.bit.UntitledBistro.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -173,6 +172,12 @@ public class JaegoController {
 		logger.info("여기는 안전재고 등록 컨트롤러입니다.");
 	}
 	
+	@GetMapping(value = "/gridSafeItemSelectProductCode")
+	public @ResponseBody String gridSafeItemSelectProductCode(String si_product_code) {
+		logger.info("여기는 안전재고 품목코드 유효성 검사 컨트롤러입니다.");
+		return service.safeItemSelectValidate(si_product_code);
+	}
+	
 	@PostMapping(value = "/gridSafeItemInserts")
 	public @ResponseBody int gridSafeItemInsertList(@RequestBody SafeItemDTO[] safeItemDTOs) {
 		logger.info("여기는 그리드 안전재고s 등록 컨트롤러입니다.");
@@ -187,27 +192,6 @@ public class JaegoController {
 	@GetMapping(value = "/out_item_insert")
 	public void out_item_insert() {
 		logger.info("여기는 출고 등록 테스트 컨트롤러입니다.");
-	}
-	
-	
-	
-	///////////////////////////////////////////////////
-	///////////  그리드 입고 등록 테스트   ////////////
-	///////////////////////////////////////////////////
-	@PostMapping(value = "/gridInItemInsert")
-	public @ResponseBody Map<String, Object> gridInItemInsert(@RequestBody InItemDTO inItemDTO) {
-		logger.info("여기는 그리드 입고 등록 테스트 컨트롤러입니다.");
-		return service.inItemInsert(inItemDTO);
-	}
-	
-	
-	///////////////////////////////////////////////////
-	///////////  그리드 출고 등록 테스트   ////////////
-	///////////////////////////////////////////////////
-	@PostMapping(value = "/gridOutItemInsert")
-	public @ResponseBody int gridOutItemInsert(@RequestBody OutItemDTO outItemDTO) {
-		logger.info("여기는 그리드 출고 등록 테스트 컨트롤러입니다.");
-		return service.outItemInsert(outItemDTO);
 	}
 	
 }

@@ -13,16 +13,12 @@ public interface InsaDAO {
 
 	public Insa_EmpRegisterDTO EmpRegisterRead(String empregister_empnum);
 
-	public int getEmpCount();
-
 	public int EmpRegisterUpdate(Insa_EmpRegisterDTO dto);
 
 	public Insa_EmpRegisterDTO viewMember(Insa_EmpRegisterDTO dto);
 
 	public String InsaLoginCheck(Insa_EmpRegisterDTO dto);
-
-	public void logout(HttpSession session);
-
+	
 	public int WorkAdd(Insa_EmpRegisterDTO dto);
 
 	public int WorkEnd(Insa_EmpRegisterDTO dto);
@@ -41,7 +37,11 @@ public interface InsaDAO {
 
 	public void SalaryAdd(Insa_EmpRegisterDTO dto);
 
+	public void SalaryDayAdd(Insa_EmpRegisterDTO dto);
+	   
 	public void SalaryUpdate(Insa_EmpRegisterDTO dto);
+	
+	public void SalaryDayUpdate(Insa_EmpRegisterDTO dto);	
 
 	public List<Insa_SalaryDTO> HollyDay();
 
@@ -50,7 +50,6 @@ public interface InsaDAO {
 	public Insa_SalaryDTO SelectNum(HashMap<String, String> map);
 
 	public List<Insa_SalaryDTO> Schedule();
-
-
-
+	
+	public int PayCheckByNum(Insa_EmpRegisterDTO dto);
 }

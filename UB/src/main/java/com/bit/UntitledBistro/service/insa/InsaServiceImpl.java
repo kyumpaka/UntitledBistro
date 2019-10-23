@@ -20,12 +20,7 @@ import com.bit.UntitledBistro.model.insa.InsaDAO;
 import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
 import com.bit.UntitledBistro.model.insa.Insa_SalaryDTO;
 import com.bit.UntitledBistro.model.insa.Insa_ScheduleDTO;
-import com.bit.UntitledBistro.model.seobis.Seobis_MemberDAO;
-import com.bit.UntitledBistro.model.seobis.Seobis_ReserveDTO;
 
-
-
-	
 @Service("test")
 public class InsaServiceImpl implements InsaService {
 
@@ -45,13 +40,6 @@ public class InsaServiceImpl implements InsaService {
 		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
 
 		return insaDAO.EmpRegisterList(map);
-	}
-
-	@Override
-	public int getEmpCount() {
-		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
-
-		return insaDAO.getEmpCount();
 	}
 
 	@Override
@@ -110,81 +98,46 @@ public class InsaServiceImpl implements InsaService {
 	}
 
 	@Override
-	public Insa_EmpRegisterDTO viewMember(Insa_EmpRegisterDTO dto) {
+	public boolean InsaLoginSearch(Insa_EmpRegisterDTO dto, HttpSession session) {
 		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
-		return insaDAO.viewMember(dto);
-	}
-
-	@Override
-	public boolean InsaLoginCheck(Insa_EmpRegisterDTO dto, HttpSession session) {
-		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
-		String name = insaDAO.InsaLoginCheck(dto);
-		boolean result = false;
-		
-		if(name != null) result = true;
-		if(result) {
-			Insa_EmpRegisterDTO dto2 = viewMember(dto);
+		Insa_EmpRegisterDTO dto2 = insaDAO.viewMember(dto);
+		session.setAttribute("empregister_empnum", dto2.getEmpregister_empnum());
+		session.setAttribute("empregister_name", dto2.getEmpregister_name());
+		session.setAttribute("empregister_photo", dto2.getEmpregister_photo());
 			
-			System.out.println("num : " + dto2.getEmpregister_empnum());
-			System.out.println("name : " + dto2.getEmpregister_name());
-			System.out.println("photo : " + dto2.getEmpregister_photo());
-			session.setAttribute("empregister_empnum", dto2.getEmpregister_empnum());
-			session.setAttribute("empregister_name", dto2.getEmpregister_name());
-			session.setAttribute("empregister_photo", dto2.getEmpregister_photo());
-		}
-		
-		
-			
-		return result;
+		return true;
 	}
 
-	@Override
-	public void logout(HttpSession session) {
-		
-		session.invalidate();
-		
-	}
-	 
-	/*
-	 * @Override public boolean WorkManagement(Insa_EmpRegisterDTO dto, HttpSession
-	 * session) { InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class); String name
-	 * = insaDAO.WorkManagement(dto); boolean result = false;
-	 * 
-	 * if(name != null) result = true; if(result) { Insa_EmpRegisterDTO dto2 =
-	 * viewMember(dto);
-	 * 
-	 * System.out.println("num : " + dto2.getEmpregister_empnum());
-	 * System.out.println("name : " + dto2.getEmpregister_name());
-	 * System.out.println("photo : " + dto2.getEmpregister_photo());
-	 * session.setAttribute("empregister_empnum", dto2.getEmpregister_empnum());
-	 * session.setAttribute("empregister_name", dto2.getEmpregister_name());
-	 * session.setAttribute("empregister_photo", dto2.getEmpregister_photo()); }
-	 * return result;
-	 * 
-	 * }
-	 */
-
-	@Override
-	public int WorkCheck(Insa_EmpRegisterDTO dto) {
-		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
-		int idCheck = insaDAO.WorkCheck(dto);
-		if(idCheck == 1)  { //아이디 비밀번호가 모두 일치하는 놈 개수 emp
-			int toDayCheck = insaDAO.DayCheck(dto);
-			if(toDayCheck == 0) { //아이디가 일치하는 놈의 개수 schedule
-				// 출근이 없으면 출근
-				insaDAO.WorkAdd(dto);
-				insaDAO.SalaryAdd(dto);
-				return 1;
-			} else {
-				// 출근이 있으면 퇴근
-				insaDAO.WorkEnd(dto);
-				insaDAO.SalaryUpdate(dto);
-				return 2;
-			}
-		}
-		// 없는 직원
-		return idCheck;
-	}
+   @Override
+   public int WorkCheck(Insa_EmpRegisterDTO dto) {
+      InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
+      int idCheck = insaDAO.WorkCheck(dto);
+      int paytime = insaDAO.PayCheckByNum(dto);
+      if(idCheck == 1)  { //아이디 비밀번호가 모두 일치하는 놈 개수 emp
+         int toDayCheck = insaDAO.DayCheck(dto);
+         if(toDayCheck == 0) { //아이디가 일치하는 놈의 개수 schedule
+            // 출근이 없으면 출근
+            insaDAO.WorkAdd(dto);
+            if(paytime != 0) { // 알바인지 여부
+               insaDAO.SalaryAdd(dto); // 알바
+            } else {
+               insaDAO.SalaryDayAdd(dto); // 직원
+            }
+            return 1;
+         } else {
+            // 출근이 있으면 퇴근
+            insaDAO.WorkEnd(dto);
+            if(paytime != 0) { // 알바인지 여부
+               insaDAO.SalaryUpdate(dto); // 알바
+            } else {
+               insaDAO.SalaryDayUpdate(dto); // 직원
+            }
+            return 2;
+         }
+      }
+      // 없는 직원
+      return idCheck;
+   }
 
 	@Override
 	public boolean WorkLoginCheck(Insa_EmpRegisterDTO dto, HttpSession session) {
@@ -192,20 +145,7 @@ public class InsaServiceImpl implements InsaService {
 		String name = insaDAO.InsaLoginCheck(dto);
 		boolean result = false;
 		
-		if(name != null) result = true;
-		if(result) {
-			Insa_EmpRegisterDTO dto2 = viewMember(dto);
-			
-			System.out.println("num : " + dto2.getEmpregister_empnum());
-			System.out.println("name : " + dto2.getEmpregister_name());
-			System.out.println("photo : " + dto2.getEmpregister_photo());
-			session.setAttribute("empregister_empnum", dto2.getEmpregister_empnum());
-			session.setAttribute("empregister_name", dto2.getEmpregister_name());
-			session.setAttribute("empregister_photo", dto2.getEmpregister_photo());
-		}
-		
-		
-			
+		if(name != null) result = true;	
 		return result;
 	}
 
@@ -252,10 +192,6 @@ public class InsaServiceImpl implements InsaService {
 		return insaDAO.PayCheck();
 	}
 
-	/*
-	 * @Override public List<Insa_SalaryDTO> Hollday() { //예약 읽기 InsaDAO insaDAO =
-	 * sqlsession.getMapper(InsaDAO.class); return insaDAO.HollyDay(); }
-	 */
 	@Override
 	public int HollydayAdd(Insa_SalaryDTO dto) {
 		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
@@ -280,7 +216,5 @@ public class InsaServiceImpl implements InsaService {
 		
 		return insaDAO.Schedule();
 	}
-	
-
 
 }

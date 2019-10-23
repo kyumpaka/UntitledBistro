@@ -73,25 +73,19 @@ function WorkManagement(){
 		<div class="form-group">
 			<label for="inputEmail3" class="col-sm-2 control-label">사번</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control" id="empregister_empnum"
-					name="empregister_empnum" value="${empregister_empnum }">
+				<input type="text" class="form-control" id="empregister_empnum" name="empregister_empnum" placeholder="ID">
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="inputPassword3" class="col-sm-2 control-label">비밀번호</label>
 			<div class="col-sm-10">
-				<input type="password" class="form-control" id="empregister_jumin"
-					name="empregister_jumin" value="${empregister_jumin }"
-					placeholder="Password">
+				<input type="password" class="form-control" id="empregister_jumin" name="empregister_jumin" placeholder="Password">
 			</div>
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<button type="button" id="btnwork" class="btn btn-default">로그인</button>
-				
+				<button type="button" id="btnwork" class="btn btn-default">입력</button>
 			</div>
 		</div>
-
-
 </body>
 </html>

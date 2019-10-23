@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -107,12 +106,12 @@ $(document).ready(function() {
     });
 
 	$('#grid').parents('div.ui-jqgrid-bdiv').css("min-height","220px");
-});
+})
 
 function delButton(cellvalue, options, rowObject) {
 	var no = cellvalue;
 	return '<input type="button" onclick="payCancle('+no+')" value="환불"/>';
-};
+}
 
 function payCancle(no) {
 	$.ajax({
@@ -131,7 +130,7 @@ function payCancle(no) {
 			  
 		  }
   });
-};
+}
 
 $("#search").on("click",function(){
    var data = $("#searchData").val()
@@ -181,7 +180,7 @@ function dateSearch() {
 		frm = '<input type="text" id="searchData" class="form-control">';
 		$("#dateText").html(frm);
 	}
-};
+}
 </script>
 </body>
 </html>

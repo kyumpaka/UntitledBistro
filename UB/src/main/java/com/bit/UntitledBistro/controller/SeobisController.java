@@ -1,8 +1,6 @@
 package com.bit.UntitledBistro.controller;
 
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,9 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,11 +42,17 @@ public class SeobisController {
 		model.addAttribute("Seobis_reserveSelect", Seobis_memberService.Seobis_ReserveSelect());
 		return "seobis/Seobis_calendar";
 	}
+	@RequestMapping(value="/pop/jUs")  // 팝업 회원 등록으로 보내는 맵핑
+	public String seobis_formaddPop() {
+		return "views/seobis/Seobis_joinUs";
+	}
+	@RequestMapping(value="/pop/Seobis_calendar")  // 팝업 예약 내역 확인
+	public String seobis_resList(Model model) {
+		model.addAttribute("Seobis_reserveSelect", Seobis_memberService.Seobis_ReserveSelect());
+		return "views/seobis/Seobis_calendar";
+	}
 	@RequestMapping(value="/Seobis_newCalendar") //예약 새창으로 보내는 맵핑
-	public String seobis_formnewCalendar(Model model) {
-		SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
-		String date = SDF.format(new Date());
-		model.addAttribute("date", date);
+	public String seobis_formnewCalendar(@ModelAttribute("date") String date) {
 		return "/views/seobis/Seobis_newCalendar";
 	}
 	

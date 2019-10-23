@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -190,7 +189,7 @@ $(function() {
 	});
 	$("#cart").height(445);
 	$("#cart").overlayScrollbars({});
-});
+})
 
 $(document).ready(function() {
 	// 메뉴구분 탭 활성화
@@ -219,7 +218,7 @@ $(document).ready(function() {
 			</c:if>
 		</c:forEach>
 	</c:forEach>
-});
+})
 
 function mtView(code) {
 	if(code != undefined){
@@ -228,7 +227,7 @@ function mtView(code) {
 	$("#tabMt_Code").append('<input type="hidden" name="orders_No" value="${orders_No}">');
 	$("#orderListForm").attr("action", "ordersList.do");
 	$("#orderListForm").submit();
-};
+}
 
 // 시계
 function startTime() {
@@ -254,13 +253,13 @@ function startTime() {
     	year + "년 " + month + "월 " + date + "일 [" + week[day] + "] " + hour + ":" + min + ":" + sec;
    	
     var t = setTimeout(startTime, 1000);
-};
+}
 
 // 숫자가 10보다 작을 경우 앞에 0을 붙이기
 function checkTime(i) {
     if (i < 10) {i = "0" + i};
     return i;
-};
+}
 //1초마다 함수 갱신
 function realtimeClock() {
   document.timeForm.timeInput.value = getTimeStamp();
@@ -278,7 +277,7 @@ function goPay() {
 	var resultPrice = $("#resultPrice").html();
 	var price = '&allPrice=' + allPrice + '&discountPrice=' + discountPrice + '&resultPrice=' + resultPrice;
 	var openWin = window.open('paymentStart.do?orders_No='+${orders_No}+price,'결제','width='+width+',height='+height+',status=no,scrollbars=no, left='+ popupX + ', top='+ popupY);
-};
+}
 
 // 서비스
 function goDiscount() {
@@ -287,7 +286,7 @@ function goDiscount() {
 	var popupX = (window.screen.width / 2) - (width / 2);
 	var popupY = (window.screen.height / 2) - (height / 2);
 	window.open('orderDiscount.do?allPrice='+$("#allPrice").html(),'서비스','width='+width+',height='+height+',status=no,scrollbars=no, left='+ popupX + ', top='+ popupY);
-};
+}
 
 // 각 메뉴 주문 개수
 var oderCntMap;
@@ -329,7 +328,7 @@ function plusOrder(code, name, price) {
 					var allPrice = $("#allPrice").html();
 					$("#allPrice").html(Number(allPrice) + Number(price));
 					$("#resultPrice").html(Number(allPrice) + Number(price));
-
+					
 					$.ajax({
 						  url: 'storeCountCheck.do',
 						  type: 'post',
@@ -341,9 +340,18 @@ function plusOrder(code, name, price) {
 					});
 					
 			  }
+			  // 웹소켓 	  
+			  $.ajax({
+				  url : "${pageContext.request.contextPath}/jaego/gridRiskItemCount",
+				  type : "get"
+			  })
+			  .done(function(count) {
+				  webSocket.send(count);
+			  });
 		  }
+		  
 	});
-};
+}
 
 // 모든주문취소
 function removeOrderAll() {
@@ -368,11 +376,17 @@ function removeOrderAll() {
 					  oderCntMap.set("MN"+i, 0);
 				  }
 			  }
+			  // 웹소켓 	  
+			  $.ajax({
+			  	  url : "${pageContext.request.contextPath}/jaego/gridRiskItemCount",
+				  type : "get"
+			  })
+			  .done(function(count) {
+			  	  webSocket.send(count);
+			  });
 		  }
 	});
-
-	
-};
+}
 
 // 한개 제품 모든 주문취소
 function removeOrder(code, price) {
@@ -399,9 +413,17 @@ function removeOrder(code, price) {
 					oderCntMap.delete(code);
 					oderCntMap.set(code, 0);
 			  }
+			  // 웹소켓 	  
+			  $.ajax({
+				  url : "${pageContext.request.contextPath}/jaego/gridRiskItemCount",
+				  type : "get"
+			  })
+			  .done(function(count) {
+				  webSocket.send(count);
+			  });
 		  }
 	});
-};
+}
 
 // 한개 주문취소
 function minusOrder(code, price) {
@@ -431,10 +453,18 @@ function minusOrder(code, price) {
 						$("#allPrice").html(Number(allPrice) - Number(price));
 						$("#resultPrice").html(Number(allPrice) - Number(price));
 				  }
+				  // 웹소켓 	  
+				  $.ajax({
+					  url : "${pageContext.request.contextPath}/jaego/gridRiskItemCount",
+					  type : "get"
+				  })
+				  .done(function(count) {
+					  webSocket.send(count);
+				  });
 			  }
 		});
 	}
-};
+}
 
 function orderStart(ordersNo) {
 	$.ajax({
@@ -465,7 +495,7 @@ function orderStart(ordersNo) {
 	            }
            }
        });
-};
+}
 
 function orderPrint(ordersNo) {
 	$.ajax({
@@ -489,7 +519,7 @@ function orderPrint(ordersNo) {
 	            }
            }
        });
-};
+}
 
 function goPosMain(ordersNo) {
 	$.ajax({
@@ -501,6 +531,24 @@ function goPosMain(ordersNo) {
            		location.href='posMain.do';
              }
        });
-};
+}
+
+var webSocket = new WebSocket("ws://localhost:8095${pageContext.request.contextPath}/realTime-ws");
+webSocket.onopen = onOpen;
+webSocket.onmessage = onMessage;
+webSocket.onclose = onClose;
+
+function onOpen(e) {
+	console.log("웹소켓 연결");	
+}
+
+function onMessage(e) {
+	console.log("서버로 부터 응답메시지 받음 : " + e.data);
+}
+
+function onClose(e) {
+	console.log("웹소컷 닫음");
+}
+
 </script>
 </html>

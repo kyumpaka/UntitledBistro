@@ -9,54 +9,11 @@
 
 <html>
 <head>
-<style>
-td {
-	background-color: #FFFFFF;
-	height: 30px;
-}
-
-.ti {
-	font-weight: bold;
-	font-size: 12px;
-	text-align: center;
-}
-</style>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
-	/* function EmpregisterInsert(){
-		event.preventDefault();
-		swal({
-	           title: "등록하시겠습니까?",
-	           icon: "warning",
-	           buttons: ["아니요", "네"],
-	           dangerMode: true,
-	         }).then((willDelete) => {
-	              if (willDelete) {
-	            	  $("#insert").submit;
-	            	  swal({
-	                      title: "등록되었습니다.",
-	                      icon: "success",
-	                      button: "닫기",
-	                    }).then((value) => {
-	                		opener.document.location.reload();
-	                		window.close();
-	                    };
-	              }
-	         });
-		
-	}  */
-
-	function EmpregisterInsert() {
-		$("#insert").submit;
-		opener.parent.list();
-	
-	
-	}
-	//주소정보
+//주소정보
 	
 	function sample4_execDaumPostcode() {
 		new daum.Postcode(
@@ -120,13 +77,62 @@ td {
 					}
 				}).open();
 	}
-	
 
+	
+	function test1(){
+		var obj = document.EmpRegisterInsertForm
+		
+		if(obj.empregister_name.value == '' ){
+			swal('이름을 입력하세요');
+			obj.empregister_name.focus();
+			return false;
+		}
+		
+		if(obj.empregister_jumin.length =< 6 ){
+			swal('주민등록번호 앞자리를 정확히 입력해주세요');
+			obj.empregister_jumin.focus();
+			return false;
+		}
+		if(obj.empregister_jumin2.length != 7 ){
+			swal('주민등록번호 뒷자리를 정확히 입력해주세요');
+			obj.empregister_jumin2.focus();
+			return false;
+		}
+		if(obj.empregister_empnum.value == '' ){
+			swal('사번을 입력하세요');
+			obj.empregister_empnum.focus();
+			return false;
+		}
+		if(obj.empregister_gender.value == '' ){
+			swal('성별을 입력하세요');
+			obj.empregister_gender.focus();
+			return false;
+		}
+		
+	}
+	
+	
 </script>
+<style>
+td {
+	background-color: #FFFFFF;
+	height: 30px;
+}
+
+.ti {
+	font-weight: bold;
+	font-size: 12px;
+	text-align: center;
+}
+</style>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+
 </head>
 <body>
-	<form name="insa/EmpRegisterInsertForm" id="insert"
-		action="EmpRegisterInsert" method="post" enctype="multipart/form-data">
+	<form name="EmpRegisterInsertForm" action="EmpRegisterInsert" id="insert"
+		 method="post" enctype="multipart/form-data">
 		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000' align='center'>
 			<tr>
 			
@@ -143,24 +149,24 @@ td {
 
 				<td rowspan='2' class='ti' width='100'>성명</td>
 				<td rowspan='2' width='150'><input type="text"
-					name="empregister_name"
+					name="empregister_name" id="empregister_name"
 					style="border: none; background: transparent; text-align: center"></td>
 				<td colspan='2' class='ti' width='200'>주 민 등 록 번 호</td>
 			</tr>
 			<tr>
-				<td colspan='2'><input type="text" name="empregister_jumin"
+				<td colspan='2'><input type="text" name="empregister_jumin" id="empregister_jumin"
 					style="border: none; background: transparent; text-align: center">-<input
-					type="text" name="empregister_jumin2"
+					type="text" name="empregister_jumin2" id="empregister_jumin2"
 					style="border: none; background: transparent; text-align: center"></td>
 
 			</tr>
 			<tr>
 				<td colspan='2' class='ti' width='100'>사번 <input type="text"
-					name="empregister_empnum"
+					name="empregister_empnum" id="empregister_empnum"
 					style="border: none; background: transparent; text-align: center">
 				<td class='ti' colspan='1'>성별
-				<td class='ti'>남<input type="radio" name="empregister_gender"
-					value="남"> 여<input type="radio" name="empregister_gender"
+				<td class='ti'>남<input type="radio" name="empregister_gender" id="empregister_gender"
+					value="남"> 여<input type="radio" name="empregister_gender" id="empregister_gender"
 					value="여">
 
 				</td>
@@ -168,15 +174,15 @@ td {
 			<tr>
 				<td colspan='3' class='ti'>연락처</td>
 				<td colspan='2' class='ti'><input type="text"
-					name="empregister_tel"
+					name="empregister_tel" id="empregister_tel"
 					style="border: none; background: transparent; text-align: center"></td>
 				<td colspan='1' class='ti'>나이</td>
-				<td><input type="number" name="empregister_age"
+				<td><input type="number" name="empregister_age" id="empregister_age"
 					style="border: none; background: transparent; text-align: center"></td>
 			</tr>
 			<tr>
 				<td class='ti' colspan='3' rowspan='2'>거주지</td>
-				<td class='ti'><input type="button"
+				<td class='ti'><input type="button"  
 					onclick="sample4_execDaumPostcode()" value="우편번호 찾기"></td>
 				<td><input type="text" id="sample4_postcode" placeholder="우편번호"
 					name="empregister_addr"></td>
@@ -190,15 +196,17 @@ td {
 			<tr>
 				<td>
 				<td class='ti'><input type="text" id="sample4_detailAddress"
-					name="empregister_addr4" placeholder="상세주소"></td>
+					name="empregister_addr4"  placeholder="상세주소"></td>
 
 				<td class='ti'>직급</td>
-				<td><input type="text" name="empregister_grade"
-					style="border: none; background: transparent; text-align: center"></td>
+				<td><select name="empregister_grade" id="empregister_grade">
+						<option value="매니져">매니져</option>
+						<option value="사원" selected="selected">사원</option>
+				</select></td>
 			</tr>
 			<tr>
 				<td class='ti' colspan='3'>은행명</td>
-				<td class='ti' colspan="2"><select name="empregister_bankname">
+				<td class='ti' colspan="2"><select name="empregister_bankname" id="empregister_bankname">
 						<option value="하나은행">하나은행</option>
 						<option value="국민은행">국민은행</option>
 						<option value="기업은행" selected="selected">기업은행</option>
@@ -209,17 +217,17 @@ td {
 
 				<td><input type="text"
 					style="border: none; background: transparent; text-align: center"
-					name="empregister_accountholder"></td>
+					name="empregister_accountholder" id="empregister_accountholder" ></td>
 
 			</tr>
 			<tr>
 				<td colspan='3' class='ti'>계좌번호</td>
 				<td class='ti' colspan="2"><input type="text"
 					style="border: none; background: transparent; text-align: center"
-					name="empregister_banknum"></td>
+					name="empregister_banknum" id="empregister_banknum"></td>
 				<td colspan='1' class='ti'>급여 구분</td>
-				<td>시급<input type="radio" name="empregister_payclassfiy" value="시급"> 
-					일급<input type="radio" name="empregister_payclassfiy" value="일급">
+				<td>시급<input type="radio" name="empregister_payclassfiy" id="empregister_payclassfiy" value="시급"> 
+					일급<input type="radio" name="empregister_payclassfiy" id="empregister_payclassfiy" value="일급">
 				
 				</td>
 
@@ -228,20 +236,21 @@ td {
 			<tr>
 
 				<td class='ti' colspan='3'>입사 날짜</td>
-				<td class='ti' colspan='2' name="empregister_entryday"></td>
+				<td class='ti' colspan='2' name ="empregister_entryday"></td>
 				<td colspan='1' class='ti' >재직 여부</td>
 				<td colspan='2'>재직중<input type="radio" name="empregister_leavecompany"
+				id="empregister_leavecompany"
 				value="재직중"> 퇴직<input type="radio"
-				value="퇴직"  name="empregister_leavecompany" >
+				value="퇴직"  name="empregister_leavecompany" id="empregister_leavecompany" >
 				</td>
 			</tr>
 			<tr>
 				<td class='ti' colspan='3'>시급</td>
 
-				<td colspan='2'><input type="number" name="empregister_paytime"
+				<td colspan='2'><input type="number" name="empregister_paytime" id="empregister_paytime"
 					style="border: none; background: transparent; text-align: center">천원</td>
 				<td class='ti' colspan='1'>일급</td>
-				<td><input type="number" name="empregister_payday"
+				<td><input type="number" name="empregister_payday" id="empregister_paytime"
 					style="border: none; background: transparent; text-align: center">만원</td>
 			</tr>
 			<tr>
@@ -249,12 +258,12 @@ td {
 
 
 				<td colspan='3'><input type="number"
-					name="empregister_workplan">
+					name="empregister_workplan" id="empregister_workplan">
 				
 
 				</td>
 				<td>
-					<button onclick="EmpregisterInsert()" id="insertform">사원 등록</button> <!-- 	<input type="button" value="쓰기" onclick="document.getElementById('insert').submit();" /> -->
+					<button type = "button" onclick="test1()" >사원 등록</button> <!-- 	<input type="button" value="쓰기" onclick="document.getElementById('insert').submit();" /> -->
 					<input type="reset" value="취소" />
 				</td>
 			</tr>
