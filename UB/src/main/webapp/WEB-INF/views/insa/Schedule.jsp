@@ -50,7 +50,7 @@
       events: [ // 디비꺼 캘린더에 표시
     	  <c:forEach items="${Schedule}" var="s">
     	  {
-    	    title:'${s.salaraydate}' ,
+    	    title:'${s.salary_empRegister_empnum}' ,
     	    url: '${path}/insa/nck?salary_empRegister_empnum=${s.salary_empRegister_empnum}',
     	    start: "${s.salary_hollydaystart}",
     	    allDay: true

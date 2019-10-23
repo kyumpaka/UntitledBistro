@@ -116,12 +116,13 @@ public class InsaController {
 	@RequestMapping("/Schedule")
 	public String insa_formcalendar(Model model) {
 		model.addAttribute("Schedule", insaService.Schedule());
+		System.out.println("ㅇㅇㅇ" + insaService.Schedule());
 		return "insa/Schedule";
 	}
 	
 	@RequestMapping(value="/nck") //예약 확인 페이지로 보내는 맵핑
 	public String insa_formCkCalendar(@RequestParam("salary_empRegister_empnum") String salary_empRegister_empnum, Model model) {
-		model.addAttribute("SelectNum", insaService.SelectNum(salary_empRegister_empnum));
+		model.addAttribute("Schedule", insaService.SelectNum(salary_empRegister_empnum));
 		System.out.println("인사서비스 " + insaService.SelectNum(salary_empRegister_empnum));
 		return "/views/insa/HollydayList";
 	}

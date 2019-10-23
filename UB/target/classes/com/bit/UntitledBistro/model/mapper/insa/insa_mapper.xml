@@ -32,13 +32,17 @@
 		empregister_bankname,
 		empregister_accountholder, empregister_banknum, empregister_payclassfiy, empregister_entryday,
 		empregister_leavecompany,
-		empregister_pay,empregister_workplan) Values(#{empregister_name},#{empregister_photo}, #{empregister_jumin},
+		<if test="empregister_paytime != null">empregister_paytime,</if>
+		<if test="empregister_payday != null">empregister_payday,</if>
+		empregister_workplan) 
+		Values(#{empregister_name},#{empregister_photo}, #{empregister_jumin},
 		#{empregister_jumin2},
 		#{empregister_empnum}, #{empregister_gender}, #{empregister_tel}, #{empregister_age},
 		#{empregister_addr},#{empregister_addr2},#{empregister_addr3},#{empregister_addr4}, #{empregister_grade}, #{empregister_bankname},
 		#{empregister_accountholder}, #{empregister_banknum},
 		#{empregister_payclassfiy}, sysdate, #{empregister_leavecompany},
-		#{empregister_pay},
+		<if test="empregister_paytime != null">#{empregister_paytime},</if>
+		<if test="empregister_payday != null">	#{empregister_payday},</if>
 		#{empregister_workplan} )
 
 	</insert>
@@ -54,7 +58,7 @@
 	<update id="EmpRegisterUpdate" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
      update EmpRegister set empregister_tel=#{empregister_tel},empregister_age=#{empregister_age}, empregister_addr=#{empregister_addr},empregister_addr2=#{empregister_addr2},empregister_addr3=#{empregister_addr3},empregister_addr4=#{empregister_addr4},empregister_grade=#{empregister_grade},empregister_bankname=#{empregister_bankname}, 
      empregister_accountholder=#{empregister_accountholder},empregister_banknum=#{empregister_banknum},empregister_payclassfiy=#{empregister_payclassfiy},empregister_leavecompany=#{empregister_leavecompany},
-     empregister_pay=#{empregister_pay}, empregister_workplan=#{empregister_workplan}
+     empregister_paytime=#{empregister_paytime},empregister_payday=#{empregister_payday}, empregister_workplan=#{empregister_workplan}
      where empregister_empnum = #{empregister_empnum}
  </update>
  
@@ -173,7 +177,8 @@ where to_char( Schedule_WorkingStart, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd
 		resultType="com.bit.UntitledBistro.model.insa.Insa_EmpSalaryJoinDTO">
  	
 select  empregister_name
-, sum(empregister_pay) as empregister_pay
+, sum(empregister_paytime) as empregister_paytime
+,sum(empregister_payday) as empregister_payday
 ,sum(salary_workingtime) as salary_workingtime
 ,sum(salary_workingdate) as salary_workingdate
 ,sum(pay) as pay
@@ -197,7 +202,7 @@ VALUES ( (SELECT NVL(MAX(salary_no)+1,1)  FROM salary), #{empregister_empnum}, 1
 update salary 
 set 
 salary_workingtime = salary_workingtime + (select schedule_workingtime from schedule where schedule_empregister_empnum = #{empregister_empnum} )
-, pay = (select empregister_pay from EmpRegister where empregister_empnum = #{empregister_empnum}) * salary_workingdate * salary_workingtime
+, pay = (select empregister_paytime from EmpRegister where empregister_empnum = #{empregister_empnum}) * (select empregister_paytime from EmpRegister where empregister_empnum = #{empregister_empnum}) * salary_workingdate * salary_workingtime
 where salary_empregister_empnum = #{empregister_empnum} 
 </update>
 	

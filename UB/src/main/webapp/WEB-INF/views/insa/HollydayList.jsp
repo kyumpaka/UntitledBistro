@@ -27,13 +27,13 @@
       <form class="form-signin" id="tf" >
         <h5 class="form-signin-heading">사번</h5>
          <label for="input" class="sr-only">사번</label>
-        	<input type="text" id="salary_empRegister_empnum" name="salary_empRegister_empnum" value="${s.salary_empRegister_empnum}" class="form-control" readonly="readonly"><BR>
+        	<input type="text" id="salary_empRegister_empnum" name="salary_empRegister_empnum" value="${Schedule.salary_empRegister_empnum}" class="form-control" readonly="readonly"><BR>
          <h5 class="form-signin-heading">휴가 시작일</h5>
          <label for="input" class="sr-only">휴가 시작일</label>
-        	<input type="text" id="salary_hollydaystart" name="salary_hollydaystart" class="form-control" value="${s.salary_hollydaystart}" readonly="readonly"><br>
+        	<input type="text" id="salary_hollydaystart" name="salary_hollydaystart" class="form-control" value="${Schedule.salary_hollydaystart}" readonly="readonly"><br>
           <h5 class="form-signin-heading">휴가 종료일</h5>
          <label for="input" class="sr-only">휴가 종료일</label>
-        	<input type="text" id="salary_hollydayend" name="salary_hollydayend" class="form-control" value="${s.salary_hollydayend}" readonly="readonly"><br>
+        	<input type="text" id="salary_hollydayend" name="salary_hollydayend" class="form-control" value="${Schedule.salary_hollydayend}" readonly="readonly"><br>
       </form>
 		</div>
 	

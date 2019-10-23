@@ -57,7 +57,7 @@
 		</tbody>
 	</table>
 	<button
-		onclick="window.open('EmpRegisterInsertForm','insert','width=1000,height=400,location=no,status=no,scrollbars=yes');">사원등록</button>
+		onclick="window.open('EmpRegisterInsertForm','insert','width=1700,height=1000,location=no,status=no,scrollbars=yes');">사원등록</button>
 
 
 	<script type="text/javascript">

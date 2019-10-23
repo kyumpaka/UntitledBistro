@@ -17,12 +17,12 @@
     
     <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<title>예약 양식</title>
+<title>휴가 양식</title>
 </head>
 <body>
 	<div class="card align-middle" style="width:20rem; border-radius:20px;">
 		<div class="card-title" style="margin-top:30px;">
-			<h2 class="card-title text-center" style="color:#113366;">예약 양식</h2>
+			<h2 class="card-title text-center" style="color:#113366;">휴가 양식</h2>
 		</div>
 		<div class="card-body">
       <form class="form-signin" id="testForm">
@@ -36,7 +36,7 @@
          <label for="input" class="sr-only">종료일</label>
         	<input type="date" name="salary_hollydayend" class="form-control" value="${date}"><br>
       </form>
-        <button id="btn-Yes" class="btn btn-lg btn-primary btn-block" type="button" value="예약하기"  onclick="gogo()">예 약</button>
+        <button id="btn-Yes" class="btn btn-lg btn-primary btn-block" type="button" value="휴가등록"  onclick="gogo()">휴가 등록</button>
         <button id="btn-Yes" class="btn btn-lg btn-primary btn-block" type="button" value="취소" onclick="sc()">닫기</button>
 		</div>
 	</div>
