@@ -63,14 +63,8 @@
 		var height = 800;
 		var popupX = (window.screen.width / 2) - (width / 2);
 		var popupY = (window.screen.height / 2) - (height / 2);
-		window.open('${path}/Seobis/Seobis_newCalendar' ,'예약하기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
-		
-//         calendar.addEvent({
-//             title: 새창에서 가져온 아이디or이름 추가하기,
-//             start: info.dateStr,
-//             allDay: true
-//           });
-        
+
+		window.open('${path}/Seobis/Seobis_newCalendar?date='+info.dateStr ,'예약하기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
 
       },
       eventClick: function(info) {
@@ -84,9 +78,6 @@
       		window.open(eventObj.url,'예약확인','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
             info.jsEvent.preventDefault(); // prevents browser from following link in current tab.
           }
-      },
-      select: function(info) {
-       /*  alert('selected ' + info.startStr + ' to ' + info.endStr); */ /* info.endStr : 클릭 다음 날짜 */
       }
     });
     

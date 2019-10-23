@@ -14,9 +14,10 @@
       <security:intercept-url pattern="/balju/**" access="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')" />
       <security:intercept-url pattern="/insa/**" access="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')" />
       <security:intercept-url pattern="/jaego/**" access="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')" />
-      <security:intercept-url pattern="/jungsan/**" access="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')" />
+      <security:intercept-url pattern="/*.html" access="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')" />
       <security:intercept-url pattern="/seobis/**" access="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')" />
       <security:intercept-url pattern="/jumun/erp/**" access="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')" />
+      <security:intercept-url pattern="/pop/Daily.html" access="authenticated" />
       <security:intercept-url pattern="/seobis/pop/**" access="authenticated"/>
       <security:intercept-url pattern="/login" access="permitAll"/>
       <security:intercept-url pattern="/loginFail" access="permitAll"/>

@@ -276,6 +276,21 @@ public class JungsanController {
 		
 		return "jungsan/Daily"; // 주소 이동
 	}
+
+
+	@RequestMapping("pop/Daily.html") // 일마감
+	public String popday_list(HttpServletRequest request, Jungsan_Input_DTO dto) {
+		
+		HashMap map = new HashMap();
+		
+		List<Jungsan_Input_DTO> getjungsan_inputList = jungsan_input_Service.getjungsan_inputList(map); // 조회
+		
+		request.setAttribute("getjungsan_inputList", getjungsan_inputList); // 조회한걸 담음
+		
+		return "views/jungsan/Daily"; // 주소 이동
+	}
+
+
 	
 	  @RequestMapping("Monthly.html") // 월마감
 	  public String MonthList(HttpServletRequest request,@ModelAttribute Jungsan_Input_DTO dto) {

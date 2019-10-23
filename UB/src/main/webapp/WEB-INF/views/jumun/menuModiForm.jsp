@@ -148,7 +148,7 @@ function igdAdd() {
 	  } else {
 		  igdcnt = cntend;
 	  }
-};
+}
 
 function igdRemove(num) {
 	event.preventDefault();
@@ -159,11 +159,11 @@ function igdRemove(num) {
 	} else {
 		igdcnt = num;
 	}
-};
+}
 
 function windowClose(){
 	window.close();
-};
+}
 
 function upload() {
 	if(igdcheck()){
@@ -213,7 +213,7 @@ function upload() {
 			});
 		}
 	}
-};
+}
 
 function menucheck(){
 	var menu_Name = $("input[name='menu_Name']").val().trim();
@@ -265,6 +265,6 @@ function igdcheck(){
 	}
 	if(igdcnt == 0) return false;
 	return true;
-};
+}
 </script>
 </html>

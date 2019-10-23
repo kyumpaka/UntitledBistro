@@ -64,7 +64,7 @@
 					</div>
 				</div>
 				<button class="btn btn-primary btn-sm" onclick="memCheck()"> 회원확인 </button>
-				<button class="btn btn-primary btn-sm" onclick=""> 회원가입 </button><br>
+				<button class="btn btn-primary btn-sm" onclick="joinMember()"> 회원가입 </button><br>
 				<div id="pointArea"></div>
 			</form>
 		</div>
@@ -79,7 +79,16 @@
 <script type="text/javascript">
 function windowClose() {
 	window.close();
-};
+}
+
+function joinMember() {
+	event.preventDefault();
+	var width = 400;
+	var height = 500;
+	var popupX = (window.screen.width / 2) - (width / 2);
+	var popupY = (window.screen.height / 2) - (height / 2);
+	window.open('${pageContext.request.contextPath}/Seobis/pop/jUs','회원가입','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+}
 
 function pointCheck() {
 	var point = $("#payment_Point").val();
@@ -171,12 +180,12 @@ function payCheck() {
 			}
 		}
 	}
-};
+}
 
 function goPayment() {
 	event.preventDefault();
 	$("#kakaoPayForm").submit();
-};
+}
 
 function memCheck() {
 	event.preventDefault();
@@ -228,16 +237,16 @@ function memCheck() {
 			  }
 		});
 	}
-};
+}
 
 function inputCash(){
 	var payment_Point = $("#payment_Point").val();
 	if(typeof payment_Point == 'undefined' || payment_Point == '') $("#payment_Card").val(eval(${ resultPrice } - $("#payment_Cash").val()));
 	else $("#payment_Card").val(eval(${ resultPrice } - $("#payment_Cash").val() - $("#payment_Point").val()));
-};
+}
 
 function inputPoint(){
 	$("#payment_Card").val(eval(${ resultPrice } - $("#payment_Cash").val() - $("#payment_Point").val()));
-};
+}
 </script>
 </html>

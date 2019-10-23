@@ -101,7 +101,7 @@ $(function() {
 	});
 	$("#cart").height(445);
 	$("#cart").overlayScrollbars({});
-});
+})
 
 // 메뉴구분 탭 활성화
 $(document).ready(function() {
@@ -134,7 +134,7 @@ $(document).ready(function() {
 				});
 		}
 	}
-});
+})
 
 // 체크된 메뉴 및 이미지 조절
 $("input[name='menu_Code']").click(function(){
@@ -146,7 +146,7 @@ $("input[name='menu_Code']").click(function(){
 		$("#menuimg"+num).css("display","block");
 		$("#menuimg"+num).css("float","left");
 	}
-});
+})
 
 function mtSettingView(code) {
 	if(code != undefined){
@@ -154,7 +154,7 @@ function mtSettingView(code) {
 	}
 	$("#menuSettingForm").attr("action", "menuSetting.do");
 	$("#menuSettingForm").submit();
-};
+}
 
 $('.btn').click(function(){
 	event.preventDefault();
@@ -218,7 +218,7 @@ $('.btn').click(function(){
 			return;
         }
 	}
-});
+})
 
 // 메뉴 재료보기
 function igdView(num) {
@@ -240,10 +240,10 @@ function igdView(num) {
 			  }
 		  }
 	});
-};
+}
 
 function igdViewEnd(num) {
 	$("#igd"+num).html("");
-};
+}
 </script>
 </html>

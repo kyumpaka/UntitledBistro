@@ -59,7 +59,7 @@
 						</div>
 						<hr>
 						<div class="col-md-13">
-							<button onclick="#" class="btn  btn-primary btn-lg btn-block"> 정산내역 </button>
+							<button onclick="goDaily()" class="btn  btn-primary btn-lg btn-block"> 정산내역 </button>
 						</div>
 						<hr>
 						<div class="col-md-13">
@@ -84,6 +84,15 @@ function goReserveList() {
 	window.open('${pageContext.request.contextPath}/Seobis/pop/Seobis_calendar','예약내역','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
 }
 
+function goDaily() {
+	event.preventDefault();
+	var width = 1000;
+	var height = 600;
+	var popupX = (window.screen.width / 2) - (width / 2);
+	var popupY = (window.screen.height / 2) - (height / 2);
+	window.open('${pageContext.request.contextPath}/pop/Daily.html','일매출확인','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+}
+
 function goSalesList() {
 	event.preventDefault();
 	var width = 1000;
@@ -99,25 +108,25 @@ function goTableControl() {
 	var popupX = (window.screen.width / 2) - (width / 2);
 	var popupY = (window.screen.height / 2) - (height / 2);
 	window.open('tableControl.do','테이블 이동','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
-};
+}
 
 function goSetting() {
 	event.preventDefault();
 	location.href="${pageContext.request.contextPath}/erp?empregister_empnum=<sec:authentication property='principal.username'/>";
-};
+}
 
 function goOrderList(tableNum) {
 	$("#order_TableNum").append("<input type='hidden' name='orders_No' value='"+tableNum+"'>");
 	$("#posMenuForm").attr("action", "ordersList.do");
 	$("#posMenuForm").submit();
-};
+}
 
 var tablecnt = 1;
   	var table_left = 0;
   	var table_top = 0;
   
   // 테이블 생성
-  function tableAdd() {
+function tableAdd() {
     event.preventDefault();
 	var frmTag = "<div id='drag_div"+tablecnt+"' style='display: block; border: 1px solid grey; width: 100px; height: 150px; position: absolute; left: "+table_left+"px; top: "+table_top+"px; cursor: pointer; cursor: hand' class='btn' onclick='goOrderList("+tablecnt+")'>";
 	frmTag += "<div align='center'>테이블"+tablecnt+"</div>";
@@ -130,19 +139,19 @@ var tablecnt = 1;
 	frmTag += "<div id='order_TableNum'></div></div>"
 	$("#tableArea").append(frmTag);
 	tablecnt++;
-  }
+}
   
-  $(document).ready(function() {
-    <c:forEach items="${tableList}" var="tableList" >
-		table_left = parseInt(${tableList.tableSave_X});
-		table_top = parseInt(${tableList.tableSave_Y});
-		tableAdd();
-	</c:forEach>
-	table_left = 0;
-	table_top = 0;
-	
-	startTime();
-});
+$(document).ready(function() {
+   <c:forEach items="${tableList}" var="tableList" >
+	table_left = parseInt(${tableList.tableSave_X});
+	table_top = parseInt(${tableList.tableSave_Y});
+	tableAdd();
+</c:forEach>
+table_left = 0;
+table_top = 0;
+
+startTime();
+})
 
 // 시계
 function startTime() {
@@ -168,12 +177,12 @@ function startTime() {
     	year + "년 " + month + "월 " + date + "일 [" + week[day] + "] " + hour + ":" + min + ":" + sec;
    	
     var t = setTimeout(startTime, 1000);
-};
+}
 // 숫자가 10보다 작을 경우 앞에 0을 붙이기
 function checkTime(i) {
     if (i < 10) {i = "0" + i};
     return i;
-};
+}
 //1초마다 함수 갱신
 function realtimeClock() {
   document.timeForm.timeInput.value = getTimeStamp();

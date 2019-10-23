@@ -189,7 +189,7 @@
 	
 	<insert id="paymentInsert">
 	INSERT INTO PAYMENT(PAYMENT_NO, PAYMENT_SALES_NO, PAYMENT_MEMBER_ID, PAYMENT_TABLE, PAYMENT_STATE, PAYMENT_POINT, PAYMENT_DISCOUNT, PAYMENT_CASH, PAYMENT_CARD) 
-	VALUES((SELECT COUNT(*) FROM PAYMENT) + 1, (SELECT MAX(SALES_NO) FROM SALES), #{payment_Member_Id}, #{payment_Table}, '성공', #{payment_Point}, #{payment_Discount}, #{payment_Cash}, #{payment_Card})
+	VALUES((SELECT COUNT(*) FROM PAYMENT) + 1, (SELECT MAX(SALES_NO) FROM SALES), #{payment_Member_Id}, #{payment_Table}, '?�공', #{payment_Point}, #{payment_Discount}, #{payment_Cash}, #{payment_Card})
 	</insert>
 	
 	<select id="paymentDateSelect" parameterType="map" resultType="java.util.Date">
@@ -268,7 +268,7 @@
 	</select>
 	
 	<update id="paymentCancle" parameterType="map">
-	UPDATE PAYMENT SET PAYMENT_STATE = '환불' WHERE PAYMENT_NO = #{payment_No}
+	UPDATE PAYMENT SET PAYMENT_STATE = '?�불' WHERE PAYMENT_NO = #{payment_No}
 	</update>
 	
 	<update id="storeMinus" parameterType="map">
@@ -345,7 +345,7 @@
       ITEM_QTY := I.ITEM_QTY;
       MN_CODE := I.INGREDIENT_MENU_CODE;
       IF IGD_QTY > ITEM_QTY THEN
-         UPDATE MENU SET MENU_STATE = '품절' WHERE MENU_CODE = MN_CODE;
+         UPDATE MENU SET MENU_STATE = '?�절' WHERE MENU_CODE = MN_CODE;
       END IF;
       END LOOP;
     END }
