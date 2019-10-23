@@ -14,7 +14,7 @@ import com.bit.UntitledBistro.model.jaego.Condition;
 import com.bit.UntitledBistro.model.jaego.DefectItemDTO;
 import com.bit.UntitledBistro.model.jaego.InItemDTO;
 import com.bit.UntitledBistro.model.jaego.ItemDTO;
-import com.bit.UntitledBistro.model.jaego.JaegoDAOImpl;
+import com.bit.UntitledBistro.model.jaego.JaegoDAO;
 import com.bit.UntitledBistro.model.jaego.OutItemDTO;
 import com.bit.UntitledBistro.model.jaego.ProductDTO;
 import com.bit.UntitledBistro.model.jaego.RiskItemDTO;
@@ -22,32 +22,37 @@ import com.bit.UntitledBistro.model.jaego.SafeItemDTO;
 
 @Service
 @Transactional
-public class JaegoServiceImpl {
+public class JaegoServiceImpl implements JaegoService {
 	
 	@Autowired
-	private JaegoDAOImpl dao;
+	private JaegoDAO dao;
 	
 	// 재고 테이블 전체조회
+	@Override
 	public List<ItemDTO> itemSelectList(Condition condition) {
 		return dao.itemSelectList(condition);
 	}
 	
 	// 입고 테이블 전체조회
+	@Override
 	public List<InItemDTO> inItemSelectList(Condition condition) {
 		return dao.inItemSelectList(condition);
 	}
 	
 	// 출고 테이블 전체조회
+	@Override
 	public List<OutItemDTO> outItemSelectList(Condition condition) {
 		return dao.outItemSelectList(condition);
 	}
 	
 	// 재고변동표 전체조회
+	@Override
 	public List<ChangeItemDTO> changeItemSelectList(Condition condition) {
 		return dao.changeItemSelectList(condition);
 	}
 	
 	// 불량 테이블 다중등록
+	@Override
 	public int defectItemInserts(DefectItemDTO[] defectItemDTOs) {
 		for(DefectItemDTO defectItemDTO : defectItemDTOs) {
 			dao.defectItemInsert(defectItemDTO);
@@ -70,11 +75,13 @@ public class JaegoServiceImpl {
 	}
 	
 	// 불량 테이블 전체조회
+	@Override
 	public List<DefectItemDTO> defectItemSelectList(Condition condition) {
 		return dao.defectItemSelectList(condition);
 	}
 	
 	// 불량 테이블 다중수정
+	@Override
 	public int defectItemUpdates(DefectItemDTO[] defectItemDTOs) {
 		List<DefectItemDTO> defectItemList = Arrays.asList(defectItemDTOs);
 		dao.defectItemUpdates(defectItemList);
@@ -92,6 +99,7 @@ public class JaegoServiceImpl {
 	}
 	
 	// 불량 테이블 다중삭제
+	@Override
 	public int defectItemDeletes(DefectItemDTO[] defectItemDTOs) {
 		List<DefectItemDTO> defectItemList = Arrays.asList(defectItemDTOs);
 		dao.defectItemDeletes(defectItemList);
@@ -103,11 +111,13 @@ public class JaegoServiceImpl {
 	}
 	
 	// 품목 테이블 전체조회
+	@Override
 	public List<ProductDTO> productSelectList(Condition condition) {
 		return dao.productSelectList(condition);
 	}
 	
 	// 위험재고 갯수조회
+	@Override
 	public int riskItemCount() {
 		List<SafeItemDTO> safeItemList = dao.safeItemSelectList();
 		System.out.println("안전재고 리스트조회");
@@ -116,17 +126,20 @@ public class JaegoServiceImpl {
 	}
 	
 	// 위험재고 전체조회
+	@Override
 	public List<RiskItemDTO> riskItemSelectList() {
 		List<SafeItemDTO> safeItemList = dao.safeItemSelectList();
 		return dao.riskItemSelectList(safeItemList);
 	}
 	
 	// 안전 테이블 전체조회
+	@Override
 	public List<SafeItemDTO> safeItemSelectList() {
 		return dao.safeItemSelectList();
 	}
 	
 	// 안전 테이블 다중수정
+	@Override
 	public int safeItemUpdates(SafeItemDTO[] safeItemDTOs) {
 		List<SafeItemDTO> safeItemList = Arrays.asList(safeItemDTOs);
 		dao.safeItemUpdates(safeItemList);
@@ -136,6 +149,7 @@ public class JaegoServiceImpl {
 	}
 	
 	// 안전 테이블 다중삭제
+	@Override
 	public int safeItemDeletes(SafeItemDTO[] safeItemDTOs) {
 		List<SafeItemDTO> safeItemList = Arrays.asList(safeItemDTOs);
 		dao.safeItemDeletes(safeItemList);
@@ -145,6 +159,7 @@ public class JaegoServiceImpl {
 	}
 	
 	// 안전 테이블 품목코드 유효성 검사
+	@Override
 	public String safeItemSelectValidate(String si_product_code) {
 		String result =  dao.safeItemSelectValidate(si_product_code);
 		if(result == null) result = "noData";
@@ -152,6 +167,7 @@ public class JaegoServiceImpl {
 	}
 	
 	// 안전 테이블 다중등록
+	@Override
 	public int safeItemInserts(SafeItemDTO[] safeItemDTOs) {
 		List<SafeItemDTO> list = Arrays.asList(safeItemDTOs);
 		int result = dao.safeItemValidate(list);
@@ -167,6 +183,7 @@ public class JaegoServiceImpl {
 	}
 	
 	// 입고 테이블 등록
+	@Override
 	public void inItemInsert(int ordin_num) {
 		List<InItemDTO> inItemDTOList = dao.orderInItemSelect(ordin_num);
 		for(InItemDTO inItemDTO : inItemDTOList) {
@@ -188,6 +205,7 @@ public class JaegoServiceImpl {
 	}
 	
 	// 입고 테이블 삭제
+	@Override
 	public void inItemDelete(int ordin_num) {
 		List<InItemDTO> inItemDTOList = dao.orderInItemSelect(ordin_num);
 		for(InItemDTO inItemDTO : inItemDTOList) {
@@ -202,6 +220,7 @@ public class JaegoServiceImpl {
 	}
 	
 	// 출고 테이블 등록
+	@Override
 	public int outItemInsert(OutItemDTO outItemDTO) {
 		dao.outItemInsert(outItemDTO);
 		

@@ -12,7 +12,7 @@ import com.bit.UntitledBistro.model.balju.Balju_DAO;
 import com.bit.UntitledBistro.model.balju.Balju_DTO;
 import com.bit.UntitledBistro.model.balju.Balju_PlanDTO;
 import com.bit.UntitledBistro.model.balju.Item_DTO;
-import com.bit.UntitledBistro.service.jaego.JaegoServiceImpl;
+import com.bit.UntitledBistro.service.jaego.JaegoService;
 
 @Service
 public class Balju_ServiceImpl implements Balju_Service {
@@ -21,7 +21,7 @@ public class Balju_ServiceImpl implements Balju_Service {
 	private Balju_DAO balju_DAO;
 
 	@Autowired
-	private JaegoServiceImpl jaego;
+	private JaegoService jaego;
 	
 	@Override
 	public void insert_Balju_Plan1() {

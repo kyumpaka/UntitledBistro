@@ -23,7 +23,7 @@ import com.bit.UntitledBistro.model.jaego.OutItemDTO;
 import com.bit.UntitledBistro.model.jaego.ProductDTO;
 import com.bit.UntitledBistro.model.jaego.RiskItemDTO;
 import com.bit.UntitledBistro.model.jaego.SafeItemDTO;
-import com.bit.UntitledBistro.service.jaego.JaegoServiceImpl;
+import com.bit.UntitledBistro.service.jaego.JaegoService;
 
 @Controller
 @RequestMapping(value = "/jaego")
@@ -31,7 +31,7 @@ public class JaegoController {
 	private static final Logger logger = LoggerFactory.getLogger(JaegoController.class);
 	
 	@Autowired
-	private JaegoServiceImpl service;
+	private JaegoService service;
 	
 	@RequestMapping(value = "/item")
 	public void item(Model model) {

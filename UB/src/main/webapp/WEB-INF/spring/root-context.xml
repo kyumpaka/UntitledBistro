@@ -10,7 +10,7 @@
         <property name="fileEncoding" value="UTF-8" />
     </bean>
 	
-	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+	<!-- <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName" value="${driverClassName}" />
 		<property name="jdbcUrl" value="${jdbcUrl}" />
 		<property name="username" value="${username}" />
@@ -19,11 +19,18 @@
         <property name="maximumPoolSize" value="10" />
         <property name="connectionTestQuery" value="select 1 from sys.dual" />
         <property name="connectionTimeout"  value="300000" />
-	</bean>
-
-	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+	</bean> -->
+	<!-- <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
 		<constructor-arg ref="hikariConfig" />
-	</bean>
+	</bean> -->
+	
+	<!-- mariaDB -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" value="org.mariadb.jdbc.Driver"></property>
+        <property name="url" value="jdbc:mariadb://localhost:3306/testdb"></property>
+        <property name="username" value="kingsmile"></property>
+        <property name="password" value="mysql"></property>
+    </bean>
 
 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
