@@ -97,7 +97,7 @@ function ingAdd() {
 	  } else {
 		  igdcnt = cntend;
 	  }
-};
+}
 
 function igdRemove(num) {
 	event.preventDefault();
@@ -108,11 +108,11 @@ function igdRemove(num) {
 	} else {
 		igdcnt = num;
 	}
-};
+}
 
 function windowClose(){
 	window.close();
-};
+}
 
 function upload(){
 	if(igdcheck()){
@@ -156,9 +156,9 @@ function upload(){
 			});
 		}
 	}
-};
+}
 
-function menucheck(){
+function menucheck() {
 	var menu_Name = $("input[name='menu_Name']").val().trim();
 	var menu_Price = $("input[name='menu_Price']").val().trim();
 	
@@ -183,7 +183,7 @@ function menucheck(){
 	return true;
 }
 
-function igdcheck(){
+function igdcheck() {
 	for(var i = 0; i < igdcnt; i++){
 		var code = $("select[name='ingredientDTO["+i+"].ingredient_Product_Code']").val().trim();
 		var qty = $("input[name='ingredientDTO["+i+"].ingredient_Qty']").val().trim();
@@ -214,6 +214,6 @@ function igdcheck(){
 		return false;
 	}
 	return true;
-};
+}
 </script>
 </html>

@@ -76,12 +76,12 @@ function mt_Del(name, code) {
 				  });
 			  }
 		});
-};
+}
 
 function mt_Modistart(code, name) {
 	$("#preinput"+code).html("<input type='text' value="+ name +" id='input"+ code +"' class='form-control'>");
 	$("#mt_Modistart"+code).html('<button onclick="mt_Modiend(\''+ code +'\')" class="btn btn-primary btn-sm">완료</button>');
-};
+}
 
 function mt_Modiend(code) {
 	event.preventDefault();
@@ -115,11 +115,11 @@ function mt_Modiend(code) {
 			  }
 		});
 	}
-};
+}
 
 function goCloseMTList() {
 	  opener.document.location.reload();
 	  window.close();
-};
+}
 </script>
 </html>
