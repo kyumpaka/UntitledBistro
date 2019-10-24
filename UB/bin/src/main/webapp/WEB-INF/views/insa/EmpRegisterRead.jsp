@@ -127,6 +127,14 @@ td {
 
 				</select> --%></td>
 				<td><input type="button" value="?˜ì •"
+<<<<<<<<< Temporary merge branch 1
+					onclick="EmpregisterUpdate()" /></td>
+=========
+					onclick="EmpregisterUpdate()" width="1300" height="800" /></td>
+>>>>>>>>> Temporary merge branch 2
+				<td><input type="button" value="?˜ì •"
+					onclick="EmpregisterUpdate()" /></td>
+				<td><input type="button" value="?˜ì •"
 					onclick="EmpregisterUpdate()" width="1300" height="800" /></td>
 			</tr>
 		</table>

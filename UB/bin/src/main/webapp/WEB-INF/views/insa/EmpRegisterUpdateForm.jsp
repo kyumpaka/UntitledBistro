@@ -25,7 +25,75 @@ td {
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 
 <script type="text/javascript">
- 
+function test1(){
+	var obj = document.EmpRegisterUpdateForm
+	if(obj.empregister_name.value == '' ){
+		swal('?´ë¦„?? ?…ë ¥?˜ì„¸??');
+		obj.empregister_name.focus();
+		return false;
+	}
+	if(obj.empregister_tel.length != 11 ){
+		swal('?¸ë“œ?°ì„ ?•í™•?? ?…ë ¥?´ì£¼?¸ìš”');
+		obj.empregister_tel.focus();
+		return false;
+	}
+	if(isNaN($("#empregister_tel").val)){
+	swal('?¸ë“œ?? ë²ˆí˜¸ë¥? ?«ìë¡œë§Œ ?…ë ¥?´ì£¼?¸ìš”');
+	obj.empregister_tel.focus();
+		}
+	if(obj.empregister_age.value == '' ){
+		swal('?˜ì´ë¥? ?…ë ¥?˜ì„¸??');
+		obj.empregister_age.focus();
+		return false;
+	}
+	if(obj.sample4_postcode.value == '' ){
+		swal('?°í¸ë²ˆí˜¸ë¥? ?…ë ¥?´ì£¼?¸ìš”');
+		obj.sample4_postcode.focus();
+		return false;
+	}
+	if(obj.empregister_grade.value == '' ){
+		swal('ì§ê¸‰?? ? íƒ?´ì£¼?¸ìš” ');
+		obj.empregister_grade.focus();
+		return false;
+	}
+	if(obj.empregister_bankname.value == '' ){
+		swal('?€?‰ì„ ? íƒ?´ì£¼?¸ìš” ');
+		obj.empregister_bankname.focus();
+		return false;
+	}
+	if(obj.empregister_accountholder.value == '' ){
+		swal('?ˆê¸ˆì£¼ë? ?ì–´ì£¼ì„¸?? ');
+		obj.empregister_accountholder.focus();
+		return false;
+	}
+	
+	if(obj.empregister_banknum.value == '' ){
+		swal('ê³„ì¢Œë²ˆí˜¸ë¥? ?ì–´ì£¼ì„¸?? ');
+		obj.empregister_banknum.focus();
+		return false;
+	}
+
+	if($(':radio[name="empregister_payclassfiy"]').length < 1){
+		swal('ê¸‰ì—¬êµ¬ë¶„?? ì²´í¬?´ì£¼?¸ìš” ');
+		return false; 
+		}
+	if($(':radio[name="empregister_leavecompany"]').length < 1){
+		swal('?¬ì§?¬ë?ë¥? ì²´í¬?´ì£¼?¸ìš” ');
+		return false; 
+		}
+	if(obj.empregister_paytime.value == '' && obj.empregister_payday.value == '' ){
+		swal('ê¸‰ì—¬ë¥? ?ì–´ì£¼ì„¸?? ');
+		obj.empregister_paytime.focus();
+		return false;
+	}
+	window.opener.location.reload();
+	window.close();
+}
+
+
+
+
+
 function sample4_execDaumPostcode() {
 	new daum.Postcode(
 			{
@@ -90,10 +158,6 @@ function sample4_execDaumPostcode() {
 }
 
 
-function EmpRegisterUpdate(empregister_empnum){
-	$("#update").submit;
-/* 	window.close(); */
-}
 
 function payclassfiy(){
 	$("input:radio[name='empregister_payclassfiy']").is(":checked");
@@ -110,7 +174,6 @@ function payclassfiy(){
 
 <body>
 	<form name="EmpRegisterUpdateForm"  id="update" Action="EmpRegisterUpdate" method="post">
-		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000'align='center'>
 			<tr>
 				<td colspan='3' rowspan='3' class='ti' >
 					<div class="img-wrap" >
@@ -197,6 +260,20 @@ function payclassfiy(){
 			</tr>
 			<tr>
 				<td class='ti' colspan='3'>?œê¸‰</td>
+<<<<<<<<< Temporary merge branch 1
+				<td colspan='2'><input type="number" name="empregister_paytime" value="${b.empregister_paytime }">ì²œì›</td>
+				<td class='ti' colspan='1'>?¼ê¸‰</td>
+				<td colspan='2'><input type="number" name="empregister_payday" value="${b.empregister_payday }">ë§Œì›</td>
+=========
+				<td colspan='2'><input type="number" name="empregister_pay" value="${b.empregister_pay }">ì²œì›</td>
+				<td class='ti' colspan='1'>?¼ê¸‰</td>
+				<td colspan='2'><!--<input type="number" name="empregister_pay" value="${b.empregister_pay }">-->ë§Œì›</td>
+>>>>>>>>> Temporary merge branch 2
+				<td class='ti' colspan='3'>?œê¸‰</td>
+				<td colspan='2'><input type="number" name="empregister_paytime" value="${b.empregister_paytime }">ì²œì›</td>
+				<td class='ti' colspan='1'>?¼ê¸‰</td>
+				<td colspan='2'><input type="number" name="empregister_payday" value="${b.empregister_payday }">ë§Œì›</td>
+				<td class='ti' colspan='3'>?œê¸‰</td>
 				<td colspan='2'><input type="number" name="empregister_pay" value="${b.empregister_pay }">ì²œì›</td>
 				<td class='ti' colspan='1'>?¼ê¸‰</td>
 				<td colspan='2'><!--<input type="number" name="empregister_pay" value="${b.empregister_pay }">-->ë§Œì›</td>
@@ -220,6 +297,8 @@ function payclassfiy(){
 
 				</select> --%></td>
 				<td>
+			<button  onclick="EmpregisterUpdate()" >?±ë¡</button>
+			<input type="submit">?¬ì› ?˜ì •
 			<button  onclick="EmpregisterUpdate()" >?±ë¡</button>
 				</td>
 			</tr>

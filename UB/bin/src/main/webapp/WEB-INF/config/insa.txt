@@ -23,9 +23,6 @@ create table EmpRegister ( -- ì§ì›?±ë¡ ?Œì´ë¸?
         EmpRegister_payClassfiy VARCHAR2(20), -- ê¸‰ì—¬êµ¬ë¶„
         EmpRegister_paytime VARCHAR2(20), -- ?œê¸‰        
         EmpRegister_payday VARCHAR2(20), -- ?¼ê¸‰
-        EmpRegister_workPlan NUMBER, -- ê·¼ë¬´?ˆì •?œê°„
-        EmpRegister_leavecompany VARCHAR2(20), -- ?´ì‚¬?¬ë? 
-        EmpRegister_ENABLED NUMBER DEFAULT 1, -- ?¬ìš©?¬ë?
         EmpRegister_AUTHORITY VARCHAR2(20) DEFAULT 'ROLE_MEMBER'-- ê¶Œí•œ
 );
 ALTER TABLE EmpRegister ADD CONSTRAINT PK_EmpRegister_empnum PRIMARY KEY(EmpRegister_empnum);
@@ -34,5 +31,24 @@ insert into empregister(EmpRegister_name, EmpRegister_empnum, EmpRegister_jumin,
 values('MEMBER', 'MEMBER', '12345', 1, 'ROLE_MEMBER');
 insert into empregister(EmpRegister_name, EmpRegister_empnum, EmpRegister_jumin, EmpRegister_ENABLED, EmpRegister_AUTHORITY) 
 values('ADMIN', 'ADMIN', '12345', 1, 'ROLE_ADMIN');
+
+create table Salary ( -- ê·¼ë¬´ ë°? ê¸‰ì—¬?´ì—­, ?€?¥í•˜?”í…Œ?´ë¸”
+        Salary_no VARCHAR2(20), -- ë²ˆí˜¸(PK)
+        Salary_EmpRegister_empnum VARCHAR2(20), -- ?¬ë²ˆ(FK)
+        Salary_workingTime NUMBER, -- ?¼í•œ?œê°„
+        Salary_workingDate NUMBER, -- ê·¼ë¬´?¼ìˆ˜
+        Salary_hollydayStart DATE, -- ?´ê??œì‘
+        Salary_hollydayEnd DATE, -- ?´ê?ì¢…ë£Œ
+        Salary_Pay  NUMBER--ê¸‰ì—¬ê³„ì‚°??
+);
+
+create table  Schedule ( -- ?¤ì?ì¥?
+        Schedule_no VARCHAR2(20), -- ë²ˆí˜¸(PK)
+        Schedule_EmpRegister_empnum VARCHAR2(20),   -- ?¬ë²ˆ(FK)
+        Schedule_WorkingStart DATE, -- ì¶œê·¼?œê°„
+        Schedule_WorkingEnd DATE, -- ?´ê·¼?œê°„
+        Schedule_workingTime NUMBER, -- ?¼í•œ?œê°„ (ë§¤ë‹¬ ì´ˆê¸°??)
+        Schedule_workingdate NUMBER -- ?¹ì›”ê·¼ë¬´?¼ìˆ˜ (?´ê·¼ ì¹´ìš´??, ë§¤ë‹¬ ì´ˆê¸°??)
+);
 
 commit;

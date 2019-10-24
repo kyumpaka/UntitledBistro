@@ -114,8 +114,6 @@
 						<div class="card-footer">
 							<button class="btn btn-dark btn-lg pull-left"
 								style="margin-right: 20px;" onclick="location.href='${path}/balju/Balju'">신규</button>
-							<button class="btn btn-dark btn-lg pull-left"
-								style="margin-right: 20px;" onclick="test1()">인쇄</button>
 							<button class="btn btn-dark btn-lg pull-left" 
 								onclick="deleteCheck()">선택삭제</button>
 						</div>

@@ -180,7 +180,6 @@ function sample4_execDaumPostcode() {
 
 
 
-
 	
 	
 
@@ -276,6 +275,13 @@ function sample4_execDaumPostcode() {
 				</td>
 			</tr>
 			<tr>
+				<td class='ti' colspan='3'>?�급</td>
+<<<<<<<<< Temporary merge branch 1
+				<td colspan='2'><input type="number" name="empregister_paytime" value="${b.empregister_paytime }">천원</td>
+				<td class='ti' colspan='1'>?�급</td>
+				<td colspan='2'><input type="number" name="empregister_payday" value="${b.empregister_payday }">만원</td>
+=========
+				<td class='ti' colspan='3'>?�급</td>
 				<td class='ti' colspan='3'>?�급</td>
 				<td colspan='2'><input type="number" name="empregister_paytime" id="empregister_paytime" value="${b.empregister_paytime }">천원</td>
 				<td class='ti' colspan='1'>?�급</td>

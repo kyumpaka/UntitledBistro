@@ -72,4 +72,33 @@ where empregister_empnum = #{empregister_empnum}
 
 </select> 
  
+>>>>>>>>> Temporary merge branch 2
+	<select id="getEmpCount" resultType="Integer">
+		select count(*) from EmpRegister
+	</select>
+
+	<update id="EmpRegisterUpdate" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
+     update EmpRegister set empregister_tel=#{empregister_tel},empregister_age=#{empregister_age}, empregister_addr=#{empregister_addr},empregister_addr2=#{empregister_addr2},empregister_addr3=#{empregister_addr3},empregister_addr4=#{empregister_addr4},empregister_grade=#{empregister_grade},empregister_bankname=#{empregister_bankname}, 
+     empregister_accountholder=#{empregister_accountholder},empregister_banknum=#{empregister_banknum},empregister_payclassfiy=#{empregister_payclassfiy},empregister_leavecompany=#{empregister_leavecompany},
+     empregister_pay=#{empregister_pay}, empregister_workplan=#{empregister_workplan}
+     where empregister_empnum = #{empregister_empnum}
+ </update>
+ 
+ 
+ 
+ <insert id ="calendarEventAdd" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
+	insert into Schedule(summary, schedule_workingstarttime ,  schedule_workingstartday , schedule_workingendtime , schedule_workingendday)
+	Values (#{summary },#{schedule_workingstarttime},#{ schedule_workingstartday},#{schedule_workingendtime},#{schedule_workingendday} )
+</insert>
+
+<select id="viewMember" resultType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
+select 
+empregister_name as empregister_name, 
+empregister_empnum as empregister_empnum,
+empregister_photo as empregister_photo
+from EmpRegister 
+where empregister_empnum = #{empregister_empnum}
+
+</select> 
+ 
 </mapper>

@@ -345,6 +345,9 @@
       ITEM_QTY := I.ITEM_QTY;
       MN_CODE := I.INGREDIENT_MENU_CODE;
       IF IGD_QTY > ITEM_QTY THEN
+<<<<<<<<< Temporary merge branch 1
+         UPDATE MENU SET MENU_STATE = '?ˆì ˆ' WHERE MENU_CODE = MN_CODE;
+         UPDATE MENU SET MENU_STATE = '?ˆì ˆ' WHERE MENU_CODE = MN_CODE;
          UPDATE MENU SET MENU_STATE = '?ˆì ˆ' WHERE MENU_CODE = MN_CODE;
       END IF;
       END LOOP;

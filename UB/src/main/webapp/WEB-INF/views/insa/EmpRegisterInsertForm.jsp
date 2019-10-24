@@ -226,7 +226,6 @@ td {
 
 </head>
 <body>
-	<form name="insa/EmpRegisterInsertForm" id="insert"
 		 method="post" enctype="multipart/form-data">
 		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000' align='center'>
 			<tr>
@@ -334,7 +333,18 @@ td {
 				<td class='ti' colspan='2' name ="empregister_entryday"></td>
 				<td colspan='1' class='ti' >?¬ì§ ?¬ë?</td>
 				<td colspan='2'>?¬ì§ì¤?<input type="radio" name="empregister_leavecompany"
+<<<<<<<<< Temporary merge branch 1
+=========
+				<td colspan='1' class='ti' >?¬ì§ ?¬ë?</td>
+				<td colspan='2'>?¬ì§ì¤?<input type="radio" name="empregister_leavecompany"
+				<td colspan='1' class='ti' >?¬ì§ ?¬ë?</td>
+				<td colspan='2'>?¬ì§ì¤?<input type="radio" name="empregister_leavecompany"
 				id="empregister_leavecompany"
+>>>>>>>>> Temporary merge branch 2
+				value="?¬ì§ì¤?"> ?´ì§<input type="radio"
+				value="?´ì§"  name="empregister_leavecompany" id="empregister_leavecompany" >
+				value="?¬ì§ì¤?"> ?´ì§<input type="radio"
+				value="?´ì§"  name="empregister_leavecompany" id="empregister_leavecompany" >
 				value="?¬ì§ì¤?"> ?´ì§<input type="radio"
 				value="?´ì§"  name="empregister_leavecompany" id="empregister_leavecompany" >
 				</td>

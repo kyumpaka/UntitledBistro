@@ -245,6 +245,12 @@
 								
 		console.log(insertItem);
 		$("#jsGrid").jsGrid("insertItem", insertItem);
+
+		$("#code").val("");
+		$("#name").val("");
+		$("#stndr").val("");
+		$("#qt").val("");
+		$("#price").val("");
 		});
 </script>
 <script>

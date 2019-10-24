@@ -532,6 +532,9 @@ function orderStart() {
         					var height = 500;
         					var popupX = (window.screen.width / 2) - (width / 2);
         					var popupY = (window.screen.height / 2) - (height / 2);
+<<<<<<<<< Temporary merge branch 1
+        					window.open('ordersPDF.do?orders_No=${orders_No}','주문?�기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+        					window.open('ordersPDF.do?orders_No=${orders_No}','주문?�기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
         					window.open('ordersPDF.do?orders_No=${orders_No}','주문?�기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
         				    location.href='posMain.do';
         			});
@@ -558,6 +561,9 @@ function orderPrint() {
        				var height = 500;
        				var popupX = (window.screen.width / 2) - (width / 2);
        				var popupY = (window.screen.height / 2) - (height / 2);
+<<<<<<<<< Temporary merge branch 1
+       				window.open('ordersPDF.do?orders_No=${orders_No}','출력?�기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+       				window.open('ordersPDF.do?orders_No=${orders_No}','출력?�기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
        				window.open('ordersPDF.do?orders_No=${orders_No}','출력?�기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
             	} else {
             		swal({
@@ -582,7 +588,7 @@ function goPosMain() {
        });
 }
 
-var webSocket = new WebSocket("ws://localhost:8095${pageContext.request.contextPath}/realTime-ws");
+var webSocket = new WebSocket("ws://10.10.10.166:8095${pageContext.request.contextPath}/realTime-ws");
 webSocket.onopen = onOpen;
 webSocket.onmessage = onMessage;
 webSocket.onclose = onClose;

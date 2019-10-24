@@ -107,6 +107,16 @@ function press(e){
         <input type="text" id="empregister_empnum" name="empregister_empnum" class="form-control" placeholder="?�원번호" autofocus onkeypress="press(event)"><BR>
         <label for="inputPassword" class="sr-only"></label>
         <input type="password" id="empregister_jumin" name="empregister_jumin" class="form-control" placeholder="비�?번호" onkeypress="press(event)"><br>
+=========
+      <form class="form-signin" id="loginForm" method="POST" action="InsaLoginCheck">
+        <label for="inputEmail" class="sr-only"></label>
+        <input type="text" id="empregister_empnum" name="empregister_empnum" class="form-control" placeholder="?�원번호" autofocus><BR>
+        <label for="inputPassword" class="sr-only"></label>
+        <input type="password" id="empregister_jumin" name="empregister_jumin" class="form-control" placeholder="비�?번호" ><br>
+        
+>>>>>>>>> Temporary merge branch 2
+        <input type="password" id="empregister_jumin" name="empregister_jumin" class="form-control" placeholder="비�?번호" onkeypress="press(event)"><br>
+        <input type="password" id="empregister_jumin" name="empregister_jumin" class="form-control" placeholder="비�?번호" onkeypress="press(event)"><br>
       </form>
         <button onclick="login()" class="btn btn-outline-primary btn-lg btn-block">로그??</button>
       
