@@ -218,11 +218,6 @@ public class JungsanController {
 
 		jungsan_view_Service.update_state(dto);
 		
-			List<Insa_SalaryDTO> PayCheck = insaService.PayCheck(new HashMap());
-			request.setAttribute("PayCheck", PayCheck);
-			System.out.println(PayCheck+"PayCheck");
-		
-		
 		HashMap map = new HashMap();
 
 		List<Jungsan_view_DTO> jungsan_state = jungsan_view_Service.jungsan_state(map);
@@ -230,7 +225,19 @@ public class JungsanController {
 
 		int expenditure = jungsan_view_Service.expenditure();
 		request.setAttribute("expenditure", expenditure);
+		
+		int worketime = jungsan_view_Service.worketime();
+		request.setAttribute("worketime", worketime);
+		
+		int parttime = jungsan_view_Service.parttime();
+		request.setAttribute("parttime", parttime);
+		
+		int employee = jungsan_view_Service.employee();
+		request.setAttribute("employee", employee);
 
+		int personnel = jungsan_view_Service.personnel();
+		request.setAttribute("personnel", personnel);
+		
 		int befor_cash = jungsan_view_Service.befor_cash(); // 어제 현금
 		request.setAttribute("befor_cash", befor_cash);
 

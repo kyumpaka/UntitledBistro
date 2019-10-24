@@ -509,4 +509,28 @@ public class Jungsan_view_ServiceImpl implements Jungsan_view_Service {
 		return jungsan_view_DAO.expenditure();
 	}
 
+	@Override
+	public int worketime() {
+		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
+		return jungsan_view_DAO.worketime();
+	}
+
+	@Override
+	public int parttime() {
+		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
+		return jungsan_view_DAO.parttime();
+	}
+
+	@Override
+	public int employee() {
+		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
+		return jungsan_view_DAO.employee();
+	}
+
+	@Override
+	public int personnel() {
+		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
+		return jungsan_view_DAO.personnel();
+	}
+
 }

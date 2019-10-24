@@ -5,41 +5,49 @@ DROP TABLE Month_Input;
 drop table jungsan_difference;
 
 CREATE TABLE JUNGSAN_STATE (
-    to_total NUMBER,to_cash NUMBER,to_card NUMBER,
-    to_point NUMBER,before_total NUMBER,before_cash NUMBER,
-    before_card NUMBER, before_point NUMBER,state_date DATE
-);
+to_total NUMBER,to_cash NUMBER,to_card NUMBER,
+to_point NUMBER,before_total NUMBER,before_cash NUMBER,
+before_card NUMBER, before_point NUMBER,state_date DATE);
+
+select * from JUNGSAN_STATE;
 
 CREATE TABLE Jungsan_Input(
-    Jungsan_Input_cash number, Jungsan_Input_card number, 
-    Jungsan_Input_grade varchar2(20), Jungsan_Input_worktime number,
-    Jungsan_Input_expenditure number,Jungsan_Input_point number,
-    Jungsan_Input_refund number,Jungsan_Input_reason varchar2(200),
-    Jungsan_Input_date date
-);
+Jungsan_Input_cash number, Jungsan_Input_card number, 
+Jungsan_Input_grade varchar2(20), Jungsan_Input_worktime number,
+Jungsan_Input_expenditure number,Jungsan_Input_point number,
+Jungsan_Input_refund number,Jungsan_Input_reason varchar2(200),
+Jungsan_Input_date date);
+
+select * from Jungsan_Input;
 
 CREATE TABLE Month_Input(
-
 Month_cash number, Month_card number, 
  Month_worktime number,
 Month_expenditure number,Month_point number,
 Month_refund number,Month_sum number,
 Month_real_sum number,Month_date DATE);
 
+
 --날짜 부분에 쿼리 다시 하나 짜기
-   insert into month_input values (0,0,0,0,0,0,0,0,'2019-01-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,'2019-02-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,'2019-03-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,'2019-04-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,'2019-05-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,'2019-06-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,'2019-07-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,'2019-08-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,'2019-09-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,'2019-10-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,'2019-11-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,'2019-12-01');
+
+
+
+   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'-01-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'-02-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'03-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'04-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'05-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'06-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'07-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'08-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'09-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'10-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'11-01');
+   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'12-01');
    commit;
+            
+
+select * from Month_Input;
  
 create table jungsan_difference (
 difference number,difference_Month number,difference_date date);
@@ -47,4 +55,4 @@ difference number,difference_Month number,difference_date date);
 select * from jungsan_difference;    
 commit;
 
---------------입력
+

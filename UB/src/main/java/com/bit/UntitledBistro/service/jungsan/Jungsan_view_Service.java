@@ -89,5 +89,11 @@ public interface Jungsan_view_Service {
 	public int yesterday_twentythree_Oclock();
 	public int yesterday_zero_Oclock();
 	
+	public int personnel();	//인원
 	public int expenditure();
+public int worketime();	//일한 시간
+	
+	public int parttime();	// 알바비용
+	
+	public int employee(); //직원비용
 }

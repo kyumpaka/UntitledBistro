@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -192,7 +193,7 @@
 				<td>${M.month_expenditure}</td>
 				<td>${M.month_worktime}</td>
 				<td>${M.month_refund}</td>
-				<td>${M.month_date}</td>
+				<td><fmt:formatDate value="${M.month_date}" pattern="yyyy-MM-dd"/></td>
 				<td>${D.difference_month}</td>
 			</tr>
 			</c:forEach>

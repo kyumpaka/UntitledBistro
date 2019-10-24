@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     <c:set var="path" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
@@ -34,7 +35,7 @@
 			</tr>
 	<c:forEach var="dto" items="${getjungsan_inputList}">
 			<tr>
-				<td><a href="UpdateForm.html">${dto.jungsan_input_date}</a></td>
+				<td><a href="UpdateForm.html"><fmt:formatDate value="${dto.jungsan_input_date}" pattern="yyyy-MM-dd"/></a></td>
 				<td>${dto.jungsan_input_cash}</td>
 				<td>${dto.jungsan_input_card}</td>
 				<td>${dto.jungsan_input_card +dto.jungsan_input_cash+dto.jungsan_input_point}</td>
