@@ -92,9 +92,9 @@ public class Jungsan_Input_ServiceImpl implements Jungsan_Input_Service {
 	}
 	
 	@Override
-	public List<Jungsan_Input_DTO> differenceList(HashMap map) {
-		Jungsan_Input_DAO jungsan_input_DAO =sqlsession.getMapper(Jungsan_Input_DAO.class);
-		return jungsan_input_DAO.differenceList(map);
+	public int differenceList() {
+		Jungsan_Input_DAO jungsan_input_DAO=sqlsession.getMapper(Jungsan_Input_DAO.class);
+		return jungsan_input_DAO.differenceList();
 	}
 
 	@Override

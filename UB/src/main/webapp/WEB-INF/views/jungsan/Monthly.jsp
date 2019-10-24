@@ -179,11 +179,9 @@
 				<td>업무시간</td>
 				<td>환불</td>
 				<td>날짜</td>
-				<td>월 차액</td> <!-- 월만 나오면됨 -->
 			</tr>	
 			
 			<c:forEach var="M" items="${MonthList}">
-			<c:forEach var="D" items="${differenceList}">
 			<tr>
 				<td>${M.month_real_sum}</td>
 				<td>${M.month_sum}</td> 
@@ -194,13 +192,18 @@
 				<td>${M.month_worktime}</td>
 				<td>${M.month_refund}</td>
 				<td><fmt:formatDate value="${M.month_date}" pattern="yyyy-MM-dd"/></td>
-				<td>${D.difference_month}</td>
 			</tr>
 			</c:forEach>
-			</c:forEach>
+			<tr>
+				<td colspan="10" align="right" style="color: red;">차액 : ${differenceList}</td>
+			</tr>
 		</table>
 	</div>
 	<button type="button"><a href="Daily.html">일마감</a></button>
 	<button type="button"><a href="View_jungsan.html">현황 그래프 보기</a></button>
 </body>
+<script type="text/javascript">
+	console.log("테스트");
+	console.log("${differenceList}");
+</script>
 </html>

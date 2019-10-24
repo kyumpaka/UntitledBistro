@@ -32,7 +32,7 @@ public interface Jungsan_Input_Service {
 
 	public int to_difference();
 
-	public List<Jungsan_Input_DTO> differenceList(HashMap map);
+	public int differenceList();
 
 
 ////////////매월 데이터
