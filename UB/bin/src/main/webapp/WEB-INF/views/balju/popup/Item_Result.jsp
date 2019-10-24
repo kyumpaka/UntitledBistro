@@ -74,6 +74,12 @@
 
 		console.log("클릭한 Row의 데이터 : " + tr.text());
 
+		opener.document.getElementById("code").value = "";
+		opener.document.getElementById("name").value = "";
+		opener.document.getElementById("stndr").value = "";
+		opener.document.getElementById("price").value = "";
+		opener.document.getElementById("qt").value= "";
+		
 		var CODE = td.eq(1).text();
 		var NAME = td.eq(2).text();
 		var STNDR = td.eq(3).text();
@@ -93,16 +99,12 @@
 		
 		if(QTY<SAFE){
 			//안전재고가 5고 현재고가 1이랑 그럼 4= 5-1
-			SUM=(SAFE-QTY);
-		} else {
-			//그외에 안전재고보다 현재고 수량이 크거나 같으면 0을 입력한다
-			SUM="입력요망";
-			}
+			opener.document.getElementById("qt").value=(SAFE-QTY);
+		}
 		
 		opener.document.getElementById("code").value = CODE;
 		opener.document.getElementById("name").value = NAME;
 		opener.document.getElementById("stndr").value = STNDR;
-		opener.document.getElementById("qt").value = SUM;
 		opener.document.getElementById("price").value = PRICE;
 		window.close();
 	});
