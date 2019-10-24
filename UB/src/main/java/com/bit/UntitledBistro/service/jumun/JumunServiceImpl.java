@@ -443,9 +443,9 @@ public class JumunServiceImpl implements JumunService {
 	        params.add("quantity", "1"); // 개수
 	        params.add("total_amount", Integer.toString(payment_Card)); // 카드 결제 금액
 	        params.add("tax_free_amount", "0"); // 비과세
-	        params.add("approval_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccess.do?payment_Cash="+payment_Cash + "&payment_Card=" + payment_Card + "&orders_No=" + orders_No + "&payment_Point=" + payment_Point);
-	        params.add("cancel_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPayCancel.do");
-	        params.add("fail_url", "http://localhost:8095/UntitledBistro/jumun/kakaoPaySuccessFail.do");
+	        params.add("approval_url", "http://10.10.10.166:8095/UntitledBistro/jumun/kakaoPaySuccess.do?payment_Cash="+payment_Cash + "&payment_Card=" + payment_Card + "&orders_No=" + orders_No + "&payment_Point=" + payment_Point);
+	        params.add("cancel_url", "http://10.10.10.166:8095/UntitledBistro/jumun/kakaoPayCancel.do");
+	        params.add("fail_url", "http://10.10.10.166:8095/UntitledBistro/jumun/kakaoPaySuccessFail.do");
 	 
 	        HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
 	        

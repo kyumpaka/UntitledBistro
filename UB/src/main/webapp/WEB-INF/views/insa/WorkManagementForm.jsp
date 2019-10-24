@@ -60,8 +60,10 @@ function WorkManagement(){
         		swal("없는직원입니다")
         	} else if(data == 1) {
         		swal("출근입니다")
+        		 self.close();
         	} else if(data == 2) {
         		swal("퇴근입니다");
+        		 self.close();
         		/* 퇴근 알람띄우고 창 닫기 */
         	}
         }
