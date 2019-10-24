@@ -139,9 +139,11 @@ public class InsaServiceImpl implements InsaService {
       return idCheck;
    }
 
-	@Override
+   @Override
 	public boolean WorkLoginCheck(Insa_EmpRegisterDTO dto, HttpSession session) {
 		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
+		String name = insaDAO.InsaLoginCheck(dto);
+		boolean result = false;
 		
 		if(name != null) result = true;	
 		return result;

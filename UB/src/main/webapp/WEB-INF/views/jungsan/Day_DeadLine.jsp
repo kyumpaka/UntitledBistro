@@ -9,7 +9,7 @@
 <title></title>
 </head>
 <body>
-<%@include file="Show_List.jsp" %>
+<%-- <%@include file="Show_List.jsp" %> --%>
 
 <h2 align="center">매니저 입력</h2>
 	 <form name="form1" method="post" action="Day_DeadLineForm.html">
