@@ -26,6 +26,8 @@
       margin: 40px auto;
       background-color: #fefefe;
     }
+      .fc-sat { color:blue; }
+      .fc-sun { color:red;  }
   </style>
 
 <!-- 소스 -->
