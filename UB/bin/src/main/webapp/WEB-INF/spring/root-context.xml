@@ -25,6 +25,16 @@
 		<constructor-arg ref="hikariConfig" />
 	</bean>
 
+ 
+ 	<!-- mariaDB -->
+	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" value="org.mariadb.jdbc.Driver"></property>
+        <property name="url" value="jdbc:mariadb://localhost:3306/testdb"></property>
+        <property name="username" value="sejongdeveloper"></property>
+        <property name="password" value="kingsmile!0521"></property>
+    </bean> -->
+   
+ 	
 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="mapperLocations" value="classpath*:com/bit/UntitledBistro/model/mapper/*/*.xml" />

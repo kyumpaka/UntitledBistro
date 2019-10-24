@@ -25,9 +25,9 @@
 
  	<select id="itemSelectList" parameterType="condition" resultType="item">
 	    SELECT
-		     II.II_PRODUCT_CODE     				AS ITEM_PRODUCT_CODE
-		    ,II.II_PRODUCT_NAME     				AS ITEM_PRODUCT_NAME
-		    ,NVL(II.II_QTY,0) - NVL(OI.OI_QTY,0)	AS ITEM_QTY
+		     II.II_PRODUCT_CODE     					AS ITEM_PRODUCT_CODE
+		    ,II.II_PRODUCT_NAME     					AS ITEM_PRODUCT_NAME
+		    ,IFNULL(II.II_QTY,0) - IFNULL(OI.OI_QTY,0)	AS ITEM_QTY
 		FROM
 		    (
 		    SELECT 
@@ -51,7 +51,7 @@
 				<if test="endDate != '' and endDate != null">
 			<![CDATA[
 			AND
-				II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') 
+				II_DATE <= DATE_FORMAT(#{endDate}||' 23:59:59','%Y/%m/%d %H:%i:%S') 
 			]]>
 				</if>
 			</where> 
@@ -59,7 +59,7 @@
 		         II_PRODUCT_CODE
 		        ,II_PRODUCT_NAME
 		    ) II
-		FULL OUTER JOIN
+		LEFT JOIN
 		    (
 		    SELECT 
 		         OI_PRODUCT_CODE
@@ -81,15 +81,15 @@
 				<if test="endDate != '' and endDate != null">
 			<![CDATA[
 			AND
-				OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') 
+				OI_DATE <= DATE_FORMAT(#{endDate}||' 23:59:59','%Y/%m/%d %H:%i:%S') 
 			]]>
 				</if>
 			</where> 
 		    GROUP BY
 		        OI_PRODUCT_CODE
 		    ) OI
-		ON
-		    II.II_PRODUCT_CODE = OI.OI_PRODUCT_CODE
+		ON 
+			II.II_PRODUCT_CODE = OI.OI_PRODUCT_CODE
 		ORDER BY 
     		ITEM_PRODUCT_CODE
  	</select>
@@ -143,7 +143,7 @@
 
  	
  	<sql id="maxItemNo">
- 		SELECT NVL(MAX(ITEM_NO),0) +1 FROM ITEM
+ 		SELECT IFNULL(MAX(ITEM_NO),0) +1 FROM ITEM
  	</sql>
  	<insert id="itemInsert" parameterType="item">
  		INSERT INTO 
@@ -155,11 +155,10 @@
  	<select id="inItemSelectList" parameterType="condition" resultType="inItem"> 	
  		<![CDATA[
  		SELECT 
-			 /*+ INDEX_DESC(IN_ITEM PK_II_NO) */
 			 II_PRODUCT_CODE
 			,II_PRODUCT_NAME
 			,II_QTY					
-			,TO_CHAR(II_DATE,'YYYY/MM/DD')	AS II_DATE 
+			,DATE_FORMAT(II_DATE,'%Y-%m-%d')	AS II_DATE 
 		FROM 
 			IN_ITEM
 		]]> 
@@ -178,7 +177,7 @@
 			<if test="endDate != '' and endDate != null">
 		<![CDATA[
 		AND
-			II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') 
+			II_DATE <= DATE_FORMAT(#{endDate}||' 23:59:59','%Y-%m-%d %H:%i:%S') 
 		]]>
 			</if>
 		</where> 
@@ -205,7 +204,7 @@
  	<insert id="inItemInsert" parameterType="inItem">
  		<selectKey keyProperty="ii_no" resultType="int" order="BEFORE">
  			SELECT
- 				NVL(MAX(II_NO),0) +1
+ 				IFNULL(MAX(II_NO),0) +1
  			FROM
  				IN_ITEM
  		</selectKey>
@@ -244,7 +243,7 @@
 			 OI_PRODUCT_CODE
 			,OI_PRODUCT_NAME
 			,OI_QTY					
-			,TO_CHAR(OI_DATE,'YYYY/MM/DD')	AS OI_DATE 
+			,DATE_FORMAT(OI_DATE,'%Y-%m-%d')	AS OI_DATE 
 		FROM 
 			OUT_ITEM
 		]]> 
@@ -263,7 +262,7 @@
 			<if test="endDate != '' and endDate != null">
 		<![CDATA[
 		AND
-			OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') 
+			OI_DATE <= DATE_FORMAT(#{endDate}||' 23:59:59','%Y-%m-%d %H:%i:%S') 
 		]]>
 			</if>
 		</where>
@@ -312,43 +311,45 @@
 		SELECT 
 		        T.PRODUCT_CODE			AS PRODUCT_CODE 
 		       ,T.PRODUCT_NAME			AS PRODUCT_NAME 
-		       ,NVL(T.TOTAL_QTY,0)		AS TOTAL_QTY	
-		       ,NVL(B.BEFORE_QTY,0)		AS BEFORE_QTY	
-		       ,NVL(I.IN_QTY,0)			AS IN_QTY		
-		       ,NVL(O.OUT_QTY,0) 		AS OUT_QTY
+		       ,IFNULL(T.TOTAL_QTY,0)		AS TOTAL_QTY	
+		       ,IFNULL(B.BEFORE_QTY,0)		AS BEFORE_QTY	
+		       ,IFNULL(I.IN_QTY,0)			AS IN_QTY		
+		       ,IFNULL(O.OUT_QTY,0) 		AS OUT_QTY
 		       			
 		FROM
+		<!-- //////////////////////////////////////////////// -->
+		<!-- //////////////////////////////////////////////// -->
 		    (  
 		    SELECT 
-		         II.II_PRODUCT_CODE     				AS PRODUCT_CODE
-		        ,P.PRODUCT_NAME         				AS PRODUCT_NAME
-		        ,NVL(II.II_QTY,0) - NVL(OI.OI_QTY,0)  	AS TOTAL_QTY
+		         II.II_PRODUCT_CODE     	AS PRODUCT_CODE
+		        ,P.PRODUCT_NAME         	AS PRODUCT_NAME
+		        ,II.II_QTY - OI.OI_QTY  	AS TOTAL_QTY
 		        
 		    FROM
 		    	(
 		        SELECT 
 		             II_PRODUCT_CODE
-		            ,SUM(II_QTY)		AS II_QTY
+		            ,IFNULL(SUM(II_QTY),0)		AS II_QTY
 		        FROM 
 		            IN_ITEM 		            
 		        <where> 
 		        	<if test="endDate !='' and endDate != null">
-<![CDATA[		    II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
+<![CDATA[		    II_DATE <= DATE_FORMAT(#{endDate}||' 23:59:59','%Y-%m-%d %H:%i:%S') ]]>
 		        	</if>
 		        </where>
 		        GROUP BY 
 		            II_PRODUCT_CODE
 		    	) II
-		    FULL OUTER JOIN
+		    RIGHT OUTER JOIN
 		   		(
 		        SELECT 
 		             OI_PRODUCT_CODE
-		            ,SUM(OI_QTY)		AS OI_QTY
+		            ,IFNULL(SUM(OI_QTY),0)		AS OI_QTY
 		        FROM 
 		            OUT_ITEM 
 		        <where> 
 		        	<if test="endDate !='' and endDate != null">
-<![CDATA[		    OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
+<![CDATA[		    OI_DATE <= DATE_FORMAT(#{endDate}||' 23:59:59','%Y-%m-%d %H:%i:%S') ]]>
 		        	</if>
 		        </where>
 		        GROUP BY 
@@ -370,11 +371,13 @@
 		    </if>
 		    </where> 
 		    ) T
-		FULL OUTER JOIN
+		<!-- //////////////////////////////////////////////// -->
+		<!-- //////////////////////////////////////////////// -->
+		LEFT JOIN
 		    (
 		    SELECT 
 		         II.II_PRODUCT_CODE      			   AS PRODUCT_CODE
-		        ,NVL(II.II_QTY,0) - NVL(OI.OI_QTY,0)   AS BEFORE_QTY
+		        ,IFNULL(II.II_QTY,0) - IFNULL(OI.OI_QTY,0)   AS BEFORE_QTY
 		    FROM
 		    	(
 		        SELECT 
@@ -384,13 +387,13 @@
 		            IN_ITEM
 		        <where> 
 		        	<if test="startDate !='' and startDate != null">
-<![CDATA[		    II_DATE <= TO_DATE(#{startDate}||' 0:0:0','YYYY/MM/DD HH24:MI:SS') ]]>
+<![CDATA[		    II_DATE <= DATE_FORMAT(#{startDate}||' 0:0:0','%Y-%m-%d %H:%i:%S') ]]>
 		        	</if>
 		        </where> 
 		        GROUP BY 
 		            II_PRODUCT_CODE
 		    	) II
-		    FULL OUTER JOIN
+		    LEFT JOIN
 		   		(
 		        SELECT 
 		             OI_PRODUCT_CODE
@@ -399,7 +402,7 @@
 		            OUT_ITEM
 		        <where> 
 		        	<if test="startDate !='' and startDate != null">
-<![CDATA[		    OI_DATE <= TO_DATE(#{startDate}||' 0:0:0','YYYY/MM/DD HH24:MI:SS') ]]>
+<![CDATA[		    OI_DATE <= DATE_FORMAT(#{startDate}||' 0:0:0','%Y-%m-%d %H:%i:%S') ]]>
 		        	</if>
 		        </where> 
 		        GROUP BY 
@@ -423,11 +426,11 @@
 		    ) B
 		ON 
 		    T.PRODUCT_CODE = B.PRODUCT_CODE
-		FULL OUTER JOIN
+		LEFT JOIN
 		    (
 		    SELECT 
 		         I.II_PRODUCT_CODE 		AS PRODUCT_CODE
-		        ,NVL(SUM(II_QTY),0)    		AS IN_QTY
+		        ,IFNULL(SUM(II_QTY),0)    		AS IN_QTY
 		    FROM 
 		        IN_ITEM I
 		    INNER JOIN
@@ -445,9 +448,9 @@
         	<if test="endDate !='' and endDate != null">
         	AND
 <![CDATA[		I.II_DATE BETWEEN 
-							TO_DATE(#{startDate}||' 0:0:0','YYYY/MM/DD HH24:MI:SS') 
+							DATE_FORMAT(#{startDate}||' 0:0:0','%Y-%m-%d %H:%i:%S') 
 						  AND 
-						  	TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
+						  	DATE_FORMAT(#{endDate}||' 23:59:59','%Y-%m-%d %H:%i:%S') ]]>
         	</if>
 		    </where>
 		    GROUP BY 
@@ -455,11 +458,11 @@
 		    ) I
 		ON
 		    T.PRODUCT_CODE = I.PRODUCT_CODE
-		FULL OUTER JOIN
+		LEFT JOIN
 		    (
-		    SELECT 
+		    LEFT 
 		         O.OI_PRODUCT_CODE 				AS PRODUCT_CODE
-		        ,NVL(SUM(O.OI_QTY),0)    		AS OUT_QTY
+		        ,IFNULL(SUM(O.OI_QTY),0)    		AS OUT_QTY
 		    FROM 
 		        OUT_ITEM O
 		    INNER JOIN
@@ -477,9 +480,9 @@
         	<if test="endDate !='' and endDate != null">
         	AND
 <![CDATA[		O.OI_DATE BETWEEN 
-							TO_DATE(#{startDate}||' 0:0:0','YYYY/MM/DD HH24:MI:SS') 
+							DATE_FORMAT(#{startDate}||' 0:0:0','%Y-%m-%d %H:%i:%S') 
 						  AND 
-						  	TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
+						  	DATE_FORMAT(#{endDate}||' 23:59:59','%Y-%m-%d %H:%i:%S') ]]>
         	</if>
 		    </where>
 		    GROUP BY 
@@ -496,7 +499,7 @@
 		    ,DI_PRODUCT_CODE
 		    ,DI_PRODUCT_NAME
 		    ,DI_QTY
-		    ,TO_CHAR(DI_DATE,'YYYY/MM/DD') 		AS DI_DATE
+		    ,DATE_FORMAT(DI_DATE,'%Y-%m-%d') 		AS DI_DATE
 		    ,DI_STATE
 		    ,DI_REASON
 		FROM 
@@ -511,14 +514,14 @@
 		</if>
 		<if test="endDate != '' and endDate != null">
 		AND
-<![CDATA[	DI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
+<![CDATA[	DI_DATE <= DATE_FORMAT(#{endDate}||' 23:59:59','%Y-%m-%d %H:%i:%S') ]]>
 		</if>
 		</where>
 	</select>
  	
  	<insert id="defectItemInsert" parameterType="defectItem">
 		<selectKey  keyProperty="di_no" resultType="int" order="BEFORE">
-			SELECT NVL(MAX(OI_NO),0) +1 FROM OUT_ITEM
+			SELECT IFNULL(MAX(OI_NO),0) +1 FROM OUT_ITEM
 		</selectKey>
 		INSERT INTO DEFECT_ITEM
 			(
@@ -568,7 +571,7 @@
  	<!-- ================================================================================== -->
  	<insert id="itemInsertList" parameterType="list">
 		<selectKey  keyProperty="di_no" resultType="int" order="BEFORE">
-			SELECT NVL(MAX(DI_NO),0) +1 FROM DEFECT_ITEM
+			SELECT IFNULL(MAX(DI_NO),0) +1 FROM DEFECT_ITEM
 		</selectKey>
 		<foreach item="item" collection="list" open="INSERT ALL"  close="SELECT * FROM DUAL" separator=" " index="index">
 		INTO DEFECT_ITEM
@@ -593,7 +596,7 @@
 	<insert id="outItemInsert" parameterType="outItem">
 		<selectKey keyProperty="oi_no" resultType="int" order="BEFORE">
 			SELECT 
-				NVL(MAX(OI_NO),0) +1 
+				IFNULL(MAX(OI_NO),0) +1 
 			FROM 
 				OUT_ITEM
 		</selectKey>
@@ -623,7 +626,7 @@
 			) 
 		VALUES 
 			(
-			 ((SELECT NVL(MAX(SI_NO),0) +1 FROM SAFE_ITEM) + #{index})
+			 ((SELECT IFNULL(MAX(SI_NO),0) +1 FROM SAFE_ITEM) + #{index})
 			,#{item.si_product_code}
 			,#{item.si_qty}
 			)
