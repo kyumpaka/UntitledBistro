@@ -722,13 +722,8 @@ public class JumunServiceImpl implements JumunService {
 	public ArrayList<PaymentDTO> paymentSearch(String data, String searchType, String predatepicker, String postdatepicker) {
 		dao = sqlSession.getMapper(JumunDAO.class);
 		map = new HashMap<String, String>();
-		// mapper 에러 방지
-		if(data == null) data = "";
-		if(searchType == null) searchType = "";
-		if(predatepicker == null) predatepicker = "";
-		if(postdatepicker == null) postdatepicker = "";
 
-		if(postdatepicker != "") {
+		if(postdatepicker != null) {
 			postdatepicker = Integer.toString(Integer.parseInt(postdatepicker) + 1); // ~까지 날짜도 보여주기위해 1일 더하기
 		}
 		

@@ -55,7 +55,7 @@
 						</div>
 						<hr>
 						<div class="col-md-13">
-							<button onclick="#" class="btn  btn-primary btn-lg btn-block"> 출퇴관리 </button>
+							<button onclick="goWork()" class="btn  btn-primary btn-lg btn-block"> 출퇴관리 </button>
 						</div>
 						<hr>
 						<div class="col-md-13">
@@ -82,6 +82,15 @@ function goReserveList() {
 	var popupX = (window.screen.width / 2) - (width / 2);
 	var popupY = (window.screen.height / 2) - (height / 2);
 	window.open('${pageContext.request.contextPath}/Seobis/pop/Seobis_calendar','예약내역','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+}
+
+function goWork() {
+	event.preventDefault();
+	var width = 1000;
+	var height = 400;
+	var popupX = (window.screen.width / 2) - (width / 2);
+	var popupY = (window.screen.height / 2) - (height / 2);
+	window.open('${pageContext.request.contextPath}/insa/WorkManagementForm','출퇴관리','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
 }
 
 function goDaily() {

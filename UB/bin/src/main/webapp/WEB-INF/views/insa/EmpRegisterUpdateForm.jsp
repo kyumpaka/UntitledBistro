@@ -9,6 +9,7 @@
 <html>
 <head>
 <style>
+
 td {
 	background-color: #FFFFFF;	
 	height: 30px;
@@ -95,10 +96,6 @@ function EmpRegisterUpdate(empregister_empnum){
 /* 	window.close(); */
 }
 
-function payclassfiy(){
-	$("input:radio[name='empregister_payclassfiy']").is(":checked");
-	
-}
 
 
 
@@ -109,7 +106,7 @@ function payclassfiy(){
 </head>
 
 <body>
-	<form name="EmpRegisterUpdateForm"  id="update" Action="EmpRegisterUpdate" method="post">
+	<form name="insa/EmpRegisterUpdateForm"  id="update" Action="EmpRegisterUpdate" method="post">
 		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000'align='center'>
 			<tr>
 				<td colspan='3' rowspan='3' class='ti' >
@@ -197,9 +194,9 @@ function payclassfiy(){
 			</tr>
 			<tr>
 				<td class='ti' colspan='3'>시급</td>
-				<td colspan='2'><input type="number" name="empregister_pay" value="${b.empregister_pay }">천원</td>
+				<td colspan='2'><input type="number" name="empregister_paytime" value="${b.empregister_paytime }">천원</td>
 				<td class='ti' colspan='1'>일급</td>
-				<td colspan='2'><!--<input type="number" name="empregister_pay" value="${b.empregister_pay }">-->만원</td>
+				<td colspan='2'><input type="number" name="empregister_payday" value="${b.empregister_payday }">만원</td>
 
 			</tr>
 			<tr>
