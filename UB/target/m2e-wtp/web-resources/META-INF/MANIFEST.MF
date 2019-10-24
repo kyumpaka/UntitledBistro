@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Built-By: fooli
-Build-Jdk: 12.0.2
+Built-By: wras456@naver.com
+Build-Jdk: 1.8.0_211
 Created-By: Maven Integration for Eclipse
 
