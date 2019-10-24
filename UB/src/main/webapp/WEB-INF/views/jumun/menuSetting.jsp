@@ -18,7 +18,7 @@
 	<form method="post" id="menuSettingForm">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-10 card padding-y-sm card ">
+				<div class="col-md-10 card padding-y-sm card " style="position: relative; left: 10px;">
 					<ul class="nav bg radius nav-pills nav-fill mb-3 bg" role="tablist">
 						<li class="nav-link" id="tab" onclick="mtSettingView()" ><a class="nav-link" data-toggle="pill" href="#nav-tab-paypal"> ALL </a></li>
 						<c:forEach items="${ menuTypeList }" var="menuTypeList" >
