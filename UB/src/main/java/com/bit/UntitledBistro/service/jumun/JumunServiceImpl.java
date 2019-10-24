@@ -520,8 +520,8 @@ public class JumunServiceImpl implements JumunService {
 		dao.paymentInsert(paymentDTO); // 결제내역 입력
 		
 		map.put("od_Orders_No", orders_No);
-		dao.ordersDelete(map); // 주문 삭제
 		dao.ordersDetailsDelete(map); // 주문내역 삭제
+		dao.ordersDelete(map); // 주문 삭제
 
 		int payment_Card = paymentDTO.getPayment_Card();
 		int payment_Cash = paymentDTO.getPayment_Cash();

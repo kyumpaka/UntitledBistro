@@ -113,11 +113,13 @@
 	<update id="update_difference_Month" parameterType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
 	update jungsan_difference set difference_Month = (select nvl(sum(difference),0) from jungsan_difference where 
      difference_date between (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from jungsan_difference) and 
-    (select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from jungsan_difference))
+    (select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from jungsan_difference) and difference_date like to_date(sysdate,'YYYY-MM-DD'))
 	</update>
 	
-	<select id="differenceList" resultType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
-		select * from jungsan_difference
+	<select id="differenceList" resultType="int">
+		select nvl(sum(difference_Month),0) from jungsan_difference where difference_date between 
+   (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from jungsan_difference) and 
+    (select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from jungsan_difference)
 	</select>
 	
 	<!-- 여기부터 -->
