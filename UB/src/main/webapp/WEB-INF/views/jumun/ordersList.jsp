@@ -23,8 +23,8 @@
 			</div>
 			<div class="col-lg-1"></div>
 			<div class="col-lg-4">
-			최초 주문 : <fmt:formatDate value="${ ordersList.orders_First }" pattern="yyyy-MM-dd HH시 MM분 ss초"/>&nbsp;/&nbsp;
-			마지막 주문 : <fmt:formatDate value="${ ordersList.orders_Final }" pattern="yyyy-MM-dd HH시 MM분 ss초"/>
+			최초 주문 : <fmt:formatDate value="${ ordersList.orders_First }" pattern="yyyy-MM-dd HH?? MM�? ss�?"/>&nbsp;/&nbsp;
+			마�?�? 주문 : <fmt:formatDate value="${ ordersList.orders_Final }" pattern="yyyy-MM-dd HH?? MM�? ss�?"/>
 			</div>
 			<div class="col-lg-4 col-sm-6">
 				<div class="widgets-wrap d-flex justify-content-end">
@@ -62,7 +62,7 @@
 										<div class="action-wrap">
 											<div class="price-wrap h5" x>
 												<span class="title">${ menuList.menu_Name }</span>
-												<span class="price-new">/&nbsp;<fmt:formatNumber pattern="#,###" value="${ menuList.menu_Price }" />원</span>
+												<span class="price-new">/&nbsp;<fmt:formatNumber pattern="#,###" value="${ menuList.menu_Price }" />??</span>
 											</div>
 										</div>
 									</figcaption>
@@ -79,11 +79,11 @@
 								<table class="table table-hover shopping-cart-wrap">
 									<thead class="text-muted">
 										<tr>
-											<th scope="col" width="150"><div align="center">메뉴이름</div></th>
-											<th scope="col" width="120"><div align="center">수량</div></th>
-											<th scope="col" width="120"><div align="center">단가</div></th>
+											<th scope="col" width="150"><div align="center">메뉴?�름</div></th>
+											<th scope="col" width="120"><div align="center">?�량</div></th>
+											<th scope="col" width="120"><div align="center">?��?</div></th>
 											<th scope="col" class="text-right" width="100"><div
-													align="right">삭제&nbsp;</div></th>
+													align="right">??��&nbsp;</div></th>
 										</tr>
 									</thead>
 									<tbody id="orderCart">
@@ -126,13 +126,13 @@
 						</div>
 						<div class="box">
 							<dl class="dlist-align">
-								<dt>총 금 액</dt>
+								<dt>�? �? ??</dt>
 								<dd class="text-right h4 b">
 									<div id="allPrice">${ allPrice }</div>
 								</dd>
 							</dl>
 							<dl class="dlist-align">
-								<dt>할인금액</dt>
+								<dt>?�인금액</dt>
 								<dd class="text-right h4 b">
 									<div id="discountPrice">0</div>
 								</dd>
@@ -149,10 +149,10 @@
 									<div onclick="goPay()" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 결제 </div>
 								</div>
 								<div class="col-md-4">
-									<div onclick="goDiscount()" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 서비스 </div>
+									<div onclick="goDiscount()" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> ?�비?? </div>
 								</div>
 								<div class="col-md-4">
-									<div onclick="removeOrderAll()" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> 전체취소 </div>
+									<div onclick="removeOrderAll()" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i> ?�체취소 </div>
 								</div>
 							</div>
 							<br>
@@ -192,7 +192,7 @@ $(function() {
 })
 
 $(document).ready(function() {
-	// 메뉴구분 탭 활성화
+	// 메뉴구분 ?? ?�성??
 	if('' == '${ mt_Code }'){
 		$("#tab").attr('class','nav-link active show');
 	}
@@ -202,7 +202,7 @@ $(document).ready(function() {
 	}
 	</c:forEach>
 	
-	// 시계 시작
+	// ?�계 ?�작
 	startTime();
 
 	// 주문개수
@@ -229,38 +229,38 @@ function mtView(code) {
 	$("#orderListForm").submit();
 }
 
-// 시계
+// ?�계
 function startTime() {
     var today = new Date();
     var now = new Date();
     
-    var year = now.getFullYear(); //년
-    var month = now.getMonth(); //월
-    var date = now.getDate();  //일
-    var day = now.getDay();  //요일
-    var hour = now.getHours();  //시
-    var min = now.getMinutes();  //분
-    var sec = now.getSeconds();  //초
+    var year = now.getFullYear(); //??
+    var month = now.getMonth(); //??
+    var date = now.getDate();  //??
+    var day = now.getDay();  //?�일
+    var hour = now.getHours();  //??
+    var min = now.getMinutes();  //�?
+    var sec = now.getSeconds();  //�?
     
     month = checkTime(month);
     date = checkTime(date);
     hour = checkTime(hour);
     min = checkTime(min);
     sec = checkTime(sec);
-    var week = ['일', '월', '화', '수', '목', '금', '토'];
+    var week = ['??', '??', '??', '??', '�?', '�?', '??'];
     
     document.getElementById('clock').innerHTML = 
-    	year + "년 " + month + "월 " + date + "일 [" + week[day] + "] " + hour + ":" + min + ":" + sec;
+    	year + "?? " + month + "?? " + date + "?? [" + week[day] + "] " + hour + ":" + min + ":" + sec;
    	
     var t = setTimeout(startTime, 1000);
 }
 
-// 숫자가 10보다 작을 경우 앞에 0을 붙이기
+// ?�자가 10보다 ?�을 경우 ?�에 0?? 붙이�?
 function checkTime(i) {
     if (i < 10) {i = "0" + i};
     return i;
 }
-//1초마다 함수 갱신
+//1초마?? ?�수 갱신
 function realtimeClock() {
   document.timeForm.timeInput.value = getTimeStamp();
   setTimeout("realtimeClock()", 1000);
@@ -286,16 +286,16 @@ function goPay() {
          			var openWin = window.open('paymentStart.do?orders_No='+${orders_No}+price,'결제','width='+width+',height='+height+',status=no,scrollbars=no, left='+ popupX + ', top='+ popupY);
 	          	} else {
 	          		swal({
-	     					title: "주문내역이 없습니다.",
+	     					title: "주문?�역?? ?�습?�다.",
 	     					icon: "warning",
-	     					button: "닫기",
+	     					button: "?�기",
 	      			});
 		        }
          }
      });
 }
 
-// 서비스
+// ?�비??
 function goDiscount() {
 	$.ajax({
 		  url: 'ordersCheck.do',
@@ -308,22 +308,22 @@ function goDiscount() {
        			var height = 450;
        			var popupX = (window.screen.width / 2) - (width / 2);
        			var popupY = (window.screen.height / 2) - (height / 2);
-       			window.open('orderDiscount.do?allPrice='+$("#allPrice").html(),'서비스','width='+width+',height='+height+',status=no,scrollbars=no, left='+ popupX + ', top='+ popupY);
+       			window.open('orderDiscount.do?allPrice='+$("#allPrice").html(),'?�비??','width='+width+',height='+height+',status=no,scrollbars=no, left='+ popupX + ', top='+ popupY);
           	} else {
           		swal({
-     					title: "주문내역이 없습니다.",
+     					title: "주문?�역?? ?�습?�다.",
      					icon: "warning",
-     					button: "닫기",
+     					button: "?�기",
       			});
 	        }
        }
    });
 }
 
-// 각 메뉴 주문 개수
+// �? 메뉴 주문 개수
 var oderCntMap;
 
-// 주문하기
+// 주문?�기
 function plusOrder(code, name, price) {
 	var count = oderCntMap.get(code) + 1;
 	
@@ -372,7 +372,7 @@ function plusOrder(code, name, price) {
 					});
 					
 			  }
-			  // 웹소켓 	  
+			  // ?�소�? 	  
 			  $.ajax({
 				  url : "${pageContext.request.contextPath}/jaego/gridRiskItemCount",
 				  type : "get"
@@ -415,7 +415,7 @@ function removeOrderAll() {
          							  oderCntMap.set("MN"+i, 0);
          						  }
          					  }
-         					  // 웹소켓 	  
+         					  // ?�소�? 	  
          					  $.ajax({
          					  	  url : "${pageContext.request.contextPath}/jaego/gridRiskItemCount",
          						  type : "get"
@@ -427,16 +427,16 @@ function removeOrderAll() {
          			});
 	          	} else {
 	          		swal({
-     					title: "주문내역이 없습니다.",
+     					title: "주문?�역?? ?�습?�다.",
      					icon: "warning",
-     					button: "닫기",
+     					button: "?�기",
 	      			});
 	            }
          }
      });
 }
 
-// 한개 제품 모든 주문취소
+// ?�개 ?�품 모든 주문취소
 function removeOrder(code, price) {
 	event.preventDefault();
 	
@@ -461,7 +461,7 @@ function removeOrder(code, price) {
 					oderCntMap.delete(code);
 					oderCntMap.set(code, 0);
 			  }
-			  // 웹소켓 	  
+			  // ?�소�? 	  
 			  $.ajax({
 				  url : "${pageContext.request.contextPath}/jaego/gridRiskItemCount",
 				  type : "get"
@@ -473,7 +473,7 @@ function removeOrder(code, price) {
 	});
 }
 
-// 한개 주문취소
+// ?�개 주문취소
 function minusOrder(code, price) {
 	var count = oderCntMap.get(code) - 1;
 	
@@ -502,7 +502,7 @@ function minusOrder(code, price) {
 						$("#allPrice").html(Number(allPrice) - Number(price));
 						$("#resultPrice").html(Number(allPrice) - Number(price));
 				  }
-				  // 웹소켓 	  
+				  // ?�소�? 	  
 				  $.ajax({
 					  url : "${pageContext.request.contextPath}/jaego/gridRiskItemCount",
 					  type : "get"
@@ -524,22 +524,22 @@ function orderStart() {
 		  success : function(result) {
            		if(result > 0) {
            			swal({
-       					title: "주방에 주문이 접수되었습니다.",
+       					title: "주방?? 주문?? ?�수?�었?�니??.",
        					icon: "success",
-       					button: "닫기",
+       					button: "?�기",
         			}).then((value) => {
         					var width = 1000;
         					var height = 500;
         					var popupX = (window.screen.width / 2) - (width / 2);
         					var popupY = (window.screen.height / 2) - (height / 2);
-        					window.open('ordersPDF.do?orders_No=${orders_No}','주문하기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+        					window.open('ordersPDF.do?orders_No=${orders_No}','주문?�기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
         				    location.href='posMain.do';
         			});
             	} else {
             		swal({
-       					title: "주문내역이 없습니다.",
+       					title: "주문?�역?? ?�습?�다.",
        					icon: "warning",
-       					button: "닫기",
+       					button: "?�기",
         			});
 	            }
            }
@@ -558,12 +558,12 @@ function orderPrint() {
        				var height = 500;
        				var popupX = (window.screen.width / 2) - (width / 2);
        				var popupY = (window.screen.height / 2) - (height / 2);
-       				window.open('ordersPDF.do?orders_No=${orders_No}','출력하기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+       				window.open('ordersPDF.do?orders_No=${orders_No}','출력?�기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
             	} else {
             		swal({
-       					title: "주문내역이 없습니다.",
+       					title: "주문?�역?? ?�습?�다.",
        					icon: "warning",
-       					button: "닫기",
+       					button: "?�기",
         			});
 	            }
            }
@@ -588,15 +588,15 @@ webSocket.onmessage = onMessage;
 webSocket.onclose = onClose;
 
 function onOpen(e) {
-	console.log("웹소켓 연결");	
+	console.log("?�소�? ?�결");	
 }
 
 function onMessage(e) {
-	console.log("서버로 부터 응답메시지 받음 : " + e.data);
+	console.log("?�버�? 부?? ?�답메시지 받음 : " + e.data);
 }
 
 function onClose(e) {
-	console.log("웹소컷 닫음");
+	console.log("?�소�? ?�음");
 }
 
 </script>

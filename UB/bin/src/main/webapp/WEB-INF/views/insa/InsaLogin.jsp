@@ -52,7 +52,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
-<title>로그인 폼</title>
+<title>로그?? ??</title>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
@@ -62,18 +62,18 @@ function loginCheck() {
 
 	if (empregister_empnum == "") {
 		swal({
-			  title: "사번을 입력해주세요.",
+			  title: "?�번?? ?�력?�주?�요.",
 			  icon: "warning",
-			  button: "닫기",
+			  button: "?�기",
 			});
 			$("#empregister_empnum").focus();
 			return false;
 	}
 	if (empregister_jumin == "") {
 		swal({
-			  title: "비밀번호를 입력해주세요.",
+			  title: "비�?번호�? ?�력?�주?�요.",
 			  icon: "warning",
-			  button: "닫기",
+			  button: "?�기",
 			});
 			$("#empregister_jumin").focus();
 			return false;
@@ -89,7 +89,7 @@ function login() {
 }
 
 function press(e){
-	if(e.keyCode == 13){ // javascript에서는 13이 enter키를 의미함
+	if(e.keyCode == 13){ // javascript?�서?? 13?? enter?��? ?��???
 		login();
 	} 
 } 
@@ -99,16 +99,16 @@ function press(e){
 <body>
 	<div class="card align-middle" style="width:20rem; border-radius:20px;">
 		<div class="card-title" style="margin-top:30px;">
-			<h2 class="card-title text-center" style="color:#113366;">환영합니다.</h2>
+			<h2 class="card-title text-center" style="color:#113366;">?�영?�니??.</h2>
 		</div>
 		<div class="card-body">
       <form class="form-signin" id="loginForm" method="POST" action="InsaLoginCheck" name="loginForm">
         <label for="inputEmail" class="sr-only"></label>
-        <input type="text" id="empregister_empnum" name="empregister_empnum" class="form-control" placeholder="사원번호" autofocus onkeypress="press(event)"><BR>
+        <input type="text" id="empregister_empnum" name="empregister_empnum" class="form-control" placeholder="?�원번호" autofocus onkeypress="press(event)"><BR>
         <label for="inputPassword" class="sr-only"></label>
-        <input type="password" id="empregister_jumin" name="empregister_jumin" class="form-control" placeholder="비밀번호" onkeypress="press(event)"><br>
+        <input type="password" id="empregister_jumin" name="empregister_jumin" class="form-control" placeholder="비�?번호" onkeypress="press(event)"><br>
       </form>
-        <button onclick="login()" class="btn btn-outline-primary btn-lg btn-block">로그인</button>
+        <button onclick="login()" class="btn btn-outline-primary btn-lg btn-block">로그??</button>
       
 		</div>
 	</div>

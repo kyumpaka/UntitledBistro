@@ -7,9 +7,9 @@
    
    <bean id="CustomLoginSuccess" class="com.bit.UntitledBistro.security.CustomLoginSuccess" />
    
-   <!-- true 로 할경우 filter는 dafault 값으로 동작, 스프링 표현식(spEL)의 사용여부 -->
+   <!-- true �? ?�경?? filter?? dafault 값으�? ?�작, ?�프�? ?�현??(spEL)?? ?�용?��? -->
    <security:http auto-config="true" use-expressions="true">
-      <!-- 보안을 확인할 url패턴, 접근제한권한 지정 -->
+      <!-- 보안?? ?�인?? url?�턴, ?�근?�한권한 지?? -->
       <security:intercept-url pattern="/erp" access="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')" />
       <security:intercept-url pattern="/balju/**" access="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')" />
       <security:intercept-url pattern="/insa/**" access="hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')" />
@@ -22,8 +22,8 @@
       <security:intercept-url pattern="/login" access="permitAll"/>
       <security:intercept-url pattern="/loginFail" access="permitAll"/>
       <security:intercept-url pattern="/**" access="authenticated"/>
-      <!-- 로그인 페이지, 로그인 성공 시 이동 URL, 로그인 실패 시 이동 URL, 
-      redirect여부(authentication-success-handler-ref,authentication-failure-handler-ref) -->
+      <!-- 로그?? ?�이지, 로그?? ?�공 ?? ?�동 URL, 로그?? ?�패 ?? ?�동 URL, 
+      redirect?��?(authentication-success-handler-ref,authentication-failure-handler-ref) -->
       <security:form-login login-page="/login"
          username-parameter="empregister_empnum"
          password-parameter="empregister_jumin"
@@ -31,16 +31,16 @@
          authentication-success-handler-ref="CustomLoginSuccess"
          authentication-failure-url="/loginFail?error=1"
          always-use-default-target='false' />
-      <!-- 세선삭제여부, 로그아웃 처리할 URL, 로그아웃 성공 시 이동 URL -->
+      <!-- ?�선??��?��?, 로그?�웃 처리?? URL, 로그?�웃 ?�공 ?? ?�동 URL -->
       <security:logout invalidate-session="false" logout-success-url="/loginFail?logout=1" />
-      <!-- invalid session일 때 url, 최대 허용 가능한 세션 수, max-sessions을 넘었을때 접속한 세션을 실패처리할지 여부 -->
+      <!-- invalid session?? ?? url, 최�? ?�용 가?�한 ?�션 ??, max-sessions?? ?�었?�때 ?�속?? ?�션?? ?�패처리?��? ?��? -->
       <security:session-management invalid-session-url="/loginFail?timeOut=1">
          <security:concurrency-control max-sessions="1" expired-url="/loginFail?exist=1" error-if-maximum-exceeded="false" />
       </security:session-management>
       <security:csrf disabled="true"/>
-      <!-- 권한없는 접근시 -->
+      <!-- 권한?�는 ?�근?? -->
       <security:access-denied-handler error-page="/loginFail?access=1" />
-      <!-- PDF 크로스도메인 오류 수정 -->
+      <!-- PDF ?�로?�도메인 ?�류 ?�정 -->
       <security:headers>
         <security:frame-options policy="SAMEORIGIN"/>
       </security:headers>
@@ -50,7 +50,7 @@
        users-by-username-query="SELECT empregister_empnum, CONCAT('{noop}', empregister_jumin), EmpRegister_ENABLED FROM EMPREGISTER WHERE empregister_empnum = ?"
        authorities-by-username-query="SELECT empregister_empnum, EmpRegister_AUTHORITY FROM EMPREGISTER WHERE empregister_empnum = ?" />
    
-   <!-- 접근 디비 검색 -->
+   <!-- ?�근 ?�비 검?? -->
     <security:authentication-manager>
           <security:authentication-provider user-service-ref="empService"/>
    </security:authentication-manager>   

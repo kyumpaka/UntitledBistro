@@ -4,27 +4,27 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
-<!-- 발주서의 기능은 기본적으로 발주계획작성과 흡사하다 다만 핵심적으로
+<!-- 발주?�의 기능?� 기본?�으�? 발주계획?�성�? ?�사?�다 ?�만 ?�심?�으�?
 
-	발주서 조회나 발주서 현황과의 연계와
-	1. 발주계획에 입력이 완료된 데이터를 불러와서 적용시킬수 있어야 한다. 
-	   이 경우에는 [새창으로 발주계획서를 조회하여 체크박스 선택을 통해서 [적용]버튼으로 적용한다.
-	2. 발주서 전표를 출력하는 테이블이 필요하고 이를 인쇄할수 있는 기능도 지원해야한다
-	3. 추가적으로 pdf excel email fax로 할수 있는지 여부를 체크한다.
+	발주?? 조회?? 발주?? ?�황과의 ?�계?�
+	1. 발주계획?? ?�력?? ?�료?? ?�이?��? 불러?�?? ?�용?�킬?? ?�어?? ?�다. 
+	   ?? 경우?�는 [?�창?�로 발주계획?��? 조회?�여 체크박스 ?�택?? ?�해?? [?�용]버튼?�로 ?�용?�다.
+	2. 발주?? ?�표�? 출력?�는 ?�이블이 ?�요?�고 ?��? ?�쇄?�수 ?�는 기능?? 지?�해?�한??
+	3. 추�??�으�? pdf excel email fax�? ?�수 ?�는지 ?��?�? 체크?�다.
 	
-	발주서에서의 상단버튼은 발주계획작성과 동일하여
-	[주요발주품목] (balju_save)
-	 [소요에서는] 
-	 [안전재고(혹은적정재고)] 전체 재고량과 안전재고량을 계산, 발주량을 조절할수 있는 방식을 고려해야한다.
+	발주?�에?�의 ?�단버튼?� 발주계획?�성�? ?�일?�여
+	[주요발주?�목] (balju_save)
+	 [?�요?�서?? 
+	 [?�전?�고(?��??�정?�고)] ?�체 ?�고?�과 ?�전?�고?�을 계산, 발주?�을 조절?�수 ?�는 방식?? 고려?�야?�다.
 	 
-	하단메뉴는 [저장] [저장 및 전표 출력] [다시작성] [발주현황]을 적용한다 -->
+	?�단메뉴?? [?�?? [?�?? �? ?�표 출력] [?�시?�성] [발주?�황]?? ?�용?�다 -->
 <head>
 	<style>
 		.btn_space{
 			margin-right: 5px;
 		}
 	</style>
-<!-- 템플릿 link rel -->
+<!-- ?�플�? link rel -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="apple-touch-icon" href="https://i.imgur.com/QRAUqs9.png">
@@ -47,19 +47,19 @@
 <link
 	href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800'
 	rel='stylesheet' type='text/css'>
-<!-- 템플릿 link rel -->
+<!-- ?�플�? link rel -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<!-- ↑ 이것은 스윗얼럿 cdn -->
+<!-- ?? ?�것?� ?�윗?�럿 cdn -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<!-- jsgrid 사용을 위한 jquery를 cdn 연결-->
+<!-- jsgrid ?�용?? ?�한 jquery�? cdn ?�결-->
 <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
 <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
-<!-- jsgrid 사용을 위한 필요한 요소 cdn 연결-->
+<!-- jsgrid ?�용?? ?�한 ?�요?? ?�소 cdn ?�결-->
 
-<!-- jsgrid 사용을 위한 필요한 요소 cdn 연결-->
+<!-- jsgrid ?�용?? ?�한 ?�요?? ?�소 cdn ?�결-->
 <meta charset="UTF-8">
-<title>발주서 작성</title>
+<title>발주?? ?�성</title>
 <script type="text/javascript">
 
 	var openItemWin;
@@ -68,7 +68,7 @@
 
 		//부모창
 		window.name = "Balju";
-		//자식창셋팅
+		//?�식창셋??
 		openItemWin = window.open("${path}/balju/popup/Item_list",'itemInfo',"width=500, height=600, toolbars=no");
 		
 		}
@@ -80,7 +80,7 @@
 
 		//부모창
 		window.name = "Balju";
-		//자식창셋팅
+		//?�식창셋??
 		openResultWin = window.open("${path}/balju/popup/Item_Result",'itemInfo',"width=700, height=600, toolbars=no");
 		}
 	//openItemResult end
@@ -91,7 +91,7 @@
 
 		//부모창
 		window.name = "Balju";
-		//자식창셋팅
+		//?�식창셋??
 		openBookMarkWin = window.open("${path}/balju/popup/BookMark_list", 'BookMark', "width=700, height=600, toolbars=no");
 		}
 	//openBookMark end
@@ -100,7 +100,7 @@
 
 		//부모창
 		window.name = "Balju";
-		//자식창셋팅
+		//?�식창셋??
 		openBookMarkWin = window.open("${path}/balju/popup/BookMark_REG", 'BookMark', "width=900, height=600, toolbars=no");
 		}
 
@@ -110,7 +110,7 @@
 
 		//부모창
 		window.name = "Balju";
-		//자식창셋팅
+		//?�식창셋??
 		openBpWin = window.open("${path}/balju/popup/BPlan_Load", 'Balju_Plan', "width=900, height=600, toolbars=no");
 		}
 </script>
@@ -123,7 +123,7 @@
 				<div class="col-sm-4">
 					<div class="page-header float-left">
 						<div class="page-title">
-							<h1>발주서등록</h1>
+							<h1>발주?�등�?</h1>
 						</div>
 					</div>
 				</div>
@@ -143,16 +143,16 @@
 	<!-- header -->
 	<div class="content">
 		<div class="animated fadeIn">
-			<!-- <h5 class="heading-title mb-1 mt-4 text-secondary"> 발주 정보 </h5><br> -->
+			<!-- <h5 class="heading-title mb-1 mt-4 text-secondary"> 발주 ?�보 </h5><br> -->
 			<div class="row">
 				<div class="col-lg-3">
-					<h6>발주자</h6>
+					<h6>발주??</h6>
 					<section class="card">
 						<div class="card-body text-secondary">${sessionScope.empregister_name}</div>
 					</section>
 				</div>
 				<div class="col-lg-3">
-					<h6>발주일</h6>
+					<h6>발주??</h6>
 					<section class="card">
 						<div class="card-body text-secondary">${balju_date}</div>
 					</section>
@@ -168,27 +168,27 @@
 						<div class="row"></div>
 						<div class="col-lg-8">
 							<button type="button" class="btn btn-dark btn-sm" 
-								style="margin-right:5px;" onclick="openItemList()">제품정보</button>
+								style="margin-right:5px;" onclick="openItemList()">?�품?�보</button>
 							<!-- <button type="button" class="btn btn-dark btn-sm" 
-								style="margin-right:5px;">소요</button> -->
+								style="margin-right:5px;">?�요</button> -->
 								<button type="button" class="btn btn-dark btn-sm" 
-								style="margin-right:5px;" onclick="openBaljuPlan()">발주계획 불러오기</button>
+								style="margin-right:5px;" onclick="openBaljuPlan()">발주계획 불러?�기</button>
 							<button type="button" class="btn btn-dark btn-sm" 
-								style="margin-right:50px;"onclick="openItemResult()">재고현황</button>
+								style="margin-right:50px;"onclick="openItemResult()">?�고?�황</button>
 							<button type="button" class="btn btn-dark btn-sm" 
-								style="margin-right:5px;" onclick="openBkList()">관심품목</button>
+								style="margin-right:5px;" onclick="openBkList()">관?�품�?</button>
 								<button type="button" class="btn btn-dark btn-sm" 
-								 onclick="openBkInsert()">관심품목등록</button>
+								 onclick="openBkInsert()">관?�품목등�?</button>
 						</div>
 					</div>
 				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
-							<th>품목코드</th>
-							<th>품목명</th>
+							<th>?�목코드</th>
+							<th>?�목�?</th>
 							<th>규격</th>
-							<th>수량</th>
-							<th>단가</th>
+							<th>?�량</th>
+							<th>?��?</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -197,9 +197,9 @@
 							<td><input type="text" id="code" readonly></td>
 							<td><input type="text" id="name" readonly></td>
 							<td><input type="text" id="stndr" readonly></td>
-							<td><input type="text" id="qt" placeholder="수량 입력"></td>
+							<td><input type="text" id="qt" placeholder="?�량 ?�력"></td>
 							<td><input type="text" id="price" readonly></td>
-							<td><button class="btn btn-dark" id="addData">등록</button>
+							<td><button class="btn btn-dark" id="addData">?�록</button>
 						</tr>            
   					</tbody>
  				</table>
@@ -211,7 +211,7 @@
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-header">
-							발주물품 정보<small><code> 관심품목을 먼저 등록하세요 </code></small>
+							발주물품 ?�보<small><code> 관?�품목을 먼�? ?�록?�세?? </code></small>
 						</div>
 						<div id="jsGrid"></div>
 						<script>
@@ -225,22 +225,22 @@
 								editing : true,
 								data : Data,
 								 deleteConfirm: function(item){
-												return item.ORDER_PRODUCT_NAME +" 상품을 삭제하시겠습니까?";},
+												return item.ORDER_PRODUCT_NAME +" ?�품?? ??��?�시겠습?�까?";},
 
 								fields : [
-									{name:"ORDER_PRODUCT_CODE", type:"text", width:150, title:"품목코드", readOnly:true},
-									{name:"ORDER_PRODUCT_NAME", type:"text", width:150, title:"품목명", readOnly:true},
+									{name:"ORDER_PRODUCT_CODE", type:"text", width:150, title:"?�목코드", readOnly:true},
+									{name:"ORDER_PRODUCT_NAME", type:"text", width:150, title:"?�목�?", readOnly:true},
 									{name:"ORDER_PRODUCT_STNDR", type:"text", width:150, title:"규격", readOnly:true},
-									{name:"ORDER_QT", type:"text", width:150, title:"수량"},
-									{name:"ORDER_PR_EA", type:"text", width:150, title:"단가", readOnly:true},
-									{name:"ORDER_WR", type:"text", width:150, title:"작성자", readOnly:true},
+									{name:"ORDER_QT", type:"text", width:150, title:"?�량"},
+									{name:"ORDER_PR_EA", type:"text", width:150, title:"?��?", readOnly:true},
+									{name:"ORDER_WR", type:"text", width:150, title:"?�성??", readOnly:true},
 									{ type : 'control'}
 									]
 								
 								});
 						</script>
 						<div class="card-footer">
-							<button class="btn btn-primary btn-lg pull-right" onclick="insert()">등록</button>
+							<button class="btn btn-primary btn-lg pull-right" onclick="insert()">?�록</button>
 						</div>
 					</div>
 				</div>
@@ -253,7 +253,7 @@
 </body>
 <script>
 		$("#addData").click(function(){
-		alert("발주품이 추가되었습니다")
+		alert("발주?�이 추�??�었?�니??")
 		var insertItem={};
 		insertItem.ORDER_PRODUCT_CODE = $("#code").val();
 		insertItem.ORDER_PRODUCT_NAME = $("#name").val();
@@ -264,12 +264,6 @@
 								
 		console.log(insertItem);
 		$("#jsGrid").jsGrid("insertItem", insertItem);
-
-		$("#code").val("");
-		$("#name").val("");
-		$("#stndr").val("");
-		$("#qt").val("");
-		$("#price").val("");
 		});
 </script>
 <script>
@@ -278,7 +272,7 @@
 		var flag = true;
 		$.each(items,function(idx,row){
 			if(items[idx].ORDER_QT<1||isNaN(items[idx].ORDER_QT)){
-				alert("수량을 정확히 입력해주세요");
+				alert("?�량?? ?�확?? ?�력?�주?�요");
 				flag = false;
 				return false;
 			}
@@ -297,13 +291,13 @@
 						var jsonResult = JSON.parse(JSON.stringify(result));
 						if(jsonResult.result == "success"){
 								alert(jsonResult.resultMsg);
-								//sweetalert을 에이젝스 끝나고로 이동시켜보자
-							/* sweetAlert은 일반 alert과는 다르게 location.href을 후속으로 두어서 연계할수 없고 바로 실행시킴 
+								//sweetalert?? ?�이?�스 ?�나고로 ?�동?�켜보자
+							/* sweetAlert?� ?�반 alert과는 ?�르�? location.href?? ?�속?�로 ?�어?? ?�계?�수 ?�고 바로 ?�행?�킴 
 							swal({
 								  title: jsonResult.resultMsg,
-								  text: "확인을 눌러주세요",
+								  text: "?�인?? ?�러주세??",
 								  icon: jsonResult.result,
-								  button: "확인",
+								  button: "?�인",
 								});  */
 							location.href="${path}/balju/Balju"
 							//window.location.reload(true);
@@ -332,7 +326,7 @@
 </script>
 <script>
 	function getReturnValue2(ORDPL_ORDLIN_NUM){
-		console.log("발주계획불러오기 창에서 가져온 발주계획목록번호 : " + ORDPL_ORDLIN_NUM);
+		console.log("발주계획불러?�기 창에?? 가?�온 발주계획목록번호 : " + ORDPL_ORDLIN_NUM);
 		var SearchParam = new Array();
 		SearchParam.push(ORDPL_ORDLIN_NUM);
 		console.log(SearchParam);
@@ -359,13 +353,13 @@
 			url: "${path}/balju_Plan_Check",
 			type: "post",
 			success:function(result){
-				console.log("리절트값 : " +result);
-				console.log("리절트메세지값 : " + resultMsg);
+				console.log("리절?�값 : " +result);
+				console.log("리절?�메?��?�? : " + resultMsg);
 				var jsonResult = (JSON.parse(JSON.stringify(result)));
-					alert("목록번호 정리완료");
+					alert("목록번호 ?�리?�료");
 				},
 			error:function(){
-					alert("정상적으로 처리되지 않았습니다");
+					alert("?�상?�으�? 처리?��? ?�았?�니??");
 				}
 			});
 		//.ready 종료

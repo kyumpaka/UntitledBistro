@@ -30,7 +30,7 @@
 		<trim prefix="WHERE" prefixOverrides="AND">
 			<if test="menu_Mt_Code != null and menu_Mt_Code != ''">MENU_MT_CODE = #{menu_Mt_Code}</if>
 			<if test="menu_Code != null">AND MENU_CODE = #{menu_Code}</if>
-			<if test="menu_State == '판매'">AND MENU_STATE = #{menu_State}</if>
+			<if test="menu_State == '?�매'">AND MENU_STATE = #{menu_State}</if>
 		</trim>
 	ORDER BY MENU_CODE
 	</select>
@@ -345,7 +345,7 @@
       ITEM_QTY := I.ITEM_QTY;
       MN_CODE := I.INGREDIENT_MENU_CODE;
       IF IGD_QTY > ITEM_QTY THEN
-         UPDATE MENU SET MENU_STATE = '품절' WHERE MENU_CODE = MN_CODE;
+         UPDATE MENU SET MENU_STATE = '?�절' WHERE MENU_CODE = MN_CODE;
       END IF;
       END LOOP;
     END }

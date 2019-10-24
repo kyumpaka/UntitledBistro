@@ -41,9 +41,9 @@ public class InsaController {
 	public String insertform() {
 		
 		return "views/insa/EmpRegisterInsertForm";
-	}// ModelAndView를 리턴하는것과 같음
+	}// ModelAndView�? 리턴?�는것과 같음
 
-	@RequestMapping("/EmpRegisterInsert")
+	@RequestMapping(value="/EmpRegisterInsert" , method = RequestMethod.POST )
 	@ResponseBody
 	public int insert(Insa_EmpRegisterDTO dto, MultipartHttpServletRequest mRequest) {
 		String fileName = insaService.imgUpload(mRequest);
@@ -71,15 +71,10 @@ public class InsaController {
 
 	}
 
-	@RequestMapping("EmpRegisterUpdate")
-	public String update(Insa_EmpRegisterDTO dto) {
-		int result = insaService.EmpRegisterUpdate(dto);
-		String res = "redirect:/insa/EmpRegisterList";
-		if (result == 0) {
-			res = "insa/EmpRegisterFail";
-		}
+	@RequestMapping(value = "/EmpRegisterUpdate",  method = RequestMethod.POST )
+	public int update(Insa_EmpRegisterDTO dto) {
 
-		return res;
+		return insaService.EmpRegisterUpdate(dto);
 
 	}
 
@@ -99,14 +94,14 @@ public class InsaController {
 		return "insa/Schedule";
 	}
 
-	@RequestMapping(value = "/nck") // 예약 확인 페이지로 보내는 맵핑
+	@RequestMapping(value = "/nck") // ?�약 ?�인 ?�이지�? 보내?? 맵핑
 	public String insa_formCkCalendar(@RequestParam("salary_empRegister_empnum") String salary_empRegister_empnum, Model model) {
 		model.addAttribute("Schedule", insaService.SelectNum(salary_empRegister_empnum));
 		
 		return "/views/insa/HollydayList";
 	}
 
-	@RequestMapping(value = "/Hollyday") // 예약 새창으로 보내는 맵핑
+	@RequestMapping(value = "/Hollyday") // ?�약 ?�창?�로 보내?? 맵핑
 	public String insa_formnewCalendar(Model model) {
 		SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
 		String date = SDF.format(new Date());
@@ -115,7 +110,7 @@ public class InsaController {
 		return "/views/insa/Hollyday";
 	}
 
-	@RequestMapping(value = "/HollydayAdd", method = RequestMethod.POST) // 예약 추가 맵핑
+	@RequestMapping(value = "/HollydayAdd", method = RequestMethod.POST) // ?�약 추�? 맵핑
 	@ResponseBody
 	public int HollydayAdd(Insa_SalaryDTO dto) {
 		

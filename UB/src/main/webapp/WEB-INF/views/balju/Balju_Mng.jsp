@@ -4,17 +4,17 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
-<!-- 발주서 검색 창에서는 일자와 품목코드만을 입력받아서 발주건에 대한 검색을 진행한다.
+<!-- 발주?? 검?? 창에?�는 ?�자?� ?�목코드만을 ?�력받아?? 발주건에 ?�?? 검?�을 진행?�다.
 
-	1.입력창에 존재해야 하는것 1일자 (데이트셀렉트레인지) 데이트피커를 통해서 일자범위를 지정하고
-	품목코드를 골라서 해당 품목이 존재하는 [진행상태]칼럼이 [진행중]인 데이터를 검색한다 
+	1.?�력창에 존재?�야 ?�는�? 1?�자 (?�이?��??�트?�인지) ?�이?�피커�? ?�해?? ?�자범위�? 지?�하�?
+	?�목코드�? 골라?? ?�당 ?�목?? 존재?�는 [진행?�태]칼럼?? [진행�??? ?�이?��? 검?�한?? 
 	
-	2.이에대해서 금일,전일,금주,전주,금월,전월에 대응하는 검색버튼을 각각 작성한다.
-	ajax 처리할 항목은 없으며 검색 결과는 Balju_result로 넘겨준다-->
+	2.?�에?�?�서 금일,?�일,금주,?�주,금월,?�월?? ?�?�하?? 검?�버?�을 각각 ?�성?�다.
+	ajax 처리?? ??��?� ?�으�? 검?? 결과?? Balju_result�? ?�겨준??-->
 
 
 <head>
-<!-- 템플릿 link rel -->
+<!-- ?�플�? link rel -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="apple-touch-icon" href="https://i.imgur.com/QRAUqs9.png">
@@ -24,19 +24,19 @@
 <link
 	href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800'
 	rel='stylesheet' type='text/css'>
-<!-- 템플릿 link rel -->
+<!-- ?�플�? link rel -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<!-- jsgrid 사용을 위한 jquery를 cdn 연결-->
+<!-- jsgrid ?�용?? ?�한 jquery�? cdn ?�결-->
 <link type="text/css" rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
 <link type="text/css" rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
-<!-- jsgrid 사용을 위한 필요한 요소 cdn 연결-->
+<!-- jsgrid ?�용?? ?�한 ?�요?? ?�소 cdn ?�결-->
 <meta charset="UTF-8">
-<title>발주 계획 작성</title>
+<title>발주 계획 ?�성</title>
 </head>
 <body>
 	<!-- header -->
@@ -46,7 +46,7 @@
 				<div class="col-sm-4">
 					<div class="page-header float-left">
 						<div class="page-title">
-							<h1>발주서관리</h1>
+							<h1>발주?��?�?</h1>
 						</div>
 					</div>
 				</div>
@@ -54,9 +54,9 @@
 					<div class="page-header float-right">
 						<div class="page-title">
 							<ol class="breadcrumb text-right">
-								<li><a href="${path}/balju/Balju_Mng_All" > 전체 </a></li>
-								<li><a href="${path}/balju/Balju_Mng" > 진행중 </a></li>
-								<li><a href="${path}/balju/Balju_Com" > 완료 </a></li>
+								<li><a href="${path}/balju/Balju_Mng_All" > ?�체 </a></li>
+								<li><a href="${path}/balju/Balju_Mng" > 진행�? </a></li>
+								<li><a href="${path}/balju/Balju_Com" > ?�료 </a></li>
 								<!-- <li class="active">Basic</li> -->
 							</ol>
 						</div>
@@ -68,13 +68,13 @@
 	<!-- header -->
 	<div class="content">
 		<div class="animated fadeIn">
-			<!-- <h5 class="heading-title mb-1 mt-4 text-secondary"> 발주 정보 </h5><br> -->
+			<!-- <h5 class="heading-title mb-1 mt-4 text-secondary"> 발주 ?�보 </h5><br> -->
 			<div class="row">
 				<!-- body -->
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header">
-							발주서 관리<small><code> 이 부분은 잠시대기 </code></small>
+							발주?? 관�?<small><code> ?? 부분�? ?�시?��? </code></small>
 						</div>
 						<div class="card-body">
 							<table class="table table-striped table-hover">
@@ -83,10 +83,10 @@
 										<th width=25px;><input type="checkbox" name="checkAll" 
 											id="checkAll_prime" onclick="checkAll()"></th>
 										<th width=100px;>발주번호</th>
-										<th width=200px;>일자</th>
-										<th width=150px;>담당자</th>
-										<th>품목</th>
-										<th>총 금액</th>
+										<th width=200px;>?�자</th>
+										<th width=150px;>?�당??</th>
+										<th>?�목</th>
+										<th>�? 금액</th>
 										<th>종결</th>
 									</tr>
 								</thead>
@@ -98,7 +98,7 @@
 											<td>${Mng.ORDER_ORDIN_NUM}</td>
 											<td>${Mng.ORPLIN_DATE}</td>
 											<td>${Mng.ORDER_WR}</td>
-											<td>${Mng.ORDER_PRODUCT_NAME}외${Mng.ORDER_PRODUCT_COUNT}개</td>
+											<td>${Mng.ORDER_PRODUCT_NAME}??${Mng.ORDER_PRODUCT_COUNT}�?</td>
 											<td>${Mng.TOTAL_PR}</td>
 											<td><input type="button" class="endBtn" 
 													style="background-color: transparent !important;
@@ -113,9 +113,9 @@
 						</div>
 						<div class="card-footer">
 							<button class="btn btn-dark btn-lg pull-left"
-								style="margin-right: 20px;" onclick="location.href='${path}/balju/Balju'">신규</button>
+								style="margin-right: 20px;" onclick="location.href='${path}/balju/Balju'">?�규</button>
 							<button class="btn btn-dark btn-lg pull-left" 
-								onclick="deleteCheck()">선택삭제</button>
+								onclick="deleteCheck()">?�택??��</button>
 						</div>
 					</div>
 				</div>
@@ -128,7 +128,7 @@
 	
 	
 <script>
-	//체크박스 전체선택
+	//체크박스 ?�체?�택
 	function checkAll(){
 		if($("#checkAll_prime").is(":checked")){
 				$("input[name=checkRow]").prop("checked",true);
@@ -148,17 +148,17 @@
 
 			rowVal = td.eq(1).text();
 			//rowVal[idx] = $(this).val();
-			console.log("rowVal값 체크 : " + rowVal);
+			console.log("rowVal�? 체크 : " + rowVal);
 			deleteRow.push(rowVal)
-			console.log("deleteRow값 체크 : " + deleteRow); 
+			console.log("deleteRow�? 체크 : " + deleteRow); 
 			})
-		console.log("deleteRow값 체크 : "+deleteRow);
+		console.log("deleteRow�? 체크 : "+deleteRow);
 		if(deleteRow==""){
-			alert("삭제할 대상을 선택하세요.");
+			alert("??��?? ?�?�을 ?�택?�세??.");
 			return false;
 			}
 		
-		if(confirm("선택한 발주서를 삭제하시겠습니까?")){
+		if(confirm("?�택?? 발주?��? ??��?�시겠습?�까?")){
 				$.ajax({
 					method : "post",
 					dataType : "json",
@@ -187,8 +187,8 @@
 <script>
 	$('.endBtn').click(function(){
 	
-	var ynParam = $(this).attr('value'); //종결이냐 취소냐
-	var endVal = $(this); // 버튼위치
+	var ynParam = $(this).attr('value'); //종결?�냐 취소??
+	var endVal = $(this); // 버튼?�치
 	var endParam = new Array();
 	var data = new Object();
 	
@@ -201,8 +201,8 @@
 				//발주번호 td.eq(1)
 		data.ORDIN_NUM = td.eq(1).text();
 		
-		console.log("data값 체크 : " + data);
-				//종결값 종결/취소 
+		console.log("data�? 체크 : " + data);
+				//종결�? 종결/취소 
 				
 		if(ynParam == "종결"){
 			ynParam="취소";
@@ -211,12 +211,12 @@
 			}
 				
 		data.ORDIN_END = ynParam;
-		console.log("data값 체크 : " + data);
+		console.log("data�? 체크 : " + data);
 		
 		endParam.push(data);
-		console.log("endParam값 체크 : " + endParam);
+		console.log("endParam�? 체크 : " + endParam);
 		
-	if(confirm("해당 발주서의 종결여부를 결정 하시겠습니까?")){
+	if(confirm("?�당 발주?�의 종결?��?�? 결정 ?�시겠습?�까?")){
 			$.ajax({
 				method : "post",
 				dataType : "json",

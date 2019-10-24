@@ -24,7 +24,7 @@
 			<div class="col-lg-3">
 			</div>
 			<div class="col-lg-3">
-			사용 테이블수 : ${ tableUseList[0] } &nbsp;/&nbsp; 총 테이블수 : ${ tableUseList[1] }
+			?�용 ?�이블수 : ${ tableUseList[0] } &nbsp;/&nbsp; �? ?�이블수 : ${ tableUseList[1] }
 			</div>
 			<div class="col-lg-3 col-sm-6">
 				<div class="widgets-wrap d-flex justify-content-end">
@@ -43,27 +43,27 @@
 				<div class="col-md-2">
 					<div class="box">
 						<div class="col-md-13">
-							<button onclick="goTableControl()" class="btn  btn-primary btn-lg btn-block"> 좌석관리 </button>
+							<button onclick="goTableControl()" class="btn  btn-primary btn-lg btn-block"> 좌석관�? </button>
 						</div>
 						<hr>
 						<div class="col-md-13">
-							<button onclick="goReserveList()" class="btn  btn-primary btn-lg btn-block"> 예약관리 </button>
+							<button onclick="goReserveList()" class="btn  btn-primary btn-lg btn-block"> ?�약관�? </button>
 						</div>
 						<hr>
 						<div class="col-md-13">
-							<button onclick="goSalesList()" class="btn  btn-primary btn-lg btn-block"> 판매내역 </button>
+							<button onclick="goSalesList()" class="btn  btn-primary btn-lg btn-block"> ?�매?�역 </button>
 						</div>
 						<hr>
 						<div class="col-md-13">
-							<button onclick="goWork()" class="btn  btn-primary btn-lg btn-block"> 출퇴관리 </button>
+							<button onclick="goWork()" class="btn  btn-primary btn-lg btn-block"> 출퇴관�? </button>
 						</div>
 						<hr>
 						<div class="col-md-13">
-							<button onclick="goDaily()" class="btn  btn-primary btn-lg btn-block"> 정산내역 </button>
+							<button onclick="goDaily()" class="btn  btn-primary btn-lg btn-block"> ?�산?�역 </button>
 						</div>
 						<hr>
 						<div class="col-md-13">
-							<button onclick="goSetting()" class="btn  btn-primary btn-lg btn-block"> 설정 </button>
+							<button onclick="goSetting()" class="btn  btn-primary btn-lg btn-block"> ?�정 </button>
 						</div>
 					</div>
 				</div>
@@ -81,7 +81,7 @@ function goReserveList() {
 	var height = 600;
 	var popupX = (window.screen.width / 2) - (width / 2);
 	var popupY = (window.screen.height / 2) - (height / 2);
-	window.open('${pageContext.request.contextPath}/Seobis/pop/Seobis_calendar','예약내역','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+	window.open('${pageContext.request.contextPath}/Seobis/pop/Seobis_calendar','?�약?�역','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
 }
 
 function goWork() {
@@ -90,7 +90,7 @@ function goWork() {
 	var height = 400;
 	var popupX = (window.screen.width / 2) - (width / 2);
 	var popupY = (window.screen.height / 2) - (height / 2);
-	window.open('${pageContext.request.contextPath}/insa/WorkManagementForm','출퇴관리','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+	window.open('${pageContext.request.contextPath}/insa/WorkManagementForm','출퇴관�?','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
 }
 
 function goDaily() {
@@ -99,7 +99,7 @@ function goDaily() {
 	var height = 600;
 	var popupX = (window.screen.width / 2) - (width / 2);
 	var popupY = (window.screen.height / 2) - (height / 2);
-	window.open('${pageContext.request.contextPath}/pop/Daily.html','일매출확인','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+	window.open('${pageContext.request.contextPath}/pop/Daily.html','?�매출확??','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
 }
 
 function goSalesList() {
@@ -108,7 +108,7 @@ function goSalesList() {
 	var height = 600;
 	var popupX = (window.screen.width / 2) - (width / 2);
 	var popupY = (window.screen.height / 2) - (height / 2);
-	window.open('salesList.do','판매내역','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+	window.open('salesList.do','?�매?�역','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
 }
 
 function goTableControl() {
@@ -116,7 +116,7 @@ function goTableControl() {
 	var height = 400;
 	var popupX = (window.screen.width / 2) - (width / 2);
 	var popupY = (window.screen.height / 2) - (height / 2);
-	window.open('tableControl.do','테이블 이동','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+	window.open('tableControl.do','?�이�? ?�동','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
 }
 
 function goSetting() {
@@ -134,11 +134,11 @@ var tablecnt = 1;
   	var table_left = 0;
   	var table_top = 0;
   
-  // 테이블 생성
+  // ?�이�? ?�성
 function tableAdd() {
     event.preventDefault();
 	var frmTag = "<div id='drag_div"+tablecnt+"' style='display: block; border: 1px solid grey; width: 100px; height: 150px; position: absolute; left: "+table_left+"px; top: "+table_top+"px; cursor: pointer; cursor: hand' class='btn' onclick='goOrderList("+tablecnt+")'>";
-	frmTag += "<div align='center'>테이블"+tablecnt+"</div>";
+	frmTag += "<div align='center'>?�이�?"+tablecnt+"</div>";
 	<c:forEach items="${ posMainList }" var="posMainList" >
 	   if('${ posMainList.OD_ORDERS_NO }' == tablecnt){
 		   frmTag += "${ posMainList.MENU_NAME }&nbsp;";
@@ -162,37 +162,37 @@ table_top = 0;
 startTime();
 })
 
-// 시계
+// ?�계
 function startTime() {
     var today = new Date();
     var now = new Date();
     
-    var year = now.getFullYear(); //년
-    var month = now.getMonth(); //월
-    var date = now.getDate();  //일
-    var day = now.getDay();  //요일
-    var hour = now.getHours();  //시
-    var min = now.getMinutes();  //분
-    var sec = now.getSeconds();  //초
+    var year = now.getFullYear(); //??
+    var month = now.getMonth(); //??
+    var date = now.getDate();  //??
+    var day = now.getDay();  //?�일
+    var hour = now.getHours();  //??
+    var min = now.getMinutes();  //�?
+    var sec = now.getSeconds();  //�?
     
     month = checkTime(month);
     date = checkTime(date);
     hour = checkTime(hour);
     min = checkTime(min);		    
     sec = checkTime(sec);
-    var week = ['일', '월', '화', '수', '목', '금', '토'];
+    var week = ['??', '??', '??', '??', '�?', '�?', '??'];
     
     document.getElementById('clock').innerHTML = 
-    	year + "년 " + month + "월 " + date + "일 [" + week[day] + "] " + hour + ":" + min + ":" + sec;
+    	year + "?? " + month + "?? " + date + "?? [" + week[day] + "] " + hour + ":" + min + ":" + sec;
    	
     var t = setTimeout(startTime, 1000);
 }
-// 숫자가 10보다 작을 경우 앞에 0을 붙이기
+// ?�자가 10보다 ?�을 경우 ?�에 0?? 붙이�?
 function checkTime(i) {
     if (i < 10) {i = "0" + i};
     return i;
 }
-//1초마다 함수 갱신
+//1초마?? ?�수 갱신
 function realtimeClock() {
   document.timeForm.timeInput.value = getTimeStamp();
   setTimeout("realtimeClock()", 1000);
