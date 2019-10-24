@@ -1,6 +1,7 @@
 --------------------- 테이블 전체삭제 -------------------------------------
 DROP TABLE EmpRegister;
-
+DROP TABLE Salary;
+DROP TABLE Schedule;
 ---------------------------------------------------------------------------
 create table EmpRegister ( -- 직원등록 테이블
         EmpRegister_name VARCHAR2 (50) NOT NULL, -- 이름
@@ -31,9 +32,11 @@ create table EmpRegister ( -- 직원등록 테이블
 ALTER TABLE EmpRegister ADD CONSTRAINT PK_EmpRegister_empnum PRIMARY KEY(EmpRegister_empnum);
 
 insert into empregister(EmpRegister_name, EmpRegister_empnum, EmpRegister_jumin, EmpRegister_ENABLED, EmpRegister_AUTHORITY) 
-values('MEMBER', 'MEMBER', '12345', 1, 'ROLE_MEMBER');
+values('알바', 'MEMBER', '12345', 1, 'ROLE_MEMBER');
 insert into empregister(EmpRegister_name, EmpRegister_empnum, EmpRegister_jumin, EmpRegister_ENABLED, EmpRegister_AUTHORITY) 
-values('ADMIN', 'ADMIN', '12345', 1, 'ROLE_ADMIN');
+values('매니저', 'MANAGER', '12345', 1, 'ROLE_MANAGER');
+insert into empregister(EmpRegister_name, EmpRegister_empnum, EmpRegister_jumin, EmpRegister_ENABLED, EmpRegister_AUTHORITY) 
+values('사장', 'ADMIN', '12345', 1, 'ROLE_ADMIN');
 
 create table Salary ( -- 근무 및 급여내역, 저장하는테이블
         Salary_no VARCHAR2(20), -- 번호(PK)
