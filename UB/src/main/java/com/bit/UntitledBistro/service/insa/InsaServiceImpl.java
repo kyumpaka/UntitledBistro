@@ -74,13 +74,15 @@ public class InsaServiceImpl implements InsaService {
 				UUID uuid = UUID.randomUUID();
 				if (originalFileName != "") {
 					saveFileName = uuid + "_" + originalFileName;
+					byte[] data = mFile.getBytes();
+					FileOutputStream fos = new FileOutputStream(uploadPath + saveFileName);
+					System.out.println("uploadPath  : " + uploadPath );
+					fos.write(data);
+					fos.close();
+				} else {
+					saveFileName = "noImage.jpg";
 				}
 
-				byte[] data = mFile.getBytes();
-				FileOutputStream fos = new FileOutputStream(uploadPath + saveFileName);
-				System.out.println("uploadPath  : " + uploadPath );
-				fos.write(data);
-				fos.close();
 			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -112,9 +114,9 @@ public class InsaServiceImpl implements InsaService {
    public int WorkCheck(Insa_EmpRegisterDTO dto) {
       InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
       int idCheck = insaDAO.WorkCheck(dto);
-      int paytime = insaDAO.PayCheckByNum(dto);
       if(idCheck == 1)  { //아이디 비밀번호가 모두 일치하는 놈 개수 emp
          int toDayCheck = insaDAO.DayCheck(dto);
+         int paytime = insaDAO.PayCheckByNum(dto);
          if(toDayCheck == 0) { //아이디가 일치하는 놈의 개수 schedule
             // 출근이 없으면 출근
             insaDAO.WorkAdd(dto);
