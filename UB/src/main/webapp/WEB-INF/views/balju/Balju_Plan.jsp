@@ -234,7 +234,8 @@
 </body>
 <script>
 		$("#addData").click(function(){
-		alert("발주품이 추가되었습니다")
+		
+		var flag = true;
 		var insertItem={};
 		insertItem.ORDER_PRODUCT_CODE = $("#code").val();
 		insertItem.ORDER_PRODUCT_NAME = $("#name").val();
@@ -242,7 +243,15 @@
 		insertItem.ORDER_QT = $("#qt").val();
 		insertItem.ORDER_PR_EA = $("#price").val();
 		insertItem.ORDER_WR = "${sessionScope.empregister_name}";
-								
+
+			if(insertItem.ORDER_QT<1||isNaN(insertItem.ORDER_QT)){
+				alert("수량을 정확히 입력해주세요");
+				flag = false;
+				return false;
+				}
+			if(flag == false){
+				return false;
+			}			
 		console.log(insertItem);
 		$("#jsGrid").jsGrid("insertItem", insertItem);
 
