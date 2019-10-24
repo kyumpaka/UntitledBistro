@@ -104,6 +104,7 @@ chart.cursor.lineY.strokeOpacity = 0;
 	
 	<div class="container" align="center">
 		<table border="5" style="width: 100%;">
+		
 			<c:forEach var="dto" items="${jungsan_state}">
 				<tr bgcolor="gray" align="center">
 					<td>매출</td>
@@ -111,7 +112,7 @@ chart.cursor.lineY.strokeOpacity = 0;
 					<td>카드</td>
 					<td>포인트</td>
 				</tr>
-				<tr align="center" style="color: green;">
+				<tr align="center" style="color: red;">
 					<td>${dto.to_total}</td>
 					<td>${dto.to_cash}</td>
 					<td>${dto.to_card}</td>
@@ -123,18 +124,24 @@ chart.cursor.lineY.strokeOpacity = 0;
 					<td>어제 카드 대비</td>
 					<td>어제 포인트 포인트</td>
 				</tr>
-				<tr align="center" style="color: red;">
+				<tr align="center" style="color: green;">
 					<td>${dto.to_total-dto.before_total}</td>
 					<td>${dto.to_cash-dto.before_cash}</td>
 					<td>${dto.to_card-dto.before_card}</td>
 					<td>${dto.to_point-dto.before_point}</td>
 				</tr>
 			</c:forEach>
-				<tr>
-					<td>직급</td>
+				<tr bgcolor="gray" align="center">
 					<td>근무 인원</td>
-					<td>근무예정시간</td>
+					<td>인권비</td>
 					<td>근무진행시간</td>
+					<td>발주비용</td>
+				</tr>
+				<tr align="center" style="color: blue;">
+					<td>${personnel}</td>
+					<td>${employee + parttime}</td>
+					<td>${worketime}</td>
+					<td>${expenditure}</td>
 				</tr>	
 		</table>
 	</div>

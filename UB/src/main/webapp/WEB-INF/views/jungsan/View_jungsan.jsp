@@ -377,12 +377,12 @@ chart.cursor = new am4charts.XYCursor();
 
 	<div id="food" align="center" style="padding: 50px;">
 		<button type="button" class="btn btn-primary">
-			<a href="Daily.html">DailyList</a>
+			<a href="${pageContext.request.contextPath}/Daily.html">DailyList</a>
 		</button>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<button type="button" class="btn btn-dark">
-			<a href="Monthly.html">MonthlyList</a>
+			<a href="${pageContext.request.contextPath}/Monthly.html">MonthlyList</a>
 		</button>
 	</div>
 

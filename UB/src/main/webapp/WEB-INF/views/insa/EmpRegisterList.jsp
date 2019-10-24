@@ -39,7 +39,7 @@
 
 				<tr>
 					<td>${b.empregister_name}</td>
-					<td><a href="/UntitledBistro/insa/EmpRegisterRead?empregister_empnum=${b.empregister_empnum }" onclick="window.open(this.href, '_blank', 'width=700,height=600,toolbars=no,scrollbars=yes'); return false;">${b.empregister_empnum }</a></td>
+					<td><a href="/UntitledBistro/insa/EmpRegisterRead?empregister_empnum=${b.empregister_empnum }" onclick="window.open(this.href, '_blank', 'width=1300 ,height=800,toolbars=no,scrollbars=yes'); return false;">${b.empregister_empnum }</a></td>
 					<td>${b.empregister_age }</td>
 					<td>${b.empregister_tel }</td>
 					<td>${b.empregister_jumin }</td>
@@ -57,7 +57,7 @@
 		</tbody>
 	</table>
 	<button
-		onclick="window.open('EmpRegisterInsertForm','insert','width=1700,height=1000,location=no,status=no,scrollbars=yes');">사원등록</button>
+		onclick="window.open('EmpRegisterInsertForm','insert','width=1300,height=600,location=no,status=no,scrollbars=yes');">사원등록</button>
 
 
 	<script type="text/javascript">
