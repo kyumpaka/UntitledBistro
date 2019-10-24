@@ -1,6 +1,4 @@
 --------------------- 테이블 전체삭제 -------------------------------------
-DROP TABLE Schedule;
-DROP TABLE Salary;
 DROP TABLE EmpRegister;
 
 ---------------------------------------------------------------------------
@@ -23,42 +21,13 @@ create table EmpRegister ( -- 직원등록 테이블
         EmpRegister_AccountHolder VARCHAR2(50), -- 예금주  
         EmpRegister_entryDay DATE DEFAULT SYSDATE, -- 입사날짜 
         EmpRegister_payClassfiy VARCHAR2(20), -- 급여구분
-        EmpRegister_paytime VARCHAR2(20), -- 시급        
-        EmpRegister_payday VARCHAR2(20), -- 일급
+        EmpRegister_pay NUMBER, -- 급여 얼마인지
         EmpRegister_workPlan NUMBER, -- 근무예정시간
         EmpRegister_leavecompany VARCHAR2(20), -- 퇴사여부 
         EmpRegister_ENABLED NUMBER DEFAULT 1, -- 사용여부
         EmpRegister_AUTHORITY VARCHAR2(20) DEFAULT 'ROLE_MEMBER'-- 권한
 );
-
-create table Salary ( -- 근무 및 급여내역, 저장하는테이블
-        Salary_no VARCHAR2(20), -- 번호(PK)
-        Salary_EmpRegister_empnum VARCHAR2(20), -- 사번(FK)
-      Salary_workingTime NUMBER, -- 일한시간
-        Salary_workingDate NUMBER, -- 근무일수
-        Salary_hollydayStart DATE, -- 휴가시작
-        Salary_hollydayEnd DATE, -- 휴가종료
-        Salary_Pay  NUMBER--급여계산용
-
-);
-
-create table  Schedule ( -- 스케쥴
-        Schedule_no VARCHAR2(20), -- 번호(PK)
-        Schedule_EmpRegister_empnum VARCHAR2(20),   -- 사번(FK)
-        Schedule_WorkingStart DATE, -- 출근시간
-        Schedule_WorkingEnd DATE, -- 퇴근시간
-        Schedule_workingTime NUMBER, -- 일한시간 (매달 초기화)
-        Schedule_workingdate NUMBER -- 당월근무일수 (퇴근 카운트, 매달 초기화)
-        
-);
-
 ALTER TABLE EmpRegister ADD CONSTRAINT PK_EmpRegister_empnum PRIMARY KEY(EmpRegister_empnum);
-
-ALTER TABLE Salary ADD CONSTRAINT PK_Salary_no PRIMARY KEY(Salary_no);
-ALTER TABLE Salary ADD CONSTRAINT FK_Salary_EmpRegister_empnum FOREIGN KEY(Salary_EmpRegister_empnum) REFERENCES EmpRegister(EmpRegister_empnum);
-
-ALTER TABLE Schedule ADD CONSTRAINT PK_Schedule_no PRIMARY KEY(Schedule_no);
-ALTER TABLE Schedule ADD CONSTRAINT FK_Schedule_EmpRegister_empnum FOREIGN KEY(Schedule_EmpRegister_empnum) REFERENCES EmpRegister(EmpRegister_empnum);
 
 insert into empregister(EmpRegister_name, EmpRegister_empnum, EmpRegister_jumin, EmpRegister_ENABLED, EmpRegister_AUTHORITY) 
 values('MEMBER', 'MEMBER', '12345', 1, 'ROLE_MEMBER');
@@ -66,4 +35,3 @@ insert into empregister(EmpRegister_name, EmpRegister_empnum, EmpRegister_jumin,
 values('ADMIN', 'ADMIN', '12345', 1, 'ROLE_ADMIN');
 
 commit;
-

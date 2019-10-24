@@ -15,6 +15,9 @@ import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
 import com.bit.UntitledBistro.service.insa.InsaService;
 import com.bit.UntitledBistro.service.insa.InsaServiceImpl;
 
+import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
+import com.bit.UntitledBistro.service.insa.InsaService;
+
 @Controller
 public class HomeController {
 	
