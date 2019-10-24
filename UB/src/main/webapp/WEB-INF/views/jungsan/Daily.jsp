@@ -13,8 +13,10 @@
 </head>
 <body>
 <form action="Daily.html">
-<div><input type="text" name="postdatepicker" id="postdatepicker">
-<input type="submit">
+<div>
+<b>날짜 검색 :</b>
+<input type="text" name="postdatepicker" id="postdatepicker">
+<input type="submit" value="검색">
 </div>
 </form>
 	<h2 align="center">Daily List</h2><br><br>
@@ -52,9 +54,10 @@
 			</tr>
 		</table>
 	</div>
+	<div align="center">
 	<button type="button"><a href="Monthly.html">월마감</a></button>
 	<button type="button"><a href="View_jungsan.html">현황 그래프 보기</a></button>
-	
+	</div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.14.0/jquery.jqgrid.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
