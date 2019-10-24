@@ -22,7 +22,7 @@
       background-color: #fefefe;
     }
     #calendar {
-      max-width: 1200px;
+      max-width: 98%;
       margin: 40px auto;
       background-color: #fefefe;
     }
