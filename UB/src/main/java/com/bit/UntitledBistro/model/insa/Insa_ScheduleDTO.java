@@ -9,8 +9,6 @@ public class Insa_ScheduleDTO {
 	private Date schedule_workingend; // DATE, -- 퇴근시간
 	private String schedule_workingtime; // 일한시간
 	private int schedule_workingdate;// 당월근무일수
-	private String schedule_hollydaystart;// 휴가시작
-	private String schedule_hollydayend; // 휴가종료
 	
 	
 	
@@ -51,25 +49,12 @@ public class Insa_ScheduleDTO {
 	public void setSchedule_workingdate(int schedule_workingdate) {
 		this.schedule_workingdate = schedule_workingdate;
 	}
-	public String getSchedule_hollydaystart() {
-		return schedule_hollydaystart;
-	}
-	public void setSchedule_hollydaystart(String schedule_hollydaystart) {
-		this.schedule_hollydaystart = schedule_hollydaystart;
-	}
-	public String getSchedule_hollydayend() {
-		return schedule_hollydayend;
-	}
-	public void setSchedule_hollydayend(String schedule_hollydayend) {
-		this.schedule_hollydayend = schedule_hollydayend;
-	}
 	@Override
 	public String toString() {
 		return "Insa_ScheduleDTO [schedule_no=" + schedule_no + ", schedule_empregister_empnum="
 				+ schedule_empregister_empnum + ", schedule_workingstart=" + schedule_workingstart
 				+ ", schedule_workingend=" + schedule_workingend + ", schedule_workingtime=" + schedule_workingtime
-				+ ", schedule_workingdate=" + schedule_workingdate + ", schedule_hollydaystart="
-				+ schedule_hollydaystart + ", schedule_hollydayend=" + schedule_hollydayend + "]";
+				+ ", schedule_workingdate=" + schedule_workingdate + "]";
 	}
     
     
