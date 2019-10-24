@@ -323,16 +323,17 @@ public class JumunServiceImpl implements JumunService {
 		}
 		
 		map.put("od_Menu_Code", ordersDetailDTO.getOd_Menu_Code());
+		// 기존에 시킨 메뉴인지 확인
+		if(dao.ordersDetailsSelectCount(ordersDetailDTO) == 0) {
+			dao.ordersDetailsInsert(ordersDetailDTO);			
+		} else {
+			dao.ordersDetailsPlus(ordersDetailDTO);
+		}
 		dao.storeMinus(map); // 재고 감소
 		dao.shippingHistoryInsert(map); // 출고내역 기록
 		dao.storeCheck(map); // 재고수량 확인
 		
-		// 기존에 시킨 메뉴인지 확인
-		if(dao.ordersDetailsSelectCount(ordersDetailDTO) == 0) {
-			return dao.ordersDetailsInsert(ordersDetailDTO);			
-		} else {
-			return dao.ordersDetailsPlus(ordersDetailDTO);
-		}
+		return 1;
 	}
 	
 	@Override
