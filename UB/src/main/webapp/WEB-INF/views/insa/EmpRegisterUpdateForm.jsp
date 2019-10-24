@@ -30,15 +30,11 @@ td {
 function test1(){
 	var obj = document.EmpRegisterUpdateForm;
 	
-	if(obj.empregister_tel.length < 11 ){
+	if(obj.empregister_tel.value.length < 11 ){
 		swal('핸드폰을 정확히 입력해주세요');
 		obj.empregister_tel.focus();
 		return false;
 	}
-	if(isNaN($("#empregister_tel").val)){
-	swal('핸드폰 번호를 숫자로만 입력해주세요');
-	obj.empregister_tel.focus();
-		}
 	if(obj.empregister_age.value == '' ){
 		swal('나이를 입력하세요');
 		obj.empregister_age.focus();
@@ -211,7 +207,7 @@ function sample4_execDaumPostcode() {
 			</tr>
 			<tr>
 				<td colspan='3' class='ti'>연락처</td>
-				<td colspan='2' class='ti'><input type="text"
+				<td colspan='2' class='ti'><input type="number"
 					name="empregister_tel"  id="empregister_tel" value="${b.empregister_tel }"></td>
 				<td colspan='1' class='ti'>나이</td>
 				<td><input type="number" name="empregister_age" id="empregister_age" value="${b.empregister_age }"></td>
@@ -257,8 +253,11 @@ function sample4_execDaumPostcode() {
 				<td colspan='3' class='ti'>계좌번호</td>
 				<td colspan='2'><input type="text" name="empregister_banknum" name="empregister_banknum"  id="empregister_banknum"  value="${b.empregister_banknum}"></td>
 				<td colspan='1' class='ti' id="payclassfiy ">급여 구분</td>
-				<td>시급<input type="radio" id="empregister_payclassfiy" name="empregister_payclassfiy" value="시급">
-				일급<input type="radio" id="empregister_payclassfiy"name="empregister_payclassfiy" value="일급">
+				
+				<!-- 공사중 -->
+				<td>
+					시급<input type="radio" id="empregister_payclassfiy" name="empregister_payclassfiy" value="시급">
+					월급<input type="radio" id="empregister_payclassfiy"name="empregister_payclassfiy" value="월급">
 				</td>
 
 
@@ -277,7 +276,7 @@ function sample4_execDaumPostcode() {
 			<tr>
 				<td class='ti' colspan='3'>시급</td>
 				<td colspan='2'><input type="number" name="empregister_paytime" id="empregister_paytime" value="${b.empregister_paytime }">천원</td>
-				<td class='ti' colspan='1'>일급</td>
+				<td class='ti' colspan='1'>월급</td>
 				<td colspan='2'><input type="number" name="empregister_payday" id="empregister_payday" value="${b.empregister_payday }">만원</td>
 
 			</tr>
@@ -295,6 +294,30 @@ function sample4_execDaumPostcode() {
 		</table>	
 	</form>
 
-
 </body>
+
+<script type="text/javascript">
+	var leavecompany = document.EmpRegisterUpdateForm.empregister_leavecompany;
+	
+	if("${b.empregister_leavecompany}" == "재직중") {
+		console.log("재직중");
+		leavecompany[0].checked = true;
+	} else if ("${b.empregister_leavecompany}" == "퇴사") {
+		console.log("퇴사");
+		leavecompany[1].checked = true;
+	}
+	
+	
+	
+	var payclassfiy = document.EmpRegisterUpdateForm.empregister_payclassfiy;
+	
+	if("${b.empregister_payclassfiy}" == "시급") {
+		console.log("시급");
+		payclassfiy[0].checked = true;
+	} else if ("${b.empregister_payclassfiy}" == "월급") {
+		console.log("월급");
+		payclassfiy[1].checked = true;
+	}
+</script>
+
 </html>

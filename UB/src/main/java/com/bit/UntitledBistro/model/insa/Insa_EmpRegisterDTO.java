@@ -25,6 +25,8 @@ public class Insa_EmpRegisterDTO {
 	private String empregister_payday; //일급
 	private String empregister_workplan; //근무예정시간
 	private String empregister_leavecompany; //퇴사여부
+	private String empregister_authority; // 권한
+	
 	public String getEmpregister_name() {
 		return empregister_name;
 	}
@@ -157,6 +159,12 @@ public class Insa_EmpRegisterDTO {
 	public void setEmpregister_leavecompany(String empregister_leavecompany) {
 		this.empregister_leavecompany = empregister_leavecompany;
 	}
+	public String getEmpregister_authority() {
+		return empregister_authority;
+	}
+	public void setEmpregister_authority(String empregister_authority) {
+		this.empregister_authority = empregister_authority;
+	}
 	@Override
 	public String toString() {
 		return "Insa_EmpRegisterDTO [empregister_name=" + empregister_name + ", empregister_photo=" + empregister_photo
@@ -170,7 +178,8 @@ public class Insa_EmpRegisterDTO {
 				+ empregister_accountholder + ", empregister_entryday=" + empregister_entryday
 				+ ", empregister_payclassfiy=" + empregister_payclassfiy + ", empregister_paytime="
 				+ empregister_paytime + ", empregister_payday=" + empregister_payday + ", empregister_workplan="
-				+ empregister_workplan + ", empregister_leavecompany=" + empregister_leavecompany + "]";
+				+ empregister_workplan + ", empregister_leavecompany=" + empregister_leavecompany
+				+ ", empregister_authority=" + empregister_authority + "]";
 	}
-
+	
 }

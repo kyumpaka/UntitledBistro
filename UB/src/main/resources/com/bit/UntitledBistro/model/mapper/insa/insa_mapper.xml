@@ -31,10 +31,16 @@
 		empregister_leavecompany,
 		<if test="empregister_paytime != null">empregister_paytime,</if>
 		<if test="empregister_payday != null">empregister_payday,</if>
-		empregister_workplan)
-		Values(#{empregister_name},#{empregister_photo}, #{empregister_jumin},
+		empregister_workplan,
+		empregister_authority
+		)
+		
+		Values
+		(#{empregister_name},#{empregister_photo}, #{empregister_jumin},
 		#{empregister_jumin2},
-		#{empregister_empnum},
+		
+		(SELECT 'A'||(COUNT(EMPREGISTER_EMPNUM) +1)  FROM EMPREGISTER),
+		
 		#{empregister_gender}, #{empregister_tel}, #{empregister_age},
 		#{empregister_addr},#{empregister_addr2},#{empregister_addr3},#{empregister_addr4},
 		#{empregister_grade}, #{empregister_bankname},
@@ -42,7 +48,9 @@
 		#{empregister_payclassfiy}, sysdate, #{empregister_leavecompany},
 		<if test="empregister_paytime != null">#{empregister_paytime},</if>
 		<if test="empregister_payday != null"> #{empregister_payday},</if>
-		#{empregister_workplan} )
+		#{empregister_workplan}, 
+		#{empregister_authority} 
+		)
 
 	</insert>
 

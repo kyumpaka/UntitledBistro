@@ -21,35 +21,25 @@
 			obj.empregister_name.focus();
 			return false;
 		}
-		
-		if(obj.empregister_jumin.length < 6 ){
-			swal('주민등록번호 앞자리를 정확히 입력해주세요');
+		if(obj.empregister_jumin.value.length  < 6 ){
+			swal('주민등록번호 앞자리 자릿수를 정확하게 입력해주세요');
 			obj.empregister_jumin.focus();
 			return false;
 		}
-		if(obj.empregister_jumin2.length < 7 ){
-			swal('주민등록번호 뒷자리를 정확히 입력해주세요');
+		if(obj.empregister_jumin2.value.length < 7 ){
+			swal('주민등록번호 뒷자리 자릿수를 정확히 입력해주세요');
 			obj.empregister_jumin2.focus();
-			return false;
-		}
-		if(obj.empregister_empnum.value == '' ){
-			swal('사번을 입력하세요');
-			obj.empregister_empnum.focus();
 			return false;
 		}
 		if($(':radio[name="empregister_gender"]:checked').length < 1){
 			swal('성별을 체크해주세요 ');
 			return false; 
 			}
-		if(obj.empregister_tel.length < 11 ){
+		if(obj.empregister_tel.value.length < 11 ){
 			swal('핸드폰을 정확히 입력해주세요');
 			obj.empregister_tel.focus();
 			return false;
 		}
-		if(isNaN($("#empregister_tel").val)){
-		swal('핸드폰 번호를 숫자로만 입력해주세요');
-		obj.empregister_tel.focus();
-			}
 		if(obj.empregister_age.value == '' ){
 			swal('나이를 입력하세요');
 			obj.empregister_age.focus();
@@ -250,15 +240,13 @@ td {
 			</tr>
 			<tr>
 				<td colspan='2'><input type="text" name="empregister_jumin" id="empregister_jumin"
-					style="border: none; background: transparent; text-align: center" maxlength="6">-<input
+					style="border: none; background: transparent; text-align: center" >-<input
 					type="password" name="empregister_jumin2" id="empregister_jumin2"
-					style="border: none; background: transparent; text-align: center" maxlength="7" ></td>
+					style="border: none; background: transparent; text-align: center" ></td>
 
 			</tr>
 			<tr>
-				<td colspan='2' class='ti' width='100'>사번 <input type="text"
-					name="empregister_empnum" id="empregister_empnum"
-					style="border: none; background: transparent; text-align: center">
+				<td colspan='2' class='ti' width='100'>사번 
 				<td class='ti' colspan='1'>성별
 				<td class='ti'>남<input type="radio" name="empregister_gender" id="empregister_gender"
 					value="남"> 여<input type="radio" name="empregister_gender" id="empregister_gender"
@@ -268,7 +256,7 @@ td {
 			</tr>
 			<tr>
 				<td colspan='3' class='ti'>연락처</td>
-				<td colspan='2' class='ti'><input type="text"
+				<td colspan='2' class='ti'><input type="number"
 					name="empregister_tel" id="empregister_tel"
 					style="border: none; background: transparent; text-align: center"></td>
 				<td colspan='1' class='ti'>나이</td>
@@ -295,7 +283,7 @@ td {
 
 				<td class='ti'>직급</td>
 				<td><select name="empregister_grade" id="empregister_grade">
-						<option value="매니져">매니져</option>
+						<option value="매니저">매니저</option>
 						<option value="사원" selected="selected">사원</option>
 				</select></td>
 			</tr>
