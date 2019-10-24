@@ -12,7 +12,6 @@ public interface Jungsan_view_Service {
 	public int today_cash();			//현재 현금  
 	public int today_card();			//현재 카드
 	public int today_point();			//사용 포인트
-	public int menucount_total();		//메뉴 총 갯수
 	public int menucount_drink();		//주류 갯수
 	public int menucount_cooking();		//요리 메뉴 갯수
 	public int menucount_soup();		//국물 메뉴 갯수
@@ -30,7 +29,7 @@ public interface Jungsan_view_Service {
 	public int today_total();											//금일 매출
 	public int before_total();											//어제의 매출
 	public void Show_list(Jungsan_view_DTO dto);
-						//////////요일별 매출
+						//////////요일별 매출/////////////////////
 	public int Monday();
 	public int Tuesday();
 	public int Wednesday();
@@ -88,12 +87,10 @@ public interface Jungsan_view_Service {
 	public int yesterday_twentytwo_Oclock();
 	public int yesterday_twentythree_Oclock();
 	public int yesterday_zero_Oclock();
-	
-	public int personnel();	//인원
-	public int expenditure();
-public int worketime();	//일한 시간
-	
-	public int parttime();	// 알바비용
-	
-	public int employee(); //직원비용
+	// 일마감시 지출
+	public int personnel();					//인원
+	public int expenditure();				//발주 가
+	public int worketime();					//일한 시간
+	public int parttime();					// 알바비용
+	public int employee(); 					//직원비용
 }

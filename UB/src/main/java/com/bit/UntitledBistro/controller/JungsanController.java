@@ -23,25 +23,22 @@ import com.bit.UntitledBistro.service.jungsan.Jungsan_view_Service;
 @Controller
 public class JungsanController {
 	@Resource(name = "view")
-	private Jungsan_view_Service jungsan_view_Service; // 결산 현황 view
-	private Object insert_state;
-	private Object insert_Initial_value;
-	private Object delete_state;
+	private Jungsan_view_Service jungsan_view_Service; 			// 결산 현황 view
+	private Object insert_state;								// 결산 현황 인서트
+	private Object insert_Initial_value;						// 기본값 인서트
+	private Object delete_state;								// 기본값 딜리트
 	@Resource(name = "input")
-	private Jungsan_Input_Service jungsan_input_Service; // 결산 마감 insert & list
-	private Object insert_daily; // 일마감 인서트 dto
-	private Object insert_Monthly;
-	private Object Show_difference;
-	private Object update_difference;
-	private Object update_difference_Month;
-	private Object delete_Initialvalue_Month;
+	private Jungsan_Input_Service jungsan_input_Service; 		// 결산 마감 insert & list
+	private Object insert_daily; 								// 일마감 인서트 dto
+	private Object insert_Monthly;								// 월마감 인서트
+	private Object Show_difference;								// 차액
+	private Object update_difference;							// 차액 수정
+	private Object update_difference_Month;						// 월마감 리스트에 차액
+	private Object delete_Initialvalue_Month;					// 월마감 기본값
 
-	@Autowired
-	private InsaService insaService;
-	
 	@RequestMapping("View_jungsan.html") // 결산 현황 view 매핑
 	public String Show(HttpServletRequest request) {
-		////////////// 어제//////////
+		///////////////////////////////////////// 어제///////////////////////////////////////////
 		int befor_cash = jungsan_view_Service.befor_cash(); // 어제 현금
 		request.setAttribute("befor_cash", befor_cash);
 
@@ -60,9 +57,6 @@ public class JungsanController {
 		int today_point = jungsan_view_Service.today_point(); // 사용 포인트
 		request.setAttribute("today_point", today_point);
 		///////////////////////////////////////// 제품///////////////////////////////////////////
-		int menucount_total = jungsan_view_Service.menucount_total(); // 메뉴 토탈 테스트용
-		request.setAttribute("menucount_total", menucount_total);
-
 		int menucount_drink = jungsan_view_Service.menucount_drink(); // 메뉴 주류
 		request.setAttribute("menucount_drink", menucount_drink);
 
@@ -71,7 +65,7 @@ public class JungsanController {
 
 		int menucount_soup = jungsan_view_Service.menucount_soup(); // 메뉴 국물
 		request.setAttribute("menucount_soup", menucount_soup);
-		////////////// 어제//////////
+		///////////////////////////////////////// 어제///////////////////////////////////////////
 		int befor_drink = jungsan_view_Service.befor_drink(); // 메뉴 국물
 		request.setAttribute("befor_drink", befor_drink);
 
@@ -80,7 +74,7 @@ public class JungsanController {
 
 		int befor_soup = jungsan_view_Service.befor_soup(); // 메뉴 국물
 		request.setAttribute("befor_soup", befor_soup);
-		////////////// 지난주//////////
+		///////////////////////////////////////// 지난주///////////////////////////////////////////
 		int last_week_drink = jungsan_view_Service.last_week_drink(); // 메뉴 국물
 		request.setAttribute("last_week_drink", last_week_drink);
 
@@ -373,13 +367,5 @@ public class JungsanController {
 	public String day_listupdate(Jungsan_Input_DTO dto) {
 		int update = jungsan_input_Service.update(dto);
 		return "redirect:Daily.html"; // 주소 이동
-	}
-
-	@RequestMapping("ajaxTest.html") // 일마감
-	@ResponseBody // mvc형태로 리턴을 하는게 아님 => ajax 형태로 리턴
-	public String ajaxTest(@RequestBody String param) {
-//		int update = jungsan_input_Service.update(dto);
-		return "ajax 테스트" + param; // 주소 이동
-		// 이거 나중에 써야징
 	}
 }
