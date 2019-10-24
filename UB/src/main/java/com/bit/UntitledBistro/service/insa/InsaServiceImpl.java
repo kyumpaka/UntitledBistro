@@ -59,7 +59,7 @@ public class InsaServiceImpl implements InsaService {
 
 			File dir = new File(uploadPath);
 
-			// ?�렉?�리 ?�성
+			// 디렉토리 생성
 			if (!dir.isDirectory()) {
 				dir.mkdirs();
 			}
@@ -114,30 +114,30 @@ public class InsaServiceImpl implements InsaService {
    public int WorkCheck(Insa_EmpRegisterDTO dto) {
       InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
       int idCheck = insaDAO.WorkCheck(dto);
-      if(idCheck == 1)  { //?�이?? 비�?번호가 모두 ?�치?�는 ?? 개수 emp
+      if(idCheck == 1)  { //아이디 비밀번호가 모두 일치하는 놈 개수 emp
          int toDayCheck = insaDAO.DayCheck(dto);
          int paytime = insaDAO.PayCheckByNum(dto);
-         if(toDayCheck == 0) { //?�이?��? ?�치?�는 ?�의 개수 schedule
-            // 출근?? ?�으�? 출근
+         if(toDayCheck == 0) { //아이디가 일치하는 놈의 개수 schedule
+            // 출근이 없으면 출근
             insaDAO.WorkAdd(dto);
-            if(paytime != 0) { // ?�바?��? ?��?
-               insaDAO.SalaryAdd(dto); // ?�바
+            if(paytime != 0) { // 알바인지 여부
+               insaDAO.SalaryAdd(dto); // 알바
             } else {
                insaDAO.SalaryDayAdd(dto); // 직원
             }
             return 1;
          } else {
-            // 출근?? ?�으�? ?�근
+            // 출근이 있으면 퇴근
             insaDAO.WorkEnd(dto);
-            if(paytime != 0) { // ?�바?��? ?��?
-               insaDAO.SalaryUpdate(dto); // ?�바
+            if(paytime != 0) { // 알바인지 여부
+               insaDAO.SalaryUpdate(dto); // 알바
             } else {
                insaDAO.SalaryDayUpdate(dto); // 직원
             }
             return 2;
          }
       }
-      // ?�는 직원
+      // 없는 직원
       return idCheck;
    }
 
@@ -207,7 +207,7 @@ public class InsaServiceImpl implements InsaService {
 		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("salary_empRegister_empnum", salary_empRegister_empnum);
-		System.out.println("map?�니??" + map);
+		System.out.println("map입니다" + map);
 		return insaDAO.SelectNum(map);
 	}
 

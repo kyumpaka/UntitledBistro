@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.bit.UntitledBistro.model.insa.InsaDAO">
+
 	<select id="EmpRegisterList" parameterType="map" resultType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
 		select EmpRegister_name ,EmpRegister_empnum,
 		EmpRegister_age,EmpRegister_tel,EmpRegister_jumin ,EmpRegister_jumin2
@@ -12,58 +13,198 @@
 
 	</select>
 
-	
-	<select id="EmpRegisterRead" parameterType="String" resultType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
- 		select * from EmpRegister where empregister_empnum = #{empregister_empnum}
- 	</select> 
-	
+	<select id="EmpRegisterRead" parameterType="java.lang.String" resultType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
+		select * from EmpRegister where empregister_empnum = #{empregister_empnum}
+	</select>
 
-	<!-- empregister_photo, -->
-	<insert id="EmpRegisterInsert"
-		parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
-		insert into EmpRegister(empregister_name,empregister_photo, empregister_jumin,
-		empregister_jumin2, empregister_empnum, empregister_gender,
-		empregister_tel, empregister_age, empregister_addr,empregister_addr2,empregister_addr3,empregister_addr4, empregister_grade,
+	<insert id="EmpRegisterInsert" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
+		insert into EmpRegister(empregister_name,empregister_photo,
+		empregister_jumin,
+		empregister_jumin2, empregister_empnum,
+		empregister_gender,
+		empregister_tel, empregister_age,
+		empregister_addr,empregister_addr2,empregister_addr3,empregister_addr4,
+		empregister_grade,
 		empregister_bankname,
-		empregister_accountholder, empregister_banknum, empregister_payclassfiy, empregister_entryday,
+		empregister_accountholder,
+		empregister_banknum, empregister_payclassfiy, empregister_entryday,
 		empregister_leavecompany,
-		empregister_pay,empregister_workplan) Values(#{empregister_name},#{empregister_photo}, #{empregister_jumin},
+		<if test="empregister_paytime != null">empregister_paytime,</if>
+		<if test="empregister_payday != null">empregister_payday,</if>
+		empregister_workplan)
+		Values(#{empregister_name},#{empregister_photo}, #{empregister_jumin},
 		#{empregister_jumin2},
-		#{empregister_empnum}, #{empregister_gender}, #{empregister_tel}, #{empregister_age},
-		#{empregister_addr},#{empregister_addr2},#{empregister_addr3},#{empregister_addr4}, #{empregister_grade}, #{empregister_bankname},
+		#{empregister_empnum},
+		#{empregister_gender}, #{empregister_tel}, #{empregister_age},
+		#{empregister_addr},#{empregister_addr2},#{empregister_addr3},#{empregister_addr4},
+		#{empregister_grade}, #{empregister_bankname},
 		#{empregister_accountholder}, #{empregister_banknum},
 		#{empregister_payclassfiy}, sysdate, #{empregister_leavecompany},
-		#{empregister_pay},
+		<if test="empregister_paytime != null">#{empregister_paytime},</if>
+		<if test="empregister_payday != null"> #{empregister_payday},</if>
 		#{empregister_workplan} )
 
 	</insert>
 
-	<select id="getEmpCount" resultType="Integer">
-		select count(*) from EmpRegister
+	<update id="EmpRegisterUpdate" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
+		update EmpRegister set
+		empregister_tel=#{empregister_tel},empregister_age=#{empregister_age},
+		empregister_addr=#{empregister_addr},empregister_addr2=#{empregister_addr2},empregister_addr3=#{empregister_addr3},empregister_addr4=#{empregister_addr4},empregister_grade=#{empregister_grade},empregister_bankname=#{empregister_bankname},
+		empregister_accountholder=#{empregister_accountholder},empregister_banknum=#{empregister_banknum},empregister_payclassfiy=#{empregister_payclassfiy},empregister_leavecompany=#{empregister_leavecompany},
+		empregister_paytime=#{empregister_paytime},empregister_payday=#{empregister_payday},
+		empregister_workplan=#{empregister_workplan}
+		where empregister_empnum = #{empregister_empnum}
+	</update>
+
+	<!-- 로그인 -->
+	<select id="InsaLoginCheck" resultType="java.lang.String">
+		select empregister_name as empregister_name
+		from EmpRegister
+		where empregister_empnum = #{empregister_empnum} and empregister_jumin =
+		#{empregister_jumin}
 	</select>
 
-	<update id="EmpRegisterUpdate" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
-     update EmpRegister set empregister_tel=#{empregister_tel},empregister_age=#{empregister_age}, empregister_addr=#{empregister_addr},empregister_addr2=#{empregister_addr2},empregister_addr3=#{empregister_addr3},empregister_addr4=#{empregister_addr4},empregister_grade=#{empregister_grade},empregister_bankname=#{empregister_bankname}, 
-     empregister_accountholder=#{empregister_accountholder},empregister_banknum=#{empregister_banknum},empregister_payclassfiy=#{empregister_payclassfiy},empregister_leavecompany=#{empregister_leavecompany},
-     empregister_pay=#{empregister_pay}, empregister_workplan=#{empregister_workplan}
-     where empregister_empnum = #{empregister_empnum}
- </update>
- 
- 
- 
- <insert id ="calendarEventAdd" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
-	insert into Schedule(summary, schedule_workingstarttime ,  schedule_workingstartday , schedule_workingendtime , schedule_workingendday)
-	Values (#{summary },#{schedule_workingstarttime},#{ schedule_workingstartday},#{schedule_workingendtime},#{schedule_workingendday} )
-</insert>
+	<select id="viewMember" resultType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
+		select
+		empregister_name as empregister_name,
+		empregister_empnum as empregister_empnum,
+		empregister_photo as empregister_photo
+		from EmpRegister
+		where empregister_empnum = #{empregister_empnum}
+	</select>
 
-<select id="viewMember" resultType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
-select 
-empregister_name as empregister_name, 
-empregister_empnum as empregister_empnum,
-empregister_photo as empregister_photo
-from EmpRegister 
-where empregister_empnum = #{empregister_empnum}
+	<select id="WorkCheck" resultType="Integer">
+		select count(*) from EmpRegister where empregister_empnum =
+		#{empregister_empnum} and empregister_jumin = #{empregister_jumin}
+	</select>
 
-</select> 
- 
+
+	<insert id="WorkAdd" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
+		INSERT INTO SCHEDULE
+		(SCHEDULE_NO, SCHEDULE_EMPREGISTER_EMPNUM, SCHEDULE_WORKINGSTART)
+		VALUES ( (SELECT NVL(MAX(SCHEDULE_NO)+1,0) FROM SCHEDULE),
+		#{empregister_empnum}, SYSDATE)
+	</insert>
+
+	<update id="WorkEnd" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
+		UPDATE Schedule SET SCHEDULE_WORKINGEND = SYSDATE, schedule_workingtime =
+		ROUND((sysdate - schedule_workingstart)*24*60*60)
+		WHERE SCHEDULE_EMPREGISTER_EMPNUM = #{empregister_empnum}
+		AND to_char( Schedule_WorkingStart, 'yyyymmdd' ) = to_char( sysdate,
+		'yyyymmdd')
+	</update>
+
+
+
+	<select id="WorkLoginCheck" resultType="String">
+		select empregister_name as empregister_name
+		,empregister_photo as empregister_photo
+		from EmpRegister
+		where empregister_empnum = #{empregister_empnum} and empregister_jumin =
+		#{empregister_jumin}
+	</select>
+
+
+	<select id="DayCheck" resultType="Integer">
+		select count(*) from schedule
+		where to_char( Schedule_WorkingStart, 'yyyymmdd' ) = to_char( sysdate,
+		'yyyymmdd') and schedule_empregister_empnum= #{empregister_empnum}
+	</select>
+
+	<select id="EmpWork" parameterType="map" resultType="com.bit.UntitledBistro.model.insa.Insa_ScheduleDTO">
+		select schedule_no ,schedule_empregister_empnum,
+		Schedule_WorkingStart,Schedule_WorkingEnd,schedule_workingtime
+		,schedule_workingdate
+		from schedule
+	</select>
+
+	<select id="getWorkCount" resultType="Integer">
+		select count(*) from
+		schedule
+	</select>
+
+
+	<select id="getPayCount" resultType="Integer">
+		select count(*) from salary
+	</select>
+
+	<select id="EmpWorkList" parameterType="map" resultType="com.bit.UntitledBistro.model.insa.Insa_ScheduleDTO">
+		select schedule_no ,schedule_empregister_empnum,
+		schedule_workingstart,schedule_workingend,
+		ROUND((schedule_workingend-schedule_workingstart)*24*60)
+		AS schedule_workingtime
+		from schedule
+	</select>
+
+
+	<select id="PayCheck" parameterType="map" resultType="com.bit.UntitledBistro.model.insa.Insa_EmpSalaryJoinDTO">
+		select empregister_name, empregister_empnum
+		, sum(empregister_paytime) as empregister_paytime
+		,sum(empregister_payday) as empregister_payday
+		,sum(salary_workingtime) as salary_workingtime
+		,sum(salary_workingdate) as salary_workingdate
+		,sum(salary_pay) as salary_pay
+		from EmpRegister
+		inner join salary
+		on empregister_empnum = salary_empregister_empnum
+		GROUP BY empregister_name, empregister_empnum
+	</select>
+
+	<insert id ="SalaryAdd" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
+	INSERT INTO salary
+	(salary_no, salary_empRegister_empnum, salary_workingtime , salary_workingdate,salary_pay )
+	VALUES ( (SELECT NVL(MAX(salary_no)+1,1)  FROM salary), #{empregister_empnum}, 0,  1, 0)
+	</insert>
+	
+	<insert id="SalaryDayAdd" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
+	INSERT INTO salary
+	(salary_no, salary_empRegister_empnum, salary_workingtime , salary_workingdate,salary_pay )
+	VALUES ( (SELECT NVL(MAX(salary_no)+1,1)  FROM salary), #{empregister_empnum}, 0,  1, (select empregister_payday from empregister where empregister_empnum = #{empregister_empnum}))
+	</insert>
+	
+	<update id ="SalaryUpdate" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
+	update salary set salary_workingtime = (select round(to_number(schedule_workingend - schedule_workingstart)*24*60) from schedule where schedule_empregister_empnum = #{empregister_empnum}), 
+	salary_pay = (select round(to_number(schedule_workingend - schedule_workingstart)*24*60) from schedule where schedule_empregister_empnum = #{empregister_empnum}) * (select empregister_paytime from empregister where empregister_empnum = #{empregister_empnum}) 
+	where salary_empregister_empnum = #{empregister_empnum} and salary_pay = 0
+	</update>
+	
+	<update id ="SalaryDayUpdate" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
+	update salary set salary_workingtime = (select round(to_number(schedule_workingend - schedule_workingstart)*24*60) from schedule where schedule_empregister_empnum = #{empregister_empnum}) 
+	where salary_empregister_empnum = #{empregister_empnum} and salary_pay = (select empregister_payday from empregister where empregister_empnum = #{empregister_empnum})
+	</update>
+
+	<select id="Schedule" resultType="com.bit.UntitledBistro.model.insa.Insa_SalaryDTO">
+ 	<![CDATA[
+ 		SELECT
+ 			salary_empregister_empnum,
+ 			salary_hollydaystart,
+ 			salary_hollydayend
+ 		FROM
+ 			salary
+ 	]]>
+	</select>
+
+	<update id="HollydayAdd"
+		parameterType="com.bit.UntitledBistro.model.insa.Insa_SalaryDTO">
+		<![CDATA[
+		UPDATE salary 
+		SET 
+			salary_empRegister_empnum = #{salary_empRegister_empnum},
+			salary_hollydaystart= #{salary_hollydaystart},
+			salary_hollydayend = #{salary_hollydayend}
+			where salary_empRegister_empnum = #{salary_empRegister_empnum} 
+	]]>
+	</update>
+
+	<select id="SelectNum" parameterType="map"
+		resultType="com.bit.UntitledBistro.model.insa.Insa_SalaryDTO">
+		SELECT SALARY_EMPREGISTER_EMPNUM,SALARY_HOLLYDAYSTART,SALARY_HOLLYDAYEND
+		from salary WHERE
+		salary_empregister_empnum = #{salary_empRegister_empnum}
+	</select>
+	
+	 <select id="PayCheckByNum" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO" resultType="java.lang.Integer">
+	 SELECT NVL(EMPREGISTER_PAYTIME,0) FROM EMPREGISTER WHERE EMPREGISTER_EMPNUM = #{empregister_empnum} 
+	 </select>
+
 </mapper>

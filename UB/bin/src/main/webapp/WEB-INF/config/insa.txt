@@ -1,28 +1,31 @@
---------------------- ?�이�? ?�체??�� -------------------------------------
+--------------------- 테이블 전체삭제 -------------------------------------
 DROP TABLE EmpRegister;
 
 ---------------------------------------------------------------------------
-create table EmpRegister ( -- 직원?�록 ?�이�?
-        EmpRegister_name VARCHAR2 (50) NOT NULL, -- ?�름
-        EmpRegister_Photo VARCHAR2 (300), -- ?�원 ?�진 
-        EmpRegister_empnum VARCHAR2(20),  -- ?�번(PK)
-        EmpRegister_age NUMBER, -- ?�이
-        EmpRegister_tel VARCHAR2 (50), -- ?�화번호 
-        EmpRegister_jumin VARCHAR2 (50), -- 주�?1 
-        EmpRegister_jumin2 VARCHAR2 (50),  -- 주�?2
-        EmpRegister_gender VARCHAR2 (50), -- ?�별
+create table EmpRegister ( -- 직원등록 테이블
+        EmpRegister_name VARCHAR2 (50) NOT NULL, -- 이름
+        EmpRegister_Photo VARCHAR2 (300), -- 사원 사진 
+        EmpRegister_empnum VARCHAR2(20),  -- 사번(PK)
+        EmpRegister_age NUMBER, -- 나이
+        EmpRegister_tel VARCHAR2 (50), -- 전화번호 
+        EmpRegister_jumin VARCHAR2 (50), -- 주민1 
+        EmpRegister_jumin2 VARCHAR2 (50),  -- 주민2
+        EmpRegister_gender VARCHAR2 (50), -- 성별
         EmpRegister_addr VARCHAR2 (100), -- 거주지
         EmpRegister_addr2 VARCHAR2 (100), -- 거주지
         EmpRegister_addr3 VARCHAR2 (100), -- 거주지
         EmpRegister_addr4 VARCHAR2 (100), -- 거주지
         EmpRegister_grade VARCHAR2 (50),  -- 직급 
-        EmpRegister_banknum VARCHAR2 (100), -- ?�장번호 
-        EmpRegister_bankname VARCHAR2 (50), -- ?�?�명 
-        EmpRegister_AccountHolder VARCHAR2(50), -- ?�금�?  
-        EmpRegister_entryDay DATE DEFAULT SYSDATE, -- ?�사?�짜 
+        EmpRegister_banknum VARCHAR2 (100), -- 통장번호 
+        EmpRegister_bankname VARCHAR2 (50), -- 은행명 
+        EmpRegister_AccountHolder VARCHAR2(50), -- 예금주  
+        EmpRegister_entryDay DATE DEFAULT SYSDATE, -- 입사날짜 
         EmpRegister_payClassfiy VARCHAR2(20), -- 급여구분
-        EmpRegister_paytime VARCHAR2(20), -- ?�급        
-        EmpRegister_payday VARCHAR2(20), -- ?�급
+        EmpRegister_paytime VARCHAR2(20), -- 시급        
+        EmpRegister_payday VARCHAR2(20), -- 일급
+        EmpRegister_workPlan NUMBER, -- 근무예정시간
+        EmpRegister_leavecompany VARCHAR2(20), -- 퇴사여부 
+        EmpRegister_ENABLED NUMBER DEFAULT 1, -- 사용여부
         EmpRegister_AUTHORITY VARCHAR2(20) DEFAULT 'ROLE_MEMBER'-- 권한
 );
 ALTER TABLE EmpRegister ADD CONSTRAINT PK_EmpRegister_empnum PRIMARY KEY(EmpRegister_empnum);
@@ -32,23 +35,23 @@ values('MEMBER', 'MEMBER', '12345', 1, 'ROLE_MEMBER');
 insert into empregister(EmpRegister_name, EmpRegister_empnum, EmpRegister_jumin, EmpRegister_ENABLED, EmpRegister_AUTHORITY) 
 values('ADMIN', 'ADMIN', '12345', 1, 'ROLE_ADMIN');
 
-create table Salary ( -- 근무 �? 급여?�역, ?�?�하?�테?�블
+create table Salary ( -- 근무 및 급여내역, 저장하는테이블
         Salary_no VARCHAR2(20), -- 번호(PK)
-        Salary_EmpRegister_empnum VARCHAR2(20), -- ?�번(FK)
-        Salary_workingTime NUMBER, -- ?�한?�간
-        Salary_workingDate NUMBER, -- 근무?�수
-        Salary_hollydayStart DATE, -- ?��??�작
-        Salary_hollydayEnd DATE, -- ?��?종료
-        Salary_Pay  NUMBER--급여계산??
+        Salary_EmpRegister_empnum VARCHAR2(20), -- 사번(FK)
+        Salary_workingTime NUMBER, -- 일한시간
+        Salary_workingDate NUMBER, -- 근무일수
+        Salary_hollydayStart DATE, -- 휴가시작
+        Salary_hollydayEnd DATE, -- 휴가종료
+        Salary_Pay  NUMBER--급여계산용
 );
 
-create table  Schedule ( -- ?��?�?
+create table  Schedule ( -- 스케쥴
         Schedule_no VARCHAR2(20), -- 번호(PK)
-        Schedule_EmpRegister_empnum VARCHAR2(20),   -- ?�번(FK)
-        Schedule_WorkingStart DATE, -- 출근?�간
-        Schedule_WorkingEnd DATE, -- ?�근?�간
-        Schedule_workingTime NUMBER, -- ?�한?�간 (매달 초기??)
-        Schedule_workingdate NUMBER -- ?�월근무?�수 (?�근 카운??, 매달 초기??)
+        Schedule_EmpRegister_empnum VARCHAR2(20),   -- 사번(FK)
+        Schedule_WorkingStart DATE, -- 출근시간
+        Schedule_WorkingEnd DATE, -- 퇴근시간
+        Schedule_workingTime NUMBER, -- 일한시간 (매달 초기화)
+        Schedule_workingdate NUMBER -- 당월근무일수 (퇴근 카운트, 매달 초기화)
 );
 
 commit;

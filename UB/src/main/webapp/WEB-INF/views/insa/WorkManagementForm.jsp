@@ -22,14 +22,14 @@ $(document).ready(function() {
 	$("#btnwork").click(function() {
 
 		if (empregister_empnum == "") {
-			swal("?�번?? ?�력?�주?�요.", {
+			swal("사번을 입력해주세요.", {
 				 icon: "warning",
 			});
 			$("#empregister_empnum").focus();
 			return;
 		}
 		if (empregister_jumin == "") {
-			swal("비�?번호�? ?�력?�주?�요.", {
+			swal("비밀번호를 입력해주세요.", {
 				 icon: "warning",
 			});
 			$("#empregister_jumin").focus();
@@ -57,18 +57,18 @@ function WorkManagement(){
 		dataType : "json",
         success: function(data) {
         	if(data == 0) {
-        		swal("?�는직원?�니??");
+        		swal("없는직원입니다");
         	} else if(data == 1) {
-        		swal("출근?�니??").then(() => {
+        		swal("출근입니다").then(() => {
 					  opener.document.location.reload();
 					  window.close();
 				  });
         	} else if(data == 2) {
-        		swal("?�근?�니??").then(() => {
+        		swal("퇴근입니다").then(() => {
 					  opener.document.location.reload();
 					  window.close();
 				  });
-        		/* ?�근 ?�람?�우�? �? ?�기 */
+        		/* 퇴근 알람띄우고 창 닫기 */
         	}
         	
         }
@@ -79,24 +79,20 @@ function WorkManagement(){
 </head>
 <body>
 		<div class="form-group">
-			<label for="inputEmail3" class="col-sm-2 control-label">?�번</label>
+			<label for="inputEmail3" class="col-sm-2 control-label">사번</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" id="empregister_empnum" name="empregister_empnum" placeholder="ID">
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="inputPassword3" class="col-sm-2 control-label">비�?번호</label>
+			<label for="inputPassword3" class="col-sm-2 control-label">비밀번호</label>
 			<div class="col-sm-10">
 				<input type="password" class="form-control" id="empregister_jumin" name="empregister_jumin" placeholder="Password">
 			</div>
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<button type="button" id="btnwork" class="btn btn-default">?�력</button>
-<<<<<<<<< Temporary merge branch 1
-=========
-				<button type="button" id="btnwork" class="btn btn-default">?�력</button>
-				<button type="button" id="btnwork" class="btn btn-default">?�력</button>
+				<button type="button" id="btnwork" class="btn btn-default">입력</button>
 				
 			</div>
 		</div>

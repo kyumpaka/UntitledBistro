@@ -3,28 +3,28 @@ package com.bit.UntitledBistro.model.insa;
 import java.util.Date;
 
 public class Insa_EmpRegisterDTO {
-	private String empregister_name; // ?�름
-	private String empregister_photo; // ?�원 ?�진
-	private String empregister_empnum; // ?�번
-	private String empregister_age; // ?�이
-	private String empregister_tel; // ?�화번호
-	private String empregister_jumin; // 주�?1
-	private String empregister_jumin2; //주�?2
-	private String empregister_gender;//?�별
+	private String empregister_name; // 이름
+	private String empregister_photo; // 사원 사진
+	private String empregister_empnum; // 사번
+	private String empregister_age; // 나이
+	private String empregister_tel; // 전화번호
+	private String empregister_jumin; // 주민1
+	private String empregister_jumin2; //주민2
+	private String empregister_gender;//성별
 	private String empregister_addr; //주소
 	private String empregister_addr2; //주소
 	private String empregister_addr3; //주소
 	private String empregister_addr4; //주소
 	private String empregister_grade; //직급
-	private String empregister_banknum; //?�장번호
-	private String empregister_bankname; //?�?�명
-	private String empregister_accountholder; //?�금�?
-	private Date empregister_entryday; //?�사?�자
+	private String empregister_banknum; //통장번호
+	private String empregister_bankname; //은행명
+	private String empregister_accountholder; //예금주
+	private Date empregister_entryday; //입사날자
 	private String empregister_payclassfiy; //급여구분
-	private String empregister_paytime; //?�급
-	private String empregister_payday; //?�급
-	private String empregister_workplan; //근무?�정?�간
-	private String empregister_leavecompany; //?�사?��?
+	private String empregister_paytime; //시급
+	private String empregister_payday; //일급
+	private String empregister_workplan; //근무예정시간
+	private String empregister_leavecompany; //퇴사여부
 	public String getEmpregister_name() {
 		return empregister_name;
 	}
@@ -127,23 +127,6 @@ public class Insa_EmpRegisterDTO {
 	public void setEmpregister_entryday(Date empregister_entryday) {
 		this.empregister_entryday = empregister_entryday;
 	}
-	public String getEmpregister_paytime() {
-		return empregister_paytime;
-	}
-
-
-	public void setEmpregister_paytime(String empregister_paytime) {
-		this.empregister_paytime = empregister_paytime;
-	}
-
-	public String getEmpregister_payday() {
-		return empregister_payday;
-	}
-
-	public void setEmpregister_payday(String empregister_payday) {
-		this.empregister_payday = empregister_payday;
-	}
-
 	public String getEmpregister_payclassfiy() {
 		return empregister_payclassfiy;
 	}

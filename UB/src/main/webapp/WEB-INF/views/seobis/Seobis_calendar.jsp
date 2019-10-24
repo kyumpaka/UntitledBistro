@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset='utf-8' />
-  <title>캘린??</title>
+  <title>캘린더</title>
 
 <!-- <link href='/assets/demo-to-codepen.css' rel='stylesheet' /> -->
 
@@ -29,7 +29,7 @@
     
   </style>
 
-<!-- ?�스 -->
+<!-- 소스 -->
 <link href='https://unpkg.com/@fullcalendar/core@4.3.1/main.min.css' rel='stylesheet' />
   <link href='https://unpkg.com/@fullcalendar/daygrid@4.3.0/main.min.css' rel='stylesheet' />
   <link href='https://unpkg.com/@fullcalendar/timegrid@4.3.0/main.min.css' rel='stylesheet' />
@@ -52,7 +52,7 @@
         right: 'dayGridMonth'
       },
       locale: 'ko',
-      events: [ // ?�비�? 캘린?�에 ?�시
+      events: [ // 디비꺼 캘린더에 표시
     	  <c:forEach items="${Seobis_reserveSelect}" var="Seobis_reserveSelect">
     	  {
     	    title: <c:if test="${Seobis_reserveSelect.reserve_member_id != null}">'${Seobis_reserveSelect.reserve_member_id}'</c:if>
@@ -68,7 +68,7 @@
 		var height = 800;
 		var popupX = (window.screen.width / 2) - (width / 2);
 		var popupY = (window.screen.height / 2) - (height / 2);
-		window.open('${path}/Seobis/Seobis_newCalendar?date='+info.dateStr ,'?�약?�기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+		window.open('${path}/Seobis/Seobis_newCalendar?date='+info.dateStr ,'예약하기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
       },
       eventClick: function(info) {
           var eventObj = info.event;
@@ -78,7 +78,7 @@
       		var height = 800;
       		var popupX = (window.screen.width / 2) - (width / 2);
       		var popupY = (window.screen.height / 2) - (height / 2);
-      		window.open(eventObj.url,'?�약?�인','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+      		window.open(eventObj.url,'예약확인','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
             info.jsEvent.preventDefault(); // prevents browser from following link in current tab.
           }
       }

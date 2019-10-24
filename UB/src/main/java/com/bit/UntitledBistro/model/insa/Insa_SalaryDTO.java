@@ -4,11 +4,10 @@ import java.util.Date;
 
 public class Insa_SalaryDTO {
 	private String salary_no; // 번호
-	private String salary_empRegister_empnum; // ?�번
-	private String salary_calendar; // ?�월구분
-	private Date salary_payday; // 지급일??
-	private int salary_workingtime; // 근무?�간
-	private int salary_workingdate; // 근무?�수
+	private String salary_empRegister_empnum; // 사번
+	private String salary_calendar; // 년월구분
+	private int salary_workingtime; // 근무시간
+	private int salary_workingdate; // 근무일수
 	private int salary_pay;
 	private String salaraydate;
 	public String getSalary_no() {
