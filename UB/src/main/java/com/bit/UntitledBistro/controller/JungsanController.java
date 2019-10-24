@@ -309,8 +309,8 @@ public class JungsanController {
 
 		HashMap map = new HashMap();
 
-		List<Jungsan_Input_DTO> differenceList = jungsan_input_Service.differenceList(map);
-		request.setAttribute("differenceList", differenceList); // 월차액
+		int differenceList = jungsan_input_Service.differenceList();
+		request.setAttribute("differenceList", differenceList);
 
 		List<Jungsan_Input_DTO> MonthList = jungsan_input_Service.MonthList(map); // 조회
 		request.setAttribute("MonthList", MonthList); // 조회한걸 담음

@@ -30,7 +30,7 @@ public interface Jungsan_Input_DAO {
 
 	public int to_difference();
 
-	public List<Jungsan_Input_DTO> differenceList(HashMap map);
+	public int differenceList();
 
 
 	//////////// 매월 데이터
@@ -57,6 +57,8 @@ public interface Jungsan_Input_DAO {
 	public int Nov();
 
 	public int Dec();
+
+
 	
 	
 }
