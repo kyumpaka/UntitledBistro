@@ -193,7 +193,7 @@
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-header">
-							발주물품 정보<small><code> 이 부분은 잠시대기 </code></small>
+							발주물품 정보
 						</div>
 						<div id="jsGrid"></div>
 						<script>
