@@ -10,7 +10,7 @@
 <body>
  <form action="Update.html">
  	<table style="width: 1200px; margin: auto; margin-top: 300px;" border="1">
-		
+			
 			<tr>
 				<td>현금</td>
 				<td><input type="number" name="jungsan_input_cash" value="0"/></td>

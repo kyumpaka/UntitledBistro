@@ -84,9 +84,10 @@
 		jungsan_input_expenditure= #{jungsan_input_expenditure, jdbcType=NUMERIC},
 		jungsan_input_point= #{jungsan_input_point, jdbcType=NUMERIC},
 		jungsan_input_refund= #{jungsan_input_refund, jdbcType=NUMERIC},
-		jungsan_input_reason= #{jungsan_input_reason, jdbcType=VARCHAR} 
+		jungsan_input_reason= #{jungsan_input_reason, jdbcType=VARCHAR},
+		 
      where 
-        jungsan_input_date like to_date (sysdate,'YYYY-MM-DD')
+        jungsan_input_date like to_date(sysdate,'YYYY-MM-DD')
 	</update>
 	
 	<select id="count_difference" resultType="int">
