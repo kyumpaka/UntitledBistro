@@ -272,7 +272,12 @@
 				}
 		console.log(insertItem);
 		$("#jsGrid").jsGrid("insertItem", insertItem);
-		alert("발주품이 추가되었습니다");
+
+		$("#code").val("");
+		$("#name").val("");
+		$("#stndr").val("");
+		$("#qt").val("");
+		$("#price").val("");
 		});
 </script>
 <script>

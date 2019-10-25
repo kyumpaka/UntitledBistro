@@ -1,58 +1,52 @@
---------------------- ÌÖåÏù¥Î∏î Ï†ÑÏ≤¥ÏÇ≠Ï†ú -------------------------------------
-DROP TABLE JUNGSAN_STATE;
-DROP TABLE Jungsan_Input;
-DROP TABLE Month_Input;
-DROP TABLE JUNGSAN_DIFFERENCE;
+--------------------- ?åÏù¥Î∏? ?ÑÏ≤¥??†ú -------------------------------------
+DROP TABLE JUNGSAN_STATE CASCADE CONSTRAINTS;
+DROP TABLE Jungsan_Input CASCADE CONSTRAINTS;
+DROP TABLE Month_Input CASCADE CONSTRAINTS;
+DROP TABLE JUNGSAN_DIFFERENCE CASCADE CONSTRAINTS;
 ---------------------------------------------------------------------------
 
 CREATE TABLE JUNGSAN_STATE (
-to_total NUMBER,to_cash NUMBER,to_card NUMBER,
-to_point NUMBER,before_total NUMBER,before_cash NUMBER,
-before_card NUMBER, before_point NUMBER,state_date DATE);
-
-select * from JUNGSAN_STATE;
-
-CREATE TABLE Jungsan_Input(
-Jungsan_Input_cash number, Jungsan_Input_card number, 
-Jungsan_Input_grade varchar2(20), Jungsan_Input_worktime number,
-Jungsan_Input_expenditure number,Jungsan_Input_point number,
-Jungsan_Input_refund number,Jungsan_Input_reason varchar2(200),
-Jungsan_Input_date date);
-
-select * from Jungsan_Input;
-
-CREATE TABLE Month_Input(
-Month_cash number, Month_card number, 
- Month_worktime number,
-Month_expenditure number,Month_point number,
-Month_refund number,Month_sum number,
-Month_real_sum number,Month_date DATE);
+TO_TOTAL NUMBER,TO_CASH NUMBER,TO_CARD NUMBER,
+TO_POINT NUMBER,BEFORE_TOTAL NUMBER,BEFORE_CASH NUMBER,
+BEFORE_CARD NUMBER, BEFORE_POINT NUMBER,STATE_DATE DATE);
 
 
 
+CREATE TABLE JUNGSAN_INPUT(
+JUNGSAN_INPUT_CASH NUMBER, JUNGSAN_INPUT_CARD NUMBER, 
+JUNGSAN_INPUT_GRADE VARCHAR2(20), JUNGSAN_INPUT_WORKTIME NUMBER,
+JUNGSAN_INPUT_EXPENDITURE NUMBER,JUNGSAN_INPUT_POINT NUMBER,
+JUNGSAN_INPUT_REFUND NUMBER,JUNGSAN_INPUT_REASON VARCHAR2(200),
+JUNGSAN_INPUT_DATE DATE);
 
 
-   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'-01-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'-02-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'03-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'04-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'05-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'06-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'07-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'08-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'09-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'10-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'11-01');
-   insert into month_input values (0,0,0,0,0,0,0,0,(select TO_CHAR(sysdate,'YYYY')from dual)||'12-01');
-   commit;
+
+CREATE TABLE MONTH_INPUT(
+MONTH_CASH NUMBER, MONTH_CARD NUMBER, 
+ MONTH_WORKTIME NUMBER,
+MONTH_EXPENDITURE NUMBER,MONTH_POINT NUMBER,
+MONTH_REFUND NUMBER,MONTH_SUM NUMBER,
+MONTH_REAL_SUM NUMBER,MONTH_DATE DATE);
+
+
+
+   INSERT INTO MONTH_INPUT VALUES (0,0,0,0,0,0,0,0,(SELECT TO_CHAR(SYSDATE,'YYYY')FROM DUAL)||'-01-01');
+   INSERT INTO MONTH_INPUT VALUES (0,0,0,0,0,0,0,0,(SELECT TO_CHAR(SYSDATE,'YYYY')FROM DUAL)||'-02-01');
+   INSERT INTO MONTH_INPUT VALUES (0,0,0,0,0,0,0,0,(SELECT TO_CHAR(SYSDATE,'YYYY')FROM DUAL)||'03-01');
+   INSERT INTO MONTH_INPUT VALUES (0,0,0,0,0,0,0,0,(SELECT TO_CHAR(SYSDATE,'YYYY')FROM DUAL)||'04-01');
+   INSERT INTO MONTH_INPUT VALUES (0,0,0,0,0,0,0,0,(SELECT TO_CHAR(SYSDATE,'YYYY')FROM DUAL)||'05-01');
+   INSERT INTO MONTH_INPUT VALUES (0,0,0,0,0,0,0,0,(SELECT TO_CHAR(SYSDATE,'YYYY')FROM DUAL)||'06-01');
+   INSERT INTO MONTH_INPUT VALUES (0,0,0,0,0,0,0,0,(SELECT TO_CHAR(SYSDATE,'YYYY')FROM DUAL)||'07-01');
+   INSERT INTO MONTH_INPUT VALUES (0,0,0,0,0,0,0,0,(SELECT TO_CHAR(SYSDATE,'YYYY')FROM DUAL)||'08-01');
+   INSERT INTO MONTH_INPUT VALUES (0,0,0,0,0,0,0,0,(SELECT TO_CHAR(SYSDATE,'YYYY')FROM DUAL)||'09-01');
+   INSERT INTO MONTH_INPUT VALUES (0,0,0,0,0,0,0,0,(SELECT TO_CHAR(SYSDATE,'YYYY')FROM DUAL)||'10-01');
+   INSERT INTO MONTH_INPUT VALUES (0,0,0,0,0,0,0,0,(SELECT TO_CHAR(SYSDATE,'YYYY')FROM DUAL)||'11-01');
+   INSERT INTO MONTH_INPUT VALUES (0,0,0,0,0,0,0,0,(SELECT TO_CHAR(SYSDATE,'YYYY')FROM DUAL)||'12-01');
             
-
-select * from Month_Input;
  
-create table jungsan_difference (
-difference number,difference_Month number,difference_date date);
-     
-select * from jungsan_difference;    
-commit;
+CREATE TABLE JUNGSAN_DIFFERENCE (
+DIFFERENCE NUMBER,DIFFERENCE_MONTH NUMBER,DIFFERENCE_DATE DATE);
+        
+COMMIT;
 
 

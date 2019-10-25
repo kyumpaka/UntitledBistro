@@ -254,7 +254,12 @@
 			}			
 		console.log(insertItem);
 		$("#jsGrid").jsGrid("insertItem", insertItem);
-		alert("발주품이 추가되었습니다");
+
+		$("#code").val("");
+		$("#name").val("");
+		$("#stndr").val("");
+		$("#qt").val("");
+		$("#price").val("");
 		});
 </script>
 <script>
@@ -328,7 +333,7 @@
 			success:function(result){
 				var jsonResult = (JSON.parse(JSON.stringify(result)));
 					if(jsonResult.result=="success"){
-						alert(jsonResult.resultMsg);
+						//alert(jsonResult.resultMsg);
 					}else if(jsonResult.result=="failure"){
 						alert(jsonResult.resultMsg);
 						}

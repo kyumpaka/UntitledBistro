@@ -43,12 +43,22 @@ public class InsaController {
 		return "views/insa/EmpRegisterInsertForm";
 	}// ModelAndView를 리턴하는것과 같음
 
-	@RequestMapping("/EmpRegisterInsert")
+	@RequestMapping(value="/EmpRegisterInsert" , method = RequestMethod.POST )
 	@ResponseBody
 	public int insert(Insa_EmpRegisterDTO dto, MultipartHttpServletRequest mRequest) {
 		String fileName = insaService.imgUpload(mRequest);
 		dto.setEmpregister_photo(fileName);
-
+		
+		System.out.println("등록 테스트");
+		if(dto.getEmpregister_grade().equals("사원")) {
+			System.out.println("등록 사원");
+			dto.setEmpregister_authority("ROLE_MEMBER");
+		} else if(dto.getEmpregister_grade().equals("매니저")){
+			System.out.println("등록 매니저");
+			dto.setEmpregister_authority("ROLE_MANAGER");
+			
+		}
+		System.out.println(dto);
 		return insaService.EmpRegisterInsert(dto);
 
 	}
@@ -71,15 +81,10 @@ public class InsaController {
 
 	}
 
-	@RequestMapping("EmpRegisterUpdate")
-	public String update(Insa_EmpRegisterDTO dto) {
-		int result = insaService.EmpRegisterUpdate(dto);
-		String res = "redirect:/insa/EmpRegisterList";
-		if (result == 0) {
-			res = "insa/EmpRegisterFail";
-		}
+	@RequestMapping(value = "/EmpRegisterUpdate",  method = RequestMethod.POST )
+	public int update(Insa_EmpRegisterDTO dto) {
 
-		return res;
+		return insaService.EmpRegisterUpdate(dto);
 
 	}
 

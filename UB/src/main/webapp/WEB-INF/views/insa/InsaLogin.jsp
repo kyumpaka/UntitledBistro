@@ -97,7 +97,7 @@ function press(e){
 
 </head>
 <body>
-	<div class="card align-middle" style="width:20rem; border-radius:20px;">
+	<div class="card align-middle" style="width:20rem; border-radius:20px; margin-top: 250px;">
 		<div class="card-title" style="margin-top:30px;">
 			<h2 class="card-title text-center" style="color:#113366;">환영합니다.</h2>
 		</div>

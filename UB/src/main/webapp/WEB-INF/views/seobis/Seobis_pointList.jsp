@@ -21,18 +21,19 @@
     
          <style>
         #pointbutton{
-            border-top-left-radius: 5px;
+  			border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
             border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;    
             margin-right:-4px;
         }
-        #btn_group button{
-            border: 1px solid skyblue;
-            background-color: skyblue;
+    	#btn_group button{
+            background-color: dimgray;
             color: white;
             padding: 5px;
         }
         #btn_group button:hover{
-            color: skyblue;
+            color: black;
             background-color: white;
         }
     </style>
@@ -55,8 +56,8 @@
                             <div class="page-title">
                                 <ol class="breadcrumb text-right">
                                     <li class="active"><a href="${path}/Seobis/jUs">회원 등록</a></li>
-                                    <li><a href="${path}/Seobis/cal">예약 관리</a></li>
-                                    <li><a href="${path}/Seobis/pList">포인트 관리</a></li>
+                                    <li><a href="${path}/Seobis/Seobis_calendar">예약 관리</a></li>
+                                    <li><a href="${path}/Seobis/mList">회원 관리</a></li>
                                 </ol>
                             </div>
                         </div>
@@ -75,7 +76,7 @@
                                 <strong class="card-title">포인트 관리</strong>
                             </div>
                             <div class="card-body">
-                                <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                                <table id="table" class="table table-striped table-bordered">
                                     <thead>
                                             <tr>
                                             	<th>ID</th>
@@ -129,8 +130,26 @@
 
 
     <script type="text/javascript">
+    var table = $('#table').DataTable({
+        "language": {
+            "emptyTable": "데이터가 없어요.",
+            "lengthMenu": "페이지당 _MENU_ 개씩 보기",
+            "info": "현재 _START_ - _END_ / _TOTAL_건",
+            "infoEmpty": "데이터 없음",
+            "infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
+            "search": "검색: ",
+            "zeroRecords": "일치하는 데이터가 없습니다.",
+            "loadingRecords": "로딩중...",
+            "processing":     "잠시만 기다려 주세요...",
+            "paginate": {
+                "next": "다음",
+                "previous": "이전"
+            }
+        },
+    });
+    
         $(document).ready(function() {
-          $('#bootstrap-data-table-export').DataTable();
+          $('#table-export').DataTable();
       } );
         
   </script>

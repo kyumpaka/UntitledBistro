@@ -57,8 +57,8 @@
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text">$<span class="count">23569</span></div>
-                                            <div class="stat-heading">Revenue</div>
+                                            <div class="stat-text"><span class="count">4523560</span>원</div>
+                                            <div class="stat-heading">판매금액</div>
                                         </div>
                                     </div>
                                 </div>
@@ -75,8 +75,8 @@
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count">3435</span></div>
-                                            <div class="stat-heading">Sales</div>
+                                            <div class="stat-text"><span class="count">32</span></div>
+                                            <div class="stat-heading">판매 테이블 수</div>
                                         </div>
                                     </div>
                                 </div>
@@ -93,8 +93,8 @@
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count">349</span></div>
-                                            <div class="stat-heading">Templates</div>
+                                            <div class="stat-text"><span class="count">15</span></div>
+                                            <div class="stat-heading">메뉴 수</div>
                                         </div>
                                     </div>
                                 </div>
@@ -111,8 +111,8 @@
                                     </div>
                                     <div class="stat-content">
                                         <div class="text-left dib">
-                                            <div class="stat-text"><span class="count">2986</span></div>
-                                            <div class="stat-heading">Clients</div>
+                                            <div class="stat-text"><span class="count">35</span></div>
+                                            <div class="stat-heading">회원 수</div>
                                         </div>
                                     </div>
                                 </div>
@@ -125,8 +125,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
-                            <div class="card-body">
-                                <h4 class="box-title">Traffic </h4>
+                            <div class="card-body" style="margin-top:10px;">
+                                <h2 class="box-title"> 월별매출액 현황 </h2>
                             </div>
                             <div class="row">
                                 <div class="col-lg-8">
@@ -138,44 +138,44 @@
                                 <div class="col-lg-4">
                                     <div class="card-body">
                                         <div class="progress-box progress-1">
-                                            <h4 class="por-title">Visits</h4>
-                                            <div class="por-txt">96,930 Users (40%)</div>
+                                            <h4 class="por-title">판매금액</h4>
+                                            <div class="por-txt">4523560 원</div>
                                             <div class="progress mb-2" style="height: 5px;">
                                                 <div class="progress-bar bg-flat-color-1" role="progressbar" style="width: 40%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                         </div>
                                         <div class="progress-box progress-2">
-                                            <h4 class="por-title">Bounce Rate</h4>
-                                            <div class="por-txt">3,220 Users (24%)</div>
+                                            <h4 class="por-title">판매 테이블 수</h4>
+                                            <div class="por-txt">32</div>
                                             <div class="progress mb-2" style="height: 5px;">
                                                 <div class="progress-bar bg-flat-color-2" role="progressbar" style="width: 24%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                         </div>
                                         <div class="progress-box progress-2">
-                                            <h4 class="por-title">Unique Visitors</h4>
-                                            <div class="por-txt">29,658 Users (60%)</div>
+                                            <h4 class="por-title">메뉴 수</h4>
+                                            <div class="por-txt">15</div>
                                             <div class="progress mb-2" style="height: 5px;">
-                                                <div class="progress-bar bg-flat-color-3" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar bg-flat-color-3" role="progressbar" style="width: 30%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                         </div>
                                         <div class="progress-box progress-2">
-                                            <h4 class="por-title">Targeted  Visitors</h4>
-                                            <div class="por-txt">99,658 Users (90%)</div>
+                                            <h4 class="por-title">회원수</h4>
+                                            <div class="por-txt">35</div>
                                             <div class="progress mb-2" style="height: 5px;">
-                                                <div class="progress-bar bg-flat-color-4" role="progressbar" style="width: 90%;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar bg-flat-color-4" role="progressbar" style="width: 20%;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                         </div>
                                     </div> <!-- /.card-body -->
                                 </div>
                             </div> <!-- /.row -->
-                            <div class="card-body"></div>
+                            <div class="card-body" style="height: 100px;"></div>
                         </div>
                     </div><!-- /# column -->
                 </div>
                 <!--  /Traffic -->
                 <div class="clearfix"></div>
                 <!-- Orders -->
-                <div class="orders">
+                <div class="orders" id="ordersMain">
                     <div class="row">
                         <div class="col-xl-8">
                             <div class="card">
@@ -307,7 +307,7 @@
                 </div>
                 <!-- /.orders -->
                 <!-- To Do and Live Chat -->
-                <div class="row">
+                <%-- <div class="row">
                     <div class="col-lg-6">
                         <div class="card">
                             <div class="card-body">
@@ -512,7 +512,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --%>
             <!-- /#add-category -->
             </div>
             <!-- .animated -->
@@ -713,5 +713,6 @@
              }
          });
          // Bar Chart #flotBarChart End
+         $('#ordersMain').css('display', 'none');
      });
  </script>        

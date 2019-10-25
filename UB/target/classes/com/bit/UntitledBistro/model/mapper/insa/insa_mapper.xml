@@ -31,10 +31,16 @@
 		empregister_leavecompany,
 		<if test="empregister_paytime != null">empregister_paytime,</if>
 		<if test="empregister_payday != null">empregister_payday,</if>
-		empregister_workplan)
-		Values(#{empregister_name},#{empregister_photo}, #{empregister_jumin},
+		empregister_workplan,
+		empregister_authority
+		)
+		
+		Values
+		(#{empregister_name},#{empregister_photo}, #{empregister_jumin},
 		#{empregister_jumin2},
-		#{empregister_empnum},
+		
+		(SELECT 'A'||(COUNT(EMPREGISTER_EMPNUM) +1)  FROM EMPREGISTER),
+		
 		#{empregister_gender}, #{empregister_tel}, #{empregister_age},
 		#{empregister_addr},#{empregister_addr2},#{empregister_addr3},#{empregister_addr4},
 		#{empregister_grade}, #{empregister_bankname},
@@ -42,7 +48,9 @@
 		#{empregister_payclassfiy}, sysdate, #{empregister_leavecompany},
 		<if test="empregister_paytime != null">#{empregister_paytime},</if>
 		<if test="empregister_payday != null"> #{empregister_payday},</if>
-		#{empregister_workplan} )
+		#{empregister_workplan}, 
+		#{empregister_authority} 
+		)
 
 	</insert>
 
@@ -88,7 +96,7 @@
 
 	<update id="WorkEnd" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
 		UPDATE Schedule SET SCHEDULE_WORKINGEND = SYSDATE, schedule_workingtime =
-		ROUND((sysdate - schedule_workingstart)*24*60*60)
+		ROUND((sysdate - schedule_workingstart)*24)
 		WHERE SCHEDULE_EMPREGISTER_EMPNUM = #{empregister_empnum}
 		AND to_char( Schedule_WorkingStart, 'yyyymmdd' ) = to_char( sysdate,
 		'yyyymmdd')
@@ -131,7 +139,7 @@
 	<select id="EmpWorkList" parameterType="map" resultType="com.bit.UntitledBistro.model.insa.Insa_ScheduleDTO">
 		select schedule_no ,schedule_empregister_empnum,
 		schedule_workingstart,schedule_workingend,
-		ROUND((schedule_workingend-schedule_workingstart)*24*60)
+		ROUND((schedule_workingend-schedule_workingstart)*24)
 		AS schedule_workingtime
 		from schedule
 	</select>
@@ -163,13 +171,13 @@
 	</insert>
 	
 	<update id ="SalaryUpdate" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
-	update salary set salary_workingtime = (select round(to_number(schedule_workingend - schedule_workingstart)*24*60) from schedule where schedule_empregister_empnum = #{empregister_empnum}), 
-	salary_pay = (select round(to_number(schedule_workingend - schedule_workingstart)*24*60) from schedule where schedule_empregister_empnum = #{empregister_empnum}) * (select empregister_paytime from empregister where empregister_empnum = #{empregister_empnum}) 
+	update salary set salary_workingtime = (select round(to_number(schedule_workingend - schedule_workingstart)*24) from schedule where schedule_empregister_empnum = #{empregister_empnum}), 
+	salary_pay = (select round(to_number(schedule_workingend - schedule_workingstart)*24) from schedule where schedule_empregister_empnum = #{empregister_empnum}) * (select empregister_paytime from empregister where empregister_empnum = #{empregister_empnum}) 
 	where salary_empregister_empnum = #{empregister_empnum} and salary_pay = 0
 	</update>
 	
 	<update id ="SalaryDayUpdate" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
-	update salary set salary_workingtime = (select round(to_number(schedule_workingend - schedule_workingstart)*24*60) from schedule where schedule_empregister_empnum = #{empregister_empnum}) 
+	update salary set salary_workingtime = (select round(to_number(schedule_workingend - schedule_workingstart)*24) from schedule where schedule_empregister_empnum = #{empregister_empnum}) 
 	where salary_empregister_empnum = #{empregister_empnum} and salary_pay = (select empregister_payday from empregister where empregister_empnum = #{empregister_empnum})
 	</update>
 
