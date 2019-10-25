@@ -1,60 +1,60 @@
 --------------------- 테이블 전체삭제 -------------------------------------
-DROP TABLE EmpRegister;
-DROP TABLE Salary;
-DROP TABLE Schedule;
+DROP TABLE EMPREGISTER CASCADE CONSTRAINTS;
+DROP TABLE SALARY CASCADE CONSTRAINTS;
+DROP TABLE SCHEDULE CASCADE CONSTRAINTS;
 ---------------------------------------------------------------------------
-create table EmpRegister ( -- 직원등록 테이블
-        EmpRegister_name VARCHAR2 (50) NOT NULL, -- 이름
-        EmpRegister_Photo VARCHAR2 (300), -- 사원 사진 
-        EmpRegister_empnum VARCHAR2(20),  -- 사번(PK)
-        EmpRegister_age NUMBER, -- 나이
-        EmpRegister_tel VARCHAR2 (50), -- 전화번호 
-        EmpRegister_jumin VARCHAR2 (50), -- 주민1 
-        EmpRegister_jumin2 VARCHAR2 (50),  -- 주민2
-        EmpRegister_gender VARCHAR2 (50), -- 성별
-        EmpRegister_addr VARCHAR2 (100), -- 거주지
-        EmpRegister_addr2 VARCHAR2 (100), -- 거주지
-        EmpRegister_addr3 VARCHAR2 (100), -- 거주지
-        EmpRegister_addr4 VARCHAR2 (100), -- 거주지
-        EmpRegister_grade VARCHAR2 (50),  -- 직급 
-        EmpRegister_banknum VARCHAR2 (100), -- 통장번호 
-        EmpRegister_bankname VARCHAR2 (50), -- 은행명 
-        EmpRegister_AccountHolder VARCHAR2(50), -- 예금주  
-        EmpRegister_entryDay DATE DEFAULT SYSDATE, -- 입사날짜 
-        EmpRegister_payClassfiy VARCHAR2(20), -- 급여구분
-        EmpRegister_paytime VARCHAR2(20), -- 시급        
-        EmpRegister_payday VARCHAR2(20), -- 일급
-        EmpRegister_workPlan NUMBER, -- 근무예정시간
-        EmpRegister_leavecompany VARCHAR2(20), -- 퇴사여부 
-        EmpRegister_ENABLED NUMBER DEFAULT 1, -- 사용여부
-        EmpRegister_AUTHORITY VARCHAR2(20) DEFAULT 'ROLE_MEMBER'-- 권한
+CREATE TABLE EMPREGISTER ( -- 직원등록 테이블
+        EMPREGISTER_NAME VARCHAR2 (50) NOT NULL, -- 이름
+        EMPREGISTER_PHOTO VARCHAR2 (300), -- 사원 사진 
+        EMPREGISTER_EMPNUM VARCHAR2(20),  -- 사번(PK)
+        EMPREGISTER_AGE NUMBER, -- 나이
+        EMPREGISTER_TEL VARCHAR2 (50), -- 전화번호 
+        EMPREGISTER_JUMIN VARCHAR2 (50), -- 주민1 
+        EMPREGISTER_JUMIN2 VARCHAR2 (50),  -- 주민2
+        EMPREGISTER_GENDER VARCHAR2 (50), -- 성별
+        EMPREGISTER_ADDR VARCHAR2 (100), -- 거주지
+        EMPREGISTER_ADDR2 VARCHAR2 (100), -- 거주지
+        EMPREGISTER_ADDR3 VARCHAR2 (100), -- 거주지
+        EMPREGISTER_ADDR4 VARCHAR2 (100), -- 거주지
+        EMPREGISTER_GRADE VARCHAR2 (50),  -- 직급 
+        EMPREGISTER_BANKNUM VARCHAR2 (100), -- 통장번호 
+        EMPREGISTER_BANKNAME VARCHAR2 (50), -- 은행명 
+        EMPREGISTER_ACCOUNTHOLDER VARCHAR2(50), -- 예금주  
+        EMPREGISTER_ENTRYDAY DATE DEFAULT SYSDATE, -- 입사날짜 
+        EMPREGISTER_PAYCLASSFIY VARCHAR2(20), -- 급여구분
+        EMPREGISTER_PAYTIME VARCHAR2(20), -- 시급        
+        EMPREGISTER_PAYDAY VARCHAR2(20), -- 일급
+        EMPREGISTER_WORKPLAN NUMBER, -- 근무예정시간
+        EMPREGISTER_LEAVECOMPANY VARCHAR2(20), -- 퇴사여부 
+        EMPREGISTER_ENABLED NUMBER DEFAULT 1, -- 사용여부
+        EMPREGISTER_AUTHORITY VARCHAR2(20) DEFAULT 'ROLE_MEMBER'-- 권한
 );
-ALTER TABLE EmpRegister ADD CONSTRAINT PK_EmpRegister_empnum PRIMARY KEY(EmpRegister_empnum);
+ALTER TABLE EMPREGISTER ADD CONSTRAINT PK_EMPREGISTER_EMPNUM PRIMARY KEY(EMPREGISTER_EMPNUM);
 
-insert into empregister(EmpRegister_name, EmpRegister_empnum, EmpRegister_jumin, EmpRegister_ENABLED, EmpRegister_AUTHORITY) 
-values('알바', 'MEMBER', '12345', 1, 'ROLE_MEMBER');
-insert into empregister(EmpRegister_name, EmpRegister_empnum, EmpRegister_jumin, EmpRegister_ENABLED, EmpRegister_AUTHORITY) 
-values('매니저', 'MANAGER', '12345', 1, 'ROLE_MANAGER');
-insert into empregister(EmpRegister_name, EmpRegister_empnum, EmpRegister_jumin, EmpRegister_ENABLED, EmpRegister_AUTHORITY) 
-values('사장', 'ADMIN', '12345', 1, 'ROLE_ADMIN');
+INSERT INTO EMPREGISTER(EMPREGISTER_NAME, EMPREGISTER_EMPNUM, EMPREGISTER_JUMIN, EMPREGISTER_ENABLED, EMPREGISTER_AUTHORITY) 
+VALUES('알바', 'MEMBER', '12345', 1, 'ROLE_MEMBER');
+INSERT INTO EMPREGISTER(EMPREGISTER_NAME, EMPREGISTER_EMPNUM, EMPREGISTER_JUMIN, EMPREGISTER_ENABLED, EMPREGISTER_AUTHORITY) 
+VALUES('매니저', 'MANAGER', '12345', 1, 'ROLE_MANAGER');
+INSERT INTO EMPREGISTER(EMPREGISTER_NAME, EMPREGISTER_EMPNUM, EMPREGISTER_JUMIN, EMPREGISTER_ENABLED, EMPREGISTER_AUTHORITY) 
+VALUES('사장', 'ADMIN', '12345', 1, 'ROLE_ADMIN');
 
-create table Salary ( -- 근무 및 급여내역, 저장하는테이블
-        Salary_no VARCHAR2(20), -- 번호(PK)
-        Salary_EmpRegister_empnum VARCHAR2(20), -- 사번(FK)
-        Salary_workingTime NUMBER, -- 일한시간
-        Salary_workingDate NUMBER, -- 근무일수
-        Salary_hollydayStart DATE, -- 휴가시작
-        Salary_hollydayEnd DATE, -- 휴가종료
-        Salary_Pay  NUMBER--급여계산용
-);
-
-create table  Schedule ( -- 스케쥴
-        Schedule_no VARCHAR2(20), -- 번호(PK)
-        Schedule_EmpRegister_empnum VARCHAR2(20),   -- 사번(FK)
-        Schedule_WorkingStart DATE, -- 출근시간
-        Schedule_WorkingEnd DATE, -- 퇴근시간
-        Schedule_workingTime NUMBER, -- 일한시간 (매달 초기화)
-        Schedule_workingdate NUMBER -- 당월근무일수 (퇴근 카운트, 매달 초기화)
+CREATE TABLE SALARY ( -- 근무 및 급여내역, 저장하는테이블
+        SALARY_NO VARCHAR2(20), -- 번호(PK)
+        SALARY_EMPREGISTER_EMPNUM VARCHAR2(20), -- 사번(FK)
+        SALARY_WORKINGTIME NUMBER, -- 일한시간
+        SALARY_WORKINGDATE NUMBER, -- 근무일수
+        SALARY_HOLLYDAYSTART DATE, -- 휴가시작
+        SALARY_HOLLYDAYEND DATE, -- 휴가종료
+        SALARY_PAY  NUMBER--급여계산용
 );
 
-commit;
+CREATE TABLE  SCHEDULE ( -- 스케쥴
+        SCHEDULE_NO VARCHAR2(20), -- 번호(PK)
+        SCHEDULE_EMPREGISTER_EMPNUM VARCHAR2(20),   -- 사번(FK)
+        SCHEDULE_WORKINGSTART DATE, -- 출근시간
+        SCHEDULE_WORKINGEND DATE, -- 퇴근시간
+        SCHEDULE_WORKINGTIME NUMBER, -- 일한시간 (매달 초기화)
+        SCHEDULE_WORKINGDATE NUMBER -- 당월근무일수 (퇴근 카운트, 매달 초기화)
+);
+
+COMMIT;
