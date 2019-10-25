@@ -183,7 +183,7 @@
    INSERT INTO SALES_DETAILS(SD_NO, SD_SALES_NO, SD_MENU_CODE, SD_QTY, SD_PRICE) VALUES((SELECT COUNT(*) FROM SALES_DETAILS) + 1, (SELECT MAX(TO_NUMBER(SALES_NO)) FROM SALES), #{sd_Menu_Code} , #{sd_Qty}, #{sd_Price})
    </insert>
       
-   <delete id="ordersDelete" parameterType="map">(SELECT MAX(TO_NUMBER(SALES_NO)) FROM SALES);
+   <delete id="ordersDelete" parameterType="map">
    DELETE FROM ORDERS WHERE ORDERS_NO = #{orders_No}
    </delete>
    
