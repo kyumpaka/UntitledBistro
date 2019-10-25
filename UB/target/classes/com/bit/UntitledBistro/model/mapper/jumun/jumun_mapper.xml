@@ -268,7 +268,7 @@
    </select>
    
    <update id="paymentCancle" parameterType="map">
-   UPDATE PAYMENT SET PAYMENT_STATE = '?�불' WHERE PAYMENT_NO = #{payment_No}
+   UPDATE PAYMENT SET PAYMENT_STATE = '환불' WHERE PAYMENT_NO = #{payment_No}
    </update>
    
    <update id="storeMinus" parameterType="map">
