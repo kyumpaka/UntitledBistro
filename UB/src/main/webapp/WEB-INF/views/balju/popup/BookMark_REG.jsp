@@ -143,6 +143,7 @@
 								sorting : true,
 								editing : true,
 								data : Data,
+								noDataContent: "데이터를 입력해주세요",
 								deleteConfirm : function(item) {
 									return item.BK_NAME + " 상품을 삭제하시겠습니까?";
 								},
