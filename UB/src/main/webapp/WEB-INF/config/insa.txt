@@ -1,7 +1,7 @@
 --------------------- 테이블 전체삭제 -------------------------------------
-DROP TABLE EmpRegister;
-DROP TABLE Salary;
-DROP TABLE Schedule;
+DROP TABLE EmpRegister CASCADE CONSTRAINTS;
+DROP TABLE Salary CASCADE CONSTRAINTS;
+DROP TABLE Schedule CASCADE CONSTRAINTS;
 ---------------------------------------------------------------------------
 create table EmpRegister ( -- 직원등록 테이블
         EmpRegister_name VARCHAR2 (50) NOT NULL, -- 이름

@@ -1,5 +1,8 @@
 package com.bit.UntitledBistro.controller;
 
+import java.util.HashMap;
+
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
 import com.bit.UntitledBistro.service.insa.InsaService;
-
+import com.bit.UntitledBistro.service.jungsan.Jungsan_view_Service;
+import com.bit.UntitledBistro.service.seobis.Seobis_MemberService;
 import com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO;
 import com.bit.UntitledBistro.service.insa.InsaService;
 
@@ -18,7 +22,11 @@ public class HomeController {
 	
 	@Autowired
 	InsaService insaService;
-	
+	@Autowired
+	private Seobis_MemberService Seobis_memberService;
+	@Autowired
+	private Jungsan_view_Service jungsan_view_Service; 	
+
 	@RequestMapping(value = {"/login", "/"})
 	public String home() {
 		
@@ -66,8 +74,8 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/erp")
-	public String erp(Insa_EmpRegisterDTO dto, HttpSession session) {
-		insaService.InsaLoginSearch(dto, session);
+	public String erp(Insa_EmpRegisterDTO dto, HttpSession session, Model model) {
+		insaService.InsaLoginSearch(dto, session); // 세션에 넣기
 		
 		return "baseLayout";
 	}

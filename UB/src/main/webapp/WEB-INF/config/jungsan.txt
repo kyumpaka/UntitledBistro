@@ -1,8 +1,8 @@
 --------------------- 테이블 전체삭제 -------------------------------------
-DROP TABLE JUNGSAN_STATE;
-DROP TABLE Jungsan_Input;
-DROP TABLE Month_Input;
-DROP TABLE JUNGSAN_DIFFERENCE;
+DROP TABLE JUNGSAN_STATE CASCADE CONSTRAINTS;
+DROP TABLE Jungsan_Input CASCADE CONSTRAINTS;
+DROP TABLE Month_Input CASCADE CONSTRAINTS;
+DROP TABLE JUNGSAN_DIFFERENCE CASCADE CONSTRAINTS;
 ---------------------------------------------------------------------------
 
 CREATE TABLE JUNGSAN_STATE (

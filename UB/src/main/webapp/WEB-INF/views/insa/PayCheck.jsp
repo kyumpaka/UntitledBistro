@@ -68,11 +68,11 @@
 
             <tr>
                <td>${b.empregister_name}</td>
-               <td>${b.empregister_paytime }000원</td>
-               <td>${b.empregister_payday }000원</td>
+               <td>${b.empregister_paytime }원</td>
+               <td>${b.empregister_payday }원</td>
                <td>${b.salary_workingtime }시간</td>
                <td>${b.salary_workingdate }일</td>
-               <td>${b.salary_pay }000원</td>
+               <td>${b.salary_pay }원</td>
             </tr>
          </c:forEach>
          
@@ -116,7 +116,11 @@
          bStateSave : true,
          "iDisplayLength" : 10,
          "language" : {
-            search : "Search : "
+        	 search : "   검색: ",
+             "paginate": {
+                 "next": "다음",
+                 "previous": "이전"
+             }
          },
       });
    </script>

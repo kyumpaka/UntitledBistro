@@ -331,10 +331,10 @@ td {
 				<td class='ti' colspan='3'>시급</td>
 
 				<td colspan='2'><input type="number" name="empregister_paytime" id="empregister_paytime"
-					style="border: none; background: transparent; text-align: center">천원</td>
+					style="border: none; background: transparent; text-align: center">원</td>
 				<td class='ti' colspan='1'>일급</td>
 				<td><input type="number" name="empregister_payday" id="empregister_payday"
-					style="border: none; background: transparent; text-align: center">만원</td>
+					style="border: none; background: transparent; text-align: center">원</td>
 			</tr>
 			<tr>
 				<td colspan='3' class='ti'>총 근무시간</td>

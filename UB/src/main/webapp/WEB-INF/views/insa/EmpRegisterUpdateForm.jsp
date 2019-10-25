@@ -275,9 +275,9 @@ function sample4_execDaumPostcode() {
 			</tr>
 			<tr>
 				<td class='ti' colspan='3'>시급</td>
-				<td colspan='2'><input type="number" name="empregister_paytime" id="empregister_paytime" value="${b.empregister_paytime }">천원</td>
+				<td colspan='2'><input type="number" name="empregister_paytime" id="empregister_paytime" value="${b.empregister_paytime }">원</td>
 				<td class='ti' colspan='1'>월급</td>
-				<td colspan='2'><input type="number" name="empregister_payday" id="empregister_payday" value="${b.empregister_payday }">만원</td>
+				<td colspan='2'><input type="number" name="empregister_payday" id="empregister_payday" value="${b.empregister_payday }">원</td>
 
 			</tr>
 			<tr>

@@ -107,9 +107,9 @@ td {
 			</tr>
 			<tr>
 				<td class='ti' colspan='3'>시급</td>
-				<td colspan='2'>${b.empregister_paytime }천원</td>
+				<td colspan='2'>${b.empregister_paytime }원</td>
 				<td class='ti' colspan='1'>월급</td>
-				<td colspan='2'>${b.empregister_payday }만원</td>
+				<td colspan='2'>${b.empregister_payday }원</td>
 			</tr>
 			<tr>
 				<td colspan='3'>총근무시간</td>

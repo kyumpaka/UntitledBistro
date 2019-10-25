@@ -124,22 +124,25 @@
    
    
       $('#Emplist').DataTable({ // 페이징 처리, 검색, show entries
-         pageLength : 10,
-         bPaginate : true,
-         bLengthChange : true,
-         lengthMenu : [ [ 10, 20, 30, -1 ], [ 10, 20, 30, "All" ] ],
-         bAutoWidth : false,
-         processing : true,
-         ordering : true,
-         serverSide : false,
-         searching : true,
-         bStateSave : true,
-         "iDisplayLength" : 10,
-         "language" : {
-            search : "Search : "
-         },
-      });
-
+    	    pageLength : 10,
+            bPaginate : true,
+            bLengthChange : true,
+            lengthMenu : [ [ 10, 20, 30, -1 ], [ 10, 20, 30, "All" ] ],
+            bAutoWidth : false,
+            processing : true,
+            ordering : true,
+            serverSide : false,
+            searching : true,
+            bStateSave : true,
+            "iDisplayLength" : 10,
+            "language" : {
+           	 search : "   검색: ",
+                "paginate": {
+                    "next": "다음",
+                    "previous": "이전"
+                }
+            },
+         });
       function EmpRegisterRead(empnum) {
          //alert("삭제")
          location.href = "/UntitledBistro/EmpRegisterRead?empregister_empnum="

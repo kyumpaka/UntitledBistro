@@ -105,7 +105,6 @@ public class InsaServiceImpl implements InsaService {
 		Insa_EmpRegisterDTO dto2 = insaDAO.viewMember(dto);
 		session.setAttribute("empregister_empnum", dto2.getEmpregister_empnum());
 		session.setAttribute("empregister_name", dto2.getEmpregister_name());
-		session.setAttribute("empregister_photo", dto2.getEmpregister_photo());
 			
 		return true;
 	}
