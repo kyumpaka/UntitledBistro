@@ -10,6 +10,8 @@ public class Insa_SalaryDTO {
 	private int salary_workingdate; // 근무일수
 	private int salary_pay;
 	private String salaraydate;
+	private String salary_hollydaystart;// 휴가시작
+	private String salary_hollydayend; // 휴가종료
 	public String getSalary_no() {
 		return salary_no;
 	}
@@ -52,13 +54,28 @@ public class Insa_SalaryDTO {
 	public void setSalaraydate(String salaraydate) {
 		this.salaraydate = salaraydate;
 	}
+	public String getSalary_hollydaystart() {
+		return salary_hollydaystart;
+	}
+	public void setSalary_hollydaystart(String salary_hollydaystart) {
+		this.salary_hollydaystart = salary_hollydaystart;
+	}
+	public String getSalary_hollydayend() {
+		return salary_hollydayend;
+	}
+	public void setSalary_hollydayend(String salary_hollydayend) {
+		this.salary_hollydayend = salary_hollydayend;
+	}
 	@Override
 	public String toString() {
 		return "Insa_SalaryDTO [salary_no=" + salary_no + ", salary_empRegister_empnum=" + salary_empRegister_empnum
 				+ ", salary_calendar=" + salary_calendar + ", salary_workingtime=" + salary_workingtime
 				+ ", salary_workingdate=" + salary_workingdate + ", salary_pay=" + salary_pay + ", salaraydate="
-				+ salaraydate + "]";
+				+ salaraydate + ", salary_hollydaystart=" + salary_hollydaystart + ", salary_hollydayend="
+				+ salary_hollydayend + "]";
 	}
-
+	
+	
+	
 	
 }

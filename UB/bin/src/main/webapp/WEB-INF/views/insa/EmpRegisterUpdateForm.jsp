@@ -9,6 +9,7 @@
 <html>
 <head>
 <style>
+
 td {
 	background-color: #FFFFFF;	
 	height: 30px;
@@ -25,7 +26,75 @@ td {
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 
 <script type="text/javascript">
- 
+function test1(){
+	var obj = document.EmpRegisterUpdateForm
+	if(obj.empregister_name.value == '' ){
+		swal('이름을 입력하세요');
+		obj.empregister_name.focus();
+		return false;
+	}
+	if(obj.empregister_tel.length != 11 ){
+		swal('핸드폰을 정확히 입력해주세요');
+		obj.empregister_tel.focus();
+		return false;
+	}
+	if(isNaN($("#empregister_tel").val)){
+	swal('핸드폰 번호를 숫자로만 입력해주세요');
+	obj.empregister_tel.focus();
+		}
+	if(obj.empregister_age.value == '' ){
+		swal('나이를 입력하세요');
+		obj.empregister_age.focus();
+		return false;
+	}
+	if(obj.sample4_postcode.value == '' ){
+		swal('우편번호를 입력해주세요');
+		obj.sample4_postcode.focus();
+		return false;
+	}
+	if(obj.empregister_grade.value == '' ){
+		swal('직급을 선택해주세요 ');
+		obj.empregister_grade.focus();
+		return false;
+	}
+	if(obj.empregister_bankname.value == '' ){
+		swal('은행을 선택해주세요 ');
+		obj.empregister_bankname.focus();
+		return false;
+	}
+	if(obj.empregister_accountholder.value == '' ){
+		swal('예금주를 적어주세요 ');
+		obj.empregister_accountholder.focus();
+		return false;
+	}
+	
+	if(obj.empregister_banknum.value == '' ){
+		swal('계좌번호를 적어주세요 ');
+		obj.empregister_banknum.focus();
+		return false;
+	}
+
+	if($(':radio[name="empregister_payclassfiy"]').length < 1){
+		swal('급여구분을 체크해주세요 ');
+		return false; 
+		}
+	if($(':radio[name="empregister_leavecompany"]').length < 1){
+		swal('재직여부를 체크해주세요 ');
+		return false; 
+		}
+	if(obj.empregister_paytime.value == '' && obj.empregister_payday.value == '' ){
+		swal('급여를 적어주세요 ');
+		obj.empregister_paytime.focus();
+		return false;
+	}
+	window.opener.location.reload();
+	window.close();
+}
+
+
+
+
+
 function sample4_execDaumPostcode() {
 	new daum.Postcode(
 			{
@@ -90,15 +159,7 @@ function sample4_execDaumPostcode() {
 }
 
 
-function EmpRegisterUpdate(empregister_empnum){
-	$("#update").submit;
-/* 	window.close(); */
-}
 
-function payclassfiy(){
-	$("input:radio[name='empregister_payclassfiy']").is(":checked");
-	
-}
 
 
 
@@ -109,8 +170,8 @@ function payclassfiy(){
 </head>
 
 <body>
-	<form name="EmpRegisterUpdateForm"  id="update" Action="EmpRegisterUpdate" method="post">
-		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000'align='center'>
+	<form name="EmpRegisterUpdateForm"  id="update" Action="EmpRegisterUpdate" method="post" onsubmit="return test1()">
+		<table cellspacing='1' cellpadding='0' border='0' bgcolor='#000000'align='center' >
 			<tr>
 				<td colspan='3' rowspan='3' class='ti' >
 					<div class="img-wrap" >
@@ -197,9 +258,9 @@ function payclassfiy(){
 			</tr>
 			<tr>
 				<td class='ti' colspan='3'>시급</td>
-				<td colspan='2'><input type="number" name="empregister_pay" value="${b.empregister_pay }">천원</td>
+				<td colspan='2'><input type="number" name="empregister_paytime" value="${b.empregister_paytime }">천원</td>
 				<td class='ti' colspan='1'>일급</td>
-				<td colspan='2'><!--<input type="number" name="empregister_pay" value="${b.empregister_pay }">-->만원</td>
+				<td colspan='2'><input type="number" name="empregister_payday" value="${b.empregister_payday }">만원</td>
 
 			</tr>
 			<tr>
@@ -220,7 +281,7 @@ function payclassfiy(){
 
 				</select> --%></td>
 				<td>
-			<button  onclick="EmpregisterUpdate()" >등록</button>
+			<input type="submit">사원 수정
 				</td>
 			</tr>
 		</table>	

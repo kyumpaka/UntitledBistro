@@ -13,17 +13,20 @@
 
 <!-- <link href='/assets/demo-to-codepen.css' rel='stylesheet' /> -->
 
-  <style>
+  <style type="text/css">
     html, body {
       margin: 0;
       padding: 0;
       font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
       font-size: 14px;
+      background-color: #fefefe;
     }
     #calendar {
-      max-width: 900px;
+      max-width: 1200px;
       margin: 40px auto;
+      background-color: #fefefe;
     }
+    
   </style>
 
 <!-- 소스 -->
@@ -34,6 +37,8 @@
   <script src='https://unpkg.com/@fullcalendar/interaction@4.3.0/main.min.js'></script>
   <script src='https://unpkg.com/@fullcalendar/daygrid@4.3.0/main.min.js'></script>
   <script src='https://unpkg.com/@fullcalendar/timegrid@4.3.0/main.min.js'></script>
+  <script src='https://unpkg.com/@fullcalendar/core/locales/ko.js'></script>
+  <!-- <script src='fullcalendar/core/locales/ko.js'></script> -->
   <script>
    document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
@@ -44,9 +49,9 @@
       header: {
         left: 'prev,next today',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        right: 'dayGridMonth'
       },
-      
+      locale: 'ko',
       events: [ // 디비꺼 캘린더에 표시
     	  <c:forEach items="${Seobis_reserveSelect}" var="Seobis_reserveSelect">
     	  {
@@ -63,7 +68,9 @@
 		var height = 800;
 		var popupX = (window.screen.width / 2) - (width / 2);
 		var popupY = (window.screen.height / 2) - (height / 2);
+
 		window.open('${path}/Seobis/Seobis_newCalendar?date='+info.dateStr ,'예약하기','width='+width+',height='+height+',status=no,scrollbars=yes, left='+ popupX + ', top='+ popupY);
+
       },
       eventClick: function(info) {
           var eventObj = info.event;

@@ -48,7 +48,17 @@ public class InsaController {
 	public int insert(Insa_EmpRegisterDTO dto, MultipartHttpServletRequest mRequest) {
 		String fileName = insaService.imgUpload(mRequest);
 		dto.setEmpregister_photo(fileName);
-
+		
+		System.out.println("등록 테스트");
+		if(dto.getEmpregister_grade().equals("사원")) {
+			System.out.println("등록 사원");
+			dto.setEmpregister_authority("ROLE_MEMBER");
+		} else if(dto.getEmpregister_grade().equals("매니저")){
+			System.out.println("등록 매니저");
+			dto.setEmpregister_authority("ROLE_MANAGER");
+			
+		}
+		System.out.println(dto);
 		return insaService.EmpRegisterInsert(dto);
 
 	}
@@ -162,5 +172,5 @@ public class InsaController {
 		return "insa/PayCheck"; // list.jsp
 
 	}
-
+	
 }

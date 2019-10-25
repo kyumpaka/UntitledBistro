@@ -20,6 +20,8 @@ public class Jungsan_view_DTO {
      private int before_card;
      private int before_point;
      private Date state_date;
+     
+     
 	public int getPayment_point() {
 		return payment_point;
 	}

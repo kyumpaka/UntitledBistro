@@ -57,14 +57,23 @@ function WorkManagement(){
 		dataType : "json",
         success: function(data) {
         	if(data == 0) {
-        		swal("없는직원입니다");
+        		swal({
+        			title:"없는직원입니다",
+        			icon:"error"
+        		});
         	} else if(data == 1) {
-        		swal("출근입니다").then(() => {
+        		swal({
+        			title:"출근입니다.",
+        			icon:"success"
+        		}).then(() => {
 					  opener.document.location.reload();
 					  window.close();
 				  });
         	} else if(data == 2) {
-        		swal("퇴근입니다").then(() => {
+        		swal({
+        			title:"퇴근입니다.",
+        			icon:"success"
+        		}).then(() => {
 					  opener.document.location.reload();
 					  window.close();
 				  });

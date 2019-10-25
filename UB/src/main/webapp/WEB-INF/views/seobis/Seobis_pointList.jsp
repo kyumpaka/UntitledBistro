@@ -21,18 +21,19 @@
     
          <style>
         #pointbutton{
-            border-top-left-radius: 5px;
+  			border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
             border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;    
             margin-right:-4px;
         }
-        #btn_group button{
-            border: 1px solid skyblue;
-            background-color: skyblue;
+    	#btn_group button{
+            background-color: dimgray;
             color: white;
             padding: 5px;
         }
         #btn_group button:hover{
-            color: skyblue;
+            color: black;
             background-color: white;
         }
     </style>
@@ -55,8 +56,8 @@
                             <div class="page-title">
                                 <ol class="breadcrumb text-right">
                                     <li class="active"><a href="${path}/Seobis/jUs">회원 등록</a></li>
-                                    <li><a href="${path}/Seobis/cal">예약 관리</a></li>
-                                    <li><a href="${path}/Seobis/pList">포인트 관리</a></li>
+                                    <li><a href="${path}/Seobis/Seobis_calendar">예약 관리</a></li>
+                                    <li><a href="${path}/Seobis/mList">회원 관리</a></li>
                                 </ol>
                             </div>
                         </div>
