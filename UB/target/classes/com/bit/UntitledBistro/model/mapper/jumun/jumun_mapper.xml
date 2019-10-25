@@ -180,16 +180,16 @@
    </select>
    
    <insert id="salesDetailsInsert" parameterType="salesDetails">
-   INSERT INTO SALES_DETAILS(SD_NO, SD_SALES_NO, SD_MENU_CODE, SD_QTY, SD_PRICE) VALUES((SELECT COUNT(*) FROM SALES_DETAILS) + 1, (SELECT MAX(SALES_NO) FROM SALES), #{sd_Menu_Code} , #{sd_Qty}, #{sd_Price})
+   INSERT INTO SALES_DETAILS(SD_NO, SD_SALES_NO, SD_MENU_CODE, SD_QTY, SD_PRICE) VALUES((SELECT COUNT(*) FROM SALES_DETAILS) + 1, (SELECT MAX(TO_NUMBER(SALES_NO)) FROM SALES), #{sd_Menu_Code} , #{sd_Qty}, #{sd_Price})
    </insert>
       
-   <delete id="ordersDelete" parameterType="map">
+   <delete id="ordersDelete" parameterType="map">(SELECT MAX(TO_NUMBER(SALES_NO)) FROM SALES);
    DELETE FROM ORDERS WHERE ORDERS_NO = #{orders_No}
    </delete>
    
    <insert id="paymentInsert">
    INSERT INTO PAYMENT(PAYMENT_NO, PAYMENT_SALES_NO, PAYMENT_MEMBER_ID, PAYMENT_TABLE, PAYMENT_STATE, PAYMENT_POINT, PAYMENT_DISCOUNT, PAYMENT_CASH, PAYMENT_CARD) 
-   VALUES((SELECT COUNT(*) FROM PAYMENT) + 1, (SELECT MAX(SALES_NO) FROM SALES), #{payment_Member_Id}, #{payment_Table}, '성공', #{payment_Point}, #{payment_Discount}, #{payment_Cash}, #{payment_Card})
+   VALUES((SELECT COUNT(*) FROM PAYMENT) + 1, (SELECT MAX(TO_NUMBER(SALES_NO)) FROM SALES), #{payment_Member_Id}, #{payment_Table}, '성공', #{payment_Point}, #{payment_Discount}, #{payment_Cash}, #{payment_Card})
    </insert>
    
    <select id="paymentDateSelect" parameterType="map" resultType="java.util.Date">
@@ -197,7 +197,7 @@
    </select>
    
    <delete id="payFail">
-   DELETE FROM SALES WHERE SALES_NO = (SELECT MAX(SALES_NO) FROM SALES)
+   DELETE FROM SALES WHERE SALES_NO = (SELECT MAX(TO_NUMBER(SALES_NO)) FROM SALES)
    </delete>
    
    <select id="memberPointSelectById" parameterType="map" resultType="java.lang.Integer">
@@ -353,7 +353,7 @@
     </update>
     
     <update id= "shippingHistoryUpdate" parameterType="map">
-    UPDATE OUT_ITEM SET OI_SD_NO = (SELECT MAX(SALES_NO) FROM SALES) WHERE OI_OD_NO  = #{od_Orders_No} AND OI_DATE = (SELECT MAX(OI_DATE) FROM OUT_ITEM)
+    UPDATE OUT_ITEM SET OI_SD_NO = (SELECT MAX(TO_NUMBER(SALES_NO)) FROM SALES)) WHERE OI_OD_NO  = #{od_Orders_No} AND OI_DATE = (SELECT MAX(OI_DATE) FROM OUT_ITEM)
     </update>
     
     <select id="storeZeroSelect" resultType="java.lang.String">
