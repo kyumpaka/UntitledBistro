@@ -333,7 +333,7 @@
 			success:function(result){
 				var jsonResult = (JSON.parse(JSON.stringify(result)));
 					if(jsonResult.result=="success"){
-						alert(jsonResult.resultMsg);
+						//alert(jsonResult.resultMsg);
 					}else if(jsonResult.result=="failure"){
 						alert(jsonResult.resultMsg);
 						}

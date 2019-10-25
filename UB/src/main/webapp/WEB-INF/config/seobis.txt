@@ -1,31 +1,31 @@
---------------------- 테이블 전체삭제 -------------------------------------
+--------------------- ?�이�? ?�체??�� -------------------------------------
 DROP TABLE RESERVE CASCADE CONSTRAINTS;
 DROP TABLE MEMBER CASCADE CONSTRAINTS;
 
 -----------------------------------------------------------------------------
 
-create table RESERVE ( -- 예약 테이블
+CREATE TABLE RESERVE ( -- ?�약 ?�이�?
         RESERVE_NUM VARCHAR2(20), -- 번호(PK)
-        RESERVE_MEMBER_ID VARCHAR2(50),  -- 아이디(FK)
-        RESERVE_NAME VARCHAR2(50), -- 이름
-        RESERVE_PHONE1 VARCHAR2(50), -- 전화1
-        RESERVE_FIRSTTIME DATE DEFAULT SYSDATE, -- 처음 예약한 날짜
-        RESERVE_DATE DATE DEFAULT SYSDATE, -- 방문할 날짜
+        RESERVE_MEMBER_ID VARCHAR2(50),  -- ?�이??(FK)
+        RESERVE_NAME VARCHAR2(50), -- ?�름
+        RESERVE_PHONE1 VARCHAR2(50), -- ?�화1
+        RESERVE_FIRSTTIME DATE DEFAULT SYSDATE, -- 처음 ?�약?? ?�짜
+        RESERVE_DATE DATE DEFAULT SYSDATE, -- 방문?? ?�짜
         RESERVE_START VARCHAR2(50), 
         RESERVE_END VARCHAR2(50)
 );
 
-create table MEMBER ( -- 회원 테이블
-        MEMBER_ID VARCHAR2(50) NOT NULL, -- 아이디(PK)
-        MEMBER_NAME VARCHAR2(50) NOT NULL, -- 이름
-        MEMBER_GENDER VARCHAR2(20), -- 성별
-        MEMBER_BIRTH DATE, -- 생일
-        MEMBER_EMAIL VARCHAR2(100), -- 이메일
-        MEMBER_PHONE1 VARCHAR2(50), -- 전화1
-        MEMBER_GRADE VARCHAR2(20) DEFAULT 'bronze', -- 등급, 기본값 브론즈
-        MEMBER_POINT NUMBER DEFAULT 100, -- 포인트, 기본값 100점
-        MEMBER_PAY NUMBER DEFAULT 0, -- 회원 금액
-        MEMBER_REG DATE DEFAULT SYSDATE -- 가입날짜
+CREATE TABLE MEMBER ( -- ?�원 ?�이�?
+        MEMBER_ID VARCHAR2(50) NOT NULL, -- ?�이??(PK)
+        MEMBER_NAME VARCHAR2(50) NOT NULL, -- ?�름
+        MEMBER_GENDER VARCHAR2(20), -- ?�별
+        MEMBER_BIRTH DATE, -- ?�일
+        MEMBER_EMAIL VARCHAR2(100), -- ?�메??
+        MEMBER_PHONE1 VARCHAR2(50), -- ?�화1
+        MEMBER_GRADE VARCHAR2(20) DEFAULT 'BRONZE', -- ?�급, 기본�? 브론�?
+        MEMBER_POINT NUMBER DEFAULT 100, -- ?�인??, 기본�? 100??
+        MEMBER_PAY NUMBER DEFAULT 0, -- ?�원 금액
+        MEMBER_REG DATE DEFAULT SYSDATE -- 가?�날�?
 );
 
 
@@ -33,23 +33,23 @@ ALTER TABLE MEMBER ADD CONSTRAINT PK_MEMBER_ID PRIMARY KEY(MEMBER_ID);
 ALTER TABLE RESERVE ADD CONSTRAINT PK_RESERVE_NUM PRIMARY KEY(RESERVE_NUM);
 ALTER TABLE RESERVE ADD CONSTRAINT FK_RESERVE_MEMBER_ID FOREIGN KEY(RESERVE_MEMBER_ID) REFERENCES MEMBER(MEMBER_ID);
 
-insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1,member_point) values('m1','홍길동','남성', to_date('20190916','YYYYMMDD'),'hong@gmail.com','01011112222',10000000);
-insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('m2','임꺽정','남성', to_date('20180217','YYYYMMDD'),'Lim@gmail.com','01013452222');
-insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('m3','이순신','남성', to_date('20121216','YYYYMMDD'),'Lee@gmail.com','01073112322');
-insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('w1','유관순','여성', to_date('20190916','YYYYMMDD'),'You@gmail.com','01033331222');
-insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('w2','클레오파트라','여성', to_date('20110916','YYYYMMDD'),'Cleo@gmail.com','01021514122');
-insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('w3','마리퀴리','여성', to_date('20160316','YYYYMMDD'),'Mary@gmail.com','01078715522');
-insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('w4','테레사','여성', to_date('20140926','YYYYMMDD'),'Teresa@gmail.com','01013112422');
-insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('m4','한니발','남성', to_date('20140611','YYYYMMDD'),'Han@gmail.com','01044442222');
-insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('m5','카이사르','남성', to_date('20150515','YYYYMMDD'),'Kai@gmail.com','01077772222');
-insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('m6','시리우스','남성', to_date('20140122','YYYYMMDD'),'Siri@gmail.com','01088883333');
-insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('w5','코코샤넬','여성', to_date('20150706','YYYYMMDD'),'coco@gmail.com','01099992222');
-insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('w6','아멜리아에어하트','여성', to_date('20160211','YYYYMMDD'),'Air@gmail.com','01013415522');
-insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('w7','클라라바튼','여성', to_date('20120214','YYYYMMDD'),'Clara@gmail.com','0101222222');
-insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('w8','헬렌켈러','여성', to_date('20170717','YYYYMMDD'),'Helen@gmail.com','0103312422');
-insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('w9','잔다르크','여성', to_date('20110111','YYYYMMDD'),'Jan@gmail.com','01011445522');
-insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('m7','나폴레옹','남성', to_date('20150325','YYYYMMDD'),'Napol@gmail.com','01011112222');
-insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('m8','링컨','남성', to_date('20160626','YYYYMMDD'),'Lincoin@gmail.com','01035518122');
+insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1,member_point) values('m1','?�길??','?�성', to_date('20190916','YYYYMMDD'),'hong@gmail.com','01011112222',10000000);
+insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('m2','?�꺽??','?�성', to_date('20180217','YYYYMMDD'),'Lim@gmail.com','01013452222');
+insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('m3','?�순??','?�성', to_date('20121216','YYYYMMDD'),'Lee@gmail.com','01073112322');
+insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('w1','?��???','?�성', to_date('20190916','YYYYMMDD'),'You@gmail.com','01033331222');
+insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('w2','?�레?�파?�라','?�성', to_date('20110916','YYYYMMDD'),'Cleo@gmail.com','01021514122');
+insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('w3','마리?�리','?�성', to_date('20160316','YYYYMMDD'),'Mary@gmail.com','01078715522');
+insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('w4','?�레??','?�성', to_date('20140926','YYYYMMDD'),'Teresa@gmail.com','01013112422');
+insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('m4','?�니�?','?�성', to_date('20140611','YYYYMMDD'),'Han@gmail.com','01044442222');
+insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('m5','카이?�르','?�성', to_date('20150515','YYYYMMDD'),'Kai@gmail.com','01077772222');
+insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('m6','?�리?�스','?�성', to_date('20140122','YYYYMMDD'),'Siri@gmail.com','01088883333');
+insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('w5','코코?�넬','?�성', to_date('20150706','YYYYMMDD'),'coco@gmail.com','01099992222');
+insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('w6','?�멜리아?�어?�트','?�성', to_date('20160211','YYYYMMDD'),'Air@gmail.com','01013415522');
+insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('w7','?�라?�바??','?�성', to_date('20120214','YYYYMMDD'),'Clara@gmail.com','0101222222');
+insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('w8','?�렌켈러','?�성', to_date('20170717','YYYYMMDD'),'Helen@gmail.com','0103312422');
+insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('w9','?�다르크','?�성', to_date('20110111','YYYYMMDD'),'Jan@gmail.com','01011445522');
+insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('m7','?�폴?�옹','?�성', to_date('20150325','YYYYMMDD'),'Napol@gmail.com','01011112222');
+insert into member(MEMBER_ID,MEMBER_NAME,MEMBER_GENDER,MEMBER_BIRTH,MEMBER_EMAIL,MEMBER_PHONE1) values('m8','링컨','?�성', to_date('20160626','YYYYMMDD'),'Lincoin@gmail.com','01035518122');
 
-commit;
+COMMIT;
 

@@ -269,7 +269,7 @@
         GROUP BY
             ORDER_ORDIN_NUM
         ORDER BY
-            ORDER_ORDIN_NUM
+            ORDER_ORDIN_NUM DESC
   	]]>
   </select>
   
