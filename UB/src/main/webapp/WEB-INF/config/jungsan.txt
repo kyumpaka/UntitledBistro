@@ -73,7 +73,7 @@ insert into Jungsan_Input(
         where ordin_end ='종결' and ORDIN_DATE between (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))
         from ORDER_INPUT) and (select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from ORDER_INPUT)),
       (select NVL(sum(payment_point),0) from payment where payment_date like to_date('2019-09-27','YYYY-MM-DD')and 
-      PAYMENT_STATE ='성공'), 5000,'몰랑','2019-09-27');
+      PAYMENT_STATE ='성공'), 5000,'변심','2019-09-27');
       
       --2번
       insert into JUNGSAN_STATE values
@@ -201,7 +201,7 @@ insert into Jungsan_Input(
         where ordin_end ='종결' and ORDIN_DATE between (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))
         from ORDER_INPUT) and (select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from ORDER_INPUT)),
       (select NVL(sum(payment_point),0) from payment where payment_date like to_date('2019-10-18','YYYY-MM-DD')and 
-      PAYMENT_STATE ='성공'), 5000,'몰랑','2019-10-18');
+      PAYMENT_STATE ='성공'), 5000,'변심','2019-10-18');
       
       --2번
       insert into JUNGSAN_STATE values
@@ -313,7 +313,7 @@ insert into Jungsan_Input(
         where ordin_end ='종결' and ORDIN_DATE between (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))
         from ORDER_INPUT) and (select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from ORDER_INPUT)),
       (select NVL(sum(payment_point),0) from payment where payment_date like to_date('2019-10-19','YYYY-MM-DD')and 
-      PAYMENT_STATE ='성공'), 5000,'몰랑','2019-10-19');
+      PAYMENT_STATE ='성공'), 5000,'변심','2019-10-19');
        update JUNGSAN_STATE set to_total=
       ((select NVL(sum(payment_cash),0) from payment where payment_date like
       to_date('2019-10-19','YYYY-MM-DD')and PAYMENT_STATE ='성공')
@@ -511,7 +511,7 @@ insert into Jungsan_Input(
         where ordin_end ='종결' and ORDIN_DATE between (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))
         from ORDER_INPUT) and (select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from ORDER_INPUT)),
       (select NVL(sum(payment_point),0) from payment where payment_date like to_date('2019-10-22','YYYY-MM-DD')and 
-      PAYMENT_STATE ='성공'), 5000,'몰랑','2019-10-22');
+      PAYMENT_STATE ='성공'), 5000,'변심','2019-10-22');
        update JUNGSAN_STATE set to_total=
       ((select NVL(sum(payment_cash),0) from payment where payment_date like
       to_date('2019-10-22','YYYY-MM-DD')and PAYMENT_STATE ='성공')
@@ -577,7 +577,7 @@ insert into Jungsan_Input(
         where ordin_end ='종결' and ORDIN_DATE between (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))
         from ORDER_INPUT) and (select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from ORDER_INPUT)),
       (select NVL(sum(payment_point),0) from payment where payment_date like to_date('2019-10-23','YYYY-MM-DD')and 
-      PAYMENT_STATE ='성공'), 5000,'몰랑','2019-10-23');
+      PAYMENT_STATE ='성공'), 5000,'변심','2019-10-23');
        update JUNGSAN_STATE set to_total=
       ((select NVL(sum(payment_cash),0) from payment where payment_date like
       to_date('2019-10-23','YYYY-MM-DD')and PAYMENT_STATE ='성공')
