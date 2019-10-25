@@ -168,7 +168,7 @@
    </insert>
    
    <select id="salesSelectMax" resultType="java.lang.Integer">
-   SELECT MAX(SALES_NO) FROM SALES
+   SELECT MAX(TO_NUMBER(SALES_NO)) FROM SALES
    </select>
    
    <select id="salesInputSelect" parameterType="HashMap" resultType="salesDetails">
@@ -353,7 +353,7 @@
     </update>
     
     <update id= "shippingHistoryUpdate" parameterType="map">
-    UPDATE OUT_ITEM SET OI_SD_NO = (SELECT MAX(TO_NUMBER(SALES_NO)) FROM SALES)) WHERE OI_OD_NO  = #{od_Orders_No} AND OI_DATE = (SELECT MAX(OI_DATE) FROM OUT_ITEM)
+    UPDATE OUT_ITEM SET OI_SD_NO = (SELECT MAX(TO_NUMBER(SALES_NO)) FROM SALES) WHERE OI_OD_NO  = #{od_Orders_No} AND OI_DATE = (SELECT MAX(OI_DATE) FROM OUT_ITEM)
     </update>
     
     <select id="storeZeroSelect" resultType="java.lang.String">
