@@ -279,7 +279,7 @@ public class JungsanController {
 
 		String postdatepicker = request.getParameter("postdatepicker");
 		if (postdatepicker != null) {
-			map.put("postdatepicker", "%" + postdatepicker + "%");
+			map.put("postdatepicker", "%" + postdatepicker.substring(2) + "%");
 		}
 		List<Jungsan_Input_DTO> getjungsan_inputList = jungsan_input_Service.getjungsan_inputList(map); // 조회
 

@@ -829,14 +829,14 @@ FROM schedule where schedule_workingstart like to_date(sysdate,'YYYY-MM-DD')
 	</select>
 	
 	<select id="parttime" resultType="int">
-select nvl(sum(round((e.EmpRegister_paytime*1000)*((sc.schedule_workingend-sc.schedule_workingstart)*60) 
+select nvl(sum(round((e.EmpRegister_paytime)*((sc.schedule_workingend-sc.schedule_workingstart)*60) 
 )),0)from EmpRegister e, schedule sc where e.EMPREGISTER_EMPNUM = sc.SCHEDULE_EMPREGISTER_EMPNUM
 and sc.schedule_workingstart like to_date(sysdate,'YYYY-MM-DD')
 and e.EmpRegister_payclassfiy='시급'
 	</select>
 	
 	<select id="employee" resultType="int">
-select nvl(sum(e.EmpRegister_payday*1000),0) from EmpRegister e, schedule sc  
+select nvl(sum(e.EmpRegister_payday),0) from EmpRegister e, schedule sc  
 WHERE e.EMPREGISTER_EMPNUM = sc.SCHEDULE_EMPREGISTER_EMPNUM and 
 e.EmpRegister_payclassfiy='월급' and sc.schedule_workingstart like to_date(sysdate,'YYYY-MM-DD')
 	</select>

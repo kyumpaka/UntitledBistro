@@ -163,9 +163,10 @@
 <title></title>
 </head>
 <body>
+	<h2 align="center">Monthly List</h2><br><br>
+
 	<div id="chartdiv"></div>
 	
-	<h2 align="center">Monthly List</h2><br><br>
 	
 	<div class="container" align="center">
 		<table border="5" style="width: 100%;">
