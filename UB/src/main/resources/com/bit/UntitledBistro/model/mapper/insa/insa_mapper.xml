@@ -90,7 +90,7 @@
    <insert id="WorkAdd" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
       INSERT INTO SCHEDULE
       (SCHEDULE_NO, SCHEDULE_EMPREGISTER_EMPNUM, SCHEDULE_WORKINGSTART, SCHEDULE_WORKINGDATE)
-      VALUES ( (SELECT NVL(MAX(SCHEDULE_NO)+1,0) FROM SCHEDULE),
+      VALUES ( (SELECT NVL(MAX(TO_NUMBER(SCHEDULE_NO))+1,0) FROM SCHEDULE),
       #{empregister_empnum}, SYSDATE, 1)
    </insert>
 
