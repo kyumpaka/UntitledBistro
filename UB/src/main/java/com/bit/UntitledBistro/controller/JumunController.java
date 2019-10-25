@@ -321,7 +321,7 @@ public class JumunController {
 	
 	// 판매내역 보기
 	@RequestMapping(value = "/salesList.do")
-	public String salesForm(Model model) {
+	public String salesList(Model model) {
 		
 		return "views/jumun/salesList";
 	}
