@@ -94,7 +94,15 @@
 	</select>
 	
 	<select id="to_difference" resultType="int">
-	select sum(difference) from jungsan_difference where difference_date like to_date(sysdate,'YYYY-MM-DD')
+	select sum(difference) from jungsan_difference
+	<where>
+		<if test="postdatepicker == null">
+		difference_date like to_date(sysdate,'YYYY-MM-DD')
+   		</if>
+		<if test="postdatepicker != null">
+		difference_date like #{postdatepicker}
+		</if>
+		</where>
 	</select>
 	
 	<insert id="insert_difference">

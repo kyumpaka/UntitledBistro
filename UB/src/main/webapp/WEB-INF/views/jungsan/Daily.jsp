@@ -67,7 +67,7 @@ $(document).ready(function() {
 		 showButtonPanel: true, 
 	    currentText: '오늘 날짜', 
 	    closeText: '닫기', 
-	    dateFormat: "yymmdd"});
+	    dateFormat: "yy/mm/dd"});
 })
 </script>
 </html>
