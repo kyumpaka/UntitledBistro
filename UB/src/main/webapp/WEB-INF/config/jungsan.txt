@@ -1,7 +1,7 @@
---------------------- ?åÏù¥Î∏? ?ÑÏ≤¥??†ú -------------------------------------
+--------------------- ÌÖåÏù¥Î∏î ÏÇ≠Ï†ú -------------------------------------
 DROP TABLE JUNGSAN_STATE CASCADE CONSTRAINTS;
-DROP TABLE Jungsan_Input CASCADE CONSTRAINTS;
-DROP TABLE Month_Input CASCADE CONSTRAINTS;
+DROP TABLE JUNGSAN_INPUT CASCADE CONSTRAINTS;
+DROP TABLE MONTH_INPUT CASCADE CONSTRAINTS;
 DROP TABLE JUNGSAN_DIFFERENCE CASCADE CONSTRAINTS;
 ---------------------------------------------------------------------------
 
