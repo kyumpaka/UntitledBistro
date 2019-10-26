@@ -74,7 +74,7 @@
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header">
-							발주서 관리<small><code> 이 부분은 잠시대기 </code></small>
+							발주서 관리
 						</div>
 						<div class="card-body">
 							<table class="table table-striped table-hover">
@@ -114,8 +114,6 @@
 						<div class="card-footer">
 							<button class="btn btn-dark btn-lg pull-left"
 								style="margin-right: 20px;" onclick="location.href='${path}/balju/Balju'">신규</button>
-							<button class="btn btn-dark btn-lg pull-left"
-								style="margin-right: 20px;" onclick="test1()">인쇄</button>
 							<button class="btn btn-dark btn-lg pull-left" 
 								onclick="deleteCheck()">선택삭제</button>
 						</div>

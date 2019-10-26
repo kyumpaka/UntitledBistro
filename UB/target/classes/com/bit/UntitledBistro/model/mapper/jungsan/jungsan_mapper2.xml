@@ -4,8 +4,22 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DAO">
-	<select id="getjungsan_inputList" resultType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
-		select * from Jungsan_Input
+	<select id="getjungsan_inputList" parameterType="map" resultType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
+		select * from Jungsan_Input 
+		<where>
+		<if test="postdatepicker == null">
+		jungsan_input_date between 
+   		(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Jungsan_Input) and 
+   		(select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from Jungsan_Input)
+   		</if>
+		<if test="postdatepicker != null">
+		jungsan_input_date like #{postdatepicker}
+		</if>
+		</where>
+	</select>
+	
+	<select id="postdatepicker" resultType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
+		select * from Jungsan_Input where JUNGSAN_INPUT_DATE 
 	</select>
 	
 	<select id="to_date" resultType="string">
@@ -13,7 +27,7 @@
 	</select>
 	
 	<select id="MonthList" resultType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
-		select * from Month_Input where month_date like to_date(sysdate , 'YYYY-MM-DD')
+		select * from Month_Input
 	</select>
 	
 	<insert id="insert_daily">
@@ -36,11 +50,13 @@
 	(select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from Month_input)),
 	Month_card=(select nvl(sum(jungsan_input_card),0) from jungsan_input where jungsan_input_date between 
 	(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Month_input) and
-	(select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from Month_input)), 
-	Month_worktime=(select nvl(sum(jungsan_input_card),0)from jungsan_input where jungsan_input_date like to_date('2020-10-20','YYYY-MM-DD')),
-	Month_expenditure=(select nvl(sum(order_pr_ea*order_qt),0)from ORDER_INPUT inner join ORDERLIST on ordin_num = order_ordin_num
-	where ordin_end ='취소' and ORDIN_DATE between (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from dual) and 
-	(select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from dual)),
+	(select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from Month_input)),    
+	Month_worktime=(select nvl(sum(jungsan_input_worktime),0)from jungsan_input where jungsan_input_date between 
+	(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Month_input) and
+	(select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from Month_input)),
+	Month_expenditure=(select nvl(sum(jungsan_input_expenditure),0) from Jungsan_Input where jungsan_input_date between 
+	(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Month_input) and
+	(select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from Month_input)),  
 	Month_point=(select nvl(sum(jungsan_input_point),0) from jungsan_input where jungsan_input_date between 
 	(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Month_input) and
 	(select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from Month_input)),
@@ -50,7 +66,7 @@
 	Month_sum=(select nvl(sum(jungsan_input_cash+jungsan_input_card+jungsan_input_point),0) from jungsan_input where jungsan_input_date between 
 	(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Month_input) and
 	(select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from Month_input)),
-	Month_real_sum=(select nvl(sum(jungsan_input_cash+jungsan_input_card+jungsan_input_point-1000),0) 
+	Month_real_sum=(select nvl(sum(jungsan_input_cash+jungsan_input_card+jungsan_input_point-jungsan_input_expenditure),0) 
 	from jungsan_input where jungsan_input_date between 
 	(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Month_input) and
 	(select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from Month_input)),
@@ -78,7 +94,15 @@
 	</select>
 	
 	<select id="to_difference" resultType="int">
-	select sum(difference) from jungsan_difference where difference_date like to_date(sysdate,'YYYY-MM-DD')
+	select sum(difference) from jungsan_difference
+	<where>
+		<if test="postdatepicker == null">
+		difference_date like to_date(sysdate,'YYYY-MM-DD')
+   		</if>
+		<if test="postdatepicker != null">
+		difference_date like #{postdatepicker}
+		</if>
+		</where>
 	</select>
 	
 	<insert id="insert_difference">
@@ -97,11 +121,13 @@
 	<update id="update_difference_Month" parameterType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
 	update jungsan_difference set difference_Month = (select nvl(sum(difference),0) from jungsan_difference where 
      difference_date between (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from jungsan_difference) and 
-    (select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from jungsan_difference))
+    (select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from jungsan_difference) and difference_date like to_date(sysdate,'YYYY-MM-DD'))
 	</update>
 	
-	<select id="differenceList" resultType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
-		select * from jungsan_difference
+	<select id="differenceList" resultType="int">
+		select nvl(sum(difference_Month),0) from jungsan_difference where difference_date between 
+   (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from jungsan_difference) and 
+    (select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from jungsan_difference)
 	</select>
 	
 	<!-- 여기부터 -->

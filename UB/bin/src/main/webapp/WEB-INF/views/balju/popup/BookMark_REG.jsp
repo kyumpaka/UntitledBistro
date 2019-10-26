@@ -73,7 +73,7 @@
 
 <!-- jsgrid 사용을 위한 필요한 요소 cdn 연결-->
 <meta charset="UTF-8">
-<title>발주 계획 작성</title>
+<title>관심 품목 작성</title>
 <script type="text/javascript">
 	var openItemWin;
 
@@ -143,6 +143,7 @@
 								sorting : true,
 								editing : true,
 								data : Data,
+								noDataContent: "데이터를 입력해주세요",
 								deleteConfirm : function(item) {
 									return item.BK_NAME + " 상품을 삭제하시겠습니까?";
 								},
@@ -203,6 +204,7 @@
 <script>
 	$("#addData").click(function() {
 		alert("관심품목이 추가되었습니다")
+		var flag = true;
 		var insertItem = {};
 		insertItem.BK_CODE = $("#code").val();
 		insertItem.BK_NAME = $("#name").val();
@@ -211,8 +213,22 @@
 		insertItem.BK_QT = 0;
 		insertItem.BK_WR = "${sessionScope.empregister_name}";
 
+			if(insertItem.ORDER_QT<1||isNaN(insertItem.ORDER_QT)){
+					alert("수량을 정확히 입력해주세요");
+					flag = false;
+					return false;
+				}
+			if(flag == false){
+					return false;
+				}
 		console.log(insertItem);
 		$("#jsGrid").jsGrid("insertItem", insertItem);
+
+		$("#code").val("");
+		$("#name").val("");
+		$("#stndr").val("");
+		$("#qt").val("");
+		$("#price").val("");
 	});
 </script>
 <script>

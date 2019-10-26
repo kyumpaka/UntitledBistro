@@ -1,9 +1,7 @@
 package com.bit.UntitledBistro.service.jaego;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -85,7 +83,11 @@ public class JaegoServiceImpl implements JaegoService {
 	public int defectItemUpdates(DefectItemDTO[] defectItemDTOs) {
 		List<DefectItemDTO> defectItemList = Arrays.asList(defectItemDTOs);
 		dao.defectItemUpdates(defectItemList);
+		int i = 0;
 		for(DefectItemDTO defectItemDTO : defectItemDTOs) {
+			i++;
+			System.out.println("테스트" + i);
+			System.out.println(defectItemDTO);
 			int before_qty = dao.outItemSelectForDefectItem(defectItemDTO);
 			int update_qty = defectItemDTO.getDi_qty();
 			int item_qty = before_qty - update_qty;

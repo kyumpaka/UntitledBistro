@@ -143,6 +143,7 @@
 								sorting : true,
 								editing : true,
 								data : Data,
+								noDataContent: "데이터를 입력해주세요",
 								deleteConfirm : function(item) {
 									return item.BK_NAME + " 상품을 삭제하시겠습니까?";
 								},
@@ -222,6 +223,12 @@
 				}
 		console.log(insertItem);
 		$("#jsGrid").jsGrid("insertItem", insertItem);
+
+		$("#code").val("");
+		$("#name").val("");
+		$("#stndr").val("");
+		$("#qt").val("");
+		$("#price").val("");
 	});
 </script>
 <script>

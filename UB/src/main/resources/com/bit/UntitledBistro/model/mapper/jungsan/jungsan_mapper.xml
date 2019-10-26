@@ -816,4 +816,33 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 0100)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
+	
+	<select id="expenditure" resultType="int">
+select nvl(sum(order_pr_ea*order_qt),0)from ORDER_INPUT inner join ORDERLIST on ordin_num = order_ordin_num
+where ordin_end ='종결' and ORDIN_DATE between (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from ORDER_INPUT) and 
+(select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from ORDER_INPUT)
+	</select>
+	
+	<select id="worketime" resultType="int">
+SELECT nvl(sum(ROUND((schedule_workingend-schedule_workingstart)*60)),0) 
+FROM schedule where schedule_workingstart like to_date(sysdate,'YYYY-MM-DD')
+	</select>
+	
+	<select id="parttime" resultType="int">
+select nvl(sum(round((e.EmpRegister_paytime)*((sc.schedule_workingend-sc.schedule_workingstart)*60) 
+)),0)from EmpRegister e, schedule sc where e.EMPREGISTER_EMPNUM = sc.SCHEDULE_EMPREGISTER_EMPNUM
+and sc.schedule_workingstart like to_date(sysdate,'YYYY-MM-DD')
+and e.EmpRegister_payclassfiy='시급'
+	</select>
+	
+	<select id="employee" resultType="int">
+select nvl(sum(e.EmpRegister_payday),0) from EmpRegister e, schedule sc  
+WHERE e.EMPREGISTER_EMPNUM = sc.SCHEDULE_EMPREGISTER_EMPNUM and 
+e.EmpRegister_payclassfiy='월급' and sc.schedule_workingstart like to_date(sysdate,'YYYY-MM-DD')
+	</select>
+	
+	<select id="personnel" resultType="int">
+select count(SCHEDULE_EMPREGISTER_EMPNUM) from schedule where SCHEDULE_WORKINGSTART like to_date(sysdate)
+	</select>
+	
 </mapper> 

@@ -25,6 +25,10 @@
 	.right-panel .navbar-brand {
 		width: 188px;
 	}
+	#logo {
+		height: 25px;
+    	padding-bottom: 4px;
+	}
 	
 -->
 </style>
@@ -32,7 +36,9 @@
 <header id="header" class="header">
             <div class="top-left">
                 <div class="navbar-header"	>
-                    <a id="logo" class="navbar-brand" href="${path}/erp?empregister_empnum=<sec:authentication property='principal.username'/>">UntitedBistro</a>
+                    <a id="logo" class="navbar-brand" href="${path}/erp?empregister_empnum=<sec:authentication property='principal.username'/>">
+                    	<img id="logo" alt="로고 사진" src="${path}/resources/images/common/UBLogo.jpg">UntitedBistro
+                    </a>
                     <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
                 </div>
             </div>
@@ -79,7 +85,7 @@
 <!-- WebSocket -->
 <script type="text/javascript">
 
-var webSocket = new WebSocket("ws://localhost:8095${pageContext.request.contextPath}/realTime-ws");
+var webSocket = new WebSocket("ws://10.10.10.166:8095${pageContext.request.contextPath}/realTime-ws");
 webSocket.onopen = onOpen;
 webSocket.onmessage = onMessage;
 webSocket.onclose = onClose;

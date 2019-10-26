@@ -518,7 +518,7 @@
  	
  	<insert id="defectItemInsert" parameterType="defectItem">
 		<selectKey  keyProperty="di_no" resultType="int" order="BEFORE">
-			SELECT NVL(MAX(OI_NO),0) +1 FROM OUT_ITEM
+			SELECT NVL(MAX(DI_NO),0) +1 FROM DEFECT_ITEM
 		</selectKey>
 		INSERT INTO DEFECT_ITEM
 			(

@@ -1,7 +1,6 @@
 package com.bit.UntitledBistro.service.jungsan;
 
 import java.util.HashMap;
-
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -15,27 +14,17 @@ public class Jungsan_view_ServiceImpl implements Jungsan_view_Service {
 	
 	@Autowired
 	private SqlSession sqlsession;
-
-	
-	@Override
-	public int menucount_total() {
-		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
-		return jungsan_view_DAO.menucount_total();
-		/* test용 추후 각각의 메뉴 + 하는 대 사용예정 */
-	}
-	
+	//View_jungsan.jsp
 	@Override
 	public int befor_cash() {
 		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
 		return jungsan_view_DAO.befor_cash();
 	}
-
 	@Override
 	public int befor_card() {
 		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
 		return jungsan_view_DAO.befor_card();
 	}
-	
 	@Override
 	public int befor_point() {
 		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
@@ -46,134 +35,61 @@ public class Jungsan_view_ServiceImpl implements Jungsan_view_Service {
 		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
 		return jungsan_view_DAO.today_cash();
 	}
-
 	@Override
 	public int today_card() {
 		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
 		return jungsan_view_DAO.today_card();
 	}
-
 	@Override
 	public int today_point() {
 		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
 		return jungsan_view_DAO.today_point();
 	}
-
 	@Override
 	public int menucount_drink() {
 		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
 		return jungsan_view_DAO.menucount_drink();
 	}
-
 	@Override
 	public int menucount_cooking() {
 		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
 		return jungsan_view_DAO.menucount_cooking();
 	}
-
 	@Override
 	public int menucount_soup() {
 		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
 		return jungsan_view_DAO.menucount_soup();
 	}
-
 	@Override
 	public int befor_drink() {
 		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
 		return jungsan_view_DAO.befor_drink();
 	}
-
 	@Override
 	public int befor_cooking() {
 		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
 		return jungsan_view_DAO.befor_cooking();
 	}
-
 	@Override
 	public int befor_soup() {
 		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
 		return jungsan_view_DAO.befor_soup();
 	}
-
 	@Override
 	public int last_week_drink() {
 		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
 		return jungsan_view_DAO.last_week_drink();
 	}
-
 	@Override
 	public int last_week_cooking() {
 		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
 		return jungsan_view_DAO.last_week_cooking();
 	}
-
 	@Override
 	public int last_week_soup() {
 		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
 		return jungsan_view_DAO.last_week_soup();
 	}
-
-	@Override
-	public List<Jungsan_view_DTO> jungsan_state(HashMap map) {
-		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
-		System.out.println("리스트 실행 서비스단");
-		return jungsan_view_DAO.jungsan_state(map);
-	}
-
-	@Override
-	public void update_state(Jungsan_view_DTO dto) {
-		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
-		jungsan_view_DAO.update_state(dto);
-		System.out.println("insert_state bbbbb");
-	}
-	
-	@Override
-	public void Show_list(Jungsan_view_DTO dto) {
-		Jungsan_view_DAO dao = sqlsession.getMapper(Jungsan_view_DAO.class);
-		int tmp = dao.today_total();
-		int tmp2 = dao.before_total();
-		if(tmp == 0 || tmp2 == 0){
-			dao.insert_Initial_value(dto);
-			dao.insert_Initial_value2(dto);
-			dao.delete_state(dto);
-		}else {
-			dao.insert_Initial_value(dto);
-			dao.delete_state(dto);
-		}
-		
-	}
-	@Override
-	public void delete_state(Jungsan_view_DTO dto) {
-		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
-		jungsan_view_DAO.delete_state(dto);
-	}
-
-	@Override
-	public void insert_Initial_value(Jungsan_view_DTO dto) {
-		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
-		jungsan_view_DAO.insert_Initial_value(dto);
-	}
-	
-	@Override
-	public void insert_Initial_value2(Jungsan_view_DTO dto) {
-		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
-		jungsan_view_DAO.insert_Initial_value2(dto);
-	}
-
-	@Override
-	public int today_total() {
-		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
-		return jungsan_view_DAO.today_total();
-	}
-
-	@Override
-	public int before_total() {
-		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
-		return jungsan_view_DAO.before_total();
-	}
-	/* 여기까지 */
-
-	
 	@Override
 	public int Monday() {
 		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
@@ -502,6 +418,94 @@ public class Jungsan_view_ServiceImpl implements Jungsan_view_Service {
 	public int yesterday_zero_Oclock() {
 		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
 		return jungsan_view_DAO.yesterday_zero_Oclock();
+	}
+	//Show_List.jsp
+	@Override
+	public List<Jungsan_view_DTO> jungsan_state(HashMap map) {
+		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
+		System.out.println("리스트 실행 서비스단");
+		return jungsan_view_DAO.jungsan_state(map);
+	}
+	@Override
+	public void update_state(Jungsan_view_DTO dto) {
+		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
+		jungsan_view_DAO.update_state(dto);
+		System.out.println("insert_state bbbbb");
+	}
+	//연휴 대비 데이터 입력
+	@Override
+	public void Show_list(Jungsan_view_DTO dto) {
+		Jungsan_view_DAO dao = sqlsession.getMapper(Jungsan_view_DAO.class);
+		int tmp = dao.today_total();
+		int tmp2 = dao.before_total();
+		if(tmp == 0 || tmp2 == 0){
+			dao.insert_Initial_value(dto);
+			dao.insert_Initial_value2(dto);
+			dao.delete_state(dto);
+		}else {
+			dao.insert_Initial_value(dto);
+			dao.delete_state(dto);
+		}
+		
+	}
+	@Override
+	public void delete_state(Jungsan_view_DTO dto) {
+		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
+		jungsan_view_DAO.delete_state(dto);
+	}
+
+	@Override
+	public void insert_Initial_value(Jungsan_view_DTO dto) {
+		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
+		jungsan_view_DAO.insert_Initial_value(dto);
+	}
+	
+	@Override
+	public void insert_Initial_value2(Jungsan_view_DTO dto) {
+		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
+		jungsan_view_DAO.insert_Initial_value2(dto);
+	}
+
+	@Override
+	public int today_total() {
+		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
+		return jungsan_view_DAO.today_total();
+	}
+
+	@Override
+	public int before_total() {
+		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
+		return jungsan_view_DAO.before_total();
+	}
+	//Day_DeadLine.jsp
+	@Override
+	public int expenditure() {
+		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
+		return jungsan_view_DAO.expenditure();
+	}
+
+	@Override
+	public int worketime() {
+		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
+		return jungsan_view_DAO.worketime();
+	}
+
+	@Override
+	public int parttime() {
+		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
+		return jungsan_view_DAO.parttime();
+	}
+
+	@Override
+	public int employee() {
+		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
+		return jungsan_view_DAO.employee();
+	}
+
+	@Override
+	public int personnel() {
+		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
+		return jungsan_view_DAO.personnel();
 	}
 
 }

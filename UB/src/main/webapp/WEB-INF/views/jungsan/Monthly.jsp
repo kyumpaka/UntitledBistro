@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -162,9 +163,10 @@
 <title></title>
 </head>
 <body>
+	<h2 align="center">Monthly List</h2><br><br>
+
 	<div id="chartdiv"></div>
 	
-	<h2 align="center">Monthly List</h2><br><br>
 	
 	<div class="container" align="center">
 		<table border="5" style="width: 100%;">
@@ -178,11 +180,9 @@
 				<td>업무시간</td>
 				<td>환불</td>
 				<td>날짜</td>
-				<td>월 차액</td> <!-- 월만 나오면됨 -->
 			</tr>	
 			
 			<c:forEach var="M" items="${MonthList}">
-			<c:forEach var="D" items="${differenceList}">
 			<tr>
 				<td>${M.month_real_sum}</td>
 				<td>${M.month_sum}</td> 
@@ -192,14 +192,19 @@
 				<td>${M.month_expenditure}</td>
 				<td>${M.month_worktime}</td>
 				<td>${M.month_refund}</td>
-				<td>${M.month_date}</td>
-				<td>${D.difference_month}</td>
+				<td><fmt:formatDate value="${M.month_date}" pattern="yyyy-MM-dd"/></td>
 			</tr>
 			</c:forEach>
-			</c:forEach>
+			<tr>
+				<td colspan="10" align="right" style="color: red;">차액 : ${differenceList}</td>
+			</tr>
 		</table>
 	</div>
 	<button type="button"><a href="Daily.html">일마감</a></button>
 	<button type="button"><a href="View_jungsan.html">현황 그래프 보기</a></button>
 </body>
+<script type="text/javascript">
+	console.log("테스트");
+	console.log("${differenceList}");
+</script>
 </html>

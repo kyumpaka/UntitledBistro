@@ -6,45 +6,48 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bit.UntitledBistro.model.insa.Insa_SalaryDTO;
 import com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO;
 import com.bit.UntitledBistro.model.jungsan.Jungsan_view_DTO;
+import com.bit.UntitledBistro.service.insa.InsaService;
 import com.bit.UntitledBistro.service.jungsan.Jungsan_Input_Service;
 import com.bit.UntitledBistro.service.jungsan.Jungsan_view_Service;
 
 @Controller
 public class JungsanController {
 	@Resource(name = "view")
-	private Jungsan_view_Service jungsan_view_Service; // 결산 현황 view
-	private	Object insert_state;
-	private	Object insert_Initial_value;
-	private	Object delete_state;
+	private Jungsan_view_Service jungsan_view_Service; 			// 결산 현황 view
+	private Object insert_state;								// 결산 현황 인서트
+	private Object insert_Initial_value;						// 기본값 인서트
+	private Object delete_state;								// 기본값 딜리트
 	@Resource(name = "input")
-	private Jungsan_Input_Service jungsan_input_Service; // 결산 마감 insert & list
-	private Object insert_daily; // 일마감 인서트 dto
-	private Object insert_Monthly;
-	private Object Show_difference;
-	private Object update_difference;
-	private Object update_difference_Month;
-	private Object delete_Initialvalue_Month;
-	
+	private Jungsan_Input_Service jungsan_input_Service; 		// 결산 마감 insert & list
+	private Object insert_daily; 								// 일마감 인서트 dto
+	private Object insert_Monthly;								// 월마감 인서트
+	private Object Show_difference;								// 차액
+	private Object update_difference;							// 차액 수정
+	private Object update_difference_Month;						// 월마감 리스트에 차액
+	private Object delete_Initialvalue_Month;					// 월마감 기본값
+
 	@RequestMapping("View_jungsan.html") // 결산 현황 view 매핑
 	public String Show(HttpServletRequest request) {
-							//////////////어제//////////
+		///////////////////////////////////////// 어제///////////////////////////////////////////
 		int befor_cash = jungsan_view_Service.befor_cash(); // 어제 현금
 		request.setAttribute("befor_cash", befor_cash);
 
 		int befor_card = jungsan_view_Service.befor_card(); // 어제 카드
 		request.setAttribute("befor_card", befor_card);
-		
+
 		int befor_point = jungsan_view_Service.befor_point(); // 어제 카드
 		request.setAttribute("befor_point", befor_point);
-							//////////////오늘//////////
+		////////////// 오늘//////////
 		int today_cash = jungsan_view_Service.today_cash(); // 현재 현금
 		request.setAttribute("today_cash", today_cash);
 
@@ -53,10 +56,7 @@ public class JungsanController {
 
 		int today_point = jungsan_view_Service.today_point(); // 사용 포인트
 		request.setAttribute("today_point", today_point);
-						/////////////////////////////////////////제품/////////////////////////////////////////// 
-		int menucount_total = jungsan_view_Service.menucount_total(); // 메뉴 토탈 테스트용
-		request.setAttribute("menucount_total", menucount_total);
-
+		///////////////////////////////////////// 제품///////////////////////////////////////////
 		int menucount_drink = jungsan_view_Service.menucount_drink(); // 메뉴 주류
 		request.setAttribute("menucount_drink", menucount_drink);
 
@@ -65,28 +65,28 @@ public class JungsanController {
 
 		int menucount_soup = jungsan_view_Service.menucount_soup(); // 메뉴 국물
 		request.setAttribute("menucount_soup", menucount_soup);
-								//////////////어제//////////
+		///////////////////////////////////////// 어제///////////////////////////////////////////
 		int befor_drink = jungsan_view_Service.befor_drink(); // 메뉴 국물
 		request.setAttribute("befor_drink", befor_drink);
-		
+
 		int befor_cooking = jungsan_view_Service.befor_cooking(); // 메뉴 국물
 		request.setAttribute("befor_cooking", befor_cooking);
-		
+
 		int befor_soup = jungsan_view_Service.befor_soup(); // 메뉴 국물
 		request.setAttribute("befor_soup", befor_soup);
-								//////////////지난주//////////
+		///////////////////////////////////////// 지난주///////////////////////////////////////////
 		int last_week_drink = jungsan_view_Service.last_week_drink(); // 메뉴 국물
 		request.setAttribute("last_week_drink", last_week_drink);
-		
+
 		int last_week_cooking = jungsan_view_Service.last_week_cooking(); // 메뉴 국물
 		request.setAttribute("last_week_cooking", last_week_cooking);
-		
+
 		int last_week_soup = jungsan_view_Service.last_week_soup(); // 메뉴 국물
 		request.setAttribute("last_week_soup", last_week_soup);
-								//////////////////요일///////////
-		String to_date = jungsan_input_Service.to_date();		//요일 표시
+		////////////////// 요일///////////
+		String to_date = jungsan_input_Service.to_date(); // 요일 표시
 		request.setAttribute("to_date", to_date);
-		
+
 		int Monday = jungsan_view_Service.Monday();
 		request.setAttribute("Monday", Monday);
 		int Tuesday = jungsan_view_Service.Tuesday();
@@ -199,46 +199,60 @@ public class JungsanController {
 		request.setAttribute("yesterday_twentythree_Oclock", yesterday_twentythree_Oclock);
 		int yesterday_zero_Oclock = jungsan_view_Service.yesterday_zero_Oclock();
 		request.setAttribute("yesterday_zero_Oclock", yesterday_zero_Oclock);
-		
+
 		return "jungsan/View_jungsan";
 	}
 
 	/* 결산 현황 & 결산 마감 나누어지는 중간지점 */
 
 	@RequestMapping("Day_DeadLine.html") // 결산 마감 맵핑
-	public String Day_DeadLine(HttpServletRequest request,@ModelAttribute Jungsan_view_DTO dto) {
-		
+	public String Day_DeadLine(HttpServletRequest request, @ModelAttribute Jungsan_view_DTO dto) {
+
 		jungsan_view_Service.Show_list(dto);
-		
+
 		jungsan_view_Service.update_state(dto);
 		
 		HashMap map = new HashMap();
-		
+
 		List<Jungsan_view_DTO> jungsan_state = jungsan_view_Service.jungsan_state(map);
 		request.setAttribute("jungsan_state", jungsan_state);
+
+		int expenditure = jungsan_view_Service.expenditure();
+		request.setAttribute("expenditure", expenditure);
 		
-		  int befor_cash = jungsan_view_Service.befor_cash(); // 어제 현금
-		  request.setAttribute("befor_cash", befor_cash);
-		  
-		  int befor_card = jungsan_view_Service.befor_card(); // 어제 카드
-		  request.setAttribute("befor_card", befor_card);
-		  
-		  int today_cash = jungsan_view_Service.today_cash(); // 현재 현금
-		  request.setAttribute("today_cash", today_cash);
-		  
-		  int today_card = jungsan_view_Service.today_card(); // 현재 카드
-		  request.setAttribute("today_card", today_card);
-		  
-		  int menucount_drink = jungsan_view_Service.menucount_drink(); // 메뉴 주류
-		  request.setAttribute("menucount_drink", menucount_drink);
-		  
-		  int menucount_cooking = jungsan_view_Service.menucount_cooking(); // 메뉴 요리
-		  request.setAttribute("menucount_cooking", menucount_cooking);
-		  
-		  int menucount_soup = jungsan_view_Service.menucount_soup(); // 메뉴 국물
-		  request.setAttribute("menucount_soup", menucount_soup);
-		 
+		int worketime = jungsan_view_Service.worketime();
+		request.setAttribute("worketime", worketime);
 		
+		int parttime = jungsan_view_Service.parttime();
+		request.setAttribute("parttime", parttime);
+		
+		int employee = jungsan_view_Service.employee();
+		request.setAttribute("employee", employee);
+
+		int personnel = jungsan_view_Service.personnel();
+		request.setAttribute("personnel", personnel);
+		
+		int befor_cash = jungsan_view_Service.befor_cash(); // 어제 현금
+		request.setAttribute("befor_cash", befor_cash);
+
+		int befor_card = jungsan_view_Service.befor_card(); // 어제 카드
+		request.setAttribute("befor_card", befor_card);
+
+		int today_cash = jungsan_view_Service.today_cash(); // 현재 현금
+		request.setAttribute("today_cash", today_cash);
+
+		int today_card = jungsan_view_Service.today_card(); // 현재 카드
+		request.setAttribute("today_card", today_card);
+
+		int menucount_drink = jungsan_view_Service.menucount_drink(); // 메뉴 주류
+		request.setAttribute("menucount_drink", menucount_drink);
+
+		int menucount_cooking = jungsan_view_Service.menucount_cooking(); // 메뉴 요리
+		request.setAttribute("menucount_cooking", menucount_cooking);
+
+		int menucount_soup = jungsan_view_Service.menucount_soup(); // 메뉴 국물
+		request.setAttribute("menucount_soup", menucount_soup);
+
 		return "jungsan/Day_DeadLine";
 	}
 
@@ -254,86 +268,98 @@ public class JungsanController {
 
 	@RequestMapping("Daily.html") // 일마감
 	public String day_list(HttpServletRequest request, Jungsan_Input_DTO dto) {
-		
-		 jungsan_input_Service.Show_difference(dto); //현상황 확인후 기본값 입력
-		  
-		 jungsan_input_Service.update_difference(dto); // 변경
-		
-		 int to_difference = jungsan_input_Service.to_difference(); // 메뉴 국물
-		 request.setAttribute("to_difference", to_difference);
-		 
+
+		jungsan_input_Service.Show_difference(dto); // 현상황 확인후 기본값 입력
+
+		jungsan_input_Service.update_difference(dto); // 변경
+		int to_difference = jungsan_input_Service.to_difference(); // 메뉴 국물
+		request.setAttribute("to_difference", to_difference);
+
+		HashMap map = new HashMap();
+
+		String postdatepicker = request.getParameter("postdatepicker");
+		if (postdatepicker != null) {
+			map.put("postdatepicker", "%" + postdatepicker.substring(2) + "%");
+		}
+		List<Jungsan_Input_DTO> getjungsan_inputList = jungsan_input_Service.getjungsan_inputList(map); // 조회
+
+		request.setAttribute("getjungsan_inputList", getjungsan_inputList); // 조회한걸 담음
+
+		return "jungsan/Daily"; // 주소 이동
+	}
+
+	@RequestMapping("pop/Daily.html") // 일마감
+	public String popday_list(HttpServletRequest request, Jungsan_Input_DTO dto) {
+
 		HashMap map = new HashMap();
 
 		List<Jungsan_Input_DTO> getjungsan_inputList = jungsan_input_Service.getjungsan_inputList(map); // 조회
 
 		request.setAttribute("getjungsan_inputList", getjungsan_inputList); // 조회한걸 담음
-		
-		return "jungsan/Daily"; // 주소 이동
-	}
-	
-	  @RequestMapping("Monthly.html") // 월마감
-	  public String MonthList(HttpServletRequest request,@ModelAttribute Jungsan_Input_DTO dto) {
-		  
-	  jungsan_input_Service.update_Monthly(dto); //리스트 수정 
-	  
-	  
-		
-		  jungsan_input_Service.update_difference_Month(dto);// 차액 수정
-		 	  
-	  HashMap map = new HashMap();
 
-	  List<Jungsan_Input_DTO> differenceList = jungsan_input_Service.differenceList(map);
-	  request.setAttribute("differenceList", differenceList); //월차액
-	  
-	  List<Jungsan_Input_DTO> MonthList = jungsan_input_Service.MonthList(map); //조회 
-	  request.setAttribute("MonthList", MonthList); // 조회한걸 담음
-	  
-	  	int Jan = jungsan_input_Service.Jan();
+		return "views/jungsan/Daily"; // 주소 이동
+	}
+
+	@RequestMapping("Monthly.html") // 월마감
+	public String MonthList(HttpServletRequest request, @ModelAttribute Jungsan_Input_DTO dto) {
+
+		jungsan_input_Service.update_Monthly(dto); // 리스트 수정
+
+		jungsan_input_Service.update_difference_Month(dto);// 차액 수정
+
+		HashMap map = new HashMap();
+
+		int differenceList = jungsan_input_Service.differenceList();
+		request.setAttribute("differenceList", differenceList);
+
+		List<Jungsan_Input_DTO> MonthList = jungsan_input_Service.MonthList(map); // 조회
+		request.setAttribute("MonthList", MonthList); // 조회한걸 담음
+
+		int Jan = jungsan_input_Service.Jan();
 		request.setAttribute("Jan", Jan);
-		
+
 		int Feb = jungsan_input_Service.Feb();
 		request.setAttribute("Feb", Feb);
-		
+
 		int Mar = jungsan_input_Service.Mar();
 		request.setAttribute("Mar", Mar);
-		
+
 		int Apr = jungsan_input_Service.Apr();
 		request.setAttribute("Apr", Apr);
-		
+
 		int May = jungsan_input_Service.May();
 		request.setAttribute("May", May);
-		
+
 		int Jun = jungsan_input_Service.Jun();
 		request.setAttribute("Jun", Jun);
-		
+
 		int Jul = jungsan_input_Service.Jul();
 		request.setAttribute("Jul", Jul);
-		
+
 		int Aug = jungsan_input_Service.Aug();
 		request.setAttribute("Aug", Aug);
-		
+
 		int Sept = jungsan_input_Service.Sept();
 		request.setAttribute("Sept", Sept);
-		
+
 		int Ock = jungsan_input_Service.Ock();
 		request.setAttribute("Ock", Ock);
-		
+
 		int Nov = jungsan_input_Service.Nov();
 		request.setAttribute("Nov", Nov);
-		
+
 		int Dec = jungsan_input_Service.Dec();
 		request.setAttribute("Dec", Dec);
-		
-	  return "jungsan/Monthly";
-	  }
-	 
 
-	/* 업데이트  금일 매출관련 사항만 변경 가능*/
+		return "jungsan/Monthly";
+	}
+
+	/* 업데이트 금일 매출관련 사항만 변경 가능 */
 	@RequestMapping("UpdateForm.html")
 	public String update(HttpServletRequest request, @ModelAttribute Jungsan_Input_DTO dto) {
 		int update = jungsan_input_Service.update(dto); // 업데이트 실행
 		request.setAttribute("update", update); // 1개 결과 담음
-		
+
 		return "jungsan/UpdateForm"; // 주소 이동
 	}
 
@@ -341,13 +367,5 @@ public class JungsanController {
 	public String day_listupdate(Jungsan_Input_DTO dto) {
 		int update = jungsan_input_Service.update(dto);
 		return "redirect:Daily.html"; // 주소 이동
-	}
-	
-	@RequestMapping("ajaxTest.html") // 일마감
-	@ResponseBody // mvc형태로 리턴을 하는게 아님 =>  ajax 형태로 리턴
-	public String ajaxTest(@RequestBody String param) {
-//		int update = jungsan_input_Service.update(dto);
-		return "ajax 테스트" + param; // 주소 이동
-		//이거 나중에 써야징
 	}
 }

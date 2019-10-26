@@ -46,5 +46,10 @@ public class Condition {
 	public void setEndPage(int endPage) {
 		this.endPage = endPage;
 	}
+	@Override
+	public String toString() {
+		return "Condition [keyword=" + keyword + ", keyword2=" + keyword2 + ", startDate=" + startDate + ", endDate="
+				+ endDate + ", startPage=" + startPage + ", endPage=" + endPage + "]";
+	}
 	
 }
