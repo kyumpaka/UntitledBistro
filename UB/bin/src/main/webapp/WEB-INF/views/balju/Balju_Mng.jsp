@@ -74,7 +74,7 @@
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header">
-							발주서 관리<small><code> 이 부분은 잠시대기 </code></small>
+							발주서 관리
 						</div>
 						<div class="card-body">
 							<table class="table table-striped table-hover">

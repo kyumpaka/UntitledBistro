@@ -107,26 +107,16 @@ td {
 			</tr>
 			<tr>
 				<td class='ti' colspan='3'>시급</td>
-				<td colspan='2'>${b.empregister_paytime }천원</td>
-				<td class='ti' colspan='1'>일급</td>
-				<td colspan='2'>${b.empregister_payday }만원</td>
+				<td colspan='2'>${b.empregister_paytime }원</td>
+				<td class='ti' colspan='1'>월급</td>
+				<td colspan='2'>${b.empregister_payday }원</td>
 			</tr>
 			<tr>
 				<td colspan='3'>총근무시간</td>
 
 
-				<td colspan='3'>${b.empregister_workplan}시간<%-- <select id="empregister_workplan"
-					name="empregister_workplan">
-						<option value="empregister_workplan">시간 선택</option>
-						<%
-							for (int i = 1; i <= 24; i++) {
-						%>
-						<option value="<%=i%>"><%=i + "시"%></option>
-						<%
-							}
-						%>
-
-				</select> --%></td>
+				<td colspan='3'>${b.empregister_workplan}시간
+					</td>
 				<td><input type="button" value="수정"
 					onclick="EmpregisterUpdate()" /></td>
 			</tr>

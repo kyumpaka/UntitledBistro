@@ -6,24 +6,26 @@
 <mapper namespace="jaego">
 
 	<select id="productSelectList" parameterType="condition" resultType="product">
+	
 		SELECT 
 			 PRODUCT_CODE
 			,PRODUCT_NAME
 		FROM
 			PRODUCT
 		<where>
-		<if test="keyword != '' and keyword != null">
+			<if test="keyword != null">
 			PRODUCT_CODE LIKE '%'||#{keyword}||'%'
-		</if>
-		<if test="keyword2 != '' and keyword2 != null">
+			</if>
+			<if test="keyword2 != null">
 		AND
 			PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
-		</if>
+			</if>
 		</where>
 	
 	</select>
 
  	<select id="itemSelectList" parameterType="condition" resultType="item">
+	
 	    SELECT
 		     II.II_PRODUCT_CODE     				AS ITEM_PRODUCT_CODE
 		    ,II.II_PRODUCT_NAME     				AS ITEM_PRODUCT_NAME
@@ -35,26 +37,22 @@
 		        ,II_PRODUCT_NAME
 		        ,SUM(II_QTY)	AS II_QTY	
 		    FROM 
-		        IN_ITEM 
+		        IN_ITEM
+		         
 		    <where>
-				<if test="keyword != '' and keyword != null"> 
-			<![CDATA[      
+				<if test="keyword != null"> 
 		        II_PRODUCT_CODE LIKE '%'||#{keyword}||'%'
-		    ]]>
 			    </if> 
-				<if test="keyword2 != '' and keyword2 != null">
-			<![CDATA[  
+				<if test="keyword2 != null">
 			AND     
 		        II_PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
-		    ]]>
 			    </if>
-				<if test="endDate != '' and endDate != null">
-			<![CDATA[
+				<if test="endDate != null">
 			AND
-				II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') 
-			]]>
+	<![CDATA[	II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')	]]> 
 				</if>
 			</where> 
+	
 		    GROUP BY
 		         II_PRODUCT_CODE
 		        ,II_PRODUCT_NAME
@@ -63,97 +61,117 @@
 		    (
 		    SELECT 
 		         OI_PRODUCT_CODE
-		        ,SUM(OI_QTY)    AS OI_QTY		
+		        ,SUM(OI_QTY)    	AS OI_QTY		
 		    FROM 
-		        OUT_ITEM 
+		    	OUT_ITEM
+	
 		    <where>
-				<if test="keyword != '' and keyword != null"> 
-			<![CDATA[      
+				<if test="keyword != null">       
 		        OI_PRODUCT_CODE LIKE '%'||#{keyword}||'%'
-		    ]]>
 			    </if> 
-				<if test="keyword2 != '' and keyword2 != null">
-			<![CDATA[  
+				<if test="keyword2 != null">  
 			AND     
 		        OI_PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
-		    ]]>
 			    </if>
-				<if test="endDate != '' and endDate != null">
-			<![CDATA[
+				<if test="endDate != null">	
 			AND
-				OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') 
-			]]>
+	<![CDATA[	OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>	
 				</if>
 			</where> 
+			
 		    GROUP BY
 		        OI_PRODUCT_CODE
 		    ) OI
 		ON
 		    II.II_PRODUCT_CODE = OI.OI_PRODUCT_CODE
 		ORDER BY 
-    		ITEM_PRODUCT_CODE
+    		II.II_PRODUCT_CODE
+    
  	</select>
  	
  	<!-- 재고테이블 유효성 검사 -->
  	<select id="itemValidate" parameterType="item" resultType="int">
+ 	
  		SELECT 
 		    COUNT(ITEM_NO) 
 		FROM 
 		    ITEM 
 		WHERE 
 		    ITEM_PRODUCT_CODE = #{item_product_code}
+	
  	</select>
  	<update id="itemPlusUpdate" parameterType="item">
+ 	
  		UPDATE 
 		    ITEM
 		SET 
 		    ITEM_QTY = ITEM_QTY + #{item_qty}
 		WHERE 
 		    ITEM_PRODUCT_CODE = #{item_product_code}
+ 	
  	</update>
  	
  	<update id="itemUpdateForDefectItem" parameterType="defectItem">
+ 	
  		UPDATE
  			ITEM
  		SET
  			ITEM_QTY = ITEM_QTY + #{di_qty}
  		WHERE 
  			ITEM_PRODUCT_CODE = #{di_product_code}
+ 	
  	</update>
  	
  	<update id="itemPlusUpdateForDefectItem" parameterType="list">
  	<foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
+ 	
  		UPDATE 
 		    ITEM
 		SET 
 		    ITEM_QTY = ITEM_QTY + #{item.di_qty}
 		WHERE 
 		    ITEM_PRODUCT_CODE = #{item.di_product_code}
+ 	
  	</foreach>
  	</update>
  	
  	<update id="itemMinusUpdate" parameterType="item">
+ 	
  		UPDATE 
 		    ITEM
 		SET 
 		    ITEM_QTY = ITEM_QTY - #{item_qty}
 		WHERE 
 		    ITEM_PRODUCT_CODE = #{item_product_code}
+ 	
  	</update>
 
  	
  	<sql id="maxItemNo">
- 		SELECT NVL(MAX(ITEM_NO),0) +1 FROM ITEM
+ 		
+ 		SELECT 
+ 			MAX(NVL(ITEM_NO,0)) +1 
+ 		FROM 
+ 			ITEM
+ 	
  	</sql>
  	<insert id="itemInsert" parameterType="item">
+ 	
  		INSERT INTO 
-		    ITEM(ITEM_NO, ITEM_PRODUCT_CODE, ITEM_QTY) 
-		VALUES
-		    ((<include refid="maxItemNo"/>), #{item_product_code}, #{item_qty})
+		    ITEM(
+		    	 ITEM_NO
+		    	,ITEM_PRODUCT_CODE
+		    	,ITEM_QTY
+		    	) 
+		VALUES(	
+			(<include refid="maxItemNo"/>)	
+			,#{item_product_code}
+			,#{item_qty})
+	
  	</insert>
  	
  	<select id="inItemSelectList" parameterType="condition" resultType="inItem"> 	
- 		<![CDATA[
+ 	
  		SELECT 
 			 /*+ INDEX_DESC(IN_ITEM PK_II_NO) */
 			 II_PRODUCT_CODE
@@ -162,30 +180,30 @@
 			,TO_CHAR(II_DATE,'YYYY/MM/DD')	AS II_DATE 
 		FROM 
 			IN_ITEM
-		]]> 
+	 
 		<where>
-			<if test="keyword != '' and keyword != null"> 
-		<![CDATA[      
+			<if test="keyword != null"> 
+      
 	        II_PRODUCT_CODE LIKE '%'||#{keyword}||'%'
-	    ]]>
+	
 		    </if> 
-			<if test="keyword2 != '' and keyword2 != null">
-		<![CDATA[  
+			<if test="keyword2 != null">
+	  
 		AND     
 	        II_PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
-	    ]]>
+	
 		    </if>
 			<if test="endDate != '' and endDate != null">
-		<![CDATA[
+	
 		AND
-			II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') 
-		]]>
+<![CDATA[	II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
+	
 			</if>
 		</where> 
  	</select>
  	
  	<select id="orderInItemSelect" parameterType="int" resultType="inItem">
- 		<![CDATA[
+ 	
  		SELECT 
 		     ORDER_PRODUCT_CODE  	AS II_PRODUCT_CODE
 		    ,ORDER_PRODUCT_NAME 	AS II_PRODUCT_NAME
@@ -199,46 +217,50 @@
 		    ORDIN_NUM = ORDER_ORDIN_NUM
 		WHERE
 		    ORDIN_NUM = #{ordin_num}
-		]]>
+	
  	</select>
  	
  	<insert id="inItemInsert" parameterType="inItem">
  		<selectKey keyProperty="ii_no" resultType="int" order="BEFORE">
+ 			
  			SELECT
  				NVL(MAX(II_NO),0) +1
  			FROM
  				IN_ITEM
+ 		
  		</selectKey>
+ 	
  		INSERT INTO 
-				IN_ITEM
-				(
-				 II_NO
-				,II_ORDIN_NUM
-				,II_PRODUCT_CODE
-				,II_PRODUCT_NAME
-				,II_QTY
-				)
+ 			IN_ITEM
+			(
+			 II_NO
+			,II_ORDIN_NUM
+			,II_PRODUCT_CODE
+			,II_PRODUCT_NAME
+			,II_QTY
+			)
 		VALUES
-				(
-				 #{ii_no}
-				,#{ii_ordin_num}
-				,#{ii_product_code}
-				,#{ii_product_name}
-				,#{ii_qty}
-				)
+			(
+			 #{ii_no}
+			,#{ii_ordin_num}
+			,#{ii_product_code}
+			,#{ii_product_name}
+			,#{ii_qty}
+			)
+			
  	</insert>
  	
  	<delete id="inItemDelete" parameterType="inItem">
- 		<![CDATA[
+ 	
  		DELETE
  			IN_ITEM
  		WHERE
  			II_NO = #{ii_no}
- 		]]>
+ 	
  	</delete>
  	
  	<select id="outItemSelectList" parameterType="condition" resultType="outItem">
- 		<![CDATA[
+ 	
  		SELECT 
 			 /*+ INDEX_DESC(OUT_ITEM PK_OI_NO) */
 			 OI_PRODUCT_CODE
@@ -247,41 +269,41 @@
 			,TO_CHAR(OI_DATE,'YYYY/MM/DD')	AS OI_DATE 
 		FROM 
 			OUT_ITEM
-		]]> 
+	 
 		<where>
-			<if test="keyword != '' and keyword != null"> 
-		<![CDATA[      
+			<if test="keyword != null"> 
+	      
 	        OI_PRODUCT_CODE LIKE '%'||#{keyword}||'%'
-	    ]]>
+	
 		    </if> 
-			<if test="keyword2 != '' and keyword2 != null">
-		<![CDATA[  
+			<if test="keyword2 != null">
+	 
 		AND     
 	        OI_PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
-	    ]]>
+	
 		    </if>
-			<if test="endDate != '' and endDate != null">
-		<![CDATA[
+			<if test="endDate != null">
+	
 		AND
-			OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') 
-		]]>
+<![CDATA[	OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')	]]>
+	
 			</if>
 		</where>
  	</select>
  	
  	<select id="outItemSelectForDefectItem" parameterType="defectItem" resultType="int">
- 		<![CDATA[
+ 	
  		SELECT 
  			OI_QTY
  		FROM
  			OUT_ITEM
  		WHERE
 	 		OI_NO = #{di_no}
- 		]]>
+ 	
  	</select>
  	
  	<update id="outItemUpdateForDefectItem" parameterType="defectItem">
-	 	<![CDATA[
+	 
 	 	UPDATE 
 	 		OUT_ITEM
 	 	SET
@@ -289,17 +311,17 @@
 	 		,OI_TYPE = #{di_state}
 	 	WHERE
 	 		OI_NO = #{di_no}
-	 	]]>
+	 
  	</update>
 	
 	<delete id="outItemDeleteForDefectItem" parameterType="list">
 		<foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
-		<![CDATA[
+		
 		DELETE
 			OUT_ITEM
 		WHERE 
 			OI_NO = #{item.di_no}		
-		]]>
+		
  		</foreach>
 	</delete>
 	
@@ -309,189 +331,167 @@
 	==================================================================================
 	 -->
  	<select id="changeItemSelectList" parameterType="condition" resultType="changeItem">	  
-		SELECT 
-		        T.PRODUCT_CODE			AS PRODUCT_CODE 
-		       ,T.PRODUCT_NAME			AS PRODUCT_NAME 
-		       ,NVL(T.TOTAL_QTY,0)		AS TOTAL_QTY	
-		       ,NVL(B.BEFORE_QTY,0)		AS BEFORE_QTY	
-		       ,NVL(I.IN_QTY,0)			AS IN_QTY		
-		       ,NVL(O.OUT_QTY,0) 		AS OUT_QTY
-		       			
+		
+		SELECT
+		     T.II_PRODUCT_CODE                  AS PRODUCT_CODE
+		    ,T.II_PRODUCT_NAME                  AS PRODUCT_NAME
+		    ,NVL(B.II_QTY,0) - NVL(B.OI_QTY,0)  AS BEFORE_QTY
+		    ,NVL(T.II_QTY,0) - NVL(B.II_QTY,0)  AS IN_QTY
+		    ,NVL(T.OI_QTY,0) - NVL(B.OI_QTY,0)  AS OUT_QTY
+		    ,NVL(T.II_QTY,0) - NVL(T.OI_QTY,0)  AS TOTAL_QTY
 		FROM
-		    (  
+		    (
 		    SELECT 
-		         II.II_PRODUCT_CODE     				AS PRODUCT_CODE
-		        ,P.PRODUCT_NAME         				AS PRODUCT_NAME
-		        ,NVL(II.II_QTY,0) - NVL(OI.OI_QTY,0)  	AS TOTAL_QTY
+		         II.II_PRODUCT_CODE     				
+		        ,II.II_PRODUCT_NAME         			
+		        ,II.II_QTY
+		        ,OI.OI_QTY       
 		        
 		    FROM
-		    	(
+		        (
 		        SELECT 
 		             II_PRODUCT_CODE
+		            ,II_PRODUCT_NAME
 		            ,SUM(II_QTY)		AS II_QTY
 		        FROM 
-		            IN_ITEM 		            
-		        <where> 
-		        	<if test="endDate !='' and endDate != null">
-<![CDATA[		    II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
-		        	</if>
-		        </where>
+		            IN_ITEM 	
+		    
+		        <where>
+					<if test="keyword != null"> 
+			      
+			        II_PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+			
+				    </if> 
+					<if test="keyword2 != null">
+			 
+				AND     
+			        II_PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
+			
+				    </if>
+					<if test="endDate != null">
+			
+				AND
+		<![CDATA[	II_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')	]]>
+			
+					</if>
+				</where>
+		    	
 		        GROUP BY 
-		            II_PRODUCT_CODE
-		    	) II
+		             II_PRODUCT_CODE
+		            ,II_PRODUCT_NAME 
+		        ) II
 		    FULL OUTER JOIN
-		   		(
+		        (
 		        SELECT 
 		             OI_PRODUCT_CODE
 		            ,SUM(OI_QTY)		AS OI_QTY
 		        FROM 
 		            OUT_ITEM 
-		        <where> 
-		        	<if test="endDate !='' and endDate != null">
-<![CDATA[		    OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
-		        	</if>
-		        </where>
+		    
+		        <where>
+					<if test="keyword != null"> 
+			      
+			        OI_PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+			
+				    </if> 
+					<if test="keyword2 != null">
+			 
+				AND     
+			        OI_PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
+			
+				    </if>
+					<if test="endDate != null">
+			
+				AND
+		<![CDATA[	OI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS')	]]>
+			
+					</if>
+				</where> 
+		          
 		        GROUP BY 
 		            OI_PRODUCT_CODE
-		    	) OI
+		        ) OI
 		    ON
 		        II.II_PRODUCT_CODE = OI.OI_PRODUCT_CODE
-		    INNER JOIN
-		        PRODUCT P
-		    ON  
-		        P.PRODUCT_CODE = II.II_PRODUCT_CODE
-		    <where>
-		    <if test="keyword != '' and keyword != null">
-		        P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'    
-		    </if>
-		    <if test="keyword2 != '' and keyword2 != null">
-		     AND
-		        P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'    
-		    </if>
-		    </where> 
 		    ) T
 		FULL OUTER JOIN
 		    (
-		    SELECT 
-		         II.II_PRODUCT_CODE      			   AS PRODUCT_CODE
-		        ,NVL(II.II_QTY,0) - NVL(OI.OI_QTY,0)   AS BEFORE_QTY
+		    SELECT
+		         II.II_PRODUCT_CODE      			   
+		        ,II.II_QTY
+		        ,OI.OI_QTY
+		        
 		    FROM
-		    	(
+		        (
 		        SELECT 
 		             II_PRODUCT_CODE
 		            ,SUM(II_QTY)        AS II_QTY
 		        FROM 
 		            IN_ITEM
-		        <where> 
-		        	<if test="startDate !='' and startDate != null">
-<![CDATA[		    II_DATE <= TO_DATE(#{startDate}||' 0:0:0','YYYY/MM/DD HH24:MI:SS') ]]>
-		        	</if>
-		        </where> 
+		        
+		         <where>
+					<if test="keyword != null"> 
+			      
+			        II_PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+			
+				    </if> 
+					<if test="keyword2 != null">
+			 
+				AND     
+			        II_PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
+			
+				    </if>
+					<if test="startDate != null">
+			
+				AND
+		<![CDATA[	II_DATE <= TO_DATE(#{startDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') -1	]]>
+			
+					</if>
+				</where> 
 		        GROUP BY 
 		            II_PRODUCT_CODE
-		    	) II
+		        ) II
 		    FULL OUTER JOIN
-		   		(
+		        (
 		        SELECT 
 		             OI_PRODUCT_CODE
 		            ,SUM(OI_QTY) 		AS OI_QTY
 		        FROM 
 		            OUT_ITEM
-		        <where> 
-		        	<if test="startDate !='' and startDate != null">
-<![CDATA[		    OI_DATE <= TO_DATE(#{startDate}||' 0:0:0','YYYY/MM/DD HH24:MI:SS') ]]>
-		        	</if>
-		        </where> 
+		         <where>
+					<if test="keyword != null"> 
+			      
+			        OI_PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+			
+				    </if> 
+					<if test="keyword2 != null">
+			 
+				AND     
+			        OI_PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
+			
+				    </if>
+					<if test="startDate != null">
+			
+				AND
+		<![CDATA[	OI_DATE <= TO_DATE(#{startDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') -1	]]>
+			
+					</if>
+				</where>
 		        GROUP BY 
 		            OI_PRODUCT_CODE
-		    	) OI
+		        ) OI
 		    ON
 		        II.II_PRODUCT_CODE = OI.OI_PRODUCT_CODE
-		    INNER JOIN
-		        PRODUCT P
-		    ON  
-		        P.PRODUCT_CODE = II.II_PRODUCT_CODE
-		    <where>
-		    <if test="keyword != '' and keyword != null">
-		        P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'
-		    </if>
-		    <if test="keyword2 != '' and keyword2 != null">
-		    AND
-		        P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
-		    </if>
-		    </where> 
 		    ) B
-		ON 
-		    T.PRODUCT_CODE = B.PRODUCT_CODE
-		FULL OUTER JOIN
-		    (
-		    SELECT 
-		         I.II_PRODUCT_CODE 		AS PRODUCT_CODE
-		        ,NVL(SUM(II_QTY),0)    		AS IN_QTY
-		    FROM 
-		        IN_ITEM I
-		    INNER JOIN
-		        PRODUCT P
-		    ON 
-		        I.II_PRODUCT_CODE = P.PRODUCT_CODE
-		    <where>
-		    <if test="keyword != '' and keyword != null">
-		        P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'
-		    </if>
-		    <if test="keyword2 != '' and keyword2 != null">
-		    AND
-		        P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
-		    </if>
-        	<if test="endDate !='' and endDate != null">
-        	AND
-<![CDATA[		I.II_DATE BETWEEN 
-							TO_DATE(#{startDate}||' 0:0:0','YYYY/MM/DD HH24:MI:SS') 
-						  AND 
-						  	TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
-        	</if>
-		    </where>
-		    GROUP BY 
-		        I.II_PRODUCT_CODE
-		    ) I
 		ON
-		    T.PRODUCT_CODE = I.PRODUCT_CODE
-		FULL OUTER JOIN
-		    (
-		    SELECT 
-		         O.OI_PRODUCT_CODE 				AS PRODUCT_CODE
-		        ,NVL(SUM(O.OI_QTY),0)    		AS OUT_QTY
-		    FROM 
-		        OUT_ITEM O
-		    INNER JOIN
-		        PRODUCT P
-		    ON
-		        O.OI_PRODUCT_CODE = P.PRODUCT_CODE
-		    <where>
-		    <if test="keyword != '' and keyword != null">
-		        P.PRODUCT_CODE LIKE '%'||#{keyword}||'%'
-		    </if>
-		    <if test="keyword2 != '' and keyword2 != null">
-		    AND
-		        P.PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
-		    </if>
-        	<if test="endDate !='' and endDate != null">
-        	AND
-<![CDATA[		O.OI_DATE BETWEEN 
-							TO_DATE(#{startDate}||' 0:0:0','YYYY/MM/DD HH24:MI:SS') 
-						  AND 
-						  	TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
-        	</if>
-		    </where>
-		    GROUP BY 
-		        O.OI_PRODUCT_CODE
-		    ) O
-		ON 
-		    T.PRODUCT_CODE = O.PRODUCT_CODE
-		ORDER BY PRODUCT_CODE
+		    B.II_PRODUCT_CODE = T.II_PRODUCT_CODE    		    
+		
  	</select>
 
 	<select id="defectItemSelectList" parameterType="condition" resultType="defectItem">
+		
 		SELECT
+			 /*+ INDEX(DEFECT_ITEM PK_DI_NO) */
 			 DI_NO 
 		    ,DI_PRODUCT_CODE
 		    ,DI_PRODUCT_NAME
@@ -500,25 +500,35 @@
 		    ,DI_STATE
 		    ,DI_REASON
 		FROM 
-		    DEFECT_ITEM D
+		    DEFECT_ITEM 
 		<where>
-		<if test="keyword != '' and keyword != null">
+		<if test="keyword != null">
+		
 		    DI_PRODUCT_CODE LIKE '%'||#{keyword}||'%'
+		    
 		</if>
-		<if test="keyword2 != '' and keyword2 != null">
+		<if test="keyword2 != null">
+		
 		AND
 		    DI_PRODUCT_NAME LIKE '%'||#{keyword2}||'%'
+		    
 		</if>
-		<if test="endDate != '' and endDate != null">
+		<if test="endDate != null">
+		
 		AND
 <![CDATA[	DI_DATE <= TO_DATE(#{endDate}||' 23:59:59','YYYY/MM/DD HH24:MI:SS') ]]>
+		
 		</if>
 		</where>
-	</select>
+		
+	</select> 	
  	
  	<insert id="defectItemInsert" parameterType="defectItem">
 		<selectKey  keyProperty="di_no" resultType="int" order="BEFORE">
-			SELECT NVL(MAX(DI_NO),0) +1 FROM DEFECT_ITEM
+			SELECT 
+				NVL(MAX(DI_NO),0) +1
+			FROM 
+				DEFECT_ITEM
 		</selectKey>
 		INSERT INTO DEFECT_ITEM
 			(
@@ -542,6 +552,7 @@
  	
  	<update id="defectItemUpdates" parameterType="list">
  		<foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
+ 		
  		UPDATE 
 		    DEFECT_ITEM
 		SET
@@ -551,15 +562,18 @@
 		    ,DI_DATE = SYSDATE
 		WHERE 
 		    DI_NO = #{item.di_no}
+		    
  		</foreach>
  	</update>
  	
  	<delete id="defectItemDeletes" parameterType="list">
  		<foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
+ 		
  		DELETE
 		    DEFECT_ITEM
 		WHERE
 		    DI_NO = #{item.di_no}
+		    
  		</foreach>
  	</delete>
  	
@@ -568,9 +582,15 @@
  	<!-- ================================================================================== -->
  	<insert id="itemInsertList" parameterType="list">
 		<selectKey  keyProperty="di_no" resultType="int" order="BEFORE">
-			SELECT NVL(MAX(DI_NO),0) +1 FROM DEFECT_ITEM
+			
+			SELECT 
+				NVL(MAX(DI_NO),0) +1
+			FROM 
+				DEFECT_ITEM
+			
 		</selectKey>
 		<foreach item="item" collection="list" open="INSERT ALL"  close="SELECT * FROM DUAL" separator=" " index="index">
+		
 		INTO DEFECT_ITEM
 			(
 			 DI_NO
@@ -587,16 +607,20 @@
 			,#{item.di_state}
 			,#{item.di_reason}
 			)
+			
 		</foreach>
  	</insert>
  	
 	<insert id="outItemInsert" parameterType="outItem">
 		<selectKey keyProperty="oi_no" resultType="int" order="BEFORE">
+			
 			SELECT 
-				NVL(MAX(OI_NO),0) +1 
+				NVL(MAX(OI_NO),0) +1
 			FROM 
 				OUT_ITEM
+				
 		</selectKey>
+		
 		INSERT INTO OUT_ITEM
 			(
 			 OI_NO
@@ -611,10 +635,13 @@
 			,#{oi_product_name}
 			,#{oi_qty}
 			)
+			
 	</insert>
 	
  	<insert id="safeItemInserts" parameterType="list">
+		
 		<foreach item="item" collection="list" open="INSERT ALL"  close="SELECT * FROM DUAL" separator=" " index="index">
+		
 		INTO SAFE_ITEM
 			(
 			 SI_NO
@@ -623,24 +650,29 @@
 			) 
 		VALUES 
 			(
-			 ((SELECT NVL(MAX(SI_NO),0) +1 FROM SAFE_ITEM) + #{index})
+			 (SELECT NVL(MAX(SI_NO),0) +1 FROM SAFE_ITEM) + #{index}
 			,#{item.si_product_code}
 			,#{item.si_qty}
 			)
+			
 		</foreach>
+		
  	</insert>
  	
  	<select id="safeItemSelectValidate" parameterType="string" resultType="string">
+ 		
  		SELECT 
  			SI_PRODUCT_CODE 
  		FROM 
  			SAFE_ITEM 
  		WHERE 
  			SI_PRODUCT_CODE = #{si_product_code}
+ 			
  	</select>
  	
  	<!-- 안전재고 조회 -->
  	<select id="safeItemSelectList" resultType="safeItem">
+ 		
  		SELECT
  			 S.SI_NO
 		    ,S.SI_PRODUCT_CODE
@@ -652,10 +684,12 @@
 		    PRODUCT P
 		ON
 	    	S.SI_PRODUCT_CODE = P.PRODUCT_CODE
+	    	
  	</select>
  	
  	<update id="safeItemUpdates" parameterType="list">
  		<foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
+ 		
  		UPDATE 
 		    SAFE_ITEM
 		SET
@@ -663,22 +697,26 @@
 		    ,SI_QTY = #{item.si_qty}
 		WHERE 
 		    SI_NO = #{item.si_no}
+		    
  		</foreach>
  	</update>
  	
  	<delete id="safeItemDeletes" parameterType="list">
  		<foreach collection="list" item="item" separator=";" open="DECLARE BEGIN" close="; END;">
+ 		
  		DELETE
 		    SAFE_ITEM
 		WHERE
 		    SI_NO = #{item.si_no}
+		    
  		</foreach>
  	</delete>
  	
  	<!-- 재고현황과 안전재고 비교 -->
  	<select id="riskItemCount" parameterType="list" resultType="int">
+ 		
  		SELECT
-		      COUNT(I.ITEM_NO)
+		      COUNT(*)
 		FROM 
 		    ITEM I
 		INNER JOIN 
@@ -688,13 +726,17 @@
 		<where>
 		<foreach collection="list" item="item" separator=" ">
 		OR	
-<![CDATA[	I.ITEM_PRODUCT_CODE = #{item.si_product_code} AND I.ITEM_QTY <= #{item.si_qty} ]]>
+			I.ITEM_PRODUCT_CODE = #{item.si_product_code} 
+		AND 
+<![CDATA[	I.ITEM_QTY <= #{item.si_qty} ]]>
 		</foreach>
 		</where>
+		
  	</select>
  	
  	<!-- 재고현황과 안전재고 비교 -->
  	<select id="riskItemSelectList" parameterType="list" resultType="risk">
+ 		
  		SELECT
 		       P.PRODUCT_CODE
 		      ,P.PRODUCT_NAME
@@ -713,15 +755,19 @@
 		<where>
 		<foreach collection="list" item="item" separator=" ">
 		OR	
-<![CDATA[	I.ITEM_PRODUCT_CODE = #{item.si_product_code} AND I.ITEM_QTY <= #{item.si_qty} ]]>
+			I.ITEM_PRODUCT_CODE = #{item.si_product_code} 
+		AND 
+<![CDATA[	I.ITEM_QTY <= #{item.si_qty} ]]>
 		</foreach>
 		</where>
+		
  	</select>
  	
 	
 <select id="safeItemValidate" parameterType="list" resultType="int">
+
 	SELECT 
-		COUNT(SI_NO) 
+		COUNT(*) 
 	FROM 
 		SAFE_ITEM 
 	<where>
@@ -730,6 +776,9 @@
 		SI_PRODUCT_CODE = #{item.si_product_code}
 	</foreach>
 	</where> 
+	
 </select> 	
+ 
+
  
 </mapper>
