@@ -1,3 +1,8 @@
+DROP TABLE ITEM;
+DROP TABLE IN_ITEM;
+DROP TABLE OUT_ITEM;
+DROP TABLE SAFE_ITEM;
+DROP TABLE DEFECT_ITEM;
 CREATE TABLE ITEM ( -- 재고 테이블
      ITEM_NO INT -- 재고번호(PK)
     ,ITEM_PRODUCT_CODE VARCHAR(20) -- 물품코드(FK)
@@ -21,6 +26,7 @@ CREATE TABLE OUT_ITEM ( -- 출고내역 테이블
         ,OI_PRODUCT_CODE VARCHAR(20) -- 품목코드(FK)
         ,OI_PRODUCT_NAME VARCHAR(50) -- 품목명(역정렬화)
         ,OI_QTY INT -- 출고 수량
+        ,OI_DI_NO INT -- 불량번호(FK)
         ,OI_TYPE VARCHAR(20) DEFAULT '출고' -- 출고유형(출고,불량 등)
         ,OI_DATE TIMESTAMP DEFAULT NOW() -- 출고 날짜
 );
@@ -41,7 +47,7 @@ CREATE TABLE SAFE_ITEM (
     SI_QTY INT -- 안전수량
 );
 
-----------------------------------------------------------------------------------------------------------------------------------
+
 
 ALTER TABLE ITEM ADD CONSTRAINT PK_ITEM_NO PRIMARY KEY(ITEM_NO);
 ALTER TABLE IN_ITEM ADD CONSTRAINT PK_II_NO PRIMARY KEY(II_NO);

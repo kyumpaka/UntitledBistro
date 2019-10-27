@@ -5,9 +5,9 @@ public class OutItemDTO {
 	private String oi_product_code;
 	private String oi_product_name;
 	private int oi_qty;
+	private int oi_di_no;
 	private String oi_date;
 	private String oi_type;
-	
 	public int getOi_no() {
 		return oi_no;
 	}
@@ -32,6 +32,12 @@ public class OutItemDTO {
 	public void setOi_qty(int oi_qty) {
 		this.oi_qty = oi_qty;
 	}
+	public int getOi_di_no() {
+		return oi_di_no;
+	}
+	public void setOi_di_no(int oi_di_no) {
+		this.oi_di_no = oi_di_no;
+	}
 	public String getOi_date() {
 		return oi_date;
 	}
@@ -48,6 +54,8 @@ public class OutItemDTO {
 	@Override
 	public String toString() {
 		return "OutItemDTO [oi_no=" + oi_no + ", oi_product_code=" + oi_product_code + ", oi_product_name="
-				+ oi_product_name + ", oi_qty=" + oi_qty + ", oi_date=" + oi_date + ", oi_type=" + oi_type + "]";
+				+ oi_product_name + ", oi_qty=" + oi_qty + ", oi_di_no=" + oi_di_no + ", oi_date=" + oi_date
+				+ ", oi_type=" + oi_type + "]";
 	}
+	
 }	

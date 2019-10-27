@@ -59,6 +59,8 @@ public class JaegoServiceImpl implements JaegoService {
 			outItemDTO.setOi_product_code(defectItemDTO.getDi_product_code());
 			outItemDTO.setOi_product_name(defectItemDTO.getDi_product_name());
 			outItemDTO.setOi_qty(defectItemDTO.getDi_qty());
+			outItemDTO.setOi_di_no(defectItemDTO.getDi_no());
+			outItemDTO.setOi_type(defectItemDTO.getDi_state());
 			dao.outItemInsert(outItemDTO);
 			
 			ItemDTO itemDTO = new ItemDTO();

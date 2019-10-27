@@ -13,7 +13,7 @@
   		) 
   		VALUES 
   		(
-  			(SELECT NVL(MAX(ORPLIN_NUM),0)+1 FROM ORPL_INPUT),
+  			(SELECT IFNULL(MAX(ORPLIN_NUM),0)+1 FROM ORPL_INPUT),
   			SYSDATE
   		)
   	]]>
@@ -55,7 +55,7 @@
   		) 
   		VALUES
   		(
-  			(SELECT NVL(MAX(ORDIN_NUM),0)+1 FROM ORDER_INPUT),
+  			(SELECT IFNULL(MAX(ORDIN_NUM),0)+1 FROM ORDER_INPUT),
   			SYSDATE
   		)
   	]]>
@@ -176,10 +176,10 @@
   <select id="balju_Result" parameterType="hashmap" resultType="hashmap">
   	<![CDATA[
   		SELECT 
-            TO_CHAR(ORDIN_DATE,'YYYY-MM-DD') AS ORDIN_DATE,
+            TO_CHAR(ORDIN_DATE,'%Y-%c-%d') AS ORDIN_DATE,
             ORDER_ORDIN_NUM,
             ORDER_WR,
-  			NVL(ORDER_PRODUCT_NAME,'합계') AS ORDER_PRODUCT_NAME,
+  			IFNULL(ORDER_PRODUCT_NAME,'합계') AS ORDER_PRODUCT_NAME,
             SUM(ORDER_QT) AS ORDER_QT,
             ORDER_PR_EA,
             SUM(ORDER_QT*ORDER_PR_EA) AS ORDER_PR_TOT
@@ -200,10 +200,10 @@
   <select id="balju_Result_Search" parameterType="hashmap" resultType="hashmap">
   	<![CDATA[
   		SELECT 
-            TO_CHAR(ORDIN_DATE,'YYYY-MM-DD') AS ORDIN_DATE,
+            TO_CHAR(ORDIN_DATE,'%Y-%c-%d') AS ORDIN_DATE,
             ORDER_ORDIN_NUM,
             ORDER_WR,
-  			NVL(ORDER_PRODUCT_NAME,'합계') AS ORDER_PRODUCT_NAME,
+  			IFNULL(ORDER_PRODUCT_NAME,'합계') AS ORDER_PRODUCT_NAME,
             SUM(ORDER_QT) AS ORDER_QT,
             ORDER_PR_EA,
             SUM(ORDER_QT*ORDER_PR_EA) AS ORDER_PR_TOT
@@ -216,7 +216,7 @@
   			= 
   			ORDERLIST.ORDER_ORDIN_NUM
   		WHERE
-  			ORDIN_DATE >= TO_DATE(#{DATESTART}, 'YY-MM-DD') and ORDIN_DATE <= TO_DATE(#{DATEEND},'YY-MM-DD')+1
+  			ORDIN_DATE >= DATE_FORMAT(#{DATESTART}, '%Y-%c-%d') and ORDIN_DATE <= DATE_FORMAT(#{DATEEND},'%Y-%c-%d')+1
         GROUP BY 
             ROLLUP((ORDIN_DATE, ORDER_ORDIN_NUM, ORDER_PRODUCT_NAME, ORDER_WR,ORDER_PR_EA))
   	]]>	
@@ -227,7 +227,7 @@
   		SELECT  
   			ORDPL_ORDLIN_NUM,
   			ORDPL_ONUM,
-  			TO_CHAR(ORPLIN_DATE,'YYYY-MM-DD'),
+  			TO_CHAR(ORPLIN_DATE,'%Y-%c-%d'),
   			ORDPL_PRODUCT_CODE,
   			ORDPL_PRODUCT_NAME,
   			ORDPL_PRODUCT_STNDR,
@@ -252,7 +252,7 @@
   	<![CDATA[
   		SELECT 
   			MAX(ORDER_ORDIN_NUM) AS ORDER_ORDIN_NUM,
-            MAX(TO_CHAR(ORDIN_DATE,'YYYY-MM-DD')) AS ORPLIN_DATE,
+            MAX(TO_CHAR(ORDIN_DATE,'%Y-%c-%d')) AS ORPLIN_DATE,
             MAX(ORDER_WR) AS ORDER_WR,
   			MAX(ORDER_PRODUCT_NAME) AS ORDER_PRODUCT_NAME,
             COUNT(ORDER_PRODUCT_NAME)-1 AS ORDER_PRODUCT_COUNT,
@@ -277,7 +277,7 @@
   	<![CDATA[
   		SELECT 
   			MAX(ORDER_ORDIN_NUM) AS ORDER_ORDIN_NUM,
-            MAX(TO_CHAR(ORDIN_DATE,'YYYY-MM-DD')) AS ORPLIN_DATE,
+            MAX(TO_CHAR(ORDIN_DATE,'%Y-%c-%d')) AS ORPLIN_DATE,
             MAX(ORDER_WR) AS ORDER_WR,
   			MAX(ORDER_PRODUCT_NAME) AS ORDER_PRODUCT_NAME,
             COUNT(ORDER_PRODUCT_NAME)-1 AS ORDER_PRODUCT_COUNT,
@@ -304,7 +304,7 @@
   <select id="BPlan_Load" parameterType="hashmap" resultType="hashmap">
   	<![CDATA[
   		SELECT  
-  			MAX(TO_CHAR(ORPLIN_DATE,'YYYY-MM-DD')) AS ORPLIN_DATE,
+  			MAX(TO_CHAR(ORPLIN_DATE,'%Y-%c-%d')) AS ORPLIN_DATE,
 			MAX(ORDPL_ORDLIN_NUM) AS ORDPL_ORDLIN_NUM,
   			MAX(ORDPL_PRODUCT_NAME) AS ORDPL_PRODUCT_NAME,
 			COUNT(ORDPL_PRODUCT_NAME)-1 AS ORDPL_PRODUCT_NAME_COUNT
@@ -393,7 +393,7 @@
   	<![CDATA[
   	UPDATE ORDERLIST
   	SET
-  		ORDER_II_NO = (select nvl(max(ii_no),0) from in_item)
+  		ORDER_II_NO = (select IFNULL(max(ii_no),0) from in_item)
   	WHERE
   		ORDER_ORDIN_NUM = #{order_ordin_num}
   	]]>
