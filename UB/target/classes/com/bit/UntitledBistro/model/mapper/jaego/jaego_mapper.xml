@@ -904,11 +904,14 @@
 		ON 
 		    I.ITEM_PRODUCT_CODE = S.SI_PRODUCT_CODE
 		<where>
-		<foreach collection="list" item="item" separator=" ">
-		OR	
-			I.ITEM_PRODUCT_CODE = #{item.si_product_code} 
-		AND 
-<![CDATA[	I.ITEM_QTY <= #{item.si_qty} ]]>
+		<foreach collection="list" item="item" separator="OR">	
+		
+			(
+				I.ITEM_PRODUCT_CODE = #{item.si_product_code} 
+			AND 
+<![CDATA[		I.ITEM_QTY <= #{item.si_qty} ]]>
+			)
+		
 		</foreach>
 		</where>
 		

@@ -14,7 +14,7 @@
   		VALUES 
   		(
   			(SELECT IFNULL(MAX(ORPLIN_NUM),0)+1 FROM ORPL_INPUT OI),
-  			SYSDATE
+  			NOW()
   		)
   	]]>
   </insert>
@@ -56,10 +56,10 @@
   		VALUES
   		(
   			(SELECT IFNULL(MAX(ORDIN_NUM),0)+1 FROM ORDER_INPUT OI),
-  			SYSDATE
+  			NOW()
   		)
   	]]>
-  
+  </insert>
   <insert id="insert_Balju2" parameterType="hashmap">
   	<![CDATA[
   		INSERT INTO ORDERLIST
@@ -160,7 +160,7 @@
   <select id="item_BookMark" parameterType="hashmap" resultType="hashmap">
   	<![CDATA[
   		SELECT 
-  			ROWNUM,
+  			ROW_NUMBER() OVER() 				AS ROWNUM,
   			BK_CODE AS ORDER_PRODUCT_CODE,
   			BK_NAME AS ORDER_PRODUCT_NAME,
   			BK_STNDR AS ORDER_PRODUCT_STNDR,
@@ -191,7 +191,12 @@
   			= 
   			ORDERLIST.ORDER_ORDIN_NUM
         GROUP BY 
-            ROLLUP((ORDIN_DATE, ORDER_ORDIN_NUM, ORDER_PRODUCT_NAME, ORDER_WR,ORDER_PR_EA))
+           	 ORDIN_DATE
+           	,ORDER_ORDIN_NUM
+           	,ORDER_PRODUCT_NAME
+           	,ORDER_WR
+           	,ORDER_PR_EA
+        WITH ROLLUP
   	]]>	
   </select>
   
@@ -392,7 +397,7 @@
   	<![CDATA[
   	UPDATE ORDERLIST
   	SET
-  		ORDER_II_NO = (select IFNULL(max(ii_no),0) from in_item I)
+  		ORDER_II_NO = (SELECT IFNULL(MAX(II_NO),0) FROM IN_ITEM II)
   	WHERE
   		ORDER_ORDIN_NUM = #{order_ordin_num}
   	]]>
