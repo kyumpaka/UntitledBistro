@@ -347,8 +347,7 @@
     ]]>
    </select>
 
-   <update id="HollydayAdd"
-      parameterType="com.bit.UntitledBistro.model.insa.Insa_SalaryDTO">
+   <update id="HollydayAdd" parameterType="com.bit.UntitledBistro.model.insa.Insa_SalaryDTO">
       <![CDATA[
       UPDATE SALARY 
       SET 
@@ -358,6 +357,17 @@
       WHERE 
       	 SALARY_EMPREGISTER_EMPNUM = #{salary_empRegister_empnum} 
    ]]>
+   INSERT INTO SALARY
+   					(
+   					 SALARY_EMPREGISTER_EMPNUM
+   					,SALARY_HOLLYDAYSTART
+   					,SALARY_HOLLYDAYEND
+   					)
+   				VALUES
+   					(
+   					
+   					)
+   					
    </update>
 
    <select id="SelectNum" parameterType="map" resultType="com.bit.UntitledBistro.model.insa.Insa_SalaryDTO">

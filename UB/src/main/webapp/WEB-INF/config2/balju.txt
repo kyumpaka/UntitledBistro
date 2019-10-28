@@ -48,7 +48,7 @@ CREATE TABLE ORDERLIST( -- 발주서 내역 상세
         ORDER_WR VARCHAR(50) -- 작성자
 );         
 
------------------------------------------------------------------------------------------------------------------------------------
+
 
 ALTER TABLE ORPL_INPUT ADD PRIMARY KEY(ORPLIN_NUM); -- 발주계획 상위테이블 목록번호 PK
 ALTER TABLE ORDER_INPUT ADD PRIMARY KEY(ORDIN_NUM);

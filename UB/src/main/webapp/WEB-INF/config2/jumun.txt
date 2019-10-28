@@ -74,7 +74,7 @@ CREATE TABLE PAYMENT ( -- 결제내역 테이블
         PAYMENT_CARD INT DEFAULT 0 -- 카드결제금액
 );
 
-----------------------------------------------------------------------------------------------------------------------------------------
+
 
 ALTER TABLE MENU_TYPE ADD PRIMARY KEY(MT_CODE);
 ALTER TABLE MENU ADD PRIMARY KEY(MENU_CODE);

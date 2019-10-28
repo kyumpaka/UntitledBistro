@@ -82,6 +82,7 @@ public class InsaController {
 	}
 
 	@RequestMapping(value = "/EmpRegisterUpdate",  method = RequestMethod.POST )
+	@ResponseBody
 	public int update(Insa_EmpRegisterDTO dto) {
 
 		return insaService.EmpRegisterUpdate(dto);

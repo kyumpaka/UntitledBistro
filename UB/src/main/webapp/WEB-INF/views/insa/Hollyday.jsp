@@ -53,7 +53,6 @@ function sc(){
 }
 
 function gogo() {
-
 	var formData = $("#testForm").serialize();
 	$.ajax({
 		  url: '${path}/insa/HollydayAdd',
