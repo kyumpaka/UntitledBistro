@@ -582,7 +582,7 @@ function goPosMain() {
        });
 }
 
-var webSocket = new WebSocket("ws://10.10.10.166:8095${pageContext.request.contextPath}/realTime-ws");
+var webSocket = new WebSocket("ws://localhost:8095${pageContext.request.contextPath}/realTime-ws");
 webSocket.onopen = onOpen;
 webSocket.onmessage = onMessage;
 webSocket.onclose = onClose;

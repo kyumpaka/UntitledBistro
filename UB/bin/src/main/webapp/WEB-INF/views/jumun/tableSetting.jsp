@@ -17,7 +17,7 @@
 	<section class="section-content padding-y-sm bg-default ">
 		<div class="container-fluid">
 				<div class="row">
-					<div id="tableArea" class="col-md-10 card" style="height: 750px;"></div>
+					<div id="tableArea" class="col-md-10 card" style="height: 750px; relative; left: 10px;"></div>
 					<div class="col-md-2">
 						<div class="box">
 							<div class="col-md-13" style="text-align: center; font-size: 20px;">&lt; 테이블 관리 &gt;</div>

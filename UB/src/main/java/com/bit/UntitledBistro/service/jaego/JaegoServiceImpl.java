@@ -76,7 +76,11 @@ public class JaegoServiceImpl {
 	public int defectItemUpdates(DefectItemDTO[] defectItemDTOs) {
 		List<DefectItemDTO> defectItemList = Arrays.asList(defectItemDTOs);
 		dao.defectItemUpdates(defectItemList);
+		int i = 0;
 		for(DefectItemDTO defectItemDTO : defectItemDTOs) {
+			i++;
+			System.out.println("테스트" + i);
+			System.out.println(defectItemDTO);
 			int before_qty = dao.outItemSelectForDefectItem(defectItemDTO);
 			int update_qty = defectItemDTO.getDi_qty();
 			int item_qty = before_qty - update_qty;

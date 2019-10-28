@@ -75,6 +75,7 @@ public class JaegoController {
 	@RequestMapping(value = "/gridItemSelectList")
 	public @ResponseBody List<ItemDTO> gridItemSelectList(Condition condition) {
 		logger.info("여기는 그리드 재고 테이블 전체조회 컨트롤러 입니다.");
+		logger.info(condition.toString());
 		return service.itemSelectList(condition);
 	}
 	
