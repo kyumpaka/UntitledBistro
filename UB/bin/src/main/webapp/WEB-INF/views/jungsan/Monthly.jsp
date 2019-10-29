@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-	<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,40 +35,40 @@
 		// Add data
 		chart.data = [ {
 			"Month" : "1월",
-			"value" : ${Jan}
+			"value" : 600000
 		}, {
 			"Month" : "2월",
-			"value" : ${Feb}
+			"value" : 900000
 		}, {
 			"Month" : "3월",
-			"value" : ${Mar}
+			"value" : 180000
 		}, {
 			"Month" : "4월",
-			"value" : ${Apr}
+			"value" : 600000
 		}, {
 			"Month" : "5월",
-			"value" : ${May}
+			"value" : 350000
 		}, {
 			"Month" : "6월",
-			"value" : ${Jun}
+			"value" : 600000
 		}, {
 			"Month" : "7월",
-			"value" : ${Jul}
+			"value" : 670000
 		}, {
 			"Month" : "8월",
-			"value" : ${Aug}
+			"value" : 900000
 		}, {
 			"Month" : "9월",
-			"value" : ${Sept}
+			"value" : 180000
 		}, {
 			"Month" : "10월",
-			"value" : ${Ock}
+			"value" : 600000
 		}, {
 			"Month" : "11월",
-			"value" : ${Nov}
+			"value" : 350000
 		}, {
 			"Month" : "12월",
-			"value" : ${Dec}
+			"value" : 600000
 		} ];
 
 		// Populate data
@@ -163,48 +162,48 @@
 <title></title>
 </head>
 <body>
-	<h2 align="center">Monthly List</h2><br><br>
-
 	<div id="chartdiv"></div>
+	몬뜨리 리스트 입니다
+	즉 월마감 리스트 입니다.
 	
+	<h2 align="center">Monthly List</h2><br><br>
 	
 	<div class="container" align="center">
 		<table border="5" style="width: 100%;">
 			<tr bgcolor="gray" align="center">
-				<td>순매출</td>
-				<td>총매출</td>
 				<td>현금</td>
 				<td>카드</td>
-				<td>포인트사용가</td>
-				<td>지출</td>
+				<td>총매출</td>
+				<td>순매출</td>
 				<td>업무시간</td>
+				<td>지출</td>
+				<td>포인트사용가</td>
 				<td>환불</td>
+				<td>환불이유</td>
 				<td>날짜</td>
+				<!-- <td>직급</td>
+				<td>차액</td> -->
 			</tr>	
 			
 			<c:forEach var="M" items="${MonthList}">
 			<tr>
-				<td>${M.month_real_sum}</td>
-				<td>${M.month_sum}</td> 
 				<td>${M.month_cash}</td>
 				<td>${M.month_card}</td>
-				<td>${M.month_point}</td>
-				<td>${M.month_expenditure}</td>
 				<td>${M.month_worktime}</td>
+				<td>${M.month_expenditure}</td>
+				<td>${M.month_point}</td>
 				<td>${M.month_refund}</td>
-				<td><fmt:formatDate value="${M.month_date}" pattern="yyyy-MM-dd"/></td>
+				<td>${M.month_sum}</td> 
+				<td>${M.month_real_sum}</td>
+				<td>${M.month_date}</td>
+				<%-- <td>${M. }</td>
+				<td>${M. }</td>  --%>
+				<td>포스 입력 금액 - 매니저 입력금액</td>
 			</tr>
 			</c:forEach>
-			<tr>
-				<td colspan="10" align="right" style="color: red;">차액 : ${differenceList}</td>
-			</tr>
 		</table>
 	</div>
 	<button type="button"><a href="Daily.html">일마감</a></button>
 	<button type="button"><a href="View_jungsan.html">현황 그래프 보기</a></button>
 </body>
-<script type="text/javascript">
-	console.log("테스트");
-	console.log("${differenceList}");
-</script>
 </html>

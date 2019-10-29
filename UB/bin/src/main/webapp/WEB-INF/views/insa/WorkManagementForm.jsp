@@ -57,33 +57,18 @@ function WorkManagement(){
 		dataType : "json",
         success: function(data) {
         	if(data == 0) {
-        		swal({
-        			title:"없는직원입니다",
-        			icon:"error"
-        		});
+        		swal("없는직원입니다")
         	} else if(data == 1) {
-        		swal({
-        			title:"출근입니다.",
-        			icon:"success"
-        		}).then(() => {
-					  opener.document.location.reload();
-					  window.close();
-				  });
+        		swal("출근입니다")
+        		 self.close();
         	} else if(data == 2) {
-        		swal({
-        			title:"퇴근입니다.",
-        			icon:"success"
-        		}).then(() => {
-					  opener.document.location.reload();
-					  window.close();
-				  });
+        		swal("퇴근입니다");
+        		 self.close();
         		/* 퇴근 알람띄우고 창 닫기 */
         	}
-        	
         }
     });
 };
-
 </script>
 </head>
 <body>
@@ -102,7 +87,6 @@ function WorkManagement(){
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
 				<button type="button" id="btnwork" class="btn btn-default">입력</button>
-				
 			</div>
 		</div>
 </body>

@@ -184,7 +184,6 @@
 						</tr>            
   					</tbody>
  				</table>
- 				<div class="card-footer"><BR></div>
  				</div>
 			</div>
 			</div>
@@ -193,7 +192,7 @@
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-header">
-							발주물품 정보
+							발주물품 정보<small><code> 이 부분은 잠시대기 </code></small>
 						</div>
 						<div id="jsGrid"></div>
 						<script>
@@ -206,7 +205,6 @@
 								sorting : true,
 								editing : true,
 								data : Data,
-								noDataContent: "데이터를 입력해주세요",
 								 deleteConfirm: function(item){
 												return item.ORDPL_PRODUCT_NAME +" 상품을 삭제하시겠습니까?";},
 
@@ -236,8 +234,7 @@
 </body>
 <script>
 		$("#addData").click(function(){
-		
-		var flag = true;
+		alert("발주품이 추가되었습니다")
 		var insertItem={};
 		insertItem.ORDER_PRODUCT_CODE = $("#code").val();
 		insertItem.ORDER_PRODUCT_NAME = $("#name").val();
@@ -245,15 +242,7 @@
 		insertItem.ORDER_QT = $("#qt").val();
 		insertItem.ORDER_PR_EA = $("#price").val();
 		insertItem.ORDER_WR = "${sessionScope.empregister_name}";
-
-			if(insertItem.ORDER_QT<1||isNaN(insertItem.ORDER_QT)){
-				alert("수량을 정확히 입력해주세요");
-				flag = false;
-				return false;
-				}
-			if(flag == false){
-				return false;
-			}			
+								
 		console.log(insertItem);
 		$("#jsGrid").jsGrid("insertItem", insertItem);
 
@@ -335,7 +324,7 @@
 			success:function(result){
 				var jsonResult = (JSON.parse(JSON.stringify(result)));
 					if(jsonResult.result=="success"){
-						//alert(jsonResult.resultMsg);
+						alert(jsonResult.resultMsg);
 					}else if(jsonResult.result=="failure"){
 						alert(jsonResult.resultMsg);
 						}

@@ -2,293 +2,201 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<mapper
-	namespace="com.bit.UntitledBistro.model.jungsan.Jungsan_view_DAO">
-
+  
+<mapper namespace="com.bit.UntitledBistro.model.jungsan.Jungsan_view_DAO">
+	
 	<insert id="insert_Initial_value">
-		insert into JUNGSAN_STATE values
-		(0,0,0,0,0,0,0,0,sysdate)
+		insert into JUNGSAN_STATE values (0,0,0,0,0,0,0,0,sysdate)
 	</insert>
-
+	
 	<insert id="insert_Initial_value2">
-		insert into JUNGSAN_STATE values
-		(0,0,0,0,0,0,0,0,sysdate-1)
+		insert into JUNGSAN_STATE values (0,0,0,0,0,0,0,0,sysdate-1)
 	</insert>
-
+	
 	<update id="update_state">
-		update JUNGSAN_STATE set to_total=
-		((select NVL(sum(payment_cash),0) from payment where payment_date like
-		to_date(sysdate,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
-		+(select NVL(sum(payment_card),0) from payment where payment_date like
-		to_date(sysdate,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
-		+(select NVL(sum(payment_point),0) from payment where payment_date like
-		to_date(sysdate,'YYYY-MM-DD')and PAYMENT_STATE ='성공'))
-		,to_cash=(select NVL(sum(payment_cash),0) from payment where
-		payment_date like to_date(sysdate,'YYYY-MM-DD')and PAYMENT_STATE
-		='성공')
-		,to_card=(select NVL(sum(payment_card),0) from payment where payment_date like
-		to_date(sysdate,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
-		,to_point=(select NVL(sum(payment_point),0) from payment where
-		payment_date like to_date(sysdate,'YYYY-MM-DD')and PAYMENT_STATE
-		='성공')
-		,before_total=((select NVL(sum(payment_cash),0) from payment where payment_date like
-		to_date(sysdate-1,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
-		+(select NVL(sum(payment_card),0) from payment where payment_date like
-		to_date(sysdate-1,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
-		+(select NVL(sum(payment_point),0) from payment where payment_date like
-		to_date(sysdate-1,'YYYY-MM-DD')and PAYMENT_STATE ='성공'))
-		,before_cash=(select NVL(sum(payment_cash),0) from payment where
-		payment_date like to_date(sysdate-1,'YYYY-MM-DD')and PAYMENT_STATE
-		='성공')
-		,before_card=(select NVL(sum(payment_card),0) from payment where payment_date like
-		to_date(sysdate-1,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
-		,before_point=(select NVL(sum(payment_point),0) from payment where
-		payment_date like to_date(sysdate-1,'YYYY-MM-DD')and PAYMENT_STATE
-		='성공')
-		,state_date=(sysdate)
+	update JUNGSAN_STATE set to_total=
+    ((select NVL(sum(payment_cash),0) from payment where payment_date like to_date(sysdate,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
+    +(select NVL(sum(payment_card),0) from payment where payment_date like to_date(sysdate,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
+    +(select NVL(sum(payment_point),0) from payment where payment_date like to_date(sysdate,'YYYY-MM-DD')and PAYMENT_STATE ='성공'))
+    ,to_cash=(select NVL(sum(payment_cash),0) from payment where payment_date like to_date(sysdate,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
+    ,to_card=(select NVL(sum(payment_card),0) from payment where payment_date like to_date(sysdate,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
+    ,to_point=(select NVL(sum(payment_point),0) from payment where payment_date like to_date(sysdate,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
+    ,before_total=((select NVL(sum(payment_cash),0) from payment where payment_date like to_date(sysdate-1,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
+    +(select NVL(sum(payment_card),0) from payment where payment_date like to_date(sysdate-1,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
+    +(select NVL(sum(payment_point),0) from payment where payment_date like to_date(sysdate-1,'YYYY-MM-DD')and PAYMENT_STATE ='성공'))
+    ,before_cash=(select NVL(sum(payment_cash),0) from payment where payment_date like to_date(sysdate-1,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
+    ,before_card=(select NVL(sum(payment_card),0) from payment where payment_date like to_date(sysdate-1,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
+	,before_point=(select NVL(sum(payment_point),0) from payment where payment_date like to_date(sysdate-1,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
+ 	,state_date=(sysdate)
 	</update>
-
+	
 	<delete id="delete_state">
 	 <![CDATA[
 	 delete from JUNGSAN_STATE a where rowid < (select max(rowid) 
 	from JUNGSAN_STATE b where a.state_date != b.state_date)
 	]]>
 	</delete>
-
-	<select id="jungsan_state"
-		resultType="com.bit.UntitledBistro.model.jungsan.Jungsan_view_DTO">
-		select * from JUNGSAN_STATE
+	
+	<select id="jungsan_state" resultType="com.bit.UntitledBistro.model.jungsan.Jungsan_view_DTO">
+	 select * from JUNGSAN_STATE
 	</select>
-
+	
 	<select id="today_total" resultType="int">
-		select nvl(sum(payment_cash+payment_card+payment_point),0)
-		from payment where payment_date like to_date(sysdate,'YYYY-MM-DD')
+	 select nvl(sum(payment_cash+payment_card+payment_point),0) 
+	 from payment where payment_date like to_date(sysdate,'YYYY-MM-DD')
 	</select>
-
+	
 	<select id="before_total" resultType="int">
-		select nvl(sum(payment_cash+payment_card+payment_point),0) from payment
-		where payment_date like to_date(sysdate-1,'YYYY-MM-DD')
+	 select nvl(sum(payment_cash+payment_card+payment_point),0) from payment where payment_date like to_date(sysdate-1,'YYYY-MM-DD')
 	</select>
-
+	
 	<select id="befor_cash" resultType="int">
-		select nvl(sum(payment_cash),0) from PAYMENT where payment_date like
-		to_date(sysdate-1,'YYYY-MM-DD')
-		and PAYMENT_STATE ='성공'
+	 select nvl(sum(payment_cash),0) from PAYMENT where payment_date like to_date(sysdate-1,'YYYY-MM-DD')
+	 and PAYMENT_STATE ='성공'
 	</select>
-
+	
 	<select id="befor_card" resultType="int">
-		select nvl(sum(payment_card),0) from PAYMENT where payment_date like
-		to_date(sysdate-1,'YYYY-MM-DD')
-		and PAYMENT_STATE ='성공'
+	select nvl(sum(payment_card),0) from PAYMENT where payment_date like to_date(sysdate-1,'YYYY-MM-DD')
+	and PAYMENT_STATE ='성공'
 	</select>
-
+	
 	<select id="befor_point" resultType="int">
-		select nvl(sum(payment_point),0) from PAYMENT where payment_date like
-		to_date(sysdate-1,'YYYY-MM-DD')
-		and PAYMENT_STATE ='성공'
+	select nvl(sum(payment_point),0) from PAYMENT where payment_date like to_date(sysdate-1,'YYYY-MM-DD')
+	and PAYMENT_STATE ='성공'
 	</select>
-
+	
 	<select id="today_cash" resultType="int">
-		select nvl(sum(payment_cash),0) from PAYMENT where payment_date like
-		to_date(sysdate,'YYYY-MM-DD')
-		and PAYMENT_STATE ='성공'
+	 select nvl(sum(payment_cash),0) from PAYMENT where payment_date like to_date(sysdate,'YYYY-MM-DD')
+	 and PAYMENT_STATE ='성공'
 	</select>
-
+	
 	<select id="today_card" resultType="int">
-		select nvl(sum(payment_card),0) from PAYMENT where payment_date like
-		to_date(sysdate,'YYYY-MM-DD')
-		and PAYMENT_STATE ='성공'
+	select nvl(sum(payment_card),0) from PAYMENT where payment_date like to_date(sysdate,'YYYY-MM-DD')
+	and PAYMENT_STATE ='성공'
 	</select>
-
+	
 	<select id="today_point" resultType="int">
-		select nvl(sum(payment_point),0) from PAYMENT where payment_date like
-		to_date(sysdate,'YYYY-MM-DD')
-		and PAYMENT_STATE ='성공'
+	select nvl(sum(payment_point),0) from PAYMENT where payment_date like to_date(sysdate,'YYYY-MM-DD')
+	and PAYMENT_STATE ='성공'
 	</select>
-
+	
 	<select id="menucount_total" resultType="int">
-		select nvl(sum(sd_qty),0)
-		from SALES_DETAILS where (sd_menu_code like 'MN1' or sd_menu_code like
-		'MN2') and SD_SALES_NO in
-		(select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like
-		to_date(sysdate,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
+	 select nvl(sum(sd_qty),0) 
+		 from SALES_DETAILS where (sd_menu_code like 'MN1' or sd_menu_code like 'MN2') and SD_SALES_NO in                                              
+		 (select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like to_date(sysdate,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
 	</select>
-
+	
 	<select id="menucount_soup" resultType="int">
-		SELECT
-		nvl(sum(s.sd_qty),0)
-		FROM MENU m,SALES_DETAILS s
-		WHERE m.menu_code = s.sd_menu_code and (menu_mt_code like 'MT3') and
-		SD_SALES_NO in
-		(select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like
-		to_date(sysdate,'YYYY-MM-DD')and
-		PAYMENT_STATE ='성공')
+		select nvl(sum(sd_qty),0) 
+		 from SALES_DETAILS where (sd_menu_code like 'MN1') and SD_SALES_NO in                                              
+		 (select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like to_date(sysdate,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
 	</select>
-
+	
 	<select id="menucount_drink" resultType="int">
-		SELECT
-		nvl(sum(s.sd_qty),0)
-		FROM MENU m,SALES_DETAILS s
-		WHERE m.menu_code = s.sd_menu_code and (menu_mt_code like 'MT2') and
-		SD_SALES_NO in
-		(select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like
-		to_date(sysdate,'YYYY-MM-DD')and
-		PAYMENT_STATE ='성공')
+		select nvl(sum(sd_qty),0) 
+		 from SALES_DETAILS where (sd_menu_code like 'MN3') and SD_SALES_NO in                                              
+		 (select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like to_date(sysdate,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
 	</select>
-
+	
 	<select id="menucount_cooking" resultType="int">
-		SELECT nvl(sum(s.sd_qty),0)
-		FROM MENU m,SALES_DETAILS s
-		WHERE m.menu_code = s.sd_menu_code and (menu_mt_code like 'MT1') and
-		SD_SALES_NO in
-		(select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like
-		to_date(sysdate,'YYYY-MM-DD')and
-		PAYMENT_STATE ='성공')
+		select nvl(sum(sd_qty),0) 
+		 from SALES_DETAILS where (sd_menu_code like 'MN2') and SD_SALES_NO in                                              
+		 (select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like to_date(sysdate,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
 	</select>
-
+	
 	<select id="befor_drink" resultType="int">
-		SELECT
-		nvl(sum(s.sd_qty),0)
-		FROM MENU m,SALES_DETAILS s
-		WHERE m.menu_code = s.sd_menu_code and (menu_mt_code like 'MT2') and
-		SD_SALES_NO in
-		(select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like
-		to_date(sysdate-1,'YYYY-MM-DD')and
-		PAYMENT_STATE ='성공')
+		select nvl(sum(sd_qty),0) 
+		 from SALES_DETAILS where (sd_menu_code like 'MN3') and SD_SALES_NO in                                              
+		 (select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like to_date(sysdate-1,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
 	</select>
-
+	
 	<select id="befor_cooking" resultType="int">
-		SELECT nvl(sum(s.sd_qty),0)
-		FROM MENU m,SALES_DETAILS s
-		WHERE m.menu_code = s.sd_menu_code and (menu_mt_code like 'MT1') and
-		SD_SALES_NO in
-		(select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like
-		to_date(sysdate-1,'YYYY-MM-DD')and
-		PAYMENT_STATE ='성공')
+		select nvl(sum(sd_qty),0) 
+		 from SALES_DETAILS where (sd_menu_code like 'MN2') and SD_SALES_NO in                                              
+		 (select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like to_date(sysdate-1,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
 	</select>
-
+	
 	<select id="befor_soup" resultType="int">
-		SELECT
-		nvl(sum(s.sd_qty),0)
-		FROM MENU m,SALES_DETAILS s
-		WHERE m.menu_code = s.sd_menu_code and (menu_mt_code like 'MT3') and
-		SD_SALES_NO in
-		(select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like
-		to_date(sysdate-1,'YYYY-MM-DD')and
-		PAYMENT_STATE ='성공')
+		select nvl(sum(sd_qty),0) 
+		 from SALES_DETAILS where (sd_menu_code like 'MN1') and SD_SALES_NO in                                              
+		 (select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like to_date(sysdate-1,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
 	</select>
-
+	
 	<select id="last_week_drink" resultType="int">
-		SELECT
-		nvl(sum(s.sd_qty),0)
-		FROM MENU m,SALES_DETAILS s
-		WHERE m.menu_code = s.sd_menu_code and (menu_mt_code like 'MT2') and
-		SD_SALES_NO in
-		(select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like
-		to_date(sysdate-7,'YYYY-MM-DD')and
-		PAYMENT_STATE ='성공')
+		select nvl(sum(sd_qty),0) 
+		 from SALES_DETAILS where (sd_menu_code like 'MN3') and SD_SALES_NO in                                              
+		 (select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like to_date(sysdate-7,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
 	</select>
-
+	
 	<select id="last_week_cooking" resultType="int">
-		SELECT nvl(sum(s.sd_qty),0)
-		FROM MENU m,SALES_DETAILS s
-		WHERE m.menu_code = s.sd_menu_code and (menu_mt_code like 'MT1') and
-		SD_SALES_NO in
-		(select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like
-		to_date(sysdate-7,'YYYY-MM-DD')and
-		PAYMENT_STATE ='성공')
+		select nvl(sum(sd_qty),0) 
+		 from SALES_DETAILS where (sd_menu_code like 'MN2') and SD_SALES_NO in                                              
+		 (select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like to_date(sysdate-7,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
 	</select>
-
+	
 	<select id="last_week_soup" resultType="int">
-		SELECT
-		nvl(sum(s.sd_qty),0)
-		FROM MENU m,SALES_DETAILS s
-		WHERE m.menu_code = s.sd_menu_code and (menu_mt_code like 'MT3') and
-		SD_SALES_NO in
-		(select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like
-		to_date(sysdate-7,'YYYY-MM-DD')and
-		PAYMENT_STATE ='성공')
+		select nvl(sum(sd_qty),0) 
+		 from SALES_DETAILS where (sd_menu_code like 'MN1') and SD_SALES_NO in                                              
+		 (select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like to_date(sysdate-7,'YYYY-MM-DD')and PAYMENT_STATE ='성공')
 	</select>
-
+	
 	<select id="Monday" resultType="int">
-		select nvl(sum(payment_cash+payment_card+payment_point),0) from payment
-		where payment_date between
-		(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from payment) and
-		(select DISTINCT
-		to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from payment) and
-		payment_date like to_date((select to_char(sysdate-((select
-		to_char(sysdate,'D')from dual)-2 )-7,'yyyy-mm-dd')
-		from dual),'YYYY-MM-DD')and PAYMENT_STATE ='성공'
+	 select nvl(sum(payment_cash+payment_card+payment_point),0) from payment where payment_date between 
+ (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from payment) and 
+ (select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from payment) and
+ payment_date like to_date((select to_char(sysdate-((select to_char(sysdate,'D')from dual)-2 )-7,'yyyy-mm-dd')
+from dual),'YYYY-MM-DD')and PAYMENT_STATE ='성공'
 	</select>
-
+	
 	<select id="Tuesday" resultType="int">
-		select nvl(sum(payment_cash+payment_card+payment_point),0) from payment
-		where payment_date between
-		(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from payment) and
-		(select DISTINCT
-		to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from payment) and
-		payment_date like to_date((select to_char(sysdate-((select
-		to_char(sysdate,'D')from dual)-2 )-6,'yyyy-mm-dd')
-		from dual),'YYYY-MM-DD')and PAYMENT_STATE ='성공'
+	 select nvl(sum(payment_cash+payment_card+payment_point),0) from payment where payment_date between 
+ (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from payment) and 
+ (select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from payment) and
+ payment_date like to_date((select to_char(sysdate-((select to_char(sysdate,'D')from dual)-2 )-6,'yyyy-mm-dd')
+from dual),'YYYY-MM-DD')and PAYMENT_STATE ='성공'
 	</select>
-
+	
 	<select id="Thursday" resultType="int">
-		select nvl(sum(payment_cash+payment_card+payment_point),0) from payment
-		where payment_date between
-		(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from payment) and
-		(select DISTINCT
-		to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from payment) and
-		payment_date like to_date((select to_char(sysdate-((select
-		to_char(sysdate,'D')from dual)-2 )-5,'yyyy-mm-dd')
-		from dual),'YYYY-MM-DD')and PAYMENT_STATE ='성공'
+	 select nvl(sum(payment_cash+payment_card+payment_point),0) from payment where payment_date between 
+ (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from payment) and 
+ (select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from payment) and
+ payment_date like to_date((select to_char(sysdate-((select to_char(sysdate,'D')from dual)-2 )-5,'yyyy-mm-dd')
+from dual),'YYYY-MM-DD')and PAYMENT_STATE ='성공'
 	</select>
-
+	
 	<select id="Wednesday" resultType="int">
-		select nvl(sum(payment_cash+payment_card+payment_point),0) from payment
-		where payment_date between
-		(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from payment) and
-		(select DISTINCT
-		to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from payment) and
-		payment_date like to_date((select to_char(sysdate-((select
-		to_char(sysdate,'D')from dual)-2 )-4,'yyyy-mm-dd')
-		from dual),'YYYY-MM-DD')and PAYMENT_STATE ='성공'
+	 select nvl(sum(payment_cash+payment_card+payment_point),0) from payment where payment_date between 
+ (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from payment) and 
+ (select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from payment) and
+ payment_date like to_date((select to_char(sysdate-((select to_char(sysdate,'D')from dual)-2 )-4,'yyyy-mm-dd')
+from dual),'YYYY-MM-DD')and PAYMENT_STATE ='성공'
 	</select>
-
+	
 	<select id="Friday" resultType="int">
-		select nvl(sum(payment_cash+payment_card+payment_point),0) from payment
-		where payment_date between
-		(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from payment) and
-		(select DISTINCT
-		to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from payment) and
-		payment_date like to_date((select to_char(sysdate-((select
-		to_char(sysdate,'D')from dual)-2 )-3,'yyyy-mm-dd')
-		from dual),'YYYY-MM-DD')and PAYMENT_STATE ='성공'
+	 select nvl(sum(payment_cash+payment_card+payment_point),0) from payment where payment_date between 
+ (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from payment) and 
+ (select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from payment) and
+ payment_date like to_date((select to_char(sysdate-((select to_char(sysdate,'D')from dual)-2 )-3,'yyyy-mm-dd')
+from dual),'YYYY-MM-DD')and PAYMENT_STATE ='성공'
 	</select>
-
+	
 	<select id="Saturday" resultType="int">
-		select nvl(sum(payment_cash+payment_card+payment_point),0) from payment
-		where payment_date between
-		(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from payment) and
-		(select DISTINCT
-		to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from payment) and
-		payment_date like to_date((select to_char(sysdate-((select
-		to_char(sysdate,'D')from dual)-2 )-2,'yyyy-mm-dd')
-		from dual),'YYYY-MM-DD')and PAYMENT_STATE ='성공'
+	 select nvl(sum(payment_cash+payment_card+payment_point),0) from payment where payment_date between 
+ (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from payment) and 
+ (select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from payment) and
+ payment_date like to_date((select to_char(sysdate-((select to_char(sysdate,'D')from dual)-2 )-2,'yyyy-mm-dd')
+from dual),'YYYY-MM-DD')and PAYMENT_STATE ='성공'
 	</select>
-
+	
 	<select id="Sunday" resultType="int">
-		select nvl(sum(payment_cash+payment_card+payment_point),0) from payment
-		where payment_date between
-		(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from payment) and
-		(select DISTINCT
-		to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from payment) and
-		payment_date like to_date((select to_char(sysdate-((select
-		to_char(sysdate,'D')from dual)-2 )-1,'yyyy-mm-dd')
-		from dual),'YYYY-MM-DD')and PAYMENT_STATE ='성공'
+	 select nvl(sum(payment_cash+payment_card+payment_point),0) from payment where payment_date between 
+ (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from payment) and 
+ (select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from payment) and
+ payment_date like to_date((select to_char(sysdate-((select to_char(sysdate,'D')from dual)-2 )-1,'yyyy-mm-dd')
+from dual),'YYYY-MM-DD')and PAYMENT_STATE ='성공'
 	</select>
-
-
+	
+	
 	<select id="today_one_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -299,7 +207,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 0200)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_two_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -310,7 +218,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 0300)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_three_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -321,7 +229,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 0400)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_four_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -332,7 +240,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 0500)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_five_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -343,7 +251,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 0600)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_six_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -354,7 +262,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 0700)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_seven_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -365,7 +273,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 0800)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_eight_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -376,7 +284,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 0900)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_nine_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -387,7 +295,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 1000)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_ten_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -398,7 +306,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 1100)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_eleven_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -409,7 +317,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 1200)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_twelve_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -420,7 +328,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 1300)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_thirteen_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -431,7 +339,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 1400)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_fourteen_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -442,7 +350,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 1500)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_fifteen_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -453,7 +361,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 1600)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_sixteen_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -464,7 +372,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 1700)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_seventeen_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -475,7 +383,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 1800)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_eighteen_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -486,7 +394,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 1900)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_nineteen_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -497,7 +405,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 2000)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_twenty_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -508,7 +416,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 2100)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_twentyone_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -519,7 +427,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 2200)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_twentytwo_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -530,7 +438,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 2300)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_twentythree_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -541,7 +449,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 2400)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="today_zero_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -552,7 +460,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 0100)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_one_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -563,7 +471,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 0200)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_two_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -574,7 +482,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 0300)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_three_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -585,7 +493,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 0400)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_four_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -596,7 +504,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 0500)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_five_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -607,7 +515,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 0600)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_six_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -618,7 +526,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 0700)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_seven_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -629,7 +537,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 0800)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_eight_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -640,7 +548,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 0900)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_nine_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -651,7 +559,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 1000)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_ten_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -662,7 +570,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 1100)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_eleven_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -673,7 +581,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 1200)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_twelve_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -684,7 +592,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 1300)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_thirteen_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -695,7 +603,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 1400)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_fourteen_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -706,7 +614,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 1500)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_fifteen_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -717,7 +625,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 1600)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_sixteen_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -728,7 +636,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 1700)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_seventeen_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -739,7 +647,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 1800)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_eighteen_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -750,7 +658,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 1900)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_nineteen_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -761,7 +669,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 2000)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_twenty_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -772,7 +680,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 2100)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_twentyone_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -783,7 +691,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 2200)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_twentytwo_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -794,7 +702,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 2300)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_twentythree_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -805,7 +713,7 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 2400)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-
+	
 	<select id="yesterday_zero_Oclock" resultType="int">
 	 <![CDATA[
 	 SELECT nvl(sum(payment_cash+payment_card+payment_point),0)FROM payment
@@ -816,33 +724,4 @@
     AND TO_NUMBER (TO_CHAR (payment_date, 'hh24mi')) < 0100)) and PAYMENT_STATE ='성공'
     ]]>
 	</select>
-	
-	<select id="expenditure" resultType="int">
-select nvl(sum(order_pr_ea*order_qt),0)from ORDER_INPUT inner join ORDERLIST on ordin_num = order_ordin_num
-where ordin_end ='종결' and ORDIN_DATE between (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from ORDER_INPUT) and 
-(select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from ORDER_INPUT)
-	</select>
-	
-	<select id="worketime" resultType="int">
-SELECT nvl(sum(ROUND((schedule_workingend-schedule_workingstart)*60)),0) 
-FROM schedule where schedule_workingstart like to_date(sysdate,'YYYY-MM-DD')
-	</select>
-	
-	<select id="parttime" resultType="int">
-select nvl(sum(round((e.EmpRegister_paytime)*((sc.schedule_workingend-sc.schedule_workingstart)*60) 
-)),0)from EmpRegister e, schedule sc where e.EMPREGISTER_EMPNUM = sc.SCHEDULE_EMPREGISTER_EMPNUM
-and sc.schedule_workingstart like to_date(sysdate,'YYYY-MM-DD')
-and e.EmpRegister_payclassfiy='시급'
-	</select>
-	
-	<select id="employee" resultType="int">
-select nvl(sum(e.EmpRegister_payday),0) from EmpRegister e, schedule sc  
-WHERE e.EMPREGISTER_EMPNUM = sc.SCHEDULE_EMPREGISTER_EMPNUM and 
-e.EmpRegister_payclassfiy='월급' and sc.schedule_workingstart like to_date(sysdate,'YYYY-MM-DD')
-	</select>
-	
-	<select id="personnel" resultType="int">
-select count(SCHEDULE_EMPREGISTER_EMPNUM) from schedule where SCHEDULE_WORKINGSTART like to_date(sysdate)
-	</select>
-	
 </mapper> 

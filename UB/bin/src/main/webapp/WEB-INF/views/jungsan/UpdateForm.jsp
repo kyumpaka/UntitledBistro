@@ -8,36 +8,34 @@
 <title></title>
 </head>
 <body>
+ 업데이트 폼 입니다.
  <form action="Update.html">
- 	<table style="width: 1200px; margin: auto; margin-top: 300px;" border="1">
+ 	<table style="width: 1200px; margin: auto;" border="1">
 		
 			<tr>
 				<td>현금</td>
-				<td><input type="number" name="jungsan_input_cash" value="0"/></td>
+				<td><input type="number" name="jungsan_input_cash"/></td>
+				
 				<td>카드</td>
-				<td><input type="number" name="jungsan_input_card" value="0"/></td>
+				<td><input type="number" name="jungsan_input_card"/></td>
 				<td>포인트사용</td>
-				<td><input type="number" name="jungsan_input_point" value="0"/></td>
+				<td><input type="number" name="jungsan_input_point"/></td>
 			</tr>
 			<tr>
 				<td>지출</td>
-				<td><input type="number" name="jungsan_input_expenditure" value="0"/></td>
+				<td><input type="number" name="jungsan_input_expenditure"/></td>
 				<td>근무시간</td>
-				<td><input type="number" name="jungsan_input_worktime" value="0"/></td>
-				<td>기입자</td>
-				<td><input type="text" name="jungsan_input_grade"value="매니져"/></td>
+				<td><input type="number" name="jungsan_input_worktime"/></td>
+				<td>직급</td>
+				<td><input type="text" name="jungsan_input_grade"/></td>
 			</tr>
 			<tr>
-			
 				<td>환불 유무</td>
-				<td>
-					<input type="radio" name="type" value="유"  onclick="typeInput()">환불 유
-					<input type="radio" name="type" value="무"  checked="checked" onclick="typeInput()">환불 무
-				</td>				
+				<td>환불 유<input type="radio">환불 무<input type="radio"></td>				
 				<td>환불 금액</td>
-				<td><div id="price"></div></td>
+				<td><input type="number" name="jungsan_input_refund"/></td>
 				<td>환불내용</td>
-				<td><div id="content"></div></td>
+				<td><textarea name="jungsan_input_reason"></textarea></td>
 				</tr>
 			</table>
 			<div align="center">
@@ -46,21 +44,4 @@
 			</div>
  </form>
 </body>
-<script type="text/javascript">
-function typeInput() {
-	var type = $('input[name="type"]:checked').val();
-	var frm = "";
-	if(type == '유') {
-		frm = '<input type="number" name="jungsan_input_refund" value="0"/>';
-		$("#price").html(frm);
-		frm = '<textarea name="jungsan_input_reason" placeholder="내용을 기입하세요" ></textarea>';
-		$("#content").html(frm);
-	} else if(type == '무') {
-		frm = '<input type="number" name="jungsan_input_refund" value="0" disabled="disabled"/>';
-		$("#price").html(frm);
-		frm = '<textarea name="jungsan_input_reason" placeholder="내용을 기입하세요" disabled="disabled"></textarea>';
-		$("#content").html(frm);
-	}
-}
-</script>
 </html>

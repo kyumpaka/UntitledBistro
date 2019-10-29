@@ -64,7 +64,7 @@
 		margin-top: 10px;
 		margin-bottom: 5px;
 		padding: 10px;
-		background-color: white;
+		background-color: #f3f0f0;
 	}
 	#dateResult {
 		text-align: right;

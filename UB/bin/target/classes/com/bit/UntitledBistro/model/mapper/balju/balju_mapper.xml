@@ -110,21 +110,7 @@
    		)
    	]]>
   </insert>
-  <!-- 셀렉트문 -->
   
-  <!-- 엑셀용 셀렉트문 
-  <select id="ExcelList_Mng" fetchSize="100" resultType="hashmap">
-  	<![CDATA[
-  		SELECT
-  	]]>
-  </select>
-  
-  <select id="ExcelList_Result" fetchSize="100" resultType="hashmap">
-  	<![CDATA[
-  		SELECT
-  	]]>
-  </select>
-  -->
   <select id="item_list" parameterType="hashmap" resultType="hashmap">
   	<![CDATA[
   		SELECT 
@@ -269,7 +255,7 @@
         GROUP BY
             ORDER_ORDIN_NUM
         ORDER BY
-            ORDER_ORDIN_NUM DESC
+            ORDER_ORDIN_NUM
   	]]>
   </select>
   
