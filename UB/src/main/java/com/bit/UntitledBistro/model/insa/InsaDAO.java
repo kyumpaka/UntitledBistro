@@ -45,7 +45,9 @@ public interface InsaDAO {
 
 	public List<Insa_SalaryDTO> HollyDay();
 
+	public int isHollyday(Insa_SalaryDTO dto);
 	public int HollydayAdd(Insa_SalaryDTO dto);
+	public int HollydayModify(Insa_SalaryDTO dto);
 
 	public Insa_SalaryDTO SelectNum(HashMap<String, String> map);
 

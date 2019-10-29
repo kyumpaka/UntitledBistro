@@ -357,26 +357,37 @@
     ]]>
    </select>
 
-   <update id="HollydayAdd" parameterType="com.bit.UntitledBistro.model.insa.Insa_SalaryDTO">
+	<select id="isHollyday" parameterType="com.bit.UntitledBistro.model.insa.Insa_SalaryDTO" resultType="int">
+		SELECT COUNT(*) FROM SALARY WHERE SALARY_EMPREGISTER_EMPNUM = #{salary_empRegister_empnum}
+	</select>	
 
-   INSERT INTO SALARY
-   					(
-   					 SALARY_NO
-   					,SALARY_EMPREGISTER_EMPNUM
-   					,SALARY_HOLLYDAYSTART
-   					,SALARY_HOLLYDAYEND
-   					)
-   				VALUES
-   					(
-   					 (SELECT NVL(MAX(SALARY_NO),0) +1 FROM SALARY S)
-   					,#{salary_empRegister_empnum}
-   					,#{salary_hollydaystart}
-   					,#{salary_hollydayend}
-   					)
-   	ON DUPLICATE KEY UPDATE
-   					 SALARY_EMPREGISTER_EMPNUM = VALUES(SALARY_EMPREGISTER_EMPNUM)
-   					,SALARY_HOLLYDAYSTART = VALUES(SALARY_HOLLYDAYSTART)
-   					,SALARY_HOLLYDAYEND = VALUES(SALARY_HOLLYDAYEND)
+	<insert id="HollydayAdd" parameterType="com.bit.UntitledBistro.model.insa.Insa_SalaryDTO">
+		INSERT INTO SALARY
+						(
+						SALARY_NO
+						,SALARY_EMPREGISTER_EMPNUM
+						,SALARY_HOLLYDAYSTART
+						,SALARY_HOLLYDAYEND
+						)
+				VALUES
+						(
+						(SELECT MAX(SALARY_NO) +1 FROM SALARY S)
+						,#{salary_empRegister_empnum}
+						,#{salary_hollydaystart}
+						,#{salary_hollydayend}
+						)
+	</insert>
+
+   <update id="HollydayModify" parameterType="com.bit.UntitledBistro.model.insa.Insa_SalaryDTO">
+	
+	UPDATE 
+		 SALARY
+	SET
+		 SALARY_HOLLYDAYSTART = #{salary_hollydaystart}
+		,SALARY_HOLLYDAYEND = #{salary_hollydayend}
+	WHERE
+		SALARY_EMPREGISTER_EMPNUM = #{salary_empRegister_empnum}
+		
    </update>
 
    <select id="SelectNum" parameterType="map" resultType="com.bit.UntitledBistro.model.insa.Insa_SalaryDTO">

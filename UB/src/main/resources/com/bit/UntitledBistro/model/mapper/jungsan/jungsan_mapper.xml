@@ -110,248 +110,376 @@
 		,state_date=(NOW())
 	</update>
 
+<!-- 	 delete from JUNGSAN_STATE a where rowid < (select max(rowid) 
+	from JUNGSAN_STATE b where a.state_date != b.state_date) -->
 	<delete id="delete_state">
 	 <![CDATA[
-	 delete from JUNGSAN_STATE a where rowid < (select max(rowid) 
-	from JUNGSAN_STATE b where a.state_date != b.state_date)
+	 DELETE FROM JUNGSAN_STATE WHERE STATE_DATE = DATE_FORMAT('2011/10/11','%Y/%c/%d')
 	]]>
 	</delete>
 
-	<select id="jungsan_state"
-		resultType="com.bit.UntitledBistro.model.jungsan.Jungsan_view_DTO">
+	<select id="jungsan_state" resultType="com.bit.UntitledBistro.model.jungsan.Jungsan_view_DTO">
 		select * from JUNGSAN_STATE
 	</select>
 
 	<select id="today_total" resultType="int">
-		select IFNULL(sum(payment_cash+payment_card+payment_point),0)
-		from payment where payment_date like DATE_FORMAT(NOW(),'%Y-%c-%d')
+			SELECT SUM(PAYMENT_CASH + PAYMENT_CARD + PAYMENT_POINT) FROM PAYMENT 
+<![CDATA[	WHERE PAYMENT_DATE >= CURDATE() AND PAYMENT_DATE <= CONCAT(CURDATE(),' 23:59:59')	]]>
+			and PAYMENT_STATE ='성공'
 	</select>
 
 	<select id="before_total" resultType="int">
-		select IFNULL(sum(payment_cash+payment_card+payment_point),0) from payment
-		where payment_date like DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY),'%Y-%c-%d')
+			SELECT IFNULL(SUM(PAYMENT_CASH + PAYMENT_CARD + PAYMENT_POINT),0) FROM PAYMENT 
+<![CDATA[	WHERE PAYMENT_DATE >= DATE_SUB(CURDATE(), INTERVAL 1 DAY) AND PAYMENT_DATE <= CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY),' 23:59:59')	]]>
+			AND PAYMENT_STATE ='성공'
 	</select>
 
 	<select id="befor_cash" resultType="int">
-		select IFNULL(sum(payment_cash),0) from PAYMENT where payment_date like
-		DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY),'%Y-%c-%d')
-		and PAYMENT_STATE ='성공'
+			SELECT IFNULL(SUM(PAYMENT_CASH),0) FROM PAYMENT 
+<![CDATA[	WHERE PAYMENT_DATE >= DATE_SUB(CURDATE(), INTERVAL 1 DAY) AND PAYMENT_DATE <= CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY),' 23:59:59')	]]>
+			AND PAYMENT_STATE ='성공'
 	</select>
 
 	<select id="befor_card" resultType="int">
-		select IFNULL(sum(payment_card),0) from PAYMENT where payment_date like
-		DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY),'%Y-%c-%d')
-		and PAYMENT_STATE ='성공'
+			SELECT IFNULL(SUM(PAYMENT_CARD),0) FROM PAYMENT 
+<![CDATA[	WHERE PAYMENT_DATE >= DATE_SUB(CURDATE(), INTERVAL 1 DAY) AND PAYMENT_DATE <= CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY),' 23:59:59')	]]>
+			AND PAYMENT_STATE ='성공'
 	</select>
 
 	<select id="befor_point" resultType="int">
-		select IFNULL(sum(payment_point),0) from PAYMENT where payment_date like
-		DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY),'%Y-%c-%d')
-		and PAYMENT_STATE ='성공'
+			SELECT IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT 
+<![CDATA[	WHERE PAYMENT_DATE >= DATE_SUB(CURDATE(), INTERVAL 1 DAY) AND PAYMENT_DATE <= CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY),' 23:59:59')	]]>
+			AND PAYMENT_STATE ='성공'
 	</select>
 
 	<select id="today_cash" resultType="int">
-		select IFNULL(sum(payment_cash),0) from PAYMENT where payment_date like
-		DATE_FORMAT(NOW(),'%Y-%c-%d')
-		and PAYMENT_STATE ='성공'
+			SELECT SUM(PAYMENT_CASH) FROM PAYMENT 
+<![CDATA[	WHERE PAYMENT_DATE >= CURDATE() AND PAYMENT_DATE <= CONCAT(CURDATE(),' 23:59:59')	]]>
+			and PAYMENT_STATE ='성공'
 	</select>
 
 	<select id="today_card" resultType="int">
-		select IFNULL(sum(payment_card),0) from PAYMENT where payment_date like
-		DATE_FORMAT(NOW(),'%Y-%c-%d')
-		and PAYMENT_STATE ='성공'
+
+			SELECT SUM(payment_card) FROM PAYMENT 
+<![CDATA[	WHERE PAYMENT_DATE >= CURDATE() AND PAYMENT_DATE <= CONCAT(CURDATE(),' 23:59:59')	]]>
+			and PAYMENT_STATE ='성공'
 	</select>
 
 	<select id="today_point" resultType="int">
-		select IFNULL(sum(payment_point),0) from PAYMENT where payment_date like
-		DATE_FORMAT(NOW(),'%Y-%c-%d')
-		and PAYMENT_STATE ='성공'
+			SELECT SUM(PAYMENT_POINT) FROM PAYMENT 
+<![CDATA[	WHERE PAYMENT_DATE >= CURDATE() AND PAYMENT_DATE <= CONCAT(CURDATE(),' 23:59:59')	]]>
+			and PAYMENT_STATE ='성공'
 	</select>
 
 	<select id="menucount_total" resultType="int">
-		select IFNULL(sum(sd_qty),0)
-		from SALES_DETAILS where (sd_menu_code like 'MN1' or sd_menu_code like
-		'MN2') and SD_SALES_NO in
-		(select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like
-		DATE_FORMAT(NOW(),'%Y-%c-%d')and PAYMENT_STATE ='성공')
+		SELECT 
+			IFNULL(SUM(SD_QTY),0)
+		FROM 
+			SALES_DETAILS 
+		WHERE 
+			SD_MENU_CODE LIKE 'MN1' 
+		OR 
+			SD_MENU_CODE LIKE 'MN2' 
+		AND 
+			SD_SALES_NO IN
+		(
+					SELECT 
+						PAYMENT_SALES_NO 
+					FROM 
+						PAYMENT 
+					WHERE 
+						PAYMENT_DATE >= CURDATE() 
+					AND
+						PAYMENT_STATE ='성공'
+					)
 	</select>
 
 	<select id="menucount_soup" resultType="int">
 		SELECT
-		IFNULL(sum(s.sd_qty),0)
-		FROM MENU m,SALES_DETAILS s
-		WHERE m.menu_code = s.sd_menu_code and (menu_mt_code like 'MT3') and
-		SD_SALES_NO in
-		(select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like
-		DATE_FORMAT(NOW(),'%Y-%c-%d')and
-		PAYMENT_STATE ='성공')
+			IFNULL(SUM(S.SD_QTY),0)
+		FROM 
+			MENU M,SALES_DETAILS S
+		WHERE 
+			M.MENU_CODE = S.SD_MENU_CODE 
+		AND 
+			MENU_MT_CODE LIKE 'MT3' 
+		AND
+		SD_SALES_NO IN
+					(
+					SELECT 
+						PAYMENT_SALES_NO 
+					FROM 
+						PAYMENT 
+					WHERE 
+						PAYMENT_DATE >= CURDATE() 
+					AND
+						PAYMENT_STATE ='성공'
+					)
 	</select>
 
 	<select id="menucount_drink" resultType="int">
 		SELECT
-		IFNULL(sum(s.sd_qty),0)
-		FROM MENU m,SALES_DETAILS s
-		WHERE m.menu_code = s.sd_menu_code and (menu_mt_code like 'MT2') and
-		SD_SALES_NO in
-		(select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like
-		DATE_FORMAT(NOW(),'%Y-%c-%d')and
-		PAYMENT_STATE ='성공')
+			IFNULL(SUM(S.SD_QTY),0)
+		FROM 
+			MENU M,SALES_DETAILS S
+		WHERE 
+			M.MENU_CODE = S.SD_MENU_CODE 
+		AND 
+			MENU_MT_CODE LIKE 'MT2' 
+		AND
+		SD_SALES_NO IN
+					(
+					SELECT 
+						PAYMENT_SALES_NO 
+					FROM 
+						PAYMENT 
+					WHERE 
+						PAYMENT_DATE >= CURDATE() 
+					AND
+						PAYMENT_STATE ='성공'
+					)
 	</select>
 
 	<select id="menucount_cooking" resultType="int">
-		SELECT IFNULL(sum(s.sd_qty),0)
-		FROM MENU m,SALES_DETAILS s
-		WHERE m.menu_code = s.sd_menu_code and (menu_mt_code like 'MT1') and
-		SD_SALES_NO in
-		(select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like
-		DATE_FORMAT(NOW(),'%Y-%c-%d')and
-		PAYMENT_STATE ='성공')
+		SELECT
+			IFNULL(SUM(S.SD_QTY),0)
+		FROM 
+			MENU M,SALES_DETAILS S
+		WHERE 
+			M.MENU_CODE = S.SD_MENU_CODE 
+		AND 
+			MENU_MT_CODE LIKE 'MT1' 
+		AND
+		SD_SALES_NO IN
+					(
+					SELECT 
+						PAYMENT_SALES_NO 
+					FROM 
+						PAYMENT 
+					WHERE 
+						PAYMENT_DATE >= CURDATE() 
+					AND
+						PAYMENT_STATE ='성공'
+					)
 	</select>
 
 	<select id="befor_drink" resultType="int">
 		SELECT
-		IFNULL(sum(s.sd_qty),0)
-		FROM MENU m,SALES_DETAILS s
-		WHERE m.menu_code = s.sd_menu_code and (menu_mt_code like 'MT2') and
-		SD_SALES_NO in
-		(select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like
-		DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY),'%Y-%c-%d')and
-		PAYMENT_STATE ='성공')
+			IFNULL(SUM(S.SD_QTY),0)
+		FROM 
+			MENU M,SALES_DETAILS S
+		WHERE 
+			M.MENU_CODE = S.SD_MENU_CODE AND (MENU_MT_CODE LIKE 'MT2')
+		AND
+			SD_SALES_NO IN
+						  (
+						  SELECT 
+						  		PAYMENT_SALES_NO 
+						  FROM 
+						  		PAYMENT 
+						  WHERE 
+<![CDATA[						PAYMENT_DATE >= DATE_SUB(CURDATE(), INTERVAL 1 DAY) ]]>
+						  AND
+<![CDATA[						PAYMENT_DATE <= STR_TO_DATE(CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY), '23:59:59'),'%Y-%c-%d %T') ]]>
+						  AND
+						  		PAYMENT_STATE ='성공'
+						  )
 	</select>
 
 	<select id="befor_cooking" resultType="int">
-		SELECT IFNULL(sum(s.sd_qty),0)
-		FROM MENU m,SALES_DETAILS s
-		WHERE m.menu_code = s.sd_menu_code and (menu_mt_code like 'MT1') and
-		SD_SALES_NO in
-		(select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like
-		DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY),'%Y-%c-%d')and
-		PAYMENT_STATE ='성공')
+		SELECT
+			IFNULL(SUM(S.SD_QTY),0)
+		FROM 
+			MENU M,SALES_DETAILS S
+		WHERE 
+			M.MENU_CODE = S.SD_MENU_CODE AND (MENU_MT_CODE LIKE 'MT1')
+		AND
+			SD_SALES_NO IN
+						  (
+						  SELECT 
+						  		PAYMENT_SALES_NO 
+						  FROM 
+						  		PAYMENT 
+						  WHERE 
+<![CDATA[						PAYMENT_DATE >= DATE_SUB(CURDATE(), INTERVAL 1 DAY) ]]>
+						  AND
+<![CDATA[						PAYMENT_DATE <= STR_TO_DATE(CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY), '23:59:59'),'%Y-%c-%d %T') ]]>
+						  AND
+						  		PAYMENT_STATE ='성공'
+						  )
 	</select>
 
 	<select id="befor_soup" resultType="int">
 		SELECT
-		IFNULL(sum(s.sd_qty),0)
-		FROM MENU m,SALES_DETAILS s
-		WHERE m.menu_code = s.sd_menu_code and (menu_mt_code like 'MT3') and
-		SD_SALES_NO in
-		(select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like
-		DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY),'%Y-%c-%d')and
-		PAYMENT_STATE ='성공')
+			IFNULL(SUM(S.SD_QTY),0)
+		FROM 
+			MENU M,SALES_DETAILS S
+		WHERE 
+			M.MENU_CODE = S.SD_MENU_CODE AND (MENU_MT_CODE LIKE 'MT3')
+		AND
+			SD_SALES_NO IN
+						  (
+						  SELECT 
+						  		PAYMENT_SALES_NO 
+						  FROM 
+						  		PAYMENT 
+						  WHERE 
+<![CDATA[						PAYMENT_DATE >= DATE_SUB(CURDATE(), INTERVAL 1 DAY) ]]>
+						  AND
+<![CDATA[						PAYMENT_DATE <= STR_TO_DATE(CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY), '23:59:59'),'%Y-%c-%d %T') ]]>
+						  AND
+						  		PAYMENT_STATE ='성공'
+						  )
 	</select>
 
 	<select id="last_week_drink" resultType="int">
 		SELECT
-		IFNULL(sum(s.sd_qty),0)
-		FROM MENU m,SALES_DETAILS s
-		WHERE m.menu_code = s.sd_menu_code and (menu_mt_code like 'MT2') and
-		SD_SALES_NO in
-		(select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like
-		DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 7 DAY),'%Y-%c-%d')and
-		PAYMENT_STATE ='성공')
+			IFNULL(SUM(S.SD_QTY),0)
+		FROM 
+			MENU M,SALES_DETAILS S
+		WHERE 
+			M.MENU_CODE = S.SD_MENU_CODE 
+		AND 
+			(MENU_MT_CODE LIKE 'MT2') 
+		AND 
+			SD_SALES_NO IN
+						(
+						SELECT 
+							PAYMENT_SALES_NO 
+						FROM 
+							PAYMENT 
+						WHERE 
+<![CDATA[					PAYMENT_DATE >= DATE_ADD(CURDATE(), INTERVAL ( (DAYOFWEEK(CURDATE())+5) ) * -1 DAY) ]]>
+						AND
+<![CDATA[					PAYMENT_DATE <= DATE_ADD(CURDATE(), INTERVAL ( (DAYOFWEEK(CURDATE())-1) ) * -1 DAY) ]]>
+						AND 
+							PAYMENT_STATE ='성공'
+						)
 	</select>
 
 	<select id="last_week_cooking" resultType="int">
-		SELECT IFNULL(sum(s.sd_qty),0)
-		FROM MENU m,SALES_DETAILS s
-		WHERE m.menu_code = s.sd_menu_code and (menu_mt_code like 'MT1') and
-		SD_SALES_NO in
-		(select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like
-		DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 7 DAY),'%Y-%c-%d')and
-		PAYMENT_STATE ='성공')
+		SELECT
+			IFNULL(SUM(S.SD_QTY),0)
+		FROM 
+			MENU M,SALES_DETAILS S
+		WHERE 
+			M.MENU_CODE = S.SD_MENU_CODE 
+		AND 
+			(MENU_MT_CODE LIKE 'MT1') 
+		AND 
+			SD_SALES_NO IN
+						(
+						SELECT 
+							PAYMENT_SALES_NO 
+						FROM 
+							PAYMENT 
+						WHERE 
+<![CDATA[					PAYMENT_DATE >= DATE_ADD(CURDATE(), INTERVAL ( (DAYOFWEEK(CURDATE())+5) ) * -1 DAY) ]]>
+						AND
+<![CDATA[					PAYMENT_DATE <= DATE_ADD(CURDATE(), INTERVAL ( (DAYOFWEEK(CURDATE())-1) ) * -1 DAY) ]]>
+						AND 
+							PAYMENT_STATE ='성공'
+						)
 	</select>
 
 	<select id="last_week_soup" resultType="int">
 		SELECT
-		IFNULL(sum(s.sd_qty),0)
-		FROM MENU m,SALES_DETAILS s
-		WHERE m.menu_code = s.sd_menu_code and (menu_mt_code like 'MT3') and
-		SD_SALES_NO in
-		(select PAYMENT_SALES_NO from PAYMENT where PAYMENT_DATE like
-		DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 7 DAY),'%Y-%c-%d')and
-		PAYMENT_STATE ='성공')
+			IFNULL(SUM(S.SD_QTY),0)
+		FROM 
+			MENU M,SALES_DETAILS S
+		WHERE 
+			M.MENU_CODE = S.SD_MENU_CODE 
+		AND 
+			(MENU_MT_CODE LIKE 'MT3') 
+		AND 
+			SD_SALES_NO IN
+						(
+						SELECT 
+							PAYMENT_SALES_NO 
+						FROM 
+							PAYMENT 
+						WHERE 
+<![CDATA[					PAYMENT_DATE >= DATE_ADD(CURDATE(), INTERVAL ( (DAYOFWEEK(CURDATE())+5) ) * -1 DAY) ]]>
+						AND
+<![CDATA[					PAYMENT_DATE <= DATE_ADD(CURDATE(), INTERVAL ( (DAYOFWEEK(CURDATE())-1) ) * -1 DAY) ]]>
+						AND 
+							PAYMENT_STATE ='성공'
+						)
 	</select>
 
 	<select id="Monday" resultType="int">
 		SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0) FROM PAYMENT 
-		WHERE PAYMENT_DATE BETWEEN
-			(SELECT DISTINCT DATE_FORMAT(CURDATE(),'%c')FROM PAYMENT) 
+		WHERE 
+			PAYMENT_DATE BETWEEN
+					 DATE_ADD(CURDATE(), INTERVAL ( (DAYOFWEEK(CURDATE())+5) ) * -1 DAY) 
 			AND
-			(SELECT DISTINCT DATE_FORMAT(DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY),'%Y/%c/%d') FROM PAYMENT) 
-		AND
-			PAYMENT_DATE LIKE DATE_FORMAT((SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 7 DAY), INTERVAL (DAYOFWEEK(CURDATE())-2) * -1 DAY)),'%Y-%c-%d')
+					 STR_TO_DATE(CONCAT(DATE_ADD(CURDATE(), INTERVAL ( (DAYOFWEEK(CURDATE())+5) ) * -1 DAY), '23:59:59'),'%Y-%c-%d %T')
 		AND 
 			PAYMENT_STATE ='성공'
 	</select>
 
 	<select id="Tuesday" resultType="int">
 		SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0) FROM PAYMENT 
-		WHERE PAYMENT_DATE BETWEEN
-			(SELECT DISTINCT DATE_FORMAT(CURDATE(),'%c')FROM PAYMENT) 
+		WHERE 
+			PAYMENT_DATE BETWEEN
+					 DATE_ADD(CURDATE(), INTERVAL ( (DAYOFWEEK(CURDATE())+4) ) * -1 DAY) 
 			AND
-			(SELECT DISTINCT DATE_FORMAT(DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY),'%Y/%c/%d') FROM PAYMENT) 
-		AND
-			PAYMENT_DATE LIKE DATE_FORMAT((SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 7 DAY), INTERVAL (DAYOFWEEK(CURDATE())-3) * -1 DAY)),'%Y-%c-%d')
+					 STR_TO_DATE(CONCAT(DATE_ADD(CURDATE(), INTERVAL ( (DAYOFWEEK(CURDATE())+4) ) * -1 DAY), '23:59:59'),'%Y-%c-%d %T')
 		AND 
 			PAYMENT_STATE ='성공'
 	</select>
 
 	<select id="Thursday" resultType="int">
 		SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0) FROM PAYMENT 
-		WHERE PAYMENT_DATE BETWEEN
-			(SELECT DISTINCT DATE_FORMAT(CURDATE(),'%c')FROM PAYMENT) 
+		WHERE 
+			PAYMENT_DATE BETWEEN
+					 DATE_ADD(CURDATE(), INTERVAL ( (DAYOFWEEK(CURDATE())+3) ) * -1 DAY) 
 			AND
-			(SELECT DISTINCT DATE_FORMAT(DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY),'%Y/%c/%d') FROM PAYMENT) 
-		AND
-			PAYMENT_DATE LIKE DATE_FORMAT((SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 7 DAY), INTERVAL (DAYOFWEEK(CURDATE())-4) * -1 DAY)),'%Y-%c-%d')
+					 STR_TO_DATE(CONCAT(DATE_ADD(CURDATE(), INTERVAL ( (DAYOFWEEK(CURDATE())+3) ) * -1 DAY), '23:59:59'),'%Y-%c-%d %T')
 		AND 
 			PAYMENT_STATE ='성공'
 	</select>
 
 	<select id="Wednesday" resultType="int">
 		SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0) FROM PAYMENT 
-		WHERE PAYMENT_DATE BETWEEN
-			(SELECT DISTINCT DATE_FORMAT(CURDATE(),'%c')FROM PAYMENT) 
+		WHERE 
+			PAYMENT_DATE BETWEEN
+					 DATE_ADD(CURDATE(), INTERVAL ( (DAYOFWEEK(CURDATE())+2) ) * -1 DAY) 
 			AND
-			(SELECT DISTINCT DATE_FORMAT(DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY),'%Y/%c/%d') FROM PAYMENT) 
-		AND
-			PAYMENT_DATE LIKE DATE_FORMAT((SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 7 DAY), INTERVAL (DAYOFWEEK(CURDATE())-5) * -1 DAY)),'%Y-%c-%d')
+					 STR_TO_DATE(CONCAT(DATE_ADD(CURDATE(), INTERVAL ( (DAYOFWEEK(CURDATE())+2) ) * -1 DAY), '23:59:59'),'%Y-%c-%d %T')
 		AND 
 			PAYMENT_STATE ='성공'
 	</select>
 
 	<select id="Friday" resultType="int">
 		SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0) FROM PAYMENT 
-		WHERE PAYMENT_DATE BETWEEN
-			(SELECT DISTINCT DATE_FORMAT(CURDATE(),'%c')FROM PAYMENT) 
+		WHERE 
+			PAYMENT_DATE BETWEEN
+					 DATE_ADD(CURDATE(), INTERVAL ( (DAYOFWEEK(CURDATE())+1) ) * -1 DAY) 
 			AND
-			(SELECT DISTINCT DATE_FORMAT(DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY),'%Y/%c/%d') FROM PAYMENT) 
-		AND
-			PAYMENT_DATE LIKE DATE_FORMAT((SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 7 DAY), INTERVAL (DAYOFWEEK(CURDATE())-6) * -1 DAY)),'%Y-%c-%d')
+					 STR_TO_DATE(CONCAT(DATE_ADD(CURDATE(), INTERVAL ( (DAYOFWEEK(CURDATE())+1) ) * -1 DAY), '23:59:59'),'%Y-%c-%d %T')
 		AND 
 			PAYMENT_STATE ='성공'
 	</select>
 
 	<select id="Saturday" resultType="int">
 		SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0) FROM PAYMENT 
-		WHERE PAYMENT_DATE BETWEEN
-			(SELECT DISTINCT DATE_FORMAT(CURDATE(),'%c')FROM PAYMENT) 
+		WHERE 
+			PAYMENT_DATE BETWEEN
+					 DATE_ADD(CURDATE(), INTERVAL ( DAYOFWEEK(CURDATE()) ) * -1 DAY) 
 			AND
-			(SELECT DISTINCT DATE_FORMAT(DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY),'%Y/%c/%d') FROM PAYMENT) 
-		AND
-			PAYMENT_DATE LIKE DATE_FORMAT((SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 7 DAY), INTERVAL (DAYOFWEEK(CURDATE())-7) * -1 DAY)),'%Y-%c-%d')
+					 STR_TO_DATE(CONCAT(DATE_ADD(CURDATE(), INTERVAL ( DAYOFWEEK(CURDATE()) ) * -1 DAY), '23:59:59'),'%Y-%c-%d %T')
 		AND 
 			PAYMENT_STATE ='성공'
 	</select>
 
 	<select id="Sunday" resultType="int">
 		SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0) FROM PAYMENT 
-		WHERE PAYMENT_DATE BETWEEN
-			(SELECT DISTINCT DATE_FORMAT(CURDATE(),'%c')FROM PAYMENT) 
+		WHERE 
+			PAYMENT_DATE BETWEEN
+					 DATE_ADD(CURDATE(), INTERVAL ( (DAYOFWEEK(CURDATE())-1) ) * -1 DAY) 
 			AND
-			(SELECT DISTINCT DATE_FORMAT(DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY),'%Y/%c/%d') FROM PAYMENT) 
-		AND
-			PAYMENT_DATE LIKE DATE_FORMAT((SELECT DATE_ADD(DATE_SUB(CURDATE(), INTERVAL 7 DAY), INTERVAL (DAYOFWEEK(CURDATE())-8) * -1 DAY)),'%Y-%c-%d')
+					 STR_TO_DATE(CONCAT(DATE_ADD(CURDATE(), INTERVAL ( (DAYOFWEEK(CURDATE())-1) ) * -1 DAY), '23:59:59'),'%Y-%c-%d %T')
 		AND 
 			PAYMENT_STATE ='성공'
 	</select>
@@ -359,17 +487,16 @@
 
 	<select id="today_one_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 0100 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 0200
-		 )
-	 AND PAYMENT_STATE ='성공'
+	  SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
+    	WHERE payment_date 
+        BETWEEN 
+            CURDATE()
+        AND 
+            DATE_ADD(CURDATE(),INTERVAL 1 DAY)
+	AND DATE_FORMAT(payment_date, 'hh24mi') >= 0100
+	AND DATE_FORMAT(payment_date, 'hh24mi') < 0200
+	
+	 and PAYMENT_STATE ='성공'
     ]]>
 	</select>
 

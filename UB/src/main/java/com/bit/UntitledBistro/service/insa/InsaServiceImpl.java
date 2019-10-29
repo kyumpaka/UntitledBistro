@@ -204,8 +204,13 @@ public class InsaServiceImpl implements InsaService {
 	@Override
 	public int HollydayAdd(Insa_SalaryDTO dto) {
 		InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
-			return insaDAO.HollydayAdd(dto);
-
+			int result = 0;
+			if(insaDAO.isHollyday(dto) > 0) {
+				result = insaDAO.HollydayModify(dto);
+			} else {
+				result = insaDAO.HollydayAdd(dto);
+			}
+			return result;
 
 	}
 
