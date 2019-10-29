@@ -47,7 +47,7 @@ public class JungsanController {
 
 		int befor_point = jungsan_view_Service.befor_point(); // 어제 카드
 		request.setAttribute("befor_point", befor_point);
-		////////////// 오늘//////////
+		//////////// 오늘//////////
 		int today_cash = jungsan_view_Service.today_cash(); // 현재 현금
 		request.setAttribute("today_cash", today_cash);
 

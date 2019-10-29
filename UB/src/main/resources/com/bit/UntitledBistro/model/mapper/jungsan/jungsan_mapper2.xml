@@ -5,15 +5,30 @@
   
 <mapper namespace="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DAO">
 	<select id="getjungsan_inputList" parameterType="map" resultType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
-		select * from Jungsan_Input 
+		SELECT 
+			* 
+		FROM 
+			JUNGSAN_INPUT 
 		<where>
 		<if test="postdatepicker == null">
-		jungsan_input_date between 
-   		(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Jungsan_Input) and 
-   		(select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from Jungsan_Input)
+			JUNGSAN_INPUT_DATE BETWEEN 
+   									  (
+   									  SELECT 
+											DISTINCT DATE_FORMAT(CURDATE(), '%c')
+									  FROM 
+									  		JUNGSAN_INPUT
+									  ) 
+								AND 
+   									  (
+   									  SELECT 
+   									  		DISTINCT DATE_FORMAT(LAST_DAY( NOW() ),'%Y/%c/%d')
+   									  FROM 
+   									  		JUNGSAN_INPUT
+   									  )
    		</if>
 		<if test="postdatepicker != null">
-		jungsan_input_date like #{postdatepicker}
+								AND
+									  JUNGSAN_INPUT_DATE LIKE #{postdatepicker}
 		</if>
 		</where>
 	</select>
@@ -23,11 +38,11 @@
 	</select>
 	
 	<select id="to_date" resultType="string">
-		select DISTINCT to_char(sysdate, 'day') from Jungsan_Input
+		SELECT DISTINCT DATE_FORMAT(NOW(), '%d') FROM JUNGSAN_INPUT
 	</select>
 	
 	<select id="MonthList" resultType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
-		select * from Month_Input
+		SELECT * FROM MONTH_INPUT
 	</select>
 	
 	<insert id="insert_daily">
@@ -40,39 +55,86 @@
 		#{jungsan_input_cash, jdbcType=NUMERIC},#{jungsan_input_card, jdbcType=NUMERIC},
 		#{jungsan_input_grade, jdbcType=VARCHAR},#{jungsan_input_worktime, jdbcType=NUMERIC},
 		#{jungsan_input_expenditure, jdbcType=NUMERIC},#{jungsan_input_point, jdbcType=NUMERIC},
-		#{jungsan_input_refund, jdbcType=NUMERIC},#{jungsan_input_reason, jdbcType=VARCHAR},sysdate)
+		#{jungsan_input_refund, jdbcType=NUMERIC},#{jungsan_input_reason, jdbcType=VARCHAR}
+		,NOW()
+		)
 	</insert>
 	
 	<update id="update_Monthly">
-	update Month_input set
-	Month_cash=(select nvl(sum(jungsan_input_cash),0) from jungsan_input where jungsan_input_date between 
-	(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Month_input) and
-	(select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from Month_input)),
-	Month_card=(select nvl(sum(jungsan_input_card),0) from jungsan_input where jungsan_input_date between 
-	(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Month_input) and
-	(select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from Month_input)),    
-	Month_worktime=(select nvl(sum(jungsan_input_worktime),0)from jungsan_input where jungsan_input_date between 
-	(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Month_input) and
-	(select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from Month_input)),
-	Month_expenditure=(select nvl(sum(jungsan_input_expenditure),0) from Jungsan_Input where jungsan_input_date between 
-	(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Month_input) and
-	(select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from Month_input)),  
-	Month_point=(select nvl(sum(jungsan_input_point),0) from jungsan_input where jungsan_input_date between 
-	(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Month_input) and
-	(select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from Month_input)),
-	Month_refund=(select nvl(sum(jungsan_input_refund),0) from jungsan_input where jungsan_input_date between 
-	(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Month_input) and
-	(select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from Month_input)) ,
-	Month_sum=(select nvl(sum(jungsan_input_cash+jungsan_input_card+jungsan_input_point),0) from jungsan_input where jungsan_input_date between 
-	(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Month_input) and
-	(select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from Month_input)),
-	Month_real_sum=(select nvl(sum(jungsan_input_cash+jungsan_input_card+jungsan_input_point-jungsan_input_expenditure),0) 
-	from jungsan_input where jungsan_input_date between 
-	(select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Month_input) and
-	(select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from Month_input)),
-	Month_date= sysdate where Month_date between 
-   (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from Month_input) and 
-   (select DISTINCT to_char(last_day(to_date(sysdate)),'YYYY/MM/DD')from Month_input)
+	<selectKey resultType="DATE" order="BEFORE">
+	
+	</selectKey>
+	UPDATE 
+		MONTH_INPUT 
+	SET
+		MONTH_CASH = (
+					 SELECT IFNULL(SUM(JUNGSAN_INPUT_CASH),0) FROM JUNGSAN_INPUT 
+					 WHERE JUNGSAN_INPUT_DATE BETWEEN 
+					 (SELECT DISTINCT DATE_FORMAT(CURDATE(),'%c') FROM MONTH_INPUT MI) 
+					 AND
+					 (SELECT DISTINCT DATE_FORMAT(DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY),'%Y/%c/%d') FROM MONTH_INPUT MI2)
+					 )
+	
+		,MONTH_CARD = (
+					  SELECT IFNULL(SUM(JUNGSAN_INPUT_CARD),0) FROM JUNGSAN_INPUT 
+					  WHERE JUNGSAN_INPUT_DATE BETWEEN 
+					  (SELECT DISTINCT DATE_FORMAT(CURDATE(),'%c') FROM MONTH_INPUT MI) 
+					  AND
+					  (SELECT DISTINCT DATE_FORMAT(DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY),'%Y/%c/%d') FROM MONTH_INPUT MI2)
+					  )
+					  
+		,MONTH_WORKTIME = (
+						  SELECT IFNULL(SUM(JUNGSAN_INPUT_WORKTIME),0)FROM JUNGSAN_INPUT 
+						  WHERE JUNGSAN_INPUT_DATE BETWEEN 
+						  (SELECT DISTINCT DATE_FORMAT(CURDATE(),'%c') FROM MONTH_INPUT MI) 
+					 	  AND
+					  	  (SELECT DISTINCT DATE_FORMAT(DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY),'%Y/%c/%d') FROM MONTH_INPUT MI2)
+						  )
+						  
+		,MONTH_EXPENDITURE = (
+							 SELECT IFNULL(SUM(JUNGSAN_INPUT_EXPENDITURE),0) FROM JUNGSAN_INPUT 
+							 WHERE JUNGSAN_INPUT_DATE BETWEEN 
+							 (SELECT DISTINCT DATE_FORMAT(CURDATE(),'%c') FROM MONTH_INPUT MI) 
+					 	     AND
+					  	     (SELECT DISTINCT DATE_FORMAT(DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY),'%Y/%c/%d') FROM MONTH_INPUT MI2)
+						     )
+	
+		,MONTH_POINT = (
+						SELECT IFNULL(SUM(JUNGSAN_INPUT_POINT),0) FROM JUNGSAN_INPUT 
+						WHERE JUNGSAN_INPUT_DATE BETWEEN 
+						(SELECT DISTINCT DATE_FORMAT(CURDATE(),'%C') FROM MONTH_INPUT MI) 
+				 	     AND
+				  	     (SELECT DISTINCT DATE_FORMAT(DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY),'%Y/%C/%D') FROM MONTH_INPUT MI2)
+					     )
+	
+		,MONTH_REFUND = (
+						SELECT IFNULL(SUM(JUNGSAN_INPUT_REFUND),0) FROM JUNGSAN_INPUT 
+						WHERE JUNGSAN_INPUT_DATE BETWEEN 
+						(SELECT DISTINCT DATE_FORMAT(CURDATE(),'%C') FROM MONTH_INPUT MI) 
+				 	     AND
+				  	     (SELECT DISTINCT DATE_FORMAT(DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY),'%Y/%C/%D') FROM MONTH_INPUT MI2)
+					     )
+	
+		,MONTH_SUM = (
+					 SELECT IFNULL(SUM(JUNGSAN_INPUT_CASH+JUNGSAN_INPUT_CARD+JUNGSAN_INPUT_POINT),0) FROM JUNGSAN_INPUT 
+					 WHERE JUNGSAN_INPUT_DATE BETWEEN 
+					 (SELECT DISTINCT DATE_FORMAT(CURDATE(),'%c') FROM MONTH_INPUT MI) 
+			 	     AND
+			  	     (SELECT DISTINCT DATE_FORMAT(DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY),'%Y/%c/%d') FROM MONTH_INPUT MI2)
+				     )
+	
+		,MONTH_REAL_SUM = (SELECT IFNULL(SUM(JUNGSAN_INPUT_CASH+JUNGSAN_INPUT_CARD+JUNGSAN_INPUT_POINT-JUNGSAN_INPUT_EXPENDITURE),0) FROM JUNGSAN_INPUT 
+						  WHERE JUNGSAN_INPUT_DATE BETWEEN 
+						  (SELECT DISTINCT DATE_FORMAT(CURDATE(),'%c') FROM MONTH_INPUT MI) 
+				 	      AND
+				  	      (SELECT DISTINCT DATE_FORMAT(DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY),'%Y/%c/%d') FROM MONTH_INPUT MI2)
+					      )
+	
+		,MONTH_DATE = SELECT NOW() FROM MONTH_INPUT WHERE MONTH_DATE BETWEEN 
+			   		  (SELECT DISTINCT DATE_FORMAT(CURDATE(),'%c') FROM MONTH_INPUT MI) 
+			 	      AND
+			  	      (SELECT DISTINCT DATE_FORMAT(DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY),'%Y/%c/%d') FROM MONTH_INPUT MI2)
+					      
 	</update>
 	
 	<update id="update" parameterType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
@@ -86,18 +148,18 @@
 		jungsan_input_refund= #{jungsan_input_refund, jdbcType=NUMERIC},
 		jungsan_input_reason= #{jungsan_input_reason, jdbcType=VARCHAR} 
      where 
-        jungsan_input_date like to_date (sysdate,'YYYY-MM-DD')
+        jungsan_input_date like to_date (NOW(),'YYYY-MM-DD')
 	</update>
 	
 	<select id="count_difference" resultType="int">
-	select count(difference) from jungsan_difference where difference_date like to_date(sysdate,'YYYY-MM-DD')
+	select count(difference) from jungsan_difference where difference_date like to_date(NOW(),'YYYY-MM-DD')
 	</select>
 	
 	<select id="to_difference" resultType="int">
 	select sum(difference) from jungsan_difference
 	<where>
 		<if test="postdatepicker == null">
-		difference_date like to_date(sysdate,'YYYY-MM-DD')
+		difference_date like to_date(NOW(),'YYYY-MM-DD')
    		</if>
 		<if test="postdatepicker != null">
 		difference_date like #{postdatepicker}
@@ -106,101 +168,101 @@
 	</select>
 	
 	<insert id="insert_difference">
-		insert into jungsan_difference values(0,0,sysdate)
+		insert into jungsan_difference values(0,0,NOW())
 	</insert>
 	
 	<update id="update_difference" parameterType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
 	update jungsan_difference set 
-     difference=(select sum(((select nvl(sum(payment_cash+payment_card+payment_point),0) 
-	 from payment where payment_state='성공' and payment_date like to_date(sysdate,'YYYY-MM-DD'))-
-     (select nvl(sum(JUNGSAN_INPUT_CASH+JUNGSAN_INPUT_CARD +JUNGSAN_INPUT_POINT -JUNGSAN_INPUT_REFUND),0)
-     from jungsan_input where JUNGSAN_INPUT_DATE like to_date(sysdate,'YYYY-MM-DD'))))from dual) 
-     where difference_date like to_date(sysdate,'YYYY-MM-DD')
+     difference=(select sum(((select IFNULL(sum(payment_cash+payment_card+payment_point),0) 
+	 from payment where payment_state='성공' and payment_date like to_date(NOW(),'YYYY-MM-DD'))-
+     (select IFNULL(sum(JUNGSAN_INPUT_CASH+JUNGSAN_INPUT_CARD +JUNGSAN_INPUT_POINT -JUNGSAN_INPUT_REFUND),0)
+     from jungsan_input where JUNGSAN_INPUT_DATE like to_date(NOW(),'YYYY-MM-DD'))))from dual) 
+     where difference_date like to_date(NOW(),'YYYY-MM-DD')
 	</update>
 	
 	<update id="update_difference_Month" parameterType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
-	update jungsan_difference set difference_Month = (select nvl(sum(difference),0) from jungsan_difference where 
-     difference_date between (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from jungsan_difference) and 
-    (select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from jungsan_difference) and difference_date like to_date(sysdate,'YYYY-MM-DD'))
+	update jungsan_difference set difference_Month = (select IFNULL(sum(difference),0) from jungsan_difference where 
+     difference_date between (select DISTINCT to_char(TRUNC(to_date(NOW()),'MM'))from jungsan_difference) and 
+    (select DISTINCT to_char(last_day(to_date(NOW()))+1,'YYYY/MM/DD')from jungsan_difference) and difference_date like to_date(NOW(),'YYYY-MM-DD'))
 	</update>
 	
 	<select id="differenceList" resultType="int">
-		select nvl(sum(difference_Month),0) from jungsan_difference where difference_date between 
-   (select DISTINCT to_char(TRUNC(to_date(sysdate),'MM'))from jungsan_difference) and 
-    (select DISTINCT to_char(last_day(to_date(sysdate))+1,'YYYY/MM/DD')from jungsan_difference)
+		select IFNULL(sum(difference_Month),0) from jungsan_difference where difference_date between 
+   (select DISTINCT to_char(TRUNC(to_date(NOW()),'MM'))from jungsan_difference) and 
+    (select DISTINCT to_char(last_day(to_date(NOW()))+1,'YYYY/MM/DD')from jungsan_difference)
 	</select>
 	
 	<!-- 여기부터 -->
 	<select id="Jan" resultType="int">
-	select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
-   (SELECT DISTINCT TRUNC (SYSDATE, 'YEAR')FROM Month_input) and 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 1) FROM Month_input)
+	select IFNULL(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT TRUNC (NOW(), 'YEAR')FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR')-1, 1) FROM Month_input)
 	</select>
 	
 	<select id="Feb" resultType="int">
-	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 1) FROM Month_input) and 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 2) FROM Month_input)
+	 select IFNULL(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR'), 1) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR')-1, 2) FROM Month_input)
 	</select>
 	
 	<select id="Mar" resultType="int">
-	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 2) FROM Month_input) and 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 3) FROM Month_input)
+	 select IFNULL(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR'), 2) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR')-1, 3) FROM Month_input)
 	</select>
 	
 	<select id="Apr" resultType="int">
-	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 3) FROM Month_input) and 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 4) FROM Month_input)
+	 select IFNULL(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR'), 3) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR')-1, 4) FROM Month_input)
 	</select>
 	
 	<select id="May" resultType="int">
-	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 4) FROM Month_input) and 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 5) FROM Month_input)
+	 select IFNULL(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR'), 4) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR')-1, 5) FROM Month_input)
 	</select>
 	
 	<select id="Jun" resultType="int">
-	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 5) FROM Month_input) and 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 6) FROM Month_input)
+	 select IFNULL(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR'), 5) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR')-1, 6) FROM Month_input)
 	</select>
 	
 	<select id="Jul" resultType="int">
-	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 6) FROM Month_input) and 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 7) FROM Month_input)
+	 select IFNULL(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR'), 6) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR')-1, 7) FROM Month_input)
 	</select>
 	
 	<select id="Aug" resultType="int">
-	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 7) FROM Month_input) and 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 8) FROM Month_input)
+	 select IFNULL(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR'), 7) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR')-1, 8) FROM Month_input)
 	</select>
 	
 	<select id="Sept" resultType="int">
-	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 8) FROM Month_input) and 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 9) FROM Month_input)
+	 select IFNULL(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR'), 8) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR')-1, 9) FROM Month_input)
 	</select>
 	
 	<select id="Ock" resultType="int">
-	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 9) FROM Month_input) and 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 10) FROM Month_input)
+	 select IFNULL(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR'), 9) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR')-1, 10) FROM Month_input)
 	</select>
 	
 	<select id="Nov" resultType="int">
-	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 10) FROM Month_input) and 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 11) FROM Month_input)
+	 select IFNULL(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR'), 10) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR')-1, 11) FROM Month_input)
 	</select>
 	
 	<select id="Dec" resultType="int">
-	 select nvl(MONTH_SUM,0) from month_input where MONTH_DATE between 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR'), 11) FROM Month_input) and 
-   (SELECT DISTINCT ADD_MONTHS (TRUNC (SYSDATE, 'YEAR')-1, 12) FROM Month_input)
+	 select IFNULL(MONTH_SUM,0) from month_input where MONTH_DATE between 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR'), 11) FROM Month_input) and 
+   (SELECT DISTINCT ADD_MONTHS (TRUNC (NOW(), 'YEAR')-1, 12) FROM Month_input)
 	</select>
 	
 </mapper> 

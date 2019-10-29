@@ -155,6 +155,16 @@
       	SCHEDULE 
       SET 
       	 SCHEDULE_WORKINGEND = NOW()
+      	,SCHEDULE_WORKINGSTART = (
+      							  SELECT 
+      							  		SCHEDULE_WORKINGSTART 
+      							  FROM 
+      							  		SCHEDULE S 
+      							  WHERE 
+      							  		SCHEDULE_EMPREGISTER_EMPNUM = #{empregister_empnum} 
+      							  AND 
+      							  		DATE_FORMAT( SCHEDULE_WORKINGSTART, '%Y/%c/%d' ) = DATE_FORMAT( NOW(),'%Y/%c/%d')
+      							 )
       	,SCHEDULE_WORKINGTIME = ROUND((NOW() - SCHEDULE_WORKINGSTART)*24)
       WHERE 
       	SCHEDULE_EMPREGISTER_EMPNUM = #{empregister_empnum}
@@ -348,26 +358,25 @@
    </select>
 
    <update id="HollydayAdd" parameterType="com.bit.UntitledBistro.model.insa.Insa_SalaryDTO">
-      <![CDATA[
-      UPDATE SALARY 
-      SET 
-         SALARY_EMPREGISTER_EMPNUM = #{salary_empRegister_empnum},
-         SALARY_HOLLYDAYSTART= #{salary_hollydaystart},
-         SALARY_HOLLYDAYEND = #{salary_hollydayend}
-      WHERE 
-      	 SALARY_EMPREGISTER_EMPNUM = #{salary_empRegister_empnum} 
-   ]]>
+
    INSERT INTO SALARY
    					(
-   					 SALARY_EMPREGISTER_EMPNUM
+   					 SALARY_NO
+   					,SALARY_EMPREGISTER_EMPNUM
    					,SALARY_HOLLYDAYSTART
    					,SALARY_HOLLYDAYEND
    					)
    				VALUES
    					(
-   					
+   					 (SELECT NVL(MAX(SALARY_NO),0) +1 FROM SALARY S)
+   					,#{salary_empRegister_empnum}
+   					,#{salary_hollydaystart}
+   					,#{salary_hollydayend}
    					)
-   					
+   	ON DUPLICATE KEY UPDATE
+   					 SALARY_EMPREGISTER_EMPNUM = VALUES(SALARY_EMPREGISTER_EMPNUM)
+   					,SALARY_HOLLYDAYSTART = VALUES(SALARY_HOLLYDAYSTART)
+   					,SALARY_HOLLYDAYEND = VALUES(SALARY_HOLLYDAYEND)
    </update>
 
    <select id="SelectNum" parameterType="map" resultType="com.bit.UntitledBistro.model.insa.Insa_SalaryDTO">

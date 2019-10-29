@@ -113,24 +113,32 @@ public class InsaServiceImpl implements InsaService {
    public int WorkCheck(Insa_EmpRegisterDTO dto) {
       InsaDAO insaDAO = sqlsession.getMapper(InsaDAO.class);
       int idCheck = insaDAO.WorkCheck(dto);
+      System.out.println("테스트.....");
       if(idCheck == 1)  { //아이디 비밀번호가 모두 일치하는 놈 개수 emp
+    	 System.out.println("00000000000000000000000");
          int toDayCheck = insaDAO.DayCheck(dto);
          int paytime = insaDAO.PayCheckByNum(dto);
          if(toDayCheck == 0) { //아이디가 일치하는 놈의 개수 schedule
-            // 출근이 없으면 출근
+        	System.out.println("1111111111111111111111111"); 
+        	// 출근이 없으면 출근
             insaDAO.WorkAdd(dto);
             if(paytime != 0) { // 알바인지 여부
+            	System.out.println("1-1");
                insaDAO.SalaryAdd(dto); // 알바
             } else {
+            	System.out.println("1-2");
                insaDAO.SalaryDayAdd(dto); // 직원
             }
             return 1;
          } else {
+        	 System.out.println("222222222222222222222222222");
             // 출근이 있으면 퇴근
             insaDAO.WorkEnd(dto);
             if(paytime != 0) { // 알바인지 여부
+            	System.out.println("2-1");
                insaDAO.SalaryUpdate(dto); // 알바
             } else {
+            	System.out.println("2-2");
                insaDAO.SalaryDayUpdate(dto); // 직원
             }
             return 2;
