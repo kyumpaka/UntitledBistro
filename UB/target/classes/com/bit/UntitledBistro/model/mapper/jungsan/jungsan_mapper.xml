@@ -5,125 +5,27 @@
 
 <mapper
 	namespace="com.bit.UntitledBistro.model.jungsan.Jungsan_view_DAO">
-
-	<insert id="insert_Initial_value">
-		INSERT INTO JUNGSAN_STATE VALUES
-		(0,0,0,0,0,0,0,0,NOW())
-	</insert>
-
-	<insert id="insert_Initial_value2">
-		INSERT INTO JUNGSAN_STATE VALUES
-		(0,0,0,0,0,0,0,0,DATE_SUB(NOW(), INTERVAL 1 DAY))
-	</insert>
-
-	<update id="update_state">
-		UPDATE 
-			JUNGSAN_STATE 
-		SET 
-			TO_TOTAL = (
-						(
-						SELECT 
-							IFNULL(SUM(PAYMENT_CASH),0) 
-						FROM 
-							PAYMENT 
-						WHERE 
-							PAYMENT_DATE LIKE DATE_FORMAT(NOW(),'%Y-%c-%d')
-						AND 
-							PAYMENT_STATE ='성공'
-						)
-					+
-						(
-						SELECT 
-							IFNULL(SUM(PAYMENT_CARD),0) 
-						FROM 
-							PAYMENT 
-						WHERE 
-							PAYMENT_DATE LIKE DATE_FORMAT(NOW(),'%Y-%c-%d')
-						AND 
-							PAYMENT_STATE ='성공'
-						)
-					+
-						(
-						SELECT 
-							IFNULL(SUM(PAYMENT_POINT),0) 
-						FROM 
-							PAYMENT 
-						WHERE 
-							PAYMENT_DATE LIKE DATE_FORMAT(NOW(),'%Y-%c-%d')
-						AND 
-							PAYMENT_STATE ='성공'
-						)
-					   )
-					   
-			,TO_CASH = (
-						SELECT 
-							IFNULL(SUM(PAYMENT_CASH),0) 
-						FROM 
-							PAYMENT 
-						WHERE
-							PAYMENT_DATE LIKE DATE_FORMAT(NOW(),'%Y-%c-%d')
-						AND 
-							PAYMENT_STATE = '성공'
-						)
-			,TO_CARD = (
-						SELECT 
-							IFNULL(SUM(PAYMENT_CARD),0) 
-						FROM 
-							PAYMENT 
-						WHERE 
-							PAYMENT_DATE LIKE DATE_FORMAT(NOW(),'%Y-%c-%d')
-						AND 
-							PAYMENT_STATE ='성공'
-						)
-			,TO_POINT = (
-						SELECT 
-							IFNULL(SUM(PAYMENT_POINT),0) 
-						FROM 
-							PAYMENT 
-						WHERE
-							PAYMENT_DATE LIKE DATE_FORMAT(NOW(),'%Y-%c-%d')
-						AND 
-							PAYMENT_STATE = '성공'
-						)
-			,BEFORE_TOTAL = (
-						(SELECT 
-							IFNULL(SUM(PAYMENT_CASH),0) 
-						FROM 
-							PAYMENT 
-						WHERE 
-							PAYMENT_DATE LIKE DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY),'%Y-%c-%d')
-						AND 
-							PAYMENT_STATE ='성공'
-						)
-		+(select IFNULL(sum(payment_card),0) from payment where payment_date like
-		DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY),'%Y-%c-%d')and PAYMENT_STATE ='성공')
-		+(select IFNULL(sum(payment_point),0) from payment where payment_date like
-		DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY),'%Y-%c-%d')and PAYMENT_STATE ='성공'))
-		,before_cash=(select IFNULL(sum(payment_cash),0) from payment where
-		payment_date like DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY),'%Y-%c-%d')and PAYMENT_STATE
-		='성공')
-		,before_card=(select IFNULL(sum(payment_card),0) from payment where payment_date like
-		DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY),'%Y-%c-%d')and PAYMENT_STATE ='성공')
-		,before_point=(select IFNULL(sum(payment_point),0) from payment where
-		payment_date like DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 DAY),'%Y-%c-%d')and PAYMENT_STATE
-		='성공')
-		,state_date=(NOW())
-	</update>
-
-<!-- 	 delete from JUNGSAN_STATE a where rowid < (select max(rowid) 
-	from JUNGSAN_STATE b where a.state_date != b.state_date) -->
-	<delete id="delete_state">
-	 <![CDATA[
-	 DELETE FROM JUNGSAN_STATE WHERE STATE_DATE = DATE_FORMAT('2011/10/11','%Y/%c/%d')
-	]]>
-	</delete>
-
+	
 	<select id="jungsan_state" resultType="com.bit.UntitledBistro.model.jungsan.Jungsan_view_DTO">
-		select * from JUNGSAN_STATE
+		SELECT 
+			 IFNULL(SUM(PAYMENT_CASH),0) AS TO_CASH
+			,IFNULL(SUM(PAYMENT_CARD),0) AS TO_CARD
+			,IFNULL(SUM(PAYMENT_POINT),0) AS TO_POINT
+			,IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) AS TO_TOTAL
+		FROM 
+			PAYMENT
+		WHERE 
+			DATE_FORMAT(PAYMENT_DATE, '%Y-%c-%d') = CURDATE()
+		OR
+			DATE_FORMAT(PAYMENT_DATE, '%Y-%c-%d') = DATE_SUB(CURDATE(), INTERVAL 1 DAY)	
+		GROUP BY
+			DATE_FORMAT(PAYMENT_DATE, '%Y-%c-%d')
+		ORDER BY
+			DATE_FORMAT(PAYMENT_DATE, '%Y-%c-%d') DESC
 	</select>
 
 	<select id="today_total" resultType="int">
-			SELECT SUM(PAYMENT_CASH + PAYMENT_CARD + PAYMENT_POINT) FROM PAYMENT 
+			SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT 
 <![CDATA[	WHERE PAYMENT_DATE >= CURDATE() AND PAYMENT_DATE <= CONCAT(CURDATE(),' 23:59:59')	]]>
 			and PAYMENT_STATE ='성공'
 	</select>
@@ -153,20 +55,20 @@
 	</select>
 
 	<select id="today_cash" resultType="int">
-			SELECT SUM(PAYMENT_CASH) FROM PAYMENT 
+			SELECT IFNULL(SUM(PAYMENT_CASH),0) FROM PAYMENT 
 <![CDATA[	WHERE PAYMENT_DATE >= CURDATE() AND PAYMENT_DATE <= CONCAT(CURDATE(),' 23:59:59')	]]>
 			and PAYMENT_STATE ='성공'
 	</select>
 
 	<select id="today_card" resultType="int">
 
-			SELECT SUM(payment_card) FROM PAYMENT 
+			SELECT IFNULL(SUM(payment_card),0) FROM PAYMENT 
 <![CDATA[	WHERE PAYMENT_DATE >= CURDATE() AND PAYMENT_DATE <= CONCAT(CURDATE(),' 23:59:59')	]]>
 			and PAYMENT_STATE ='성공'
 	</select>
 
 	<select id="today_point" resultType="int">
-			SELECT SUM(PAYMENT_POINT) FROM PAYMENT 
+			SELECT IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT 
 <![CDATA[	WHERE PAYMENT_DATE >= CURDATE() AND PAYMENT_DATE <= CONCAT(CURDATE(),' 23:59:59')	]]>
 			and PAYMENT_STATE ='성공'
 	</select>
@@ -487,792 +389,624 @@
 
 	<select id="today_one_Oclock" resultType="int">
 	 <![CDATA[
-	  SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-    	WHERE payment_date 
-        BETWEEN 
-            CURDATE()
-        AND 
-            DATE_ADD(CURDATE(),INTERVAL 1 DAY)
-	AND DATE_FORMAT(payment_date, 'hh24mi') >= 0100
-	AND DATE_FORMAT(payment_date, 'hh24mi') < 0200
-	
-	 and PAYMENT_STATE ='성공'
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 0100
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 0200
+	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_two_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 0200 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 0300
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 0200
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 0300
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_three_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 0300 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 0400
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 0300
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 0400
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_four_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 0400 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 0500
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 0400
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 0500
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_five_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 0500 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 0600
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 0500
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 0600
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_six_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 0600 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 0700
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 0600
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 0700
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_seven_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 0700 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 0800
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 0700
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 0800
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_eight_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 0800 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 0900
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 0800
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 0900
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_nine_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 0900 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 1000
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 0900
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 1000
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_ten_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 1000 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 1100
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 1000
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 1100
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_eleven_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 1100 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 1200
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 1100
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 1200
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_twelve_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 1200 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 1300
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 1200
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 1300
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_thirteen_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 1300 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 1400
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 1300
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 1400
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_fourteen_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 1400 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 1500
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 1400
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 1500
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_fifteen_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 1500 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 1600
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 1500
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 1600
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_sixteen_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 1600 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 1700
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 1600
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 1700
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_seventeen_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 1700 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 1800
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 1700
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 1800
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_eighteen_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 1800 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 1900
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 1800
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 1900
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_nineteen_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 1900 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 2000
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 1900
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 2000
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_twenty_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 2000 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 2100
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 2000
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 2100
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_twentyone_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 2100 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 2200
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 2100
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 2200
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_twentytwo_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 2200 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 2300
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 2200
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 2300
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_twentythree_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(sum(payment_cash+payment_card+payment_point),0)FROM payment
-     WHERE payment_date BETWEEN 
-	     DATE_FORMAT(NOW(), '%Y-%c-%d')
-							 AND 
-  		 DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND (
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 2300 
-	 	 AND 
-	 	 CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 2400
-		 )
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
+     WHERE PAYMENT_DATE BETWEEN 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 2300
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 2400
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="today_zero_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 0000
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 0100
-		) 
+            					CURDATE()
+        				AND 
+            					CONCAT(CURDATE(), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 0000
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 0100
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_one_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+     SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 0100
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 0200
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 0100
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 0200
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_two_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 0200
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 0300
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 0200
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 0300
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_three_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 0300
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 0400
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 0300
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 0400
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_four_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 0400
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 0500
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 0400
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 0500
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_five_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 0500
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 0600
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 0500
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 0600
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_six_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 0600
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 0700
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 0600
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 0700
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_seven_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 0700
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 0800
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 0700
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 0800
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_eight_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 0800
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 0900
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 0800
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 0900
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_nine_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 0900
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 1000
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 0900
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 1000
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_ten_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 1000
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 1100
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 1000
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 1100
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_eleven_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 1100
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 1200
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 1100
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 1200
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_twelve_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 1200
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 1300
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 1200
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 1300
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_thirteen_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 1300
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 1400
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 1300
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 1400
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_fourteen_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 1400
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 1500
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 1400
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 1500
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_fifteen_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 1500
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 1600
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 1500
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 1600
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_sixteen_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 1600
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 1700
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 1600
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 1700
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_seventeen_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 1700
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 1800
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 1700
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 1800
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_eighteen_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 1800
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 1900
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 1800
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 1900
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_nineteen_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 1900
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 2000
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 1900
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 2000
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_twenty_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 2000
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 2100
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 2000
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 2100
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_twentyone_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 2100
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 2200
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 2100
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 2200
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_twentytwo_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 2200
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 2300
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 2200
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 2300
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_twentythree_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 2300
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 2400
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 2300
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 2400
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>
 
 	<select id="yesterday_zero_Oclock" resultType="int">
 	 <![CDATA[
-	 SELECT IFNULL(SUM(PAYMENT_CASH+PAYMENT_CARD+PAYMENT_POINT),0)FROM PAYMENT
+	 SELECT IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) + IFNULL(SUM(PAYMENT_POINT),0) FROM PAYMENT
      WHERE PAYMENT_DATE BETWEEN 
-     DATE_FORMAT(NOW(), '%Y-%c-%d')
-	 	AND 
-     DATE_ADD(DATE_FORMAT(NOW(), '%Y-%c-%d'), INTERVAL 0.99999 DAY)
-     AND 
-	 	( 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) >= 2400
-    	AND 
-		CAST(DATE_FORMAT(payment_date, '%H%i%s') AS UNSIGNED) < 2500
-		) 
+            					DATE_SUB(CURDATE(),INTERVAL 1 DAY)
+       					AND 
+            					CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 23:59:59')
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') >= 0000
+	 AND DATE_FORMAT(PAYMENT_DATE, '%H%i') < 0100
 	 AND PAYMENT_STATE ='성공'
     ]]>
 	</select>

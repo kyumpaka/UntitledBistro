@@ -40,38 +40,38 @@ public class Balju_DAOimpl implements Balju_DAO {
 	
 	//품목 새창 리스트 불러오기용
 	@Override
-	public List<Map<String, String>> item_list(Item_DTO Idto) {
-		return sqlSession.selectList("balju.item_list", Idto);
+	public List<Item_DTO> item_list() {
+		return sqlSession.selectList("balju.item_list");
 	}
 	//품목 재고현황 리스트 불러오기용
 	@Override
-	public List<Map<String, String>> item_resultList(Item_DTO Idto) {
+	public List<Item_DTO> item_resultList(Item_DTO Idto) {
 		return sqlSession.selectList("balju.item_resultList", Idto);
 	}
 
 	@Override
-	public List<Map<String, String>> balju_Plan_list(Balju_PlanDTO BPdto) {
+	public List<Balju_PlanDTO> balju_Plan_list(Balju_PlanDTO BPdto) {
 		return sqlSession.selectList("balju.balju_Plan_list", BPdto);
 		
 	}
 
 	@Override
-	public List<Map<String, String>> balju_Result(Balju_DTO Bdto) {
+	public List<Balju_DTO> balju_Result(Balju_DTO Bdto) {
 		return sqlSession.selectList("balju.balju_Result", Bdto); 
 	}
 
 	@Override
-	public List<Map<String,String>> balju_Result_Search(Balju_DTO Bdto){
+	public List<Balju_DTO> balju_Result_Search(Balju_DTO Bdto){
 		return sqlSession.selectList("balju.balju_Result_Search", Bdto);
 	}
 	
 	@Override
-	public List<Map<String, String>> balju_Mng_List(Balju_DTO Bdto) {
+	public List<Balju_DTO> balju_Mng_List(Balju_DTO Bdto) {
 		return sqlSession.selectList("balju.balju_Mng_List", Bdto);
 	}
 	
 	@Override
-	public List<Map<String,String>> balju_Mng_Filter(Balju_DTO Bdto){
+	public List<Balju_DTO> balju_Mng_Filter(Balju_DTO Bdto){
 		return sqlSession.selectList("balju.balju_Mng_Filter", Bdto);
 	}
 	
@@ -139,17 +139,17 @@ public class Balju_DAOimpl implements Balju_DAO {
 	}
 
 	@Override
-	public List<Map<String, String>> item_BookMark(Item_DTO Idto) {
+	public List<Balju_DTO> item_BookMark(Item_DTO Idto) {
 		return sqlSession.selectList("balju.item_BookMark", Idto);
 	}
 
 	@Override
-	public List<Map<String, String>> BPlan_Load(Balju_PlanDTO BPdto) {
+	public List<Balju_DTO> BPlan_Load(Balju_PlanDTO BPdto) {
 		return sqlSession.selectList("balju.BPlan_Load", BPdto);
 	}
 
 	@Override
-	public List<Map<?, ?>> BPlan_Search(Balju_PlanDTO BPdto) {
+	public List<Balju_DTO> BPlan_Search(Balju_PlanDTO BPdto) {
 		return sqlSession.selectList("balju.BPlan_Search", BPdto); 
 	}
 

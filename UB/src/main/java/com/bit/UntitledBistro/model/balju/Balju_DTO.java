@@ -23,7 +23,15 @@ public class Balju_DTO {
 	private String DATESTART;
 	private String DATEEND;
 	
-	
+	private int ROWNUM;
+	private int ORDER_PR_TOT;
+	private Date ORPLIN_DATE;
+	private int ORDER_PRODUCT_COUNT;
+	private int TOTAL_PR;
+	private int ORDER_END;
+	private int ORDPL_ORDLIN_NUM;
+	private String ORDPL_PRODUCT_NAME;
+	private int ORDPL_PRODUCT_NAME_COUNT;
 	
 	@Override
 	public String toString() {
@@ -110,6 +118,60 @@ public class Balju_DTO {
 	}
 	public void setORDER_WR(String oRDER_WR) {
 		ORDER_WR = oRDER_WR;
+	}
+	public int getROWNUM() {
+		return ROWNUM;
+	}
+	public void setROWNUM(int rOWNUM) {
+		ROWNUM = rOWNUM;
+	}
+	public int getORDER_PR_TOT() {
+		return ORDER_PR_TOT;
+	}
+	public void setORDER_PR_TOT(int oRDER_PR_TOT) {
+		ORDER_PR_TOT = oRDER_PR_TOT;
+	}
+	public Date getORPLIN_DATE() {
+		return ORPLIN_DATE;
+	}
+	public void setORPLIN_DATE(Date oRPLIN_DATE) {
+		ORPLIN_DATE = oRPLIN_DATE;
+	}
+	public int getORDER_PRODUCT_COUNT() {
+		return ORDER_PRODUCT_COUNT;
+	}
+	public void setORDER_PRODUCT_COUNT(int oRDER_PRODUCT_COUNT) {
+		ORDER_PRODUCT_COUNT = oRDER_PRODUCT_COUNT;
+	}
+	public int getTOTAL_PR() {
+		return TOTAL_PR;
+	}
+	public void setTOTAL_PR(int tOTAL_PR) {
+		TOTAL_PR = tOTAL_PR;
+	}
+	public int getORDER_END() {
+		return ORDER_END;
+	}
+	public void setORDER_END(int oRDER_END) {
+		ORDER_END = oRDER_END;
+	}
+	public int getORDPL_ORDLIN_NUM() {
+		return ORDPL_ORDLIN_NUM;
+	}
+	public void setORDPL_ORDLIN_NUM(int oRDPL_ORDLIN_NUM) {
+		ORDPL_ORDLIN_NUM = oRDPL_ORDLIN_NUM;
+	}
+	public String getORDPL_PRODUCT_NAME() {
+		return ORDPL_PRODUCT_NAME;
+	}
+	public void setORDPL_PRODUCT_NAME(String oRDPL_PRODUCT_NAME) {
+		ORDPL_PRODUCT_NAME = oRDPL_PRODUCT_NAME;
+	}
+	public int getORDPL_PRODUCT_NAME_COUNT() {
+		return ORDPL_PRODUCT_NAME_COUNT;
+	}
+	public void setORDPL_PRODUCT_NAME_COUNT(int oRDPL_PRODUCT_NAME_COUNT) {
+		ORDPL_PRODUCT_NAME_COUNT = oRDPL_PRODUCT_NAME_COUNT;
 	}
 	
 	

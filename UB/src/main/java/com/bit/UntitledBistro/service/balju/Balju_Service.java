@@ -16,11 +16,11 @@ public interface Balju_Service {
 	void insert_Balju2(Balju_DTO Bdto);
 
 
-	List<Map<String,String>> balju_Plan_list(Balju_PlanDTO BPdto);
-	List<Map<String,String>> balju_Result(Balju_DTO Bdto);
-	List<Map<String,String>> balju_Result_Search(String DATESTART, String DATEEND);
-	List<Map<String,String>> balju_Mng_List(Balju_DTO Bdto);
-	List<Map<String,String>> balju_Mng_Filter(String FilterParam);
+	List<Balju_PlanDTO> balju_Plan_list(Balju_PlanDTO BPdto);
+	List<Balju_DTO> balju_Result(Balju_DTO Bdto);
+	List<Balju_DTO> balju_Result_Search(String DATESTART, String DATEEND);
+	List<Balju_DTO> balju_Mng_List(Balju_DTO Bdto);
+	List<Balju_DTO> balju_Mng_Filter(String FilterParam);
 
 	
 	void balju_Plan_modi(Balju_PlanDTO BPdto);
@@ -33,16 +33,16 @@ public interface Balju_Service {
 	void Delete_Balju(ArrayList<String> deleteRow);
 
 	//공통품목 서비스부분
-	List<Map<String,String>> item_list(Item_DTO Idto);
-	List<Map<String,String>> item_resultList(Item_DTO idto);
+	List<Item_DTO> item_list();
+	List<Item_DTO> item_resultList(Item_DTO idto);
 	//공통품목 관심품목
 	void insert_BookMark(Item_DTO idto);
-	List<Map<String,String>> item_BookMark(Item_DTO idto);
+	List<Balju_DTO> item_BookMark(Item_DTO idto);
 	void BookMark_Modi(Item_DTO idto);
 	void Delete_BookMark(ArrayList<String> DeleteList);
 	//발주계획불러오기
-	List<Map<String,String>>BPlan_Load(Balju_PlanDTO BPdto);
-	List<Map<?,?>>BPlan_Search(ArrayList<String> SearchParam);
+	List<Balju_DTO>BPlan_Load(Balju_PlanDTO BPdto);
+	List<Balju_DTO>BPlan_Search(ArrayList<String> SearchParam);
 	
 	
 }

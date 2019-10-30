@@ -82,7 +82,7 @@ public class Jungsan_Input_ServiceImpl implements Jungsan_Input_Service {
 		int tmp = dao.count_difference();
 		if(tmp == 0){
 			dao.insert_difference(dto);
-	}
+		}
 		
 	}
 	@Override

@@ -68,96 +68,133 @@
 	</select>
 	
 	<insert id="insert_daily">
-		insert into Jungsan_Input(
-		jungsan_input_cash,jungsan_input_card,
-		jungsan_input_grade,jungsan_input_worktime,
-		jungsan_input_expenditure,jungsan_input_point,
-		jungsan_input_refund,jungsan_input_reason,jungsan_input_date) 
-		VALUES(
-		#{jungsan_input_cash, jdbcType=NUMERIC},#{jungsan_input_card, jdbcType=NUMERIC},
-		#{jungsan_input_grade, jdbcType=VARCHAR},#{jungsan_input_worktime, jdbcType=NUMERIC},
-		#{jungsan_input_expenditure, jdbcType=NUMERIC},#{jungsan_input_point, jdbcType=NUMERIC},
-		#{jungsan_input_refund, jdbcType=NUMERIC},#{jungsan_input_reason, jdbcType=VARCHAR}
-		,NOW()
-		)
+		INSERT INTO JUNGSAN_INPUT
+								(
+								 JUNGSAN_INPUT_CASH
+								,JUNGSAN_INPUT_CARD
+								,JUNGSAN_INPUT_GRADE
+								,JUNGSAN_INPUT_WORKTIME
+								,JUNGSAN_INPUT_EXPENDITURE
+								,JUNGSAN_INPUT_POINT
+								,JUNGSAN_INPUT_REFUND
+								,JUNGSAN_INPUT_REASON
+							    ,JUNGSAN_INPUT_DATE
+								) 
+						   VALUES
+						  		(
+							    #{jungsan_input_cash, jdbcType=NUMERIC}
+							   ,#{jungsan_input_card, jdbcType=NUMERIC}
+							   ,#{jungsan_input_grade, jdbcType=VARCHAR}
+							   ,#{jungsan_input_worktime, jdbcType=NUMERIC}
+							   ,#{jungsan_input_expenditure, jdbcType=NUMERIC}
+							   ,#{jungsan_input_point, jdbcType=NUMERIC}
+							   ,#{jungsan_input_refund, jdbcType=NUMERIC}
+							   ,#{jungsan_input_reason, jdbcType=VARCHAR}
+							   ,NOW()
+								)
 	</insert>
 	
 	<update id="update_Monthly">
-	update TT set n =1 where n = 1
-	<!-- UPDATE 
-		MONTH_INPUT 
-	SET
-		MONTH_CASH = (
-					 SELECT IFNULL(SUM(JUNGSAN_INPUT_CASH),0) FROM JUNGSAN_INPUT 
-					 WHERE JUNGSAN_INPUT_DATE BETWEEN 
-					 (SELECT DISTINCT CURDATE() FROM MONTH_INPUT MI) 
-					 AND
-					 (SELECT DISTINCT DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY) FROM MONTH_INPUT MI2)
-					 )
+	 UPDATE 
+			MONTH_INPUT 
+	 SET
+			MONTH_CASH = (
+						 SELECT 
+								IFNULL(SUM(JUNGSAN_INPUT_CASH),0) 
+						 FROM 
+								JUNGSAN_INPUT 
+						 WHERE 
+								JUNGSAN_INPUT_DATE BETWEEN 
+										 				 CONCAT(DATE_FORMAT(CURDATE(),'%Y-%c'), '-01')
+										 		   AND
+										 				 DATE_ADD(LAST_DAY(CURDATE()), INTERVAL 1 DAY)
+						 )
 	
-		,MONTH_CARD = (
-					  SELECT IFNULL(SUM(JUNGSAN_INPUT_CARD),0) FROM JUNGSAN_INPUT 
-					  WHERE JUNGSAN_INPUT_DATE BETWEEN 
-					  (SELECT DISTINCT CURDATE() FROM MONTH_INPUT MI) 
-					  AND
-					  (SELECT DISTINCT DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY) FROM MONTH_INPUT MI2)
-					  )
+			,MONTH_CARD = ( 
+						  SELECT 
+								IFNULL(SUM(JUNGSAN_INPUT_CARD),0) 
+						  FROM 
+								JUNGSAN_INPUT 
+						  WHERE 
+								JUNGSAN_INPUT_DATE BETWEEN 
+										 				 CONCAT(DATE_FORMAT(CURDATE(),'%Y-%c'), '-01')
+										 		   AND
+										 				 DATE_ADD(LAST_DAY(CURDATE()), INTERVAL 1 DAY)
+					  	  )
 					  
-		,MONTH_WORKTIME = (
-						  SELECT IFNULL(SUM(JUNGSAN_INPUT_WORKTIME),0)FROM JUNGSAN_INPUT 
-						  WHERE JUNGSAN_INPUT_DATE BETWEEN 
-						  (SELECT DISTINCT CURDATE() FROM MONTH_INPUT MI) 
-					 	  AND
-					  	  (SELECT DISTINCT DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY) FROM MONTH_INPUT MI2)
-						  )
+			,MONTH_WORKTIME = (
+							  SELECT 
+									IFNULL(SUM(JUNGSAN_INPUT_WORKTIME),0) 
+							  FROM 
+									JUNGSAN_INPUT 
+							  WHERE 
+									JUNGSAN_INPUT_DATE BETWEEN 
+										 				 CONCAT(DATE_FORMAT(CURDATE(),'%Y-%c'), '-01')
+										 		   AND
+										 				 DATE_ADD(LAST_DAY(CURDATE()), INTERVAL 1 DAY)
+						  	  )
 						  
-		,MONTH_EXPENDITURE = (
-							 SELECT IFNULL(SUM(JUNGSAN_INPUT_EXPENDITURE),0) FROM JUNGSAN_INPUT 
-							 WHERE JUNGSAN_INPUT_DATE BETWEEN 
-							 (SELECT DISTINCT CURDATE() FROM MONTH_INPUT MI) 
-					 	     AND
-					  	     (SELECT DISTINCT DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY) FROM MONTH_INPUT MI2)
-						     )
+			,MONTH_EXPENDITURE = (
+								 SELECT 
+										IFNULL(SUM(JUNGSAN_INPUT_EXPENDITURE),0) 
+							  	 FROM 
+										JUNGSAN_INPUT 
+								 WHERE 
+										JUNGSAN_INPUT_DATE BETWEEN 
+											 				 CONCAT(DATE_FORMAT(CURDATE(),'%Y-%c'), '-01')
+											 		   AND
+											 				 DATE_ADD(LAST_DAY(CURDATE()), INTERVAL 1 DAY)
+						  	  	 )
 	
-		,MONTH_POINT = (
-						SELECT IFNULL(SUM(JUNGSAN_INPUT_POINT),0) FROM JUNGSAN_INPUT 
-						WHERE JUNGSAN_INPUT_DATE BETWEEN 
-						(SELECT DISTINCT CURDATE() FROM MONTH_INPUT MI) 
-				 	     AND
-				  	     (SELECT DISTINCT DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY) FROM MONTH_INPUT MI2)
-					     )
+			,MONTH_POINT = (
+							SELECT 
+									IFNULL(SUM(JUNGSAN_INPUT_POINT),0) 
+						  	FROM 
+									JUNGSAN_INPUT 
+							WHERE 
+									JUNGSAN_INPUT_DATE BETWEEN 
+											 				 CONCAT(DATE_FORMAT(CURDATE(),'%Y-%c'), '-01')
+											 		   AND
+											 				 DATE_ADD(LAST_DAY(CURDATE()), INTERVAL 1 DAY)
+						  	)
 	
-		,MONTH_REFUND = (
-						SELECT IFNULL(SUM(JUNGSAN_INPUT_REFUND),0) FROM JUNGSAN_INPUT 
-						WHERE JUNGSAN_INPUT_DATE BETWEEN 
-						(SELECT DISTINCT CURDATE() FROM MONTH_INPUT MI) 
-				 	     AND
-				  	     (SELECT DISTINCT DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY) FROM MONTH_INPUT MI2)
-					     )
+			,MONTH_REFUND = (
+							SELECT 
+									IFNULL(SUM(JUNGSAN_INPUT_REFUND),0) 
+							FROM 
+									JUNGSAN_INPUT 
+							WHERE 
+									JUNGSAN_INPUT_DATE BETWEEN 
+											 				 CONCAT(DATE_FORMAT(CURDATE(),'%Y-%c'), '-01')
+											 		   AND
+											 				 DATE_ADD(LAST_DAY(CURDATE()), INTERVAL 1 DAY)
+						  	)
 	
-		,MONTH_SUM = (
-					 SELECT IFNULL(SUM(JUNGSAN_INPUT_CASH+JUNGSAN_INPUT_CARD+JUNGSAN_INPUT_POINT),0) FROM JUNGSAN_INPUT 
-					 WHERE JUNGSAN_INPUT_DATE BETWEEN 
-					 (SELECT DISTINCT CURDATE() FROM MONTH_INPUT MI) 
-			 	     AND
-			  	     (SELECT DISTINCT DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY) FROM MONTH_INPUT MI2)
-				     )
+			,MONTH_SUM = (
+						 SELECT 
+								IFNULL(SUM(JUNGSAN_INPUT_CASH),0) + IFNULL(SUM(JUNGSAN_INPUT_CARD),0) + IFNULL(SUM(JUNGSAN_INPUT_POINT),0) 
+						 FROM 
+								JUNGSAN_INPUT 
+						 WHERE 
+								JUNGSAN_INPUT_DATE BETWEEN 
+											 			 CONCAT(DATE_FORMAT(CURDATE(),'%Y-%c'), '-01')
+											 	   AND
+											 			 DATE_ADD(LAST_DAY(CURDATE()), INTERVAL 1 DAY)
+						 )
 	
-		,MONTH_REAL_SUM = (
-						  SELECT IFNULL(SUM(JUNGSAN_INPUT_CASH+JUNGSAN_INPUT_CARD+JUNGSAN_INPUT_POINT-JUNGSAN_INPUT_EXPENDITURE),0) FROM JUNGSAN_INPUT 
-						  WHERE JUNGSAN_INPUT_DATE BETWEEN 
-						  (SELECT DISTINCT CURDATE() FROM MONTH_INPUT MI) 
-				 	      AND
-				  	      (SELECT DISTINCT DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY) FROM MONTH_INPUT MI2)
-					      )
-	
-		,MONTH_DATE = (
-					  SELECT DISTINCT NOW() FROM MONTH_INPUT WHERE MONTH_DATE 
-					  		BETWEEN 
-			   		  				CONCAT(DATE_FORMAT(NOW(), '%Y-%c'),'-01')
-			 	      		AND
-			  	      				LAST_DAY(NOW())
-					  )  -->    
+			,MONTH_REAL_SUM = (
+							  SELECT 
+									IFNULL(SUM(JUNGSAN_INPUT_CASH),0) + IFNULL(SUM(JUNGSAN_INPUT_CARD),0) + IFNULL(SUM(JUNGSAN_INPUT_POINT),0) - IFNULL(SUM(JUNGSAN_INPUT_EXPENDITURE),0)  
+							  FROM 
+									JUNGSAN_INPUT 
+							  WHERE 
+									JUNGSAN_INPUT_DATE BETWEEN 
+												 			 CONCAT(DATE_FORMAT(CURDATE(),'%Y-%c'), '-01')
+												 	   AND
+												 			 DATE_ADD(LAST_DAY(CURDATE()), INTERVAL 1 DAY)
+							  )
+	 WHERE 
+			MONTH_DATE = CONCAT(DATE_FORMAT(CURDATE(),'%Y-%c'), '-01')     
 	</update>
 	
 	<update id="update" parameterType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
@@ -174,24 +211,41 @@
         jungsan_input_date like DATE_FORMAT (NOW(),'%Y-%c-%d')
 	</update>
 	
-	<select id="count_difference" resultType="int">
+	<!-- <select id="count_difference" resultType="int">
 	SELECT COUNT(DIFFERENCE) FROM JUNGSAN_DIFFERENCE WHERE DIFFERENCE_DATE LIKE DATE_FORMAT(NOW(),'%Y-%c-%d')
-	</select>
+	</select> -->
 	
 	<select id="to_difference" resultType="int">
-	select sum(difference) from jungsan_difference
-	<where>
+	SELECT 	
+		(	
+		SELECT 
+			IFNULL(SUM(JUNGSAN_INPUT_POINT),0) + IFNULL(SUM(JUNGSAN_INPUT_CASH),0) + IFNULL(SUM(JUNGSAN_INPUT_CARD),0)
+		FROM 
+			JUNGSAN_INPUT 
+		WHERE 
+			DATE_FORMAT(JUNGSAN_INPUT_DATE, '%Y-%c-%d') = CURDATE()
+		)	
+		-
+		(
+		SELECT 
+			IFNULL(SUM(PAYMENT_POINT),0) + IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) 
+		FROM 
+			PAYMENT
+		WHERE 
+			DATE_FORMAT(PAYMENT_DATE, '%Y-%c-%d') = CURDATE()	
+		)
+	</select>
+<!-- 	<where>
 		<if test="postdatepicker == null">
 		difference_date like DATE_FORMAT(NOW(),'%Y-%c-%d')
    		</if>
 		<if test="postdatepicker != null">
 		difference_date like #{postdatepicker}
 		</if>
-		</where>
-	</select>
+		</where> -->
 	
-	<insert id="insert_difference">
-		insert into jungsan_difference values(0,0,NOW())
+	<!-- <insert id="insert_difference">
+		INSERT INTO JUNGSAN_DIFFERENCE VALUES(0,0,CURDATE())
 	</insert>
 	
 	<update id="update_difference" parameterType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
@@ -218,163 +272,168 @@
    													 	DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY)
 								AND DIFFERENCE_DATE LIKE DATE_FORMAT(NOW(),'%Y-%c-%d')
 							)
-	</update>
+	</update> -->
 	
 	<select id="differenceList" resultType="int">
-	 SELECT 
-	 		IFNULL(SUM(DIFFERENCE_MONTH),0) 
-	 FROM 
-			JUNGSAN_DIFFERENCE
-	 WHERE 
-			DIFFERENCE_DATE BETWEEN 
-   									CURDATE()
-						 	AND 
-    								DATE_ADD(LAST_DAY(NOW()), INTERVAL 1 DAY)
+	 SELECT 	
+		(	
+		SELECT 
+			IFNULL(SUM(JUNGSAN_INPUT_POINT),0) + IFNULL(SUM(JUNGSAN_INPUT_CASH),0) + IFNULL(SUM(JUNGSAN_INPUT_CARD),0)
+		FROM 
+			JUNGSAN_INPUT 												
+		)	
+		-
+		(
+		SELECT 
+			IFNULL(SUM(PAYMENT_POINT),0) + IFNULL(SUM(PAYMENT_CASH),0) + IFNULL(SUM(PAYMENT_CARD),0) 
+		FROM 
+			PAYMENT
+		)
 	</select>
 	
 	<!-- 여기부터 -->
 	<select id="Jan" resultType="int">
 	SELECT 
-		  IFNULL(MONTH_SUM,0) 
+		  DISTINCT IFNULL(MONTH_SUM,0) 
 	FROM 
 		  MONTH_INPUT 
 	WHERE 
 		  MONTH_DATE BETWEEN 
-   							DATE_FORMAT(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-01-01'),'%Y-%c-%d') 
+   							 CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-01-01')
 					 AND 
-   							LAST_DAY(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-01-01'))
+   							 LAST_DAY(CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-01-01'))
 	</select>
 	
 	<select id="Feb" resultType="int">
 	 SELECT 
-			IFNULL(MONTH_SUM,0) 
-	 FROM 
-			MONTH_INPUT 
-	 WHERE 
-			MONTH_DATE BETWEEN 
-	   							STR_TO_DATE(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-02-01'),'%Y-%c-%d') 
-						  AND 
-	   							LAST_DAY(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-02-01'))
+		  DISTINCT IFNULL(MONTH_SUM,0) 
+	FROM 
+		  MONTH_INPUT 
+	WHERE 
+		  MONTH_DATE BETWEEN 
+   							 CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-02-01')
+					 AND 
+   							 LAST_DAY(CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-02-01'))
 	</select>
 	
 	<select id="Mar" resultType="int">
 	 SELECT 
-			IFNULL(MONTH_SUM,0) 
-	 FROM 
-			MONTH_INPUT 
-	 WHERE 
-			MONTH_DATE BETWEEN 
-	   							STR_TO_DATE(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-03-01'),'%Y-%c-%d') 
-						  AND 
-	   							LAST_DAY(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-03-01'))
+		  DISTINCT IFNULL(MONTH_SUM,0) 
+	FROM 
+		  MONTH_INPUT 
+	WHERE 
+		  MONTH_DATE BETWEEN 
+   							 CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-03-01')
+					 AND 
+   							 LAST_DAY(CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-03-01'))
 	</select>
 	
 	<select id="Apr" resultType="int">
 	 SELECT 
-			IFNULL(MONTH_SUM,0) 
-	 FROM 
-			MONTH_INPUT 
-	 WHERE 
-			MONTH_DATE BETWEEN 
-	   							STR_TO_DATE(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-04-01'),'%Y-%c-%d') 
-						  AND 
-	   							LAST_DAY(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-04-01'))
+		  DISTINCT IFNULL(MONTH_SUM,0) 
+	FROM 
+		  MONTH_INPUT 
+	WHERE 
+		  MONTH_DATE BETWEEN 
+   							 CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-04-01')
+					 AND 
+   							 LAST_DAY(CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-04-01'))
 	</select>
 	
 	<select id="May" resultType="int">
 	 SELECT 
-			IFNULL(MONTH_SUM,0) 
-	 FROM 
-			MONTH_INPUT 
-	 WHERE 
-			MONTH_DATE BETWEEN 
-	   							STR_TO_DATE(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-05-01'),'%Y-%c-%d') 
-						  AND 
-	   							LAST_DAY(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-05-01'))
+		  DISTINCT IFNULL(MONTH_SUM,0) 
+	FROM 
+		  MONTH_INPUT 
+	WHERE 
+		  MONTH_DATE BETWEEN 
+   							 CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-05-01')
+					 AND 
+   							 LAST_DAY(CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-05-01'))
 	</select>
 	
 	<select id="Jun" resultType="int">
 	 SELECT 
-			IFNULL(MONTH_SUM,0) 
-	 FROM 
-			MONTH_INPUT 
-	 WHERE 
-			MONTH_DATE BETWEEN 
-	   							STR_TO_DATE(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-06-01'),'%Y-%c-%d') 
-						  AND 
-	   							LAST_DAY(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-06-01'))
+		  DISTINCT IFNULL(MONTH_SUM,0) 
+	FROM 
+		  MONTH_INPUT 
+	WHERE 
+		  MONTH_DATE BETWEEN 
+   							 CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-06-01')
+					 AND 
+   							 LAST_DAY(CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-06-01'))
 	</select>
 	
 	<select id="Jul" resultType="int">
 	 SELECT 
-			IFNULL(MONTH_SUM,0) 
-	 FROM 
-			MONTH_INPUT 
-	 WHERE 
-			MONTH_DATE BETWEEN 
-	   							STR_TO_DATE(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-07-01'),'%Y-%c-%d') 
-						  AND 
-	   							LAST_DAY(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-07-01'))
+		  DISTINCT IFNULL(MONTH_SUM,0) 
+	FROM 
+		  MONTH_INPUT 
+	WHERE 
+		  MONTH_DATE BETWEEN 
+   							 CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-07-01')
+					 AND 
+   							 LAST_DAY(CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-07-01'))
 	</select>
 	
 	<select id="Aug" resultType="int">
 	 SELECT 
-			IFNULL(MONTH_SUM,0) 
-	 FROM 
-			MONTH_INPUT 
-	 WHERE 
-			MONTH_DATE BETWEEN 
-	   							STR_TO_DATE(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-08-01'),'%Y-%c-%d') 
-						  AND 
-	   							LAST_DAY(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-08-01'))
+		  DISTINCT IFNULL(MONTH_SUM,0) 
+	FROM 
+		  MONTH_INPUT 
+	WHERE 
+		  MONTH_DATE BETWEEN 
+   							 CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-08-01')
+					 AND 
+   							 LAST_DAY(CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-08-01'))
 	</select>
 	
 	<select id="Sept" resultType="int">
 	 SELECT 
-			IFNULL(MONTH_SUM,0) 
-	 FROM 
-			MONTH_INPUT 
-	 WHERE 
-			MONTH_DATE BETWEEN 
-	   							STR_TO_DATE(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-09-01'),'%Y-%c-%d') 
-						  AND 
-	   							LAST_DAY(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-09-01'))
+		  DISTINCT IFNULL(MONTH_SUM,0) 
+	FROM 
+		  MONTH_INPUT 
+	WHERE 
+		  MONTH_DATE BETWEEN 
+   							 CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-09-01')
+					 AND 
+   							 LAST_DAY(CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-09-01'))
 	</select>
 	
 	<select id="Ock" resultType="int">
-	 SELECT 
-			IFNULL(MONTH_SUM,0) 
-	 FROM 
-			MONTH_INPUT 
-	 WHERE 
-			MONTH_DATE BETWEEN 
-	   							STR_TO_DATE(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-10-01'),'%Y-%c-%d') 
-						  AND 
-	   							LAST_DAY(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-10-01'))
+	SELECT 
+		  DISTINCT IFNULL(MONTH_SUM,0) 
+	FROM 
+		  MONTH_INPUT 
+	WHERE 
+		  MONTH_DATE BETWEEN 
+   							 CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-10-01')
+					 AND 
+   							 LAST_DAY(CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-10-01'))
 	</select>
 	
 	<select id="Nov" resultType="int">
 	 SELECT 
-			IFNULL(MONTH_SUM,0) 
-	 FROM 
-			MONTH_INPUT 
-	 WHERE 
-			MONTH_DATE BETWEEN 
-	   							STR_TO_DATE(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-11-01'),'%Y-%c-%d') 
-						  AND 
-	   							LAST_DAY(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-11-01'))
+		  DISTINCT IFNULL(MONTH_SUM,0) 
+	FROM 
+		  MONTH_INPUT 
+	WHERE 
+		  MONTH_DATE BETWEEN 
+   							 CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-11-01')
+					 AND 
+   							 LAST_DAY(CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-11-01'))
 	</select>
 	
 	<select id="Dec" resultType="int">
 	 SELECT 
-			IFNULL(MONTH_SUM,0) 
-	 FROM 
-			MONTH_INPUT 
-	 WHERE 
-			MONTH_DATE BETWEEN 
-	   							STR_TO_DATE(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-12-01'),'%Y-%c-%d') 
-						  AND 
-	   							LAST_DAY(CONCAT(DATE_FORMAT(NOW(),'%Y'),'-12-01'))
+		  DISTINCT IFNULL(MONTH_SUM,0) 
+	FROM 
+		  MONTH_INPUT 
+	WHERE 
+		  MONTH_DATE BETWEEN 
+   							 CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-12-01')
+					 AND 
+   							 LAST_DAY(CONCAT(DATE_FORMAT(CURDATE(),'%Y'), '-12-01'))
 	</select>
 	
 </mapper> 

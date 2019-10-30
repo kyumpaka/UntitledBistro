@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bit.UntitledBistro.model.balju.Balju_DTO;
 import com.bit.UntitledBistro.model.balju.Balju_PlanDTO;
 import com.bit.UntitledBistro.model.balju.Item_DTO;
+import com.bit.UntitledBistro.model.jaego.ProductDTO;
 import com.bit.UntitledBistro.service.balju.Balju_Service;
 
 @Controller
@@ -66,7 +67,7 @@ public class Balju_Controller {
 	@RequestMapping(value = "/balju/Balju_Result", method = RequestMethod.GET)
 	public void balju_Result(Model model, Balju_DTO Bdto) {
 		logger.info("발주현황에 접속되었습니다.");
-			List<Map<String,String>> list = this.balju_Service.balju_Result(Bdto);
+			List<Balju_DTO> list = this.balju_Service.balju_Result(Bdto);
 			model.addAttribute("Result_list", list);
 		}
 
@@ -74,7 +75,7 @@ public class Balju_Controller {
 	@RequestMapping(value = "/balju/Balju_Mng_All", method = RequestMethod.GET)
 	public String Balju_Mng(Model model, Balju_DTO Bdto) {
 		logger.info("발주관리 필터(전체)에 접속되었습니다."); 
-		List<Map<String, String>> list = this.balju_Service.balju_Mng_List(Bdto); 
+		List<Balju_DTO> list = this.balju_Service.balju_Mng_List(Bdto); 
 		model.addAttribute("Mng_list",list); 
 		return "balju/Balju_Mng";
 	}
@@ -83,7 +84,7 @@ public class Balju_Controller {
 	public String Balju_Com (Model model) {
 		logger.info("발주관리 완료 필터에 접속되었습니다.");
 		String FilterParam = "취소";
-		List<Map<String, String>> list = this.balju_Service.balju_Mng_Filter(FilterParam);
+		List<Balju_DTO> list = this.balju_Service.balju_Mng_Filter(FilterParam);
 		model.addAttribute("Mng_list", list);
 		return "balju/Balju_Mng";
 	}
@@ -93,7 +94,7 @@ public class Balju_Controller {
 		logger.info("발주관리 필터에 접속되었습니다.");
 		logger.info(FilterParam);
 		logger.info(isRiskItemCount);
-		List<Map<String, String>> list = this.balju_Service.balju_Mng_Filter(FilterParam);
+		List<Balju_DTO> list = this.balju_Service.balju_Mng_Filter(FilterParam);
 		
 		
 		
@@ -147,10 +148,10 @@ public class Balju_Controller {
 	// 발주계획현황 그리드 데이터 로딩
 	@RequestMapping(value = "/balju_Plan_Result", method = RequestMethod.GET)
 	@ResponseBody
-	public List<?> Balju_Plan_Result(Balju_PlanDTO BPdto) throws Exception {
+	public List<Balju_PlanDTO> Balju_Plan_Result(Balju_PlanDTO BPdto) throws Exception {
 
 		logger.info("발주계획현황에 접속되었습니다.");
-		List<?> list = this.balju_Service.balju_Plan_list(BPdto);
+		List<Balju_PlanDTO> list = this.balju_Service.balju_Plan_list(BPdto);
 		return list;
 
 	}
@@ -233,7 +234,7 @@ public class Balju_Controller {
 
 		try {
 			// 두개의 테이블을 left outer join으로 값비교, null값을 추출하여 목록번호를 delete
-			this.balju_Service.Delete_Balju_Plan_Check(BPdto);
+//			this.balju_Service.Delete_Balju_Plan_Check(BPdto);
 
 			result = "success";
 			resultMsg = "발주계획 정리완료, 기능을 시작합니다.";
@@ -350,7 +351,7 @@ public class Balju_Controller {
 		logger.info("조회할 시작일자 값 : " + DATESTART);
 		logger.info("조회할 종료일자 값 : " + DATEEND);
 		
-		List<Map<String,String>> list = this.balju_Service.balju_Result_Search(DATESTART,DATEEND);
+		List<Balju_DTO> list = this.balju_Service.balju_Result_Search(DATESTART,DATEEND);
 		model.addAttribute("Result_list", list);
 		return "balju/Balju_Result";
 
@@ -362,9 +363,11 @@ public class Balju_Controller {
 	@RequestMapping(value = "/balju/popup/Item_list", method = RequestMethod.GET)
 	public String item_list(Item_DTO Idto, Model model) {
 		logger.info("제품정보 새창에 실행되었습니다.");
-		List<Map<String, String>> list = this.balju_Service.item_list(Idto);
+		List<Item_DTO> list = this.balju_Service.item_list();
 		// 모델로 값을 넣고
 		model.addAttribute("item_list", list);
+		System.out.println("목록 테스트");
+		System.out.println(list);
 		// 스트링으로 뷰를지정
 		return "/views/balju/popup/Item_List";
 	}
@@ -373,7 +376,7 @@ public class Balju_Controller {
 	@RequestMapping(value = "/balju/popup/Item_Result", method = RequestMethod.GET)
 	public String item_Result(Item_DTO Idto, Model model) {
 		logger.info("재고현황 새창에 실행되었습니다");
-		List<Map<String, String>> list = this.balju_Service.item_resultList(Idto);
+		List<Item_DTO> list = this.balju_Service.item_resultList(Idto);
 		model.addAttribute("itemResult", list);
 		return "/views/balju/popup/Item_Result";
 	}
@@ -395,7 +398,7 @@ public class Balju_Controller {
 	@ResponseBody
 	public List<?> BookMark_Result(Item_DTO Idto, Model model) {
 		logger.info("관심품목 그리드에 접속되었습니다.");
-		List<Map<String, String>> list = this.balju_Service.item_BookMark(Idto);
+		List<Balju_DTO> list = this.balju_Service.item_BookMark(Idto);
 		return list;
 	}
 
@@ -465,7 +468,7 @@ public class Balju_Controller {
 	@RequestMapping(value = "/balju/popup/BPlan_Load", method = RequestMethod.GET)
 	public String BPlan_Load(Balju_PlanDTO BPdto, Model model) {
 		logger.info("제품정보 새창에 실행되었습니다.");
-		List<Map<String, String>> list = this.balju_Service.BPlan_Load(BPdto);
+		List<Balju_DTO> list = this.balju_Service.BPlan_Load(BPdto);
 		// 모델로 값을 넣고
 		model.addAttribute("BP_list", list);
 		// 스트링으로 뷰를지정
@@ -475,9 +478,9 @@ public class Balju_Controller {
 	// [발주계획불러오기] 목록번호로 조회한값 그리드에 입력
 	@RequestMapping(value = "/balju/popup/BPlan_Search", method = RequestMethod.POST)
 	@ResponseBody
-	public List<Map<?, ?>> BPlan_Search(@RequestBody ArrayList<String> SearchParam) {
+	public List<Balju_DTO> BPlan_Search(@RequestBody ArrayList<String> SearchParam) {
 		logger.info("발주계획불러오기 조회가 실행되었습니다.");
-		List<Map<?, ?>> list = this.balju_Service.BPlan_Search(SearchParam);
+		List<Balju_DTO> list = this.balju_Service.BPlan_Search(SearchParam);
 		return list;
 	}
 }

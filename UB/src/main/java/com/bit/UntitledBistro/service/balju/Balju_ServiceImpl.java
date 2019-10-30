@@ -55,60 +55,60 @@ public class Balju_ServiceImpl implements Balju_Service {
 	
 	//공통품목 리스트 불러오기용
 	@Override
-	public List<Map<String, String>> item_list(Item_DTO Idto) {
-		List<Map<String, String>> item_list = this.balju_DAO.item_list(Idto);
+	public List<Item_DTO> item_list() {
+		List<Item_DTO> item_list = this.balju_DAO.item_list();
 		return item_list;
 	}
 	
 	//재고현황 리스트 불러오기용
 	@Override
-	public List<Map<String, String>> item_resultList(Item_DTO Idto) {
-		List<Map<String, String>> item_resultList = this.balju_DAO.item_resultList(Idto);
+	public List<Item_DTO> item_resultList(Item_DTO Idto) {
+		List<Item_DTO> item_resultList = this.balju_DAO.item_resultList(Idto);
 		return item_resultList;
 	}
 	
 	@Override
-	public List<Map<String, String>> balju_Plan_list(Balju_PlanDTO BPdto) {
-		List<Map<String, String>> balju_Plan_list = this.balju_DAO.balju_Plan_list(BPdto);
+	public List<Balju_PlanDTO> balju_Plan_list(Balju_PlanDTO BPdto) {
+		List<Balju_PlanDTO> balju_Plan_list = this.balju_DAO.balju_Plan_list(BPdto);
 		return balju_Plan_list;
 	}
 
 	@Override
-	public List<Map<String, String>> balju_Result(Balju_DTO Bdto) {
-		List<Map<String, String>> balju_Result = this.balju_DAO.balju_Result(Bdto);
+	public List<Balju_DTO> balju_Result(Balju_DTO Bdto) {
+		List<Balju_DTO> balju_Result = this.balju_DAO.balju_Result(Bdto);
 		return balju_Result;
 	}
 	
 	//발주서 현황 일자 검색
 	@Override
-	public List<Map<String,String>> balju_Result_Search(String DATESTART, String DATEEND){
+	public List<Balju_DTO> balju_Result_Search(String DATESTART, String DATEEND){
 		Balju_DTO Bdto = new Balju_DTO();
 		Bdto.setDATESTART(DATESTART);
 		Bdto.setDATEEND(DATEEND);
-		List<Map<String,String>> balju_Result_Search = this.balju_DAO.balju_Result_Search(Bdto);
+		List<Balju_DTO> balju_Result_Search = this.balju_DAO.balju_Result_Search(Bdto);
 		return balju_Result_Search;
 	}
 	
 	//발주서 관리 불러오기
 	@Override
-	public List<Map<String, String>> balju_Mng_List(Balju_DTO Bdto) {
-		List<Map<String,String>> balju_Mng_List = this.balju_DAO.balju_Mng_List(Bdto);
+	public List<Balju_DTO> balju_Mng_List(Balju_DTO Bdto) {
+		List<Balju_DTO> balju_Mng_List = this.balju_DAO.balju_Mng_List(Bdto);
 		return balju_Mng_List;
 	}
 		
 	//발주서 관리 불러오기 필터링
 	@Override
-	public List<Map<String,String>> balju_Mng_Filter(String FilterParam){
+	public List<Balju_DTO> balju_Mng_Filter(String FilterParam){
 		Balju_DTO Bdto = new Balju_DTO();
 		Bdto.setORDIN_END(FilterParam);
-		List<Map<String,String>> balju_Mng_Filter = this.balju_DAO.balju_Mng_Filter(Bdto);
+		List<Balju_DTO> balju_Mng_Filter = this.balju_DAO.balju_Mng_Filter(Bdto);
 		return balju_Mng_Filter;
 	}
 	
 	//관심품목 리스트 불러오기
 	@Override
-	public List<Map<String, String>> item_BookMark(Item_DTO Idto) {
-		List<Map<String,String>> item_BookMark = this.balju_DAO.item_BookMark(Idto);
+	public List<Balju_DTO> item_BookMark(Item_DTO Idto) {
+		List<Balju_DTO> item_BookMark = this.balju_DAO.item_BookMark(Idto);
 		return item_BookMark;
 	}
 	
@@ -193,18 +193,18 @@ public class Balju_ServiceImpl implements Balju_Service {
 
 
 	@Override
-	public List<Map<String, String>> BPlan_Load(Balju_PlanDTO BPdto) {
-		List<Map<String,String>> BPlan_Load = this.balju_DAO.BPlan_Load(BPdto);
+	public List<Balju_DTO> BPlan_Load(Balju_PlanDTO BPdto) {
+		List<Balju_DTO> BPlan_Load = this.balju_DAO.BPlan_Load(BPdto);
 		return BPlan_Load;
 	}
 
 
 	@Override
-	public List<Map<?, ?>> BPlan_Search(ArrayList<String> SearchParam) {
+	public List<Balju_DTO> BPlan_Search(ArrayList<String> SearchParam) {
 		Balju_PlanDTO BPdto = new Balju_PlanDTO();
 		System.out.println("SearchParam의 0번째 값 : " + SearchParam.get(0));
 		BPdto.setORDPL_ORDLIN_NUM(Integer.parseInt(SearchParam.get(0)));
-		List<Map<?,?>> BPlan_Search = this.balju_DAO.BPlan_Search(BPdto);
+		List<Balju_DTO> BPlan_Search = this.balju_DAO.BPlan_Search(BPdto);
 		return BPlan_Search;
 	}
 

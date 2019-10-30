@@ -85,7 +85,7 @@
 <!-- WebSocket -->
 <script type="text/javascript">
 
-var webSocket = new WebSocket("ws://localhost:8095${pageContext.request.contextPath}/realTime-ws");
+var webSocket = new WebSocket("ws://sejongdeveloper.cafe24.com/realTime-ws");
 webSocket.onopen = onOpen;
 webSocket.onmessage = onMessage;
 webSocket.onclose = onClose;
