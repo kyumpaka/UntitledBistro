@@ -8,10 +8,18 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bit.UntitledBistro.model.balju.BaljuResultDTO;
 import com.bit.UntitledBistro.model.balju.Balju_DAO;
-import com.bit.UntitledBistro.model.balju.Balju_DTO;
 import com.bit.UntitledBistro.model.balju.Balju_PlanDTO;
-import com.bit.UntitledBistro.model.balju.Item_DTO;
+import com.bit.UntitledBistro.model.balju.BookMarkDTO;
+import com.bit.UntitledBistro.model.balju.ItemBookMarkDTO;
+import com.bit.UntitledBistro.model.balju.ItemResultListDTO;
+import com.bit.UntitledBistro.model.balju.OrderInputDTO;
+import com.bit.UntitledBistro.model.balju.OrderInputOrderListDTO;
+import com.bit.UntitledBistro.model.balju.OrderInputOrderPlanDTO;
+import com.bit.UntitledBistro.model.balju.OrderListDTO;
+import com.bit.UntitledBistro.model.balju.OrderPlanDTO;
+import com.bit.UntitledBistro.model.balju.ProductDTO;
 import com.bit.UntitledBistro.service.jaego.JaegoService;
 
 @Service
@@ -30,8 +38,8 @@ public class Balju_ServiceImpl implements Balju_Service {
 	
 
 	@Override
-	public void insert_Balju_Plan2(Balju_PlanDTO BPdto) {
-		this.balju_DAO.insert_Balju_Plan2(BPdto);
+	public void insert_Balju_Plan2(OrderPlanDTO orderPlanDTO) {
+		this.balju_DAO.insert_Balju_Plan2(orderPlanDTO);
 		
 	}
 	
@@ -42,142 +50,136 @@ public class Balju_ServiceImpl implements Balju_Service {
 	}
 	
 	@Override
-	public void insert_Balju2(Balju_DTO Bdto) {
-		this.balju_DAO.insert_Balju2(Bdto);
+	public void insert_Balju2(OrderListDTO orderListDTO) {
+		this.balju_DAO.insert_Balju2(orderListDTO);
 		
 	}
 	
 	//관심품목 리스트 데이터 입력
 	@Override
-	public void insert_BookMark(Item_DTO Idto) {
-		this.balju_DAO.insert_BookMark(Idto);
+	public void insert_BookMark(BookMarkDTO bookMarkDTO) {
+		this.balju_DAO.insert_BookMark(bookMarkDTO);
 	}
 	
 	//공통품목 리스트 불러오기용
 	@Override
-	public List<Item_DTO> item_list() {
-		List<Item_DTO> item_list = this.balju_DAO.item_list();
+	public List<ProductDTO> item_list() {
+		List<ProductDTO> item_list = this.balju_DAO.item_list();
 		return item_list;
 	}
 	
 	//재고현황 리스트 불러오기용
 	@Override
-	public List<Item_DTO> item_resultList(Item_DTO Idto) {
-		List<Item_DTO> item_resultList = this.balju_DAO.item_resultList(Idto);
+	public List<ItemResultListDTO> item_resultList() {
+		List<ItemResultListDTO> item_resultList = this.balju_DAO.item_resultList();
 		return item_resultList;
 	}
 	
 	@Override
-	public List<Balju_PlanDTO> balju_Plan_list(Balju_PlanDTO BPdto) {
-		List<Balju_PlanDTO> balju_Plan_list = this.balju_DAO.balju_Plan_list(BPdto);
+	public List<OrderPlanDTO> balju_Plan_list() {
+		List<OrderPlanDTO> balju_Plan_list = this.balju_DAO.balju_Plan_list();
 		return balju_Plan_list;
 	}
 
 	@Override
-	public List<Balju_DTO> balju_Result(Balju_DTO Bdto) {
-		List<Balju_DTO> balju_Result = this.balju_DAO.balju_Result(Bdto);
+	public List<BaljuResultDTO> balju_Result() {
+		List<BaljuResultDTO> balju_Result = this.balju_DAO.balju_Result();
 		return balju_Result;
 	}
 	
 	//발주서 현황 일자 검색
 	@Override
-	public List<Balju_DTO> balju_Result_Search(String DATESTART, String DATEEND){
-		Balju_DTO Bdto = new Balju_DTO();
-		Bdto.setDATESTART(DATESTART);
-		Bdto.setDATEEND(DATEEND);
-		List<Balju_DTO> balju_Result_Search = this.balju_DAO.balju_Result_Search(Bdto);
+	public List<BaljuResultDTO> balju_Result_Search(String DATESTART, String DATEEND){
+		BaljuResultDTO Bdto = new BaljuResultDTO();
+		Bdto.setDatestart(DATESTART);
+		Bdto.setDateend(DATEEND);
+		List<BaljuResultDTO> balju_Result_Search = this.balju_DAO.balju_Result_Search(Bdto);
 		return balju_Result_Search;
 	}
 	
 	//발주서 관리 불러오기
 	@Override
-	public List<Balju_DTO> balju_Mng_List(Balju_DTO Bdto) {
-		List<Balju_DTO> balju_Mng_List = this.balju_DAO.balju_Mng_List(Bdto);
+	public List<OrderInputOrderListDTO> balju_Mng_List() {
+		List<OrderInputOrderListDTO> balju_Mng_List = this.balju_DAO.balju_Mng_List();
 		return balju_Mng_List;
 	}
 		
 	//발주서 관리 불러오기 필터링
 	@Override
-	public List<Balju_DTO> balju_Mng_Filter(String FilterParam){
-		Balju_DTO Bdto = new Balju_DTO();
-		Bdto.setORDIN_END(FilterParam);
-		List<Balju_DTO> balju_Mng_Filter = this.balju_DAO.balju_Mng_Filter(Bdto);
+	public List<OrderInputOrderListDTO> balju_Mng_Filter(String FilterParam){
+		List<OrderInputOrderListDTO> balju_Mng_Filter = this.balju_DAO.balju_Mng_Filter(FilterParam);
 		return balju_Mng_Filter;
 	}
 	
 	//관심품목 리스트 불러오기
 	@Override
-	public List<Balju_DTO> item_BookMark(Item_DTO Idto) {
-		List<Balju_DTO> item_BookMark = this.balju_DAO.item_BookMark(Idto);
+	public List<ItemBookMarkDTO> item_BookMark(ItemBookMarkDTO itemBookMarkDTO) {
+		List<ItemBookMarkDTO> item_BookMark = this.balju_DAO.item_BookMark(itemBookMarkDTO);
 		return item_BookMark;
 	}
 	
 	@Override
-	public void balju_Plan_modi(Balju_PlanDTO BPdto) {
-		this.balju_DAO.balju_Plan_modi(BPdto);
+	public void balju_Plan_modi(OrderPlanDTO orderPlanDTO) {
+		this.balju_DAO.balju_Plan_modi(orderPlanDTO);
 	}
 
 	@Override
-	public void balju_Modi(Balju_DTO Bdto) {
-		this.balju_DAO.balju_Modi(Bdto);
+	public void balju_Modi(OrderListDTO orderListDTO) {
+		this.balju_DAO.balju_Modi(orderListDTO);
 	}
 	
 	//발주서 종결처리
 	@Override
 	public int End_Balju(List<Map<String,String>> endRow) {
-		System.out.println("시작2");
-		Balju_DTO Bdto = new Balju_DTO();
+		OrderInputDTO orderInputDTO = new OrderInputDTO();
 		for (Map<String, String> data : endRow) {
 			
-			Bdto.setORDIN_NUM(Integer.parseInt(data.get("ORDIN_NUM")));
-			Bdto.setORDIN_END(data.get("ORDIN_END"));
-			this.balju_DAO.End_Balju(Bdto);
+			orderInputDTO.setOrdin_num(data.get("ordin_num"));
+			orderInputDTO.setOrdin_end(data.get("ordin_end"));
+			this.balju_DAO.End_Balju(orderInputDTO);
 			
-			System.out.println("가즈아!!");
-			if(data.get("ORDIN_END").equals("종결")) {
-				System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa삭제aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-				jaego.inItemDelete(Integer.parseInt(data.get("ORDIN_NUM")));;
+			if(data.get("ordin_end").equals("종결")) {
+				jaego.inItemDelete(Integer.parseInt(data.get("ordin_num")));;
 			} else {
-				System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb등록bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-				jaego.inItemInsert(Integer.parseInt(data.get("ORDIN_NUM")));
-				balju_DAO.orderListInItemUpdate(Integer.parseInt(data.get("ORDIN_NUM")));
+				jaego.inItemInsert(Integer.parseInt(data.get("ordin_num")));
+				balju_DAO.orderListInItemUpdate(Integer.parseInt(data.get("ordin_num")));
 			}
 		}
 		
 		int riskItemCount = jaego.riskItemCount();
-		System.out.println("위험재고수량 : " + riskItemCount);
 		return riskItemCount;
 	}
 	
 	//관심품목 목록 수정
 	@Override
-	public void BookMark_Modi(Item_DTO Idto) {
-		this.balju_DAO.BookMark_Modi(Idto);
+	public void BookMark_Modi(BookMarkDTO bookMarkDTO) {
+		this.balju_DAO.BookMark_Modi(bookMarkDTO);
 		
 	}
 	
 	@Override
-	public void Delete_Balju_Plan(Balju_PlanDTO BPdto) {
+	public void Delete_Balju_Plan(OrderPlanDTO orderPlanDTO) {
 		//발주계획하위테이블(상세내역)을 삭제함
-		this.balju_DAO.Delete_Balju_Plan2(BPdto);
+		this.balju_DAO.Delete_Balju_Plan2(orderPlanDTO);
 	}
 	
 
 	@Override
 	public void Delete_Balju_Plan_Check(Balju_PlanDTO BPdto) {
 		//발주계획상위테이블(목록번호)를 삭제함
-		this.balju_DAO.Delete_Balju_Plan1(BPdto);
+		this.balju_DAO.Delete_Balju_Plan1();
 		
 	}
 
 	@Override
 	public void Delete_Balju(ArrayList<String> DeleteRow) {
-		Balju_DTO Bdto = new Balju_DTO();
+		OrderInputDTO BIdto = new OrderInputDTO();
+		OrderListDTO BLdto = new OrderListDTO();
 		for (int i = 0; i < DeleteRow.size(); i++) {
-			Bdto.setORDER_ORDIN_NUM(Integer.parseInt(DeleteRow.get(i)));
-			this.balju_DAO.Delete_Balju2(Bdto);
-			Bdto.setORDIN_NUM(Integer.parseInt(DeleteRow.get(i)));
-			this.balju_DAO.Delete_Balju1(Bdto);
+			BLdto.setOrder_ordin_num(Integer.parseInt(DeleteRow.get(i)));
+			this.balju_DAO.Delete_Balju2(BLdto);
+			BIdto.setOrdin_num(DeleteRow.get(i));
+			this.balju_DAO.Delete_Balju1(BIdto);
 		}
 		
 	}
@@ -185,26 +187,26 @@ public class Balju_ServiceImpl implements Balju_Service {
 	//관심품목 목록삭제
 	@Override
 	public void Delete_BookMark(ArrayList<String> DeleteList) {
-		Item_DTO Idto = new Item_DTO();
-		Idto.setBK_CODE(DeleteList.get(0));
+		BookMarkDTO Idto = new BookMarkDTO();
+		Idto.setBk_code(DeleteList.get(0));
 		this.balju_DAO.Delete_BookMark(Idto);
 		
 	}
 
 
 	@Override
-	public List<Balju_DTO> BPlan_Load(Balju_PlanDTO BPdto) {
-		List<Balju_DTO> BPlan_Load = this.balju_DAO.BPlan_Load(BPdto);
+	public List<OrderInputOrderPlanDTO> BPlan_Load() {
+		List<OrderInputOrderPlanDTO> BPlan_Load = this.balju_DAO.BPlan_Load();
 		return BPlan_Load;
 	}
 
 
 	@Override
-	public List<Balju_DTO> BPlan_Search(ArrayList<String> SearchParam) {
-		Balju_PlanDTO BPdto = new Balju_PlanDTO();
+	public List<OrderListDTO> BPlan_Search(ArrayList<String> SearchParam) {
+		OrderInputOrderPlanDTO BPdto = new OrderInputOrderPlanDTO();
 		System.out.println("SearchParam의 0번째 값 : " + SearchParam.get(0));
-		BPdto.setORDPL_ORDLIN_NUM(Integer.parseInt(SearchParam.get(0)));
-		List<Balju_DTO> BPlan_Search = this.balju_DAO.BPlan_Search(BPdto);
+		BPdto.setOrdpl_ordlin_num(SearchParam.get(0));
+		List<OrderListDTO> BPlan_Search = this.balju_DAO.BPlan_Search(BPdto);
 		return BPlan_Search;
 	}
 

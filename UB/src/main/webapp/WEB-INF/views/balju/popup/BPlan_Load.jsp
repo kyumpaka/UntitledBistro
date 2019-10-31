@@ -45,9 +45,9 @@
 					<tbody>
 					<c:forEach var="BP_list" items="${BP_list}" varStatus="status">
 						<tr>
-							<td>${BP_list.ORPLIN_DATE}</td>
-							<td>${BP_list.ORDPL_ORDLIN_NUM}</td>
-							<td>${BP_list.ORDPL_PRODUCT_NAME} 외 ${BP_list.ORDPL_PRODUCT_NAME_COUNT} 개</td>
+							<td>${BP_list.orplin_date}</td>
+							<td>${BP_list.ordpl_ordlin_num}</td>
+							<td>${BP_list.ordpl_product_name} 외 ${BP_list.ordpl_product_name_count} 개</td>
 							<td><input type="button" class="insertBtn" style="border-radius: 0.25rem; color:#fff; 
 								background-color: #343a40; border-color: #343a40;" value="선택"/></td>
 						</tr> 
@@ -73,10 +73,10 @@
 		
 		console.log("클릭한 Row의 모든 데이터 : "+tr.text());
 		
-		var ORDPL_ORDLIN_NUM = td.eq(1).text();
+		var ordpl_ordlin_num = td.eq(1).text();
 		
-		console.log(ORDPL_ORDLIN_NUM);
-		window.opener.getReturnValue2(ORDPL_ORDLIN_NUM);
+		console.log(ordpl_ordlin_num);
+		window.opener.getReturnValue2(ordpl_ordlin_num);
 		window.close();
 	});
 	</script>

@@ -2,14 +2,14 @@ package com.bit.UntitledBistro.model.balju;
 
 public class Item_DTO {
 
-	private String PRODUCT_CODE;
+	private int ITEM_INDEX;
+	private String ITEM_PRODUCT_CODE;
 	private String PRODUCT_NAME;
 	private String PRODUCT_STNDR;
-	private String PRODUCT_PRICE;
-	private int PRODUCT_SAFE;
-	private int ITEM_INDEX;
 	private int ITEM_QTY;
-	private String ITEM_PRODUCT_CODE;
+	private int PRODUCT_SAFE;
+	private String PRODUCT_PRICE;
+	private String PRODUCT_CODE;
 	
 	//BookMark 
 	private int ROWNUM;

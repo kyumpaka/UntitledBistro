@@ -249,7 +249,7 @@ public class JumunController {
 	// 카카오(카드) 결제 1단계
 	@RequestMapping(value = "/kakaoPay.do", method = RequestMethod.POST)
 	public String kakaoPay(@RequestParam("orders_No") String orders_No, PaymentDTO paymentDTO) {
-		
+		System.out.println("카카오 카드 결제1단계~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		return "redirect:" + jumunService.kakaoPayReady(orders_No, paymentDTO);
 	}
 	
@@ -257,6 +257,7 @@ public class JumunController {
 	@RequestMapping(value = "/kakaoPaySuccess.do")
     public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token, Model model, @RequestParam("orders_No") String orders_No, 
     		@ModelAttribute("payment_Cash") String payment_Cash, @ModelAttribute("payment_Card") String payment_Card, @ModelAttribute("payment_Point") String payment_Point) {
+		System.out.println("결제완료~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		model.addAttribute("info", jumunService.kakaoPayInfo(pg_token, orders_No));
         
         return "views/jumun/kakaoPaySuccess";

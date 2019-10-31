@@ -48,13 +48,13 @@
 					<tbody style="text-align:center">
 					<c:forEach var="Item_DTO" items="${itemResult}" varStatus="status">
 						<tr>
-							<td>${Item_DTO.ITEM_INDEX}</td>
-							<td>${Item_DTO.ITEM_PRODUCT_CODE}</td>
-							<td>${Item_DTO.PRODUCT_NAME}</td>
-							<td>${Item_DTO.PRODUCT_STNDR}</td>
-							<td>${Item_DTO.ITEM_QTY}</td>
-							<td>${Item_DTO.PRODUCT_SAFE}</td>
-							<td>${Item_DTO.PRODUCT_PRICE}</td>
+							<td>${Item_DTO.item_index}</td>
+							<td>${Item_DTO.item_product_code}</td>
+							<td>${Item_DTO.product_name}</td>
+							<td>${Item_DTO.product_stndr}</td>
+							<td>${Item_DTO.item_qty}</td>
+							<td>${Item_DTO.product_safe}</td>
+							<td>${Item_DTO.product_price}</td>
 		 					<td><input type="button" class="insertBtn" style="border-radius: 0.25rem; color:#fff; 
 								background-color: #343a40; border-color: #343a40;" value="선택"/></td>
 						</tr> 

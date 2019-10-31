@@ -95,17 +95,17 @@
 										<tr>
 											<td><input type="checkbox" name="checkRow"
 												value="${status.count}"></td>
-											<td>${Mng.ORDER_ORDIN_NUM}</td>
-											<td>${Mng.ORPLIN_DATE}</td>
-											<td>${Mng.ORDER_WR}</td>
-											<td>${Mng.ORDER_PRODUCT_NAME}외${Mng.ORDER_PRODUCT_COUNT}개</td>
-											<td>${Mng.TOTAL_PR}</td>
+											<td>${Mng.order_ordin_num}</td>
+											<td>${Mng.orplin_date}</td>
+											<td>${Mng.order_wr}</td>
+											<td>${Mng.order_product_name}외${Mng.order_product_count}개</td>
+											<td>${Mng.total_pr}</td>
 											<td><input type="button" class="endBtn" 
 													style="background-color: transparent !important;
 													background-image: none !important;
 													border-color: transparent;
 													border: none;
-													color: #007BFF;" value="${Mng.ORDER_END}"/></td>
+													color: #007BFF;" value="${Mng.order_end}"/></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -199,7 +199,7 @@
 		var td = tr.children();
 		
 				//발주번호 td.eq(1)
-		data.ORDIN_NUM = td.eq(1).text();
+		data.ordin_num = td.eq(1).text();
 		
 		console.log("data값 체크 : " + data);
 				//종결값 종결/취소 
@@ -210,7 +210,7 @@
 			ynParam="종결";
 			}
 				
-		data.ORDIN_END = ynParam;
+		data.ordin_end = ynParam;
 		console.log("data값 체크 : " + data);
 		
 		endParam.push(data);

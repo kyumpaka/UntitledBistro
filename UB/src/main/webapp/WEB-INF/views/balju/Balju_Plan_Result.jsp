@@ -75,6 +75,7 @@
 	$.ajax({
 		type : "get",
 		url : "${path}/balju_Plan_Result",
+		dataType:"json"
 		}).done(function(json) {
 			$("#jsGrid").jsGrid({
 				width : "100%",
@@ -93,14 +94,14 @@
 				//수정하고싶은 데이터를 추출해서 처리함
 				onItemUpdated : function(args){
 					console.log(args.item);
-					console.log(args.item.ORDPL_ORDLIN_NUM);
-					console.log(args.item.ORDPL_ONUM);
-					console.log(args.item.ORDPL_QT);
+					console.log(args.item.ordpl_ordlin_num);
+					console.log(args.item.ordpl_onum);
+					console.log(args.item.ordpl_qt);
 					
 					var UpdateList = new Array();
-					UpdateList.push(args.item.ORDPL_ORDLIN_NUM);
-					UpdateList.push(args.item.ORDPL_ONUM);
-					UpdateList.push(args.item.ORDPL_QT);
+					UpdateList.push(args.item.ordpl_ordlin_num);
+					UpdateList.push(args.item.ordpl_onum);
+					UpdateList.push(args.item.ordpl_qt);
 
 					console.log(UpdateList);
 					
@@ -135,16 +136,16 @@
 						});
 					},
 				deleteConfirm: function(item){
-						return item.ORDPL_PRODUCT_NAME + "를 삭제하시겠습니까?"
+						return item.ordpl_product_name + "를 삭제하시겠습니까?"
 					},
 				onItemDeleted: function(args){
 					console.log(args.item);
-					console.log(args.item.ORDPL_ORDLIN_NUM);
-					console.log(args.item.ORDPL_ONUM);
+					console.log(args.item.ordpl_ordlin_num);
+					console.log(args.item.ordpl_onum);
 
 					var DeleteList = new Array();
-					DeleteList.push(args.item.ORDPL_ORDLIN_NUM);
-					DeleteList.push(args.item.ORDPL_ONUM);
+					DeleteList.push(args.item.ordpl_ordlin_num);
+					DeleteList.push(args.item.ordpl_onum);
 
 					console.log(DeleteList);
 
@@ -180,21 +181,21 @@
 					},
 				//grid에 표현될 필드 요소
 				fields : [ 
-					{name : "TO_CHAR(ORPLIN_DATE,'YYYY-MM-DD')", type : "text", title : "일자", align: "center",
+					{name : "orplin_date", type : "text", title : "일자", align: "center",
 						 readOnly : true, width : 100}, 
-					{name : "ORDPL_ORDLIN_NUM",  type : "text", title : "발주계획번호", align: "center",
+					{name : "ordpl_ordlin_num",  type : "text", title : "발주계획번호", align: "center",
 					 readOnly : true, width : 100}, 
-					{name : "ORDPL_ONUM",  type : "text", title : "발주물품번호", align: "center",
+					{name : "ordpl_onum",  type : "text", title : "발주물품번호", align: "center",
 						 readOnly : true, sorting : true, width : 100}, 
-					{name : "ORDPL_PRODUCT_CODE",type : "text",title : "품목코드", align: "center",
+					{name : "ordpl_product_code",type : "text",title : "품목코드", align: "center",
 					 readOnly : true, width : 150}, 
-					{name : "ORDPL_PRODUCT_NAME",type : "text",title : "품목명", align: "center",
+					{name : "ordpl_product_name",type : "text",title : "품목명", align: "center",
 					 readOnly : true, width : 150}, 
-					{name : "ORDPL_PRODUCT_STNDR",type : "text",title : "규격", align: "center",
+					{name : "ordpl_product_stndr",type : "text",title : "규격", align: "center",
 					 readOnly : true, width : 150}, 
-					{name : "ORDPL_QT", type : "text", title : "수량", align: "center", width : 120},
-					{name : "ORDPL_PR_EA", type : "text", title : "단가", align: "center", readOnly : true, width : 120}, 
-					{name : "ORDPL_WR", type : "text", title : "작성자", align: "center", readOnly : true, width : 100}, 
+					{name : "ordpl_qt", type : "text", title : "수량", align: "center", width : 120},
+					{name : "ordpl_pr_ea", type : "text", title : "단가", align: "center", readOnly : true, width : 120}, 
+					{name : "ordpl_wr", type : "text", title : "작성자", align: "center", readOnly : true, width : 100}, 
 					{type : "control", editButton: false, deleteButton : true} ]
 
 					}); // 그리드 끝

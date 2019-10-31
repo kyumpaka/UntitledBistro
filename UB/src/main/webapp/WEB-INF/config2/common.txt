@@ -1,3 +1,7 @@
+DROP TABLE ITEM_GROUP;
+DROP TABLE ITEM_SUB_GROUP;
+DROP TABLE PRODUCT;
+
 CREATE TABLE ITEM_GROUP ( -- 상위품목테이블 
         IG_NUM VARCHAR(20), -- 상위품목번호(PK)
         IG_NAME VARCHAR(50) -- 상위품목이름(EX.주류,식자재,비품)

@@ -75,7 +75,7 @@
                 </div>
             </div>
         </header>
-
+                                                                  
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
       
@@ -85,7 +85,7 @@
 <!-- WebSocket -->
 <script type="text/javascript">
 
-var webSocket = new WebSocket("ws://sejongdeveloper.cafe24.com/realTime-ws");
+var webSocket = new WebSocket("ws://localhost:8319${pageContext.request.contextPath}/realTime-ws");
 webSocket.onopen = onOpen;
 webSocket.onmessage = onMessage;
 webSocket.onclose = onClose;

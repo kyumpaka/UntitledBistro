@@ -110,7 +110,7 @@
    SELECT ORDERS_NO, ORDERS_TABLESAVE_CODE,  ORDERS_FIRST, ORDERS_FINAL FROM ORDERS WHERE ORDERS_NO = #{orders_No}
    </select>
    
-   <insert id="ordersInsert">
+   <insert id="ordersInsert" parameterType="com.bit.UntitledBistro.model.jumun.OrdersDTO">
    INSERT INTO ORDERS(ORDERS_NO, ORDERS_TABLESAVE_CODE) VALUES(#{orders_No}, #{orders_TableSave_Code})
    </insert>
    
@@ -131,7 +131,7 @@
    SELECT COUNT(*) FROM ORDERS_DETAILS WHERE OD_MENU_CODE = #{od_Menu_Code} AND OD_ORDERS_NO = #{od_Orders_No}
    </select>
    
-   <insert id="ordersDetailsInsert">
+   <insert id="ordersDetailsInsert" parameterType="com.bit.UntitledBistro.model.jumun.OrdersDetailsDTO">
    INSERT INTO ORDERS_DETAILS(OD_NO, OD_ORDERS_NO, OD_MENU_CODE, OD_QTY) VALUES((SELECT COUNT(OD_NO) + 1 FROM ORDERS_DETAILS OD), #{od_Orders_No}, #{od_Menu_Code}, #{od_Qty})
    </insert>
 
@@ -147,11 +147,11 @@
    UPDATE ORDERS_DETAILS SET OD_QTY = OD_QTY + #{od_Qty} WHERE OD_ORDERS_NO = #{od_Orders_No} AND OD_MENU_CODE = #{od_Menu_Code}
    </update>
    
-   <update id="ordersDetailsPlus">
+   <update id="ordersDetailsPlus" parameterType="com.bit.UntitledBistro.model.jumun.OrdersDetailsDTO">
    UPDATE ORDERS_DETAILS SET OD_QTY = OD_QTY + 1 WHERE OD_ORDERS_NO = #{od_Orders_No} AND OD_MENU_CODE = #{od_Menu_Code}
    </update>
    
-   <update id="ordersDetailsMinus">
+   <update id="ordersDetailsMinus" parameterType="com.bit.UntitledBistro.model.jumun.OrdersDetailsDTO">
    UPDATE ORDERS_DETAILS SET OD_QTY = OD_QTY - 1 WHERE OD_ORDERS_NO = #{od_Orders_No} AND OD_MENU_CODE = #{od_Menu_Code}
    </update>
    
@@ -285,9 +285,22 @@
 	
 	DELIMITER ;
     -->
-   <update id="storeMinus" parameterType="map" statementType="CALLABLE">
-   	
-   	{CALL storeMinus(#{od_Menu_Code})}
+   <select id="forInIngredient" parameterType="map" resultType="com.bit.UntitledBistro.model.jumun.ForInIngredientDTO">
+   	SELECT 
+   		 INGREDIENT_QTY
+   		,INGREDIENT_PRODUCT_CODE 
+   	FROM 
+   		INGREDIENT  
+   	WHERE 
+   		INGREDIENT_MENU_CODE = #{od_Menu_Code}
+   </select> 
+   <update id="storeMinus" parameterType="com.bit.UntitledBistro.model.jumun.ForInIngredientDTO">
+   
+   	UPDATE ITEM 
+	    SET 
+	    	ITEM_QTY = #{ingredient_qty}
+	    WHERE  
+	    	ITEM_PRODUCT_CODE = #{ingredient_product_code}
 
    </update>
    
@@ -305,8 +318,23 @@
 	
 	DELIMITER ;
     -->
-   <insert id="shippingHistoryInsert" parameterType="map" statementType="CALLABLE">
-   { CALL shippingHistoryInsert(#{od_Menu_Code}, #{orders_No}) }
+   <insert id="shippingHistoryInsert" parameterType="com.bit.UntitledBistro.model.jumun.ForInIngredientDTO">
+	   INSERT INTO OUT_ITEM
+		    	(
+		    	 OI_NO
+		    	,OI_OD_NO
+		    	,OI_PRODUCT_CODE
+		    	,OI_PRODUCT_NAME
+		    	,OI_QTY
+		    	) 
+			VALUES
+				(
+				(SELECT IFNULL(MAX(OI_NO),0) + 1 FROM OUT_ITEM OI)
+				,#{orders_no}
+				,#{ingredient_product_code}
+				,(SELECT PRODUCT_NAME FROM PRODUCT WHERE PRODUCT_CODE=#{ingredient_product_code})
+				,#{ingredient_qty}
+				)
    </insert>
    
    <!-- 
@@ -322,13 +350,23 @@
 	
 	DELIMITER ;
     -->
-   <update id="storePlus" parameterType="map">
-   { CALL storePlus(#{od_Menu_Code}) }
+   <update id="storePlus" parameterType="com.bit.UntitledBistro.model.jumun.ForInIngredientDTO">
+  	UPDATE ITEM 
+	SET 
+		ITEM_QTY = ITEM_QTY + #{ingredient_qty} 
+	WHERE 
+		ITEM_PRODUCT_CODE = #{ingredient_product_code}
    </update>
    
    <delete id="shippingHistoryDelete" parameterType="map">
-   DELETE FROM OUT_ITEM WHERE OI_OD_NO = #{orders_No} AND OI_NO = (SELECT MAX(OI_NO) FROM OUT_ITEM OI WHERE OI_OD_NO = #{orders_No})
-   AND OI_PRODUCT_CODE IN (SELECT INGREDIENT_PRODUCT_CODE FROM INGREDIENT WHERE INGREDIENT_MENU_CODE = #{od_Menu_Code})
+   	DELETE FROM 
+   		OUT_ITEM 
+  	WHERE 
+  		OI_OD_NO = #{orders_No} 
+  	AND 
+  		OI_NO = (SELECT MAX(OI_NO) FROM OUT_ITEM OI WHERE OI_OD_NO = #{orders_No})
+   	AND 
+   		OI_PRODUCT_CODE IN (SELECT INGREDIENT_PRODUCT_CODE FROM INGREDIENT WHERE INGREDIENT_MENU_CODE = #{od_Menu_Code})
    </delete>
    
    <!-- 
@@ -346,9 +384,26 @@
 	
 	DELIMITER ;
     -->
-   <update id="storeAllPlus" parameterType="map">
-   { CALL storeAllPlus(#{od_Menu_Code}) }
-   </update>
+   <select id="forInIngredient2" parameterType="map" resultType="com.bit.UntitledBistro.model.jumun.ForInIngredientDTO">
+   	SELECT 
+   		 INGREDIENT_QTY*OD_QTY 		AS INGREDIENT_QTY
+   		,INGREDIENT_PRODUCT_CODE 
+   	FROM 
+   		 ORDERS_DETAILS
+   		,INGREDIENT 
+	WHERE 
+		INGREDIENT.INGREDIENT_MENU_CODE = ORDERS_DETAILS.OD_MENU_CODE 
+	AND 
+		ORDERS_DETAILS.OD_ORDERS_NO = #{od_Orders_No}
+   </select> 
+   
+   <update id="storeAllPlus" parameterType="com.bit.UntitledBistro.model.jumun.ForInIngredientDTO">
+   	UPDATE ITEM 
+	SET 
+		ITEM_QTY = ITEM_QTY + #{ingredient_qty} 
+	WHERE 
+		ITEM_PRODUCT_CODE = #{ingredient_product_code}
+   </update> 
    
    <delete id="shippingHistoryOneDelete" parameterType="map">
    DELETE FROM OUT_ITEM WHERE OI_OD_NO = #{od_Orders_No} AND OI_SD_NO IS NULL AND 
@@ -408,9 +463,43 @@
 	
 	DELIMITER ;
     -->
-   <update id="storeCheck" parameterType="map" statementType="CALLABLE">
+   <select id="forInIngredient3" resultType="com.bit.UntitledBistro.model.jumun.ForInIngredientDTO">
+   	SELECT 
+		 INGREDIENT_QTY
+		,ITEM_QTY
+		,INGREDIENT_MENU_CODE 
+	FROM 
+		INGREDIENT IG
+	 		LEFT OUTER JOIN 
+		ITEM  I
+	ON 
+		IG.INGREDIENT_PRODUCT_CODE = I.ITEM_PRODUCT_CODE
+	WHERE 
+		INGREDIENT_MENU_CODE IN 
+								(
+								SELECT 
+									INGREDIENT_MENU_CODE 
+								FROM 
+									INGREDIENT IG2 
+								LEFT OUTER JOIN 
+									ITEM I2 
+								ON 
+									IG2.INGREDIENT_PRODUCT_CODE = I2.ITEM_PRODUCT_CODE 
+								WHERE 
+<![CDATA[							ITEM_QTY < INGREDIENT_QTY	]]>
+								)
+					
+   </select>
+   <update id="storeCheck" parameterType="com.bit.UntitledBistro.model.jumun.ForInIngredientDTO">
    
-   { CALL storeCheck() }
+   	<if test="ingredient_qty > item_qty">
+   		UPDATE 
+			MENU 
+		SET 
+			MENU_STATE = '품절' 
+		WHERE 
+			MENU_CODE = #{ingredient_menu_code}
+   	</if>
    
     </update>
     
@@ -422,7 +511,7 @@
     SELECT INGREDIENT_MENU_CODE FROM INGREDIENT, ITEM WHERE INGREDIENT.INGREDIENT_PRODUCT_CODE = ITEM.ITEM_PRODUCT_CODE AND ITEM_QTY = 0
     </select>
     
-    <select id="productSelect" resultType="HashMap">
+    <select id="productSelect" resultType="product">
     SELECT PRODUCT_CODE, PRODUCT_NAME FROM PRODUCT
     </select>
     

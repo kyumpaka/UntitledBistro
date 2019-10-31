@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.bit.UntitledBistro.model.jaego.ProductDTO;
 import com.bit.UntitledBistro.model.jumun.IngredientDTO;
 import com.bit.UntitledBistro.model.jumun.KakaoPayApprovalDTO;
 import com.bit.UntitledBistro.model.jumun.MenuDTO;
@@ -17,7 +18,6 @@ import com.bit.UntitledBistro.model.jumun.MenuTypeDTO;
 import com.bit.UntitledBistro.model.jumun.OrdersDTO;
 import com.bit.UntitledBistro.model.jumun.OrdersDetailsDTO;
 import com.bit.UntitledBistro.model.jumun.PaymentDTO;
-import com.bit.UntitledBistro.model.jumun.SalesDTO;
 import com.bit.UntitledBistro.model.jumun.SalesDetailsDTO;
 import com.bit.UntitledBistro.model.jumun.TableSaveDTO;
 
@@ -102,6 +102,6 @@ public interface JumunService {
 	
 	public ArrayList<String> storeCountCheck();
 	
-	public ArrayList<HashMap<String, Object>> productSearch();
+	public ArrayList<ProductDTO> productSearch();
 	
 }

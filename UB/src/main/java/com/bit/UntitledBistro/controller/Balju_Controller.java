@@ -19,10 +19,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bit.UntitledBistro.model.balju.BaljuResultDTO;
 import com.bit.UntitledBistro.model.balju.Balju_DTO;
 import com.bit.UntitledBistro.model.balju.Balju_PlanDTO;
+import com.bit.UntitledBistro.model.balju.BookMarkDTO;
+import com.bit.UntitledBistro.model.balju.ItemBookMarkDTO;
+import com.bit.UntitledBistro.model.balju.ItemResultListDTO;
 import com.bit.UntitledBistro.model.balju.Item_DTO;
-import com.bit.UntitledBistro.model.jaego.ProductDTO;
+import com.bit.UntitledBistro.model.balju.OrderInputOrderListDTO;
+import com.bit.UntitledBistro.model.balju.OrderInputOrderPlanDTO;
+import com.bit.UntitledBistro.model.balju.OrderListDTO;
+import com.bit.UntitledBistro.model.balju.OrderPlanDTO;
+import com.bit.UntitledBistro.model.balju.ProductDTO;
 import com.bit.UntitledBistro.service.balju.Balju_Service;
 
 @Controller
@@ -67,7 +75,7 @@ public class Balju_Controller {
 	@RequestMapping(value = "/balju/Balju_Result", method = RequestMethod.GET)
 	public void balju_Result(Model model, Balju_DTO Bdto) {
 		logger.info("발주현황에 접속되었습니다.");
-			List<Balju_DTO> list = this.balju_Service.balju_Result(Bdto);
+			List<BaljuResultDTO> list = this.balju_Service.balju_Result();
 			model.addAttribute("Result_list", list);
 		}
 
@@ -75,7 +83,7 @@ public class Balju_Controller {
 	@RequestMapping(value = "/balju/Balju_Mng_All", method = RequestMethod.GET)
 	public String Balju_Mng(Model model, Balju_DTO Bdto) {
 		logger.info("발주관리 필터(전체)에 접속되었습니다."); 
-		List<Balju_DTO> list = this.balju_Service.balju_Mng_List(Bdto); 
+		List<OrderInputOrderListDTO> list = this.balju_Service.balju_Mng_List(); 
 		model.addAttribute("Mng_list",list); 
 		return "balju/Balju_Mng";
 	}
@@ -84,7 +92,7 @@ public class Balju_Controller {
 	public String Balju_Com (Model model) {
 		logger.info("발주관리 완료 필터에 접속되었습니다.");
 		String FilterParam = "취소";
-		List<Balju_DTO> list = this.balju_Service.balju_Mng_Filter(FilterParam);
+		List<OrderInputOrderListDTO> list = this.balju_Service.balju_Mng_Filter(FilterParam);
 		model.addAttribute("Mng_list", list);
 		return "balju/Balju_Mng";
 	}
@@ -94,7 +102,7 @@ public class Balju_Controller {
 		logger.info("발주관리 필터에 접속되었습니다.");
 		logger.info(FilterParam);
 		logger.info(isRiskItemCount);
-		List<Balju_DTO> list = this.balju_Service.balju_Mng_Filter(FilterParam);
+		List<OrderInputOrderListDTO> list = this.balju_Service.balju_Mng_Filter(FilterParam);
 		
 		
 		
@@ -109,7 +117,7 @@ public class Balju_Controller {
 	// 발주계획입력
 	@RequestMapping(value = "/balju_Plan_Input", method = RequestMethod.POST)
 	@ResponseBody
-	public Object balju_Plan_Input(@RequestBody List<Map<String, String>> list, Balju_PlanDTO BPdto) throws Exception {
+	public Object balju_Plan_Input(@RequestBody List<Map<String, String>> list, OrderPlanDTO BPdto) throws Exception {
 		System.out.println("발주계획 입력 진행중 접속되었습니다.");
 		System.out.println(list);
 
@@ -122,17 +130,15 @@ public class Balju_Controller {
 			int index = 1;
 			for (Map<String, String> data : list) {
 				System.out.println("들어갈 칼럼명과 데이터 : " + data.toString());
-				BPdto.setORDPL_ONUM(index++);
-				BPdto.setORDPL_PRODUCT_CODE(data.get("ORDER_PRODUCT_CODE"));
-				BPdto.setORDPL_PRODUCT_NAME(data.get("ORDER_PRODUCT_NAME"));
-				BPdto.setORDPL_PRODUCT_STNDR(data.get("ORDER_PRODUCT_STNDR"));
-				BPdto.setORDPL_QT(Integer.parseInt(data.get("ORDER_QT")));
-				BPdto.setORDPL_PR_EA(Integer.parseInt(data.get("ORDER_PR_EA")));
-				BPdto.setORDPL_WR(data.get("ORDER_WR"));
-
+				BPdto.setOrdpl_onum(index++);
+				BPdto.setOrdpl_product_code(data.get("order_product_code"));
+				BPdto.setOrdpl_product_name(data.get("order_product_name"));
+				BPdto.setOrdpl_product_stndr(data.get("order_product_stndr"));
+				BPdto.setOrdpl_qt(Integer.parseInt(data.get("order_qt")));
+				BPdto.setOrdpl_pr_ea(Integer.parseInt(data.get("order_pr_ea")));
+				BPdto.setOrdpl_wr(data.get("order_wr"));
 				this.balju_Service.insert_Balju_Plan2(BPdto);
 			}
-
 			result = "success";
 			resultMsg = "성공";
 		} catch (Exception e) {
@@ -141,6 +147,9 @@ public class Balju_Controller {
 		}
 		resultMap.put("result", result);
 		resultMap.put("resultMsg", resultMsg);
+		System.out.println(result);
+		System.out.println(resultMsg);
+		System.out.println(resultMap);
 
 		return resultMap;
 	}
@@ -148,10 +157,10 @@ public class Balju_Controller {
 	// 발주계획현황 그리드 데이터 로딩
 	@RequestMapping(value = "/balju_Plan_Result", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Balju_PlanDTO> Balju_Plan_Result(Balju_PlanDTO BPdto) throws Exception {
+	public List<OrderPlanDTO> Balju_Plan_Result(Balju_PlanDTO BPdto) throws Exception {
 
 		logger.info("발주계획현황에 접속되었습니다.");
-		List<Balju_PlanDTO> list = this.balju_Service.balju_Plan_list(BPdto);
+		List<OrderPlanDTO> list = this.balju_Service.balju_Plan_list();
 		return list;
 
 	}
@@ -159,7 +168,7 @@ public class Balju_Controller {
 	// 발주계획현황 데이터수정(수량)
 	@RequestMapping(value = "/balju_Plan_Update", method = RequestMethod.POST)
 	@ResponseBody
-	public Object Balju_Plan_Modi(@RequestBody ArrayList<String> list, Balju_PlanDTO BPdto) {
+	public Object Balju_Plan_Modi(@RequestBody ArrayList<String> list, OrderPlanDTO BPdto) {
 
 		Map<String, String> resultMap = new HashMap<String, String>();
 
@@ -171,9 +180,9 @@ public class Balju_Controller {
 		logger.info("세번째 리스트 값 : " + list.get(2).toString());
 
 		try {
-			BPdto.setORDPL_ORDLIN_NUM(Integer.parseInt(list.get(0)));
-			BPdto.setORDPL_ONUM(Integer.parseInt(list.get(1)));
-			BPdto.setORDPL_QT(Integer.parseInt(list.get(2)));
+			BPdto.setOrdpl_ordlin_num(Integer.parseInt(list.get(0)));
+			BPdto.setOrdpl_onum(Integer.parseInt(list.get(1)));
+			BPdto.setOrdpl_qt(Integer.parseInt(list.get(2)));
 
 			this.balju_Service.balju_Plan_modi(BPdto);
 
@@ -193,7 +202,7 @@ public class Balju_Controller {
 	// 발주계획현황 데이터삭제(하위테이블내역삭제)
 	@RequestMapping(value = "/balju_Plan_Delete", method = RequestMethod.POST)
 	@ResponseBody
-	public Object balju_Plan_Delete(@RequestBody ArrayList<String> list, Balju_PlanDTO BPdto) {
+	public Object balju_Plan_Delete(@RequestBody ArrayList<String> list, OrderPlanDTO BPdto) {
 
 		Map<String, String> resultMap = new HashMap<String, String>();
 
@@ -204,8 +213,8 @@ public class Balju_Controller {
 		logger.info("두번째 리스트 값 : " + list.get(1).toString());
 
 		try {
-			BPdto.setORDPL_ORDLIN_NUM(Integer.parseInt(list.get(0)));
-			BPdto.setORDPL_ONUM(Integer.parseInt(list.get(1)));
+			BPdto.setOrdpl_ordlin_num(Integer.parseInt(list.get(0)));
+			BPdto.setOrdpl_onum(Integer.parseInt(list.get(1)));
 
 			this.balju_Service.Delete_Balju_Plan(BPdto);
 
@@ -234,7 +243,7 @@ public class Balju_Controller {
 
 		try {
 			// 두개의 테이블을 left outer join으로 값비교, null값을 추출하여 목록번호를 delete
-//			this.balju_Service.Delete_Balju_Plan_Check(BPdto);
+			this.balju_Service.Delete_Balju_Plan_Check(BPdto);
 
 			result = "success";
 			resultMsg = "발주계획 정리완료, 기능을 시작합니다.";
@@ -253,7 +262,7 @@ public class Balju_Controller {
 	// 발주서 입력
 	@RequestMapping(value = "/balju_Input", method = RequestMethod.POST)
 	@ResponseBody
-	public Object balju_Input(@RequestBody List<Map<String, String>> list, Balju_DTO Bdto) throws Exception {
+	public Object balju_Input(@RequestBody List<Map<String, String>> list) throws Exception {
 		logger.info("발주서 입력 진행중 접속되었습니다.");
 		System.out.println(list);
 
@@ -262,21 +271,21 @@ public class Balju_Controller {
 		String resultMsg = null;
 
 		this.balju_Service.insert_Balju1();
+		OrderListDTO orderListDTO = null;
 		try {
 			int index = 1;
 			for (Map<String, String> data : list) {
+				orderListDTO = new OrderListDTO();
 				System.out.println("들어갈 칼럼명과 데이터 : " + data.toString());
-				Bdto.setORDER_NUM(index++);
-				Bdto.setORDER_PRODUCT_CODE(data.get("ORDER_PRODUCT_CODE"));
-				Bdto.setORDER_PRODUCT_NAME(data.get("ORDER_PRODUCT_NAME"));
-				Bdto.setORDER_PRODUCT_STNDR(data.get("ORDER_PRODUCT_STNDR"));
-				Bdto.setORDER_QT(Integer.parseInt(data.get("ORDER_QT")));
-				Bdto.setORDER_PR_EA(Integer.parseInt(data.get("ORDER_PR_EA")));
-				Bdto.setORDER_WR(data.get("ORDER_WR"));
-
-				this.balju_Service.insert_Balju2(Bdto);
+				orderListDTO.setOrder_num(index++);
+				orderListDTO.setOrder_product_code(data.get("order_product_code"));
+				orderListDTO.setOrder_product_name(data.get("order_product_name"));
+				orderListDTO.setOrder_product_stndr(data.get("order_product_stndr"));
+				orderListDTO.setOrder_qt(Integer.parseInt(data.get("order_qt")));
+				orderListDTO.setOrder_pr_ea(Integer.parseInt(data.get("order_pr_ea")));
+				orderListDTO.setOrder_wr(data.get("order_wr"));
+				this.balju_Service.insert_Balju2(orderListDTO);
 			}
-
 			result = "success";
 			resultMsg = "성공";
 		} catch (Exception e) {
@@ -285,7 +294,6 @@ public class Balju_Controller {
 		}
 		resultMap.put("result", result);
 		resultMap.put("resultMsg", resultMsg);
-
 		return resultMap;
 	}
 
@@ -329,10 +337,11 @@ public class Balju_Controller {
 		System.out.println("종결 where row값 : " + EndRow);
 		try {
 			riskItemCount = this.balju_Service.End_Balju(EndRow);
-
+			System.out.println("111111111111111111111");
 			result = "success";
 			resultMsg = "종결처리 성공";
 		} catch (Exception e) {
+			System.out.println("2222222222222222222222");
 			result = "failure";
 			resultMsg = "종결처리 실패";
 		}
@@ -351,7 +360,7 @@ public class Balju_Controller {
 		logger.info("조회할 시작일자 값 : " + DATESTART);
 		logger.info("조회할 종료일자 값 : " + DATEEND);
 		
-		List<Balju_DTO> list = this.balju_Service.balju_Result_Search(DATESTART,DATEEND);
+		List<BaljuResultDTO> list = this.balju_Service.balju_Result_Search(DATESTART,DATEEND);
 		model.addAttribute("Result_list", list);
 		return "balju/Balju_Result";
 
@@ -363,11 +372,9 @@ public class Balju_Controller {
 	@RequestMapping(value = "/balju/popup/Item_list", method = RequestMethod.GET)
 	public String item_list(Item_DTO Idto, Model model) {
 		logger.info("제품정보 새창에 실행되었습니다.");
-		List<Item_DTO> list = this.balju_Service.item_list();
+		List<ProductDTO> list = this.balju_Service.item_list();
 		// 모델로 값을 넣고
 		model.addAttribute("item_list", list);
-		System.out.println("목록 테스트");
-		System.out.println(list);
 		// 스트링으로 뷰를지정
 		return "/views/balju/popup/Item_List";
 	}
@@ -376,7 +383,7 @@ public class Balju_Controller {
 	@RequestMapping(value = "/balju/popup/Item_Result", method = RequestMethod.GET)
 	public String item_Result(Item_DTO Idto, Model model) {
 		logger.info("재고현황 새창에 실행되었습니다");
-		List<Item_DTO> list = this.balju_Service.item_resultList(Idto);
+		List<ItemResultListDTO> list = this.balju_Service.item_resultList();
 		model.addAttribute("itemResult", list);
 		return "/views/balju/popup/Item_Result";
 	}
@@ -396,33 +403,35 @@ public class Balju_Controller {
 
 	@RequestMapping(value = "balju/popup/BookMark_Result", method = RequestMethod.GET)
 	@ResponseBody
-	public List<?> BookMark_Result(Item_DTO Idto, Model model) {
+	public List<?> BookMark_Result(ItemBookMarkDTO itemBookMarkDTO, Model model) {
 		logger.info("관심품목 그리드에 접속되었습니다.");
-		List<Balju_DTO> list = this.balju_Service.item_BookMark(Idto);
+		List<ItemBookMarkDTO> list = this.balju_Service.item_BookMark(itemBookMarkDTO);
 		return list;
 	}
 
 	// 팝업창 버튼 [관심품목 등록]
 	@RequestMapping(value = "/insert_BookMark", method = RequestMethod.POST)
 	@ResponseBody
-	public Object insert_BookMark(@RequestBody List<Map<String, String>> list, Item_DTO Idto) throws Exception {
+	public Object insert_BookMark(@RequestBody List<Map<String, String>> list) throws Exception {
 		logger.info("관심품목 입력 진행중 접속되었습니다.");
 		System.out.println(list);
 
 		Map<String, String> resultMap = new HashMap<String, String>();
+		BookMarkDTO bookMarkDTO = null;
 		String result = null;
 		String resultMsg = null;
 
 		try {
 			for (Map<String, String> data : list) {
-				Idto.setBK_CODE(data.get("BK_CODE"));
-				Idto.setBK_NAME(data.get("BK_NAME"));
-				Idto.setBK_STNDR(data.get("BK_STNDR"));
-				Idto.setBK_PR_EA(Integer.parseInt(data.get("BK_PR_EA")));
-				Idto.setBK_QT(Integer.parseInt(data.get("BK_QT")));
-				Idto.setBK_WR(data.get("BK_WR"));
-
-				this.balju_Service.insert_BookMark(Idto);
+				bookMarkDTO = new BookMarkDTO();
+				bookMarkDTO.setBk_code(data.get("bk_code"));
+				bookMarkDTO.setBk_name(data.get("bk_name"));
+				bookMarkDTO.setBk_stndr(data.get("bk_stndr"));
+				bookMarkDTO.setBk_pr_ea(Integer.parseInt(data.get("bk_pr_ea")));
+				bookMarkDTO.setBk_qt(Integer.parseInt(data.get("bk_qt")));
+				bookMarkDTO.setBk_wr(data.get("bk_wr"));
+				System.out.println(bookMarkDTO);
+				this.balju_Service.insert_BookMark(bookMarkDTO);
 			}
 
 			result = "success";
@@ -468,7 +477,7 @@ public class Balju_Controller {
 	@RequestMapping(value = "/balju/popup/BPlan_Load", method = RequestMethod.GET)
 	public String BPlan_Load(Balju_PlanDTO BPdto, Model model) {
 		logger.info("제품정보 새창에 실행되었습니다.");
-		List<Balju_DTO> list = this.balju_Service.BPlan_Load(BPdto);
+		List<OrderInputOrderPlanDTO> list = this.balju_Service.BPlan_Load();
 		// 모델로 값을 넣고
 		model.addAttribute("BP_list", list);
 		// 스트링으로 뷰를지정
@@ -478,9 +487,9 @@ public class Balju_Controller {
 	// [발주계획불러오기] 목록번호로 조회한값 그리드에 입력
 	@RequestMapping(value = "/balju/popup/BPlan_Search", method = RequestMethod.POST)
 	@ResponseBody
-	public List<Balju_DTO> BPlan_Search(@RequestBody ArrayList<String> SearchParam) {
+	public List<OrderListDTO> BPlan_Search(@RequestBody ArrayList<String> SearchParam) {
 		logger.info("발주계획불러오기 조회가 실행되었습니다.");
-		List<Balju_DTO> list = this.balju_Service.BPlan_Search(SearchParam);
+		List<OrderListDTO> list = this.balju_Service.BPlan_Search(SearchParam);
 		return list;
 	}
 }

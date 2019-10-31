@@ -582,7 +582,7 @@ function goPosMain() {
        });
 }
 
-var webSocket = new WebSocket("ws://sejongdeveloper.cafe24.com/realTime-ws");
+var webSocket = new WebSocket("ws://localhost:8319${pageContext.request.contextPath}/realTime-ws");
 webSocket.onopen = onOpen;
 webSocket.onmessage = onMessage;
 webSocket.onclose = onClose;

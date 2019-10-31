@@ -75,14 +75,14 @@
 				data : json,
 				//수정하고싶은 데이터를 추출해서 처리함
 				deleteConfirm: function(item){
-						return item.ORDER_PRODUCT_NAME + "를 삭제하시겠습니까?"
+						return item.order_product_name + "를 삭제하시겠습니까?"
 					},
 				onItemDeleted: function(args){
 					console.log(args.item);
-					console.log(args.item.ORDER_PRODUCT_CODE);
+					console.log(args.item.order_product_code);
 
 					var DeleteParam = new Array();
-					DeleteParam.push(args.item.ORDER_PRODUCT_CODE);
+					DeleteParam.push(args.item.order_product_code);
 
 					console.log(DeleteParam);
 
@@ -110,15 +110,15 @@
 					},
 				//grid에 표현될 필드 요소
 				fields : [ 
-					{name : "ROWNUM",type : "text",title : "번호", align: "center",
+					{name : "rownum",type : "text",title : "번호", align: "center",
 						 readOnly : true, width : 150}, 
-					{name : "ORDER_PRODUCT_CODE",type : "text",title : "품목코드", align: "center",
+					{name : "order_product_code",type : "text",title : "품목코드", align: "center",
 					 readOnly : true, width : 150}, 
-					{name : "ORDER_PRODUCT_NAME", type : "text", title : "품목명", align: "center", width : 120, readOnly : true},
-					{name : "ORDER_PRODUCT_STNDR", type : "text", title : "규격", align: "center", readOnly : true, width : 120}, 
-					{name : "ORDER_PR_EA", type : "text", title : "공급가액", align: "center", readOnly : true, width : 100},
-					{name : "ORDER_QT", type : "text", visible : false, width : 0},
-					{name : "ORDER_WR", type : "text", visible : false, width : 0},
+					{name : "order_product_name", type : "text", title : "품목명", align: "center", width : 120, readOnly : true},
+					{name : "order_product_stndr", type : "text", title : "규격", align: "center", readOnly : true, width : 120}, 
+					{name : "order_pr_ea", type : "text", title : "공급가액", align: "center", readOnly : true, width : 100},
+					{name : "order_qt", type : "text", visible : false, width : 0},
+					{name : "order_wr", type : "text", visible : false, width : 0},
 					 ]
 
 					}); // 그리드 끝

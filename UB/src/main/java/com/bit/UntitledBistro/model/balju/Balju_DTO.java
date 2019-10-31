@@ -32,27 +32,6 @@ public class Balju_DTO {
 	private int ORDPL_ORDLIN_NUM;
 	private String ORDPL_PRODUCT_NAME;
 	private int ORDPL_PRODUCT_NAME_COUNT;
-	
-	@Override
-	public String toString() {
-		return "Balju_DTO [ORDIN_NUM=" + ORDIN_NUM + ", ORDIN_DATE=" + ORDIN_DATE + ", ORDIN_END=" + ORDIN_END
-				+ ", ORDER_ORDIN_NUM=" + ORDER_ORDIN_NUM + ", ORDER_NUM=" + ORDER_NUM + ", ORDER_PRODUCT_CODE="
-				+ ORDER_PRODUCT_CODE + ", ORDER_PRODUCT_NAME=" + ORDER_PRODUCT_NAME + ", ORDER_PRODUCT_STNDR="
-				+ ORDER_PRODUCT_STNDR + ", ORDER_QT=" + ORDER_QT + ", ORDER_PR_EA=" + ORDER_PR_EA + ", ORDER_WR="
-				+ ORDER_WR + ", DATESTART=" + DATESTART + ", DATEEND=" + DATEEND + "]";
-	}
-	public String getDATEEND() {
-		return DATEEND;
-	}
-	public void setDATEEND(String dATEEND) {
-		DATEEND = dATEEND;
-	}
-	public String getDATESTART() {
-		return DATESTART;
-	}
-	public void setDATESTART(String dATESTART) {
-		DATESTART = dATESTART;
-	}
 	public int getORDIN_NUM() {
 		return ORDIN_NUM;
 	}
@@ -119,6 +98,18 @@ public class Balju_DTO {
 	public void setORDER_WR(String oRDER_WR) {
 		ORDER_WR = oRDER_WR;
 	}
+	public String getDATESTART() {
+		return DATESTART;
+	}
+	public void setDATESTART(String dATESTART) {
+		DATESTART = dATESTART;
+	}
+	public String getDATEEND() {
+		return DATEEND;
+	}
+	public void setDATEEND(String dATEEND) {
+		DATEEND = dATEEND;
+	}
 	public int getROWNUM() {
 		return ROWNUM;
 	}
@@ -173,6 +164,9 @@ public class Balju_DTO {
 	public void setORDPL_PRODUCT_NAME_COUNT(int oRDPL_PRODUCT_NAME_COUNT) {
 		ORDPL_PRODUCT_NAME_COUNT = oRDPL_PRODUCT_NAME_COUNT;
 	}
+	
+	
+	
 	
 	
 	

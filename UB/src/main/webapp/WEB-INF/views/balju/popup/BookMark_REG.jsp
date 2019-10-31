@@ -145,40 +145,40 @@
 								data : Data,
 								noDataContent: "데이터를 입력해주세요",
 								deleteConfirm : function(item) {
-									return item.BK_NAME + " 상품을 삭제하시겠습니까?";
+									return item.bk_name + " 상품을 삭제하시겠습니까?";
 								},
 
 								fields : [ {
-									name : "BK_CODE",
+									name : "bk_code",
 									type : "text",
 									width : 150,
 									title : "품목코드",
 									readOnly : true
 								}, {
-									name : "BK_NAME",
+									name : "bk_name",
 									type : "text",
 									width : 150,
 									title : "품목명",
 									readOnly : true
 								}, {
-									name : "BK_STNDR",
+									name : "bk_stndr",
 									type : "text",
 									width : 150,
 									title : "규격",
 									readOnly : true
 								}, {
-									name : "BK_PR_EA",
+									name : "bk_pr_ea",
 									type : "text",
 									width : 150,
 									title : "공급가액",
 									readOnly : true
 								},{
-									name : "BK_QT",
+									name : "bk_qt",
 									type : "text",
 									width : 0,
 									visible : false
 								},{
-									name : "BK_WR",
+									name : "bk_wr",
 									type : "text",
 									width : 0,
 									visible : false
@@ -206,21 +206,21 @@
 		alert("관심품목이 추가되었습니다")
 		var flag = true;
 		var insertItem = {};
-		insertItem.BK_CODE = $("#code").val();
-		insertItem.BK_NAME = $("#name").val();
-		insertItem.BK_STNDR = $("#stndr").val();
-		insertItem.BK_PR_EA = $("#price").val();
-		insertItem.BK_QT = 0;
-		insertItem.BK_WR = "${sessionScope.empregister_name}";
+		insertItem.bk_code = $("#code").val();
+		insertItem.bk_name = $("#name").val();
+		insertItem.bk_stndr = $("#stndr").val();
+		insertItem.bk_pr_ea = $("#price").val();
+		insertItem.bk_qt = 0;
+		insertItem.bk_wr = "${sessionScope.empregister_name}";
 
-			if(insertItem.ORDER_QT<1||isNaN(insertItem.ORDER_QT)){
+			/* if(insertItem.order_qt<1||isNaN(insertItem.order_qt)){
 					alert("수량을 정확히 입력해주세요");
 					flag = false;
 					return false;
 				}
 			if(flag == false){
 					return false;
-				}
+				} */
 		console.log(insertItem);
 		$("#jsGrid").jsGrid("insertItem", insertItem);
 

@@ -30,6 +30,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.bit.UntitledBistro.model.jaego.ProductDTO;
+import com.bit.UntitledBistro.model.jumun.ForInIngredientDTO;
 import com.bit.UntitledBistro.model.jumun.IngredientDTO;
 import com.bit.UntitledBistro.model.jumun.JumunDAO;
 import com.bit.UntitledBistro.model.jumun.KakaoPayApprovalDTO;
@@ -266,10 +268,10 @@ public class JumunServiceImpl implements JumunService {
 		map.put("orders_No", orders_No);
 		
 		OrdersDTO ordersDTO = dao.ordersSelectByNo(map); // 주문 조회
-		
+		// 여기가 문제
 		if(ordersDTO != null) {
 			map.put("od_Orders_No", orders_No);
-			ordersDTO.setOrdersListDTO(dao.ordersDetailsSelect(map)); // 주문?�역 조회
+			ordersDTO.setOrdersListDTO(dao.ordersDetailsSelect(map)); // 주문내역 조회
 		}
 		
 		return ordersDTO;
@@ -290,10 +292,15 @@ public class JumunServiceImpl implements JumunService {
 		map = new HashMap<String, String>();
 		map.put("od_Orders_No", ordersDetailDTO.getOd_Orders_No());
 		map.put("od_Menu_Code", ordersDetailDTO.getOd_Menu_Code());
-		dao.storeAllPlus(map); // ?�고 추�?
-		dao.shippingHistoryOneDelete(map); // 출고?�역 ??��
 		
-		return dao.ordersDetailsDelete(map); // 주문?�역 메뉴 1�? ??��
+		List<ForInIngredientDTO> list = dao.forInIngredient2(map);
+		for(ForInIngredientDTO dto : list) {
+			dao.storeAllPlus(dto); // 재고 추가
+			
+		}
+		dao.shippingHistoryOneDelete(map); // 출고내역 삭제
+		
+		return dao.ordersDetailsDelete(map); // 주문내역 메뉴 1개 삭제
 	}
 	
 	@Override
@@ -301,10 +308,15 @@ public class JumunServiceImpl implements JumunService {
 		dao = sqlSession.getMapper(JumunDAO.class);
 		map = new HashMap<String, String>();
 		map.put("od_Orders_No", ordersDetailDTO.getOd_Orders_No());
-		dao.storeAllPlus(map); // ?�고 추�?
-		dao.shippingHistoryAllDelete(map); // 출고?�역 ??��
 		
-		return dao.ordersDetailsDelete(map); // 주문?�역 ?�체 ??��
+		List<ForInIngredientDTO> list = dao.forInIngredient2(map);
+		for(ForInIngredientDTO dto : list) {
+			dao.storeAllPlus(dto); // 재고 추가
+			
+		}
+		dao.shippingHistoryAllDelete(map); // 출고내역 삭제
+		
+		return dao.ordersDetailsDelete(map); // 주문내역 전체 삭제
 	}
 	
 	@Override
@@ -329,9 +341,17 @@ public class JumunServiceImpl implements JumunService {
 		} else {
 			dao.ordersDetailsPlus(ordersDetailDTO);
 		}
-		dao.storeMinus(map); // ?�고 감소
-		dao.shippingHistoryInsert(map); // 출고?�역 기록
-		dao.storeCheck(map); // ?�고?�량 ?�인
+		List<ForInIngredientDTO> list = dao.forInIngredient(map);
+		for(ForInIngredientDTO dto : list) {
+			dao.storeMinus(dto); // 재고 감소
+			dto.setOrders_no(map.get("orders_No"));
+			dao.shippingHistoryInsert(dto); // 출고내역 기록
+			
+		}
+		List<ForInIngredientDTO> list2 = dao.forInIngredient3(map);
+		for(ForInIngredientDTO dto2 : list2) {
+			dao.storeCheck(dto2); // 재고수량 확인
+		}
 		
 		return 1;
 	}
@@ -341,10 +361,14 @@ public class JumunServiceImpl implements JumunService {
 		dao = sqlSession.getMapper(JumunDAO.class);
 		map = new HashMap<String, String>();
 		map.put("orders_No", ordersDetailDTO.getOd_Orders_No());
-		dao.ordersUpdate(map); // 주문?�간 갱신
+		dao.ordersUpdate(map); // 주문시간 갱신
 
       map.put("od_Menu_Code", ordersDetailDTO.getOd_Menu_Code());
-      dao.storePlus(map); // ?�고 증�?
+      
+      List<ForInIngredientDTO> list = dao.forInIngredient(map);
+      for(ForInIngredientDTO dto : list) {
+    	  dao.storePlus(dto); // 재고 증가
+      }
       dao.shippingHistoryDelete(map);
       
       return dao.ordersDetailsMinus(ordersDetailDTO); // 주문?�역 감소?�키�?
@@ -762,7 +786,7 @@ public class JumunServiceImpl implements JumunService {
    }
    
    @Override // 물품 조회
-   public ArrayList<HashMap<String, Object>> productSearch() {
+   public ArrayList<ProductDTO> productSearch() {
       dao = sqlSession.getMapper(JumunDAO.class);
       
       return dao.productSelect();

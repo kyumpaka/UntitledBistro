@@ -86,13 +86,13 @@
 								<tbody style="text-align: center;">
 									<c:forEach var="Rs" items="${Result_list}" varStatus="status">
 										<tr>
-											<td>${Rs.ORDIN_DATE}</td>
-											<td>${Rs.ORDER_ORDIN_NUM}</td>
-											<td>${Rs.ORDER_WR}</td>
-											<td>${Rs.ORDER_PRODUCT_NAME}</td>
-											<td>${Rs.ORDER_QT}</td>
-											<td>${Rs.ORDER_PR_EA}</td>
-											<td>${Rs.ORDER_PR_TOT}</td>
+											<td>${Rs.ordin_date}</td>
+											<td>${Rs.order_ordin_num}</td>
+											<td>${Rs.order_wr}</td>
+											<td>${Rs.order_product_name}</td>
+											<td>${Rs.order_qt}</td>
+											<td>${Rs.order_pr_ea}</td>
+											<td>${Rs.order_pr_tot}</td>
 										</tr>
 									</c:forEach>
 								</tbody>

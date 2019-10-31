@@ -47,8 +47,8 @@
    </security:http>
 
    <security:jdbc-user-service data-source-ref="dataSource" id="empService"
-       users-by-username-query="SELECT empregister_empnum, CONCAT('{noop}', empregister_jumin), EmpRegister_ENABLED FROM EMPREGISTER WHERE empregister_empnum = ?"
-       authorities-by-username-query="SELECT empregister_empnum, EmpRegister_AUTHORITY FROM EMPREGISTER WHERE empregister_empnum = ?" />
+       users-by-username-query="SELECT EmpRegister_empnum, CONCAT('{noop}', EmpRegister_jumin), EmpRegister_ENABLED FROM EmpRegister WHERE EmpRegister_empnum = ?"
+       authorities-by-username-query="SELECT EmpRegister_empnum, EmpRegister_AUTHORITY FROM EmpRegister WHERE EmpRegister_empnum = ?" />
    
    <!-- 접근 디비 검색 -->
     <security:authentication-manager>

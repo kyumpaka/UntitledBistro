@@ -105,7 +105,6 @@ chart.cursor.lineY.strokeOpacity = 0;
 	<div class="container" align="center">
 		<table border="5" style="width: 100%;">
 		
-			<c:forEach var="dto" items="${jungsan_state}">
 				<tr bgcolor="gray" align="center">
 					<td>매출</td>
 					<td>현금</td>
@@ -113,24 +112,23 @@ chart.cursor.lineY.strokeOpacity = 0;
 					<td>포인트</td>
 				</tr>
 				<tr align="center" style="color: red;">
-					<td>${dto.to_total}</td>
-					<td>${dto.to_cash}</td>
-					<td>${dto.to_card}</td>
-					<td>${dto.to_point}</td>
+					<td>${jungsan_state[0].to_total}</td>
+					<td>${jungsan_state[0].to_cash}</td>
+					<td>${jungsan_state[0].to_card}</td>
+					<td>${jungsan_state[0].to_point}</td>
 				</tr>	
 				<tr bgcolor="gray" align="center">
 					<td>어제 매출 대비</td>
 					<td>어제 현금 대비</td>
 					<td>어제 카드 대비</td>
-					<td>어제 포인트 포인트</td>
+					<td>어제 포인트 대비</td>
 				</tr>
 				<tr align="center" style="color: green;">
-					<td>${dto.to_total-dto.before_total}</td>
-					<td>${dto.to_cash-dto.before_cash}</td>
-					<td>${dto.to_card-dto.before_card}</td>
-					<td>${dto.to_point-dto.before_point}</td>
+					<td>${jungsan_state[0].to_total - jungsan_state[1].to_total}</td>
+					<td>${jungsan_state[0].to_cash - jungsan_state[1].to_cash}</td>
+					<td>${jungsan_state[0].to_card - jungsan_state[1].to_card}</td>
+					<td>${jungsan_state[0].to_point - jungsan_state[1].to_point}</td>
 				</tr>
-			</c:forEach>
 				<tr bgcolor="gray" align="center">
 					<td>근무 인원</td>
 					<td>인권비</td>

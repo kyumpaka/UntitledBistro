@@ -196,8 +196,8 @@
 				$($("#jsGrid .jsgrid-insert-row input")[0]).val(product_code);
 				$($("#jsGrid .jsgrid-insert-row input")[1]).val(product_name);
 				
-				$("#product_code").val(product_code);
-				$("#product_name").val(product_name);
+				$("#product_code").val("");
+				$("#product_name").val("");
 				$("#myModal").trigger("click"); // 강제 클릭
 			},
 			

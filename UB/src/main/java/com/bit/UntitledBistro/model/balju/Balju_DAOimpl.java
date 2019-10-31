@@ -15,14 +15,16 @@ public class Balju_DAOimpl implements Balju_DAO {
 	
 	// namespace = "매퍼경로"; 생략 후 직접 입력 balju. [ namespace + ".메소드명 ]
 	
+	
 	@Override
 	public void insert_Balju_Plan1() {
 		sqlSession.insert("balju.insert_Balju_Plan1");
 	}
 
+	
 	@Override
-	public void insert_Balju_Plan2(Balju_PlanDTO BPdto) {
-		sqlSession.insert("balju.insert_Balju_Plan2", BPdto);
+	public void insert_Balju_Plan2(OrderPlanDTO orderPlanDTO) {
+		sqlSession.insert("balju.insert_Balju_Plan2", orderPlanDTO);
 	}
 
 	@Override
@@ -32,62 +34,64 @@ public class Balju_DAOimpl implements Balju_DAO {
 	}
 
 	@Override
-	public void insert_Balju2(Balju_DTO Bdto) {
-		sqlSession.insert("balju.insert_Balju2", Bdto);
+	public void insert_Balju2(OrderListDTO orderListDTO) {
+		System.out.println("마지막");
+		System.out.println(orderListDTO);
+		sqlSession.insert("balju.insert_Balju2", orderListDTO);
 
 	}
 
 	
 	//품목 새창 리스트 불러오기용
 	@Override
-	public List<Item_DTO> item_list() {
+	public List<ProductDTO> item_list() {
 		return sqlSession.selectList("balju.item_list");
 	}
 	//품목 재고현황 리스트 불러오기용
 	@Override
-	public List<Item_DTO> item_resultList(Item_DTO Idto) {
-		return sqlSession.selectList("balju.item_resultList", Idto);
+	public List<ItemResultListDTO> item_resultList() {
+		return sqlSession.selectList("balju.item_resultList");
 	}
 
 	@Override
-	public List<Balju_PlanDTO> balju_Plan_list(Balju_PlanDTO BPdto) {
-		return sqlSession.selectList("balju.balju_Plan_list", BPdto);
+	public List<OrderPlanDTO> balju_Plan_list() {
+		return sqlSession.selectList("balju.balju_Plan_list");
 		
 	}
 
 	@Override
-	public List<Balju_DTO> balju_Result(Balju_DTO Bdto) {
-		return sqlSession.selectList("balju.balju_Result", Bdto); 
+	public List<BaljuResultDTO> balju_Result() {
+		return sqlSession.selectList("balju.balju_Result"); 
 	}
 
 	@Override
-	public List<Balju_DTO> balju_Result_Search(Balju_DTO Bdto){
-		return sqlSession.selectList("balju.balju_Result_Search", Bdto);
+	public List<BaljuResultDTO> balju_Result_Search(BaljuResultDTO baljuResultDTO){
+		return sqlSession.selectList("balju.balju_Result_Search", baljuResultDTO);
 	}
 	
 	@Override
-	public List<Balju_DTO> balju_Mng_List(Balju_DTO Bdto) {
-		return sqlSession.selectList("balju.balju_Mng_List", Bdto);
+	public List<OrderInputOrderListDTO> balju_Mng_List() {
+		return sqlSession.selectList("balju.balju_Mng_List");
 	}
 	
 	@Override
-	public List<Balju_DTO> balju_Mng_Filter(Balju_DTO Bdto){
-		return sqlSession.selectList("balju.balju_Mng_Filter", Bdto);
+	public List<OrderInputOrderListDTO> balju_Mng_Filter(String FilterParam){
+		return sqlSession.selectList("balju.balju_Mng_Filter", FilterParam);
 	}
 	
 	@Override
-	public void balju_Plan_modi(Balju_PlanDTO BPdto) {
-		sqlSession.update("balju.balju_Plan_modi", BPdto); 
+	public void balju_Plan_modi(OrderPlanDTO orderPlanDTO) {
+		sqlSession.update("balju.balju_Plan_modi", orderPlanDTO); 
 	}
 
 	@Override
-	public void balju_Modi(Balju_DTO Bdto) {
-		sqlSession.update("balju.balju_Modi", Bdto);
+	public void balju_Modi(OrderListDTO orderListDTO) {
+		sqlSession.update("balju.balju_Modi", orderListDTO);
 	}
 	
 	@Override
-	public void End_Balju(Balju_DTO Bdto) {
-		sqlSession.update("balju.End_Balju", Bdto);
+	public void End_Balju(OrderInputDTO orderInputDTO) {
+		sqlSession.update("balju.End_Balju", orderInputDTO);
 	}
 	
 	@Override
@@ -96,61 +100,61 @@ public class Balju_DAOimpl implements Balju_DAO {
 	}
 
 	@Override
-	public void Delete_Balju_Plan1(Balju_PlanDTO BPdto) {
-		sqlSession.delete("balju.Delete_Balju_Plan1", BPdto);
+	public void Delete_Balju_Plan1() {
+		sqlSession.delete("balju.Delete_Balju_Plan1");
 
 	}
 
 	@Override
-	public void Delete_Balju_Plan2(Balju_PlanDTO BPdto) {
-		sqlSession.delete("balju.Delete_Balju_Plan2", BPdto);
+	public void Delete_Balju_Plan2(OrderPlanDTO orderPlanDTO) {
+		sqlSession.delete("balju.Delete_Balju_Plan2", orderPlanDTO);
 
 	}
 
 	@Override
-	public void Delete_Balju1(Balju_DTO Bdto) {
-		sqlSession.delete("balju.Delete_Balju1", Bdto);
+	public void Delete_Balju1(OrderInputDTO orderInputDTO) {
+		sqlSession.delete("balju.Delete_Balju1", orderInputDTO);
 
 	}
 
 	@Override
-	public void Delete_Balju2(Balju_DTO Bdto) {
-		sqlSession.delete("balju.Delete_Balju2", Bdto);
+	public void Delete_Balju2(OrderListDTO orderListDTO) {
+		sqlSession.delete("balju.Delete_Balju2", orderListDTO);
 
 	}
 	
 	//BookMark 영역
 	@Override
-	public void insert_BookMark(Item_DTO Idto) {
-		sqlSession.insert("balju.insert_BookMark", Idto);
+	public void insert_BookMark(BookMarkDTO bookMarkDTO) {
+		sqlSession.insert("balju.insert_BookMark", bookMarkDTO);
 		
 	}
 
 	@Override
-	public void BookMark_Modi(Item_DTO Idto) {
-		sqlSession.update("balju.BookMark_Modi", Idto);
+	public void BookMark_Modi(BookMarkDTO bookMarkDTO) {
+		sqlSession.update("balju.BookMark_Modi", bookMarkDTO);
 		
 	}
 
 	@Override
-	public void Delete_BookMark(Item_DTO Idto) {
-		sqlSession.delete("balju.Delete_BookMark", Idto);
+	public void Delete_BookMark(BookMarkDTO bookMarkDTO) {
+		sqlSession.delete("balju.Delete_BookMark", bookMarkDTO);
 		
 	}
 
 	@Override
-	public List<Balju_DTO> item_BookMark(Item_DTO Idto) {
-		return sqlSession.selectList("balju.item_BookMark", Idto);
+	public List<ItemBookMarkDTO> item_BookMark(ItemBookMarkDTO itemBookMarkDTO) {
+		return sqlSession.selectList("balju.item_BookMark", itemBookMarkDTO);
 	}
 
 	@Override
-	public List<Balju_DTO> BPlan_Load(Balju_PlanDTO BPdto) {
-		return sqlSession.selectList("balju.BPlan_Load", BPdto);
+	public List<OrderInputOrderPlanDTO> BPlan_Load() {
+		return sqlSession.selectList("balju.BPlan_Load");
 	}
 
 	@Override
-	public List<Balju_DTO> BPlan_Search(Balju_PlanDTO BPdto) {
-		return sqlSession.selectList("balju.BPlan_Search", BPdto); 
+	public List<OrderListDTO> BPlan_Search(OrderInputOrderPlanDTO inputOrderPlanDTO) {
+		return sqlSession.selectList("balju.BPlan_Search", inputOrderPlanDTO); 
 	}
 
 	

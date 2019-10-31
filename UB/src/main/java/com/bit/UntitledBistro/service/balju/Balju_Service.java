@@ -4,45 +4,74 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.bit.UntitledBistro.model.balju.Balju_DTO;
+import com.bit.UntitledBistro.model.balju.BaljuResultDTO;
 import com.bit.UntitledBistro.model.balju.Balju_PlanDTO;
+import com.bit.UntitledBistro.model.balju.BookMarkDTO;
+import com.bit.UntitledBistro.model.balju.ItemBookMarkDTO;
+import com.bit.UntitledBistro.model.balju.ItemResultListDTO;
 import com.bit.UntitledBistro.model.balju.Item_DTO;
+import com.bit.UntitledBistro.model.balju.OrderInputOrderListDTO;
+import com.bit.UntitledBistro.model.balju.OrderInputOrderPlanDTO;
+import com.bit.UntitledBistro.model.balju.OrderListDTO;
+import com.bit.UntitledBistro.model.balju.OrderPlanDTO;
+import com.bit.UntitledBistro.model.balju.ProductDTO;
 
 public interface Balju_Service {
 
 	void insert_Balju_Plan1();
-	void insert_Balju_Plan2(Balju_PlanDTO BPdto);
+
+	void insert_Balju_Plan2(OrderPlanDTO orderPlanDTO);
+
 	void insert_Balju1();
-	void insert_Balju2(Balju_DTO Bdto);
 
+	void insert_Balju2(OrderListDTO orderListDTO);
 
-	List<Balju_PlanDTO> balju_Plan_list(Balju_PlanDTO BPdto);
-	List<Balju_DTO> balju_Result(Balju_DTO Bdto);
-	List<Balju_DTO> balju_Result_Search(String DATESTART, String DATEEND);
-	List<Balju_DTO> balju_Mng_List(Balju_DTO Bdto);
-	List<Balju_DTO> balju_Mng_Filter(String FilterParam);
+	//관심품목 리스트 데이터 입력
+	void insert_BookMark(BookMarkDTO bookMarkDTO);
 
-	
-	void balju_Plan_modi(Balju_PlanDTO BPdto);
-	void balju_Modi(Balju_DTO Bdto);
+	//공통품목 리스트 불러오기용
+	List<ProductDTO> item_list();
+
+	//재고현황 리스트 불러오기용
+	List<ItemResultListDTO> item_resultList();
+
+	List<OrderPlanDTO> balju_Plan_list();
+
+	List<BaljuResultDTO> balju_Result();
+
+	//발주서 현황 일자 검색
+	List<BaljuResultDTO> balju_Result_Search(String DATESTART, String DATEEND);
+
+	//발주서 관리 불러오기
+	List<OrderInputOrderListDTO> balju_Mng_List();
+
+	//발주서 관리 불러오기 필터링
+	List<OrderInputOrderListDTO> balju_Mng_Filter(String FilterParam);
+
+	//관심품목 리스트 불러오기
+	List<ItemBookMarkDTO> item_BookMark(ItemBookMarkDTO itemBookMarkDTO);
+
+	void balju_Plan_modi(OrderPlanDTO orderPlanDTO);
+
+	void balju_Modi(OrderListDTO orderListDTO);
+
+	//발주서 종결처리
 	int End_Balju(List<Map<String, String>> endRow);
 
-	
-	void Delete_Balju_Plan(Balju_PlanDTO BPdto);
-	void Delete_Balju_Plan_Check(Balju_PlanDTO BPdto);
-	void Delete_Balju(ArrayList<String> deleteRow);
+	//관심품목 목록 수정
+	void BookMark_Modi(BookMarkDTO bookMarkDTO);
 
-	//공통품목 서비스부분
-	List<Item_DTO> item_list();
-	List<Item_DTO> item_resultList(Item_DTO idto);
-	//공통품목 관심품목
-	void insert_BookMark(Item_DTO idto);
-	List<Balju_DTO> item_BookMark(Item_DTO idto);
-	void BookMark_Modi(Item_DTO idto);
+	void Delete_Balju_Plan(OrderPlanDTO orderPlanDTO);
+
+	void Delete_Balju_Plan_Check(Balju_PlanDTO BPdto);
+
+	void Delete_Balju(ArrayList<String> DeleteRow);
+
+	//관심품목 목록삭제
 	void Delete_BookMark(ArrayList<String> DeleteList);
-	//발주계획불러오기
-	List<Balju_DTO>BPlan_Load(Balju_PlanDTO BPdto);
-	List<Balju_DTO>BPlan_Search(ArrayList<String> SearchParam);
-	
-	
+
+	List<OrderInputOrderPlanDTO> BPlan_Load();
+
+	List<OrderListDTO> BPlan_Search(ArrayList<String> SearchParam);
+
 }

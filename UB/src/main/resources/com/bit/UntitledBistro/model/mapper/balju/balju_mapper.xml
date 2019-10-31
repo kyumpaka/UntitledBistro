@@ -4,108 +4,109 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="balju">
   
-  <insert id="insert_Balju_Plan1" parameterType="hashmap"><!-- com.bit.UntitledBistro.model.balju.Balju_PlanDTO -->
+  <insert id="insert_Balju_Plan1"><!-- com.bit.UntitledBistro.model.balju.Balju_PlanDTO -->
   	<![CDATA[
   		INSERT INTO ORPL_INPUT
   		(
-  			ORPLIN_NUM, 
-  			ORPLIN_DATE
+  			 ORPLIN_NUM 
+  			,ORPLIN_DATE
   		) 
   		VALUES 
   		(
-  			(SELECT IFNULL(MAX(ORPLIN_NUM),0)+1 FROM ORPL_INPUT OI),
-  			NOW()
+  			(SELECT IFNULL(MAX(CAST(ORPLIN_NUM AS UNSIGNED)),0)+1 FROM ORPL_INPUT OI)
+  			,NOW()
   		)
   	]]>
   </insert>
   
-  <insert id="insert_Balju_Plan2" parameterType="hashmap">
+  <insert id="insert_Balju_Plan2" parameterType="com.bit.UntitledBistro.model.balju.OrderPlanDTO">
   	<![CDATA[
   		INSERT INTO ORDER_PLAN
   		(
-  			ORDPL_ORDLIN_NUM,
-  			ORDPL_ONUM,
-  			ORDPL_PRODUCT_CODE,
-  			ORDPL_PRODUCT_NAME,
-  			ORDPL_PRODUCT_STNDR,
-  			ORDPL_QT,
-  			ORDPL_PR_EA,
-  			ORDPL_WR
+  			 ORDPL_ORDLIN_NUM
+  			,ORDPL_ONUM
+  			,ORDPL_PRODUCT_CODE
+  			,ORDPL_PRODUCT_NAME
+  			,ORDPL_PRODUCT_STNDR
+  			,ORDPL_QT
+  			,ORDPL_PR_EA
+  			,ORDPL_WR
   		)
   		VALUES
   		(	
-  			(SELECT MAX(ORPLIN_NUM) FROM ORPL_INPUT OI),
-  			#{ORDPL_ONUM},
-  			#{ORDPL_PRODUCT_CODE},
-  			#{ORDPL_PRODUCT_NAME},
-  			#{ORDPL_PRODUCT_STNDR},
-  			#{ORDPL_QT},
-  			#{ORDPL_PR_EA},
-  			#{ORDPL_WR}
+  			(SELECT MAX(CAST(ORPLIN_NUM AS UNSIGNED)) FROM ORPL_INPUT OI)
+  			,#{ordpl_onum}
+  			,#{ordpl_product_code}
+  			,#{ordpl_product_name}
+  			,#{ordpl_product_stndr}
+  			,#{ordpl_qt}
+  			,#{ordpl_pr_ea}
+  			,#{ordpl_wr}
   		)
   	]]>
   </insert>
   
-  <insert id="insert_Balju1" parameterType="hashmap">
+  <insert id="insert_Balju1">
   	<![CDATA[
   		INSERT INTO ORDER_INPUT
   		(
-  			ORDIN_NUM,
-  			ORDIN_DATE
+  			 ORDIN_NUM
+  			,ORDIN_DATE
   		) 
   		VALUES
   		(
-  			(SELECT IFNULL(MAX(ORDIN_NUM),0)+1 FROM ORDER_INPUT OI),
-  			NOW()
-  		)
-  	]]>
-  </insert>
-  <insert id="insert_Balju2" parameterType="hashmap">
-  	<![CDATA[
-  		INSERT INTO ORDERLIST
-  		(
-  			ORDER_ORDIN_NUM,
-  			ORDER_NUM,
-  			ORDER_PRODUCT_CODE,
-  			ORDER_PRODUCT_NAME,
-  			ORDER_PRODUCT_STNDR,
-  			ORDER_QT,
-  			ORDER_PR_EA,
-  			ORDER_WR
-  		)
-  		VALUES
-  		(
-  			(SELECT MAX(ORDIN_NUM) FROM ORDER_INPUT OI),
-  			#{ORDER_NUM},
-  			#{ORDER_PRODUCT_CODE},
-  			#{ORDER_PRODUCT_NAME},
-  			#{ORDER_PRODUCT_STNDR},
-  			#{ORDER_QT},
-  			#{ORDER_PR_EA},
-  			#{ORDER_WR}
+  			 (SELECT IFNULL(MAX(CAST(ORDIN_NUM AS UNSIGNED)),0)+1 FROM ORDER_INPUT OI)
+  			,NOW()
   		)
   	]]>
   </insert>
   
-  <insert id="insert_BookMark" parameterType="hashmap">
+  <insert id="insert_Balju2" parameterType="com.bit.UntitledBistro.model.balju.OrderListDTO">
+  	<![CDATA[
+  		INSERT INTO ORDERLIST
+  		(
+  			 ORDER_ORDIN_NUM
+  			,ORDER_NUM
+  			,ORDER_PRODUCT_CODE
+  			,ORDER_PRODUCT_NAME
+  			,ORDER_PRODUCT_STNDR
+  			,ORDER_QT
+  			,ORDER_PR_EA
+  			,ORDER_WR
+  		)
+  		VALUES
+  		(
+  			 (SELECT MAX(CAST(ORDIN_NUM AS UNSIGNED)) FROM ORDER_INPUT OI)
+  			,#{order_num}
+  			,#{order_product_code}
+  			,#{order_product_name}
+  			,#{order_product_stndr}
+  			,#{order_qt}
+  			,#{order_pr_ea}
+  			,#{order_wr}
+  		)
+  	]]>
+  </insert>
+  
+  <insert id="insert_BookMark" parameterType="com.bit.UntitledBistro.model.balju.BookMarkDTO">
    <![CDATA[
    		INSERT INTO BOOKMARK
    		(
-   			BK_CODE,
-   			BK_NAME,
-   			BK_STNDR,
-   			BK_PR_EA,
-   			BK_QT,
-   			BK_WR
+   			 BK_CODE
+   			,BK_NAME
+   			,BK_STNDR
+   			,BK_PR_EA
+   			,BK_QT
+   			,BK_WR
    		)
    		VALUES 
    		(
-   			#{BK_CODE},
-   			#{BK_NAME},
-   			#{BK_STNDR},
-   			#{BK_PR_EA},
-   			#{BK_QT},
-   			#{BK_WR}
+   			 #{bk_code}
+   			,#{bk_name}
+   			,#{bk_stndr}
+   			,#{bk_pr_ea}
+   			,#{bk_qt}
+   			,#{bk_wr}
    		)
    	]]>
   </insert>
@@ -124,71 +125,69 @@
   	]]>
   </select>
   -->
-  <select id="item_list" resultType="com.bit.UntitledBistro.model.balju.Item_DTO">
+  <select id="item_list" resultType="com.bit.UntitledBistro.model.balju.ProductDTO">
   	<![CDATA[
   		SELECT 
-  			PRODUCT_CODE,
-  			PRODUCT_NAME,
-  			PRODUCT_STNDR,
-  			PRODUCT_PRICE
+  			 PRODUCT_CODE
+  			,PRODUCT_NAME
+  			,PRODUCT_STNDR
+  			,PRODUCT_PRICE
   		FROM 
   			PRODUCT
   	]]>	
   </select>
   
-  <select id="item_resultList" parameterType="hashmap" resultType="com.bit.UntitledBistro.model.balju.Item_DTO">
+  <select id="item_resultList" resultType="com.bit.UntitledBistro.model.balju.ItemResultListDTO">
   	<![CDATA[
   		SELECT 
-  			ITEM_NO as ITEM_INDEX,
-  			ITEM_PRODUCT_CODE,
-  			PRODUCT_NAME,
-  			PRODUCT_STNDR,
-  			ITEM_QTY,
-  			PRODUCT_SAFE,
-  			PRODUCT_PRICE
+  			 ITEM_NO as ITEM_INDEX
+  			,ITEM_PRODUCT_CODE
+  			,PRODUCT_NAME
+  			,PRODUCT_STNDR
+  			,ITEM_QTY
+  			,PRODUCT_SAFE
+  			,PRODUCT_PRICE
   		FROM 
   			ITEM 
   		INNER JOIN
   			PRODUCT
   		ON 
-  			ITEM.ITEM_PRODUCT_CODE 
-  			= 
-  			PRODUCT.PRODUCT_CODE
+  			ITEM.ITEM_PRODUCT_CODE = PRODUCT.PRODUCT_CODE
   	]]>	
   </select>
   
-  <select id="item_BookMark" parameterType="hashmap" resultType="com.bit.UntitledBistro.model.balju.Balju_DTO">
+  <select id="item_BookMark" parameterType="hashmap" resultType="com.bit.UntitledBistro.model.balju.ItemBookMarkDTO">
   	<![CDATA[
   		SELECT 
-  			ROW_NUMBER() OVER() 				AS ROWNUM,
-  			BK_CODE AS ORDER_PRODUCT_CODE,
-  			BK_NAME AS ORDER_PRODUCT_NAME,
-  			BK_STNDR AS ORDER_PRODUCT_STNDR,
-  			BK_PR_EA AS ORDER_PR_EA,
-  			BK_QT AS ORDER_QT,
-  			BK_WR AS ORDER_WR
+  			 (@RN := @RN + 1) AS ROWNUM
+  			,BK_CODE 					AS ORDER_PRODUCT_CODE
+  			,BK_NAME 					AS ORDER_PRODUCT_NAME
+  			,BK_STNDR 					AS ORDER_PRODUCT_STNDR
+  			,BK_PR_EA 					AS ORDER_PR_EA
+  			,BK_QT 						AS ORDER_QT
+  			,BK_WR 						AS ORDER_WR
   		FROM 
   			BOOKMARK
+  		CROSS JOIN (SELECT @RN := 0) AS R
   	]]>	
   </select>
-  <select id="balju_Result" parameterType="hashmap" resultType="com.bit.UntitledBistro.model.balju.Balju_DTO">
+  
+  <select id="balju_Result" resultType="com.bit.UntitledBistro.model.balju.BaljuResultDTO">
   	<![CDATA[
   		SELECT 
-            DATE_FORMAT(ORDIN_DATE,'%Y-%m-%d') AS ORDIN_DATE,
-            ORDER_ORDIN_NUM,
-            ORDER_WR,
-  			IFNULL(ORDER_PRODUCT_NAME,'합계') AS ORDER_PRODUCT_NAME,
-            SUM(ORDER_QT) AS ORDER_QT,
-            ORDER_PR_EA,
-            SUM(ORDER_QT*ORDER_PR_EA) AS ORDER_PR_TOT
+             DATE_FORMAT(ORDIN_DATE,'%Y-%m-%d') 	AS ORDIN_DATE
+            ,ORDER_ORDIN_NUM
+            ,ORDER_WR
+  			,IFNULL(ORDER_PRODUCT_NAME,'합계')		AS ORDER_PRODUCT_NAME
+            ,SUM(ORDER_QT) 							AS ORDER_QT
+            ,ORDER_PR_EA
+            ,SUM(ORDER_QT*ORDER_PR_EA) 				AS ORDER_PR_TOT
   		FROM 
   			ORDER_INPUT
   		INNER JOIN 
   			ORDERLIST 
   		ON 
-  			ORDER_INPUT.ORDIN_NUM 
-  			= 
-  			ORDERLIST.ORDER_ORDIN_NUM
+  			ORDER_INPUT.ORDIN_NUM = ORDERLIST.ORDER_ORDIN_NUM
         GROUP BY 
 			 DATE_FORMAT(ORDIN_DATE,'%Y-%m-%d') 
            	,ORDER_ORDIN_NUM
@@ -199,75 +198,76 @@
   </select>
   
   <!-- 발주 일자 조회 -->
-  <select id="balju_Result_Search" parameterType="hashmap" resultType="com.bit.UntitledBistro.model.balju.Balju_DTO">
+  <select id="balju_Result_Search" parameterType="com.bit.UntitledBistro.model.balju.BaljuResultDTO" resultType="com.bit.UntitledBistro.model.balju.BaljuResultDTO">
   	<![CDATA[
   		SELECT 
-            DATE_FORMAT(ORDIN_DATE,'%Y-%c-%d') AS ORDIN_DATE,
-            ORDER_ORDIN_NUM,
-            ORDER_WR,
-  			IFNULL(ORDER_PRODUCT_NAME,'합계') AS ORDER_PRODUCT_NAME,
-            SUM(ORDER_QT) AS ORDER_QT,
-            ORDER_PR_EA,
-            SUM(ORDER_QT*ORDER_PR_EA) AS ORDER_PR_TOT
-  		FROM 
-  			ORDER_INPUT
-  		INNER JOIN 
-  			ORDERLIST 
-  		ON 
-  			ORDER_INPUT.ORDIN_NUM 
-  			= 
-  			ORDERLIST.ORDER_ORDIN_NUM
-  		WHERE
-  			ORDIN_DATE >= DATE_FORMAT(#{DATESTART}, '%Y-%c-%d') and ORDIN_DATE <= DATE_FORMAT(#{DATEEND},'%Y-%c-%d')+1
-        GROUP BY 
-            ROLLUP((ORDIN_DATE, ORDER_ORDIN_NUM, ORDER_PRODUCT_NAME, ORDER_WR,ORDER_PR_EA))
+		       DATE_FORMAT(ORDIN_DATE,'%Y-%c-%d') AS ORDIN_DATE
+		      ,ORDER_ORDIN_NUM
+		      ,ORDER_WR
+				,IFNULL(ORDER_PRODUCT_NAME,'합계') AS ORDER_PRODUCT_NAME
+		      ,SUM(ORDER_QT) 						AS ORDER_QT
+		      ,ORDER_PR_EA
+		      ,SUM(ORDER_QT*ORDER_PR_EA) AS ORDER_PR_TOT
+		FROM 
+			ORDER_INPUT OI
+		INNER JOIN 
+			ORDERLIST OL
+		ON 
+			OI.ORDIN_NUM = OL.ORDER_ORDIN_NUM
+		WHERE
+			ORDIN_DATE >= DATE_FORMAT(#{datestart}, '%Y-%c-%d') 
+		AND 
+			ORDIN_DATE <= DATE_ADD(DATE_FORMAT(#{dateend}, '%Y-%c-%d'), INTERVAL 1 DAY)
+		GROUP BY
+			 OI.ORDIN_DATE
+			,OL.ORDER_ORDIN_NUM
+			,OL.ORDER_PRODUCT_NAME
+			,OL.ORDER_WR
+			,OL.ORDER_PR_EA
+		ORDER BY OI.ORDIN_DATE DESC
   	]]>	
   </select>
   
-  <select id="balju_Plan_list" parameterType="hashmap" resultType="com.bit.UntitledBistro.model.balju.Balju_PlanDTO">
+  <select id="balju_Plan_list" resultType="com.bit.UntitledBistro.model.balju.OrderPlanDTO">
   	<![CDATA[
   		SELECT  
-  			ORDPL_ORDLIN_NUM,
-  			ORDPL_ONUM,
-  			DATE_FORMAT(ORPLIN_DATE,'%Y-%c-%d') AS ORPLIN_DATE,
-  			ORDPL_PRODUCT_CODE,
-  			ORDPL_PRODUCT_NAME,
-  			ORDPL_PRODUCT_STNDR,
-  			ORDPL_QT,
-  			ORDPL_PR_EA,
-  			ORDPL_WR
+  			 ORDPL_ORDLIN_NUM
+  			,ORDPL_ONUM
+  			,DATE_FORMAT(ORPLIN_DATE,'%Y-%m-%d') AS ORPLIN_DATE
+  			,ORDPL_PRODUCT_CODE
+  			,ORDPL_PRODUCT_NAME
+  			,ORDPL_PRODUCT_STNDR
+  			,ORDPL_QT
+  			,ORDPL_PR_EA
+  			,ORDPL_WR
   		FROM 
   			ORPL_INPUT 
   		INNER JOIN
   			ORDER_PLAN
   		ON 
-  			ORPL_INPUT.ORPLIN_NUM 
-  			= 
-  			ORDER_PLAN.ORDPL_ORDLIN_NUM
+  			ORPL_INPUT.ORPLIN_NUM = ORDER_PLAN.ORDPL_ORDLIN_NUM
   		ORDER BY
   			ORDPL_ORDLIN_NUM, ORDPL_ONUM
   	]]>
   </select>
   
   	<!-- 발주서 관리문 -->
-    <select id="balju_Mng_List" parameterType="hashmap" resultType="com.bit.UntitledBistro.model.balju.Balju_DTO">
+    <select id="balju_Mng_List" resultType="com.bit.UntitledBistro.model.balju.OrderInputOrderListDTO">
   	<![CDATA[
   		SELECT 
-  			MAX(ORDER_ORDIN_NUM) AS ORDER_ORDIN_NUM,
-            MAX(DATE_FORMAT(ORDIN_DATE,'%Y-%c-%d')) AS ORPLIN_DATE,
-            MAX(ORDER_WR) AS ORDER_WR,
-  			MAX(ORDER_PRODUCT_NAME) AS ORDER_PRODUCT_NAME,
-            COUNT(ORDER_PRODUCT_NAME)-1 AS ORDER_PRODUCT_COUNT,
-            SUM(ORDER_QT*ORDER_PR_EA) AS TOTAL_PR,
-            MAX(ORDIN_END) AS ORDER_END
+  			 MAX(ORDER_ORDIN_NUM) 						AS ORDER_ORDIN_NUM
+            ,MAX(DATE_FORMAT(ORDIN_DATE,'%Y-%c-%d')) 	AS ORPLIN_DATE
+            ,MAX(ORDER_WR) 								AS ORDER_WR
+  			,MAX(ORDER_PRODUCT_NAME) 					AS ORDER_PRODUCT_NAME
+            ,COUNT(ORDER_PRODUCT_NAME)-1 				AS ORDER_PRODUCT_COUNT
+            ,SUM(ORDER_QT*ORDER_PR_EA) 					AS TOTAL_PR
+            ,MAX(ORDIN_END) 							AS ORDER_END
   		FROM 
   			ORDER_INPUT
   		INNER JOIN 
   			ORDERLIST 
   		ON 
-  			ORDER_INPUT.ORDIN_NUM 
-  			= 
-  			ORDERLIST.ORDER_ORDIN_NUM
+  			ORDER_INPUT.ORDIN_NUM = ORDERLIST.ORDER_ORDIN_NUM
         GROUP BY
             ORDER_ORDIN_NUM
         ORDER BY
@@ -275,26 +275,24 @@
   	]]>
   </select>
   
-  <select id="balju_Mng_Filter" parameterType="hashmap" resultType="com.bit.UntitledBistro.model.balju.Balju_DTO">
+  <select id="balju_Mng_Filter" resultType="com.bit.UntitledBistro.model.balju.OrderInputOrderListDTO">
   	<![CDATA[
   		SELECT 
-  			MAX(ORDER_ORDIN_NUM) AS ORDER_ORDIN_NUM,
+  			MAX(ORDER_ORDIN_NUM) 					AS ORDER_ORDIN_NUM,
             MAX(DATE_FORMAT(ORDIN_DATE,'%Y-%c-%d')) AS ORPLIN_DATE,
-            MAX(ORDER_WR) AS ORDER_WR,
-  			MAX(ORDER_PRODUCT_NAME) AS ORDER_PRODUCT_NAME,
-            COUNT(ORDER_PRODUCT_NAME)-1 AS ORDER_PRODUCT_COUNT,
-            SUM(ORDER_QT*ORDER_PR_EA) AS TOTAL_PR,
-            MAX(ORDIN_END) AS ORDER_END
+            MAX(ORDER_WR) 							AS ORDER_WR,
+  			MAX(ORDER_PRODUCT_NAME)					AS ORDER_PRODUCT_NAME,
+            COUNT(ORDER_PRODUCT_NAME)-1 			AS ORDER_PRODUCT_COUNT,
+            SUM(ORDER_QT*ORDER_PR_EA) 				AS TOTAL_PR,
+            MAX(ORDIN_END) 							AS ORDER_END
   		FROM 
   			ORDER_INPUT
   		INNER JOIN 
   			ORDERLIST 
   		ON 
-  			ORDER_INPUT.ORDIN_NUM 
-  			= 
-  			ORDERLIST.ORDER_ORDIN_NUM
+  			ORDER_INPUT.ORDIN_NUM = ORDERLIST.ORDER_ORDIN_NUM
   		WHERE
-  			ORDIN_END = #{ORDIN_END}
+  			ORDIN_END = #{ordin_end}
         GROUP BY
             ORDER_ORDIN_NUM
         ORDER BY
@@ -303,91 +301,69 @@
   </select>
   
   <!-- 발주계획 불러오기버튼 대응 -->
-  <select id="BPlan_Load" parameterType="hashmap" resultType="com.bit.UntitledBistro.model.balju.Balju_DTO">
+  <select id="BPlan_Load" resultType="com.bit.UntitledBistro.model.balju.OrderInputOrderPlanDTO">
   	<![CDATA[
   		SELECT  
-  			DATE_FORMAT(MAX(ORPLIN_DATE),'%Y-%c-%d'),
-			ORDPL_ORDLIN_NUM,
-  			MAX(ORDPL_PRODUCT_NAME) AS ORDPL_PRODUCT_NAME,
-			COUNT(ORDPL_PRODUCT_NAME)-1 AS ORDPL_PRODUCT_NAME_COUNT
+  			 DATE_FORMAT(MAX(ORPLIN_DATE),'%Y-%c-%d') 	AS ORPLIN_DATE
+			,ORDPL_ORDLIN_NUM
+  			,MAX(ORDPL_PRODUCT_NAME) 					AS ORDPL_PRODUCT_NAME
+			,COUNT(ORDPL_PRODUCT_NAME)-1 				AS ORDPL_PRODUCT_NAME_COUNT
   		FROM 
   			ORPL_INPUT 
   		INNER JOIN
   			ORDER_PLAN
   		ON 
-  			ORPL_INPUT.ORPLIN_NUM 
-  			= 
-  			ORDER_PLAN.ORDPL_ORDLIN_NUM
+  			ORPL_INPUT.ORPLIN_NUM = ORDER_PLAN.ORDPL_ORDLIN_NUM
        GROUP BY
             ORDPL_ORDLIN_NUM
   	]]>
   </select>
   
   <!-- 발주계획 불러오기 대상 조회 BPlan_Search -->
-  <select id="BPlan_Search" parameterType="hashmap" resultType="com.bit.UntitledBistro.model.balju.Balju_DTO">
+  <select id="BPlan_Search" parameterType="com.bit.UntitledBistro.model.balju.OrderInputOrderPlanDTO" resultType="com.bit.UntitledBistro.model.balju.OrderListDTO">
   	<![CDATA[
   		SELECT  
-  			ORDPL_PRODUCT_CODE AS ORDER_PRODUCT_CODE,
-  			ORDPL_PRODUCT_NAME AS ORDER_PRODUCT_NAME,
-  			ORDPL_PRODUCT_STNDR AS ORDER_PRODUCT_STNDR,
-  			ORDPL_QT AS ORDER_QT,
-  			ORDPL_PR_EA AS ORDER_PR_EA,
-  			ORDPL_WR AS ORDER_WR
+  			 ORDPL_PRODUCT_CODE 	AS ORDER_PRODUCT_CODE
+  			,ORDPL_PRODUCT_NAME 	AS ORDER_PRODUCT_NAME
+  			,ORDPL_PRODUCT_STNDR 	AS ORDER_PRODUCT_STNDR
+  			,ORDPL_QT 				AS ORDER_QT
+  			,ORDPL_PR_EA 			AS ORDER_PR_EA
+  			,ORDPL_WR 				AS ORDER_WR
   		FROM 
   			ORPL_INPUT 
   		INNER JOIN
   			ORDER_PLAN
   		ON 
-  			ORPL_INPUT.ORPLIN_NUM 
-  			= 
-  			ORDER_PLAN.ORDPL_ORDLIN_NUM
+  			ORPL_INPUT.ORPLIN_NUM = ORDER_PLAN.ORDPL_ORDLIN_NUM
   		WHERE
-  			ORDPL_ORDLIN_NUM = #{ORDPL_ORDLIN_NUM}
+  			ORDPL_ORDLIN_NUM = #{ordpl_ordlin_num}
   		ORDER BY
   			ORDPL_PRODUCT_CODE
   	]]>
   </select>
   
-  <update id="balju_Plan_modi" parameterType="hashmap">
+  <update id="balju_Plan_modi" parameterType="com.bit.UntitledBistro.model.balju.OrderPlanDTO">
   	<![CDATA[
-  		UPDATE ORDER_PLAN
+  		UPDATE 
+  			ORDER_PLAN
   		SET
-  			
-        	ORDPL_QT = #{ORDPL_QT}
-        	
+        	ORDPL_QT = #{ordpl_qt}
         WHERE 
-        	ORDPL_ORDLIN_NUM = #{ORDPL_ORDLIN_NUM}
+        	ORDPL_ORDLIN_NUM = #{ordpl_ordlin_num}
         AND
-        	ORDPL_ONUM = #{ORDPL_ONUM}
+        	ORDPL_ONUM = #{ordpl_onum}
   	]]>	
   </update>
   
-   <update id="balju_Modi" parameterType="hashmap">
-  	<![CDATA[
-  		UPDATE ORDERLIST
-  		SET
-  			ORDER_ORDIN_NUM = #{ORDER_ORDIN_NUM},
-  			ORDER_NUM = #{ORDER_NUM},
-  			ORDER_PRODUCT_CODE = #{ORDER_PRODUCT_CODE},
-  			ORDER_QT = #{ORDER_QT},
-  			ORDER_PR_EA = #{ORDER_PR_EA},
-  			ORDER_WR = #{ORDER_WR},
-  			ORDER_SUMMA = #{ORDER_SUMMA},
-  			ORDER_STAT = #{ORDER_STAT},
-  			ORDER_END = #{ORDER_END}
-  		WHERE
-  			ORDER_ORDIN_NUM = #{ORDER_ORDIN_NUM}
-  	]]>
-  </update>
   
   <!-- 발주서 종결처리 업데이트  -->
-     <update id="End_Balju" parameterType="hashmap">
+     <update id="End_Balju" parameterType="com.bit.UntitledBistro.model.balju.OrderInputDTO">
   	<![CDATA[
   		UPDATE ORDER_INPUT
   		SET
-  			ORDIN_END = #{ORDIN_END}
+  			ORDIN_END = #{ordin_end}
   		WHERE
-  			ORDIN_NUM = #{ORDIN_NUM}
+  			ORDIN_NUM = #{ordin_num}
   	]]>
   </update>
   
@@ -401,15 +377,15 @@
   	]]>
   </update>
   
-   <update id="BookMark_Modi" parameterType="hashmap">
+   <update id="BookMark_Modi" parameterType="com.bit.UntitledBistro.model.balju.BookMarkDTO">
   	<![CDATA[
   		UPDATE BOOKMARK
   		SET
-  			BK_CODE = #{BK_CODE},
-  			BK_NAME = #{BK_CODE}
+  			 BK_CODE = #{bk_code}
+  			,BK_NAME = #{bk_name}
   			
   		WHERE
-  			BK_CODE = #{BK_CODE}
+  			BK_CODE = #{bk_code}
   	]]>
   </update>
   
@@ -438,47 +414,47 @@
   	]]>
   </delete>
   
-  <delete id="Delete_Balju_Plan2">
+  <delete id="Delete_Balju_Plan2" parameterType="com.bit.UntitledBistro.model.balju.OrderPlanDTO">
   	<![CDATA[
   		DELETE
   		FROM
   			ORDER_PLAN
   		WHERE
-  			ORDPL_ORDLIN_NUM = #{ORDPL_ORDLIN_NUM}
+  			ORDPL_ORDLIN_NUM = #{ordpl_ordlin_num}
   		AND
-  			ORDPL_ONUM = #{ORDPL_ONUM} 
+  			ORDPL_ONUM = #{ordpl_onum} 
   			
   	]]>
   </delete>
   
     
-  <delete id="Delete_Balju1" >
+  <delete id="Delete_Balju1" parameterType="com.bit.UntitledBistro.model.balju.OrderInputDTO">
   	<![CDATA[
   		DELETE
   		FROM
   			ORDER_INPUT
   		WHERE
-  			ORDIN_NUM = #{ORDIN_NUM}
+  			ORDIN_NUM = #{ordin_num}
   	]]>
   </delete>
   
-  <delete id="Delete_Balju2" >
+  <delete id="Delete_Balju2" parameterType="com.bit.UntitledBistro.model.balju.OrderListDTO">
   	<![CDATA[
   		DELETE
   		FROM
   			ORDERLIST
   		WHERE
-  			ORDER_ORDIN_NUM = #{ORDER_ORDIN_NUM}
+  			ORDER_ORDIN_NUM = #{order_ordin_num}
   	]]>
   </delete>
   
-  <delete id="Delete_BookMark">
+  <delete id="Delete_BookMark" parameterType="com.bit.UntitledBistro.model.balju.BookMarkDTO">
   	  <![CDATA[
   		DELETE
   		FROM
   			BOOKMARK
   		WHERE
-  			BK_CODE = #{BK_CODE}
+  			BK_CODE = #{bk_code}
   	]]>
   </delete>
 

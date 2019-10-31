@@ -6,11 +6,12 @@
       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="/WEB-INF/config/dbConfig.properties"/>
+        <!-- <property name="location" value="/WEB-INF/config/oracle.properties"/> -->
+        <property name="location" value="/WEB-INF/config/MariaDB.properties"/>
         <property name="fileEncoding" value="UTF-8" />
     </bean>
 	
-<!-- 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+	<!-- <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName" value="${driverClassName}" />
 		<property name="jdbcUrl" value="${jdbcUrl}" />
 		<property name="username" value="${username}" />
@@ -20,21 +21,24 @@
         <property name="connectionTestQuery" value="select 1 from sys.dual" />
         <property name="connectionTimeout"  value="300000" />
 	</bean>
-
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
 		<constructor-arg ref="hikariConfig" />
 	</bean> -->
-
- 
- 	<!-- mariaDB -->
+	
+	<!-- mariaDB -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+        <property name="driverClass" value="${driverClassName}" />
+		<property name="url" value="${jdbcUrl}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+    </bean>
+<!-- 	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
         <property name="driverClass" value="org.mariadb.jdbc.Driver"></property>
         <property name="url" value="jdbc:mariadb://localhost:3306/sejongdeveloper"></property>
         <property name="username" value="sejongdeveloper"></property>
         <property name="password" value="kingsmile!0521"></property>
-    </bean>
-   
- 	
+    </bean> -->
+
 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="mapperLocations" value="classpath*:com/bit/UntitledBistro/model/mapper/*/*.xml" />
