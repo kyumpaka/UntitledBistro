@@ -31,8 +31,7 @@
 	}
 	
 -->
-</style>
-
+</style>                     
 <header id="header" class="header">
             <div class="top-left">
                 <div class="navbar-header"	>
@@ -85,7 +84,7 @@
 <!-- WebSocket -->
 <script type="text/javascript">
 
-var webSocket = new WebSocket("ws://sejongdeveloper.cafe24.com/realTime-ws");
+var webSocket = new WebSocket("ws://sejongdeveloper.cafe24.com:8319/${path}realTime-ws");
 webSocket.onopen = onOpen;
 webSocket.onmessage = onMessage;
 webSocket.onclose = onClose;

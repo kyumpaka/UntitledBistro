@@ -421,10 +421,10 @@ public class Jungsan_view_ServiceImpl implements Jungsan_view_Service {
 	}
 	//Show_List.jsp
 	@Override
-	public List<Jungsan_view_DTO> jungsan_state(HashMap map) {
+	public List<Jungsan_view_DTO> jungsan_state() {
 		Jungsan_view_DAO jungsan_view_DAO = sqlsession.getMapper(Jungsan_view_DAO.class);
 		System.out.println("리스트 실행 서비스단");
-		return jungsan_view_DAO.jungsan_state(map);
+		return jungsan_view_DAO.jungsan_state();
 	}
 	@Override
 	public void update_state(Jungsan_view_DTO dto) {

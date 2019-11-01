@@ -57,8 +57,8 @@
       events: [ // 디비꺼 캘린더에 표시
     	  <c:forEach items="${Seobis_reserveSelect}" var="Seobis_reserveSelect">
     	  {
-    	    title: <c:if test="${Seobis_reserveSelect.reserve_member_id != null}">'${Seobis_reserveSelect.reserve_member_id}'</c:if>
-    	           <c:if test="${Seobis_reserveSelect.reserve_name != null}">'${Seobis_reserveSelect.reserve_name}'</c:if>,
+    	    title: <c:if test="${Seobis_reserveSelect.reserve_member_id != null && Seobis_reserveSelect.reserve_member_id != ''}">'${Seobis_reserveSelect.reserve_member_id}'</c:if>
+    	           <c:if test="${Seobis_reserveSelect.reserve_name != null && Seobis_reserveSelect.reserve_name != ''}">'${Seobis_reserveSelect.reserve_name}'</c:if>,
     	    url: '${path}/Seobis/nck?reserve_num=${Seobis_reserveSelect.reserve_num}',
     	    start: '<fmt:formatDate pattern="yyyy-MM-dd" value="${Seobis_reserveSelect.reserve_date}" />',
     	    allDay: true

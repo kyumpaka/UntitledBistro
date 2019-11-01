@@ -1021,25 +1021,42 @@
 	</select>
 	
 	<select id="worketime" resultType="int">
-	SELECT IFNULL(sum(ROUND((schedule_workingend-schedule_workingstart)*60)),0) 
-	FROM schedule where schedule_workingstart like DATE_FORMAT(NOW(),'%Y-%c-%d')
+	SELECT 
+		IFNULL(SUM(ROUND((SCHEDULE_WORKINGEND-SCHEDULE_WORKINGSTART)*60)),0) 
+	FROM 
+		SCHEDULE 
+	WHERE 
+		SCHEDULE_WORKINGSTART LIKE DATE_FORMAT(NOW(),'%Y-%c-%d')
 	</select>
 	
 	<select id="parttime" resultType="int">
-	select IFNULL(sum(round((e.EmpRegister_paytime)*((sc.schedule_workingend-sc.schedule_workingstart)*60) 
-	)),0)from EmpRegister e, schedule sc where e.EMPREGISTER_EMPNUM = sc.SCHEDULE_EMPREGISTER_EMPNUM
-	and sc.schedule_workingstart like DATE_FORMAT(NOW(),'%Y-%c-%d')
-	and e.EmpRegister_payclassfiy='시급'
+	select 
+		IFNULL(SUM(ROUND((E.EMPREGISTER_PAYTIME)*((SC.SCHEDULE_WORKINGEND-SC.SCHEDULE_WORKINGSTART)*60))),0)
+	from 
+		EMPREGISTER E, SCHEDULE SC 
+	where 
+		E.EMPREGISTER_EMPNUM = SC.SCHEDULE_EMPREGISTER_EMPNUM
+	and 
+		SC.SCHEDULE_WORKINGSTART LIKE DATE_FORMAT(NOW(),'%Y-%c-%d')
+	and 
+		E.EMPREGISTER_PAYCLASSFIY='시급'
 	</select>
 	
 	<select id="employee" resultType="int">
-	select IFNULL(sum(e.EmpRegister_payday),0) from EmpRegister e, schedule sc  
-	WHERE e.EMPREGISTER_EMPNUM = sc.SCHEDULE_EMPREGISTER_EMPNUM and 
-	e.EmpRegister_payclassfiy='월급' and sc.schedule_workingstart like DATE_FORMAT(NOW(),'%Y-%c-%d')
+	SELECT 
+		IFNULL(SUM(E.EMPREGISTER_PAYDAY),0) 
+	FROM 
+		EMPREGISTER E, SCHEDULE SC  
+	WHERE 
+		E.EMPREGISTER_EMPNUM = SC.SCHEDULE_EMPREGISTER_EMPNUM 
+	AND 
+		E.EMPREGISTER_PAYCLASSFIY='월급' 
+	AND 
+		SC.SCHEDULE_WORKINGSTART LIKE DATE_FORMAT(NOW(),'%Y-%c-%d')
 	</select>
 	
 	<select id="personnel" resultType="int">
-	select count(SCHEDULE_EMPREGISTER_EMPNUM) from schedule where SCHEDULE_WORKINGSTART like NOW()
+	SELECT COUNT(SCHEDULE_EMPREGISTER_EMPNUM) FROM SCHEDULE WHERE SCHEDULE_WORKINGSTART like NOW()
 	</select>
 	
 </mapper> 

@@ -21,7 +21,7 @@ public interface Jungsan_view_Service {
 	public int last_week_drink();		//지난주 주류 개수
 	public int last_week_cooking();		//		요리
 	public int last_week_soup();		//		국물
-	public List<Jungsan_view_DTO> jungsan_state(HashMap map);			//현 매출 리스트
+	public List<Jungsan_view_DTO> jungsan_state();			//현 매출 리스트
 	public void update_state(Jungsan_view_DTO dto);						//리스트 추가
 	public void insert_Initial_value(Jungsan_view_DTO dto);				//null포인트 초기값
 	public void insert_Initial_value2(Jungsan_view_DTO dto);			//어제null포인트 초기값

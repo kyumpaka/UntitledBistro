@@ -151,25 +151,30 @@
    </insert>
 
    <update id="WorkEnd" parameterType="com.bit.UntitledBistro.model.insa.Insa_EmpRegisterDTO">
-      UPDATE 
-      	SCHEDULE 
-      SET 
-      	 SCHEDULE_WORKINGEND = NOW()
-      	,SCHEDULE_WORKINGSTART = (
-      							  SELECT 
-      							  		SCHEDULE_WORKINGSTART 
-      							  FROM 
-      							  		SCHEDULE S 
-      							  WHERE 
-      							  		SCHEDULE_EMPREGISTER_EMPNUM = #{empregister_empnum} 
-      							  AND 
-      							  		DATE_FORMAT( SCHEDULE_WORKINGSTART, '%Y/%c/%d' ) = DATE_FORMAT( NOW(),'%Y/%c/%d')
-      							 )
-      	,SCHEDULE_WORKINGTIME = ROUND((NOW() - SCHEDULE_WORKINGSTART)*24)
-      WHERE 
-      	SCHEDULE_EMPREGISTER_EMPNUM = #{empregister_empnum}
-      AND 
-      	DATE_FORMAT( SCHEDULE_WORKINGSTART, '%Y/%c/%d' ) = DATE_FORMAT( NOW(),'%Y/%c/%d')
+   
+   	 UPDATE
+        SCHEDULE
+      SET
+         SCHEDULE_WORKINGEND = NOW()
+        ,SCHEDULE_WORKINGSTART = (
+        									 SELECT * FROM 
+        									 (
+                                  SELECT
+                                                SCHEDULE_WORKINGSTART
+                                  FROM
+                                                SCHEDULE S
+                                  WHERE
+                                                SCHEDULE_EMPREGISTER_EMPNUM = #{empregister_empnum}
+                                  AND
+                                                DATE_FORMAT( SCHEDULE_WORKINGSTART, '%Y/%c/%d' ) = DATE_FORMAT( NOW(),'%Y/%c/%d')
+                                 ) S2
+                              )
+        ,SCHEDULE_WORKINGTIME = ROUND((NOW() - SCHEDULE_WORKINGSTART)*24)
+      WHERE
+        SCHEDULE_EMPREGISTER_EMPNUM = #{empregister_empnum}
+      AND
+        DATE_FORMAT( SCHEDULE_WORKINGSTART, '%Y/%c/%d' ) = DATE_FORMAT( NOW(),'%Y/%c/%d')
+   	
    </update>
 
 

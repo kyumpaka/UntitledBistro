@@ -14,19 +14,43 @@
    </select>
 
    <insert id="menuTypeInsert" >
-   INSERT INTO MENU_TYPE(MT_CODE, MT_NAME) VALUES(CONCAT('MT',(SELECT IFNULL(MAX(CAST(SUBSTR(MT_CODE,3) AS UNSIGNED)),0)+1 FROM MENU_TYPE MT)), #{mt_Name})
+   	INSERT INTO MENU_TYPE
+   		(
+   		 MT_CODE
+   		,MT_NAME
+   		) 
+   	VALUES
+   		(
+   		CONCAT('MT',(SELECT IFNULL(MAX(CAST(SUBSTR(MT_CODE,3) AS UNSIGNED)),0)+1 FROM MENU_TYPE MT))
+   		,#{mt_Name}
+   		)
    </insert>
    
    <delete id="menuTypeDelete" parameterType="map" >
-   DELETE FROM MENU_TYPE WHERE MT_CODE = #{mt_Code}
+   	DELETE FROM 
+   		MENU_TYPE 
+   	WHERE 
+   		MT_CODE = #{mt_Code}
    </delete>
    
    <update id="menuTypeUpdate">
-   UPDATE MENU_TYPE SET MT_NAME = #{mt_Name} WHERE MT_CODE = #{mt_Code}
+   	UPDATE 
+   		MENU_TYPE
+   	SET 
+   		MT_NAME = #{mt_Name} 
+   	WHERE 
+   		MT_CODE = #{mt_Code}
    </update>
 
    <select id="menuSelect" parameterType="map" resultType="menu" >
-   SELECT MENU_CODE, MENU_MT_CODE, MENU_NAME, MENU_PRICE, MENU_IMAGE, MENU_STATE FROM MENU
+   	SELECT 
+   		 MENU_CODE
+   		,MENU_MT_CODE
+   		,MENU_NAME
+   		,MENU_PRICE
+   		,MENU_IMAGE
+   		,MENU_STATE 
+   	FROM MENU
       <trim prefix="WHERE" prefixOverrides="AND">
          <if test="menu_Mt_Code != null and menu_Mt_Code != ''">MENU_MT_CODE = #{menu_Mt_Code}</if>
          <if test="menu_Code != null">AND MENU_CODE = #{menu_Code}</if>
@@ -36,16 +60,37 @@
    </select>
    
    <select id="menuSelectByMenuName" parameterType="map" resultType="java.lang.String">
-   SELECT MENU_CODE FROM MENU WHERE MENU_NAME = #{menu_Name}
+   	SELECT 
+   		MENU_CODE 
+   	FROM 
+   		MENU 
+   	WHERE 
+   		MENU_NAME = #{menu_Name}
    </select>
    
    <insert id="menuInsert" >
-   INSERT INTO MENU(MENU_CODE, MENU_MT_CODE, MENU_NAME, MENU_PRICE, MENU_IMAGE, MENU_STATE) 
-   VALUES(CONCAT('MN',(SELECT IFNULL(MAX(CAST(SUBSTR(MENU_CODE,3) AS UNSIGNED)),0)+1 FROM MENU M)), #{menu_Mt_Code}, #{menu_Name}, #{menu_Price}, #{menu_Image}, #{menu_State})
+	   INSERT INTO MENU
+	   		(
+	   		 MENU_CODE
+	   		,MENU_MT_CODE
+	   		,MENU_NAME
+	   		,MENU_PRICE
+	   		,MENU_IMAGE
+	   		,MENU_STATE
+	   		) 
+	   VALUES
+	   		(
+	   		CONCAT('MN',(SELECT IFNULL(MAX(CAST(SUBSTR(MENU_CODE,3) AS UNSIGNED)),0)+1 FROM MENU M))
+	   		,#{menu_Mt_Code}
+	   		,#{menu_Name}
+	   		,#{menu_Price}
+	   		,#{menu_Image}
+	   		,#{menu_State}
+	   		)
    </insert>
 
    <delete id="menuDelete" parameterType="map" >
-   DELETE FROM MENU
+   	DELETE FROM MENU
       <where>
          <if test="menu_Code != null">
          MENU_CODE = #{menu_Code}
@@ -58,81 +103,232 @@
    
    <select id="ingreSelect" parameterType="map" resultType="ingredient">
       <if test="ingredient_Menu_Code == null">
-      SELECT INGREDIENT_PRODUCT_CODE, INGREDIENT_QTY FROM INGREDIENT WHERE INGREDIENT_MENU_CODE = null
+      SELECT 
+      		 INGREDIENT_PRODUCT_CODE
+      		,INGREDIENT_QTY 
+      FROM 
+      		INGREDIENT 
+      WHERE 
+      		INGREDIENT_MENU_CODE = null
       </if>
       <if test="ingredient_Menu_Code != null">
-      SELECT PRODUCT_NAME AS INGREDIENT_PRODUCT_CODE, INGREDIENT_QTY FROM INGREDIENT, PRODUCT WHERE INGREDIENT.INGREDIENT_PRODUCT_CODE = PRODUCT.PRODUCT_CODE AND INGREDIENT_MENU_CODE = #{ingredient_Menu_Code}
+      SELECT 
+      		 PRODUCT_NAME 		AS INGREDIENT_PRODUCT_CODE
+      		,INGREDIENT_QTY 
+      FROM 
+      		 INGREDIENT
+      		,PRODUCT 
+      WHERE 
+      		INGREDIENT.INGREDIENT_PRODUCT_CODE = PRODUCT.PRODUCT_CODE 
+      AND 
+      		INGREDIENT_MENU_CODE = #{ingredient_Menu_Code}
       </if>
    </select>
    
    <update id="menuUpdate">
-   UPDATE MENU SET MENU_MT_CODE = #{menu_Mt_Code}, MENU_NAME = #{menu_Name}, MENU_PRICE = #{menu_Price}, MENU_IMAGE = #{menu_Image}, MENU_STATE = #{menu_State} WHERE MENU_CODE = #{menu_Code}
+   	UPDATE 
+   		MENU 
+   	SET 
+   		 MENU_MT_CODE = #{menu_Mt_Code}
+   		,MENU_NAME = #{menu_Name}
+   		,MENU_PRICE = #{menu_Price}
+   		,MENU_IMAGE = #{menu_Image}
+   		,MENU_STATE = #{menu_State} 
+   	WHERE 
+   		MENU_CODE = #{menu_Code}
    </update>
    
    <select id="menuNameCheck" parameterType="map" resultType="java.lang.Integer">
-   SELECT COUNT(*) FROM MENU WHERE MENU_NAME = #{menu_Name}
+   	SELECT 
+   		COUNT(*) 
+   	FROM 
+   		MENU 
+   	WHERE 
+   		MENU_NAME = #{menu_Name}
    </select>
    
    <insert id="ingreInsert" >
-   INSERT INTO INGREDIENT(INGREDIENT_NO, INGREDIENT_MENU_CODE, INGREDIENT_PRODUCT_CODE, INGREDIENT_QTY) 
-    VALUES(CONCAT('IGD',(SELECT IFNULL(MAX(CAST(SUBSTR(INGREDIENT_NO,4) AS UNSIGNED)),0)+1 FROM INGREDIENT IG)), #{ingredient_Menu_Code}, #{ingredient_Product_Code}, #{ingredient_Qty})
+   	INSERT INTO INGREDIENT
+   		(
+   		 INGREDIENT_NO
+   		,INGREDIENT_MENU_CODE
+   		,INGREDIENT_PRODUCT_CODE
+   		,INGREDIENT_QTY
+   		) 
+    VALUES
+    	(
+    	 CONCAT('IGD',(SELECT IFNULL(MAX(CAST(SUBSTR(INGREDIENT_NO,4) AS UNSIGNED)),0)+1 FROM INGREDIENT IG))
+    	,#{ingredient_Menu_Code}
+    	,#{ingredient_Product_Code}
+    	,#{ingredient_Qty}
+    	)
    </insert>
    
    <delete id="ingreDelete">
       <if test="menu_Mt_Code != null">
-      DELETE FROM INGREDIENT WHERE INGREDIENT_NO IN
-      (SELECT INGREDIENT_NO FROM MENU LEFT OUTER JOIN INGREDIENT ON MENU.MENU_CODE =
-      INGREDIENT.INGREDIENT_MENU_CODE WHERE MENU_MT_CODE = #{menu_Mt_Code})
+      
+      DELETE FROM
+        	INGREDIENT
+      WHERE
+        	INGREDIENT_NO IN
+                            ( SELECT * FROM
+                            (
+                            SELECT
+                                    IG.INGREDIENT_NO
+                            FROM
+                                    MENU M
+                            LEFT OUTER JOIN
+                                    INGREDIENT IG
+                            ON
+                                    M.MENU_CODE = IG.INGREDIENT_MENU_CODE
+                            WHERE
+                                    M.MENU_MT_CODE = #{menu_Mt_Code}
+                            ) IG2
+							)
+    
       </if>
       <if test="ingredient_Menu_Code != null">
-      DELETE FROM INGREDIENT WHERE INGREDIENT_MENU_CODE = #{ingredient_Menu_Code}
+      	DELETE FROM 
+      		INGREDIENT 
+      	WHERE 
+      		INGREDIENT_MENU_CODE = #{ingredient_Menu_Code}
       </if>
    </delete>
    
    <select id="tableSelect" resultType="tableSave">
-   SELECT TABLESAVE_CODE, TABLESAVE_X, TABLESAVE_Y FROM TABLESAVE
+   	SELECT 
+   		 TABLESAVE_CODE
+   		,TABLESAVE_X
+   		,TABLESAVE_Y 
+   	FROM 
+   		TABLESAVE
    </select>
    
    <insert id="tableInsert">
-   INSERT INTO TABLESAVE(TABLESAVE_CODE, TABLESAVE_X, TABLESAVE_Y) VALUES(#{tableSave_Code}, #{tableSave_X}, #{tableSave_Y})
+   	INSERT INTO TABLESAVE
+   		(
+   		 TABLESAVE_CODE
+   		,TABLESAVE_X
+   		,TABLESAVE_Y
+   		) 
+   	VALUES
+   		(
+   		 #{tableSave_Code}
+   		,#{tableSave_X}
+   		,#{tableSave_Y}
+   		)
    </insert>
    
    <delete id="tableDelete">
-   DELETE FROM TABLESAVE
+   	DELETE FROM TABLESAVE
    </delete>
    
-   <select id="ordersSelect" resultType="HashMap">
-   SELECT OD_ORDERS_NO, MENU_NAME, OD_QTY FROM ORDERS_DETAILS 
-   LEFT OUTER JOIN MENU ON MENU.MENU_CODE = ORDERS_DETAILS.OD_MENU_CODE ORDER BY ORDERS_DETAILS.OD_ORDERS_NO
+   <select id="ordersSelect" resultType="com.bit.UntitledBistro.model.jumun.OrdersDetailsMenuDTO">
+   	SELECT 
+   		 OD_ORDERS_NO
+   		,MENU_NAME
+   		,OD_QTY 
+   	FROM 
+   		ORDERS_DETAILS 
+   	LEFT OUTER JOIN 
+   		MENU 
+   	ON 
+   		MENU.MENU_CODE = ORDERS_DETAILS.OD_MENU_CODE 
+   	ORDER BY 
+   		ORDERS_DETAILS.OD_ORDERS_NO
    </select>
    
    <select id="ordersSelectByNo" parameterType="map" resultType="orders">
-   SELECT ORDERS_NO, ORDERS_TABLESAVE_CODE,  ORDERS_FIRST, ORDERS_FINAL FROM ORDERS WHERE ORDERS_NO = #{orders_No}
+  	 SELECT 
+  	 	 ORDERS_NO
+  	 	,ORDERS_TABLESAVE_CODE
+  	 	,ORDERS_FIRST
+  	 	,ORDERS_FINAL 
+  	 FROM 
+  	 	ORDERS 
+  	 WHERE 
+  	 	ORDERS_NO = #{orders_No}
    </select>
    
    <insert id="ordersInsert" parameterType="com.bit.UntitledBistro.model.jumun.OrdersDTO">
-   INSERT INTO ORDERS(ORDERS_NO, ORDERS_TABLESAVE_CODE) VALUES(#{orders_No}, #{orders_TableSave_Code})
+   	INSERT INTO ORDERS
+   		(
+   		 ORDERS_NO
+   		,ORDERS_TABLESAVE_CODE
+   		) 
+   	VALUES
+   		(
+   		 #{orders_No}
+   		,#{orders_TableSave_Code}
+   		)
    </insert>
    
    <update id="ordersUpdate" parameterType="map">
-   UPDATE ORDERS SET ORDERS_FINAL = NOW() WHERE ORDERS_NO = #{orders_No}
+   	UPDATE 
+   		ORDERS 
+   	SET 
+   		ORDERS_FINAL = NOW() 
+   	WHERE 
+   		ORDERS_NO = #{orders_No}
    </update>
    
-   <select id="ordersDetailsSelect" parameterType="map" resultType="HashMap">
-   SELECT OD_NO, OD_ORDERS_NO, OD_MENU_CODE, MENU_NAME, MENU_PRICE, OD_QTY FROM ORDERS_DETAILS 
-   LEFT OUTER JOIN MENU ON MENU.MENU_CODE=ORDERS_DETAILS.OD_MENU_CODE WHERE OD_ORDERS_NO = #{od_Orders_No}
+   <select id="ordersDetailsSelect" parameterType="map" resultType="com.bit.UntitledBistro.model.jumun.OrdersDetailsMenuDTO">
+	   SELECT 
+	   		 OD_NO
+	   		,OD_ORDERS_NO
+	   		,OD_MENU_CODE
+	   		,MENU_NAME
+	   		,MENU_PRICE
+	   		,OD_QTY 
+	   FROM 
+	   		ORDERS_DETAILS 
+	   LEFT OUTER JOIN 
+	   		MENU 
+	   ON 
+	   		MENU.MENU_CODE = ORDERS_DETAILS.OD_MENU_CODE 
+	   WHERE 
+	   		OD_ORDERS_NO = #{od_Orders_No}
    </select>
    
    <select id="odAllPrice" parameterType="map" resultType="java.lang.Integer">
-   SELECT IFNULL(SUM(MENU_PRICE * OD_QTY), 0) FROM ORDERS_DETAILS LEFT OUTER JOIN MENU ON MENU.MENU_CODE = ORDERS_DETAILS.OD_MENU_CODE WHERE OD_ORDERS_NO = #{od_Orders_No}
+   	SELECT 
+   		IFNULL(SUM(MENU_PRICE * OD_QTY), 0) 
+   	FROM 
+   		ORDERS_DETAILS 
+   	LEFT OUTER JOIN 
+   		MENU 
+   	ON 
+   		MENU.MENU_CODE = ORDERS_DETAILS.OD_MENU_CODE 
+   	WHERE 
+   		OD_ORDERS_NO = #{od_Orders_No}
    </select>
    
    <select id="ordersDetailsSelectCount" resultType="java.lang.Integer">
-   SELECT COUNT(*) FROM ORDERS_DETAILS WHERE OD_MENU_CODE = #{od_Menu_Code} AND OD_ORDERS_NO = #{od_Orders_No}
+   	SELECT 
+   		COUNT(*) 
+   	FROM 
+   		ORDERS_DETAILS 
+   	WHERE 
+   		OD_MENU_CODE = #{od_Menu_Code} 
+   	AND 
+   		OD_ORDERS_NO = #{od_Orders_No}
    </select>
    
    <insert id="ordersDetailsInsert" parameterType="com.bit.UntitledBistro.model.jumun.OrdersDetailsDTO">
-   INSERT INTO ORDERS_DETAILS(OD_NO, OD_ORDERS_NO, OD_MENU_CODE, OD_QTY) VALUES((SELECT COUNT(OD_NO) + 1 FROM ORDERS_DETAILS OD), #{od_Orders_No}, #{od_Menu_Code}, #{od_Qty})
+   	INSERT INTO ORDERS_DETAILS
+   		(
+   		 OD_NO
+   		,OD_ORDERS_NO
+   		,OD_MENU_CODE
+   		,OD_QTY
+   		) 
+   	VALUES
+   		(
+   		(SELECT IFNULL(MAX(CAST(OD_NO AS UNSIGNED)),0) + 1 FROM ORDERS_DETAILS OD)
+   		,#{od_Orders_No}
+   		,#{od_Menu_Code}
+   		,#{od_Qty}
+   		)
    </insert>
 
    <delete id="ordersDetailsDelete" parameterType="map">
@@ -144,60 +340,170 @@
    </delete>
    
    <update id="ordersDetailsUpdate">
-   UPDATE ORDERS_DETAILS SET OD_QTY = OD_QTY + #{od_Qty} WHERE OD_ORDERS_NO = #{od_Orders_No} AND OD_MENU_CODE = #{od_Menu_Code}
+   	UPDATE 
+   		ORDERS_DETAILS 
+   	SET 
+   		OD_QTY = OD_QTY + #{od_Qty} 
+   	WHERE 
+   		OD_ORDERS_NO = #{od_Orders_No}
+   	AND 
+   		OD_MENU_CODE = #{od_Menu_Code}
    </update>
    
    <update id="ordersDetailsPlus" parameterType="com.bit.UntitledBistro.model.jumun.OrdersDetailsDTO">
-   UPDATE ORDERS_DETAILS SET OD_QTY = OD_QTY + 1 WHERE OD_ORDERS_NO = #{od_Orders_No} AND OD_MENU_CODE = #{od_Menu_Code}
+  	 UPDATE 
+  	 	ORDERS_DETAILS 
+  	 SET 
+  	 	OD_QTY = OD_QTY + 1 
+  	 WHERE 
+  	 	OD_ORDERS_NO = #{od_Orders_No} 
+  	 AND 
+  	 	OD_MENU_CODE = #{od_Menu_Code}
    </update>
    
    <update id="ordersDetailsMinus" parameterType="com.bit.UntitledBistro.model.jumun.OrdersDetailsDTO">
-   UPDATE ORDERS_DETAILS SET OD_QTY = OD_QTY - 1 WHERE OD_ORDERS_NO = #{od_Orders_No} AND OD_MENU_CODE = #{od_Menu_Code}
+   	UPDATE 
+   		ORDERS_DETAILS 
+   	SET 
+   		OD_QTY = OD_QTY - 1 
+   	WHERE 
+   		OD_ORDERS_NO = #{od_Orders_No} 
+   	AND 
+   		OD_MENU_CODE = #{od_Menu_Code}
    </update>
    
    <select id="tableInfo" resultType="java.lang.Integer">
-   SELECT COUNT(*) AS COUNT FROM ORDERS UNION ALL SELECT COUNT(*) FROM TABLESAVE
+   	SELECT 
+   		COUNT(*) AS COUNT 
+   	FROM 
+   		ORDERS 
+   	UNION ALL 
+   	SELECT 
+   		COUNT(*) 
+   	FROM 
+   		TABLESAVE
    </select>
    
-   <select id="tableControl" resultType="HashMap">
-   SELECT TABLESAVE_CODE, ORDERS_TABLESAVE_CODE  FROM TABLESAVE LEFT OUTER JOIN ORDERS ON ORDERS.ORDERS_TABLESAVE_CODE = TABLESAVE.TABLESAVE_CODE ORDER BY TABLESAVE_CODE
+   <select id="tableControl" resultType="com.bit.UntitledBistro.model.jumun.TableSaveOrdersDTO">
+   	SELECT 
+   		 TABLESAVE_CODE
+   		,ORDERS_TABLESAVE_CODE  
+   	FROM 
+   		TABLESAVE 
+   	LEFT OUTER JOIN 
+   		ORDERS 
+   	ON 
+   		ORDERS.ORDERS_TABLESAVE_CODE = TABLESAVE.TABLESAVE_CODE 
+   	ORDER BY 
+   		TABLESAVE_CODE
    </select>
    
    <insert id="salesInsert">
-   INSERT INTO SALES(SALES_NO) VALUES((SELECT COUNT(*) FROM SALES S) + 1)
+   	INSERT INTO SALES
+   		(
+   		SALES_NO
+   		) 
+   	VALUES
+   		(
+   		(SELECT COUNT(*) FROM SALES S) + 1
+   		)
    </insert>
    
    <select id="salesSelectMax" resultType="java.lang.Integer">
-   SELECT MAX(CAST(SALES_NO AS UNSIGNED)) FROM SALES
+   	SELECT 
+   		MAX(CAST(SALES_NO AS UNSIGNED)) 
+   	FROM 
+   		SALES
    </select>
    
    <select id="salesInputSelect" parameterType="HashMap" resultType="salesDetails">
-   SELECT OD_MENU_CODE AS SD_MENU_CODE, OD_QTY AS SD_QTY, MENU_PRICE AS SD_PRICE FROM ORDERS_DETAILS LEFT OUTER JOIN MENU ON MENU_CODE = OD_MENU_CODE where OD_ORDERS_NO = #{orders_No}
+   	SELECT 
+   		 OD_MENU_CODE 	AS SD_MENU_CODE
+   		,OD_QTY 		AS SD_QTY
+   		,MENU_PRICE 	AS SD_PRICE 
+   	FROM 
+   		ORDERS_DETAILS 
+   	LEFT OUTER JOIN 
+   		MENU ON MENU_CODE = OD_MENU_CODE 
+   	WHERE 
+   		OD_ORDERS_NO = #{orders_No}
    </select>
    
    <select id="salesTableSelect" parameterType="HashMap" resultType="java.lang.Integer">
-   SELECT ORDERS_TABLESAVE_CODE FROM ORDERS WHERE ORDERS_NO = #{orders_No}
+   	SELECT 
+   		ORDERS_TABLESAVE_CODE 
+   	FROM 
+   		ORDERS 
+   	WHERE 
+   		ORDERS_NO = #{orders_No}
    </select>
    
    <insert id="salesDetailsInsert" parameterType="salesDetails">
-   INSERT INTO SALES_DETAILS(SD_NO, SD_SALES_NO, SD_MENU_CODE, SD_QTY, SD_PRICE) VALUES((SELECT COUNT(*) FROM SALES_DETAILS SD) + 1, (SELECT MAX(CAST(SALES_NO AS UNSIGNED)) FROM SALES S), #{sd_Menu_Code} , #{sd_Qty}, #{sd_Price})
+   	INSERT INTO SALES_DETAILS
+   		(
+   		 SD_NO
+   		,SD_SALES_NO
+   		,SD_MENU_CODE
+   		,SD_QTY
+   		,SD_PRICE
+   		) 
+   	VALUES
+   		(
+   		 (SELECT COUNT(*) FROM SALES_DETAILS SD) + 1
+   		,(SELECT MAX(CAST(SALES_NO AS UNSIGNED)) FROM SALES S)
+   		,#{sd_Menu_Code} 
+   		,#{sd_Qty}
+   		,#{sd_Price}
+   		)
    </insert>
       
    <delete id="ordersDelete" parameterType="map">
-   DELETE FROM ORDERS WHERE ORDERS_NO = #{orders_No}
+   	DELETE FROM ORDERS 
+   	WHERE 
+   		ORDERS_NO = #{orders_No}
    </delete>
    
    <insert id="paymentInsert">
-   INSERT INTO PAYMENT(PAYMENT_NO, PAYMENT_SALES_NO, PAYMENT_MEMBER_ID, PAYMENT_TABLE, PAYMENT_STATE, PAYMENT_POINT, PAYMENT_DISCOUNT, PAYMENT_CASH, PAYMENT_CARD) 
-   VALUES((SELECT COUNT(*) FROM PAYMENT P) + 1, (SELECT MAX(CAST(SALES_NO AS UNSIGNED)) FROM SALES S), #{payment_Member_Id}, #{payment_Table}, '성공', #{payment_Point}, #{payment_Discount}, #{payment_Cash}, #{payment_Card})
+   	INSERT INTO PAYMENT
+   		(
+   		 PAYMENT_NO
+   		,PAYMENT_SALES_NO
+   		,PAYMENT_MEMBER_ID
+   		,PAYMENT_TABLE
+   		,PAYMENT_STATE
+   		,PAYMENT_POINT
+   		,PAYMENT_DISCOUNT
+   		,PAYMENT_CASH
+   		,PAYMENT_CARD
+   		) 
+   	VALUES
+   		(
+   		 (SELECT COUNT(*) FROM PAYMENT P) + 1
+   		,(SELECT MAX(CAST(SALES_NO AS UNSIGNED)) FROM SALES S)
+   		,#{payment_Member_Id}
+   		,#{payment_Table}
+   		,'성공'
+   		,#{payment_Point}
+   		,#{payment_Discount}
+   		,#{payment_Cash}
+   		,#{payment_Card}
+   		)
    </insert>
    
    <select id="paymentDateSelect" parameterType="map" resultType="java.util.Date">
-   SELECT PAYMENT_DATE FROM PAYMENT WHERE PAYMENT_SALES_NO = #{payment_Sales_No}
+   	SELECT 
+   		PAYMENT_DATE 
+   	FROM 
+   		PAYMENT 
+   	WHERE 
+   		PAYMENT_SALES_NO = #{payment_Sales_No}
    </select>
    
    <delete id="payFail">
-   DELETE FROM SALES WHERE SALES_NO = (SELECT MAX(CAST(SALES_NO AS UNSIGNED)) FROM SALES)
+   	DELETE FROM
+             SALES
+        WHERE
+             SALES_NO = (SELECT * FROM (SELECT MAX(CAST(SALES_NO AS UNSIGNED)) FROM SALES S) S2)
    </delete>
    
    <select id="memberPointSelectById" parameterType="map" resultType="java.lang.Integer">
@@ -225,7 +531,12 @@
    </update>
    
    <select id="ordersCheck" parameterType="map" resultType="java.lang.Integer">
-   SELECT COUNT(*) FROM ORDERS_DETAILS WHERE OD_ORDERS_NO = #{orders_No}
+  	 SELECT 
+  	 	COUNT(*) 
+  	 FROM 
+  	 	ORDERS_DETAILS 
+  	 WHERE 
+  	 	OD_ORDERS_NO = #{orders_No}
    </select>
 
    <select id="paymentSelect" parameterType="map" resultType="payment">
@@ -492,19 +803,26 @@
    </select>
    <update id="storeCheck" parameterType="com.bit.UntitledBistro.model.jumun.ForInIngredientDTO">
    
-   	<if test="ingredient_qty > item_qty">
    		UPDATE 
 			MENU 
 		SET 
 			MENU_STATE = '품절' 
 		WHERE 
 			MENU_CODE = #{ingredient_menu_code}
-   	</if>
    
     </update>
     
     <update id= "shippingHistoryUpdate" parameterType="map">
-    UPDATE OUT_ITEM SET OI_SD_NO = (SELECT MAX(CAST(SALES_NO AS UNSIGNED)) FROM SALES S) WHERE OI_OD_NO  = #{od_Orders_No} AND OI_DATE = (SELECT MAX(OI_DATE) FROM OUT_ITEM)
+    
+    	UPDATE
+		       OUT_ITEM
+		SET
+		       OI_SD_NO = (SELECT MAX(CAST(S.SALES_NO AS UNSIGNED)) FROM SALES S)
+		WHERE
+		       OI_OD_NO  = #{od_Orders_No}
+		AND
+		       OI_DATE = (SELECT * FROM (SELECT MAX(OI.OI_DATE) FROM OUT_ITEM OI) OI2)
+    	
     </update>
     
     <select id="storeZeroSelect" resultType="java.lang.String">

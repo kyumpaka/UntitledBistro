@@ -32,7 +32,7 @@ function start() {
 		  icon: "warning",
 		  button: "다시 로그인하기",
 		}).then(() => {
-			location.href='/UntitledBistro/login';
+			location.href='${pageContext.request.contextPath}/login';
 	});
 }
 </script>

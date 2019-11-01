@@ -9,6 +9,6 @@
 </head>
 <body>
 <c:out value="${sessionScope.USERNAME}" />님 회원 추가 성공!<br>
-<a href="/UntitledBistro/Seobis/mList">회원 목록으로 돌아가기</a>
+<a href="${pageContext.request.contextPath}/Seobis/mList">회원 목록으로 돌아가기</a>
 </body>
 </html>

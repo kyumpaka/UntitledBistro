@@ -2,7 +2,6 @@ package com.bit.UntitledBistro.service.jumun;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,9 +16,11 @@ import com.bit.UntitledBistro.model.jumun.MenuDTO;
 import com.bit.UntitledBistro.model.jumun.MenuTypeDTO;
 import com.bit.UntitledBistro.model.jumun.OrdersDTO;
 import com.bit.UntitledBistro.model.jumun.OrdersDetailsDTO;
+import com.bit.UntitledBistro.model.jumun.OrdersDetailsMenuDTO;
 import com.bit.UntitledBistro.model.jumun.PaymentDTO;
 import com.bit.UntitledBistro.model.jumun.SalesDetailsDTO;
 import com.bit.UntitledBistro.model.jumun.TableSaveDTO;
+import com.bit.UntitledBistro.model.jumun.TableSaveOrdersDTO;
 
 public interface JumunService {
 
@@ -56,7 +57,7 @@ public interface JumunService {
 	public int tableAdd(List<TableSaveDTO> list);
 	
 	// 주문목록
-	public ArrayList<HashMap<String, Object>> orderListAll();
+	public ArrayList<OrdersDetailsMenuDTO> orderListAll();
 	
 	public OrdersDTO ordersList(String orders_No);
 	
@@ -72,7 +73,7 @@ public interface JumunService {
 	
 	public ArrayList<Integer> tableInfo();
 	
-	public ArrayList<HashMap<String, Object>> tableControl();
+	public ArrayList<TableSaveOrdersDTO> tableControl();
 	
 	public int tableControl(Map<String, String> table);
 	

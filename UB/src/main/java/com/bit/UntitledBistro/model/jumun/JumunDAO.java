@@ -47,7 +47,7 @@ public interface JumunDAO {
 	public int tableDelete();
 	
 	// 주문내역
-	public ArrayList<HashMap<String, Object>> ordersSelect();
+	public ArrayList<OrdersDetailsMenuDTO> ordersSelect();
 	
 	public OrdersDTO ordersSelectByNo(Map<String, String> map);
 	
@@ -55,7 +55,7 @@ public interface JumunDAO {
 	
 	public int ordersUpdate(Map<String, String> map);
 	
-	public ArrayList<HashMap<String, Object>> ordersDetailsSelect(Map<String, String> map);
+	public ArrayList<OrdersDetailsMenuDTO> ordersDetailsSelect(Map<String, String> map);
 	
 	public int odAllPrice(Map<String, String> map);
 	
@@ -73,7 +73,7 @@ public interface JumunDAO {
 	
 	public ArrayList<Integer> tableInfo();
 	
-	public ArrayList<HashMap<String, Object>> tableControl();
+	public ArrayList<TableSaveOrdersDTO> tableControl();
 	
 	// 결제
 	public int salesInsert();

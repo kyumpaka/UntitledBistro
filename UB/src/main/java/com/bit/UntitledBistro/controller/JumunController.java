@@ -176,6 +176,7 @@ public class JumunController {
 	// 주문 목록
 	@RequestMapping(value = "/ordersList.do", method = RequestMethod.POST)
 	public String orderList(@ModelAttribute("orders_No") String orders_No, Model model, @ModelAttribute("mt_Code") String mt_Code) {
+		// 여기가 문제
 		model.addAttribute("ordersList", jumunService.ordersList(orders_No));
 		model.addAttribute("allPrice", jumunService.odAllPrice(orders_No));
 		model.addAttribute("menuTypeList", jumunService.menuTypeSearch("all"));

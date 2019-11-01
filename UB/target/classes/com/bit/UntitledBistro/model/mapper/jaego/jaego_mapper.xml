@@ -313,14 +313,23 @@
  	</select>
  	
  	<update id="outItemUpdateForDefectItem" parameterType="defectItem">
-	 
-	 	UPDATE 
-	 		OUT_ITEM
-	 	SET
-	 		 OI_QTY = #{di_qty}
-	 		,OI_TYPE = #{di_state}
-	 	WHERE
-	 		OI_NO = (SELECT OI_NO FROM OUT_ITEM WHERE OI_DI_NO = #{di_no})
+ 	
+	 	UPDATE
+        	OUT_ITEM
+        SET
+	        OI_QTY = #{di_qty}
+	       ,OI_TYPE = #{di_state}
+        WHERE
+            OI_NO = (
+           			SELECT * FROM 
+           			(
+					SELECT 
+						OI_NO 
+					FROM 
+						OUT_ITEM OI
+					WHERE OI_DI_NO = #{di_no}
+					) OI2
+				    )
 	 
  	</update>
 	

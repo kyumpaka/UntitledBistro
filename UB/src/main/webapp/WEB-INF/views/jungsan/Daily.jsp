@@ -37,7 +37,10 @@
 			</tr>
 	<c:forEach var="dto" items="${getjungsan_inputList}">
 			<tr>
-				<td><a href="UpdateForm.html"><fmt:formatDate value="${dto.jungsan_input_date}" pattern="yyyy-MM-dd"/></a></td>
+				<td><a href="UpdateForm.html?jungsan_input_date=<fmt:formatDate value="${dto.jungsan_input_date}" pattern="yyyy-MM-dd"/>">
+						<fmt:formatDate value="${dto.jungsan_input_date}" pattern="yyyy-MM-dd"/>
+					</a>
+				</td>
 				<td>${dto.jungsan_input_cash}</td>
 				<td>${dto.jungsan_input_card}</td>
 				<td>${dto.jungsan_input_card +dto.jungsan_input_cash+dto.jungsan_input_point}</td>

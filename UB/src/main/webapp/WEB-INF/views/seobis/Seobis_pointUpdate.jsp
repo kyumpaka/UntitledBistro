@@ -149,7 +149,7 @@
                                     <i class="fa fa-dot-circle-o"></i> 포인트 수정
                                 </button>
                                 <button class="btn btn-danger btn-sm">
-                                 <a href="/UntitledBistro/Seobis/pList"><i class="fa fa-ban"></i> 뒤로가기</a>
+                                 <a href="${path}/Seobis/pList"><i class="fa fa-ban"></i> 뒤로가기</a>
                                 </button>
                             </div>
                         </div>

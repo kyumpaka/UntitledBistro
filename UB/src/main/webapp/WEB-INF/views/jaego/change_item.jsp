@@ -305,7 +305,7 @@
 		
 		$.ajax({
 			type : "get", 
-			url : "/UntitledBistro/jaego/gridChangeItemSelectList",
+			url : "${path}/jaego/gridChangeItemSelectList",
 			data : {"startDate" : startDate, "endDate" : endDate, "keyword" : product_code, "keyword2" : product_name},
 		})
 		.done(function(json) {

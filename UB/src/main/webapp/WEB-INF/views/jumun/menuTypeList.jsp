@@ -96,7 +96,6 @@ function mt_Modiend(code) {
 		event.preventDefault();
 	} else {
 		var info = {mt_Code:code, mt_Name:name};
-		
 		$.ajax({
 			  url: 'menuTypeModi.do',
 			  type: 'post',

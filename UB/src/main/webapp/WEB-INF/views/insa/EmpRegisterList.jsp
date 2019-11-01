@@ -69,7 +69,7 @@
                               <tr>
                                  <td>${b.empregister_name}</td>
                                  <td><a
-                                    href="/UntitledBistro/insa/EmpRegisterRead?empregister_empnum=${b.empregister_empnum }"
+                                    href="${path}/insa/EmpRegisterRead?empregister_empnum=${b.empregister_empnum }"
                                     onclick="window.open(this.href, '_blank', 'width=700,height=600,toolbars=no,scrollbars=yes'); return false;">${b.empregister_empnum }</a></td>
                                  <td>${b.empregister_age }</td>
                                  <td>${b.empregister_tel }</td>
@@ -145,7 +145,7 @@
          });
       function EmpRegisterRead(empnum) {
          //alert("삭제")
-         location.href = "/UntitledBistro/EmpRegisterRead?empregister_empnum="
+         location.href = "${path}/EmpRegisterRead?empregister_empnum="
                + empnum;
       }
 
@@ -158,7 +158,7 @@
 
       function EmpRegisterRead(empnum) {
          //alert("삭제");
-         location.href = "/UntitledBistro/EmpRegisterRead?empregister_empnum="
+         location.href = "${path}/EmpRegisterRead?empregister_empnum="
                + empnum;
       }
 

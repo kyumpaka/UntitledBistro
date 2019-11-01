@@ -140,9 +140,9 @@ function tableAdd() {
 	var frmTag = "<div id='drag_div"+tablecnt+"' style='display: block; border: 1px solid grey; width: 100px; height: 150px; position: absolute; left: "+table_left+"px; top: "+table_top+"px; cursor: pointer; cursor: hand' class='btn' onclick='goOrderList("+tablecnt+")'>";
 	frmTag += "<div align='center'>테이블"+tablecnt+"</div>";
 	<c:forEach items="${ posMainList }" var="posMainList" >
-	   if('${ posMainList.OD_ORDERS_NO }' == tablecnt){
-		   frmTag += "${ posMainList.MENU_NAME }&nbsp;";
-		   frmTag += "${ posMainList.OD_QTY }<br>";
+	   if('${ posMainList.od_orders_no }' == tablecnt){
+		   frmTag += "${ posMainList.menu_name }&nbsp;";
+		   frmTag += "${ posMainList.od_qty }<br>";
 	   }
 	</c:forEach>
 	frmTag += "<div id='order_TableNum'></div></div>"

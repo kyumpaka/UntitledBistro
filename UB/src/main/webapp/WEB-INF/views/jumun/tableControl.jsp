@@ -25,19 +25,19 @@
 					<tbody>
 					<c:forEach items="${ tableList }" var="tableList">
 						<tr>
-							<td align="center">${ tableList.TABLESAVE_CODE }</td>
-							<c:if test="${ tableList.ORDERS_TABLESAVE_CODE != null }">
-							<td align="center" id="check${ tableList.TABLESAVE_CODE }">사용중</td>
+							<td align="center">${ tableList.tablesave_code }</td>
+							<c:if test="${ tableList.orders_tablesave_code != null }">
+							<td align="center" id="check${ tableList.tablesave_code }">사용중</td>
 							</c:if>
-							<c:if test="${ tableList.ORDERS_TABLESAVE_CODE == null }">
-							<td align="center" id="check${ tableList.TABLESAVE_CODE }">미사용</td>
+							<c:if test="${ tableList.orders_tablesave_code == null }">
+							<td align="center" id="check${ tableList.tablesave_code }">미사용</td>
 							</c:if>
-							<td id="td${ tableList.TABLESAVE_CODE }">
-								<c:if test="${ tableList.ORDERS_TABLESAVE_CODE != null }">
-								<button onclick="moveTable('${ tableList.TABLESAVE_CODE }')" class="btn btn-primary btn-sm">이동</button>
+							<td id="td${ tableList.tablesave_code }">
+								<c:if test="${ tableList.orders_tablesave_code != null }">
+								<button onclick="moveTable('${ tableList.tablesave_code }')" class="btn btn-primary btn-sm">이동</button>
 								</c:if>
-								<c:if test="${ tableList.ORDERS_TABLESAVE_CODE != null }">
-								<button onclick="joinTable('${ tableList.TABLESAVE_CODE }')" class="btn btn-primary btn-sm">합석</button>
+								<c:if test="${ tableList.orders_tablesave_code != null }">
+								<button onclick="joinTable('${ tableList.tablesave_code }')" class="btn btn-primary btn-sm">합석</button>
 								</c:if>
 							</td>
 						</tr>

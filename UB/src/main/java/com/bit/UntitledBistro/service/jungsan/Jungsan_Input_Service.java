@@ -7,7 +7,7 @@ import com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO;
 import com.bit.UntitledBistro.model.jungsan.Jungsan_view_DTO;
 
 public interface Jungsan_Input_Service {
-	public List<Jungsan_Input_DTO> getjungsan_inputList(HashMap map);
+	public List<Jungsan_Input_DTO> getjungsan_inputList(Jungsan_Input_DTO dto);
 
 	
 	public void insert_daily(Jungsan_Input_DTO dto);

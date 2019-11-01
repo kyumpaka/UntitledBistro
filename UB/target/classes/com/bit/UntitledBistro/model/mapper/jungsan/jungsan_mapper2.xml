@@ -4,13 +4,13 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DAO">
-	<select id="getjungsan_inputList" parameterType="map" resultType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
+	<select id="getjungsan_inputList" parameterType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO" resultType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
 		SELECT 
 			* 
 		FROM 
 			JUNGSAN_INPUT 
 		<where>
-		<if test="postdatepicker == null">
+		<if test="postdatepicker == null and postdatepicker == ''">
 			JUNGSAN_INPUT_DATE BETWEEN 
    									  (
    									  SELECT 
@@ -21,14 +21,16 @@
 								AND 
    									  (
    									  SELECT 
-   									  		DISTINCT DATE_FORMAT(LAST_DAY( NOW() ),'%Y/%c/%d')
+   									  		DISTINCT LAST_DAY( CURDATE() )
    									  FROM 
    									  		JUNGSAN_INPUT
    									  )
    		</if>
-		<if test="postdatepicker != null">
-								AND
-									  JUNGSAN_INPUT_DATE LIKE #{postdatepicker}
+		<if test="postdatepicker != null and postdatepicker != ''">
+			DATE_FORMAT(JUNGSAN_INPUT_DATE, '%Y/%c/%d') BETWEEN
+														 	DATE_FORMAT(#{postdatepicker}, '%Y/%c')
+													    AND 
+													  		DATE_FORMAT(#{postdatepicker}, '%Y/%c/%d')						
 		</if>
 		</where>
 	</select>
@@ -70,7 +72,8 @@
 	<insert id="insert_daily">
 		INSERT INTO JUNGSAN_INPUT
 								(
-								 JUNGSAN_INPUT_CASH
+							     JUNGSAN_INPUT_DATE
+								,JUNGSAN_INPUT_CASH
 								,JUNGSAN_INPUT_CARD
 								,JUNGSAN_INPUT_GRADE
 								,JUNGSAN_INPUT_WORKTIME
@@ -78,11 +81,11 @@
 								,JUNGSAN_INPUT_POINT
 								,JUNGSAN_INPUT_REFUND
 								,JUNGSAN_INPUT_REASON
-							    ,JUNGSAN_INPUT_DATE
 								) 
 						   VALUES
 						  		(
-							    #{jungsan_input_cash, jdbcType=NUMERIC}
+							    CURDATE()
+							   ,#{jungsan_input_cash, jdbcType=NUMERIC}
 							   ,#{jungsan_input_card, jdbcType=NUMERIC}
 							   ,#{jungsan_input_grade, jdbcType=VARCHAR}
 							   ,#{jungsan_input_worktime, jdbcType=NUMERIC}
@@ -90,8 +93,18 @@
 							   ,#{jungsan_input_point, jdbcType=NUMERIC}
 							   ,#{jungsan_input_refund, jdbcType=NUMERIC}
 							   ,#{jungsan_input_reason, jdbcType=VARCHAR}
-							   ,NOW()
 								)
+			ON DUPLICATE KEY UPDATE
+				JUNGSAN_INPUT_CASH = VALUES(JUNGSAN_INPUT_CASH)
+				,JUNGSAN_INPUT_CARD = VALUES(JUNGSAN_INPUT_CARD)
+				,JUNGSAN_INPUT_GRADE = VALUES(JUNGSAN_INPUT_GRADE)
+				,JUNGSAN_INPUT_WORKTIME = VALUES(JUNGSAN_INPUT_WORKTIME)
+				,JUNGSAN_INPUT_EXPENDITURE = VALUES(JUNGSAN_INPUT_EXPENDITURE)
+				,JUNGSAN_INPUT_POINT = VALUES(JUNGSAN_INPUT_POINT)
+				,JUNGSAN_INPUT_REFUND = VALUES(JUNGSAN_INPUT_REFUND)
+				,JUNGSAN_INPUT_REASON = VALUES(JUNGSAN_INPUT_REASON)
+				
+								
 	</insert>
 	
 	<update id="update_Monthly">
@@ -198,17 +211,17 @@
 	</update>
 	
 	<update id="update" parameterType="com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO">
-	update Jungsan_Input set 
-        jungsan_input_cash= #{jungsan_input_cash, jdbcType=NUMERIC},
-        jungsan_input_card= #{jungsan_input_card, jdbcType=NUMERIC},
-		jungsan_input_grade= #{jungsan_input_grade, jdbcType=VARCHAR},
-		jungsan_input_worktime= #{jungsan_input_worktime, jdbcType=NUMERIC},
-		jungsan_input_expenditure= #{jungsan_input_expenditure, jdbcType=NUMERIC},
-		jungsan_input_point= #{jungsan_input_point, jdbcType=NUMERIC},
-		jungsan_input_refund= #{jungsan_input_refund, jdbcType=NUMERIC},
-		jungsan_input_reason= #{jungsan_input_reason, jdbcType=VARCHAR} 
-     where 
-        jungsan_input_date like DATE_FORMAT (NOW(),'%Y-%c-%d')
+	UPDATE JUNGSAN_INPUT SET 
+        JUNGSAN_INPUT_CASH= #{jungsan_input_cash, jdbcType=NUMERIC},
+        JUNGSAN_INPUT_CARD= #{jungsan_input_card, jdbcType=NUMERIC},
+		JUNGSAN_INPUT_GRADE= #{jungsan_input_grade, jdbcType=VARCHAR},
+		JUNGSAN_INPUT_WORKTIME= #{jungsan_input_worktime, jdbcType=NUMERIC},
+		JUNGSAN_INPUT_EXPENDITURE= #{jungsan_input_expenditure, jdbcType=NUMERIC},
+		JUNGSAN_INPUT_POINT= #{jungsan_input_point, jdbcType=NUMERIC},
+		JUNGSAN_INPUT_REFUND= #{jungsan_input_refund, jdbcType=NUMERIC},
+		JUNGSAN_INPUT_REASON= #{jungsan_input_reason, jdbcType=VARCHAR} 
+     WHERE 
+        JUNGSAN_INPUT_DATE LIKE DATE_FORMAT (#{jungsan_input_date2},'%Y-%c-%d')
 	</update>
 	
 	<!-- <select id="count_difference" resultType="int">

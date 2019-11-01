@@ -17,9 +17,9 @@ public class Jungsan_Input_ServiceImpl implements Jungsan_Input_Service {
 	private SqlSession sqlsession;
 	
 	@Override
-	public List<Jungsan_Input_DTO> getjungsan_inputList(HashMap map) {
+	public List<Jungsan_Input_DTO> getjungsan_inputList(Jungsan_Input_DTO dto) {
 		Jungsan_Input_DAO jungsan_input_DAO =sqlsession.getMapper(Jungsan_Input_DAO.class);
-		return jungsan_input_DAO.getjungsan_inputList(map);
+		return jungsan_input_DAO.getjungsan_inputList(dto);
 	}
 
 	@Override

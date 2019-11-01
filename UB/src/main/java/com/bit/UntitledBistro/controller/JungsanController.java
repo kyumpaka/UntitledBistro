@@ -7,8 +7,10 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bit.UntitledBistro.model.jungsan.Jungsan_Input_DTO;
 import com.bit.UntitledBistro.model.jungsan.Jungsan_view_DTO;
@@ -200,7 +202,7 @@ public class JungsanController {
 		
 		HashMap map = new HashMap();
 
-		List<Jungsan_view_DTO> jungsan_state = jungsan_view_Service.jungsan_state(map);
+		List<Jungsan_view_DTO> jungsan_state = jungsan_view_Service.jungsan_state();
 		request.setAttribute("jungsan_state", jungsan_state);
 
 		int expenditure = jungsan_view_Service.expenditure();
@@ -260,19 +262,12 @@ public class JungsanController {
 	@RequestMapping("Daily.html") // 일마감
 	public String day_list(HttpServletRequest request, Jungsan_Input_DTO dto) {
 
-//		jungsan_input_Service.Show_difference(dto); // 현상황 확인후 기본값 입력
-//
-//		jungsan_input_Service.update_difference(dto); // 변경
 		int to_difference = jungsan_input_Service.to_difference(); // 메뉴 국물
 		request.setAttribute("to_difference", to_difference);
 		
-		HashMap map = new HashMap();
-
 		String postdatepicker = request.getParameter("postdatepicker");
-		if (postdatepicker != null) {
-			map.put("postdatepicker", "%" + postdatepicker.substring(2) + "%");
-		}
-		List<Jungsan_Input_DTO> getjungsan_inputList = jungsan_input_Service.getjungsan_inputList(map); // 조회
+
+		List<Jungsan_Input_DTO> getjungsan_inputList = jungsan_input_Service.getjungsan_inputList(dto); // 조회
 
 		request.setAttribute("getjungsan_inputList", getjungsan_inputList); // 조회한걸 담음
 
@@ -282,9 +277,7 @@ public class JungsanController {
 	@RequestMapping("pop/Daily.html") // 일마감
 	public String popday_list(HttpServletRequest request, Jungsan_Input_DTO dto) {
 
-		HashMap map = new HashMap();
-
-		List<Jungsan_Input_DTO> getjungsan_inputList = jungsan_input_Service.getjungsan_inputList(map); // 조회
+		List<Jungsan_Input_DTO> getjungsan_inputList = jungsan_input_Service.getjungsan_inputList(dto); // 조회
 
 		request.setAttribute("getjungsan_inputList", getjungsan_inputList); // 조회한걸 담음
 
@@ -347,16 +340,14 @@ public class JungsanController {
 
 	/* 업데이트 금일 매출관련 사항만 변경 가능 */
 	@RequestMapping("UpdateForm.html")
-	public String update(HttpServletRequest request, @ModelAttribute Jungsan_Input_DTO dto) {
-		int update = jungsan_input_Service.update(dto); // 업데이트 실행
-		request.setAttribute("update", update); // 1개 결과 담음
-
+	public String update(@RequestParam(name = "jungsan_input_date")String jungsan_input_date, Model model) {
+		model.addAttribute("jungsan_input_date", jungsan_input_date);
 		return "jungsan/UpdateForm"; // 주소 이동
 	}
 
 	@RequestMapping("Update.html") // 일마감
 	public String day_listupdate(Jungsan_Input_DTO dto) {
-		int update = jungsan_input_Service.update(dto);
+		jungsan_input_Service.update(dto);
 		return "redirect:Daily.html"; // 주소 이동
 	}
 }

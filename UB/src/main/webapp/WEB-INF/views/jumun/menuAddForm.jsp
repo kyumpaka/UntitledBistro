@@ -86,7 +86,7 @@ function ingAdd() {
 	  event.preventDefault();
 	  var frmTag = '<div id="addIgd'+igdcnt+'"><div class="row form-group"> <div class="col col-md-3"> <label for="text-input" class=" form-control-label">재료 이름</label> </div>';
 		  frmTag += '<div class="col-12 col-md-9"> <select class="form-control" name="ingredientDTO['+igdcnt+'].ingredient_Product_Code">';
-		  frmTag += '<c:forEach items="${ productList }" var="productList"><option value="${ productList.PRODUCT_CODE }">${productList.PRODUCT_NAME}</option></c:forEach></select></div> </div>';
+		  frmTag += '<c:forEach items="${ productList }" var="productList"><option value="${ productList.product_code }">${productList.product_name}</option></c:forEach></select></div> </div>';
 		  frmTag += '<div class="row form-group"> <div class="col col-md-3"> <label for="text-input" class=" form-control-label">개수</label> </div>';
 		  frmTag += '<div class="col-12 col-md-9"> <input type="number" id="text-input" class="form-control" name="ingredientDTO['+igdcnt+'].ingredient_Qty"> </div>';
 		  frmTag += '</div> <button onclick="igdRemove(\''+igdcnt+'\')" class="btn btn-primary btn-sm" >재료 삭제</button><hr> </div>';

@@ -2,7 +2,6 @@ package com.bit.UntitledBistro.model.jumun;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 public class OrdersDTO {
 	
@@ -10,7 +9,7 @@ public class OrdersDTO {
 	private String orders_TableSave_Code;
 	private Date orders_First;
 	private Date orders_Final;
-	private ArrayList<HashMap<String, Object>> OrdersListDTO;
+	private ArrayList<OrdersDetailsMenuDTO> ordersListDTOs;
 	
 	public String getOrders_No() {
 		return orders_No;
@@ -36,11 +35,18 @@ public class OrdersDTO {
 	public void setOrders_Final(Date orders_Final) {
 		this.orders_Final = orders_Final;
 	}
-	public ArrayList<HashMap<String, Object>> getOrdersListDTO() {
-		return OrdersListDTO;
+	public ArrayList<OrdersDetailsMenuDTO> getOrdersListDTOs() {
+		return ordersListDTOs;
 	}
-	public void setOrdersListDTO(ArrayList<HashMap<String, Object>> ordersListDTO) {
-		OrdersListDTO = ordersListDTO;
+	public void setOrdersListDTOs(ArrayList<OrdersDetailsMenuDTO> ordersListDTOs) {
+		this.ordersListDTOs = ordersListDTOs;
+	}
+	
+	@Override
+	public String toString() {
+		return "OrdersDTO [orders_No=" + orders_No + ", orders_TableSave_Code=" + orders_TableSave_Code
+				+ ", orders_First=" + orders_First + ", orders_Final=" + orders_Final + ", ordersListDTOs="
+				+ ordersListDTOs + "]";
 	}
 	
 }
