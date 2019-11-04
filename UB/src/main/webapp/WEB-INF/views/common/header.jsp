@@ -83,11 +83,44 @@
 
 <!-- WebSocket -->
 <script type="text/javascript">
+// 웹소켓 대체
+var riskItemCount = $("#riskItemCount");
 
+$(document).ready(function(){
+	$.ajax({
+		url : "${path}/jaego/gridRiskItemCount",
+		type : "get"
+	})
+	.done(function(count) {
+		$("#riskItemCount").html(count);
+		setInterval(riskCount,10000);
+	});
+});
+
+
+function riskCount() {
+	$.ajax({
+		url : "${path}/jaego/gridRiskItemCount",
+		type : "get"
+	})
+	.done(function(count) {
+		if("${riskCount}" != count) {
+			$("#riskItemCount").html(count);
+			swal({
+				title: "위험재고 수량알림",
+				text: "위험재고에 해당하는 품목이 존재합니다.",
+				icon: "info",
+				button: "확인"
+			});
+		}
+	});
+}
+//
+/* 
 var webSocket = new WebSocket("ws://sejongdeveloper.cafe24.com:8319/${path}realTime-ws");
 webSocket.onopen = onOpen;
 webSocket.onmessage = onMessage;
-webSocket.onclose = onClose;
+webSocket.onclose = onClose;  
 
 function onOpen(e) {
 	console.log("웹소켓 연결");
@@ -123,7 +156,7 @@ function onMessage(e) {
 function onClose(e) {
 	console.log("웹소컷 닫음");
 }
-
+*/
 function riskItem() {
 	window.location.href="${path}/jaego/risk_item";
 }

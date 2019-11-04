@@ -384,7 +384,24 @@
 		.done(function(count) {
 			if(count != -1) {
 				swal("등록 성공!", "안전재고 등록을 완료했습니다.", "success");
-				webSocket.send(count);
+				//webSocket.send(count);
+				// 웹소켓 대체
+				$.ajax({
+					url : "${path}/jaego/gridRiskItemCount",
+					type : "get"
+				})
+				.done(function(count) {
+					if(riskItemCount.html() != count) {
+						$("#riskItemCount").html(count);
+						swal({
+							title: "위험재고 수량알림",
+							text: "위험재고에 해당하는 품목이 존재합니다.",
+							icon: "info",
+							button: "확인"
+						});
+					}
+				});
+				// 
 			} else {
 				sweetAlert("등록 실패!", "이미 등록한 품목코드가 있습니다.", "error");
 				return;

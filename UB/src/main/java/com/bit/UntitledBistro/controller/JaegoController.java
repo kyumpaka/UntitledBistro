@@ -2,6 +2,8 @@ package com.bit.UntitledBistro.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,9 +130,11 @@ public class JaegoController {
 	}
 	
 	@GetMapping(value = "/gridRiskItemCount")
-	public @ResponseBody int gridRiskItemCount() {
+	public @ResponseBody int gridRiskItemCount(HttpSession session) {
 		logger.info("여기는 그리드 위험재고 갯수조회 컨트롤러입니다.");
-		return service.riskItemCount();
+		int count = service.riskItemCount();
+		session.setAttribute("riskCount", count);
+		return count;
 	}
 	
 	///////////////////

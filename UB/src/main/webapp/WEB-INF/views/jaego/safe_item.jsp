@@ -454,7 +454,24 @@
 					completeDelete();
 				});
 				updateData = [];
-				webSocket.send(count);
+				//webSocket.send(count);
+				// 웹소켓 대체
+				$.ajax({
+					url : "${path}/jaego/gridRiskItemCount",
+					type : "get"
+				})
+				.done(function(count) {
+					if(riskItemCount.html() != count) {
+						$("#riskItemCount").html(count);
+						swal({
+							title: "위험재고 수량알림",
+							text: "위험재고에 해당하는 품목이 존재합니다.",
+							icon: "info",
+							button: "확인"
+						});
+					}
+				});
+				// 
 			});
 		}
 	}
