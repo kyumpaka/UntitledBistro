@@ -1,6 +1,6 @@
 --------------------- 테이블 전체삭제 ---------------------------------------------------------------------------------------------
-DROP TABLE RESERVE CASCADE CONSTRAINTS;
-DROP TABLE MEMBER CASCADE CONSTRAINTS;
+--DROP TABLE RESERVE CASCADE CONSTRAINTS;
+--DROP TABLE MEMBER CASCADE CONSTRAINTS;
 -----------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE RESERVE ( -- 예약 테이블
         RESERVE_NUM VARCHAR2(20), -- 번호(PK)

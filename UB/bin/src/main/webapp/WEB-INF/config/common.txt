@@ -1,7 +1,7 @@
 --------------------- 테이블 전체삭제 -------------------------------------
-DROP TABLE ITEM_SUB_GROUP CASCADE CONSTRAINTS;
-DROP TABLE ITEM_GROUP CASCADE CONSTRAINTS;
-DROP TABLE PRODUCT CASCADE CONSTRAINTS;
+--DROP TABLE ITEM_SUB_GROUP CASCADE CONSTRAINTS;
+--DROP TABLE ITEM_GROUP CASCADE CONSTRAINTS;
+--DROP TABLE PRODUCT CASCADE CONSTRAINTS;
 ---------------------------------------------------------------------------
 CREATE TABLE ITEM_GROUP ( -- 상위품목테이블 
         IG_NUM VARCHAR2(20), -- 상위품목번호(PK)
