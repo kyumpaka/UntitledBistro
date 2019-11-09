@@ -1,9 +1,9 @@
 --------------------- 테이블 전체삭제 -------------------------------------
-DROP TABLE ITEM;
-DROP TABLE IN_ITEM;
-DROP TABLE OUT_ITEM;
-DROP TABLE DEFECT_ITEM;
-DROP TABLE SAFE_ITEM;
+--DROP TABLE ITEM;
+--DROP TABLE IN_ITEM;
+--DROP TABLE OUT_ITEM;
+--DROP TABLE DEFECT_ITEM;
+--DROP TABLE SAFE_ITEM;
 
 -----------------------------------------------------------------------------
 CREATE TABLE ITEM ( -- 재고 테이블

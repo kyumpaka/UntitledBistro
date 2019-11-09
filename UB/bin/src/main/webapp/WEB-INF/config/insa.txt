@@ -1,5 +1,7 @@
 --------------------- 테이블 전체삭제 -------------------------------------
-DROP TABLE EmpRegister;
+--DROP TABLE EmpRegister;
+--DROP TABLE Salary;
+--DROP TABLE Schedule;
 
 ---------------------------------------------------------------------------
 create table EmpRegister ( -- 직원등록 테이블

@@ -1,7 +1,7 @@
 --------------------- 테이블 전체삭제 -------------------------------------
-DROP TABLE JUNGSAN_STATE;
-DROP TABLE Jungsan_Input;
-DROP TABLE Month_Input;
+--DROP TABLE JUNGSAN_STATE;
+--DROP TABLE Jungsan_Input;
+--DROP TABLE Month_Input;
 ---------------------------------------------------------------------------
 CREATE TABLE JUNGSAN_STATE (
     to_total NUMBER,to_cash NUMBER,to_card NUMBER,

@@ -1,7 +1,7 @@
 --------------------- 테이블 전체삭제 -------------------------------------
-DROP TABLE ITEM_GROUP;
-DROP TABLE ITEM_SUB_GROUP;
-DROP TABLE PRODUCT;
+--DROP TABLE ITEM_GROUP;
+--DROP TABLE ITEM_SUB_GROUP;
+--DROP TABLE PRODUCT;
 
 ---------------------------------------------------------------------------
 create table ITEM_GROUP ( -- 상위품목테이블 
